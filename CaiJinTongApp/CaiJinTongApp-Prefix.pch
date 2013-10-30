@@ -13,4 +13,17 @@
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
+#import "Reachability.h"
+#import "Const.h"
+#import "Utility.h"
+#endif
+
+//系统版本
+#define platform [[[UIDevice currentDevice] systemVersion] floatValue]
+#define Image(x) [UIImage imageNamed:x]
+
+#ifdef DEBUG
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+#define DLog(...)
 #endif
