@@ -102,49 +102,44 @@
             </objects>
             <point key="canvasLocation" x="-81" y="-344"/>
         </scene>
-        <!--Navi Gation Bar Controller-->
-        <scene sceneID="xAp-gt-v8H">
+        <!--View Controller-->
+        <scene sceneID="nsz-9D-Ff8">
             <objects>
-                <viewController storyboardIdentifier="DRNaviGationBarController" id="qwT-rh-lFz" customClass="DRNaviGationBarController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="sAt-d8-PBF">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                <viewController storyboardIdentifier="DRNaviBar" id="L2n-nw-8YM" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ZqT-ci-TMx" customClass="DRNavigationBar">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" id="fXt-fD-tML">
-                                <rect key="frame" x="0.0" y="20" width="768" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5nZ-Ed-7tm">
-                                        <rect key="frame" x="34" y="0.0" width="556" height="44"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="e6Q-r6-IV9">
-                                        <rect key="frame" x="608" y="0.0" width="160" height="44"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Button">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="drnavigationBarRightItemClicked:" destination="qwT-rh-lFz" eventType="touchUpInside" id="N7U-EV-Oge"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1vp-oc-eGZ">
+                                <rect key="frame" x="20" y="0.0" width="589" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="lxH-cc-OU1">
+                                <rect key="frame" x="624" y="5" width="138" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.2456287918" green="0.91539996599999995" blue="0.25050926849999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" red="0.2470588386" green="0.78431379800000001" blue="0.64313727620000005" alpha="1" colorSpace="deviceRGB"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.75686281919999998" green="0.72156864399999998" blue="0.62352943419999995" alpha="1" colorSpace="deviceRGB"/>
+                        <connections>
+                            <outlet property="navigationRightItem" destination="lxH-cc-OU1" id="Zsb-F9-zE1"/>
+                            <outlet property="titleLabel" destination="1vp-oc-eGZ" id="9zD-Fs-Acb"/>
+                        </connections>
                     </view>
-                    <connections>
-                        <outlet property="drnavigationBar" destination="fXt-fD-tML" id="4wh-Yf-1hG"/>
-                        <outlet property="titleLabel" destination="5nZ-Ed-7tm" id="CXa-2Q-18k"/>
-                    </connections>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="tgV-qh-TJt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QbU-AR-Lyd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="746" y="-1461"/>
+            <point key="canvasLocation" x="788" y="-510"/>
         </scene>
         <!--Forgot Pwd View Controller-->
         <scene sceneID="LSq-k2-bfe">

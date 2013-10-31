@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "DRNavigationBar.h"
 @interface DRNaviGationBarController : UIViewController
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UIView *drnavigationBar;
-- (IBAction)drnavigationBarRightItemClicked:(id)sender;
+@property (weak, nonatomic)   DRNavigationBar *drnavigationBar;
+@property (nonatomic,strong,readonly) UIStoryboard *story;
+ - (void)drnavigationBarRightItemClicked:(id)sender;
 
 @end

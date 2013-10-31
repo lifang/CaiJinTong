@@ -31,7 +31,6 @@
 		0EAFA104182222A700D01D3E /* InitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA103182222A700D01D3E /* InitViewController.m */; };
 		0EAFA107182223BD00D01D3E /* loginBgImage_v.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA105182223BD00D01D3E /* loginBgImage_v.png */; };
 		0EAFA108182223BD00D01D3E /* loginBgImage_v@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA106182223BD00D01D3E /* loginBgImage_v@2x.png */; };
-		0EAFA10B1822268E00D01D3E /* LogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA10A1822268E00D01D3E /* LogInViewController.m */; };
 		0EDF4D9118210202007161E0 /* DownloadService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDF4D9018210202007161E0 /* DownloadService.m */; };
 		0EDF4DDB18210241007161E0 /* ASIWebPageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDF4D9518210241007161E0 /* ASIWebPageRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0EDF4DDC18210241007161E0 /* ASICloudFilesCDNRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDF4D9818210241007161E0 /* ASICloudFilesCDNRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -90,6 +89,7 @@
 		6323875A1822056000C71535 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 632387591822056000C71535 /* LoginViewController.m */; };
 		6323875D18220E7D00C71535 /* ForgotPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6323875C18220E7D00C71535 /* ForgotPwdViewController.m */; };
 		6323876018222A1500C71535 /* DRNaviGationBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6323875F18222A1500C71535 /* DRNaviGationBarController.m */; };
+		6323876318223E9500C71535 /* DRNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6323876218223E9500C71535 /* DRNavigationBar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -128,8 +128,6 @@
 		0EAFA103182222A700D01D3E /* InitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitViewController.m; sourceTree = "<group>"; };
 		0EAFA105182223BD00D01D3E /* loginBgImage_v.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loginBgImage_v.png; sourceTree = "<group>"; };
 		0EAFA106182223BD00D01D3E /* loginBgImage_v@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loginBgImage_v@2x.png"; sourceTree = "<group>"; };
-		0EAFA1091822268E00D01D3E /* LogInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogInViewController.h; sourceTree = "<group>"; };
-		0EAFA10A1822268E00D01D3E /* LogInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInViewController.m; sourceTree = "<group>"; };
 		0EDF4D8F18210202007161E0 /* DownloadService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadService.h; sourceTree = "<group>"; };
 		0EDF4D9018210202007161E0 /* DownloadService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadService.m; sourceTree = "<group>"; };
 		0EDF4D9418210241007161E0 /* ASIWebPageRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIWebPageRequest.h; sourceTree = "<group>"; };
@@ -227,12 +225,14 @@
 		630B03D41820F5BC00F72C4C /* CaiJinTongAppTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CaiJinTongAppTests-Info.plist"; sourceTree = "<group>"; };
 		630B03D61820F5BC00F72C4C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		630B03D81820F5BC00F72C4C /* CaiJinTongAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CaiJinTongAppTests.m; sourceTree = "<group>"; };
-		632387581822056000C71535 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginViewController.h; path = controllers/LoginViewController.h; sourceTree = "<group>"; };
-		632387591822056000C71535 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginViewController.m; path = controllers/LoginViewController.m; sourceTree = "<group>"; };
-		6323875B18220E7D00C71535 /* ForgotPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ForgotPwdViewController.h; path = controllers/ForgotPwdViewController.h; sourceTree = "<group>"; };
-		6323875C18220E7D00C71535 /* ForgotPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ForgotPwdViewController.m; path = controllers/ForgotPwdViewController.m; sourceTree = "<group>"; };
-		6323875E18222A1500C71535 /* DRNaviGationBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DRNaviGationBarController.h; path = controllers/DRNaviGationBarController.h; sourceTree = "<group>"; };
-		6323875F18222A1500C71535 /* DRNaviGationBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DRNaviGationBarController.m; path = controllers/DRNaviGationBarController.m; sourceTree = "<group>"; };
+		632387581822056000C71535 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginViewController.h; path = ../controllers/LoginViewController.h; sourceTree = "<group>"; };
+		632387591822056000C71535 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginViewController.m; path = ../controllers/LoginViewController.m; sourceTree = "<group>"; };
+		6323875B18220E7D00C71535 /* ForgotPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ForgotPwdViewController.h; path = ../controllers/ForgotPwdViewController.h; sourceTree = "<group>"; };
+		6323875C18220E7D00C71535 /* ForgotPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ForgotPwdViewController.m; path = ../controllers/ForgotPwdViewController.m; sourceTree = "<group>"; };
+		6323875E18222A1500C71535 /* DRNaviGationBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DRNaviGationBarController.h; path = ../controllers/DRNaviGationBarController.h; sourceTree = "<group>"; };
+		6323875F18222A1500C71535 /* DRNaviGationBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DRNaviGationBarController.m; path = ../controllers/DRNaviGationBarController.m; sourceTree = "<group>"; };
+		6323876118223E9500C71535 /* DRNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DRNavigationBar.h; path = view/DRNavigationBar.h; sourceTree = SOURCE_ROOT; };
+		6323876218223E9500C71535 /* DRNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DRNavigationBar.m; path = view/DRNavigationBar.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -412,10 +412,14 @@
 		0EDF4DC718210241007161E0 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				632387581822056000C71535 /* LoginViewController.h */,
+				632387591822056000C71535 /* LoginViewController.m */,
+				6323875B18220E7D00C71535 /* ForgotPwdViewController.h */,
+				6323875C18220E7D00C71535 /* ForgotPwdViewController.m */,
+				6323875E18222A1500C71535 /* DRNaviGationBarController.h */,
+				6323875F18222A1500C71535 /* DRNaviGationBarController.m */,
 				0EAFA102182222A700D01D3E /* InitViewController.h */,
 				0EAFA103182222A700D01D3E /* InitViewController.m */,
-				0EAFA1091822268E00D01D3E /* LogInViewController.h */,
-				0EAFA10A1822268E00D01D3E /* LogInViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -477,6 +481,8 @@
 		0EDF4DDA18210241007161E0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6323876118223E9500C71535 /* DRNavigationBar.h */,
+				6323876218223E9500C71535 /* DRNavigationBar.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -538,7 +544,6 @@
 		630B03B01820F5BB00F72C4C /* CaiJinTongApp */ = {
 			isa = PBXGroup;
 			children = (
-				632387571822053E00C71535 /* controllers */,
 				630B03B91820F5BB00F72C4C /* AppDelegate.h */,
 				630B03BA1820F5BB00F72C4C /* AppDelegate.m */,
 				0EDF4DFF1821029B007161E0 /* CaiJinTongManager.h */,
@@ -588,19 +593,6 @@
 				630B03D51820F5BC00F72C4C /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		632387571822053E00C71535 /* controllers */ = {
-			isa = PBXGroup;
-			children = (
-				632387581822056000C71535 /* LoginViewController.h */,
-				632387591822056000C71535 /* LoginViewController.m */,
-				6323875B18220E7D00C71535 /* ForgotPwdViewController.h */,
-				6323875C18220E7D00C71535 /* ForgotPwdViewController.m */,
-				6323875E18222A1500C71535 /* DRNaviGationBarController.h */,
-				6323875F18222A1500C71535 /* DRNaviGationBarController.m */,
-			);
-			name = controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -729,7 +721,6 @@
 				6323875D18220E7D00C71535 /* ForgotPwdViewController.m in Sources */,
 				630B03C41820F5BB00F72C4C /* ViewController.m in Sources */,
 				0EDF4DDB18210241007161E0 /* ASIWebPageRequest.m in Sources */,
-				0EAFA10B1822268E00D01D3E /* LogInViewController.m in Sources */,
 				0EDF4DEE18210241007161E0 /* ASIS3ObjectRequest.m in Sources */,
 				0EDF4DE418210241007161E0 /* ASIDataCompressor.m in Sources */,
 				0EDF4DE118210241007161E0 /* ASICloudFilesObjectRequest.m in Sources */,
@@ -740,6 +731,7 @@
 				0EDF4DDF18210241007161E0 /* ASICloudFilesContainerXMLParserDelegate.m in Sources */,
 				0EDF4DE618210241007161E0 /* ASIDownloadCache.m in Sources */,
 				0EDF4DE918210241007161E0 /* ASIInputStream.m in Sources */,
+				6323876318223E9500C71535 /* DRNavigationBar.m in Sources */,
 				0EDF4DF018210241007161E0 /* ASIS3ServiceRequest.m in Sources */,
 				0EDF4DDD18210241007161E0 /* ASICloudFilesContainer.m in Sources */,
 				0EDF4D9118210202007161E0 /* DownloadService.m in Sources */,
