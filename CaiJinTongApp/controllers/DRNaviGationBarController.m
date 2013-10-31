@@ -25,7 +25,9 @@
 
 - (void)viewDidLoad
 {
+     [self.view bringSubviewToFront:self.drnavigationBar];
     [super viewDidLoad];
+    
 	// Do any additional setup after loading the view.
 }
 
