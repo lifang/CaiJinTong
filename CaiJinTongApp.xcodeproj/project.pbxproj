@@ -90,6 +90,9 @@
 		630B03CF1820F5BC00F72C4C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630B03AE1820F5BB00F72C4C /* UIKit.framework */; };
 		630B03D71820F5BC00F72C4C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 630B03D51820F5BC00F72C4C /* InfoPlist.strings */; };
 		630B03D91820F5BC00F72C4C /* CaiJinTongAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 630B03D81820F5BC00F72C4C /* CaiJinTongAppTests.m */; };
+		6323875A1822056000C71535 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 632387591822056000C71535 /* LoginViewController.m */; };
+		6323875D18220E7D00C71535 /* ForgotPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6323875C18220E7D00C71535 /* ForgotPwdViewController.m */; };
+		6323876018222A1500C71535 /* DRNaviGationBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6323875F18222A1500C71535 /* DRNaviGationBarController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -233,6 +236,12 @@
 		630B03D41820F5BC00F72C4C /* CaiJinTongAppTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CaiJinTongAppTests-Info.plist"; sourceTree = "<group>"; };
 		630B03D61820F5BC00F72C4C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		630B03D81820F5BC00F72C4C /* CaiJinTongAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CaiJinTongAppTests.m; sourceTree = "<group>"; };
+		632387581822056000C71535 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginViewController.h; path = controllers/LoginViewController.h; sourceTree = "<group>"; };
+		632387591822056000C71535 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginViewController.m; path = controllers/LoginViewController.m; sourceTree = "<group>"; };
+		6323875B18220E7D00C71535 /* ForgotPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ForgotPwdViewController.h; path = controllers/ForgotPwdViewController.h; sourceTree = "<group>"; };
+		6323875C18220E7D00C71535 /* ForgotPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ForgotPwdViewController.m; path = controllers/ForgotPwdViewController.m; sourceTree = "<group>"; };
+		6323875E18222A1500C71535 /* DRNaviGationBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DRNaviGationBarController.h; path = controllers/DRNaviGationBarController.h; sourceTree = "<group>"; };
+		6323875F18222A1500C71535 /* DRNaviGationBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DRNaviGationBarController.m; path = controllers/DRNaviGationBarController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -544,6 +553,7 @@
 		630B03B01820F5BB00F72C4C /* CaiJinTongApp */ = {
 			isa = PBXGroup;
 			children = (
+				632387571822053E00C71535 /* controllers */,
 				630B03B91820F5BB00F72C4C /* AppDelegate.h */,
 				630B03BA1820F5BB00F72C4C /* AppDelegate.m */,
 				0EDF4DFF1821029B007161E0 /* CaiJinTongManager.h */,
@@ -593,6 +603,19 @@
 				630B03D51820F5BC00F72C4C /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		632387571822053E00C71535 /* controllers */ = {
+			isa = PBXGroup;
+			children = (
+				632387581822056000C71535 /* LoginViewController.h */,
+				632387591822056000C71535 /* LoginViewController.m */,
+				6323875B18220E7D00C71535 /* ForgotPwdViewController.h */,
+				6323875C18220E7D00C71535 /* ForgotPwdViewController.m */,
+				6323875E18222A1500C71535 /* DRNaviGationBarController.h */,
+				6323875F18222A1500C71535 /* DRNaviGationBarController.m */,
+			);
+			name = controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -716,6 +739,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6323875A1822056000C71535 /* LoginViewController.m in Sources */,
+				6323876018222A1500C71535 /* DRNaviGationBarController.m in Sources */,
+				6323875D18220E7D00C71535 /* ForgotPwdViewController.m in Sources */,
 				630B03C41820F5BB00F72C4C /* ViewController.m in Sources */,
 				0EDF4DDB18210241007161E0 /* ASIWebPageRequest.m in Sources */,
 				0EAFA10B1822268E00D01D3E /* LogInViewController.m in Sources */,
