@@ -12,6 +12,6 @@
 @interface Utility : NSObject
 
 + (NSString *)isExistenceNetwork;
-+(NSString *)createMD5:(NSString *)params;
-
++ (NSString *)createMD5:(NSString *)params;
++ (NSDictionary *)initWithJSONFile:(NSString *)jsonPath;
 @end

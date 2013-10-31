@@ -7,7 +7,7 @@
 //
 
 #import "Utility.h"
-
+#import <objc/runtime.h>
 
 @implementation Utility
 
@@ -41,6 +41,18 @@
            ];
 }
 
++ (Class)JSONParserClass {
+    return objc_getClass("NSJSONSerialization");
+}
 
++ (NSDictionary *)initWithJSONFile:(NSString *)jsonPath {
+    Class JSONSerialization = [Utility JSONParserClass];
+    NSAssert(JSONSerialization != NULL, @"No JSON serializer available!");
+    
+    NSError *jsonParsingError = nil;
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:jsonPath ofType:@"json"];
+    NSDictionary *dataObject = [JSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath] options:0 error:&jsonParsingError];
+    return dataObject;
+}
 
 @end

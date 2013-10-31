@@ -1,0 +1,11 @@
+{
+	"Status":"1",
+	"Msg": "",
+    "ReturnObject": {
+                "userId":"1000001",
+                 "birthday":"1990-01-15", 
+                 "sex":"男",
+                 "address":"苏州市工业园区中新大道Idea泵站",
+                 "userImg":"http://116.255.135.175:3004/service_pics/1/20/2img20_154.jpg"
+    }
+}
