@@ -28,6 +28,10 @@
 		0EAFA0FC1822167800D01D3E /* submitAnswer.json in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA0E71822167800D01D3E /* submitAnswer.json */; };
 		0EAFA0FD1822167800D01D3E /* submitNote.json in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA0E81822167800D01D3E /* submitNote.json */; };
 		0EAFA0FE1822167800D01D3E /* suggestion.json in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA0E91822167800D01D3E /* suggestion.json */; };
+		0EAFA104182222A700D01D3E /* InitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA103182222A700D01D3E /* InitViewController.m */; };
+		0EAFA107182223BD00D01D3E /* loginBgImage_v.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA105182223BD00D01D3E /* loginBgImage_v.png */; };
+		0EAFA108182223BD00D01D3E /* loginBgImage_v@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA106182223BD00D01D3E /* loginBgImage_v@2x.png */; };
+		0EAFA10B1822268E00D01D3E /* LogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA10A1822268E00D01D3E /* LogInViewController.m */; };
 		0EDF4D9118210202007161E0 /* DownloadService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDF4D9018210202007161E0 /* DownloadService.m */; };
 		0EDF4DDB18210241007161E0 /* ASIWebPageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDF4D9518210241007161E0 /* ASIWebPageRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0EDF4DDC18210241007161E0 /* ASICloudFilesCDNRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDF4D9818210241007161E0 /* ASICloudFilesCDNRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -117,6 +121,12 @@
 		0EAFA0E71822167800D01D3E /* submitAnswer.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = submitAnswer.json; sourceTree = "<group>"; };
 		0EAFA0E81822167800D01D3E /* submitNote.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = submitNote.json; sourceTree = "<group>"; };
 		0EAFA0E91822167800D01D3E /* suggestion.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = suggestion.json; sourceTree = "<group>"; };
+		0EAFA102182222A700D01D3E /* InitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitViewController.h; sourceTree = "<group>"; };
+		0EAFA103182222A700D01D3E /* InitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitViewController.m; sourceTree = "<group>"; };
+		0EAFA105182223BD00D01D3E /* loginBgImage_v.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loginBgImage_v.png; sourceTree = "<group>"; };
+		0EAFA106182223BD00D01D3E /* loginBgImage_v@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loginBgImage_v@2x.png"; sourceTree = "<group>"; };
+		0EAFA1091822268E00D01D3E /* LogInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogInViewController.h; sourceTree = "<group>"; };
+		0EAFA10A1822268E00D01D3E /* LogInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInViewController.m; sourceTree = "<group>"; };
 		0EDF4D8F18210202007161E0 /* DownloadService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadService.h; sourceTree = "<group>"; };
 		0EDF4D9018210202007161E0 /* DownloadService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadService.m; sourceTree = "<group>"; };
 		0EDF4D9418210241007161E0 /* ASIWebPageRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIWebPageRequest.h; sourceTree = "<group>"; };
@@ -288,6 +298,8 @@
 		0EAFA1011822200200D01D3E /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0EAFA105182223BD00D01D3E /* loginBgImage_v.png */,
+				0EAFA106182223BD00D01D3E /* loginBgImage_v@2x.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -391,6 +403,10 @@
 		0EDF4DC718210241007161E0 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				0EAFA102182222A700D01D3E /* InitViewController.h */,
+				0EAFA103182222A700D01D3E /* InitViewController.m */,
+				0EAFA1091822268E00D01D3E /* LogInViewController.h */,
+				0EAFA10A1822268E00D01D3E /* LogInViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -658,7 +674,9 @@
 				0EAFA0F61822167800D01D3E /* playVideo.json in Resources */,
 				0EAFA0EE1822167800D01D3E /* chapterQuestion.json in Resources */,
 				0EAFA0FB1822167800D01D3E /* sectionInfo.json in Resources */,
+				0EAFA108182223BD00D01D3E /* loginBgImage_v@2x.png in Resources */,
 				0EAFA0F71822167800D01D3E /* questionInfo.json in Resources */,
+				0EAFA107182223BD00D01D3E /* loginBgImage_v.png in Resources */,
 				0EAFA0F51822167800D01D3E /* playBack.json in Resources */,
 				630B03B51820F5BB00F72C4C /* InfoPlist.strings in Resources */,
 				0EAFA0FC1822167800D01D3E /* submitAnswer.json in Resources */,
@@ -685,6 +703,7 @@
 			files = (
 				630B03C41820F5BB00F72C4C /* ViewController.m in Sources */,
 				0EDF4DDB18210241007161E0 /* ASIWebPageRequest.m in Sources */,
+				0EAFA10B1822268E00D01D3E /* LogInViewController.m in Sources */,
 				0EDF4DEE18210241007161E0 /* ASIS3ObjectRequest.m in Sources */,
 				0EDF4DE418210241007161E0 /* ASIDataCompressor.m in Sources */,
 				0EDF4DE118210241007161E0 /* ASICloudFilesObjectRequest.m in Sources */,
@@ -709,6 +728,7 @@
 				0EDF4DF318210241007161E0 /* GTMNSString+HTML.m in Sources */,
 				0EDF4E011821029B007161E0 /* CaiJinTongManager.m in Sources */,
 				0EDF4DF418210241007161E0 /* NSString+HTML.m in Sources */,
+				0EAFA104182222A700D01D3E /* InitViewController.m in Sources */,
 				630B03B71820F5BB00F72C4C /* main.m in Sources */,
 				0EDF4DDC18210241007161E0 /* ASICloudFilesCDNRequest.m in Sources */,
 				0EDF4DF618210241007161E0 /* Reachability.m in Sources */,

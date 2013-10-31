@@ -7,11 +7,17 @@
 //
 
 #import "AppDelegate.h"
+#import "InitViewController.h"
+#import "LogInViewController.h"
+
 
 @implementation AppDelegate
 
 +(AppDelegate *)sharedInstance {
     return (AppDelegate *)[[UIApplication sharedApplication] delegate];
+}
+- (void)showRootView {
+    
 }
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {

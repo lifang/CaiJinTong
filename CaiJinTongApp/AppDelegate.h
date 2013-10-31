@@ -17,4 +17,5 @@
 @property (assign, nonatomic) BOOL isReachable;
 
 +(AppDelegate *)sharedInstance;
+- (void)showRootView;
 @end
