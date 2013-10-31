@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "InitViewController.h"
-#import "LogInViewController.h"
+#import "LoginViewController.h"
 
 
 @implementation AppDelegate

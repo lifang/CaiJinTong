@@ -31,10 +31,15 @@
 		0EAFA104182222A700D01D3E /* InitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA103182222A700D01D3E /* InitViewController.m */; };
 		0EAFA107182223BD00D01D3E /* loginBgImage_v.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA105182223BD00D01D3E /* loginBgImage_v.png */; };
 		0EAFA108182223BD00D01D3E /* loginBgImage_v@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA106182223BD00D01D3E /* loginBgImage_v@2x.png */; };
-		0EAFA10B1822268E00D01D3E /* LogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA10A1822268E00D01D3E /* LogInViewController.m */; };
 		0EAFA1121822399000D01D3E /* BaseInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA10D1822399000D01D3E /* BaseInterface.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0EAFA1131822399100D01D3E /* InterfaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA10F1822399000D01D3E /* InterfaceCache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0EAFA1141822399100D01D3E /* LogInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA1111822399000D01D3E /* LogInterface.m */; };
+		0EAFA11718223E5D00D01D3E /* CJTToolbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA11618223E5D00D01D3E /* CJTToolbarView.m */; };
+		0EAFA11A18223FC500D01D3E /* CJTMainToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA11918223FC500D01D3E /* CJTMainToolbar.m */; };
+		0EAFA1201822464700D01D3E /* FindPassWordInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA11F1822464700D01D3E /* FindPassWordInterface.m */; };
+		0EAFA1231822485500D01D3E /* LessonInfoInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA1221822485500D01D3E /* LessonInfoInterface.m */; };
+		0EAFA1261822488700D01D3E /* ChapterInfoInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA1251822488700D01D3E /* ChapterInfoInterface.m */; };
+		0EAFA129182248B100D01D3E /* sectionInfoInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA128182248B100D01D3E /* sectionInfoInterface.m */; };
 		0EDF4D9118210202007161E0 /* DownloadService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDF4D9018210202007161E0 /* DownloadService.m */; };
 		0EDF4DDB18210241007161E0 /* ASIWebPageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDF4D9518210241007161E0 /* ASIWebPageRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0EDF4DDC18210241007161E0 /* ASICloudFilesCDNRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDF4D9818210241007161E0 /* ASICloudFilesCDNRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -131,14 +136,24 @@
 		0EAFA103182222A700D01D3E /* InitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitViewController.m; sourceTree = "<group>"; };
 		0EAFA105182223BD00D01D3E /* loginBgImage_v.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loginBgImage_v.png; sourceTree = "<group>"; };
 		0EAFA106182223BD00D01D3E /* loginBgImage_v@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loginBgImage_v@2x.png"; sourceTree = "<group>"; };
-		0EAFA1091822268E00D01D3E /* LogInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogInViewController.h; sourceTree = "<group>"; };
-		0EAFA10A1822268E00D01D3E /* LogInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInViewController.m; sourceTree = "<group>"; };
 		0EAFA10C1822399000D01D3E /* BaseInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseInterface.h; sourceTree = "<group>"; };
 		0EAFA10D1822399000D01D3E /* BaseInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseInterface.m; sourceTree = "<group>"; };
 		0EAFA10E1822399000D01D3E /* InterfaceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceCache.h; sourceTree = "<group>"; };
 		0EAFA10F1822399000D01D3E /* InterfaceCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InterfaceCache.m; sourceTree = "<group>"; };
 		0EAFA1101822399000D01D3E /* LogInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogInterface.h; sourceTree = "<group>"; };
 		0EAFA1111822399000D01D3E /* LogInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInterface.m; sourceTree = "<group>"; };
+		0EAFA11518223E5D00D01D3E /* CJTToolbarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJTToolbarView.h; sourceTree = "<group>"; };
+		0EAFA11618223E5D00D01D3E /* CJTToolbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJTToolbarView.m; sourceTree = "<group>"; };
+		0EAFA11818223FC500D01D3E /* CJTMainToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJTMainToolbar.h; sourceTree = "<group>"; };
+		0EAFA11918223FC500D01D3E /* CJTMainToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJTMainToolbar.m; sourceTree = "<group>"; };
+		0EAFA11E1822464700D01D3E /* FindPassWordInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPassWordInterface.h; sourceTree = "<group>"; };
+		0EAFA11F1822464700D01D3E /* FindPassWordInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindPassWordInterface.m; sourceTree = "<group>"; };
+		0EAFA1211822485500D01D3E /* LessonInfoInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LessonInfoInterface.h; sourceTree = "<group>"; };
+		0EAFA1221822485500D01D3E /* LessonInfoInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonInfoInterface.m; sourceTree = "<group>"; };
+		0EAFA1241822488700D01D3E /* ChapterInfoInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChapterInfoInterface.h; sourceTree = "<group>"; };
+		0EAFA1251822488700D01D3E /* ChapterInfoInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChapterInfoInterface.m; sourceTree = "<group>"; };
+		0EAFA127182248B000D01D3E /* sectionInfoInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sectionInfoInterface.h; sourceTree = "<group>"; };
+		0EAFA128182248B100D01D3E /* sectionInfoInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = sectionInfoInterface.m; sourceTree = "<group>"; };
 		0EDF4D8F18210202007161E0 /* DownloadService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadService.h; sourceTree = "<group>"; };
 		0EDF4D9018210202007161E0 /* DownloadService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadService.m; sourceTree = "<group>"; };
 		0EDF4D9418210241007161E0 /* ASIWebPageRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIWebPageRequest.h; sourceTree = "<group>"; };
@@ -236,10 +251,10 @@
 		630B03D41820F5BC00F72C4C /* CaiJinTongAppTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CaiJinTongAppTests-Info.plist"; sourceTree = "<group>"; };
 		630B03D61820F5BC00F72C4C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		630B03D81820F5BC00F72C4C /* CaiJinTongAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CaiJinTongAppTests.m; sourceTree = "<group>"; };
-		632387581822056000C71535 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginViewController.h; path = controllers/LoginViewController.h; sourceTree = "<group>"; };
-		632387591822056000C71535 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginViewController.m; path = controllers/LoginViewController.m; sourceTree = "<group>"; };
-		6323875B18220E7D00C71535 /* ForgotPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ForgotPwdViewController.h; path = controllers/ForgotPwdViewController.h; sourceTree = "<group>"; };
-		6323875C18220E7D00C71535 /* ForgotPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ForgotPwdViewController.m; path = controllers/ForgotPwdViewController.m; sourceTree = "<group>"; };
+		632387581822056000C71535 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginViewController.h; path = ../controllers/LoginViewController.h; sourceTree = "<group>"; };
+		632387591822056000C71535 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginViewController.m; path = ../controllers/LoginViewController.m; sourceTree = "<group>"; };
+		6323875B18220E7D00C71535 /* ForgotPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ForgotPwdViewController.h; path = ../controllers/ForgotPwdViewController.h; sourceTree = "<group>"; };
+		6323875C18220E7D00C71535 /* ForgotPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ForgotPwdViewController.m; path = ../controllers/ForgotPwdViewController.m; sourceTree = "<group>"; };
 		6323875E18222A1500C71535 /* DRNaviGationBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DRNaviGationBarController.h; path = controllers/DRNaviGationBarController.h; sourceTree = "<group>"; };
 		6323875F18222A1500C71535 /* DRNaviGationBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DRNaviGationBarController.m; path = controllers/DRNaviGationBarController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -423,8 +438,10 @@
 			children = (
 				0EAFA102182222A700D01D3E /* InitViewController.h */,
 				0EAFA103182222A700D01D3E /* InitViewController.m */,
-				0EAFA1091822268E00D01D3E /* LogInViewController.h */,
-				0EAFA10A1822268E00D01D3E /* LogInViewController.m */,
+				632387581822056000C71535 /* LoginViewController.h */,
+				632387591822056000C71535 /* LoginViewController.m */,
+				6323875B18220E7D00C71535 /* ForgotPwdViewController.h */,
+				6323875C18220E7D00C71535 /* ForgotPwdViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -458,6 +475,14 @@
 				0EAFA10F1822399000D01D3E /* InterfaceCache.m */,
 				0EAFA1101822399000D01D3E /* LogInterface.h */,
 				0EAFA1111822399000D01D3E /* LogInterface.m */,
+				0EAFA11E1822464700D01D3E /* FindPassWordInterface.h */,
+				0EAFA11F1822464700D01D3E /* FindPassWordInterface.m */,
+				0EAFA1211822485500D01D3E /* LessonInfoInterface.h */,
+				0EAFA1221822485500D01D3E /* LessonInfoInterface.m */,
+				0EAFA1241822488700D01D3E /* ChapterInfoInterface.h */,
+				0EAFA1251822488700D01D3E /* ChapterInfoInterface.m */,
+				0EAFA127182248B000D01D3E /* sectionInfoInterface.h */,
+				0EAFA128182248B100D01D3E /* sectionInfoInterface.m */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -492,6 +517,10 @@
 		0EDF4DDA18210241007161E0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0EAFA11518223E5D00D01D3E /* CJTToolbarView.h */,
+				0EAFA11618223E5D00D01D3E /* CJTToolbarView.m */,
+				0EAFA11818223FC500D01D3E /* CJTMainToolbar.h */,
+				0EAFA11918223FC500D01D3E /* CJTMainToolbar.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -608,10 +637,6 @@
 		632387571822053E00C71535 /* controllers */ = {
 			isa = PBXGroup;
 			children = (
-				632387581822056000C71535 /* LoginViewController.h */,
-				632387591822056000C71535 /* LoginViewController.m */,
-				6323875B18220E7D00C71535 /* ForgotPwdViewController.h */,
-				6323875C18220E7D00C71535 /* ForgotPwdViewController.m */,
 				6323875E18222A1500C71535 /* DRNaviGationBarController.h */,
 				6323875F18222A1500C71535 /* DRNaviGationBarController.m */,
 			);
@@ -742,21 +767,23 @@
 				6323875A1822056000C71535 /* LoginViewController.m in Sources */,
 				6323876018222A1500C71535 /* DRNaviGationBarController.m in Sources */,
 				6323875D18220E7D00C71535 /* ForgotPwdViewController.m in Sources */,
+				0EAFA1261822488700D01D3E /* ChapterInfoInterface.m in Sources */,
 				630B03C41820F5BB00F72C4C /* ViewController.m in Sources */,
 				0EDF4DDB18210241007161E0 /* ASIWebPageRequest.m in Sources */,
-				0EAFA10B1822268E00D01D3E /* LogInViewController.m in Sources */,
 				0EDF4DEE18210241007161E0 /* ASIS3ObjectRequest.m in Sources */,
 				0EDF4DE418210241007161E0 /* ASIDataCompressor.m in Sources */,
 				0EDF4DE118210241007161E0 /* ASICloudFilesObjectRequest.m in Sources */,
 				0EDF4DEB18210241007161E0 /* ASIS3Bucket.m in Sources */,
 				0EDF4DEA18210241007161E0 /* ASINetworkQueue.m in Sources */,
 				0EDF4DFD1821028F007161E0 /* Utility.m in Sources */,
+				0EAFA1231822485500D01D3E /* LessonInfoInterface.m in Sources */,
 				0EDF4DE018210241007161E0 /* ASICloudFilesObject.m in Sources */,
 				0EDF4DDF18210241007161E0 /* ASICloudFilesContainerXMLParserDelegate.m in Sources */,
 				0EDF4DE618210241007161E0 /* ASIDownloadCache.m in Sources */,
 				0EDF4DE918210241007161E0 /* ASIInputStream.m in Sources */,
 				0EDF4DF018210241007161E0 /* ASIS3ServiceRequest.m in Sources */,
 				0EDF4DDD18210241007161E0 /* ASICloudFilesContainer.m in Sources */,
+				0EAFA129182248B100D01D3E /* sectionInfoInterface.m in Sources */,
 				0EDF4D9118210202007161E0 /* DownloadService.m in Sources */,
 				0EAFA1131822399100D01D3E /* InterfaceCache.m in Sources */,
 				0EDF4DE318210241007161E0 /* ASIAuthenticationDialog.m in Sources */,
@@ -768,7 +795,9 @@
 				0EDF4DF518210241007161E0 /* NSString+URLEncoding.m in Sources */,
 				0EDF4DE218210241007161E0 /* ASICloudFilesRequest.m in Sources */,
 				0EDF4DF318210241007161E0 /* GTMNSString+HTML.m in Sources */,
+				0EAFA11A18223FC500D01D3E /* CJTMainToolbar.m in Sources */,
 				0EDF4E011821029B007161E0 /* CaiJinTongManager.m in Sources */,
+				0EAFA1201822464700D01D3E /* FindPassWordInterface.m in Sources */,
 				0EDF4DF418210241007161E0 /* NSString+HTML.m in Sources */,
 				0EAFA1141822399100D01D3E /* LogInterface.m in Sources */,
 				0EAFA104182222A700D01D3E /* InitViewController.m in Sources */,
@@ -779,6 +808,7 @@
 				0EAFA1121822399000D01D3E /* BaseInterface.m in Sources */,
 				0EDF4DED18210241007161E0 /* ASIS3BucketRequest.m in Sources */,
 				0EDF4DFE1821028F007161E0 /* NSDictionary+AllKeytoLowerCase.m in Sources */,
+				0EAFA11718223E5D00D01D3E /* CJTToolbarView.m in Sources */,
 				0EDF4DF218210241007161E0 /* RJFileUtils.m in Sources */,
 				0EDF4DEC18210241007161E0 /* ASIS3BucketObject.m in Sources */,
 				0EDF4DE518210241007161E0 /* ASIDataDecompressor.m in Sources */,

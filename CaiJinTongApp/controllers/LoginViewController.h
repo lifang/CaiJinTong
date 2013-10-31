@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LogInterface.h"
+@interface LoginViewController : UIViewController<LogInterfaceDelegate>
 
-@interface LoginViewController : UIViewController
-
+@property (nonatomic,strong) LogInterface *logInterface;
 @end
