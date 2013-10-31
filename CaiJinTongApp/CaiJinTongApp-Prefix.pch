@@ -16,7 +16,7 @@
 #import "Reachability.h"
 #import "Const.h"
 #import "Utility.h"
-
+#import "CaiJinTongManager.h"
 #endif
 
 //系统版本
