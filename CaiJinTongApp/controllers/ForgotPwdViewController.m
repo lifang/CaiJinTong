@@ -9,6 +9,9 @@
 #import "ForgotPwdViewController.h"
 
 @interface ForgotPwdViewController ()
+@property (weak, nonatomic) IBOutlet UITextField *userNameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *emailTextField;
+- (IBAction)sendEmailBtClicked:(id)sender;
 
 @end
 
@@ -25,6 +28,7 @@
 
 - (void)viewDidLoad
 {
+    [self.view bringSubviewToFront:self.drnavigationBar];
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 }
@@ -35,4 +39,6 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)sendEmailBtClicked:(id)sender {
+}
 @end

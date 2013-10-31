@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ForgotPwdViewController : UIViewController
+@interface ForgotPwdViewController : DRNaviGationBarController
 
 @end

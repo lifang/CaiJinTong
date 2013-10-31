@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface DRNaviGationBarController : UIViewController
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UIView *drnavigationBar;
+- (IBAction)drnavigationBarRightItemClicked:(id)sender;
 
 @end

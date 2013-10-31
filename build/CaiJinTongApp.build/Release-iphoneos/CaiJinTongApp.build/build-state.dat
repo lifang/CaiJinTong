@@ -1,0 +1,678 @@
+TCaiJinTongApp
+v6
+r1
+cCheck dependencies
+cCpResource /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/ResourceRules.plist build/Release-iphoneos/CaiJinTongApp.app/ResourceRules.plist
+cProcessPCH /var/folders/fn/8dy4775n6tg2vgvvly4c08h80000gn/C/com.apple.DeveloperTools/5.0-5A1413/Xcode/SharedPrecompiledHeaders/CaiJinTongApp-Prefix-aqknorqnwrsjyqgaylfcrpbfuygj/CaiJinTongApp-Prefix.pch.pch CaiJinTongApp/CaiJinTongApp-Prefix.pch normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler
+cProcessPCH /var/folders/fn/8dy4775n6tg2vgvvly4c08h80000gn/C/com.apple.DeveloperTools/5.0-5A1413/Xcode/SharedPrecompiledHeaders/CaiJinTongApp-Prefix-aqwvogiyavnkpkdidzdnfsvuohsk/CaiJinTongApp-Prefix.pch.pch CaiJinTongApp/CaiJinTongApp-Prefix.pch normal armv7s objective-c com.apple.compilers.llvm.clang.1_0.compiler
+cCompileC build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/LoginViewController.o /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/LoginViewController.m normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler
+cCompileC build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/ForgotPwdViewController.o /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/ForgotPwdViewController.m normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler
+cCompileC build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/ViewController.o /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/ViewController.m normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler
+cCompileC build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/AppDelegate.o /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/AppDelegate.m normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler
+cCompileC build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/main.o /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/main.m normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler
+cCompileC build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/LoginViewController.o /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/LoginViewController.m normal armv7s objective-c com.apple.compilers.llvm.clang.1_0.compiler
+cCompileC build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/ForgotPwdViewController.o /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/ForgotPwdViewController.m normal armv7s objective-c com.apple.compilers.llvm.clang.1_0.compiler
+cCompileC build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/ViewController.o /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/ViewController.m normal armv7s objective-c com.apple.compilers.llvm.clang.1_0.compiler
+cCompileC build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/AppDelegate.o /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/AppDelegate.m normal armv7s objective-c com.apple.compilers.llvm.clang.1_0.compiler
+cCompileC build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/main.o /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/main.m normal armv7s objective-c com.apple.compilers.llvm.clang.1_0.compiler
+cLd /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/CaiJinTongApp normal armv7
+cLd /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/CaiJinTongApp normal armv7s
+cCreateUniversalBinary /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/CaiJinTongApp normal armv7\ armv7s
+cGenerateDSYMFile /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app.dSYM /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/CaiJinTongApp
+cCompileStoryboard /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/Base.lproj/Main_iPad.storyboard
+cCompileStoryboard /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/Base.lproj/Main_iPhone.storyboard
+cCopyStringsFile /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/en.lproj/InfoPlist.strings CaiJinTongApp/en.lproj/InfoPlist.strings
+cCompileAssetCatalog /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/Images.xcassets
+cProcessInfoPlistFile /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/Info.plist /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/CaiJinTongApp-Info.plist
+cProcessProductPackaging /Users/david/Library/MobileDevice/Provisioning\ Profiles/A8BA2E57-4B33-46DA-AA54-3BE37A5F7A6E.mobileprovision /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/embedded.mobileprovision
+cTouch /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app
+cProcessProductPackaging /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/Entitlements.plist /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp.xcent
+cCodeSign /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app
+cValidate /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk
+c00000000521BCCE10000000000000110
+t1377553633
+s272
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/Entitlements.plist
+c00000000523655430000000000000094
+t1379292483
+s148
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/ResourceRules.plist
+c00000000523655430000000000000096
+t1379292483
+s150
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/SDKSettings.plist
+c0000000052365543000000000000036B
+t1379292483
+s875
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/CoreServices/SystemVersion.plist
+c0000000052365547000000000000019E
+t1379292487
+s414
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics
+c000000005236554F00000000004D6390
+t1379292495
+s5071760
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/Foundation.framework/Foundation
+c00000000523655510000000000A8EAD0
+t1379292497
+s11070160
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/UIKit.framework/UIKit
+c00000000523655610000000002597C70
+t1379292513
+s39418992
+
+N/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/5.0/include/module.map
+c0000000052364DBF0000000000000AC9
+t1379290559
+s2761
+
+N/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/AppDelegate.m
+c000000005270BE3B00000000000007D5
+t1383120443
+s2005
+
+N/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/Base.lproj/Main_iPad.storyboard
+c000000005271D72C0000000000004860
+t1383192364
+s18528
+
+N/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/Base.lproj/Main_iPhone.storyboard
+c000000005270BE3B0000000000000630
+t1383120443
+s1584
+
+N/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/CaiJinTongApp-Info.plist
+c000000005270EF430000000000000638
+t1383132995
+s1592
+
+N/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/CaiJinTongApp-Prefix.pch
+c000000005270BE3B0000000000000158
+t1383120443
+s344
+
+N/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/Images.xcassets
+c000000005270BE3B0000000000000088
+t1383120443
+s136
+
+N/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/ViewController.m
+c000000005270C01C00000000000001EC
+t1383120924
+s492
+
+N/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/ForgotPwdViewController.m
+c000000005271D6FC00000000000002DE
+t1383192316
+s734
+
+N/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/LoginViewController.m
+c000000005271D3620000000000000456
+t1383191394
+s1110
+
+N/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/en.lproj/InfoPlist.strings
+c000000005270BE3B000000000000002D
+t1383120443
+s45
+
+N/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/main.m
+c000000005270BE3B000000000000014F
+t1383120443
+s335
+
+N/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp.xcent
+t1383198647
+s420
+
+N/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/AppDelegate.o
+t1383198636
+s65084
+
+N/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/CaiJinTongApp
+t1383198639
+s57388
+
+N/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/CaiJinTongApp.LinkFileList
+c000000005271EFA900000000000002B3
+t1383198633
+s691
+
+N/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/ForgotPwdViewController.o
+t1383198636
+s42236
+
+N/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/LoginViewController.o
+t1383198636
+s51448
+
+N/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/ViewController.o
+t1383198636
+s41100
+
+N/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/main.o
+t1383198636
+s3792
+
+N/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/AppDelegate.o
+t1383198638
+s65084
+
+N/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/CaiJinTongApp
+t1383198639
+s57392
+
+N/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/CaiJinTongApp.LinkFileList
+c000000005271EFA900000000000002B8
+t1383198633
+s696
+
+N/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/ForgotPwdViewController.o
+t1383198637
+s42236
+
+N/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/LoginViewController.o
+t1383198638
+s51448
+
+N/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/ViewController.o
+t1383198637
+s41100
+
+N/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/main.o
+t1383198638
+s3792
+
+N/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/assetcatalog_dependencies.txt
+t1383198643
+s358
+
+N/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/assetcatalog_generated_info.plist
+t1383198643
+s585
+
+N/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/com.apple.build-tools.platform.validate
+t2
+s0
+
+N/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app
+t1383198647
+s374
+
+N/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app.dSYM
+t2
+s0
+
+N/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/Base.lproj/Main_iPad.storyboardc
+t1383198647
+s170
+
+N/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/Base.lproj/Main_iPhone.storyboardc
+t1383198646
+s170
+
+N/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/CaiJinTongApp
+t1383198639
+s139312
+
+N/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/Info.plist
+t1383198647
+s1616
+
+N/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/PkgInfo
+t1383198647
+s8
+
+N/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/ResourceRules.plist
+t1383198633
+s150
+
+N/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/embedded.mobileprovision
+t1383198647
+s8549
+
+N/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/en.lproj/InfoPlist.strings
+t1383198639
+s42
+
+N/Users/david/Library/MobileDevice/Provisioning Profiles/A8BA2E57-4B33-46DA-AA54-3BE37A5F7A6E.mobileprovision
+c000000005266469B0000000000002165
+t1382434459
+s8549
+
+N/var/folders/fn/8dy4775n6tg2vgvvly4c08h80000gn/C/com.apple.DeveloperTools/5.0-5A1413/Xcode/SharedPrecompiledHeaders/CaiJinTongApp-Prefix-aqknorqnwrsjyqgaylfcrpbfuygj/CaiJinTongApp-Prefix.pch.pch
+t1383196484
+s81056
+
+N/var/folders/fn/8dy4775n6tg2vgvvly4c08h80000gn/C/com.apple.DeveloperTools/5.0-5A1413/Xcode/SharedPrecompiledHeaders/CaiJinTongApp-Prefix-aqwvogiyavnkpkdidzdnfsvuohsk/CaiJinTongApp-Prefix.pch.pch
+t1383196484
+s81056
+
+CCheck dependencies
+r0
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection18"Check dependencies18"Check dependencies4f3e2d272722b841^f240f4292722b841^---0#1#1#--18"Check dependencies36"F22649FC-3A52-4E78-9C83-F280C4AAC167-
+
+CCodeSign /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app
+s404891447.573626
+e404891451.479473
+r1
+xCodeSign
+x/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection65"[1mCodeSign[0m [1mbuild/Release-iphoneos/CaiJinTongApp.app[0m65"[1mCodeSign[0m [1mbuild/Release-iphoneos/CaiJinTongApp.app[0mf5f792372722b841^48c27a3b2722b841^---0#0#1#-19%DVTDocumentLocation2@85"file:///Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/0000000000000000^1206"[1mCodeSign[0m [1mbuild/Release-iphoneos/CaiJinTongApp.app[0m    cd /Users/david/Documents/CaiJinTongApp    setenv CODESIGN_ALLOCATE /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/codesign_allocate    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195@global/bin:/Users/david/.rvm/rubies/ruby-2.0.0-p195/bin:/Users/david/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/mysql/bin"    Using code signing identity "iPhone Developer: Sen Ye (FE46ZS29LM)" and provisioning profile "iOS Team Provisioning Profile: com.liudr.*" (A8BA2E57-4B33-46DA-AA54-3BE37A5F7A6E)    codesign --force --sign F56C99D5CD6227B4FA1B413B8F1A163CF79EF4F9 --resource-rules=/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/ResourceRules.plist --entitlements /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp.xcent /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app36"2C4BFA53-5355-40A5-A495-8F41099F3B1D-
+bFCC2C724-A105-4680-85E3-A63C4715AEED
+
+CCompileAssetCatalog /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/Images.xcassets
+s404891439.660575
+e404891443.506043
+r1
+xCompileAssetCatalog
+x/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app
+x/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/Images.xcassets
+o/* com.apple.actool.compilation-results */
+o/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/LaunchImage-700-568h@2x.png
+o/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/LaunchImage-568h@2x.png
+o/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/assetcatalog_generated_info.plist
+o
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection106"[1mCompileAssetCatalog[0m build/Release-iphoneos/CaiJinTongApp.app [1mCaiJinTongApp/Images.xcassets[0m106"[1mCompileAssetCatalog[0m build/Release-iphoneos/CaiJinTongApp.app [1mCaiJinTongApp/Images.xcassets[0m5358a92f2722b841^de8d81332722b841^-386"/* com.apple.actool.compilation-results *//Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/LaunchImage-700-568h@2x.png/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/LaunchImage-568h@2x.png/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/assetcatalog_generated_info.plist-0#0#1#-19%DVTDocumentLocation2@74"file:///Users/david/Documents/CaiJinTongApp/CaiJinTongApp/Images.xcassets/0000000000000000^1284"[1mCompileAssetCatalog[0m build/Release-iphoneos/CaiJinTongApp.app [1mCaiJinTongApp/Images.xcassets[0m    cd /Users/david/Documents/CaiJinTongApp    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195@global/bin:/Users/david/.rvm/rubies/ruby-2.0.0-p195/bin:/Users/david/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/mysql/bin"    /Applications/Xcode.app/Contents/Developer/usr/bin/actool --output-format human-readable-text --notices --warnings --export-dependency-info /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/assetcatalog_dependencies.txt --output-partial-info-plist /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/assetcatalog_generated_info.plist --app-icon AppIcon --launch-image LaunchImage --platform iphoneos --minimum-deployment-target 6.0 --target-device iphone --target-device ipad --compress-pngs --compile /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/Images.xcassets36"6347249D-45EA-477E-8200-B04106F39A56-
+bFCC2C724-A105-4680-85E3-A63C4715AEED
+
+CCompileC build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/AppDelegate.o /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/AppDelegate.m normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler
+s404891433.966295
+e404891436.276204
+r1
+xCompileC
+xbuild/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/AppDelegate.o
+x/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/AppDelegate.m
+xnormal
+xarmv7
+xobjective-c
+xcom.apple.compilers.llvm.clang.1_0.compiler
+d/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/AppDelegate.m
+d/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/AppDelegate.h
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection72"Compile /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/AppDelegate.m219"[1mCompileC[0m build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/AppDelegate.o [1mCaiJinTongApp/AppDelegate.m[0m normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler527df7292722b841^17b6462c2722b841^---0#0#1#-19%DVTDocumentLocation2@71"file:///Users/david/Documents/CaiJinTongApp/CaiJinTongApp/AppDelegate.m0000000000000000^3821"[1mCompileC[0m build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/AppDelegate.o [1mCaiJinTongApp/AppDelegate.m[0m normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/david/Documents/CaiJinTongApp    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195@global/bin:/Users/david/.rvm/rubies/ruby-2.0.0-p195/bin:/Users/david/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/mysql/bin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch armv7 -fmessage-length=80 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -fcolor-diagnostics -std=gnu99 -fobjc-arc -fmodules -fmodules-cache-path=/var/folders/fn/8dy4775n6tg2vgvvly4c08h80000gn/C/com.apple.DeveloperTools/5.0-5A1413/Xcode/ModuleCache -Wno-trigraphs -fpascal-strings -Os -Wno-missing-field-initializers -Wno-missing-prototypes -Werror=return-type -Wno-implicit-atomic-properties -Werror=deprecated-objc-isa-usage -Werror=objc-root-class -Wno-receiver-is-weak -Wno-arc-repeated-use-of-weak -Wduplicate-method-match -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -DNS_BLOCK_ASSERTIONS=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -g -fvisibility=hidden -Wno-sign-conversion -miphoneos-version-min=6.0 -iquote /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-generated-files.hmap -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-own-target-headers.hmap -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-all-target-headers.hmap -iquote /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-project-headers.hmap -I/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/DerivedSources/armv7 -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/DerivedSources -F/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos -include /var/folders/fn/8dy4775n6tg2vgvvly4c08h80000gn/C/com.apple.DeveloperTools/5.0-5A1413/Xcode/SharedPrecompiledHeaders/CaiJinTongApp-Prefix-aqknorqnwrsjyqgaylfcrpbfuygj/CaiJinTongApp-Prefix.pch -MMD -MT dependencies -MF /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/AppDelegate.d --serialize-diagnostics /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/AppDelegate.dia -c /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/AppDelegate.m -o /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/AppDelegate.o36"97946752-9693-4A12-927C-88422EF78BA4-
+bFCC2C724-A105-4680-85E3-A63C4715AEED
+
+CCompileC build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/ForgotPwdViewController.o /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/ForgotPwdViewController.m normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler
+s404891433.963760
+e404891436.215763
+r1
+xCompileC
+xbuild/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/ForgotPwdViewController.o
+x/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/ForgotPwdViewController.m
+xnormal
+xarmv7
+xobjective-c
+xcom.apple.compilers.llvm.clang.1_0.compiler
+d/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/ForgotPwdViewController.m
+d/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/ForgotPwdViewController.h
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection96"Compile /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/ForgotPwdViewController.m255"[1mCompileC[0m build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/ForgotPwdViewController.o [1mCaiJinTongApp/controllers/ForgotPwdViewController.m[0m normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler4be8f6292722b841^9775372c2722b841^---0#0#1#-19%DVTDocumentLocation2@95"file:///Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/ForgotPwdViewController.m0000000000000000^3917"[1mCompileC[0m build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/ForgotPwdViewController.o [1mCaiJinTongApp/controllers/ForgotPwdViewController.m[0m normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/david/Documents/CaiJinTongApp    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195@global/bin:/Users/david/.rvm/rubies/ruby-2.0.0-p195/bin:/Users/david/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/mysql/bin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch armv7 -fmessage-length=80 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -fcolor-diagnostics -std=gnu99 -fobjc-arc -fmodules -fmodules-cache-path=/var/folders/fn/8dy4775n6tg2vgvvly4c08h80000gn/C/com.apple.DeveloperTools/5.0-5A1413/Xcode/ModuleCache -Wno-trigraphs -fpascal-strings -Os -Wno-missing-field-initializers -Wno-missing-prototypes -Werror=return-type -Wno-implicit-atomic-properties -Werror=deprecated-objc-isa-usage -Werror=objc-root-class -Wno-receiver-is-weak -Wno-arc-repeated-use-of-weak -Wduplicate-method-match -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -DNS_BLOCK_ASSERTIONS=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -g -fvisibility=hidden -Wno-sign-conversion -miphoneos-version-min=6.0 -iquote /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-generated-files.hmap -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-own-target-headers.hmap -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-all-target-headers.hmap -iquote /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-project-headers.hmap -I/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/DerivedSources/armv7 -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/DerivedSources -F/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos -include /var/folders/fn/8dy4775n6tg2vgvvly4c08h80000gn/C/com.apple.DeveloperTools/5.0-5A1413/Xcode/SharedPrecompiledHeaders/CaiJinTongApp-Prefix-aqknorqnwrsjyqgaylfcrpbfuygj/CaiJinTongApp-Prefix.pch -MMD -MT dependencies -MF /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/ForgotPwdViewController.d --serialize-diagnostics /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/ForgotPwdViewController.dia -c /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/ForgotPwdViewController.m -o /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/ForgotPwdViewController.o36"E14CA101-7B5A-4CF5-A605-DB4C8539C215-
+bFCC2C724-A105-4680-85E3-A63C4715AEED
+
+CCompileC build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/LoginViewController.o /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/LoginViewController.m normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler
+s404891433.963537
+e404891436.221182
+r1
+xCompileC
+xbuild/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/LoginViewController.o
+x/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/LoginViewController.m
+xnormal
+xarmv7
+xobjective-c
+xcom.apple.compilers.llvm.clang.1_0.compiler
+d/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/LoginViewController.m
+d/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/LoginViewController.h
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection92"Compile /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/LoginViewController.m247"[1mCompileC[0m build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/LoginViewController.o [1mCaiJinTongApp/controllers/LoginViewController.m[0m normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler0bebf6292722b841^959f382c2722b841^---0#0#1#-19%DVTDocumentLocation2@91"file:///Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/LoginViewController.m0000000000000000^3893"[1mCompileC[0m build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/LoginViewController.o [1mCaiJinTongApp/controllers/LoginViewController.m[0m normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/david/Documents/CaiJinTongApp    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195@global/bin:/Users/david/.rvm/rubies/ruby-2.0.0-p195/bin:/Users/david/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/mysql/bin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch armv7 -fmessage-length=80 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -fcolor-diagnostics -std=gnu99 -fobjc-arc -fmodules -fmodules-cache-path=/var/folders/fn/8dy4775n6tg2vgvvly4c08h80000gn/C/com.apple.DeveloperTools/5.0-5A1413/Xcode/ModuleCache -Wno-trigraphs -fpascal-strings -Os -Wno-missing-field-initializers -Wno-missing-prototypes -Werror=return-type -Wno-implicit-atomic-properties -Werror=deprecated-objc-isa-usage -Werror=objc-root-class -Wno-receiver-is-weak -Wno-arc-repeated-use-of-weak -Wduplicate-method-match -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -DNS_BLOCK_ASSERTIONS=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -g -fvisibility=hidden -Wno-sign-conversion -miphoneos-version-min=6.0 -iquote /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-generated-files.hmap -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-own-target-headers.hmap -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-all-target-headers.hmap -iquote /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-project-headers.hmap -I/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/DerivedSources/armv7 -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/DerivedSources -F/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos -include /var/folders/fn/8dy4775n6tg2vgvvly4c08h80000gn/C/com.apple.DeveloperTools/5.0-5A1413/Xcode/SharedPrecompiledHeaders/CaiJinTongApp-Prefix-aqknorqnwrsjyqgaylfcrpbfuygj/CaiJinTongApp-Prefix.pch -MMD -MT dependencies -MF /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/LoginViewController.d --serialize-diagnostics /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/LoginViewController.dia -c /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/LoginViewController.m -o /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/LoginViewController.o36"0357C186-E44C-4130-AB8B-8E07611FEF88-
+bFCC2C724-A105-4680-85E3-A63C4715AEED
+
+CCompileC build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/ViewController.o /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/ViewController.m normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler
+s404891433.964107
+e404891436.216645
+r1
+xCompileC
+xbuild/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/ViewController.o
+x/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/ViewController.m
+xnormal
+xarmv7
+xobjective-c
+xcom.apple.compilers.llvm.clang.1_0.compiler
+d/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/ViewController.m
+d/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/ViewController.h
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection75"Compile /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/ViewController.m225"[1mCompileC[0m build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/ViewController.o [1mCaiJinTongApp/ViewController.m[0m normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compilerc6faf6292722b841^8c4d372c2722b841^---0#0#1#-19%DVTDocumentLocation2@74"file:///Users/david/Documents/CaiJinTongApp/CaiJinTongApp/ViewController.m0000000000000000^3839"[1mCompileC[0m build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/ViewController.o [1mCaiJinTongApp/ViewController.m[0m normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/david/Documents/CaiJinTongApp    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195@global/bin:/Users/david/.rvm/rubies/ruby-2.0.0-p195/bin:/Users/david/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/mysql/bin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch armv7 -fmessage-length=80 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -fcolor-diagnostics -std=gnu99 -fobjc-arc -fmodules -fmodules-cache-path=/var/folders/fn/8dy4775n6tg2vgvvly4c08h80000gn/C/com.apple.DeveloperTools/5.0-5A1413/Xcode/ModuleCache -Wno-trigraphs -fpascal-strings -Os -Wno-missing-field-initializers -Wno-missing-prototypes -Werror=return-type -Wno-implicit-atomic-properties -Werror=deprecated-objc-isa-usage -Werror=objc-root-class -Wno-receiver-is-weak -Wno-arc-repeated-use-of-weak -Wduplicate-method-match -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -DNS_BLOCK_ASSERTIONS=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -g -fvisibility=hidden -Wno-sign-conversion -miphoneos-version-min=6.0 -iquote /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-generated-files.hmap -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-own-target-headers.hmap -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-all-target-headers.hmap -iquote /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-project-headers.hmap -I/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/DerivedSources/armv7 -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/DerivedSources -F/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos -include /var/folders/fn/8dy4775n6tg2vgvvly4c08h80000gn/C/com.apple.DeveloperTools/5.0-5A1413/Xcode/SharedPrecompiledHeaders/CaiJinTongApp-Prefix-aqknorqnwrsjyqgaylfcrpbfuygj/CaiJinTongApp-Prefix.pch -MMD -MT dependencies -MF /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/ViewController.d --serialize-diagnostics /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/ViewController.dia -c /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/ViewController.m -o /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/ViewController.o36"007DDC30-29C9-4C10-8244-B70F60AC6AAB-
+bFCC2C724-A105-4680-85E3-A63C4715AEED
+
+CCompileC build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/main.o /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/main.m normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler
+s404891436.216152
+e404891436.611531
+r1
+xCompileC
+xbuild/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/main.o
+x/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/main.m
+xnormal
+xarmv7
+xobjective-c
+xcom.apple.compilers.llvm.clang.1_0.compiler
+d/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/main.m
+d/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/AppDelegate.h
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection65"Compile /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/main.m205"[1mCompileC[0m build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/main.o [1mCaiJinTongApp/main.m[0m normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compilerdd97372c2722b841^469a9c2c2722b841^---0#0#1#-19%DVTDocumentLocation2@64"file:///Users/david/Documents/CaiJinTongApp/CaiJinTongApp/main.m0000000000000000^3779"[1mCompileC[0m build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/main.o [1mCaiJinTongApp/main.m[0m normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/david/Documents/CaiJinTongApp    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195@global/bin:/Users/david/.rvm/rubies/ruby-2.0.0-p195/bin:/Users/david/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/mysql/bin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch armv7 -fmessage-length=80 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -fcolor-diagnostics -std=gnu99 -fobjc-arc -fmodules -fmodules-cache-path=/var/folders/fn/8dy4775n6tg2vgvvly4c08h80000gn/C/com.apple.DeveloperTools/5.0-5A1413/Xcode/ModuleCache -Wno-trigraphs -fpascal-strings -Os -Wno-missing-field-initializers -Wno-missing-prototypes -Werror=return-type -Wno-implicit-atomic-properties -Werror=deprecated-objc-isa-usage -Werror=objc-root-class -Wno-receiver-is-weak -Wno-arc-repeated-use-of-weak -Wduplicate-method-match -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -DNS_BLOCK_ASSERTIONS=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -g -fvisibility=hidden -Wno-sign-conversion -miphoneos-version-min=6.0 -iquote /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-generated-files.hmap -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-own-target-headers.hmap -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-all-target-headers.hmap -iquote /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-project-headers.hmap -I/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/DerivedSources/armv7 -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/DerivedSources -F/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos -include /var/folders/fn/8dy4775n6tg2vgvvly4c08h80000gn/C/com.apple.DeveloperTools/5.0-5A1413/Xcode/SharedPrecompiledHeaders/CaiJinTongApp-Prefix-aqknorqnwrsjyqgaylfcrpbfuygj/CaiJinTongApp-Prefix.pch -MMD -MT dependencies -MF /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/main.d --serialize-diagnostics /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/main.dia -c /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/main.m -o /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/main.o36"7192F4C1-8BE3-4571-8D27-3E3BCE2D3A5E-
+bFCC2C724-A105-4680-85E3-A63C4715AEED
+
+CCompileC build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/AppDelegate.o /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/AppDelegate.m normal armv7s objective-c com.apple.compilers.llvm.clang.1_0.compiler
+s404891436.612017
+e404891438.024769
+r1
+xCompileC
+xbuild/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/AppDelegate.o
+x/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/AppDelegate.m
+xnormal
+xarmv7s
+xobjective-c
+xcom.apple.compilers.llvm.clang.1_0.compiler
+d/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/AppDelegate.m
+d/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/AppDelegate.h
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection72"Compile /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/AppDelegate.m221"[1mCompileC[0m build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/AppDelegate.o [1mCaiJinTongApp/AppDelegate.m[0m normal armv7s objective-c com.apple.compilers.llvm.clang.1_0.compiler24d09c2c2722b841^76a4062e2722b841^---0#0#1#-19%DVTDocumentLocation2@71"file:///Users/david/Documents/CaiJinTongApp/CaiJinTongApp/AppDelegate.m0000000000000000^3828"[1mCompileC[0m build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/AppDelegate.o [1mCaiJinTongApp/AppDelegate.m[0m normal armv7s objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/david/Documents/CaiJinTongApp    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195@global/bin:/Users/david/.rvm/rubies/ruby-2.0.0-p195/bin:/Users/david/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/mysql/bin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch armv7s -fmessage-length=80 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -fcolor-diagnostics -std=gnu99 -fobjc-arc -fmodules -fmodules-cache-path=/var/folders/fn/8dy4775n6tg2vgvvly4c08h80000gn/C/com.apple.DeveloperTools/5.0-5A1413/Xcode/ModuleCache -Wno-trigraphs -fpascal-strings -Os -Wno-missing-field-initializers -Wno-missing-prototypes -Werror=return-type -Wno-implicit-atomic-properties -Werror=deprecated-objc-isa-usage -Werror=objc-root-class -Wno-receiver-is-weak -Wno-arc-repeated-use-of-weak -Wduplicate-method-match -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -DNS_BLOCK_ASSERTIONS=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -g -fvisibility=hidden -Wno-sign-conversion -miphoneos-version-min=6.0 -iquote /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-generated-files.hmap -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-own-target-headers.hmap -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-all-target-headers.hmap -iquote /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-project-headers.hmap -I/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/DerivedSources/armv7s -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/DerivedSources -F/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos -include /var/folders/fn/8dy4775n6tg2vgvvly4c08h80000gn/C/com.apple.DeveloperTools/5.0-5A1413/Xcode/SharedPrecompiledHeaders/CaiJinTongApp-Prefix-aqwvogiyavnkpkdidzdnfsvuohsk/CaiJinTongApp-Prefix.pch -MMD -MT dependencies -MF /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/AppDelegate.d --serialize-diagnostics /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/AppDelegate.dia -c /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/AppDelegate.m -o /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/AppDelegate.o36"ECE4BA63-42C1-4996-ADF3-74DE0335B454-
+bFCC2C724-A105-4680-85E3-A63C4715AEED
+
+CCompileC build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/ForgotPwdViewController.o /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/ForgotPwdViewController.m normal armv7s objective-c com.apple.compilers.llvm.clang.1_0.compiler
+s404891436.222665
+e404891437.959057
+r1
+xCompileC
+xbuild/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/ForgotPwdViewController.o
+x/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/ForgotPwdViewController.m
+xnormal
+xarmv7s
+xobjective-c
+xcom.apple.compilers.llvm.clang.1_0.compiler
+d/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/ForgotPwdViewController.m
+d/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/ForgotPwdViewController.h
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection96"Compile /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/ForgotPwdViewController.m257"[1mCompileC[0m build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/ForgotPwdViewController.o [1mCaiJinTongApp/controllers/ForgotPwdViewController.m[0m normal armv7s objective-c com.apple.compilers.llvm.clang.1_0.compiler4834392c2722b841^7786f52d2722b841^---0#0#1#-19%DVTDocumentLocation2@95"file:///Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/ForgotPwdViewController.m0000000000000000^3924"[1mCompileC[0m build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/ForgotPwdViewController.o [1mCaiJinTongApp/controllers/ForgotPwdViewController.m[0m normal armv7s objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/david/Documents/CaiJinTongApp    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195@global/bin:/Users/david/.rvm/rubies/ruby-2.0.0-p195/bin:/Users/david/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/mysql/bin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch armv7s -fmessage-length=80 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -fcolor-diagnostics -std=gnu99 -fobjc-arc -fmodules -fmodules-cache-path=/var/folders/fn/8dy4775n6tg2vgvvly4c08h80000gn/C/com.apple.DeveloperTools/5.0-5A1413/Xcode/ModuleCache -Wno-trigraphs -fpascal-strings -Os -Wno-missing-field-initializers -Wno-missing-prototypes -Werror=return-type -Wno-implicit-atomic-properties -Werror=deprecated-objc-isa-usage -Werror=objc-root-class -Wno-receiver-is-weak -Wno-arc-repeated-use-of-weak -Wduplicate-method-match -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -DNS_BLOCK_ASSERTIONS=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -g -fvisibility=hidden -Wno-sign-conversion -miphoneos-version-min=6.0 -iquote /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-generated-files.hmap -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-own-target-headers.hmap -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-all-target-headers.hmap -iquote /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-project-headers.hmap -I/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/DerivedSources/armv7s -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/DerivedSources -F/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos -include /var/folders/fn/8dy4775n6tg2vgvvly4c08h80000gn/C/com.apple.DeveloperTools/5.0-5A1413/Xcode/SharedPrecompiledHeaders/CaiJinTongApp-Prefix-aqwvogiyavnkpkdidzdnfsvuohsk/CaiJinTongApp-Prefix.pch -MMD -MT dependencies -MF /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/ForgotPwdViewController.d --serialize-diagnostics /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/ForgotPwdViewController.dia -c /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/ForgotPwdViewController.m -o /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/ForgotPwdViewController.o36"8F436692-86A5-4538-8E67-91011F3CBF5D-
+bFCC2C724-A105-4680-85E3-A63C4715AEED
+
+CCompileC build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/LoginViewController.o /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/LoginViewController.m normal armv7s objective-c com.apple.compilers.llvm.clang.1_0.compiler
+s404891436.217205
+e404891438.024228
+r1
+xCompileC
+xbuild/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/LoginViewController.o
+x/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/LoginViewController.m
+xnormal
+xarmv7s
+xobjective-c
+xcom.apple.compilers.llvm.clang.1_0.compiler
+d/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/LoginViewController.m
+d/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/LoginViewController.h
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection92"Compile /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/LoginViewController.m249"[1mCompileC[0m build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/LoginViewController.o [1mCaiJinTongApp/controllers/LoginViewController.m[0m normal armv7s objective-c com.apple.compilers.llvm.clang.1_0.compilere3c4372c2722b841^0134062e2722b841^---0#0#1#-19%DVTDocumentLocation2@91"file:///Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/LoginViewController.m0000000000000000^3900"[1mCompileC[0m build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/LoginViewController.o [1mCaiJinTongApp/controllers/LoginViewController.m[0m normal armv7s objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/david/Documents/CaiJinTongApp    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195@global/bin:/Users/david/.rvm/rubies/ruby-2.0.0-p195/bin:/Users/david/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/mysql/bin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch armv7s -fmessage-length=80 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -fcolor-diagnostics -std=gnu99 -fobjc-arc -fmodules -fmodules-cache-path=/var/folders/fn/8dy4775n6tg2vgvvly4c08h80000gn/C/com.apple.DeveloperTools/5.0-5A1413/Xcode/ModuleCache -Wno-trigraphs -fpascal-strings -Os -Wno-missing-field-initializers -Wno-missing-prototypes -Werror=return-type -Wno-implicit-atomic-properties -Werror=deprecated-objc-isa-usage -Werror=objc-root-class -Wno-receiver-is-weak -Wno-arc-repeated-use-of-weak -Wduplicate-method-match -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -DNS_BLOCK_ASSERTIONS=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -g -fvisibility=hidden -Wno-sign-conversion -miphoneos-version-min=6.0 -iquote /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-generated-files.hmap -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-own-target-headers.hmap -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-all-target-headers.hmap -iquote /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-project-headers.hmap -I/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/DerivedSources/armv7s -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/DerivedSources -F/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos -include /var/folders/fn/8dy4775n6tg2vgvvly4c08h80000gn/C/com.apple.DeveloperTools/5.0-5A1413/Xcode/SharedPrecompiledHeaders/CaiJinTongApp-Prefix-aqwvogiyavnkpkdidzdnfsvuohsk/CaiJinTongApp-Prefix.pch -MMD -MT dependencies -MF /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/LoginViewController.d --serialize-diagnostics /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/LoginViewController.dia -c /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/controllers/LoginViewController.m -o /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/LoginViewController.o36"3721154B-CA4C-4D8B-AC69-365DB8EF8D3E-
+bFCC2C724-A105-4680-85E3-A63C4715AEED
+
+CCompileC build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/ViewController.o /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/ViewController.m normal armv7s objective-c com.apple.compilers.llvm.clang.1_0.compiler
+s404891436.276582
+e404891437.958426
+r1
+xCompileC
+xbuild/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/ViewController.o
+x/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/ViewController.m
+xnormal
+xarmv7s
+xobjective-c
+xcom.apple.compilers.llvm.clang.1_0.compiler
+d/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/ViewController.m
+d/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/ViewController.h
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection75"Compile /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/ViewController.m227"[1mCompileC[0m build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/ViewController.o [1mCaiJinTongApp/ViewController.m[0m normal armv7s objective-c com.apple.compilers.llvm.clang.1_0.compilerbd00472c2722b841^8368f52d2722b841^---0#0#1#-19%DVTDocumentLocation2@74"file:///Users/david/Documents/CaiJinTongApp/CaiJinTongApp/ViewController.m0000000000000000^3846"[1mCompileC[0m build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/ViewController.o [1mCaiJinTongApp/ViewController.m[0m normal armv7s objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/david/Documents/CaiJinTongApp    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195@global/bin:/Users/david/.rvm/rubies/ruby-2.0.0-p195/bin:/Users/david/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/mysql/bin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch armv7s -fmessage-length=80 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -fcolor-diagnostics -std=gnu99 -fobjc-arc -fmodules -fmodules-cache-path=/var/folders/fn/8dy4775n6tg2vgvvly4c08h80000gn/C/com.apple.DeveloperTools/5.0-5A1413/Xcode/ModuleCache -Wno-trigraphs -fpascal-strings -Os -Wno-missing-field-initializers -Wno-missing-prototypes -Werror=return-type -Wno-implicit-atomic-properties -Werror=deprecated-objc-isa-usage -Werror=objc-root-class -Wno-receiver-is-weak -Wno-arc-repeated-use-of-weak -Wduplicate-method-match -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -DNS_BLOCK_ASSERTIONS=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -g -fvisibility=hidden -Wno-sign-conversion -miphoneos-version-min=6.0 -iquote /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-generated-files.hmap -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-own-target-headers.hmap -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-all-target-headers.hmap -iquote /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-project-headers.hmap -I/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/DerivedSources/armv7s -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/DerivedSources -F/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos -include /var/folders/fn/8dy4775n6tg2vgvvly4c08h80000gn/C/com.apple.DeveloperTools/5.0-5A1413/Xcode/SharedPrecompiledHeaders/CaiJinTongApp-Prefix-aqwvogiyavnkpkdidzdnfsvuohsk/CaiJinTongApp-Prefix.pch -MMD -MT dependencies -MF /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/ViewController.d --serialize-diagnostics /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/ViewController.dia -c /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/ViewController.m -o /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/ViewController.o36"1FC85459-A35D-4887-9916-3583437207DB-
+bFCC2C724-A105-4680-85E3-A63C4715AEED
+
+CCompileC build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/main.o /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/main.m normal armv7s objective-c com.apple.compilers.llvm.clang.1_0.compiler
+s404891437.959034
+e404891438.067262
+r1
+xCompileC
+xbuild/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/main.o
+x/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/main.m
+xnormal
+xarmv7s
+xobjective-c
+xcom.apple.compilers.llvm.clang.1_0.compiler
+d/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/main.m
+d/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/AppDelegate.h
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection65"Compile /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/main.m207"[1mCompileC[0m build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/main.o [1mCaiJinTongApp/main.m[0m normal armv7s objective-c com.apple.compilers.llvm.clang.1_0.compiler74d0f52d2722b841^a839112e2722b841^---0#0#1#-19%DVTDocumentLocation2@64"file:///Users/david/Documents/CaiJinTongApp/CaiJinTongApp/main.m0000000000000000^3786"[1mCompileC[0m build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/main.o [1mCaiJinTongApp/main.m[0m normal armv7s objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/david/Documents/CaiJinTongApp    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195@global/bin:/Users/david/.rvm/rubies/ruby-2.0.0-p195/bin:/Users/david/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/mysql/bin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch armv7s -fmessage-length=80 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -fcolor-diagnostics -std=gnu99 -fobjc-arc -fmodules -fmodules-cache-path=/var/folders/fn/8dy4775n6tg2vgvvly4c08h80000gn/C/com.apple.DeveloperTools/5.0-5A1413/Xcode/ModuleCache -Wno-trigraphs -fpascal-strings -Os -Wno-missing-field-initializers -Wno-missing-prototypes -Werror=return-type -Wno-implicit-atomic-properties -Werror=deprecated-objc-isa-usage -Werror=objc-root-class -Wno-receiver-is-weak -Wno-arc-repeated-use-of-weak -Wduplicate-method-match -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -DNS_BLOCK_ASSERTIONS=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -g -fvisibility=hidden -Wno-sign-conversion -miphoneos-version-min=6.0 -iquote /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-generated-files.hmap -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-own-target-headers.hmap -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-all-target-headers.hmap -iquote /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp-project-headers.hmap -I/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/DerivedSources/armv7s -I/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/DerivedSources -F/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos -include /var/folders/fn/8dy4775n6tg2vgvvly4c08h80000gn/C/com.apple.DeveloperTools/5.0-5A1413/Xcode/SharedPrecompiledHeaders/CaiJinTongApp-Prefix-aqwvogiyavnkpkdidzdnfsvuohsk/CaiJinTongApp-Prefix.pch -MMD -MT dependencies -MF /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/main.d --serialize-diagnostics /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/main.dia -c /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/main.m -o /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/main.o36"3323D6C2-3F31-46B9-B20C-B4AA11C9B2D9-
+bFCC2C724-A105-4680-85E3-A63C4715AEED
+
+CCompileStoryboard /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/Base.lproj/Main_iPad.storyboard
+s404891439.659170
+e404891447.532423
+r1
+xCompileStoryboard
+x/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/Base.lproj/Main_iPad.storyboard
+o2013-10-31 13:50:45.401 Interface Builder Cocoa Touch Tool[1611:303] CFPreferences: user home directory at file:///Users/david/Library/Application%20Support/iPhone%20Simulator/User/ is unavailable. User domains will be volatile.
+o2013-10-31 13:50:46.880 Interface Builder Cocoa Touch Tool[1615:303] CFPreferences: user home directory at file:///Users/david/Library/Application%20Support/iPhone%20Simulator/User/ is unavailable. User domains will be volatile.
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection79"[1mCompileStoryboard[0m [1mCaiJinTongApp/Base.lproj/Main_iPad.storyboard[0m79"[1mCompileStoryboard[0m [1mCaiJinTongApp/Base.lproj/Main_iPad.storyboard[0ma2eda82f2722b841^1e4e88372722b841^-458"2013-10-31 13:50:45.401 Interface Builder Cocoa Touch Tool[1611:303] CFPreferences: user home directory at file:///Users/david/Library/Application%20Support/iPhone%20Simulator/User/ is unavailable. User domains will be volatile.2013-10-31 13:50:46.880 Interface Builder Cocoa Touch Tool[1615:303] CFPreferences: user home directory at file:///Users/david/Library/Application%20Support/iPhone%20Simulator/User/ is unavailable. User domains will be volatile.-0#0#1#-19%DVTDocumentLocation2@89"file:///Users/david/Documents/CaiJinTongApp/CaiJinTongApp/Base.lproj/Main_iPad.storyboard0000000000000000^1012"[1mCompileStoryboard[0m [1mCaiJinTongApp/Base.lproj/Main_iPad.storyboard[0m    cd /Users/david/Documents/CaiJinTongApp    setenv IBSC_MINIMUM_COMPATIBILITY_VERSION 6.0    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195@global/bin:/Users/david/.rvm/rubies/ruby-2.0.0-p195/bin:/Users/david/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/mysql/bin"    setenv XCODE_DEVELOPER_USR_PATH /Applications/Xcode.app/Contents/Developer/usr/bin/..    /Applications/Xcode.app/Contents/Developer/usr/bin/ibtool --errors --warnings --notices --minimum-deployment-target 6.0 --output-format human-readable-text --compile /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/Base.lproj/Main_iPad.storyboardc /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/Base.lproj/Main_iPad.storyboard36"6986E3B3-E713-4335-9DFD-3BC0CB4FA70C-
+bFCC2C724-A105-4680-85E3-A63C4715AEED
+
+CCompileStoryboard /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/Base.lproj/Main_iPhone.storyboard
+s404891439.659490
+e404891446.373087
+r1
+xCompileStoryboard
+x/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/Base.lproj/Main_iPhone.storyboard
+o2013-10-31 13:50:45.402 Interface Builder Cocoa Touch Tool[1612:303] CFPreferences: user home directory at file:///Users/david/Library/Application%20Support/iPhone%20Simulator/User/ is unavailable. User domains will be volatile.
+o2013-10-31 13:50:46.165 Interface Builder Cocoa Touch Tool[1614:303] CFPreferences: user home directory at file:///Users/david/Library/Application%20Support/iPhone%20Simulator/User/ is unavailable. User domains will be volatile.
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection81"[1mCompileStoryboard[0m [1mCaiJinTongApp/Base.lproj/Main_iPhone.storyboard[0m81"[1mCompileStoryboard[0m [1mCaiJinTongApp/Base.lproj/Main_iPhone.storyboard[0m39f2a82f2722b841^27835f362722b841^-458"2013-10-31 13:50:45.402 Interface Builder Cocoa Touch Tool[1612:303] CFPreferences: user home directory at file:///Users/david/Library/Application%20Support/iPhone%20Simulator/User/ is unavailable. User domains will be volatile.2013-10-31 13:50:46.165 Interface Builder Cocoa Touch Tool[1614:303] CFPreferences: user home directory at file:///Users/david/Library/Application%20Support/iPhone%20Simulator/User/ is unavailable. User domains will be volatile.-0#0#1#-19%DVTDocumentLocation2@91"file:///Users/david/Documents/CaiJinTongApp/CaiJinTongApp/Base.lproj/Main_iPhone.storyboard0000000000000000^1018"[1mCompileStoryboard[0m [1mCaiJinTongApp/Base.lproj/Main_iPhone.storyboard[0m    cd /Users/david/Documents/CaiJinTongApp    setenv IBSC_MINIMUM_COMPATIBILITY_VERSION 6.0    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195@global/bin:/Users/david/.rvm/rubies/ruby-2.0.0-p195/bin:/Users/david/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/mysql/bin"    setenv XCODE_DEVELOPER_USR_PATH /Applications/Xcode.app/Contents/Developer/usr/bin/..    /Applications/Xcode.app/Contents/Developer/usr/bin/ibtool --errors --warnings --notices --minimum-deployment-target 6.0 --output-format human-readable-text --compile /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/Base.lproj/Main_iPhone.storyboardc /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/Base.lproj/Main_iPhone.storyboard36"EF05E8AA-967B-422F-8360-7C27308B412A-
+bFCC2C724-A105-4680-85E3-A63C4715AEED
+
+CCopyStringsFile /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/en.lproj/InfoPlist.strings CaiJinTongApp/en.lproj/InfoPlist.strings
+s404891439.659744
+e404891439.756902
+r1
+xCopyStringsFile
+x/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/en.lproj/InfoPlist.strings
+xCaiJinTongApp/en.lproj/InfoPlist.strings
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection45"Copy CaiJinTongApp/en.lproj/InfoPlist.strings132"[1mCopyStringsFile[0m build/Release-iphoneos/CaiJinTongApp.app/en.lproj/InfoPlist.strings CaiJinTongApp/en.lproj/InfoPlist.strings7008a92f2722b841^bfd6c12f2722b841^---0#0#1#-19%DVTDocumentLocation2@84"file:///Users/david/Documents/CaiJinTongApp/CaiJinTongApp/en.lproj/InfoPlist.strings0000000000000000^782"[1mCopyStringsFile[0m build/Release-iphoneos/CaiJinTongApp.app/en.lproj/InfoPlist.strings CaiJinTongApp/en.lproj/InfoPlist.strings    cd /Users/david/Documents/CaiJinTongApp    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195@global/bin:/Users/david/.rvm/rubies/ruby-2.0.0-p195/bin:/Users/david/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/mysql/bin"    builtin-copyStrings --validate --inputencoding utf-8 --outputencoding binary --outdir /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/en.lproj -- CaiJinTongApp/en.lproj/InfoPlist.strings36"E4B617CF-ED03-4898-95A6-CE05B1AB7666-
+bFCC2C724-A105-4680-85E3-A63C4715AEED
+
+CCpResource /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/ResourceRules.plist build/Release-iphoneos/CaiJinTongApp.app/ResourceRules.plist
+s404891433.959835
+e404891433.961944
+r1
+xCpResource
+x/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/ResourceRules.plist
+xbuild/Release-iphoneos/CaiJinTongApp.app/ResourceRules.plist
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection65"Copy build/Release-iphoneos/CaiJinTongApp.app/ResourceRules.plist201"[1mCpResource[0m /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/ResourceRules.plist build/Release-iphoneos/CaiJinTongApp.app/ResourceRules.plist01dff5292722b841^be4ef6292722b841^---0#0#1#-19%DVTDocumentLocation2@104"file:///Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/ResourceRules.plist0034ac58ddffdf42^1068"[1mCpResource[0m /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/ResourceRules.plist build/Release-iphoneos/CaiJinTongApp.app/ResourceRules.plist    cd /Users/david/Documents/CaiJinTongApp    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195@global/bin:/Users/david/.rvm/rubies/ruby-2.0.0-p195/bin:/Users/david/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/mysql/bin"    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-debug-symbols -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/ResourceRules.plist /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app36"0321F8B7-CB13-4773-9C20-A151832B1D19-
+bFCC2C724-A105-4680-85E3-A63C4715AEED
+
+CCreateUniversalBinary /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/CaiJinTongApp normal armv7\ armv7s
+s404891439.551923
+e404891439.580489
+r1
+xCreateUniversalBinary
+x/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/CaiJinTongApp
+xnormal
+xarmv7 armv7s
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection115"Create universal binary /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/CaiJinTongApp113"[1mCreateUniversalBinary[0m [1mbuild/Release-iphoneos/CaiJinTongApp.app/CaiJinTongApp[0m normal armv7\ armv7s2c658d2f2722b841^0b9c942f2722b841^---0#0#1#-19%DVTDocumentLocation2@98"file:///Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/CaiJinTongApp0034ac58ddffdf42^930"[1mCreateUniversalBinary[0m [1mbuild/Release-iphoneos/CaiJinTongApp.app/CaiJinTongApp[0m normal armv7\ armv7s    cd /Users/david/Documents/CaiJinTongApp    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195@global/bin:/Users/david/.rvm/rubies/ruby-2.0.0-p195/bin:/Users/david/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/mysql/bin"    lipo -create /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/CaiJinTongApp /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/CaiJinTongApp -output /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/CaiJinTongApp36"0A2B875C-F01A-4BF5-B778-C5C9887B2239-
+bFCC2C724-A105-4680-85E3-A63C4715AEED
+
+CGenerateDSYMFile /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app.dSYM /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/CaiJinTongApp
+s404891439.581062
+e404891439.658311
+r1
+xGenerateDSYMFile
+x/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app.dSYM
+x/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/CaiJinTongApp
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection91"Generate /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app.dSYM133"[1mGenerateDSYMFile[0m [1mbuild/Release-iphoneos/CaiJinTongApp.app.dSYM[0m build/Release-iphoneos/CaiJinTongApp.app/CaiJinTongAppccd4942f2722b841^5188a82f2722b841^---0#0#1#-19%DVTDocumentLocation2@89"file:///Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app.dSYM0034ac58ddffdf42^840"[1mGenerateDSYMFile[0m [1mbuild/Release-iphoneos/CaiJinTongApp.app.dSYM[0m build/Release-iphoneos/CaiJinTongApp.app/CaiJinTongApp    cd /Users/david/Documents/CaiJinTongApp    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195@global/bin:/Users/david/.rvm/rubies/ruby-2.0.0-p195/bin:/Users/david/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/mysql/bin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/dsymutil /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/CaiJinTongApp -o /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app.dSYM36"C5468AE8-5F99-4FDB-BFCA-9B17BBAE70BB-
+bFCC2C724-A105-4680-85E3-A63C4715AEED
+
+CLd /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/CaiJinTongApp normal armv7
+s404891438.068295
+e404891439.549944
+r1
+xLd
+x/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/CaiJinTongApp
+xnormal
+xarmv7
+d/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/CaiJinTongApp.LinkFileList
+d/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/LoginViewController.o
+d/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/ForgotPwdViewController.o
+d/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/ViewController.o
+d/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/AppDelegate.o
+d/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/main.o
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/UIKit.framework/UIKit
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/Foundation.framework/Foundation
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/libobjc.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/libSystem.dylib
+d/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/5.0/lib/darwin/libclang_rt.ios.a
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreVideo.framework/CoreVideo
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreImage.framework/CoreImage
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/Security.framework/Security
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CFNetwork.framework/CFNetwork
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/OpenGLES.framework/OpenGLES
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/QuartzCore.framework/QuartzCore
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreText.framework/CoreText
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/PrivateFrameworks/UIFoundation.framework/UIFoundation
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libcache.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libcommonCrypto.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libcompiler_rt.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libcopyfile.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libcorecrypto.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libdispatch.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libdyld.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libkeymgr.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/liblaunch.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libmacho.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libremovefile.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libsystem_asl.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libsystem_blocks.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libsystem_c.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libsystem_configuration.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libsystem_dnssd.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libsystem_info.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libsystem_kernel.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libsystem_m.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libsystem_malloc.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libsystem_network.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libsystem_notify.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libsystem_platform.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libsystem_pthread.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libsystem_sandbox.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libsystem_stats.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libunwind.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libxpc.dylib
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection139"Link /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/CaiJinTongApp121"[1mLd[0m build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/CaiJinTongApp normal armv79b91112e2722b841^ffd08c2f2722b841^---0#0#1#--1556"[1mLd[0m build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/CaiJinTongApp normal armv7    cd /Users/david/Documents/CaiJinTongApp    setenv IPHONEOS_DEPLOYMENT_TARGET 6.0    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195@global/bin:/Users/david/.rvm/rubies/ruby-2.0.0-p195/bin:/Users/david/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/mysql/bin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -arch armv7 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk -L/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos -F/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos -filelist /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/CaiJinTongApp.LinkFileList -dead_strip -fobjc-arc -fobjc-link-runtime -miphoneos-version-min=6.0 -framework CoreGraphics -framework UIKit -framework Foundation -Xlinker -dependency_info -Xlinker /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/CaiJinTongApp_dependency_info.dat -o /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7/CaiJinTongApp36"3D4A694E-E642-4BE5-90F6-F93B186A7BBF-
+bFCC2C724-A105-4680-85E3-A63C4715AEED
+
+CLd /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/CaiJinTongApp normal armv7s
+s404891438.068678
+e404891439.550762
+r1
+xLd
+x/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/CaiJinTongApp
+xnormal
+xarmv7s
+d/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/CaiJinTongApp.LinkFileList
+d/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/LoginViewController.o
+d/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/ForgotPwdViewController.o
+d/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/ViewController.o
+d/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/AppDelegate.o
+d/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/main.o
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/UIKit.framework/UIKit
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/Foundation.framework/Foundation
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/libobjc.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/libSystem.dylib
+d/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/5.0/lib/darwin/libclang_rt.ios.a
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreVideo.framework/CoreVideo
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreImage.framework/CoreImage
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/Security.framework/Security
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CFNetwork.framework/CFNetwork
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/OpenGLES.framework/OpenGLES
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/QuartzCore.framework/QuartzCore
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreText.framework/CoreText
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/PrivateFrameworks/UIFoundation.framework/UIFoundation
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libcache.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libcommonCrypto.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libcompiler_rt.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libcopyfile.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libcorecrypto.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libdispatch.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libdyld.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libkeymgr.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/liblaunch.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libmacho.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libremovefile.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libsystem_asl.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libsystem_blocks.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libsystem_c.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libsystem_configuration.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libsystem_dnssd.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libsystem_info.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libsystem_kernel.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libsystem_m.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libsystem_malloc.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libsystem_network.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libsystem_notify.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libsystem_platform.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libsystem_pthread.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libsystem_sandbox.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libsystem_stats.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libunwind.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/system/libxpc.dylib
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection140"Link /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/CaiJinTongApp123"[1mLd[0m build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/CaiJinTongApp normal armv7s1aa7112e2722b841^780a8d2f2722b841^---0#0#1#--1562"[1mLd[0m build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/CaiJinTongApp normal armv7s    cd /Users/david/Documents/CaiJinTongApp    setenv IPHONEOS_DEPLOYMENT_TARGET 6.0    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195@global/bin:/Users/david/.rvm/rubies/ruby-2.0.0-p195/bin:/Users/david/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/mysql/bin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -arch armv7s -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk -L/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos -F/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos -filelist /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/CaiJinTongApp.LinkFileList -dead_strip -fobjc-arc -fobjc-link-runtime -miphoneos-version-min=6.0 -framework CoreGraphics -framework UIKit -framework Foundation -Xlinker -dependency_info -Xlinker /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/CaiJinTongApp_dependency_info.dat -o /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/Objects-normal/armv7s/CaiJinTongApp36"B513D1CE-CD45-468B-94B3-0E6634D31743-
+bFCC2C724-A105-4680-85E3-A63C4715AEED
+
+CProcessInfoPlistFile /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/Info.plist /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/CaiJinTongApp-Info.plist
+s404891447.533240
+e404891447.535309
+r1
+xProcessInfoPlistFile
+x/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/Info.plist
+x/Users/david/Documents/CaiJinTongApp/CaiJinTongApp/CaiJinTongApp-Info.plist
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection83"Process /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/CaiJinTongApp-Info.plist127"[1mProcessInfoPlistFile[0m build/Release-iphoneos/CaiJinTongApp.app/Info.plist [1mCaiJinTongApp/CaiJinTongApp-Info.plist[0m189988372722b841^9a0a89372722b841^---0#0#1#-19%DVTDocumentLocation2@82"file:///Users/david/Documents/CaiJinTongApp/CaiJinTongApp/CaiJinTongApp-Info.plist0000000000000000^1180"[1mProcessInfoPlistFile[0m build/Release-iphoneos/CaiJinTongApp.app/Info.plist [1mCaiJinTongApp/CaiJinTongApp-Info.plist[0m    cd /Users/david/Documents/CaiJinTongApp    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195@global/bin:/Users/david/.rvm/rubies/ruby-2.0.0-p195/bin:/Users/david/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/mysql/bin"    builtin-infoPlistUtility /Users/david/Documents/CaiJinTongApp/CaiJinTongApp/CaiJinTongApp-Info.plist -genpkginfo /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/PkgInfo -expandbuildsettings -format binary -platform iphoneos -resourcerulesfile /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/ResourceRules.plist -additionalcontentfile /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/assetcatalog_generated_info.plist -o /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/Info.plist36"B7164917-F4F3-4860-A038-191CB145CC2D-
+bFCC2C724-A105-4680-85E3-A63C4715AEED
+
+CProcessPCH /var/folders/fn/8dy4775n6tg2vgvvly4c08h80000gn/C/com.apple.DeveloperTools/5.0-5A1413/Xcode/SharedPrecompiledHeaders/CaiJinTongApp-Prefix-aqknorqnwrsjyqgaylfcrpbfuygj/CaiJinTongApp-Prefix.pch.pch CaiJinTongApp/CaiJinTongApp-Prefix.pch normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler
+r0
+
+CProcessPCH /var/folders/fn/8dy4775n6tg2vgvvly4c08h80000gn/C/com.apple.DeveloperTools/5.0-5A1413/Xcode/SharedPrecompiledHeaders/CaiJinTongApp-Prefix-aqwvogiyavnkpkdidzdnfsvuohsk/CaiJinTongApp-Prefix.pch.pch CaiJinTongApp/CaiJinTongApp-Prefix.pch normal armv7s objective-c com.apple.compilers.llvm.clang.1_0.compiler
+r0
+
+CProcessProductPackaging /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/Entitlements.plist /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp.xcent
+s404891447.571270
+e404891447.573211
+r1
+xProcessProductPackaging
+x/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/Entitlements.plist
+x/Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp.xcent
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection243"[1mProcessProductPackaging[0m /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/Entitlements.plist [1mbuild/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp.xcent[0m243"[1mProcessProductPackaging[0m /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/Entitlements.plist [1mbuild/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp.xcent[0m8e5992372722b841^8cbe92372722b841^---0#0#1#-19%DVTDocumentLocation2@126"file:///Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp.xcent0034ac58ddffdf42^978"[1mProcessProductPackaging[0m /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/Entitlements.plist [1mbuild/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp.xcent[0m    cd /Users/david/Documents/CaiJinTongApp    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195@global/bin:/Users/david/.rvm/rubies/ruby-2.0.0-p195/bin:/Users/david/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/mysql/bin"    builtin-productPackagingUtility /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/Entitlements.plist -entitlements -format xml -o /Users/david/Documents/CaiJinTongApp/build/CaiJinTongApp.build/Release-iphoneos/CaiJinTongApp.build/CaiJinTongApp.xcent36"118D2B26-8E49-49B1-9A19-0140E4B4745B-
+bFCC2C724-A105-4680-85E3-A63C4715AEED
+
+CProcessProductPackaging /Users/david/Library/MobileDevice/Provisioning\ Profiles/A8BA2E57-4B33-46DA-AA54-3BE37A5F7A6E.mobileprovision /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/embedded.mobileprovision
+s404891447.535680
+e404891447.570118
+r1
+xProcessProductPackaging
+x/Users/david/Library/MobileDevice/Provisioning Profiles/A8BA2E57-4B33-46DA-AA54-3BE37A5F7A6E.mobileprovision
+x/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/embedded.mobileprovision
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection215"[1mProcessProductPackaging[0m /Users/david/Library/MobileDevice/Provisioning\ Profiles/A8BA2E57-4B33-46DA-AA54-3BE37A5F7A6E.mobileprovision [1mbuild/Release-iphoneos/CaiJinTongApp.app/embedded.mobileprovision[0m215"[1mProcessProductPackaging[0m /Users/david/Library/MobileDevice/Provisioning\ Profiles/A8BA2E57-4B33-46DA-AA54-3BE37A5F7A6E.mobileprovision [1mbuild/Release-iphoneos/CaiJinTongApp.app/embedded.mobileprovision[0mc23389372722b841^2cf491372722b841^---0#0#1#-19%DVTDocumentLocation2@109"file:///Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/embedded.mobileprovision0034ac58ddffdf42^896"[1mProcessProductPackaging[0m /Users/david/Library/MobileDevice/Provisioning\ Profiles/A8BA2E57-4B33-46DA-AA54-3BE37A5F7A6E.mobileprovision [1mbuild/Release-iphoneos/CaiJinTongApp.app/embedded.mobileprovision[0m    cd /Users/david/Documents/CaiJinTongApp    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195@global/bin:/Users/david/.rvm/rubies/ruby-2.0.0-p195/bin:/Users/david/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/mysql/bin"    builtin-productPackagingUtility /Users/david/Library/MobileDevice/Provisioning\ Profiles/A8BA2E57-4B33-46DA-AA54-3BE37A5F7A6E.mobileprovision -o /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/embedded.mobileprovision36"4A3106BA-6515-4035-8E56-7B08E21E04E3-
+bFCC2C724-A105-4680-85E3-A63C4715AEED
+
+CTouch /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app
+r0
+
+CValidate /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app
+s404891451.479948
+e404891451.783651
+r1
+xValidate
+x/Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection65"[1mValidate[0m [1mbuild/Release-iphoneos/CaiJinTongApp.app[0m65"[1mValidate[0m [1mbuild/Release-iphoneos/CaiJinTongApp.app[0m9ef07a3b2722b841^239ec83b2722b841^---0#0#1#-19%DVTDocumentLocation2@85"file:///Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app/0000000000000000^735"[1mValidate[0m [1mbuild/Release-iphoneos/CaiJinTongApp.app[0m    cd /Users/david/Documents/CaiJinTongApp    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195/bin:/Users/david/.rvm/gems/ruby-2.0.0-p195@global/bin:/Users/david/.rvm/rubies/ruby-2.0.0-p195/bin:/Users/david/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/mysql/bin"    setenv PRODUCT_TYPE com.apple.product-type.application    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/Validation /Users/david/Documents/CaiJinTongApp/build/Release-iphoneos/CaiJinTongApp.app36"8A96A5FB-9F27-427B-865B-EBB1209AEBA6-
+bFCC2C724-A105-4680-85E3-A63C4715AEED
+
