@@ -8,6 +8,18 @@
 
 #import "BaseInterface.h"
 
-@interface LessonInfoInterface : BaseInterface
+@protocol LessonInfoInterfaceDelegate;
+
+@interface LessonInfoInterface : BaseInterface<BaseInterfaceDelegate>
+
+@property (nonatomic, assign) id<LessonInfoInterfaceDelegate>delegate;
+
+-(void)getLessonInfoInterfaceDelegateWithUserId:(NSString *)userId;
+@end
+
+@protocol LessonInfoInterfaceDelegate <NSObject>
+
+-(void)getLessonInfoDidFinished:(NSDictionary *)result;
+-(void)getLessonInfoDidFailed:(NSString *)errorMsg;
 
 @end

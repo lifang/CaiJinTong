@@ -11,6 +11,31 @@
 		0EA7EF0C18233B0000C47F69 /* jiantou_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EA7EF0A18233B0000C47F69 /* jiantou_up.png */; };
 		0EA7EF0D18233B0000C47F69 /* jiantou_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EA7EF0B18233B0000C47F69 /* jiantou_down.png */; };
 		0EA7EF1018233CDC00C47F69 /* LessonModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF0F18233CDC00C47F69 /* LessonModel.m */; };
+		0EA7EF13182349AF00C47F69 /* SectionInfoInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF12182349AF00C47F69 /* SectionInfoInterface.m */; };
+		0EA7EF1618234A0400C47F69 /* GradeInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF1518234A0400C47F69 /* GradeInterface.m */; };
+		0EA7EF1918234A7500C47F69 /* CommentListInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF1818234A7500C47F69 /* CommentListInterface.m */; };
+		0EA7EF1C18234AC600C47F69 /* SearchLessonInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF1B18234AC600C47F69 /* SearchLessonInterface.m */; };
+		0EA7EF1F18234B5600C47F69 /* QuestionInfoInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF1E18234B5600C47F69 /* QuestionInfoInterface.m */; };
+		0EA7EF2218234BA100C47F69 /* QuestionListInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF2118234BA100C47F69 /* QuestionListInterface.m */; };
+		0EA7EF2518234BE900C47F69 /* AcceptAnswerInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF2418234BE900C47F69 /* AcceptAnswerInterface.m */; };
+		0EA7EF2818234CDC00C47F69 /* ChapterQuestionInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF2718234CDC00C47F69 /* ChapterQuestionInterface.m */; };
+		0EA7EF2E18234D6200C47F69 /* AnswerPraiseInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF2D18234D6200C47F69 /* AnswerPraiseInterface.m */; };
+		0EA7EF3118234D8D00C47F69 /* GetUserQuestionInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF3018234D8D00C47F69 /* GetUserQuestionInterface.m */; };
+		0EA7EF3718234F9000C47F69 /* SearchQuestionInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF3618234F9000C47F69 /* SearchQuestionInterface.m */; };
+		0EA7EF3A1823581F00C47F69 /* SectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF391823581F00C47F69 /* SectionModel.m */; };
+		0EA7EF3D182379E200C47F69 /* NoteModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF3C182379E200C47F69 /* NoteModel.m */; };
+		0EA7EF4018237A0D00C47F69 /* CommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF3F18237A0D00C47F69 /* CommentModel.m */; };
+		0EA7EF4318238C8A00C47F69 /* LessonQuestionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF4218238C8A00C47F69 /* LessonQuestionModel.m */; };
+		0EA7EF4618238CC600C47F69 /* ChapterQuestionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF4518238CC600C47F69 /* ChapterQuestionModel.m */; };
+		0EA7EF4918238D4600C47F69 /* QuestionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF4818238D4600C47F69 /* QuestionModel.m */; };
+		0EA7EF4C18238DF600C47F69 /* AnswerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF4B18238DF600C47F69 /* AnswerModel.m */; };
+		0EA7EF4F1823A98600C47F69 /* PlayVideoInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF4E1823A98600C47F69 /* PlayVideoInterface.m */; };
+		0EA7EF521823A99700C47F69 /* PlayBackInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF511823A99700C47F69 /* PlayBackInterface.m */; };
+		0EA7EF551823ACCC00C47F69 /* SumitNoteInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF541823ACCC00C47F69 /* SumitNoteInterface.m */; };
+		0EA7EF5B1823ADF100C47F69 /* SubmitAnswerInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF5A1823ADF100C47F69 /* SubmitAnswerInterface.m */; };
+		0EA7EF5E1823AE1800C47F69 /* AskQuestionInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF5D1823AE1800C47F69 /* AskQuestionInterface.m */; };
+		0EA7EF611823B0EC00C47F69 /* AnswerListInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF601823B0EC00C47F69 /* AnswerListInterface.m */; };
+		0EA7EF631823B1FC00C47F69 /* answerList.json in Resources */ = {isa = PBXBuildFile; fileRef = 0EA7EF621823B1FC00C47F69 /* answerList.json */; };
 		0EAFA0EA1822167800D01D3E /* acceptAnswer.json in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA0D51822167800D01D3E /* acceptAnswer.json */; };
 		0EAFA0EB1822167800D01D3E /* answerPraise.json in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA0D61822167800D01D3E /* answerPraise.json */; };
 		0EAFA0EC1822167800D01D3E /* askQuestion.json in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA0D71822167800D01D3E /* askQuestion.json */; };
@@ -42,7 +67,6 @@
 		0EAFA1201822464700D01D3E /* FindPassWordInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA11F1822464700D01D3E /* FindPassWordInterface.m */; };
 		0EAFA1231822485500D01D3E /* LessonInfoInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA1221822485500D01D3E /* LessonInfoInterface.m */; };
 		0EAFA1261822488700D01D3E /* ChapterInfoInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA1251822488700D01D3E /* ChapterInfoInterface.m */; };
-		0EAFA129182248B100D01D3E /* sectionInfoInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA128182248B100D01D3E /* sectionInfoInterface.m */; };
 		0EAFA12C18224C2700D01D3E /* LessonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA12B18224C2700D01D3E /* LessonViewController.m */; };
 		0EDF4D9118210202007161E0 /* DownloadService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDF4D9018210202007161E0 /* DownloadService.m */; };
 		0EDF4DDB18210241007161E0 /* ASIWebPageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDF4D9518210241007161E0 /* ASIWebPageRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -122,6 +146,55 @@
 		0EA7EF0B18233B0000C47F69 /* jiantou_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jiantou_down.png; sourceTree = "<group>"; };
 		0EA7EF0E18233CDC00C47F69 /* LessonModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LessonModel.h; sourceTree = "<group>"; };
 		0EA7EF0F18233CDC00C47F69 /* LessonModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonModel.m; sourceTree = "<group>"; };
+		0EA7EF11182349AF00C47F69 /* SectionInfoInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionInfoInterface.h; sourceTree = "<group>"; };
+		0EA7EF12182349AF00C47F69 /* SectionInfoInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionInfoInterface.m; sourceTree = "<group>"; };
+		0EA7EF1418234A0400C47F69 /* GradeInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradeInterface.h; sourceTree = "<group>"; };
+		0EA7EF1518234A0400C47F69 /* GradeInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradeInterface.m; sourceTree = "<group>"; };
+		0EA7EF1718234A7500C47F69 /* CommentListInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentListInterface.h; sourceTree = "<group>"; };
+		0EA7EF1818234A7500C47F69 /* CommentListInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentListInterface.m; sourceTree = "<group>"; };
+		0EA7EF1A18234AC600C47F69 /* SearchLessonInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchLessonInterface.h; sourceTree = "<group>"; };
+		0EA7EF1B18234AC600C47F69 /* SearchLessonInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchLessonInterface.m; sourceTree = "<group>"; };
+		0EA7EF1D18234B5600C47F69 /* QuestionInfoInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionInfoInterface.h; sourceTree = "<group>"; };
+		0EA7EF1E18234B5600C47F69 /* QuestionInfoInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionInfoInterface.m; sourceTree = "<group>"; };
+		0EA7EF2018234BA100C47F69 /* QuestionListInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionListInterface.h; sourceTree = "<group>"; };
+		0EA7EF2118234BA100C47F69 /* QuestionListInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionListInterface.m; sourceTree = "<group>"; };
+		0EA7EF2318234BE900C47F69 /* AcceptAnswerInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AcceptAnswerInterface.h; sourceTree = "<group>"; };
+		0EA7EF2418234BE900C47F69 /* AcceptAnswerInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AcceptAnswerInterface.m; sourceTree = "<group>"; };
+		0EA7EF2618234CDC00C47F69 /* ChapterQuestionInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChapterQuestionInterface.h; sourceTree = "<group>"; };
+		0EA7EF2718234CDC00C47F69 /* ChapterQuestionInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChapterQuestionInterface.m; sourceTree = "<group>"; };
+		0EA7EF2C18234D6200C47F69 /* AnswerPraiseInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnswerPraiseInterface.h; sourceTree = "<group>"; };
+		0EA7EF2D18234D6200C47F69 /* AnswerPraiseInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnswerPraiseInterface.m; sourceTree = "<group>"; };
+		0EA7EF2F18234D8D00C47F69 /* GetUserQuestionInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetUserQuestionInterface.h; sourceTree = "<group>"; };
+		0EA7EF3018234D8D00C47F69 /* GetUserQuestionInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetUserQuestionInterface.m; sourceTree = "<group>"; };
+		0EA7EF3518234F9000C47F69 /* SearchQuestionInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchQuestionInterface.h; sourceTree = "<group>"; };
+		0EA7EF3618234F9000C47F69 /* SearchQuestionInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchQuestionInterface.m; sourceTree = "<group>"; };
+		0EA7EF381823581F00C47F69 /* SectionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionModel.h; sourceTree = "<group>"; };
+		0EA7EF391823581F00C47F69 /* SectionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionModel.m; sourceTree = "<group>"; };
+		0EA7EF3B182379E200C47F69 /* NoteModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteModel.h; sourceTree = "<group>"; };
+		0EA7EF3C182379E200C47F69 /* NoteModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteModel.m; sourceTree = "<group>"; };
+		0EA7EF3E18237A0D00C47F69 /* CommentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentModel.h; sourceTree = "<group>"; };
+		0EA7EF3F18237A0D00C47F69 /* CommentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentModel.m; sourceTree = "<group>"; };
+		0EA7EF4118238C8A00C47F69 /* LessonQuestionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LessonQuestionModel.h; sourceTree = "<group>"; };
+		0EA7EF4218238C8A00C47F69 /* LessonQuestionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonQuestionModel.m; sourceTree = "<group>"; };
+		0EA7EF4418238CC600C47F69 /* ChapterQuestionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChapterQuestionModel.h; sourceTree = "<group>"; };
+		0EA7EF4518238CC600C47F69 /* ChapterQuestionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChapterQuestionModel.m; sourceTree = "<group>"; };
+		0EA7EF4718238D4600C47F69 /* QuestionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionModel.h; sourceTree = "<group>"; };
+		0EA7EF4818238D4600C47F69 /* QuestionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionModel.m; sourceTree = "<group>"; };
+		0EA7EF4A18238DF600C47F69 /* AnswerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnswerModel.h; sourceTree = "<group>"; };
+		0EA7EF4B18238DF600C47F69 /* AnswerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnswerModel.m; sourceTree = "<group>"; };
+		0EA7EF4D1823A98600C47F69 /* PlayVideoInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayVideoInterface.h; sourceTree = "<group>"; };
+		0EA7EF4E1823A98600C47F69 /* PlayVideoInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayVideoInterface.m; sourceTree = "<group>"; };
+		0EA7EF501823A99700C47F69 /* PlayBackInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayBackInterface.h; sourceTree = "<group>"; };
+		0EA7EF511823A99700C47F69 /* PlayBackInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayBackInterface.m; sourceTree = "<group>"; };
+		0EA7EF531823ACCC00C47F69 /* SumitNoteInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SumitNoteInterface.h; sourceTree = "<group>"; };
+		0EA7EF541823ACCC00C47F69 /* SumitNoteInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SumitNoteInterface.m; sourceTree = "<group>"; };
+		0EA7EF591823ADF100C47F69 /* SubmitAnswerInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubmitAnswerInterface.h; sourceTree = "<group>"; };
+		0EA7EF5A1823ADF100C47F69 /* SubmitAnswerInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubmitAnswerInterface.m; sourceTree = "<group>"; };
+		0EA7EF5C1823AE1800C47F69 /* AskQuestionInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AskQuestionInterface.h; sourceTree = "<group>"; };
+		0EA7EF5D1823AE1800C47F69 /* AskQuestionInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AskQuestionInterface.m; sourceTree = "<group>"; };
+		0EA7EF5F1823B0EC00C47F69 /* AnswerListInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnswerListInterface.h; sourceTree = "<group>"; };
+		0EA7EF601823B0EC00C47F69 /* AnswerListInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnswerListInterface.m; sourceTree = "<group>"; };
+		0EA7EF621823B1FC00C47F69 /* answerList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = answerList.json; sourceTree = "<group>"; };
 		0EAFA0D51822167800D01D3E /* acceptAnswer.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = acceptAnswer.json; sourceTree = "<group>"; };
 		0EAFA0D61822167800D01D3E /* answerPraise.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = answerPraise.json; sourceTree = "<group>"; };
 		0EAFA0D71822167800D01D3E /* askQuestion.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = askQuestion.json; sourceTree = "<group>"; };
@@ -161,8 +234,6 @@
 		0EAFA1221822485500D01D3E /* LessonInfoInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonInfoInterface.m; sourceTree = "<group>"; };
 		0EAFA1241822488700D01D3E /* ChapterInfoInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChapterInfoInterface.h; sourceTree = "<group>"; };
 		0EAFA1251822488700D01D3E /* ChapterInfoInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChapterInfoInterface.m; sourceTree = "<group>"; };
-		0EAFA127182248B000D01D3E /* sectionInfoInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sectionInfoInterface.h; sourceTree = "<group>"; };
-		0EAFA128182248B100D01D3E /* sectionInfoInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = sectionInfoInterface.m; sourceTree = "<group>"; };
 		0EAFA12A18224C2700D01D3E /* LessonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LessonViewController.h; sourceTree = "<group>"; };
 		0EAFA12B18224C2700D01D3E /* LessonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonViewController.m; sourceTree = "<group>"; };
 		0EDF4D8F18210202007161E0 /* DownloadService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadService.h; sourceTree = "<group>"; };
@@ -317,23 +388,24 @@
 			isa = PBXGroup;
 			children = (
 				0EAFA0DF1822167800D01D3E /* logIn.json */,
-				0EAFA0DD1822167800D01D3E /* grade.json */,
-				0EAFA0D51822167800D01D3E /* acceptAnswer.json */,
-				0EAFA0D61822167800D01D3E /* answerPraise.json */,
-				0EAFA0D71822167800D01D3E /* askQuestion.json */,
-				0EAFA0D81822167800D01D3E /* chapterInfo.json */,
-				0EAFA0D91822167800D01D3E /* chapterQuestion.json */,
-				0EAFA0DA1822167800D01D3E /* commentList.json */,
 				0EAFA0DB1822167800D01D3E /* findPassWord.json */,
-				0EAFA0DC1822167800D01D3E /* getUserQuestion.json */,
 				0EAFA0DE1822167800D01D3E /* lessonInfo.json */,
+				0EAFA0D81822167800D01D3E /* chapterInfo.json */,
+				0EAFA0E61822167800D01D3E /* sectionInfo.json */,
+				0EAFA0DD1822167800D01D3E /* grade.json */,
+				0EAFA0DA1822167800D01D3E /* commentList.json */,
+				0EAFA0E41822167800D01D3E /* searchLesson.json */,
+				0EAFA0E21822167800D01D3E /* questionInfo.json */,
+				0EA7EF621823B1FC00C47F69 /* answerList.json */,
+				0EAFA0E31822167800D01D3E /* questionList.json */,
+				0EAFA0D51822167800D01D3E /* acceptAnswer.json */,
+				0EAFA0D91822167800D01D3E /* chapterQuestion.json */,
+				0EAFA0D61822167800D01D3E /* answerPraise.json */,
+				0EAFA0DC1822167800D01D3E /* getUserQuestion.json */,
+				0EAFA0E51822167800D01D3E /* searchQuestion.json */,
+				0EAFA0D71822167800D01D3E /* askQuestion.json */,
 				0EAFA0E01822167800D01D3E /* playBack.json */,
 				0EAFA0E11822167800D01D3E /* playVideo.json */,
-				0EAFA0E21822167800D01D3E /* questionInfo.json */,
-				0EAFA0E31822167800D01D3E /* questionList.json */,
-				0EAFA0E41822167800D01D3E /* searchLesson.json */,
-				0EAFA0E51822167800D01D3E /* searchQuestion.json */,
-				0EAFA0E61822167800D01D3E /* sectionInfo.json */,
 				0EAFA0E71822167800D01D3E /* submitAnswer.json */,
 				0EAFA0E81822167800D01D3E /* submitNote.json */,
 				0EAFA0E91822167800D01D3E /* suggestion.json */,
@@ -488,8 +560,6 @@
 			children = (
 				0EAFA10C1822399000D01D3E /* BaseInterface.h */,
 				0EAFA10D1822399000D01D3E /* BaseInterface.m */,
-				0EAFA10E1822399000D01D3E /* InterfaceCache.h */,
-				0EAFA10F1822399000D01D3E /* InterfaceCache.m */,
 				0EAFA1101822399000D01D3E /* LogInterface.h */,
 				0EAFA1111822399000D01D3E /* LogInterface.m */,
 				0EAFA11E1822464700D01D3E /* FindPassWordInterface.h */,
@@ -498,8 +568,42 @@
 				0EAFA1221822485500D01D3E /* LessonInfoInterface.m */,
 				0EAFA1241822488700D01D3E /* ChapterInfoInterface.h */,
 				0EAFA1251822488700D01D3E /* ChapterInfoInterface.m */,
-				0EAFA127182248B000D01D3E /* sectionInfoInterface.h */,
-				0EAFA128182248B100D01D3E /* sectionInfoInterface.m */,
+				0EA7EF11182349AF00C47F69 /* SectionInfoInterface.h */,
+				0EA7EF12182349AF00C47F69 /* SectionInfoInterface.m */,
+				0EA7EF1418234A0400C47F69 /* GradeInterface.h */,
+				0EA7EF1518234A0400C47F69 /* GradeInterface.m */,
+				0EA7EF1718234A7500C47F69 /* CommentListInterface.h */,
+				0EA7EF1818234A7500C47F69 /* CommentListInterface.m */,
+				0EA7EF1A18234AC600C47F69 /* SearchLessonInterface.h */,
+				0EA7EF1B18234AC600C47F69 /* SearchLessonInterface.m */,
+				0EA7EF1D18234B5600C47F69 /* QuestionInfoInterface.h */,
+				0EA7EF1E18234B5600C47F69 /* QuestionInfoInterface.m */,
+				0EA7EF2018234BA100C47F69 /* QuestionListInterface.h */,
+				0EA7EF2118234BA100C47F69 /* QuestionListInterface.m */,
+				0EA7EF5F1823B0EC00C47F69 /* AnswerListInterface.h */,
+				0EA7EF601823B0EC00C47F69 /* AnswerListInterface.m */,
+				0EA7EF2318234BE900C47F69 /* AcceptAnswerInterface.h */,
+				0EA7EF2418234BE900C47F69 /* AcceptAnswerInterface.m */,
+				0EA7EF2618234CDC00C47F69 /* ChapterQuestionInterface.h */,
+				0EA7EF2718234CDC00C47F69 /* ChapterQuestionInterface.m */,
+				0EA7EF2C18234D6200C47F69 /* AnswerPraiseInterface.h */,
+				0EA7EF2D18234D6200C47F69 /* AnswerPraiseInterface.m */,
+				0EA7EF2F18234D8D00C47F69 /* GetUserQuestionInterface.h */,
+				0EA7EF3018234D8D00C47F69 /* GetUserQuestionInterface.m */,
+				0EA7EF3518234F9000C47F69 /* SearchQuestionInterface.h */,
+				0EA7EF3618234F9000C47F69 /* SearchQuestionInterface.m */,
+				0EA7EF4D1823A98600C47F69 /* PlayVideoInterface.h */,
+				0EA7EF4E1823A98600C47F69 /* PlayVideoInterface.m */,
+				0EA7EF501823A99700C47F69 /* PlayBackInterface.h */,
+				0EA7EF511823A99700C47F69 /* PlayBackInterface.m */,
+				0EA7EF531823ACCC00C47F69 /* SumitNoteInterface.h */,
+				0EA7EF541823ACCC00C47F69 /* SumitNoteInterface.m */,
+				0EA7EF591823ADF100C47F69 /* SubmitAnswerInterface.h */,
+				0EA7EF5A1823ADF100C47F69 /* SubmitAnswerInterface.m */,
+				0EA7EF5C1823AE1800C47F69 /* AskQuestionInterface.h */,
+				0EA7EF5D1823AE1800C47F69 /* AskQuestionInterface.m */,
+				0EAFA10E1822399000D01D3E /* InterfaceCache.h */,
+				0EAFA10F1822399000D01D3E /* InterfaceCache.m */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -511,6 +615,20 @@
 				0EA7EF0F18233CDC00C47F69 /* LessonModel.m */,
 				0EA7EF07182336B600C47F69 /* chapterModel.h */,
 				0EA7EF08182336B600C47F69 /* chapterModel.m */,
+				0EA7EF381823581F00C47F69 /* SectionModel.h */,
+				0EA7EF391823581F00C47F69 /* SectionModel.m */,
+				0EA7EF3B182379E200C47F69 /* NoteModel.h */,
+				0EA7EF3C182379E200C47F69 /* NoteModel.m */,
+				0EA7EF3E18237A0D00C47F69 /* CommentModel.h */,
+				0EA7EF3F18237A0D00C47F69 /* CommentModel.m */,
+				0EA7EF4118238C8A00C47F69 /* LessonQuestionModel.h */,
+				0EA7EF4218238C8A00C47F69 /* LessonQuestionModel.m */,
+				0EA7EF4418238CC600C47F69 /* ChapterQuestionModel.h */,
+				0EA7EF4518238CC600C47F69 /* ChapterQuestionModel.m */,
+				0EA7EF4718238D4600C47F69 /* QuestionModel.h */,
+				0EA7EF4818238D4600C47F69 /* QuestionModel.m */,
+				0EA7EF4A18238DF600C47F69 /* AnswerModel.h */,
+				0EA7EF4B18238DF600C47F69 /* AnswerModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -733,6 +851,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0EAFA0EC1822167800D01D3E /* askQuestion.json in Resources */,
+				0EA7EF631823B1FC00C47F69 /* answerList.json in Resources */,
 				630B03C11820F5BB00F72C4C /* Main_iPad.storyboard in Resources */,
 				0EAFA0F41822167800D01D3E /* logIn.json in Resources */,
 				0EAFA0F21822167800D01D3E /* grade.json in Resources */,
@@ -779,11 +898,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0EA7EF551823ACCC00C47F69 /* SumitNoteInterface.m in Sources */,
 				0EAFA12C18224C2700D01D3E /* LessonViewController.m in Sources */,
 				6323875A1822056000C71535 /* LoginViewController.m in Sources */,
+				0EA7EF521823A99700C47F69 /* PlayBackInterface.m in Sources */,
 				6323876018222A1500C71535 /* DRNaviGationBarController.m in Sources */,
 				6323875D18220E7D00C71535 /* ForgotPwdViewController.m in Sources */,
 				0EAFA1261822488700D01D3E /* ChapterInfoInterface.m in Sources */,
+				0EA7EF3718234F9000C47F69 /* SearchQuestionInterface.m in Sources */,
 				0EA7EF09182336B600C47F69 /* chapterModel.m in Sources */,
 				630B03C41820F5BB00F72C4C /* ViewController.m in Sources */,
 				0EDF4DDB18210241007161E0 /* ASIWebPageRequest.m in Sources */,
@@ -791,31 +913,46 @@
 				0EDF4DE418210241007161E0 /* ASIDataCompressor.m in Sources */,
 				0EDF4DE118210241007161E0 /* ASICloudFilesObjectRequest.m in Sources */,
 				0EDF4DEB18210241007161E0 /* ASIS3Bucket.m in Sources */,
+				0EA7EF611823B0EC00C47F69 /* AnswerListInterface.m in Sources */,
 				0EDF4DEA18210241007161E0 /* ASINetworkQueue.m in Sources */,
+				0EA7EF1C18234AC600C47F69 /* SearchLessonInterface.m in Sources */,
 				0EDF4DFD1821028F007161E0 /* Utility.m in Sources */,
 				0EAFA1231822485500D01D3E /* LessonInfoInterface.m in Sources */,
 				0EDF4DE018210241007161E0 /* ASICloudFilesObject.m in Sources */,
+				0EA7EF4618238CC600C47F69 /* ChapterQuestionModel.m in Sources */,
 				0EDF4DDF18210241007161E0 /* ASICloudFilesContainerXMLParserDelegate.m in Sources */,
 				0EDF4DE618210241007161E0 /* ASIDownloadCache.m in Sources */,
 				0EDF4DE918210241007161E0 /* ASIInputStream.m in Sources */,
 				6323876318223E9500C71535 /* DRNavigationBar.m in Sources */,
 				0EDF4DF018210241007161E0 /* ASIS3ServiceRequest.m in Sources */,
 				0EDF4DDD18210241007161E0 /* ASICloudFilesContainer.m in Sources */,
-				0EAFA129182248B100D01D3E /* sectionInfoInterface.m in Sources */,
 				0EDF4D9118210202007161E0 /* DownloadService.m in Sources */,
 				0EAFA1131822399100D01D3E /* InterfaceCache.m in Sources */,
+				0EA7EF3118234D8D00C47F69 /* GetUserQuestionInterface.m in Sources */,
+				0EA7EF4318238C8A00C47F69 /* LessonQuestionModel.m in Sources */,
 				0EDF4DE318210241007161E0 /* ASIAuthenticationDialog.m in Sources */,
+				0EA7EF1F18234B5600C47F69 /* QuestionInfoInterface.m in Sources */,
+				0EA7EF4918238D4600C47F69 /* QuestionModel.m in Sources */,
 				630B03BB1820F5BB00F72C4C /* AppDelegate.m in Sources */,
 				0EDF4DE818210241007161E0 /* ASIHTTPRequest.m in Sources */,
+				0EA7EF4C18238DF600C47F69 /* AnswerModel.m in Sources */,
 				0EDF4DF118210241007161E0 /* RJDBKit.m in Sources */,
+				0EA7EF1918234A7500C47F69 /* CommentListInterface.m in Sources */,
+				0EA7EF2218234BA100C47F69 /* QuestionListInterface.m in Sources */,
 				0EDF4DEF18210241007161E0 /* ASIS3Request.m in Sources */,
+				0EA7EF4F1823A98600C47F69 /* PlayVideoInterface.m in Sources */,
 				0EDF4DDE18210241007161E0 /* ASICloudFilesContainerRequest.m in Sources */,
 				0EDF4DF518210241007161E0 /* NSString+URLEncoding.m in Sources */,
 				0EDF4DE218210241007161E0 /* ASICloudFilesRequest.m in Sources */,
 				0EA7EF1018233CDC00C47F69 /* LessonModel.m in Sources */,
+				0EA7EF2518234BE900C47F69 /* AcceptAnswerInterface.m in Sources */,
+				0EA7EF5B1823ADF100C47F69 /* SubmitAnswerInterface.m in Sources */,
 				0EDF4DF318210241007161E0 /* GTMNSString+HTML.m in Sources */,
+				0EA7EF2818234CDC00C47F69 /* ChapterQuestionInterface.m in Sources */,
 				0EAFA11A18223FC500D01D3E /* CJTMainToolbar.m in Sources */,
 				0EDF4E011821029B007161E0 /* CaiJinTongManager.m in Sources */,
+				0EA7EF3D182379E200C47F69 /* NoteModel.m in Sources */,
+				0EA7EF4018237A0D00C47F69 /* CommentModel.m in Sources */,
 				0EAFA1201822464700D01D3E /* FindPassWordInterface.m in Sources */,
 				0EDF4DF418210241007161E0 /* NSString+HTML.m in Sources */,
 				0EAFA1141822399100D01D3E /* LogInterface.m in Sources */,
@@ -824,12 +961,17 @@
 				0EDF4DF618210241007161E0 /* Reachability.m in Sources */,
 				0EDF4DE718210241007161E0 /* ASIFormDataRequest.m in Sources */,
 				0EAFA1121822399000D01D3E /* BaseInterface.m in Sources */,
+				0EA7EF3A1823581F00C47F69 /* SectionModel.m in Sources */,
 				0EDF4DED18210241007161E0 /* ASIS3BucketRequest.m in Sources */,
 				0EDF4DFE1821028F007161E0 /* NSDictionary+AllKeytoLowerCase.m in Sources */,
 				0EAFA11718223E5D00D01D3E /* CJTToolbarView.m in Sources */,
 				0EDF4DF218210241007161E0 /* RJFileUtils.m in Sources */,
+				0EA7EF13182349AF00C47F69 /* SectionInfoInterface.m in Sources */,
 				0EDF4DEC18210241007161E0 /* ASIS3BucketObject.m in Sources */,
 				0EDF4DE518210241007161E0 /* ASIDataDecompressor.m in Sources */,
+				0EA7EF5E1823AE1800C47F69 /* AskQuestionInterface.m in Sources */,
+				0EA7EF1618234A0400C47F69 /* GradeInterface.m in Sources */,
+				0EA7EF2E18234D6200C47F69 /* AnswerPraiseInterface.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -61,8 +61,7 @@
         
         if (self.headers) {
             for (NSString *key in self.headers) {
-                [self.request addRequestHeader:key value:[self.headers objectForKey:key]];
-                
+                [self.request addRequestHeader:key value:[self.headers objectForKey:key]];  
             }
         }
         

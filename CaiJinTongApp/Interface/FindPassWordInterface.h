@@ -9,6 +9,7 @@
 #import "BaseInterface.h"
 
 @protocol FindPassWordInterfaceDelegate;
+
 @interface FindPassWordInterface : BaseInterface <BaseInterfaceDelegate>
 
 @property (nonatomic, assign) id<FindPassWordInterfaceDelegate>delegate;
@@ -19,7 +20,7 @@
 
 @protocol FindPassWordInterfaceDelegate <NSObject>
 
--(void)getFindPassWordInfoDidFinished:(NSArray *)result;
+-(void)getFindPassWordInfoDidFinished:(NSDictionary *)result;
 -(void)getFindPassWordInfoDidFailed:(NSString *)errorMsg;
 
 @end

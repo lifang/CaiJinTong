@@ -31,8 +31,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-	// Do any additional setup after loading the view.
+    
+    LogInterface *log = [[LogInterface alloc]init];
+    self.logInterface = log;
+    self.logInterface.delegate = self;
+    [CaiJinTongManager sharedInstance].sessionId = [NSString stringWithFormat:@"%@",kLogin];
+    [self.logInterface getLogInterfaceDelegateWithName:@"admin" andPassWord:@"123456"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -48,5 +52,14 @@
 }
 
 - (IBAction)registerBtClicked:(id)sender {
+}
+
+#pragma mark - LogInterface
+
+-(void)getLogInfoDidFinished:(NSDictionary *)result {
+    DLog(@"finish = %@",result);
+}
+-(void)getLogInfoDidFailed:(NSString *)errorMsg {
+    DLog(@"error");
 }
 @end

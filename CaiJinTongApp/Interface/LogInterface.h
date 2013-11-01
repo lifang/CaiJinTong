@@ -18,7 +18,7 @@
 
 @protocol LogInterfaceDelegate <NSObject>
 
--(void)getLogInfoDidFinished:(NSArray *)result;
+-(void)getLogInfoDidFinished:(NSDictionary *)result;
 -(void)getLogInfoDidFailed:(NSString *)errorMsg;
 
 @end
