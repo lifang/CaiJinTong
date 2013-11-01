@@ -103,7 +103,8 @@
 		6323875D18220E7D00C71535 /* ForgotPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6323875C18220E7D00C71535 /* ForgotPwdViewController.m */; };
 		6323876018222A1500C71535 /* DRNaviGationBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6323875F18222A1500C71535 /* DRNaviGationBarController.m */; };
 		6323876318223E9500C71535 /* DRNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6323876218223E9500C71535 /* DRNavigationBar.m */; };
-		6323876618224DA000C71535 /* DRPopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6323876518224DA000C71535 /* DRPopupController.m */; };
+		639A07A61823909000B60670 /* MJPopupBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 639A07A31823909000B60670 /* MJPopupBackgroundView.m */; };
+		639A07A71823909000B60670 /* UIViewController+MJPopupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 639A07A51823909000B60670 /* UIViewController+MJPopupViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -271,8 +272,10 @@
 		6323875F18222A1500C71535 /* DRNaviGationBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DRNaviGationBarController.m; path = ../controllers/DRNaviGationBarController.m; sourceTree = "<group>"; };
 		6323876118223E9500C71535 /* DRNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DRNavigationBar.h; path = view/DRNavigationBar.h; sourceTree = SOURCE_ROOT; };
 		6323876218223E9500C71535 /* DRNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DRNavigationBar.m; path = view/DRNavigationBar.m; sourceTree = SOURCE_ROOT; };
-		6323876418224DA000C71535 /* DRPopupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRPopupController.h; sourceTree = "<group>"; };
-		6323876518224DA000C71535 /* DRPopupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRPopupController.m; sourceTree = "<group>"; };
+		639A07A21823909000B60670 /* MJPopupBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPopupBackgroundView.h; sourceTree = "<group>"; };
+		639A07A31823909000B60670 /* MJPopupBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPopupBackgroundView.m; sourceTree = "<group>"; };
+		639A07A41823909000B60670 /* UIViewController+MJPopupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+MJPopupViewController.h"; sourceTree = "<group>"; };
+		639A07A51823909000B60670 /* UIViewController+MJPopupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+MJPopupViewController.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -460,10 +463,6 @@
 				6323875C18220E7D00C71535 /* ForgotPwdViewController.m */,
 				6323875E18222A1500C71535 /* DRNaviGationBarController.h */,
 				6323875F18222A1500C71535 /* DRNaviGationBarController.m */,
-				0EAFA102182222A700D01D3E /* InitViewController.h */,
-				0EAFA103182222A700D01D3E /* InitViewController.m */,
-				6323876418224DA000C71535 /* DRPopupController.h */,
-				6323876518224DA000C71535 /* DRPopupController.m */,
 				0EAFA12A18224C2700D01D3E /* LessonViewController.h */,
 				0EAFA12B18224C2700D01D3E /* LessonViewController.m */,
 			);
@@ -612,6 +611,7 @@
 		630B03B01820F5BB00F72C4C /* CaiJinTongApp */ = {
 			isa = PBXGroup;
 			children = (
+				639A07A01823905900B60670 /* thirty */,
 				630B03B91820F5BB00F72C4C /* AppDelegate.h */,
 				630B03BA1820F5BB00F72C4C /* AppDelegate.m */,
 				0EDF4DFF1821029B007161E0 /* CaiJinTongManager.h */,
@@ -661,6 +661,25 @@
 				630B03D51820F5BC00F72C4C /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		639A07A01823905900B60670 /* thirty */ = {
+			isa = PBXGroup;
+			children = (
+				639A07A11823906900B60670 /* popupView */,
+			);
+			name = thirty;
+			sourceTree = "<group>";
+		};
+		639A07A11823906900B60670 /* popupView */ = {
+			isa = PBXGroup;
+			children = (
+				639A07A21823909000B60670 /* MJPopupBackgroundView.h */,
+				639A07A31823909000B60670 /* MJPopupBackgroundView.m */,
+				639A07A41823909000B60670 /* UIViewController+MJPopupViewController.h */,
+				639A07A51823909000B60670 /* UIViewController+MJPopupViewController.m */,
+			);
+			name = popupView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -800,7 +819,6 @@
 				0EDF4DEB18210241007161E0 /* ASIS3Bucket.m in Sources */,
 				0EDF4DEA18210241007161E0 /* ASINetworkQueue.m in Sources */,
 				0EDF4DFD1821028F007161E0 /* Utility.m in Sources */,
-				6323876618224DA000C71535 /* DRPopupController.m in Sources */,
 				0EAFA1231822485500D01D3E /* LessonInfoInterface.m in Sources */,
 				0EDF4DE018210241007161E0 /* ASICloudFilesObject.m in Sources */,
 				0EDF4DDF18210241007161E0 /* ASICloudFilesContainerXMLParserDelegate.m in Sources */,
@@ -821,6 +839,7 @@
 				0EDF4DF518210241007161E0 /* NSString+URLEncoding.m in Sources */,
 				0EDF4DE218210241007161E0 /* ASICloudFilesRequest.m in Sources */,
 				0EA7EF1018233CDC00C47F69 /* LessonModel.m in Sources */,
+				639A07A71823909000B60670 /* UIViewController+MJPopupViewController.m in Sources */,
 				0EDF4DF318210241007161E0 /* GTMNSString+HTML.m in Sources */,
 				0EAFA11A18223FC500D01D3E /* CJTMainToolbar.m in Sources */,
 				0EDF4E011821029B007161E0 /* CaiJinTongManager.m in Sources */,
@@ -829,6 +848,7 @@
 				0EAFA1141822399100D01D3E /* LogInterface.m in Sources */,
 				630B03B71820F5BB00F72C4C /* main.m in Sources */,
 				0EDF4DDC18210241007161E0 /* ASICloudFilesCDNRequest.m in Sources */,
+				639A07A61823909000B60670 /* MJPopupBackgroundView.m in Sources */,
 				0EDF4DF618210241007161E0 /* Reachability.m in Sources */,
 				0EDF4DE718210241007161E0 /* ASIFormDataRequest.m in Sources */,
 				0EAFA1121822399000D01D3E /* BaseInterface.m in Sources */,

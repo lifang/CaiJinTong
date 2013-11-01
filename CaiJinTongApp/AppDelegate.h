@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) UIViewController *popupedController;
 //网络监听所用
 @property (retain, nonatomic) Reachability *hostReach;
 //网络是否连接
