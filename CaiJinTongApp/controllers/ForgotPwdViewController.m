@@ -40,7 +40,10 @@
 }
 
 -(void)drnavigationBarRightItemClicked:(id)sender{
-
+// [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
+//    AppDelegate *app = [[UIApplication sharedApplication] delegate];
+//    [app.popupedController dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
 }
 
 - (void)didReceiveMemoryWarning
@@ -50,5 +53,6 @@
 }
 
 - (IBAction)sendEmailBtClicked:(id)sender {
+   
 }
 @end

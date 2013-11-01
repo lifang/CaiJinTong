@@ -30,3 +30,5 @@
 #endif
 
 #import "DRNaviGationBarController.h"
+#import "AppDelegate.h"
+#import "UIViewController+MJPopupViewController.h"

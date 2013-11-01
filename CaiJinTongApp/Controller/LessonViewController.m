@@ -9,7 +9,7 @@
 #import "LessonViewController.h"
 #import "LessonModel.h"
 #import "chapterModel.h"
-
+#import "ForgotPwdViewController.h"
 @interface LessonViewController ()
 
 @end
@@ -185,5 +185,11 @@
     LessonModel *lesson = (LessonModel *)[self.lessonList objectAtIndex:indexPath.section];
     chapterModel *chapter = (chapterModel *)[lesson.chapterList objectAtIndex:indexPath.row];
     DLog(@"id = %@",chapter.chapterId);
+    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+    ForgotPwdViewController *forgotControl = [story instantiateViewControllerWithIdentifier:@"ForgotPwdViewController"];
+    forgotControl.view.frame = (CGRect){50,0,768-50,1024};
+//    AppDelegate *app = [[UIApplication sharedApplication] delegate];
+//    app.popupedController = self;
+    [self presentPopupViewController:forgotControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO];
 }
 @end
