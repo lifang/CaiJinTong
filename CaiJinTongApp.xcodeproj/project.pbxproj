@@ -90,6 +90,7 @@
 		6323875D18220E7D00C71535 /* ForgotPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6323875C18220E7D00C71535 /* ForgotPwdViewController.m */; };
 		6323876018222A1500C71535 /* DRNaviGationBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6323875F18222A1500C71535 /* DRNaviGationBarController.m */; };
 		6323876318223E9500C71535 /* DRNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6323876218223E9500C71535 /* DRNavigationBar.m */; };
+		6323876618224DA000C71535 /* DRPopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6323876518224DA000C71535 /* DRPopupController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -233,6 +234,8 @@
 		6323875F18222A1500C71535 /* DRNaviGationBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DRNaviGationBarController.m; path = ../controllers/DRNaviGationBarController.m; sourceTree = "<group>"; };
 		6323876118223E9500C71535 /* DRNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DRNavigationBar.h; path = view/DRNavigationBar.h; sourceTree = SOURCE_ROOT; };
 		6323876218223E9500C71535 /* DRNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DRNavigationBar.m; path = view/DRNavigationBar.m; sourceTree = SOURCE_ROOT; };
+		6323876418224DA000C71535 /* DRPopupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRPopupController.h; sourceTree = "<group>"; };
+		6323876518224DA000C71535 /* DRPopupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRPopupController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -420,6 +423,8 @@
 				6323875F18222A1500C71535 /* DRNaviGationBarController.m */,
 				0EAFA102182222A700D01D3E /* InitViewController.h */,
 				0EAFA103182222A700D01D3E /* InitViewController.m */,
+				6323876418224DA000C71535 /* DRPopupController.h */,
+				6323876518224DA000C71535 /* DRPopupController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -727,6 +732,7 @@
 				0EDF4DEB18210241007161E0 /* ASIS3Bucket.m in Sources */,
 				0EDF4DEA18210241007161E0 /* ASINetworkQueue.m in Sources */,
 				0EDF4DFD1821028F007161E0 /* Utility.m in Sources */,
+				6323876618224DA000C71535 /* DRPopupController.m in Sources */,
 				0EDF4DE018210241007161E0 /* ASICloudFilesObject.m in Sources */,
 				0EDF4DDF18210241007161E0 /* ASICloudFilesContainerXMLParserDelegate.m in Sources */,
 				0EDF4DE618210241007161E0 /* ASIDownloadCache.m in Sources */,
