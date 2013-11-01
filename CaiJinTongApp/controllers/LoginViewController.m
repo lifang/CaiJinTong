@@ -7,7 +7,7 @@
 //
 
 #import "LoginViewController.h"
-
+#import <QuartzCore/QuartzCore.h>
 @interface LoginViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *userNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *pwdTextField;
@@ -31,6 +31,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
 	// Do any additional setup after loading the view.
 }
 
