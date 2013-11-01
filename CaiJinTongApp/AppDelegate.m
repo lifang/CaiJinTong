@@ -7,8 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "InitViewController.h"
-#import "LogInViewController.h"
+#import "LoginViewController.h"
 
 
 @implementation AppDelegate
@@ -27,8 +26,6 @@
     self.hostReach = [Reachability reachabilityWithHostName:@"www.baidu.com"] ;
     [self.hostReach startNotifier];  //开始监听，会启动一个run loop
     
-    NSDictionary *dic = [Utility initWithJSONFile:@"chapterInfo"];
-    DLog(@"dic = %@",dic);
     return YES;
 }
 //连接改变

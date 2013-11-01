@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0EA7EF09182336B600C47F69 /* chapterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF08182336B600C47F69 /* chapterModel.m */; };
+		0EA7EF0C18233B0000C47F69 /* jiantou_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EA7EF0A18233B0000C47F69 /* jiantou_up.png */; };
+		0EA7EF0D18233B0000C47F69 /* jiantou_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EA7EF0B18233B0000C47F69 /* jiantou_down.png */; };
+		0EA7EF1018233CDC00C47F69 /* LessonModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF0F18233CDC00C47F69 /* LessonModel.m */; };
 		0EAFA0EA1822167800D01D3E /* acceptAnswer.json in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA0D51822167800D01D3E /* acceptAnswer.json */; };
 		0EAFA0EB1822167800D01D3E /* answerPraise.json in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA0D61822167800D01D3E /* answerPraise.json */; };
 		0EAFA0EC1822167800D01D3E /* askQuestion.json in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA0D71822167800D01D3E /* askQuestion.json */; };
@@ -28,9 +32,18 @@
 		0EAFA0FC1822167800D01D3E /* submitAnswer.json in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA0E71822167800D01D3E /* submitAnswer.json */; };
 		0EAFA0FD1822167800D01D3E /* submitNote.json in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA0E81822167800D01D3E /* submitNote.json */; };
 		0EAFA0FE1822167800D01D3E /* suggestion.json in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA0E91822167800D01D3E /* suggestion.json */; };
-		0EAFA104182222A700D01D3E /* InitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA103182222A700D01D3E /* InitViewController.m */; };
 		0EAFA107182223BD00D01D3E /* loginBgImage_v.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA105182223BD00D01D3E /* loginBgImage_v.png */; };
 		0EAFA108182223BD00D01D3E /* loginBgImage_v@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA106182223BD00D01D3E /* loginBgImage_v@2x.png */; };
+		0EAFA1121822399000D01D3E /* BaseInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA10D1822399000D01D3E /* BaseInterface.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0EAFA1131822399100D01D3E /* InterfaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA10F1822399000D01D3E /* InterfaceCache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0EAFA1141822399100D01D3E /* LogInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA1111822399000D01D3E /* LogInterface.m */; };
+		0EAFA11718223E5D00D01D3E /* CJTToolbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA11618223E5D00D01D3E /* CJTToolbarView.m */; };
+		0EAFA11A18223FC500D01D3E /* CJTMainToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA11918223FC500D01D3E /* CJTMainToolbar.m */; };
+		0EAFA1201822464700D01D3E /* FindPassWordInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA11F1822464700D01D3E /* FindPassWordInterface.m */; };
+		0EAFA1231822485500D01D3E /* LessonInfoInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA1221822485500D01D3E /* LessonInfoInterface.m */; };
+		0EAFA1261822488700D01D3E /* ChapterInfoInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA1251822488700D01D3E /* ChapterInfoInterface.m */; };
+		0EAFA129182248B100D01D3E /* sectionInfoInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA128182248B100D01D3E /* sectionInfoInterface.m */; };
+		0EAFA12C18224C2700D01D3E /* LessonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA12B18224C2700D01D3E /* LessonViewController.m */; };
 		0EDF4D9118210202007161E0 /* DownloadService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDF4D9018210202007161E0 /* DownloadService.m */; };
 		0EDF4DDB18210241007161E0 /* ASIWebPageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDF4D9518210241007161E0 /* ASIWebPageRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0EDF4DDC18210241007161E0 /* ASICloudFilesCDNRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDF4D9818210241007161E0 /* ASICloudFilesCDNRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -104,6 +117,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0EA7EF07182336B600C47F69 /* chapterModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = chapterModel.h; sourceTree = "<group>"; };
+		0EA7EF08182336B600C47F69 /* chapterModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = chapterModel.m; sourceTree = "<group>"; };
+		0EA7EF0A18233B0000C47F69 /* jiantou_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jiantou_up.png; sourceTree = "<group>"; };
+		0EA7EF0B18233B0000C47F69 /* jiantou_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jiantou_down.png; sourceTree = "<group>"; };
+		0EA7EF0E18233CDC00C47F69 /* LessonModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LessonModel.h; sourceTree = "<group>"; };
+		0EA7EF0F18233CDC00C47F69 /* LessonModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonModel.m; sourceTree = "<group>"; };
 		0EAFA0D51822167800D01D3E /* acceptAnswer.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = acceptAnswer.json; sourceTree = "<group>"; };
 		0EAFA0D61822167800D01D3E /* answerPraise.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = answerPraise.json; sourceTree = "<group>"; };
 		0EAFA0D71822167800D01D3E /* askQuestion.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = askQuestion.json; sourceTree = "<group>"; };
@@ -125,10 +144,28 @@
 		0EAFA0E71822167800D01D3E /* submitAnswer.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = submitAnswer.json; sourceTree = "<group>"; };
 		0EAFA0E81822167800D01D3E /* submitNote.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = submitNote.json; sourceTree = "<group>"; };
 		0EAFA0E91822167800D01D3E /* suggestion.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = suggestion.json; sourceTree = "<group>"; };
-		0EAFA102182222A700D01D3E /* InitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitViewController.h; sourceTree = "<group>"; };
-		0EAFA103182222A700D01D3E /* InitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitViewController.m; sourceTree = "<group>"; };
 		0EAFA105182223BD00D01D3E /* loginBgImage_v.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loginBgImage_v.png; sourceTree = "<group>"; };
 		0EAFA106182223BD00D01D3E /* loginBgImage_v@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loginBgImage_v@2x.png"; sourceTree = "<group>"; };
+		0EAFA10C1822399000D01D3E /* BaseInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseInterface.h; sourceTree = "<group>"; };
+		0EAFA10D1822399000D01D3E /* BaseInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseInterface.m; sourceTree = "<group>"; };
+		0EAFA10E1822399000D01D3E /* InterfaceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceCache.h; sourceTree = "<group>"; };
+		0EAFA10F1822399000D01D3E /* InterfaceCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InterfaceCache.m; sourceTree = "<group>"; };
+		0EAFA1101822399000D01D3E /* LogInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogInterface.h; sourceTree = "<group>"; };
+		0EAFA1111822399000D01D3E /* LogInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInterface.m; sourceTree = "<group>"; };
+		0EAFA11518223E5D00D01D3E /* CJTToolbarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJTToolbarView.h; sourceTree = "<group>"; };
+		0EAFA11618223E5D00D01D3E /* CJTToolbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJTToolbarView.m; sourceTree = "<group>"; };
+		0EAFA11818223FC500D01D3E /* CJTMainToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJTMainToolbar.h; sourceTree = "<group>"; };
+		0EAFA11918223FC500D01D3E /* CJTMainToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJTMainToolbar.m; sourceTree = "<group>"; };
+		0EAFA11E1822464700D01D3E /* FindPassWordInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPassWordInterface.h; sourceTree = "<group>"; };
+		0EAFA11F1822464700D01D3E /* FindPassWordInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindPassWordInterface.m; sourceTree = "<group>"; };
+		0EAFA1211822485500D01D3E /* LessonInfoInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LessonInfoInterface.h; sourceTree = "<group>"; };
+		0EAFA1221822485500D01D3E /* LessonInfoInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonInfoInterface.m; sourceTree = "<group>"; };
+		0EAFA1241822488700D01D3E /* ChapterInfoInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChapterInfoInterface.h; sourceTree = "<group>"; };
+		0EAFA1251822488700D01D3E /* ChapterInfoInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChapterInfoInterface.m; sourceTree = "<group>"; };
+		0EAFA127182248B000D01D3E /* sectionInfoInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sectionInfoInterface.h; sourceTree = "<group>"; };
+		0EAFA128182248B100D01D3E /* sectionInfoInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = sectionInfoInterface.m; sourceTree = "<group>"; };
+		0EAFA12A18224C2700D01D3E /* LessonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LessonViewController.h; sourceTree = "<group>"; };
+		0EAFA12B18224C2700D01D3E /* LessonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonViewController.m; sourceTree = "<group>"; };
 		0EDF4D8F18210202007161E0 /* DownloadService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadService.h; sourceTree = "<group>"; };
 		0EDF4D9018210202007161E0 /* DownloadService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadService.m; sourceTree = "<group>"; };
 		0EDF4D9418210241007161E0 /* ASIWebPageRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIWebPageRequest.h; sourceTree = "<group>"; };
@@ -310,6 +347,8 @@
 		0EAFA1011822200200D01D3E /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0EA7EF0A18233B0000C47F69 /* jiantou_up.png */,
+				0EA7EF0B18233B0000C47F69 /* jiantou_down.png */,
 				0EAFA105182223BD00D01D3E /* loginBgImage_v.png */,
 				0EAFA106182223BD00D01D3E /* loginBgImage_v@2x.png */,
 			);
@@ -425,6 +464,8 @@
 				0EAFA103182222A700D01D3E /* InitViewController.m */,
 				6323876418224DA000C71535 /* DRPopupController.h */,
 				6323876518224DA000C71535 /* DRPopupController.m */,
+				0EAFA12A18224C2700D01D3E /* LessonViewController.h */,
+				0EAFA12B18224C2700D01D3E /* LessonViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -452,6 +493,20 @@
 		0EDF4DD018210241007161E0 /* Interface */ = {
 			isa = PBXGroup;
 			children = (
+				0EAFA10C1822399000D01D3E /* BaseInterface.h */,
+				0EAFA10D1822399000D01D3E /* BaseInterface.m */,
+				0EAFA10E1822399000D01D3E /* InterfaceCache.h */,
+				0EAFA10F1822399000D01D3E /* InterfaceCache.m */,
+				0EAFA1101822399000D01D3E /* LogInterface.h */,
+				0EAFA1111822399000D01D3E /* LogInterface.m */,
+				0EAFA11E1822464700D01D3E /* FindPassWordInterface.h */,
+				0EAFA11F1822464700D01D3E /* FindPassWordInterface.m */,
+				0EAFA1211822485500D01D3E /* LessonInfoInterface.h */,
+				0EAFA1221822485500D01D3E /* LessonInfoInterface.m */,
+				0EAFA1241822488700D01D3E /* ChapterInfoInterface.h */,
+				0EAFA1251822488700D01D3E /* ChapterInfoInterface.m */,
+				0EAFA127182248B000D01D3E /* sectionInfoInterface.h */,
+				0EAFA128182248B100D01D3E /* sectionInfoInterface.m */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -459,6 +514,10 @@
 		0EDF4DD118210241007161E0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0EA7EF0E18233CDC00C47F69 /* LessonModel.h */,
+				0EA7EF0F18233CDC00C47F69 /* LessonModel.m */,
+				0EA7EF07182336B600C47F69 /* chapterModel.h */,
+				0EA7EF08182336B600C47F69 /* chapterModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -486,6 +545,10 @@
 		0EDF4DDA18210241007161E0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0EAFA11518223E5D00D01D3E /* CJTToolbarView.h */,
+				0EAFA11618223E5D00D01D3E /* CJTToolbarView.m */,
+				0EAFA11818223FC500D01D3E /* CJTMainToolbar.h */,
+				0EAFA11918223FC500D01D3E /* CJTMainToolbar.m */,
 				6323876118223E9500C71535 /* DRNavigationBar.h */,
 				6323876218223E9500C71535 /* DRNavigationBar.m */,
 			);
@@ -689,12 +752,14 @@
 				0EAFA0FD1822167800D01D3E /* submitNote.json in Resources */,
 				0EAFA0FA1822167800D01D3E /* searchQuestion.json in Resources */,
 				0EAFA0EF1822167800D01D3E /* commentList.json in Resources */,
+				0EA7EF0D18233B0000C47F69 /* jiantou_down.png in Resources */,
 				0EAFA0ED1822167800D01D3E /* chapterInfo.json in Resources */,
 				630B03BE1820F5BB00F72C4C /* Main_iPhone.storyboard in Resources */,
 				0EAFA0F61822167800D01D3E /* playVideo.json in Resources */,
 				0EAFA0EE1822167800D01D3E /* chapterQuestion.json in Resources */,
 				0EAFA0FB1822167800D01D3E /* sectionInfo.json in Resources */,
 				0EAFA108182223BD00D01D3E /* loginBgImage_v@2x.png in Resources */,
+				0EA7EF0C18233B0000C47F69 /* jiantou_up.png in Resources */,
 				0EAFA0F71822167800D01D3E /* questionInfo.json in Resources */,
 				0EAFA107182223BD00D01D3E /* loginBgImage_v.png in Resources */,
 				0EAFA0F51822167800D01D3E /* playBack.json in Resources */,
@@ -721,9 +786,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0EAFA12C18224C2700D01D3E /* LessonViewController.m in Sources */,
 				6323875A1822056000C71535 /* LoginViewController.m in Sources */,
 				6323876018222A1500C71535 /* DRNaviGationBarController.m in Sources */,
 				6323875D18220E7D00C71535 /* ForgotPwdViewController.m in Sources */,
+				0EAFA1261822488700D01D3E /* ChapterInfoInterface.m in Sources */,
+				0EA7EF09182336B600C47F69 /* chapterModel.m in Sources */,
 				630B03C41820F5BB00F72C4C /* ViewController.m in Sources */,
 				0EDF4DDB18210241007161E0 /* ASIWebPageRequest.m in Sources */,
 				0EDF4DEE18210241007161E0 /* ASIS3ObjectRequest.m in Sources */,
@@ -733,6 +801,7 @@
 				0EDF4DEA18210241007161E0 /* ASINetworkQueue.m in Sources */,
 				0EDF4DFD1821028F007161E0 /* Utility.m in Sources */,
 				6323876618224DA000C71535 /* DRPopupController.m in Sources */,
+				0EAFA1231822485500D01D3E /* LessonInfoInterface.m in Sources */,
 				0EDF4DE018210241007161E0 /* ASICloudFilesObject.m in Sources */,
 				0EDF4DDF18210241007161E0 /* ASICloudFilesContainerXMLParserDelegate.m in Sources */,
 				0EDF4DE618210241007161E0 /* ASIDownloadCache.m in Sources */,
@@ -740,7 +809,9 @@
 				6323876318223E9500C71535 /* DRNavigationBar.m in Sources */,
 				0EDF4DF018210241007161E0 /* ASIS3ServiceRequest.m in Sources */,
 				0EDF4DDD18210241007161E0 /* ASICloudFilesContainer.m in Sources */,
+				0EAFA129182248B100D01D3E /* sectionInfoInterface.m in Sources */,
 				0EDF4D9118210202007161E0 /* DownloadService.m in Sources */,
+				0EAFA1131822399100D01D3E /* InterfaceCache.m in Sources */,
 				0EDF4DE318210241007161E0 /* ASIAuthenticationDialog.m in Sources */,
 				630B03BB1820F5BB00F72C4C /* AppDelegate.m in Sources */,
 				0EDF4DE818210241007161E0 /* ASIHTTPRequest.m in Sources */,
@@ -749,16 +820,21 @@
 				0EDF4DDE18210241007161E0 /* ASICloudFilesContainerRequest.m in Sources */,
 				0EDF4DF518210241007161E0 /* NSString+URLEncoding.m in Sources */,
 				0EDF4DE218210241007161E0 /* ASICloudFilesRequest.m in Sources */,
+				0EA7EF1018233CDC00C47F69 /* LessonModel.m in Sources */,
 				0EDF4DF318210241007161E0 /* GTMNSString+HTML.m in Sources */,
+				0EAFA11A18223FC500D01D3E /* CJTMainToolbar.m in Sources */,
 				0EDF4E011821029B007161E0 /* CaiJinTongManager.m in Sources */,
+				0EAFA1201822464700D01D3E /* FindPassWordInterface.m in Sources */,
 				0EDF4DF418210241007161E0 /* NSString+HTML.m in Sources */,
-				0EAFA104182222A700D01D3E /* InitViewController.m in Sources */,
+				0EAFA1141822399100D01D3E /* LogInterface.m in Sources */,
 				630B03B71820F5BB00F72C4C /* main.m in Sources */,
 				0EDF4DDC18210241007161E0 /* ASICloudFilesCDNRequest.m in Sources */,
 				0EDF4DF618210241007161E0 /* Reachability.m in Sources */,
 				0EDF4DE718210241007161E0 /* ASIFormDataRequest.m in Sources */,
+				0EAFA1121822399000D01D3E /* BaseInterface.m in Sources */,
 				0EDF4DED18210241007161E0 /* ASIS3BucketRequest.m in Sources */,
 				0EDF4DFE1821028F007161E0 /* NSDictionary+AllKeytoLowerCase.m in Sources */,
+				0EAFA11718223E5D00D01D3E /* CJTToolbarView.m in Sources */,
 				0EDF4DF218210241007161E0 /* RJFileUtils.m in Sources */,
 				0EDF4DEC18210241007161E0 /* ASIS3BucketObject.m in Sources */,
 				0EDF4DE518210241007161E0 /* ASIDataDecompressor.m in Sources */,

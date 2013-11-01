@@ -9,35 +9,35 @@
                                       "chapterList": [
                                                       {
                                                       "chapterId":"11",
-                                                      "chapterNmae":"CFA-01"
+                                                      "chapterName":"CFA-01"
                                                       },
                                                       {
                                                       "chapterId":"12",
-                                                      "chapterNmae":"CFA-02"
+                                                      "chapterName":"CFA-02"
                                                       },
                                                       {
                                                       "chapterId":"13",
-                                                      "chapterNmae":"CFA-03"
+                                                      "chapterName":"CFA-03"
                                                       },
                                                       {
                                                       "chapterId":"14",
-                                                      "chapterNmae":"CFA-04"
+                                                      "chapterName":"CFA-04"
                                                       },
                                                       {
                                                       "chapterId":"15",
-                                                      "chapterNmae":"CFA-05"
+                                                      "chapterName":"CFA-05"
                                                       },
                                                       {
                                                       "chapterId":"16",
-                                                      "chapterNmae":"CFA-06"
+                                                      "chapterName":"CFA-06"
                                                       },
                                                       {
                                                       "chapterId":"17",
-                                                      "chapterNmae":"CFA-07"
+                                                      "chapterName":"CFA-07"
                                                       },
                                                       {
                                                       "chapterId":"18",
-                                                      "chapterNmae":"CFA-08"
+                                                      "chapterName":"CFA-08"
                                                       }
                                                      ],
                                       },
@@ -47,37 +47,113 @@
                                       "chapterList": [
                                                       {
                                                       "chapterId":"21",
-                                                      "chapterNmae":"ACCA-01"
+                                                      "chapterName":"ACCA-01"
                                                       },
                                                       {
                                                       "chapterId":"22",
-                                                      "chapterNmae":"ACCA-02"
+                                                      "chapterName":"ACCA-02"
                                                       },
                                                       {
                                                       "chapterId":"23",
-                                                      "chapterNmae":"ACCA-03"
+                                                      "chapterName":"ACCA-03"
                                                       },
                                                       {
                                                       "chapterId":"24",
-                                                      "chapterNmae":"ACCA-04"
+                                                      "chapterName":"ACCA-04"
                                                       },
                                                       {
                                                       "chapterId":"25",
-                                                      "chapterNmae":"ACCA-05"
+                                                      "chapterName":"ACCA-05"
                                                       },
                                                       {
                                                       "chapterId":"26",
-                                                      "chapterNmae":"ACCA-06"
+                                                      "chapterName":"ACCA-06"
                                                       },
                                                       {
                                                       "chapterId":"27",
-                                                      "chapterNmae":"ACCA-07"
+                                                      "chapterName":"ACCA-07"
                                                       },
                                                       {
                                                       "chapterId":"28",
-                                                      "chapterNmae":"ACCA-08"
+                                                      "chapterName":"ACCA-08"
                                                       }
                                                      ]
+                                      },
+                                      {
+                                      "lessonId":"1",
+                                      "lessonName":"CFA",
+                                      "chapterList": [
+                                                      {
+                                                      "chapterId":"11",
+                                                      "chapterName":"CFA-01"
+                                                      },
+                                                      {
+                                                      "chapterId":"12",
+                                                      "chapterName":"CFA-02"
+                                                      },
+                                                      {
+                                                      "chapterId":"13",
+                                                      "chapterName":"CFA-03"
+                                                      },
+                                                      {
+                                                      "chapterId":"14",
+                                                      "chapterName":"CFA-04"
+                                                      },
+                                                      {
+                                                      "chapterId":"15",
+                                                      "chapterName":"CFA-05"
+                                                      },
+                                                      {
+                                                      "chapterId":"16",
+                                                      "chapterName":"CFA-06"
+                                                      },
+                                                      {
+                                                      "chapterId":"17",
+                                                      "chapterName":"CFA-07"
+                                                      },
+                                                      {
+                                                      "chapterId":"18",
+                                                      "chapterName":"CFA-08"
+                                                      }
+                                                      ],
+                                      },
+                                      {
+                                      "lessonId":"1",
+                                      "lessonName":"CFA",
+                                      "chapterList": [
+                                                      {
+                                                      "chapterId":"11",
+                                                      "chapterName":"CFA-01"
+                                                      },
+                                                      {
+                                                      "chapterId":"12",
+                                                      "chapterName":"CFA-02"
+                                                      },
+                                                      {
+                                                      "chapterId":"13",
+                                                      "chapterName":"CFA-03"
+                                                      },
+                                                      {
+                                                      "chapterId":"14",
+                                                      "chapterName":"CFA-04"
+                                                      },
+                                                      {
+                                                      "chapterId":"15",
+                                                      "chapterName":"CFA-05"
+                                                      },
+                                                      {
+                                                      "chapterId":"16",
+                                                      "chapterName":"CFA-06"
+                                                      },
+                                                      {
+                                                      "chapterId":"17",
+                                                      "chapterName":"CFA-07"
+                                                      },
+                                                      {
+                                                      "chapterId":"18",
+                                                      "chapterName":"CFA-08"
+                                                      }
+                                                      ],
                                       }
                                      ],
                         "nowList":[

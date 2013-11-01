@@ -33,7 +33,7 @@
             
         }];
     }else{
-        DLog(@"parent controller is NULL");
+        DLog(@"parent controller is NULLb");
     }
 
     
