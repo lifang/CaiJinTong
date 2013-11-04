@@ -6,10 +6,10 @@
 //  Copyright (c) 2013年 LanTai. All rights reserved.
 //
 //
-#define kHost @"http://116.255.135.175:3004/api"
+#define kHost @"http://192.168.0.126:3000/api"
 #define kDomain @"http://116.255.135.175:3004"
 
-#define kLogin @"/orders/login"
+#define kLogin @"/chapters/user_round"
 #define kIndex @"/orders/index_list"
 #define kSearchCar @"/orders/search_car"
 #define kShowCar @"/orders/show_car"
@@ -27,5 +27,29 @@
 #define ksync @"/orders/sync_orders_and_customer"
 #define kwork_order @"/orders/work_order_finished"
 
+#define MDKey @"DGDFGDSF97887*&&^sdfsf?"
 
 
+
+#import "LogInterface.h"//登录
+#import "FindPassWordInterface.h"//找回密码
+#import "LessonInfoInterface.h"//课程信息
+#import "ChapterInfoInterface.h"//章节下视频信息
+#import "SectionInfoInterface.h"//视频详细信息
+#import "PlayVideoInterface.h"//播放视频
+#import "PlayBackInterface.h"//播放返回
+#import "GradeInterface.h"//打分或者评论
+#import "CommentListInterface.h"//评论列表的分页加载
+#import "SumitNoteInterface.h"//提交笔记
+#import "SearchLessonInterface.h"//搜索课程
+#import "QuestionInfoInterface.h"//问题信息
+#import "QuestionListInterface.h"//问题的分页加载
+#import "AnswerListInterface.h"//回答的分页加载
+#import "AcceptAnswerInterface.h"//采纳答案
+#import "ChapterQuestionInterface.h"//章节下问题
+#import "AnswerPraiseInterface.h"//赞
+#import "GetUserQuestionInterface.h"//我的提问或者我的回答
+#import "SubmitAnswerInterface.h"//提交答案或者追问
+#import "SearchQuestionInterface.h"//搜索问题
+#import "AskQuestionInterface.h"//提交问题
+#import "SuggestionInterface.h"//提交建议

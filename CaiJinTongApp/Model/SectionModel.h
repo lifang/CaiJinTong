@@ -24,8 +24,7 @@
 @property (nonatomic, strong) NSString *sectionDownload;//下载地址
 @property (nonatomic, strong) NSString *sectionStudy;//已经学习时间
 @property (nonatomic, strong) NSString *sectionLastTime;//视频总的时长
-@property (nonatomic, assign) int pageIndex;//
-@property (nonatomic, assign) int pageCount;//
+
 @property (nonatomic, strong) NSMutableArray *noteList;//笔记列表
 @property (nonatomic, strong) NSMutableArray *commentList;//评论列表
 @property (nonatomic, strong) NSMutableArray *sectionList;//章节目录
