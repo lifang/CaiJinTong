@@ -10,8 +10,13 @@
 #import "LessonModel.h"
 #import "chapterModel.h"
 #import "ForgotPwdViewController.h"
+
+#import "QuestionModel.h"
+#import "LessonQuestionModel.h"
 #define LESSON_HEADER_IDENTIFIER @"lessonHeader"
+typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 @interface LessonViewController ()
+@property(nonatomic,assign) TableListType listType;
 @end
 
 @implementation LessonViewController
@@ -28,6 +33,7 @@
 {
     [super viewDidLoad];
     [self.tableView registerClass:[LessonListHeaderView class] forHeaderFooterViewReuseIdentifier:LESSON_HEADER_IDENTIFIER];
+    self.listType = LESSON_LIST;
     [self initTestData];
 
 //    //tableView初始化
@@ -182,6 +188,7 @@
             return 0;
         }
     }
+    
     LessonModel *lesson = (LessonModel *)[self.lessonList objectAtIndex:section];
     count = lesson.chapterList.count;
     return count;
@@ -192,6 +199,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"lessonCell"];
     LessonModel *lesson = (LessonModel *)[self.lessonList objectAtIndex:indexPath.section];
     chapterModel *chapter = (chapterModel *)[lesson.chapterList objectAtIndex:indexPath.row];
+    cell.imageView.image = [UIImage imageNamed:@"jiantou_down.png"];
     cell.textLabel.text = chapter.chapterName;
     return cell;
 }
@@ -207,8 +215,26 @@
     [self presentPopupViewController:forgotControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO];
 }
 - (IBAction)lessonListBtClicked:(id)sender {
+    self.listType = LESSON_LIST;
 }
 
 - (IBAction)questionListBtClicked:(id)sender {
+    self.listType = QUEATION_LIST;
 }
+
+#pragma mark property
+-(NSMutableArray *)questionArrSelSection{
+    if (!_questionArrSelSection) {
+        _questionArrSelSection = [NSMutableArray array];
+    }
+    return _questionArrSelSection;
+}
+
+-(NSMutableArray *)questionList{
+    if (!_questionList) {
+        _questionList = [NSMutableArray array];
+    }
+    return _questionList;
+}
+#pragma mark --
 @end

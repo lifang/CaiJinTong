@@ -21,9 +21,13 @@
 - (IBAction)questionListBtClicked:(id)sender;
 @property (weak, nonatomic) IBOutlet UIImageView *LogoImageView;
 @property (weak, nonatomic) IBOutlet UILabel *rightNameLabel;
-@property (nonatomic, strong) UITableView *lessonTable;
 @property (nonatomic, strong) NSDictionary *lessonDictionary;
 @property (nonatomic, strong) NSMutableArray *lessonList;
 @property (nonatomic, strong) NSMutableArray *arrSelSection;
 @property (nonatomic, assign) NSInteger tmpSection;
+
+@property (nonatomic, strong) NSDictionary *questionDictionary;
+@property (nonatomic, strong) NSMutableArray *questionList;
+@property (nonatomic, strong) NSMutableArray *questionArrSelSection;
+@property (nonatomic, assign) NSInteger questionTmpSection;
 @end
