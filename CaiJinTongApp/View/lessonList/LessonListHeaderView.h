@@ -10,7 +10,7 @@
 @protocol LessonListHeaderViewDelegate;
 @interface LessonListHeaderView : UITableViewHeaderFooterView
 @property (nonatomic,strong) UILabel *lessonTextLabel;
-@property (nonatomic,strong) UILabel *lessonDetailLabel;
+@property (nonatomic,strong) UILabel *lessonDetailLabel;//显示count
 @property (nonatomic,strong) NSIndexPath *path;
 @property (nonatomic,weak) id<LessonListHeaderViewDelegate> delegate;
 @property (nonatomic,assign) BOOL isSelected;

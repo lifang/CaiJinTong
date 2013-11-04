@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SectionCustomView.h"
 
 @interface ChapterViewController : DRNaviGationBarController <UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) UIScrollView *myScrollView;
 @property (nonatomic, strong) UITableView *myTable;
 @property (nonatomic, strong) NSArray *chapterArray;
+@property (nonatomic, strong) SectionCustomView *sectionView;
 @end
