@@ -9,7 +9,10 @@
 #import "LessonViewController.h"
 #import "LessonModel.h"
 #import "chapterModel.h"
-#import "ForgotPwdViewController.h"
+
+#import "ChapterViewController.h"
+#import "SectionModel.h"
+
 @interface LessonViewController ()
 
 @end
@@ -63,7 +66,7 @@
         [self.arrSelSection addObject:[NSString stringWithFormat:@"%d",i]];
     }
     //tableView初始化
-    CGRect rect = CGRectMake(0, 20, self.view.frame.size.width/2, self.view.frame.size.height-20);
+    CGRect rect = CGRectMake(0, 20, 200, self.view.frame.size.height-20);
     self.lessonTable = [[UITableView alloc] initWithFrame:rect style:UITableViewStylePlain];
     self.lessonTable.delegate = self;
     self.lessonTable.dataSource = self;
@@ -185,11 +188,34 @@
     LessonModel *lesson = (LessonModel *)[self.lessonList objectAtIndex:indexPath.section];
     chapterModel *chapter = (chapterModel *)[lesson.chapterList objectAtIndex:indexPath.row];
     DLog(@"id = %@",chapter.chapterId);
+    
+    //数据来源
+    NSDictionary *dictionary = [Utility initWithJSONFile:@"chapterInfo"];
+    NSDictionary *dicc = [dictionary objectForKey:@"ReturnObject"];
+    NSArray *sectionArray = [dicc objectForKey:@"sectionList"];
+    NSMutableArray *tempArray = [[NSMutableArray alloc]init];
+    if (sectionArray.count>0) {
+        for (int i=0; i<sectionArray.count; i++) {
+            NSDictionary *dic = [sectionArray objectAtIndex:i];
+            SectionModel *section = [[SectionModel alloc]init];
+            section.sectionId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionId"]];
+            section.sectionName = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionName"]];
+            section.sectionImg = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionImg"]];
+            section.sectionProgress = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionProgress"]];
+            [tempArray addObject:section];
+        }
+        DLog(@"te = %@",tempArray);
+    }
+    //
     UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-    ForgotPwdViewController *forgotControl = [story instantiateViewControllerWithIdentifier:@"ForgotPwdViewController"];
-    forgotControl.view.frame = (CGRect){50,0,768-50,1024};
-//    AppDelegate *app = [[UIApplication sharedApplication] delegate];
-//    app.popupedController = self;
-    [self presentPopupViewController:forgotControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO];
+    ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
+    chapterView.view.frame = (CGRect){50,20,768-200,1024-20};
+    DLog(@"te = %@",tempArray);
+    if (tempArray.count>0) {
+        chapterView.chapterArray = [[NSArray alloc]initWithArray:tempArray];
+        tempArray = nil;
+    }
+    
+    [self presentPopupViewController:chapterView animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO];
 }
 @end

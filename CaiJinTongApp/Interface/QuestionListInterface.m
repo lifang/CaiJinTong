@@ -18,6 +18,12 @@
 -(void)getQuestionListInterfaceDelegateWithUserId:(NSString *)userId andChapterQuestionId:(NSString *)chapterQuestionId andPageIndex:(int)pageIndex andIsMyself:(NSString *)isMyself {
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     
+    NSString *timespan = [Utility getNowDateFromatAnDate];
+    NSString *strKey = [NSString stringWithFormat:@"%@%@",timespan,MDKey];
+    NSString *md5Key = [Utility createMD5:strKey];
+    
+    [reqheaders setValue:[NSString stringWithFormat:@"%@",timespan] forKey:@"timespan"];
+    [reqheaders setValue:[NSString stringWithFormat:@"%@",md5Key] forKey:@"token"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     if (chapterQuestionId) {
         [reqheaders setValue:[NSString stringWithFormat:@"%@",chapterQuestionId] forKey:@"chapterQuestionId"];

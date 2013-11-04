@@ -36,6 +36,16 @@
 		0EA7EF5E1823AE1800C47F69 /* AskQuestionInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF5D1823AE1800C47F69 /* AskQuestionInterface.m */; };
 		0EA7EF611823B0EC00C47F69 /* AnswerListInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF601823B0EC00C47F69 /* AnswerListInterface.m */; };
 		0EA7EF631823B1FC00C47F69 /* answerList.json in Resources */ = {isa = PBXBuildFile; fileRef = 0EA7EF621823B1FC00C47F69 /* answerList.json */; };
+		0EA7EF661827445500C47F69 /* ChapterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF651827445500C47F69 /* ChapterViewController.m */; };
+		0EA7EF7A182748BB00C47F69 /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF69182748BB00C47F69 /* SDImageCache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0EA7EF7B182748BB00C47F69 /* SDWebImageDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF6D182748BB00C47F69 /* SDWebImageDecoder.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0EA7EF7C182748BB00C47F69 /* SDWebImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF6F182748BB00C47F69 /* SDWebImageDownloader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0EA7EF7D182748BB00C47F69 /* SDWebImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF72182748BB00C47F69 /* SDWebImageManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0EA7EF7E182748BB00C47F69 /* SDWebImagePrefetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF75182748BB00C47F69 /* SDWebImagePrefetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0EA7EF7F182748BB00C47F69 /* UIButton+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF77182748BB00C47F69 /* UIButton+WebCache.m */; };
+		0EA7EF80182748BB00C47F69 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF79182748BB00C47F69 /* UIImageView+WebCache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0EA7EF8618276DD300C47F69 /* AMProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF8318276DD300C47F69 /* AMProgressView.m */; };
+		0EA7EF8718276DD300C47F69 /* AMProgressViewGradient.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF8518276DD300C47F69 /* AMProgressViewGradient.m */; };
 		0EAFA0EA1822167800D01D3E /* acceptAnswer.json in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA0D51822167800D01D3E /* acceptAnswer.json */; };
 		0EAFA0EB1822167800D01D3E /* answerPraise.json in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA0D61822167800D01D3E /* answerPraise.json */; };
 		0EAFA0EC1822167800D01D3E /* askQuestion.json in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA0D71822167800D01D3E /* askQuestion.json */; };
@@ -197,6 +207,30 @@
 		0EA7EF5F1823B0EC00C47F69 /* AnswerListInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnswerListInterface.h; sourceTree = "<group>"; };
 		0EA7EF601823B0EC00C47F69 /* AnswerListInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnswerListInterface.m; sourceTree = "<group>"; };
 		0EA7EF621823B1FC00C47F69 /* answerList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = answerList.json; sourceTree = "<group>"; };
+		0EA7EF641827445500C47F69 /* ChapterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChapterViewController.h; sourceTree = "<group>"; };
+		0EA7EF651827445500C47F69 /* ChapterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChapterViewController.m; sourceTree = "<group>"; };
+		0EA7EF68182748BB00C47F69 /* SDImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDImageCache.h; sourceTree = "<group>"; };
+		0EA7EF69182748BB00C47F69 /* SDImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDImageCache.m; sourceTree = "<group>"; };
+		0EA7EF6A182748BB00C47F69 /* SDImageCacheDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDImageCacheDelegate.h; sourceTree = "<group>"; };
+		0EA7EF6B182748BB00C47F69 /* SDWebImageCompat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDWebImageCompat.h; sourceTree = "<group>"; };
+		0EA7EF6C182748BB00C47F69 /* SDWebImageDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDWebImageDecoder.h; sourceTree = "<group>"; };
+		0EA7EF6D182748BB00C47F69 /* SDWebImageDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDWebImageDecoder.m; sourceTree = "<group>"; };
+		0EA7EF6E182748BB00C47F69 /* SDWebImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDWebImageDownloader.h; sourceTree = "<group>"; };
+		0EA7EF6F182748BB00C47F69 /* SDWebImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDWebImageDownloader.m; sourceTree = "<group>"; };
+		0EA7EF70182748BB00C47F69 /* SDWebImageDownloaderDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDWebImageDownloaderDelegate.h; sourceTree = "<group>"; };
+		0EA7EF71182748BB00C47F69 /* SDWebImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDWebImageManager.h; sourceTree = "<group>"; };
+		0EA7EF72182748BB00C47F69 /* SDWebImageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDWebImageManager.m; sourceTree = "<group>"; };
+		0EA7EF73182748BB00C47F69 /* SDWebImageManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDWebImageManagerDelegate.h; sourceTree = "<group>"; };
+		0EA7EF74182748BB00C47F69 /* SDWebImagePrefetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDWebImagePrefetcher.h; sourceTree = "<group>"; };
+		0EA7EF75182748BB00C47F69 /* SDWebImagePrefetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDWebImagePrefetcher.m; sourceTree = "<group>"; };
+		0EA7EF76182748BB00C47F69 /* UIButton+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+WebCache.h"; sourceTree = "<group>"; };
+		0EA7EF77182748BB00C47F69 /* UIButton+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+WebCache.m"; sourceTree = "<group>"; };
+		0EA7EF78182748BB00C47F69 /* UIImageView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+WebCache.h"; sourceTree = "<group>"; };
+		0EA7EF79182748BB00C47F69 /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
+		0EA7EF8218276DD300C47F69 /* AMProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMProgressView.h; sourceTree = "<group>"; };
+		0EA7EF8318276DD300C47F69 /* AMProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMProgressView.m; sourceTree = "<group>"; };
+		0EA7EF8418276DD300C47F69 /* AMProgressViewGradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMProgressViewGradient.h; sourceTree = "<group>"; };
+		0EA7EF8518276DD300C47F69 /* AMProgressViewGradient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMProgressViewGradient.m; sourceTree = "<group>"; };
 		0EAFA0D51822167800D01D3E /* acceptAnswer.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = acceptAnswer.json; sourceTree = "<group>"; };
 		0EAFA0D61822167800D01D3E /* answerPraise.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = answerPraise.json; sourceTree = "<group>"; };
 		0EAFA0D71822167800D01D3E /* askQuestion.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = askQuestion.json; sourceTree = "<group>"; };
@@ -390,6 +424,42 @@
 			name = URLEncoding;
 			sourceTree = "<group>";
 		};
+		0EA7EF67182748B000C47F69 /* SDWebImage */ = {
+			isa = PBXGroup;
+			children = (
+				0EA7EF68182748BB00C47F69 /* SDImageCache.h */,
+				0EA7EF69182748BB00C47F69 /* SDImageCache.m */,
+				0EA7EF6A182748BB00C47F69 /* SDImageCacheDelegate.h */,
+				0EA7EF6B182748BB00C47F69 /* SDWebImageCompat.h */,
+				0EA7EF6C182748BB00C47F69 /* SDWebImageDecoder.h */,
+				0EA7EF6D182748BB00C47F69 /* SDWebImageDecoder.m */,
+				0EA7EF6E182748BB00C47F69 /* SDWebImageDownloader.h */,
+				0EA7EF6F182748BB00C47F69 /* SDWebImageDownloader.m */,
+				0EA7EF70182748BB00C47F69 /* SDWebImageDownloaderDelegate.h */,
+				0EA7EF71182748BB00C47F69 /* SDWebImageManager.h */,
+				0EA7EF72182748BB00C47F69 /* SDWebImageManager.m */,
+				0EA7EF73182748BB00C47F69 /* SDWebImageManagerDelegate.h */,
+				0EA7EF74182748BB00C47F69 /* SDWebImagePrefetcher.h */,
+				0EA7EF75182748BB00C47F69 /* SDWebImagePrefetcher.m */,
+				0EA7EF76182748BB00C47F69 /* UIButton+WebCache.h */,
+				0EA7EF77182748BB00C47F69 /* UIButton+WebCache.m */,
+				0EA7EF78182748BB00C47F69 /* UIImageView+WebCache.h */,
+				0EA7EF79182748BB00C47F69 /* UIImageView+WebCache.m */,
+			);
+			path = SDWebImage;
+			sourceTree = "<group>";
+		};
+		0EA7EF8118276DC900C47F69 /* AMProgressView */ = {
+			isa = PBXGroup;
+			children = (
+				0EA7EF8218276DD300C47F69 /* AMProgressView.h */,
+				0EA7EF8318276DD300C47F69 /* AMProgressView.m */,
+				0EA7EF8418276DD300C47F69 /* AMProgressViewGradient.h */,
+				0EA7EF8518276DD300C47F69 /* AMProgressViewGradient.m */,
+			);
+			path = AMProgressView;
+			sourceTree = "<group>";
+		};
 		0EAFA0D41822166700D01D3E /* JSON */ = {
 			isa = PBXGroup;
 			children = (
@@ -398,7 +468,10 @@
 				0EAFA0DE1822167800D01D3E /* lessonInfo.json */,
 				0EAFA0D81822167800D01D3E /* chapterInfo.json */,
 				0EAFA0E61822167800D01D3E /* sectionInfo.json */,
+				0EAFA0E01822167800D01D3E /* playBack.json */,
+				0EAFA0E11822167800D01D3E /* playVideo.json */,
 				0EAFA0DD1822167800D01D3E /* grade.json */,
+				0EAFA0E81822167800D01D3E /* submitNote.json */,
 				0EAFA0DA1822167800D01D3E /* commentList.json */,
 				0EAFA0E41822167800D01D3E /* searchLesson.json */,
 				0EAFA0E21822167800D01D3E /* questionInfo.json */,
@@ -410,10 +483,7 @@
 				0EAFA0DC1822167800D01D3E /* getUserQuestion.json */,
 				0EAFA0E51822167800D01D3E /* searchQuestion.json */,
 				0EAFA0D71822167800D01D3E /* askQuestion.json */,
-				0EAFA0E01822167800D01D3E /* playBack.json */,
-				0EAFA0E11822167800D01D3E /* playVideo.json */,
 				0EAFA0E71822167800D01D3E /* submitAnswer.json */,
-				0EAFA0E81822167800D01D3E /* submitNote.json */,
 				0EAFA0E91822167800D01D3E /* suggestion.json */,
 			);
 			path = JSON;
@@ -537,6 +607,8 @@
 				6323875F18222A1500C71535 /* DRNaviGationBarController.m */,
 				0EAFA12A18224C2700D01D3E /* LessonViewController.h */,
 				0EAFA12B18224C2700D01D3E /* LessonViewController.m */,
+				0EA7EF641827445500C47F69 /* ChapterViewController.h */,
+				0EA7EF651827445500C47F69 /* ChapterViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -576,10 +648,16 @@
 				0EAFA1251822488700D01D3E /* ChapterInfoInterface.m */,
 				0EA7EF11182349AF00C47F69 /* SectionInfoInterface.h */,
 				0EA7EF12182349AF00C47F69 /* SectionInfoInterface.m */,
+				0EA7EF4D1823A98600C47F69 /* PlayVideoInterface.h */,
+				0EA7EF4E1823A98600C47F69 /* PlayVideoInterface.m */,
+				0EA7EF501823A99700C47F69 /* PlayBackInterface.h */,
+				0EA7EF511823A99700C47F69 /* PlayBackInterface.m */,
 				0EA7EF1418234A0400C47F69 /* GradeInterface.h */,
 				0EA7EF1518234A0400C47F69 /* GradeInterface.m */,
 				0EA7EF1718234A7500C47F69 /* CommentListInterface.h */,
 				0EA7EF1818234A7500C47F69 /* CommentListInterface.m */,
+				0EA7EF531823ACCC00C47F69 /* SumitNoteInterface.h */,
+				0EA7EF541823ACCC00C47F69 /* SumitNoteInterface.m */,
 				0EA7EF1A18234AC600C47F69 /* SearchLessonInterface.h */,
 				0EA7EF1B18234AC600C47F69 /* SearchLessonInterface.m */,
 				0EA7EF1D18234B5600C47F69 /* QuestionInfoInterface.h */,
@@ -598,12 +676,6 @@
 				0EA7EF3018234D8D00C47F69 /* GetUserQuestionInterface.m */,
 				0EA7EF3518234F9000C47F69 /* SearchQuestionInterface.h */,
 				0EA7EF3618234F9000C47F69 /* SearchQuestionInterface.m */,
-				0EA7EF4D1823A98600C47F69 /* PlayVideoInterface.h */,
-				0EA7EF4E1823A98600C47F69 /* PlayVideoInterface.m */,
-				0EA7EF501823A99700C47F69 /* PlayBackInterface.h */,
-				0EA7EF511823A99700C47F69 /* PlayBackInterface.m */,
-				0EA7EF531823ACCC00C47F69 /* SumitNoteInterface.h */,
-				0EA7EF541823ACCC00C47F69 /* SumitNoteInterface.m */,
 				0EA7EF591823ADF100C47F69 /* SubmitAnswerInterface.h */,
 				0EA7EF5A1823ADF100C47F69 /* SubmitAnswerInterface.m */,
 				0EA7EF5C1823AE1800C47F69 /* AskQuestionInterface.h */,
@@ -680,6 +752,8 @@
 				0EDF4DFA1821028F007161E0 /* Const.h */,
 				0EDF4DFB1821028F007161E0 /* NSDictionary+AllKeytoLowerCase.h */,
 				0EDF4DFC1821028F007161E0 /* NSDictionary+AllKeytoLowerCase.m */,
+				0EA7EF8118276DC900C47F69 /* AMProgressView */,
+				0EA7EF67182748B000C47F69 /* SDWebImage */,
 				0EDF4DC818210241007161E0 /* DB */,
 				0E52B97E182104C6008A88C1 /* URLEncoding */,
 				0EDF4DD718210241007161E0 /* Reachability */,
@@ -935,6 +1009,7 @@
 				0EA7EF09182336B600C47F69 /* chapterModel.m in Sources */,
 				630B03C41820F5BB00F72C4C /* ViewController.m in Sources */,
 				0EDF4DDB18210241007161E0 /* ASIWebPageRequest.m in Sources */,
+				0EA7EF661827445500C47F69 /* ChapterViewController.m in Sources */,
 				0EDF4DEE18210241007161E0 /* ASIS3ObjectRequest.m in Sources */,
 				0EDF4DE418210241007161E0 /* ASIDataCompressor.m in Sources */,
 				0EDF4DE118210241007161E0 /* ASICloudFilesObjectRequest.m in Sources */,
@@ -947,6 +1022,7 @@
 				0EDF4DE018210241007161E0 /* ASICloudFilesObject.m in Sources */,
 				0EA7EF4618238CC600C47F69 /* ChapterQuestionModel.m in Sources */,
 				0EDF4DDF18210241007161E0 /* ASICloudFilesContainerXMLParserDelegate.m in Sources */,
+				0EA7EF7C182748BB00C47F69 /* SDWebImageDownloader.m in Sources */,
 				0EDF4DE618210241007161E0 /* ASIDownloadCache.m in Sources */,
 				0EDF4DE918210241007161E0 /* ASIInputStream.m in Sources */,
 				6323876318223E9500C71535 /* DRNavigationBar.m in Sources */,
@@ -972,9 +1048,12 @@
 				0EDF4DE218210241007161E0 /* ASICloudFilesRequest.m in Sources */,
 				0EA7EF1018233CDC00C47F69 /* LessonModel.m in Sources */,
 				0EA7EF2518234BE900C47F69 /* AcceptAnswerInterface.m in Sources */,
+				0EA7EF7A182748BB00C47F69 /* SDImageCache.m in Sources */,
+				0EA7EF7E182748BB00C47F69 /* SDWebImagePrefetcher.m in Sources */,
 				0EA7EF5B1823ADF100C47F69 /* SubmitAnswerInterface.m in Sources */,
 				639A07A71823909000B60670 /* UIViewController+MJPopupViewController.m in Sources */,
 				0EDF4DF318210241007161E0 /* GTMNSString+HTML.m in Sources */,
+				0EA7EF7F182748BB00C47F69 /* UIButton+WebCache.m in Sources */,
 				0EA7EF2818234CDC00C47F69 /* ChapterQuestionInterface.m in Sources */,
 				0EAFA11A18223FC500D01D3E /* CJTMainToolbar.m in Sources */,
 				0EDF4E011821029B007161E0 /* CaiJinTongManager.m in Sources */,
@@ -986,19 +1065,24 @@
 				630B03B71820F5BB00F72C4C /* main.m in Sources */,
 				0EDF4DDC18210241007161E0 /* ASICloudFilesCDNRequest.m in Sources */,
 				639A07A61823909000B60670 /* MJPopupBackgroundView.m in Sources */,
+				0EA7EF8718276DD300C47F69 /* AMProgressViewGradient.m in Sources */,
 				0EDF4DF618210241007161E0 /* Reachability.m in Sources */,
+				0EA7EF7D182748BB00C47F69 /* SDWebImageManager.m in Sources */,
 				0EDF4DE718210241007161E0 /* ASIFormDataRequest.m in Sources */,
 				0EAFA1121822399000D01D3E /* BaseInterface.m in Sources */,
 				0EA7EF3A1823581F00C47F69 /* SectionModel.m in Sources */,
 				0EDF4DED18210241007161E0 /* ASIS3BucketRequest.m in Sources */,
 				0EDF4DFE1821028F007161E0 /* NSDictionary+AllKeytoLowerCase.m in Sources */,
+				0EA7EF80182748BB00C47F69 /* UIImageView+WebCache.m in Sources */,
 				0EAFA11718223E5D00D01D3E /* CJTToolbarView.m in Sources */,
 				0EDF4DF218210241007161E0 /* RJFileUtils.m in Sources */,
 				0EA7EF13182349AF00C47F69 /* SectionInfoInterface.m in Sources */,
 				0EDF4DEC18210241007161E0 /* ASIS3BucketObject.m in Sources */,
 				0EDF4DE518210241007161E0 /* ASIDataDecompressor.m in Sources */,
 				0EA7EF5E1823AE1800C47F69 /* AskQuestionInterface.m in Sources */,
+				0EA7EF7B182748BB00C47F69 /* SDWebImageDecoder.m in Sources */,
 				0EA7EF1618234A0400C47F69 /* GradeInterface.m in Sources */,
+				0EA7EF8618276DD300C47F69 /* AMProgressView.m in Sources */,
 				0EA7EF2E18234D6200C47F69 /* AnswerPraiseInterface.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -6,19 +6,19 @@
                                        {
                                       "sectionId":"111",
                                       "sectionName":"CFA-01-001",
-                                      "sectionImg":"http://116.255.135.175:3004/service_pics/1/20/2img20_154.jpg",
+                                      "sectionImg":"http://116.255.135.175:3004/service_pics/100001/100250/0img100250_50.jpg",
                                       "sectionProgress":"0.86"
                                        },
                                        {
                                       "sectionId":"112",
                                       "sectionName":"CFA-01-002",
-                                      "sectionImg":"http://116.255.135.175:3004/service_pics/1/20/2img20_154.jpg",
+                                      "sectionImg":"http://116.255.135.175:3004/service_pics/100001/100250/0img100250_50.jpg",
                                       "sectionProgress":"0.56"
                                        },
                                        {
                                       "sectionId":"113",
                                       "sectionName":"CFA-01-003",
-                                      "sectionImg":"http://116.255.135.175:3004/service_pics/1/20/2img20_154.jpg",
+                                      "sectionImg":"http://116.255.135.175:3004/service_pics/100001/100250/0img100250_50.jpg",
                                       "sectionProgress":"0.46"
                                        },
                                        {
@@ -38,8 +38,43 @@
                                       "sectionName":"CFA-01-006",
                                       "sectionImg":"http://116.255.135.175:3004/service_pics/1/20/2img20_154.jpg",
                                       "sectionProgress":"0.16"
+                                       },
+                                       {
+                                       "sectionId":"112",
+                                       "sectionName":"CFA-01-007",
+                                       "sectionImg":"http://116.255.135.175:3004/service_pics/100001/100250/0img100250_50.jpg",
+                                       "sectionProgress":"0.56"
+                                       },
+                                       {
+                                       "sectionId":"112",
+                                       "sectionName":"CFA-01-008",
+                                       "sectionImg":"http://116.255.135.175:3004/service_pics/100001/100250/0img100250_50.jpg",
+                                       "sectionProgress":"0.56"
+                                       },
+                                       {
+                                       "sectionId":"112",
+                                       "sectionName":"CFA-01-009",
+                                       "sectionImg":"http://116.255.135.175:3004/service_pics/100001/100250/0img100250_50.jpg",
+                                       "sectionProgress":"0.56"
+                                       },
+                                       {
+                                       "sectionId":"112",
+                                       "sectionName":"CFA-01-010",
+                                       "sectionImg":"http://116.255.135.175:3004/service_pics/100001/100250/0img100250_50.jpg",
+                                       "sectionProgress":"0.56"
+                                       },
+                                       {
+                                       "sectionId":"112",
+                                       "sectionName":"CFA-01-011",
+                                       "sectionImg":"http://116.255.135.175:3004/service_pics/100001/100250/0img100250_50.jpg",
+                                       "sectionProgress":"0.56"
+                                       },
+                                       {
+                                       "sectionId":"112",
+                                       "sectionName":"CFA-01-012",
+                                       "sectionImg":"http://116.255.135.175:3004/service_pics/100001/100250/0img100250_50.jpg",
+                                       "sectionProgress":"0.56"
                                        }
-
                                      ]
 
     }

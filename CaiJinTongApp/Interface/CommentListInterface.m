@@ -18,6 +18,12 @@
 -(void)getGradeInterfaceDelegateWithUserId:(NSString *)userId andSectionId:(NSString *)sectionId andPageIndex:(int)pageIndex {
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     
+    NSString *timespan = [Utility getNowDateFromatAnDate];
+    NSString *strKey = [NSString stringWithFormat:@"%@%@",timespan,MDKey];
+    NSString *md5Key = [Utility createMD5:strKey];
+    
+    [reqheaders setValue:[NSString stringWithFormat:@"%@",timespan] forKey:@"timespan"];
+    [reqheaders setValue:[NSString stringWithFormat:@"%@",md5Key] forKey:@"token"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",sectionId] forKey:@"sectionId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%d",pageIndex] forKey:@"pageIndex"];
@@ -47,8 +53,7 @@
                             if (dictionary) {
                                 SectionModel *section = [[SectionModel alloc]init];
                                 section.sectionId = [NSString stringWithFormat:@"%@",[dictionary objectForKey:@"sectionId"]];
-                                section.pageIndex =[[dictionary objectForKey:@"pageIndex"]intValue];
-                                section.pageCount = [[dictionary objectForKey:@"pageCount"]intValue];
+                                
                                 //评论列表
                                 if (![[dictionary objectForKey:@"commentList"]isKindOfClass:[NSNull class]] && [dictionary objectForKey:@"commentList"]!=nil) {
                                     NSArray *array_comment = [dictionary objectForKey:@"commentList"];

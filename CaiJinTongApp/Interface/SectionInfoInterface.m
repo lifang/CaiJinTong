@@ -18,6 +18,12 @@
 -(void)getSectionInfoInterfaceDelegateWithUserId:(NSString *)userId andSectionId:(NSString *)sectionId {
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     
+    NSString *timespan = [Utility getNowDateFromatAnDate];
+    NSString *strKey = [NSString stringWithFormat:@"%@%@",timespan,MDKey];
+    NSString *md5Key = [Utility createMD5:strKey];
+    
+    [reqheaders setValue:[NSString stringWithFormat:@"%@",timespan] forKey:@"timespan"];
+    [reqheaders setValue:[NSString stringWithFormat:@"%@",md5Key] forKey:@"token"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",sectionId] forKey:@"sectionId"];
     
@@ -58,8 +64,7 @@
                                 section.sectionDownload = [NSString stringWithFormat:@"%@",[dictionary objectForKey:@"sectionDownload"]];
                                 section.sectionStudy = [NSString stringWithFormat:@"%@",[dictionary objectForKey:@"sectionStudy"]];
                                 section.sectionLastTime = [NSString stringWithFormat:@"%@",[dictionary objectForKey:@"sectionLastTime"]];
-                                section.pageIndex =[[dictionary objectForKey:@"pageIndex"]intValue];
-                                section.pageCount = [[dictionary objectForKey:@"pageCount"]intValue];
+            
                                 //笔记列表
                                 if (![[dictionary objectForKey:@"noteList"]isKindOfClass:[NSNull class]] && [dictionary objectForKey:@"noteList"]!=nil) {
                                     NSArray *array_note = [dictionary objectForKey:@"noteList"];

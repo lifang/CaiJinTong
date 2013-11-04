@@ -17,6 +17,7 @@
 -(NSString *)createPostURL:(NSDictionary *)params
 {
     NSString *postString=@"";
+    DLog(@"%@",[params allKeys]);
     for(NSString *key in [params allKeys])
     {
         NSString *value=[params objectForKey:key];

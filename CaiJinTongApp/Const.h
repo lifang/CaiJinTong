@@ -6,10 +6,10 @@
 //  Copyright (c) 2013年 LanTai. All rights reserved.
 //
 //
-#define kHost @"http://116.255.135.175:3004/api"
+#define kHost @"http://192.168.0.126:3000/api"
 #define kDomain @"http://116.255.135.175:3004"
 
-#define kLogin @"/orders/login"
+#define kLogin @"/chapters/user_round"
 #define kIndex @"/orders/index_list"
 #define kSearchCar @"/orders/search_car"
 #define kShowCar @"/orders/show_car"
@@ -27,5 +27,5 @@
 #define ksync @"/orders/sync_orders_and_customer"
 #define kwork_order @"/orders/work_order_finished"
 
-
+#define MDKey @"DGDFGDSF97887*&&^sdfsf?"
 
