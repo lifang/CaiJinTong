@@ -11,7 +11,7 @@
 @interface SuggestionInterface : BaseInterface<BaseInterfaceDelegate>
 
 @property (nonatomic, assign) id<SuggestionInterfaceDelegate>delegate;
--(void)getAskQuestionInterfaceDelegateWithUserId:(NSString *)userId andSuggestionContent:(NSString *)suggestionContent;
+-(void)getAskQuestionInterfaceDelegateWithUserId:(NSString *)userId andSuggestionContent:(NSString *)suggestionContent andSuggestionTime:(NSString *)suggestionTime;
 
 @end
 

@@ -32,7 +32,7 @@
 
 -(void)connect {
     if (self.interfaceUrl) {
-        NSMutableString *urlStr = [NSMutableString stringWithFormat:@"%@%@",self.interfaceUrl,[CaiJinTongManager sharedInstance].sessionId];
+        NSMutableString *urlStr = [NSMutableString stringWithFormat:@"%@",self.interfaceUrl];
         //url含中文转化UTF8
         urlStr = (NSMutableString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
                                                                         (CFStringRef)urlStr,

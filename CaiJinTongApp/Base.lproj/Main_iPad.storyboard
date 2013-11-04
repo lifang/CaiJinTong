@@ -262,7 +262,6 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZuI-kx-mWh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-
             <point key="canvasLocation" x="-423" y="-158"/>
         </scene>
         <!--Chapter View Controller-->
@@ -278,7 +277,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Zr-Y0-9CW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="502" y="-146"/>
-
         </scene>
         <!--Forgot Pwd View Controller-->
         <scene sceneID="LSq-k2-bfe">
@@ -289,7 +287,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="NGp-1t-Qqc">
-                                <rect key="frame" x="151" y="125" width="466.00000000000006" height="218"/>
+                                <rect key="frame" x="151" y="125" width="466" height="218"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" id="CjD-vo-kjG">

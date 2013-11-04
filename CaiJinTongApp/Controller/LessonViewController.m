@@ -184,7 +184,7 @@
     chapterView.view.frame = (CGRect){50,20,768-200,1024-20};
     DLog(@"te = %@",tempArray);
     if (tempArray.count>0) {
-        chapterView.chapterArray = [[NSArray alloc]initWithArray:tempArray];
+        chapterView.recentArray = [[NSArray alloc]initWithArray:tempArray];
         tempArray = nil;
     }
     

@@ -6,15 +6,16 @@
 //  Copyright (c) 2013年 david. All rights reserved.
 //
 
-#import "CJTToolbarView.h"
 
 @class CJTMainToolbar;
 
 @protocol CJTMainToolbarDelegate <NSObject>
-- (void)tappedInToolbar:(CJTMainToolbar *)toolbar doneButton:(UIButton *)button;
+- (void)tappedInToolbar:(CJTMainToolbar *)toolbar recentButton:(UIButton *)button;
+- (void)tappedInToolbar:(CJTMainToolbar *)toolbar progressButton:(UIButton *)button;
+- (void)tappedInToolbar:(CJTMainToolbar *)toolbar nameButton:(UIButton *)button;
 @end
 
-@interface CJTMainToolbar : CJTToolbarShadow
+@interface CJTMainToolbar : UIView
 
 @property (nonatomic, assign) id <CJTMainToolbarDelegate> delegate;
 
