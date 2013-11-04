@@ -178,7 +178,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="NGp-1t-Qqc">
-                                <rect key="frame" x="151" y="125" width="466" height="218"/>
+                                <rect key="frame" x="151" y="125" width="466.00000000000006" height="218"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" id="CjD-vo-kjG">
