@@ -1,23 +1,24 @@
 //
-//  ChapterInfoInterface.m
+//  SearchLessonInterface.m
 //  CaiJinTongApp
 //
-//  Created by comdosoft on 13-10-31.
+//  Created by comdosoft on 13-11-1.
 //  Copyright (c) 2013年 david. All rights reserved.
 //
 
-#import "ChapterInfoInterface.h"
+#import "SearchLessonInterface.h"
 #import "NSDictionary+AllKeytoLowerCase.h"
 #import "NSString+URLEncoding.h"
 #import "NSString+HTML.h"
 #import "SectionModel.h"
 
-@implementation ChapterInfoInterface
--(void)getChapterInfoInterfaceDelegateWithUserId:(NSString *)userId andChapterId:(NSString *)chapterId {
+@implementation SearchLessonInterface
+
+-(void)getSearchLessonInterfaceDelegateWithUserId:(NSString *)userId andText:(NSString *)text {
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",chapterId] forKey:@"chapterId"];
+    [reqheaders setValue:[NSString stringWithFormat:@"%@",text] forKey:@"text"];
     
     self.interfaceUrl = [NSString stringWithFormat:@"%@",kHost];
     
@@ -43,7 +44,6 @@
                             NSDictionary *dictionary =[jsonData objectForKey:@"ReturnObject"];
                             if (dictionary) {
                                 NSMutableDictionary *tempDic = [[NSMutableDictionary alloc]init];
-                                //章下面视频列表
                                 if (![[dictionary objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [dictionary objectForKey:@"sectionList"]!=nil) {
                                     NSArray *array = [dictionary objectForKey:@"sectionList"];
                                     if (array.count>0) {
@@ -63,24 +63,26 @@
                                         }
                                     }
                                 }
-                                [self.delegate getChapterInfoDidFinished:tempDic];
-                                tempDic = nil;
+                                if (tempDic) {
+                                    [self.delegate getSearchLessonInfoDidFinished:tempDic];
+                                    tempDic = nil;
+                                }
                             }
                         }
                         @catch (NSException *exception) {
-                            [self.delegate getChapterInfoDidFailed:@"获取章节列表失败!"];
+                            [self.delegate getSearchLessonInfoDidFailed:@"搜索失败!"];
                         }
                     }
                 }else {
-                    [self.delegate getChapterInfoDidFailed:@"获取章节列表失败!"];
+                    [self.delegate getSearchLessonInfoDidFailed:@"搜索失败!"];
                 }
             }
         }
     }else {
-        [self.delegate getChapterInfoDidFailed:@"获取章节列表失败!"];
+        [self.delegate getSearchLessonInfoDidFailed:@"搜索失败!"];
     }
 }
 -(void)requestIsFailed:(NSError *)error{
-    [self.delegate getChapterInfoDidFailed:@"获取章节列表失败!"];
+    [self.delegate getSearchLessonInfoDidFailed:@"搜索失败!"];
 }
 @end

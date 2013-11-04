@@ -1,22 +1,23 @@
 //
-//  FindPassWordInterface.m
+//  AnswerPraiseInterface.m
 //  CaiJinTongApp
 //
-//  Created by comdosoft on 13-10-31.
+//  Created by comdosoft on 13-11-1.
 //  Copyright (c) 2013年 david. All rights reserved.
 //
 
-#import "FindPassWordInterface.h"
+#import "AnswerPraiseInterface.h"
 #import "NSDictionary+AllKeytoLowerCase.h"
 #import "NSString+URLEncoding.h"
 #import "NSString+HTML.h"
+@implementation AnswerPraiseInterface
 
-@implementation FindPassWordInterface
--(void)getFindPassWordInterfaceDelegateWithName:(NSString *)theName andEmail:(NSString *)theEmail {
+-(void)getAnswerPraiseInterfaceDelegateWithUserId:(NSString *)userId andQuestionId:(NSString *)questionId andResultId:(NSString *)resultId {
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",theName] forKey:@"userName"];
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",theEmail] forKey:@"userEmail"];
+    [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
+    [reqheaders setValue:[NSString stringWithFormat:@"%@",questionId] forKey:@"questionId"];
+    [reqheaders setValue:[NSString stringWithFormat:@"%@",resultId] forKey:@"resultId"];
     
     self.interfaceUrl = [NSString stringWithFormat:@"%@",kHost];
     
@@ -25,7 +26,6 @@
     
     [self connect];
 }
-
 #pragma mark - BaseInterfaceDelegate
 
 -(void)parseResult:(ASIHTTPRequest *)request{
@@ -40,7 +40,7 @@
                 if (jsonData) {
                     if ([[jsonData objectForKey:@"Status"]intValue] == 1) {
                         @try {
-                            
+//                            NSDictionary *dictionary =[jsonData objectForKey:@"ReturnObject"];
                         }
                         @catch (NSException *exception) {
                             
@@ -58,5 +58,4 @@
 -(void)requestIsFailed:(NSError *)error{
     
 }
-
 @end

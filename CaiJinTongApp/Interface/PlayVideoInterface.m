@@ -1,23 +1,23 @@
 //
-//  FindPassWordInterface.m
+//  PlayVideoInterface.m
 //  CaiJinTongApp
 //
-//  Created by comdosoft on 13-10-31.
+//  Created by comdosoft on 13-11-1.
 //  Copyright (c) 2013年 david. All rights reserved.
 //
 
-#import "FindPassWordInterface.h"
+#import "PlayVideoInterface.h"
 #import "NSDictionary+AllKeytoLowerCase.h"
 #import "NSString+URLEncoding.h"
 #import "NSString+HTML.h"
+@implementation PlayVideoInterface
 
-@implementation FindPassWordInterface
--(void)getFindPassWordInterfaceDelegateWithName:(NSString *)theName andEmail:(NSString *)theEmail {
+-(void)getPlayVideoInterfaceDelegateWithUserId:(NSString *)userId andSectionId:(NSString *)sectionId andTimeStart:(NSString *)timeStart {
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",theName] forKey:@"userName"];
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",theEmail] forKey:@"userEmail"];
-    
+    [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
+    [reqheaders setValue:[NSString stringWithFormat:@"%@",sectionId] forKey:@"sectionId"];
+    [reqheaders setValue:[NSString stringWithFormat:@"%@",timeStart] forKey:@"timeStart"];
     self.interfaceUrl = [NSString stringWithFormat:@"%@",kHost];
     
     self.baseDelegate = self;
@@ -25,7 +25,6 @@
     
     [self connect];
 }
-
 #pragma mark - BaseInterfaceDelegate
 
 -(void)parseResult:(ASIHTTPRequest *)request{
@@ -40,7 +39,7 @@
                 if (jsonData) {
                     if ([[jsonData objectForKey:@"Status"]intValue] == 1) {
                         @try {
-                            
+//                            NSDictionary *dictionary =[jsonData objectForKey:@"ReturnObject"];
                         }
                         @catch (NSException *exception) {
                             

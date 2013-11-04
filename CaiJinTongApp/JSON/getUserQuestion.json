@@ -2,7 +2,7 @@
 	"Status":"1",
 	"Msg": "",
     "ReturnObject": {
-                        "nowQuestionList":[
+                        "questionList":[
                                            {
                                     "questionId":"111",
                                     "questionName":"how to use it ?",
@@ -12,6 +12,8 @@
                                     "askTime":"2012-01-12 16:33",
                                     "praiseCount":"32",
                                     "isAcceptAnswer":"0",
+                                        "pageIndex":"0",
+                                        "pageCount":"2",
                                     "answerList":[
                                                   {
                                                   "answerTime":"2012-01-12 16:35",
@@ -79,6 +81,8 @@
                                     "askTime":"2012-01-12 16:33",
                                     "praiseCount":"32",
                                     "isAcceptAnswer":"1",
+                                        "pageIndex":"0",
+                                        "pageCount":"2",
                                     "answerList":[
                                                   {
                                                   "answerTime":"2012-01-12 16:35",
