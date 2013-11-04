@@ -84,6 +84,8 @@
 		0EDF4E0D182102D7007161E0 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EDF4E0C182102D7007161E0 /* libxml2.dylib */; };
 		0EDF4E0F182102DD007161E0 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EDF4E0E182102DD007161E0 /* libsqlite3.0.dylib */; };
 		0EDF4E11182102E7007161E0 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EDF4E10182102E7007161E0 /* libz.dylib */; };
+		63091FFA1827435400C1AF07 /* LessonListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63091FF91827435400C1AF07 /* LessonListCell.m */; };
+		63091FFD1827473400C1AF07 /* LessonListHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63091FFC1827473300C1AF07 /* LessonListHeaderView.m */; };
 		630B03AB1820F5BB00F72C4C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630B03AA1820F5BB00F72C4C /* Foundation.framework */; };
 		630B03AD1820F5BB00F72C4C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630B03AC1820F5BB00F72C4C /* CoreGraphics.framework */; };
 		630B03AF1820F5BB00F72C4C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630B03AE1820F5BB00F72C4C /* UIKit.framework */; };
@@ -244,6 +246,10 @@
 		0EDF4E0C182102D7007161E0 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		0EDF4E0E182102DD007161E0 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		0EDF4E10182102E7007161E0 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		63091FF81827435400C1AF07 /* LessonListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LessonListCell.h; path = lessonList/LessonListCell.h; sourceTree = "<group>"; };
+		63091FF91827435400C1AF07 /* LessonListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LessonListCell.m; path = lessonList/LessonListCell.m; sourceTree = "<group>"; };
+		63091FFB1827473300C1AF07 /* LessonListHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LessonListHeaderView.h; path = lessonList/LessonListHeaderView.h; sourceTree = "<group>"; };
+		63091FFC1827473300C1AF07 /* LessonListHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LessonListHeaderView.m; path = lessonList/LessonListHeaderView.m; sourceTree = "<group>"; };
 		630B03A71820F5BB00F72C4C /* CaiJinTongApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CaiJinTongApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		630B03AA1820F5BB00F72C4C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		630B03AC1820F5BB00F72C4C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -544,6 +550,7 @@
 		0EDF4DDA18210241007161E0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				63091FF71827431A00C1AF07 /* lessonList */,
 				0EAFA11518223E5D00D01D3E /* CJTToolbarView.h */,
 				0EAFA11618223E5D00D01D3E /* CJTToolbarView.m */,
 				0EAFA11818223FC500D01D3E /* CJTMainToolbar.h */,
@@ -568,6 +575,17 @@
 				0EDF4D9218210241007161E0 /* ASIHttp */,
 			);
 			name = Utility;
+			sourceTree = "<group>";
+		};
+		63091FF71827431A00C1AF07 /* lessonList */ = {
+			isa = PBXGroup;
+			children = (
+				63091FF81827435400C1AF07 /* LessonListCell.h */,
+				63091FF91827435400C1AF07 /* LessonListCell.m */,
+				63091FFB1827473300C1AF07 /* LessonListHeaderView.h */,
+				63091FFC1827473300C1AF07 /* LessonListHeaderView.m */,
+			);
+			name = lessonList;
 			sourceTree = "<group>";
 		};
 		630B039E1820F5BB00F72C4C = {
@@ -814,6 +832,7 @@
 				630B03C41820F5BB00F72C4C /* ViewController.m in Sources */,
 				0EDF4DDB18210241007161E0 /* ASIWebPageRequest.m in Sources */,
 				0EDF4DEE18210241007161E0 /* ASIS3ObjectRequest.m in Sources */,
+				63091FFD1827473400C1AF07 /* LessonListHeaderView.m in Sources */,
 				0EDF4DE418210241007161E0 /* ASIDataCompressor.m in Sources */,
 				0EDF4DE118210241007161E0 /* ASICloudFilesObjectRequest.m in Sources */,
 				0EDF4DEB18210241007161E0 /* ASIS3Bucket.m in Sources */,
@@ -828,6 +847,7 @@
 				0EDF4DF018210241007161E0 /* ASIS3ServiceRequest.m in Sources */,
 				0EDF4DDD18210241007161E0 /* ASICloudFilesContainer.m in Sources */,
 				0EAFA129182248B100D01D3E /* sectionInfoInterface.m in Sources */,
+				63091FFA1827435400C1AF07 /* LessonListCell.m in Sources */,
 				0EDF4D9118210202007161E0 /* DownloadService.m in Sources */,
 				0EAFA1131822399100D01D3E /* InterfaceCache.m in Sources */,
 				0EDF4DE318210241007161E0 /* ASIAuthenticationDialog.m in Sources */,

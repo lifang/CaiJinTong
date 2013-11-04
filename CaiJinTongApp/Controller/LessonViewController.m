@@ -10,12 +10,11 @@
 #import "LessonModel.h"
 #import "chapterModel.h"
 #import "ForgotPwdViewController.h"
+#define LESSON_HEADER_IDENTIFIER @"lessonHeader"
 @interface LessonViewController ()
-
 @end
 
 @implementation LessonViewController
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -28,7 +27,22 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.tableView registerClass:[LessonListHeaderView class] forHeaderFooterViewReuseIdentifier:LESSON_HEADER_IDENTIFIER];
+    [self initTestData];
 
+//    //tableView初始化
+//    CGRect rect = CGRectMake(0, 0, self.view.frame.size.width/2, self.view.frame.size.height);
+//    self.lessonTable = [[UITableView alloc] initWithFrame:rect style:UITableViewStylePlain];
+//    self.lessonTable.delegate = self;
+//    self.lessonTable.dataSource = self;
+//    self.lessonTable.backgroundColor = [UIColor clearColor];
+//    [self.lessonTable.layer setBorderWidth:1];
+//    [self.lessonTable.layer setBorderColor:[UIColor grayColor].CGColor];
+//    [self.view addSubview:self.lessonTable];
+}
+
+#pragma mark test
+-(void)initTestData{
     //数据来源
 	self.lessonDictionary = [Utility initWithJSONFile:@"lessonInfo"];
     NSDictionary *dic =[self.lessonDictionary objectForKey:@"ReturnObject"];
@@ -62,16 +76,14 @@
     for (int i =0; i<self.lessonList.count; i++) {
         [self.arrSelSection addObject:[NSString stringWithFormat:@"%d",i]];
     }
-    //tableView初始化
-    CGRect rect = CGRectMake(0, 20, self.view.frame.size.width/2, self.view.frame.size.height-20);
-    self.lessonTable = [[UITableView alloc] initWithFrame:rect style:UITableViewStylePlain];
-    self.lessonTable.delegate = self;
-    self.lessonTable.dataSource = self;
-    self.lessonTable.backgroundColor = [UIColor clearColor];
-    [self.lessonTable.layer setBorderWidth:1];
-    [self.lessonTable.layer setBorderColor:[UIColor grayColor].CGColor];
-    [self.view addSubview:self.lessonTable];
 }
+#pragma mark --
+
+#pragma mark UISearchBarDelegate
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+
+}
+#pragma mark --
 
 - (void)didReceiveMemoryWarning
 {
@@ -79,48 +91,10 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - TableViewDelegate
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section  {
-    return 40;
-}
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    LessonModel *lesson = (LessonModel *)[self.lessonList objectAtIndex:section];
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width/2, 40)];
-    [view.layer setBorderWidth:1];
-
-    UIButton *customView = [[UIButton alloc] initWithFrame:view.bounds];
-    [customView.titleLabel setFont:[UIFont systemFontOfSize:14]];
-    [customView setBackgroundColor:[UIColor orangeColor]];
-    [customView setTitle:lesson.lessonName forState:UIControlStateNormal];
-    [customView setTag:section];
-    [customView addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:customView];
-    
-    UIImageView *directionView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 0, 40, 40)];
-    [view addSubview:directionView];
-    
+#pragma mark LessonListHeaderViewDelegate
+-(void)lessonHeaderView:(LessonListHeaderView *)header selectedAtIndex:(NSIndexPath *)path{
     BOOL isSelSection = NO;
-    for (int i = 0; i < self.arrSelSection.count; i++) {
-        NSString *strSection = [NSString stringWithFormat:@"%@",[self.arrSelSection objectAtIndex:i]];
-        NSInteger selSection = strSection.integerValue;
-        if (section == selSection) {
-            isSelSection = YES;
-            [directionView setImage:Image(@"jiantou_up.png")];
-            break;
-        }
-    }
-    if (!isSelSection) {
-        [directionView setImage:Image(@"jiantou_down.png")];
-    }
-    [customView setImageEdgeInsets:UIEdgeInsetsMake(3, 145, 3, 0)];
-    [customView setTitleEdgeInsets:UIEdgeInsetsMake(0, -25, 0, 15)];
-    return view;
-}
--(void)onClick:(id)sender{
-    UIButton *btn = (UIButton *)sender;
-    BOOL isSelSection = NO;
-    _tmpSection = btn.tag;
+    _tmpSection = path.section;
     for (int i = 0; i < self.arrSelSection.count; i++) {
         NSString *strSection = [NSString stringWithFormat:@"%@",[self.arrSelSection objectAtIndex:i]];
         NSInteger selSection = strSection.integerValue;
@@ -133,11 +107,67 @@
     if (!isSelSection) {
         [self.arrSelSection addObject:[NSString stringWithFormat:@"%i",_tmpSection]];
     }
-    UITableView *tableView = (UITableView *)[[btn superview] superview];
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:1];
-    [tableView reloadData];
-    [UIView commitAnimations];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+#pragma mark --
+
+#pragma mark - TableViewDelegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section  {
+    return 50;
+}
+//-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+//    LessonModel *lesson = (LessonModel *)[self.lessonList objectAtIndex:section];
+//    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width/2, 40)];
+//    [view.layer setBorderWidth:1];
+//
+//    UIButton *customView = [[UIButton alloc] initWithFrame:view.bounds];
+//    [customView.titleLabel setFont:[UIFont systemFontOfSize:14]];
+//    [customView setBackgroundColor:[UIColor orangeColor]];
+//    [customView setTitle:lesson.lessonName forState:UIControlStateNormal];
+//    [customView setTag:section];
+//    [customView addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
+//    [view addSubview:customView];
+//    
+//    UIImageView *directionView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 0, 40, 40)];
+//    [view addSubview:directionView];
+//    
+//    BOOL isSelSection = NO;
+//    for (int i = 0; i < self.arrSelSection.count; i++) {
+//        NSString *strSection = [NSString stringWithFormat:@"%@",[self.arrSelSection objectAtIndex:i]];
+//        NSInteger selSection = strSection.integerValue;
+//        if (section == selSection) {
+//            isSelSection = YES;
+//            [directionView setImage:Image(@"jiantou_up.png")];
+//            break;
+//        }
+//    }
+//    if (!isSelSection) {
+//        [directionView setImage:Image(@"jiantou_down.png")];
+//    }
+//    [customView setImageEdgeInsets:UIEdgeInsetsMake(3, 145, 3, 0)];
+//    [customView setTitleEdgeInsets:UIEdgeInsetsMake(0, -25, 0, 15)];
+//    return view;
+//}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    LessonModel *lesson = (LessonModel *)[self.lessonList objectAtIndex:section];
+    LessonListHeaderView *header = (LessonListHeaderView*)[tableView dequeueReusableHeaderFooterViewWithIdentifier:LESSON_HEADER_IDENTIFIER];
+    header.lessonTextLabel.text = lesson.lessonName;
+    header.lessonDetailLabel.text = [NSString stringWithFormat:@"%d",[lesson.chapterList count]];
+    header.path = [NSIndexPath indexPathForRow:0 inSection:section];
+    header.delegate = self;
+    BOOL isSelSection = NO;
+    for (int i = 0; i < self.arrSelSection.count; i++) {
+        NSString *strSection = [NSString stringWithFormat:@"%@",[self.arrSelSection objectAtIndex:i]];
+        NSInteger selSection = strSection.integerValue;
+        if (section == selSection) {
+            isSelSection = YES;
+            break;
+        }
+    }
+    header.isSelected = isSelSection;
+    return header;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -158,27 +188,11 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSInteger section = indexPath.section;
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCell"];
-    }
-    BOOL isSelSection = NO;
-    for (int i = 0; i < self.arrSelSection.count; i++) {
-        NSString *strSection = [NSString stringWithFormat:@"%@",[self.arrSelSection objectAtIndex:i]];
-        NSInteger selSection = strSection.integerValue;
-        if (section == selSection) {
-            isSelSection = YES;
-            break;
-        }
-    }
-    if (!isSelSection) {
-        LessonModel *lesson = (LessonModel *)[self.lessonList objectAtIndex:indexPath.section];
-        chapterModel *chapter = (chapterModel *)[lesson.chapterList objectAtIndex:indexPath.row];
-        
-        [cell.textLabel setFont:[UIFont systemFontOfSize:18]];
-        cell.textLabel.text = chapter.chapterName;
-    }
+
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"lessonCell"];
+    LessonModel *lesson = (LessonModel *)[self.lessonList objectAtIndex:indexPath.section];
+    chapterModel *chapter = (chapterModel *)[lesson.chapterList objectAtIndex:indexPath.row];
+    cell.textLabel.text = chapter.chapterName;
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -191,5 +205,10 @@
 //    AppDelegate *app = [[UIApplication sharedApplication] delegate];
 //    app.popupedController = self;
     [self presentPopupViewController:forgotControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO];
+}
+- (IBAction)lessonListBtClicked:(id)sender {
+}
+
+- (IBAction)questionListBtClicked:(id)sender {
 }
 @end
