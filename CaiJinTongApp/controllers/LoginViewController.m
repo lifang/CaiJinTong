@@ -13,7 +13,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *pwdTextField;
 - (IBAction)loginBtClicked:(id)sender;
 - (IBAction)forgotPwdBtClicked:(id)sender;
-- (IBAction)registerBtClicked:(id)sender;
 
 @end
 
@@ -31,12 +30,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    LogInterface *log = [[LogInterface alloc]init];
-    self.logInterface = log;
-    self.logInterface.delegate = self;
-    [CaiJinTongManager sharedInstance].sessionId = [NSString stringWithFormat:@"%@",kLogin];
-    [self.logInterface getLogInterfaceDelegateWithName:@"admin" andPassWord:@"123456"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -46,12 +39,23 @@
 }
 
 - (IBAction)loginBtClicked:(id)sender {
+    NSString *regexCall = @"(\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*)|(1[0-9]{10})";
+    NSPredicate *predicateCall = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",regexCall];
+    if ([predicateCall evaluateWithObject:self.userNameTextField.text]) {
+        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+            [Utility errorAlert:@"暂无网络!"];
+        }else {
+            LogInterface *log = [[LogInterface alloc]init];
+            self.logInterface = log;
+            self.logInterface.delegate = self;
+            [self.logInterface getLogInterfaceDelegateWithName:self.userNameTextField.text andPassWord:self.pwdTextField.text];
+        }
+    }else {
+        [Utility errorAlert:@"请输入正确的手机号码或邮箱!"];
+    }
 }
 
 - (IBAction)forgotPwdBtClicked:(id)sender {
-}
-
-- (IBAction)registerBtClicked:(id)sender {
 }
 
 #pragma mark - LogInterface

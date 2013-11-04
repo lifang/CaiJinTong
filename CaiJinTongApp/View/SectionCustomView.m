@@ -52,7 +52,7 @@
         //视频进度
         AMProgressView *pvv = [[AMProgressView alloc] initWithFrame:CGRectMake(0, self.frame.size.width, self.frame.size.width, ItemLabel)
                                                  andGradientColors:nil
-                                                  andOutsideBorder:YES
+                                                  andOutsideBorder:NO
                                                        andVertical:NO];
         pvv.progress = [section.sectionProgress floatValue];
         float pgress = [section.sectionProgress floatValue]*100;

@@ -22,10 +22,10 @@
     
     [reqheaders setValue:[NSString stringWithFormat:@"%@",timespan] forKey:@"timespan"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",md5Key] forKey:@"token"];
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",theName] forKey:@"user_name"];
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",thePassWord] forKey:@"user_password"];
+    [reqheaders setValue:[NSString stringWithFormat:@"%@",theName] forKey:@"userName"];
+    [reqheaders setValue:[NSString stringWithFormat:@"%@",thePassWord] forKey:@"passWord"];
 
-    self.interfaceUrl = [NSString stringWithFormat:@"%@",kHost];
+    self.interfaceUrl = @"http://i.finance365.com/_3G/EditInfo";
 
     self.baseDelegate = self;
     self.headers = reqheaders;

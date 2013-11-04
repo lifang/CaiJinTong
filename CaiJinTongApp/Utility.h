@@ -15,4 +15,5 @@
 + (NSString *)createMD5:(NSString *)params;
 + (NSDictionary *)initWithJSONFile:(NSString *)jsonPath;
 + (NSString *)getNowDateFromatAnDate;
++ (void)errorAlert:(NSString *)message;
 @end

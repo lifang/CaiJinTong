@@ -11,7 +11,7 @@
 #import "NSString+URLEncoding.h"
 #import "NSString+HTML.h"
 @implementation SuggestionInterface
--(void)getAskQuestionInterfaceDelegateWithUserId:(NSString *)userId andSuggestionContent:(NSString *)suggestionContent {
+-(void)getAskQuestionInterfaceDelegateWithUserId:(NSString *)userId andSuggestionContent:(NSString *)suggestionContent andSuggestionTime:(NSString *)suggestionTime{
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     
     NSString *timespan = [Utility getNowDateFromatAnDate];
@@ -21,7 +21,9 @@
     [reqheaders setValue:[NSString stringWithFormat:@"%@",timespan] forKey:@"timespan"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",md5Key] forKey:@"token"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",suggestionContent] forKey:@"suggestionContent"];
+    [reqheaders setValue:[NSString stringWithFormat:@"%@",suggestionContent]
+                  forKey:@"suggestionContent"];
+    [reqheaders setValue:[NSString stringWithFormat:@"%@",suggestionTime] forKey:@"suggestionTime"];
     self.interfaceUrl = [NSString stringWithFormat:@"%@",kHost];
     
     self.baseDelegate = self;

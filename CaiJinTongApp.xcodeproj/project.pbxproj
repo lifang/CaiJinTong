@@ -74,7 +74,6 @@
 		0EAFA1121822399000D01D3E /* BaseInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA10D1822399000D01D3E /* BaseInterface.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0EAFA1131822399100D01D3E /* InterfaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA10F1822399000D01D3E /* InterfaceCache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0EAFA1141822399100D01D3E /* LogInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA1111822399000D01D3E /* LogInterface.m */; };
-		0EAFA11718223E5D00D01D3E /* CJTToolbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA11618223E5D00D01D3E /* CJTToolbarView.m */; };
 		0EAFA11A18223FC500D01D3E /* CJTMainToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA11918223FC500D01D3E /* CJTMainToolbar.m */; };
 		0EAFA1201822464700D01D3E /* FindPassWordInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA11F1822464700D01D3E /* FindPassWordInterface.m */; };
 		0EAFA1231822485500D01D3E /* LessonInfoInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA1221822485500D01D3E /* LessonInfoInterface.m */; };
@@ -267,8 +266,6 @@
 		0EAFA10F1822399000D01D3E /* InterfaceCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InterfaceCache.m; sourceTree = "<group>"; };
 		0EAFA1101822399000D01D3E /* LogInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogInterface.h; sourceTree = "<group>"; };
 		0EAFA1111822399000D01D3E /* LogInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInterface.m; sourceTree = "<group>"; };
-		0EAFA11518223E5D00D01D3E /* CJTToolbarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJTToolbarView.h; sourceTree = "<group>"; };
-		0EAFA11618223E5D00D01D3E /* CJTToolbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJTToolbarView.m; sourceTree = "<group>"; };
 		0EAFA11818223FC500D01D3E /* CJTMainToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJTMainToolbar.h; sourceTree = "<group>"; };
 		0EAFA11918223FC500D01D3E /* CJTMainToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJTMainToolbar.m; sourceTree = "<group>"; };
 		0EAFA11E1822464700D01D3E /* FindPassWordInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPassWordInterface.h; sourceTree = "<group>"; };
@@ -749,8 +746,6 @@
 			isa = PBXGroup;
 			children = (
 				63091FF71827431A00C1AF07 /* lessonList */,
-				0EAFA11518223E5D00D01D3E /* CJTToolbarView.h */,
-				0EAFA11618223E5D00D01D3E /* CJTToolbarView.m */,
 				0EAFA11818223FC500D01D3E /* CJTMainToolbar.h */,
 				0EAFA11918223FC500D01D3E /* CJTMainToolbar.m */,
 				6323876118223E9500C71535 /* DRNavigationBar.h */,
@@ -1107,7 +1102,6 @@
 				0EDF4DED18210241007161E0 /* ASIS3BucketRequest.m in Sources */,
 				0EDF4DFE1821028F007161E0 /* NSDictionary+AllKeytoLowerCase.m in Sources */,
 				0EA7EF80182748BB00C47F69 /* UIImageView+WebCache.m in Sources */,
-				0EAFA11718223E5D00D01D3E /* CJTToolbarView.m in Sources */,
 				0EDF4DF218210241007161E0 /* RJFileUtils.m in Sources */,
 				0EDF4DEC18210241007161E0 /* ASIS3BucketObject.m in Sources */,
 				0EDF4DE518210241007161E0 /* ASIDataDecompressor.m in Sources */,

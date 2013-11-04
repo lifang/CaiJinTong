@@ -12,7 +12,7 @@
 #import "NSString+HTML.h"
 
 @implementation FindPassWordInterface
--(void)getFindPassWordInterfaceDelegateWithName:(NSString *)theName andEmail:(NSString *)theEmail {
+-(void)getFindPassWordInterfaceDelegateWithName:(NSString *)theName{
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     
     NSString *timespan = [Utility getNowDateFromatAnDate];
@@ -23,7 +23,6 @@
     [reqheaders setValue:[NSString stringWithFormat:@"%@",md5Key] forKey:@"token"];
     
     [reqheaders setValue:[NSString stringWithFormat:@"%@",theName] forKey:@"userName"];
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",theEmail] forKey:@"userEmail"];
     
     self.interfaceUrl = [NSString stringWithFormat:@"%@",kHost];
     

@@ -14,7 +14,7 @@
 
 @property (nonatomic, assign) id<FindPassWordInterfaceDelegate>delegate;
 
--(void)getFindPassWordInterfaceDelegateWithName:(NSString *)theName andEmail:(NSString *)theEmail;
+-(void)getFindPassWordInterfaceDelegateWithName:(NSString *)theName;
 @end
 
 

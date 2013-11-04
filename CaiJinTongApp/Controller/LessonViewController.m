@@ -296,13 +296,13 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         chapterView.view.frame = (CGRect){50,20,768-200,1024-20};
         DLog(@"te = %@",tempArray);
         if (tempArray.count>0) {
-            chapterView.chapterArray = [[NSArray alloc]initWithArray:tempArray];
+//            chapterView.chapterArray = [[NSArray alloc]initWithArray:tempArray];//???
             tempArray = nil;
         }
         
         [self presentPopupViewController:chapterView animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO];
     }else{
-    
+
     }
 }
 - (IBAction)lessonListBtClicked:(id)sender {
