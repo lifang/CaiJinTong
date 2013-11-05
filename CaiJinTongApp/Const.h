@@ -27,7 +27,7 @@
 #define ksync @"/orders/sync_orders_and_customer"
 #define kwork_order @"/orders/work_order_finished"
 
-#define MDKey @"DGDFGDSF97887*&&^sdfsf?"
+#define MDKey @"c9302245-0cbe-475d-a009-a0d22aa06fbb"
 
 
 

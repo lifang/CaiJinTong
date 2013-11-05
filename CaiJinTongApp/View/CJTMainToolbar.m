@@ -41,7 +41,7 @@
         recentPlayBtn.frame = CGRectMake(leftButtonX, BUTTON_Y, RECENT_BUTTON_WIDTH, BUTTON_HEIGHT);
         [recentPlayBtn setTitle:NSLocalizedString(@"默认(最近播放)", @"button") forState:UIControlStateNormal];
         recentPlayBtn.tag = RECENT_TAG;
-		[recentPlayBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+		[recentPlayBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [recentPlayBtn addTarget:self action:@selector(recentButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
 //		[recentPlayBtn setBackgroundImage:buttonH forState:UIControlStateHighlighted];
 //		[recentPlayBtn setBackgroundImage:buttonN forState:UIControlStateNormal];

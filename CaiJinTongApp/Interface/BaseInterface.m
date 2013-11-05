@@ -17,7 +17,6 @@
 -(NSString *)createPostURL:(NSDictionary *)params
 {
     NSString *postString=@"";
-    DLog(@"%@",[params allKeys]);
     for(NSString *key in [params allKeys])
     {
         NSString *value=[params objectForKey:key];
@@ -77,16 +76,7 @@
 #pragma mark - ASIHttpRequestDelegate
 - (void)request:(ASIHTTPRequest *)request didReceiveResponseHeaders:(NSDictionary *)responseHeaders {
     responseHeaders = [responseHeaders allKeytoLowerCase];
-    
-//    NSString *result = [responseHeaders objectForKey:@"result"];
-//    if (![result isEqualToString:@"success"]) {
-//        //失败
-//        if ([@"102" isEqualToString:[responseHeaders objectForKey:@"error-code"]]) {
-//            [self.request clearDelegatesAndCancel];
-//            self.request = nil;
-//            
-//        }
-//    }
+
 }
 
 -(void)requestFinished:(ASIHTTPRequest *)request {
