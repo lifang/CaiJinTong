@@ -136,6 +136,10 @@
 		630B03CF1820F5BC00F72C4C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630B03AE1820F5BB00F72C4C /* UIKit.framework */; };
 		630B03D71820F5BC00F72C4C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 630B03D51820F5BC00F72C4C /* InfoPlist.strings */; };
 		630B03D91820F5BC00F72C4C /* CaiJinTongAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 630B03D81820F5BC00F72C4C /* CaiJinTongAppTests.m */; };
+		630CB0781828943E002FD462 /* DRMoviePlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 630CB0771828943D002FD462 /* DRMoviePlayViewController.m */; };
+		630CB07E1828BCF9002FD462 /* LGPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 630CB07B1828BCF9002FD462 /* LGPlayerViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		630CB07F1828BCF9002FD462 /* CustomPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 630CB07D1828BCF9002FD462 /* CustomPlayerView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		630CB0811828BD19002FD462 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630CB0801828BD19002FD462 /* AVFoundation.framework */; };
 		6323875A1822056000C71535 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 632387591822056000C71535 /* LoginViewController.m */; };
 		6323875D18220E7D00C71535 /* ForgotPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6323875C18220E7D00C71535 /* ForgotPwdViewController.m */; };
 		6323876018222A1500C71535 /* DRNaviGationBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6323875F18222A1500C71535 /* DRNaviGationBarController.m */; };
@@ -378,6 +382,13 @@
 		630B03D41820F5BC00F72C4C /* CaiJinTongAppTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CaiJinTongAppTests-Info.plist"; sourceTree = "<group>"; };
 		630B03D61820F5BC00F72C4C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		630B03D81820F5BC00F72C4C /* CaiJinTongAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CaiJinTongAppTests.m; sourceTree = "<group>"; };
+		630CB0761828943D002FD462 /* DRMoviePlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRMoviePlayViewController.h; sourceTree = "<group>"; };
+		630CB0771828943D002FD462 /* DRMoviePlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRMoviePlayViewController.m; sourceTree = "<group>"; };
+		630CB07A1828BCF9002FD462 /* LGPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LGPlayerViewController.h; sourceTree = "<group>"; };
+		630CB07B1828BCF9002FD462 /* LGPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LGPlayerViewController.m; sourceTree = "<group>"; };
+		630CB07C1828BCF9002FD462 /* CustomPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomPlayerView.h; sourceTree = "<group>"; };
+		630CB07D1828BCF9002FD462 /* CustomPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomPlayerView.m; sourceTree = "<group>"; };
+		630CB0801828BD19002FD462 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		632387581822056000C71535 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginViewController.h; path = ../controllers/LoginViewController.h; sourceTree = "<group>"; };
 		632387591822056000C71535 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginViewController.m; path = ../controllers/LoginViewController.m; sourceTree = "<group>"; };
 		6323875B18220E7D00C71535 /* ForgotPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ForgotPwdViewController.h; path = ../controllers/ForgotPwdViewController.h; sourceTree = "<group>"; };
@@ -397,6 +408,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				630CB0811828BD19002FD462 /* AVFoundation.framework in Frameworks */,
 				0EDF4E11182102E7007161E0 /* libz.dylib in Frameworks */,
 				0EDF4E0F182102DD007161E0 /* libsqlite3.0.dylib in Frameworks */,
 				0EDF4E0D182102D7007161E0 /* libxml2.dylib in Frameworks */,
@@ -618,6 +630,8 @@
 				0EAFA12B18224C2700D01D3E /* LessonViewController.m */,
 				0EA7EF641827445500C47F69 /* ChapterViewController.h */,
 				0EA7EF651827445500C47F69 /* ChapterViewController.m */,
+				630CB0761828943D002FD462 /* DRMoviePlayViewController.h */,
+				630CB0771828943D002FD462 /* DRMoviePlayViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -807,6 +821,7 @@
 		630B03A91820F5BB00F72C4C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				630CB0801828BD19002FD462 /* AVFoundation.framework */,
 				0EDF4E10182102E7007161E0 /* libz.dylib */,
 				0EDF4E0E182102DD007161E0 /* libsqlite3.0.dylib */,
 				0EDF4E0C182102D7007161E0 /* libxml2.dylib */,
@@ -878,9 +893,21 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		630CB0791828BCCE002FD462 /* LGPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				630CB07A1828BCF9002FD462 /* LGPlayerViewController.h */,
+				630CB07B1828BCF9002FD462 /* LGPlayerViewController.m */,
+				630CB07C1828BCF9002FD462 /* CustomPlayerView.h */,
+				630CB07D1828BCF9002FD462 /* CustomPlayerView.m */,
+			);
+			name = LGPlayer;
+			sourceTree = "<group>";
+		};
 		639A07A01823905900B60670 /* thirty */ = {
 			isa = PBXGroup;
 			children = (
+				630CB0791828BCCE002FD462 /* LGPlayer */,
 				639A07A11823906900B60670 /* popupView */,
 			);
 			name = thirty;
@@ -1045,6 +1072,7 @@
 				0EA7EF1C18234AC600C47F69 /* SearchLessonInterface.m in Sources */,
 				0EDF4DFD1821028F007161E0 /* Utility.m in Sources */,
 				0EAFA1231822485500D01D3E /* LessonInfoInterface.m in Sources */,
+				630CB07E1828BCF9002FD462 /* LGPlayerViewController.m in Sources */,
 				0EDF4DE018210241007161E0 /* ASICloudFilesObject.m in Sources */,
 				0EA7EF4618238CC600C47F69 /* ChapterQuestionModel.m in Sources */,
 				0EDF4DDF18210241007161E0 /* ASICloudFilesContainerXMLParserDelegate.m in Sources */,
@@ -1092,6 +1120,7 @@
 				0EAFA1141822399100D01D3E /* LogInterface.m in Sources */,
 				630B03B71820F5BB00F72C4C /* main.m in Sources */,
 				0EDF4DDC18210241007161E0 /* ASICloudFilesCDNRequest.m in Sources */,
+				630CB0781828943E002FD462 /* DRMoviePlayViewController.m in Sources */,
 				639A07A61823909000B60670 /* MJPopupBackgroundView.m in Sources */,
 				0EA7EF8718276DD300C47F69 /* AMProgressViewGradient.m in Sources */,
 				0EDF4DF618210241007161E0 /* Reachability.m in Sources */,
@@ -1099,6 +1128,7 @@
 				0EDF4DE718210241007161E0 /* ASIFormDataRequest.m in Sources */,
 				0EAFA1121822399000D01D3E /* BaseInterface.m in Sources */,
 				0EA7EF3A1823581F00C47F69 /* SectionModel.m in Sources */,
+				630CB07F1828BCF9002FD462 /* CustomPlayerView.m in Sources */,
 				0EDF4DED18210241007161E0 /* ASIS3BucketRequest.m in Sources */,
 				0EDF4DFE1821028F007161E0 /* NSDictionary+AllKeytoLowerCase.m in Sources */,
 				0EA7EF80182748BB00C47F69 /* UIImageView+WebCache.m in Sources */,
@@ -1247,6 +1277,9 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				GCC_INPUT_FILETYPE = sourcecode.c.objc;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CaiJinTongApp/CaiJinTongApp-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
@@ -1264,6 +1297,9 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				GCC_INPUT_FILETYPE = sourcecode.c.objc;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CaiJinTongApp/CaiJinTongApp-Prefix.pch";
 				HEADER_SEARCH_PATHS = "${SDK_DIR}/usr/include/libxml2";

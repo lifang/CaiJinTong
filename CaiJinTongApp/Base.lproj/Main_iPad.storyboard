@@ -264,6 +264,154 @@
             </objects>
             <point key="canvasLocation" x="-423" y="-158"/>
         </scene>
+        <!--Movie Play View Controller-->
+        <scene sceneID="YRP-dX-mgi">
+            <objects>
+                <viewController storyboardIdentifier="DRMoviePlayViewController" id="WEY-8m-Phi" customClass="DRMoviePlayViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="7xi-B2-9tL">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="0Wi-vy-C3h" userLabel="player view" customClass="CustomPlayerView">
+                                <rect key="frame" x="0.0" y="0.0" width="1024" height="665"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.2470588386" green="0.78431379800000001" blue="0.64313727620000005" alpha="1" colorSpace="deviceRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" id="sTk-LN-cVa" userLabel="controllerView">
+                                <rect key="frame" x="0.0" y="664" width="1024" height="105"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" id="vce-lR-XZD">
+                                        <rect key="frame" x="0.0" y="35" width="1024" height="70"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="jlm-Ld-8yc">
+                                                <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
+                                                <color key="backgroundColor" red="0.2456287918" green="0.91539996599999995" blue="0.25050926849999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                <state key="normal" title="Button">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                            </button>
+                                            <view contentMode="scaleToFill" id="MO4-iT-hM6">
+                                                <rect key="frame" x="70" y="0.0" width="519" height="70"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="X6G-Ja-eeH">
+                                                        <rect key="frame" x="32" y="15" width="40" height="40"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                                        <color key="backgroundColor" red="0.2470588386" green="0.78431379800000001" blue="0.64313727620000005" alpha="1" colorSpace="deviceRGB"/>
+                                                        <state key="normal" title="Button">
+                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                    </button>
+                                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="hPI-XB-wGH">
+                                                        <rect key="frame" x="97" y="18" width="385" height="34"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                    </slider>
+                                                </subviews>
+                                                <color key="backgroundColor" red="0.90980398650000005" green="0.90196084980000002" blue="0.84705889229999998" alpha="1" colorSpace="deviceRGB"/>
+                                            </view>
+                                            <view contentMode="scaleToFill" id="fbD-0u-PH4" userLabel="itemBt">
+                                                <rect key="frame" x="588" y="0.0" width="146" height="70"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="ewy-Wf-gjC">
+                                                        <rect key="frame" x="56" y="7" width="30" height="30"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                    </imageView>
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="章节列表" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0jf-x8-jVt">
+                                                        <rect key="frame" x="0.0" y="38.999999829701011" width="146" height="21"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Leh-88-LUd">
+                                                        <rect key="frame" x="0.0" y="0.0" width="146" height="70"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <state key="normal" title="Button">
+                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" red="0.34901961679999999" green="0.1647058874" blue="0.082352943720000002" alpha="1" colorSpace="deviceRGB"/>
+                                            </view>
+                                            <view contentMode="scaleToFill" id="06w-et-wXt" userLabel="itemBt">
+                                                <rect key="frame" x="734" y="0.0" width="146" height="70.000000198682159"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="y7e-qD-eQp">
+                                                        <rect key="frame" x="56" y="7" width="30" height="30"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                    </imageView>
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="章节列表" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gcg-mO-pfV">
+                                                        <rect key="frame" x="0.0" y="38.999999829701011" width="146" height="21"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="W9D-ot-3Od">
+                                                        <rect key="frame" x="0.0" y="0.0" width="146" height="70.000000198682159"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <state key="normal" title="Button">
+                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            </view>
+                                            <view contentMode="scaleToFill" id="Vht-To-zM0" userLabel="itemBt">
+                                                <rect key="frame" x="879" y="0.0" width="146" height="70"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="swj-ak-KoU">
+                                                        <rect key="frame" x="56" y="7" width="30" height="30"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                    </imageView>
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="章节列表" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Lbm-tD-vW0">
+                                                        <rect key="frame" x="0.0" y="39" width="146" height="21"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="T0W-v3-PUg">
+                                                        <rect key="frame" x="0.0" y="0.0" width="146" height="70"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <state key="normal" title="Button">
+                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            </view>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                    </view>
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="XOP-oZ-Fpg">
+                                        <rect key="frame" x="0.0" y="0.0" width="1028" height="34"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    </slider>
+                                </subviews>
+                                <color key="backgroundColor" red="0.55379065689999996" green="0.1621509012" blue="0.049770018100000001" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" id="5dS-QE-PlC" userLabel="contentView">
+                                <rect key="frame" x="524" y="0.0" width="500" height="663"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    </view>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MFU-6n-cfm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-395" y="1057"/>
+        </scene>
         <!--Chapter View Controller-->
         <scene sceneID="nsJ-vY-qfi">
             <objects>

@@ -71,4 +71,13 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+
+#pragma mark property
+-(NSMutableArray *)popupedControllerArr{
+    if (!_popupedControllerArr) {
+        _popupedControllerArr = [NSMutableArray array];
+    }
+    return _popupedControllerArr;
+}
+#pragma mark --
 @end
