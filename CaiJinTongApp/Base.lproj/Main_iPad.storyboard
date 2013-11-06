@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="13A603" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="Se0-MH-MkK">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="13A603" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="WEY-8m-Phi">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
@@ -273,9 +273,37 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="0Wi-vy-C3h" userLabel="player view" customClass="CustomPlayerView">
-                                <rect key="frame" x="0.0" y="0.0" width="1024" height="665"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.2470588386" green="0.78431379800000001" blue="0.64313727620000005" alpha="1" colorSpace="deviceRGB"/>
+                                <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <view alpha="0.5" contentMode="scaleToFill" id="tUn-gr-Lyb" customClass="MoviePlayerHolderView">
+                                        <rect key="frame" x="450" y="264" width="163" height="145"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="cIP-4c-pTV">
+                                                <rect key="frame" x="25" y="7" width="112" height="98"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            </imageView>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6BM-q3-isR">
+                                                <rect key="frame" x="0.0" y="107" width="163" height="32"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <outlet property="holderImageView" destination="cIP-4c-pTV" id="mKr-EG-vdf"/>
+                                            <outlet property="holderLaber" destination="6BM-q3-isR" id="Zcw-Y1-lcq"/>
+                                        </connections>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="delegate" destination="WEY-8m-Phi" id="Ych-PB-Q19"/>
+                                </connections>
                             </view>
                             <view contentMode="scaleToFill" id="sTk-LN-cVa" userLabel="controllerView">
                                 <rect key="frame" x="0.0" y="664" width="1024" height="105"/>
@@ -292,6 +320,9 @@
                                                 <state key="normal" title="Button">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="playBtClicked:" destination="WEY-8m-Phi" eventType="touchUpInside" id="xEz-9M-ahw"/>
+                                                </connections>
                                             </button>
                                             <view contentMode="scaleToFill" id="MO4-iT-hM6">
                                                 <rect key="frame" x="70" y="0.0" width="519" height="70"/>
@@ -304,15 +335,21 @@
                                                         <state key="normal" title="Button">
                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="volumeBtClicked:" destination="WEY-8m-Phi" eventType="touchUpInside" id="d09-LA-z2P"/>
+                                                        </connections>
                                                     </button>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="hPI-XB-wGH">
                                                         <rect key="frame" x="97" y="18" width="385" height="34"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                        <connections>
+                                                            <action selector="volumeSliderTouchChangeValue:" destination="WEY-8m-Phi" eventType="valueChanged" id="5GA-X9-VH7"/>
+                                                        </connections>
                                                     </slider>
                                                 </subviews>
                                                 <color key="backgroundColor" red="0.90980398650000005" green="0.90196084980000002" blue="0.84705889229999998" alpha="1" colorSpace="deviceRGB"/>
                                             </view>
-                                            <view contentMode="scaleToFill" id="fbD-0u-PH4" userLabel="itemBt">
+                                            <view contentMode="scaleToFill" id="fbD-0u-PH4" userLabel="itemBt" customClass="MovieControllerItem">
                                                 <rect key="frame" x="588" y="0.0" width="146" height="70"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                                 <subviews>
@@ -321,92 +358,97 @@
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     </imageView>
                                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="章节列表" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0jf-x8-jVt">
-                                                        <rect key="frame" x="0.0" y="38.999999829701011" width="146" height="21"/>
+                                                        <rect key="frame" x="0.0" y="38.999999631018852" width="146" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Leh-88-LUd">
-                                                        <rect key="frame" x="0.0" y="0.0" width="146" height="70"/>
-                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                        <state key="normal" title="Button">
-                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                    </button>
                                                 </subviews>
                                                 <color key="backgroundColor" red="0.34901961679999999" green="0.1647058874" blue="0.082352943720000002" alpha="1" colorSpace="deviceRGB"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="WEY-8m-Phi" id="4hf-WD-2Jg"/>
+                                                    <outlet property="movieItemImageView" destination="ewy-Wf-gjC" id="Jvp-m0-QW1"/>
+                                                    <outlet property="movieItemTitleLabel" destination="0jf-x8-jVt" id="xkh-SF-9aV"/>
+                                                </connections>
                                             </view>
-                                            <view contentMode="scaleToFill" id="06w-et-wXt" userLabel="itemBt">
-                                                <rect key="frame" x="734" y="0.0" width="146" height="70.000000198682159"/>
+                                            <view contentMode="scaleToFill" id="1AH-hI-ne6" userLabel="itemBt" customClass="MovieControllerItem">
+                                                <rect key="frame" x="734" y="0.0" width="146" height="70.000000231795866"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="y7e-qD-eQp">
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="bcW-Kd-UW1">
                                                         <rect key="frame" x="56" y="7" width="30" height="30"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     </imageView>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="章节列表" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gcg-mO-pfV">
-                                                        <rect key="frame" x="0.0" y="38.999999829701011" width="146" height="21"/>
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我要提问" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="78q-K5-QB2">
+                                                        <rect key="frame" x="0.0" y="38.999999631018852" width="146" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="W9D-ot-3Od">
-                                                        <rect key="frame" x="0.0" y="0.0" width="146" height="70.000000198682159"/>
-                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                        <state key="normal" title="Button">
-                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                    </button>
                                                 </subviews>
-                                                <color key="backgroundColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" red="0.34901961679999999" green="0.1647058874" blue="0.082352943720000002" alpha="1" colorSpace="deviceRGB"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="WEY-8m-Phi" id="DYe-R3-VSB"/>
+                                                    <outlet property="movieItemImageView" destination="bcW-Kd-UW1" id="pdF-qO-wWL"/>
+                                                    <outlet property="movieItemTitleLabel" destination="78q-K5-QB2" id="FdW-bt-v9m"/>
+                                                </connections>
                                             </view>
-                                            <view contentMode="scaleToFill" id="Vht-To-zM0" userLabel="itemBt">
+                                            <view contentMode="scaleToFill" id="c63-XO-bv3" userLabel="itemBt" customClass="MovieControllerItem">
                                                 <rect key="frame" x="879" y="0.0" width="146" height="70"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="swj-ak-KoU">
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Akv-lA-ZDM">
                                                         <rect key="frame" x="56" y="7" width="30" height="30"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     </imageView>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="章节列表" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Lbm-tD-vW0">
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="记笔记" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZAq-06-8fk">
                                                         <rect key="frame" x="0.0" y="39" width="146" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="T0W-v3-PUg">
-                                                        <rect key="frame" x="0.0" y="0.0" width="146" height="70"/>
-                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                        <state key="normal" title="Button">
-                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                    </button>
                                                 </subviews>
-                                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" red="0.34901961679999999" green="0.1647058874" blue="0.082352943720000002" alpha="1" colorSpace="deviceRGB"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="WEY-8m-Phi" id="fBH-8T-bP8"/>
+                                                    <outlet property="movieItemImageView" destination="Akv-lA-ZDM" id="v9K-92-56c"/>
+                                                    <outlet property="movieItemTitleLabel" destination="ZAq-06-8fk" id="fBv-lI-4Aj"/>
+                                                </connections>
                                             </view>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     </view>
-                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="XOP-oZ-Fpg">
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="XOP-oZ-Fpg" customClass="DRMoviePlayerPlaybackProgressBar">
                                         <rect key="frame" x="0.0" y="0.0" width="1028" height="34"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <connections>
+                                            <action selector="seekSliderTouchChangeValue:" destination="WEY-8m-Phi" eventType="valueChanged" id="ZVV-rA-GaX"/>
+                                            <outlet property="delegate" destination="WEY-8m-Phi" id="wvU-r9-Lvy"/>
+                                        </connections>
                                     </slider>
                                 </subviews>
                                 <color key="backgroundColor" red="0.55379065689999996" green="0.1621509012" blue="0.049770018100000001" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
-                            <view contentMode="scaleToFill" id="5dS-QE-PlC" userLabel="contentView">
-                                <rect key="frame" x="524" y="0.0" width="500" height="663"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <connections>
+                        <outlet property="chapterListItem" destination="fbD-0u-PH4" id="dQD-Pj-FjD"/>
+                        <outlet property="moviePlayerHolderView" destination="tUn-gr-Lyb" id="C38-yJ-UAS"/>
+                        <outlet property="moviePlayerView" destination="0Wi-vy-C3h" id="DCR-Ng-gx3"/>
+                        <outlet property="movieplayerControlBackView" destination="sTk-LN-cVa" id="1X0-nd-qgT"/>
+                        <outlet property="myNotesItem" destination="c63-XO-bv3" id="00w-zD-4uH"/>
+                        <outlet property="myQuestionItem" destination="1AH-hI-ne6" id="6pT-TN-a23"/>
+                        <outlet property="playBt" destination="jlm-Ld-8yc" id="PC0-o6-Qq5"/>
+                        <outlet property="seekSlider" destination="XOP-oZ-Fpg" id="Puq-4n-pGT"/>
+                        <outlet property="volumeBt" destination="X6G-Ja-eeH" id="0hh-Zc-slZ"/>
+                        <outlet property="volumeSlider" destination="hPI-XB-wGH" id="8cJ-bD-Xzm"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MFU-6n-cfm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

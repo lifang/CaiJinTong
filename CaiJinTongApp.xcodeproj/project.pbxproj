@@ -136,10 +136,15 @@
 		630B03CF1820F5BC00F72C4C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630B03AE1820F5BB00F72C4C /* UIKit.framework */; };
 		630B03D71820F5BC00F72C4C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 630B03D51820F5BC00F72C4C /* InfoPlist.strings */; };
 		630B03D91820F5BC00F72C4C /* CaiJinTongAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 630B03D81820F5BC00F72C4C /* CaiJinTongAppTests.m */; };
+		630B95F61829F72B000ED31E /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630B95F51829F72B000ED31E /* MediaPlayer.framework */; };
+		630B95F9182A2909000ED31E /* DRMoviePlayerPlaybackProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 630B95F8182A2909000ED31E /* DRMoviePlayerPlaybackProgressBar.m */; };
+		630B95FC182A4A7F000ED31E /* retreat.png in Resources */ = {isa = PBXBuildFile; fileRef = 630B95FA182A4A7F000ED31E /* retreat.png */; };
+		630B95FD182A4A7F000ED31E /* speed.png in Resources */ = {isa = PBXBuildFile; fileRef = 630B95FB182A4A7F000ED31E /* speed.png */; };
+		630B9600182A4CF6000ED31E /* MoviePlayerHolderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 630B95FF182A4CF6000ED31E /* MoviePlayerHolderView.m */; };
 		630CB0781828943E002FD462 /* DRMoviePlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 630CB0771828943D002FD462 /* DRMoviePlayViewController.m */; };
-		630CB07E1828BCF9002FD462 /* LGPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 630CB07B1828BCF9002FD462 /* LGPlayerViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		630CB07F1828BCF9002FD462 /* CustomPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 630CB07D1828BCF9002FD462 /* CustomPlayerView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		630CB07F1828BCF9002FD462 /* CustomPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 630CB07D1828BCF9002FD462 /* CustomPlayerView.m */; };
 		630CB0811828BD19002FD462 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630CB0801828BD19002FD462 /* AVFoundation.framework */; };
+		630CB0851828E8B0002FD462 /* MovieControllerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 630CB0841828E8B0002FD462 /* MovieControllerItem.m */; };
 		6323875A1822056000C71535 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 632387591822056000C71535 /* LoginViewController.m */; };
 		6323875D18220E7D00C71535 /* ForgotPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6323875C18220E7D00C71535 /* ForgotPwdViewController.m */; };
 		6323876018222A1500C71535 /* DRNaviGationBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6323875F18222A1500C71535 /* DRNaviGationBarController.m */; };
@@ -382,13 +387,20 @@
 		630B03D41820F5BC00F72C4C /* CaiJinTongAppTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CaiJinTongAppTests-Info.plist"; sourceTree = "<group>"; };
 		630B03D61820F5BC00F72C4C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		630B03D81820F5BC00F72C4C /* CaiJinTongAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CaiJinTongAppTests.m; sourceTree = "<group>"; };
+		630B95F51829F72B000ED31E /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		630B95F7182A2909000ED31E /* DRMoviePlayerPlaybackProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DRMoviePlayerPlaybackProgressBar.h; path = movieCotr/DRMoviePlayerPlaybackProgressBar.h; sourceTree = "<group>"; };
+		630B95F8182A2909000ED31E /* DRMoviePlayerPlaybackProgressBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DRMoviePlayerPlaybackProgressBar.m; path = movieCotr/DRMoviePlayerPlaybackProgressBar.m; sourceTree = "<group>"; };
+		630B95FA182A4A7F000ED31E /* retreat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = retreat.png; sourceTree = "<group>"; };
+		630B95FB182A4A7F000ED31E /* speed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = speed.png; sourceTree = "<group>"; };
+		630B95FE182A4CF6000ED31E /* MoviePlayerHolderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoviePlayerHolderView.h; path = movieCotr/MoviePlayerHolderView.h; sourceTree = "<group>"; };
+		630B95FF182A4CF6000ED31E /* MoviePlayerHolderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MoviePlayerHolderView.m; path = movieCotr/MoviePlayerHolderView.m; sourceTree = "<group>"; };
 		630CB0761828943D002FD462 /* DRMoviePlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRMoviePlayViewController.h; sourceTree = "<group>"; };
 		630CB0771828943D002FD462 /* DRMoviePlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRMoviePlayViewController.m; sourceTree = "<group>"; };
-		630CB07A1828BCF9002FD462 /* LGPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LGPlayerViewController.h; sourceTree = "<group>"; };
-		630CB07B1828BCF9002FD462 /* LGPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LGPlayerViewController.m; sourceTree = "<group>"; };
 		630CB07C1828BCF9002FD462 /* CustomPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomPlayerView.h; sourceTree = "<group>"; };
 		630CB07D1828BCF9002FD462 /* CustomPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomPlayerView.m; sourceTree = "<group>"; };
 		630CB0801828BD19002FD462 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		630CB0831828E8B0002FD462 /* MovieControllerItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MovieControllerItem.h; path = movieCotr/MovieControllerItem.h; sourceTree = "<group>"; };
+		630CB0841828E8B0002FD462 /* MovieControllerItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MovieControllerItem.m; path = movieCotr/MovieControllerItem.m; sourceTree = "<group>"; };
 		632387581822056000C71535 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginViewController.h; path = ../controllers/LoginViewController.h; sourceTree = "<group>"; };
 		632387591822056000C71535 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginViewController.m; path = ../controllers/LoginViewController.m; sourceTree = "<group>"; };
 		6323875B18220E7D00C71535 /* ForgotPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ForgotPwdViewController.h; path = ../controllers/ForgotPwdViewController.h; sourceTree = "<group>"; };
@@ -408,6 +420,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				630B95F61829F72B000ED31E /* MediaPlayer.framework in Frameworks */,
 				630CB0811828BD19002FD462 /* AVFoundation.framework in Frameworks */,
 				0EDF4E11182102E7007161E0 /* libz.dylib in Frameworks */,
 				0EDF4E0F182102DD007161E0 /* libsqlite3.0.dylib in Frameworks */,
@@ -513,6 +526,8 @@
 		0EAFA1011822200200D01D3E /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				630B95FA182A4A7F000ED31E /* retreat.png */,
+				630B95FB182A4A7F000ED31E /* speed.png */,
 				0EA7EF0A18233B0000C47F69 /* jiantou_up.png */,
 				0EA7EF0B18233B0000C47F69 /* jiantou_down.png */,
 				0EAFA105182223BD00D01D3E /* loginBgImage_v.png */,
@@ -759,6 +774,7 @@
 		0EDF4DDA18210241007161E0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				630CB0821828E82A002FD462 /* movieCotr */,
 				63091FF71827431A00C1AF07 /* lessonList */,
 				0EAFA11818223FC500D01D3E /* CJTMainToolbar.h */,
 				0EAFA11918223FC500D01D3E /* CJTMainToolbar.m */,
@@ -821,6 +837,7 @@
 		630B03A91820F5BB00F72C4C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				630B95F51829F72B000ED31E /* MediaPlayer.framework */,
 				630CB0801828BD19002FD462 /* AVFoundation.framework */,
 				0EDF4E10182102E7007161E0 /* libz.dylib */,
 				0EDF4E0E182102DD007161E0 /* libsqlite3.0.dylib */,
@@ -896,12 +913,23 @@
 		630CB0791828BCCE002FD462 /* LGPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				630CB07A1828BCF9002FD462 /* LGPlayerViewController.h */,
-				630CB07B1828BCF9002FD462 /* LGPlayerViewController.m */,
 				630CB07C1828BCF9002FD462 /* CustomPlayerView.h */,
 				630CB07D1828BCF9002FD462 /* CustomPlayerView.m */,
 			);
 			name = LGPlayer;
+			sourceTree = "<group>";
+		};
+		630CB0821828E82A002FD462 /* movieCotr */ = {
+			isa = PBXGroup;
+			children = (
+				630CB0831828E8B0002FD462 /* MovieControllerItem.h */,
+				630CB0841828E8B0002FD462 /* MovieControllerItem.m */,
+				630B95F7182A2909000ED31E /* DRMoviePlayerPlaybackProgressBar.h */,
+				630B95F8182A2909000ED31E /* DRMoviePlayerPlaybackProgressBar.m */,
+				630B95FE182A4CF6000ED31E /* MoviePlayerHolderView.h */,
+				630B95FF182A4CF6000ED31E /* MoviePlayerHolderView.m */,
+			);
+			name = movieCotr;
 			sourceTree = "<group>";
 		};
 		639A07A01823905900B60670 /* thirty */ = {
@@ -1011,7 +1039,9 @@
 				630B03C61820F5BB00F72C4C /* Images.xcassets in Resources */,
 				0EAFA0F11822167800D01D3E /* getUserQuestion.json in Resources */,
 				0EAFA0F01822167800D01D3E /* findPassWord.json in Resources */,
+				630B95FC182A4A7F000ED31E /* retreat.png in Resources */,
 				0EAFA0FD1822167800D01D3E /* submitNote.json in Resources */,
+				630B95FD182A4A7F000ED31E /* speed.png in Resources */,
 				0EAFA0FA1822167800D01D3E /* searchQuestion.json in Resources */,
 				0EAFA0EF1822167800D01D3E /* commentList.json in Resources */,
 				0EA7EF0D18233B0000C47F69 /* jiantou_down.png in Resources */,
@@ -1052,6 +1082,7 @@
 				0EA7EF8A1827792A00C47F69 /* SectionCustomView.m in Sources */,
 				0EAFA12C18224C2700D01D3E /* LessonViewController.m in Sources */,
 				6323875A1822056000C71535 /* LoginViewController.m in Sources */,
+				630B9600182A4CF6000ED31E /* MoviePlayerHolderView.m in Sources */,
 				0EA7EF521823A99700C47F69 /* PlayBackInterface.m in Sources */,
 				6323876018222A1500C71535 /* DRNaviGationBarController.m in Sources */,
 				6323875D18220E7D00C71535 /* ForgotPwdViewController.m in Sources */,
@@ -1072,7 +1103,6 @@
 				0EA7EF1C18234AC600C47F69 /* SearchLessonInterface.m in Sources */,
 				0EDF4DFD1821028F007161E0 /* Utility.m in Sources */,
 				0EAFA1231822485500D01D3E /* LessonInfoInterface.m in Sources */,
-				630CB07E1828BCF9002FD462 /* LGPlayerViewController.m in Sources */,
 				0EDF4DE018210241007161E0 /* ASICloudFilesObject.m in Sources */,
 				0EA7EF4618238CC600C47F69 /* ChapterQuestionModel.m in Sources */,
 				0EDF4DDF18210241007161E0 /* ASICloudFilesContainerXMLParserDelegate.m in Sources */,
@@ -1113,7 +1143,9 @@
 				0EA7EF2818234CDC00C47F69 /* ChapterQuestionInterface.m in Sources */,
 				0EAFA11A18223FC500D01D3E /* CJTMainToolbar.m in Sources */,
 				0EDF4E011821029B007161E0 /* CaiJinTongManager.m in Sources */,
+				630B95F9182A2909000ED31E /* DRMoviePlayerPlaybackProgressBar.m in Sources */,
 				0EA7EF3D182379E200C47F69 /* NoteModel.m in Sources */,
+				630CB0851828E8B0002FD462 /* MovieControllerItem.m in Sources */,
 				0EA7EF4018237A0D00C47F69 /* CommentModel.m in Sources */,
 				0EAFA1201822464700D01D3E /* FindPassWordInterface.m in Sources */,
 				0EDF4DF418210241007161E0 /* NSString+HTML.m in Sources */,
