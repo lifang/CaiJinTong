@@ -52,22 +52,19 @@
         [self.request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
         
         [self.request setTimeOutSeconds:60];
-        
         NSString *postURL=[self createPostURL:self.headers];
         NSMutableData *postData = [[NSMutableData alloc]initWithData:[postURL dataUsingEncoding:NSUTF8StringEncoding]];
         [self.request setPostBody:postData];
-        
         [self.request setRequestMethod:@"POST"];
-        
+        [self.request addRequestHeader:@"Content-Type" value:@"application/x-www-form-urlencoded"];
         if (self.headers) {
             for (NSString *key in self.headers) {
                 [self.request addRequestHeader:key value:[self.headers objectForKey:key]];  
             }
         }
-        
         [self.request setDelegate:self];
         [self.request startAsynchronous];
-        
+
     }else{
         //抛出异常
     }

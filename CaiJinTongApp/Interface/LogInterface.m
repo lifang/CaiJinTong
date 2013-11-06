@@ -37,6 +37,7 @@
 -(void)parseResult:(ASIHTTPRequest *)request{
     NSDictionary *resultHeaders = [[request responseHeaders] allKeytoLowerCase];
     if (resultHeaders) {
+        DLog(@"%@",resultHeaders);
         NSData *data = [[NSData alloc]initWithData:[request responseData]];
         id jsonObject=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
         if (jsonObject !=nil) {

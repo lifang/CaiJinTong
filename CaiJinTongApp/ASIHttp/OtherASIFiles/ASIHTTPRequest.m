@@ -2363,8 +2363,9 @@ static NSOperationQueue *sharedQueue = nil;
 - (void)parseStringEncodingFromHeaders
 {
 	// Handle response text encoding
-	NSStringEncoding charset = 0;
+	NSStringEncoding charset = 4;
 	NSString *mimeType = nil;
+    DLog(@"contentType = %@",[[self responseHeaders] valueForKey:@"Content-Type"]);
 	[[self class] parseMimeType:&mimeType andResponseEncoding:&charset fromContentType:[[self responseHeaders] valueForKey:@"Content-Type"]];
 	if (charset != 0) {
 		[self setResponseEncoding:charset];

@@ -73,7 +73,7 @@ static void * const keypath = (void*)&keypath;
 {
     self.mj_popupViewController = popupViewController;
     AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication]delegate];
-    app.popupedController = self;
+    [app.popupedControllerArr addObject:self];
     [self presentPopupView:popupViewController.view animationType:animationType dismissed:dismissed];
 }
 
@@ -85,7 +85,9 @@ static void * const keypath = (void*)&keypath;
 - (void)dismissPopupViewControllerWithanimationType:(MJPopupViewAnimation)animationType
 {
     AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication]delegate];
-    UIView *sourceView = [app.popupedController topView];
+    UIViewController *presentedController = [app.popupedControllerArr lastObject];
+    [app.popupedControllerArr removeLastObject];
+    UIView *sourceView = [presentedController topView];
     DLog(@"%@>>>>%@",[sourceView subviews],sourceView);
     UIView *popupView = [sourceView viewWithTag:kMJPopupViewTag];
     UIView *overlayView = [sourceView viewWithTag:kMJOverlayViewTag];
