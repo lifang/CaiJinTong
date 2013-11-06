@@ -8,7 +8,11 @@
 
 #import "ChapterViewController.h"
 #import "SectionModel.h"
-
+#import "ChineseString.h"
+#import "pinyin.h"
+#import "NoteModel.h"
+#import "CommentModel.h"
+#import "SectionViewController.h"
 
 #define ItemWidth 250
 #define ItemWidthSpace 23
@@ -42,6 +46,8 @@
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
 }
 -(void)viewDidAppear:(BOOL)animated {
+    
+    DLog(@"progress = %@",self.progressArray);
     [super viewDidAppear:animated];
     if (self.recentArray.count>0) {
         self.dataArray = [NSMutableArray arrayWithArray:self.recentArray];
@@ -147,7 +153,7 @@
     
     SectionModel *section = (SectionModel *)[self.dataArray objectAtIndex:currentTag];
     //自定义view
-    SectionCustomView *sv = [[SectionCustomView alloc]initWithFrame:CGRectMake(ItemWidthSpace+(ItemWidthSpace+ItemWidth)*col, ItemHeightSpace, ItemWidth, ItemHeight) andSection:section];
+    SectionCustomView *sv = [[SectionCustomView alloc]initWithFrame:CGRectMake(ItemWidthSpace+(ItemWidthSpace+ItemWidth)*col, ItemHeightSpace, ItemWidth, ItemHeight) andSection:section andItemLabel:ItemLabel];
     self.sectionView = sv;
 
     [self.sectionView addTarget:self  action:@selector(imageButtonClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -157,12 +163,93 @@
 -(void)imageButtonClick:(id)sender {
     UIControl *button = sender;
     DLog(@"imageTag = %d",button.tag);
+    
+    //数据来源
+    NSDictionary *dictionary = [Utility initWithJSONFile:@"sectionInfo"];
+    NSDictionary *dic = [dictionary objectForKey:@"ReturnObject"];
+    if (dic.count>0) {
+        SectionModel *section = [[SectionModel alloc]init];
+        section.sectionId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionId"]];
+        section.sectionName = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionName"]];
+        section.sectionImg = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionImg"]];
+        section.sectionProgress = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionProgress"]];
+        section.sectionSD = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionSD"]];
+        section.sectionHD = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionHD"]];
+        section.sectionScore = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionScore"]];
+        section.isGrade = [NSString stringWithFormat:@"%@",[dic objectForKey:@"isGrade"]];
+        section.lessonInfo = [NSString stringWithFormat:@"%@",[dic objectForKey:@"lessonInfo"]];
+        section.sectionTeacher = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionTeacher"]];
+        section.sectionDownload = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionDownload"]];
+        section.sectionStudy = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionStudy"]];
+        section.sectionLastTime = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionLastTime"]];
+        //笔记
+        NSArray *noteList = [NSArray arrayWithArray:[dic objectForKey:@"noteList"]];
+        if (noteList.count>0) {
+            NSMutableArray *note_tempArray = [[NSMutableArray alloc]init];
+            for (int i=0; i<noteList.count; i++) {
+                NSDictionary *dic = [noteList objectAtIndex:i];
+                NoteModel *note = [[NoteModel alloc]init];
+                note.noteText = [NSString stringWithFormat:@"%@",[dic objectForKey:@"noteText"]];
+                note.noteTime = [NSString stringWithFormat:@"%@",[dic objectForKey:@"noteTime"]];
+                [note_tempArray addObject:note];
+            }
+            if (note_tempArray.count>0) {
+                section.noteList = [NSMutableArray arrayWithArray:note_tempArray];
+            }
+        }
+        //评论
+        NSArray *commentList = [NSArray arrayWithArray:[dic objectForKey:@"commentList"]];
+        if (commentList.count>0) {
+            NSMutableArray *comment_tempArray = [[NSMutableArray alloc]init];
+            for (int i=0; i<commentList.count; i++) {
+                NSDictionary *dic = [commentList objectAtIndex:i];
+                CommentModel *comment = [[CommentModel alloc]init];
+                comment.nickName = [NSString stringWithFormat:@"%@",[dic objectForKey:@"nickName"]];
+                comment.time = [NSString stringWithFormat:@"%@",[dic objectForKey:@"time"]];
+                comment.content = [NSString stringWithFormat:@"%@",[dic objectForKey:@"content"]];
+                comment.pageIndex = [[dic objectForKey:@"pageIndex"]intValue];
+                comment.pageCount = [[dic objectForKey:@"pageCount"]intValue];
+                [comment_tempArray addObject:comment];
+            }
+            if (comment_tempArray.count>0) {
+                section.commentList = [NSMutableArray arrayWithArray:comment_tempArray];
+            }
+        }
+        //章节目录
+        NSArray *sectionList = [NSArray arrayWithArray:[dic objectForKey:@"sectionList"]];
+        if (sectionList.count>0) {
+            NSMutableArray *section_tempArray = [[NSMutableArray alloc]init];
+            for (int i=0; i<sectionList.count; i++) {
+                NSDictionary *dic = [sectionList objectAtIndex:i];
+                SectionModel *section = [[SectionModel alloc]init];
+                section.sectionId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionId"]];
+                section.sectionName = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionName"]];
+                section.sectionDownload = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionDownload"]];
+                section.sectionLastTime = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionLastTime"]];
+                [section_tempArray addObject:section];
+            }
+            if (section_tempArray.count>0) {
+                section.sectionList = [NSMutableArray arrayWithArray:section_tempArray];
+            }
+        }
+        //
+        UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+        SectionViewController *sectionView = [story instantiateViewControllerWithIdentifier:@"SectionViewController"];
+        sectionView.view.frame = CGRectMake(50, 0, 768-200, 1024);
+        
+        sectionView.section = section;
+        
+        [self presentPopupViewController:sectionView animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO];
+        
+    }
 }
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma -- 筛选
 //学习进度
 - (void)bubbleSort:(NSMutableArray *)array {
     int i, y;
@@ -179,25 +266,113 @@
         }
     }
 }
-//名称
-
-#pragma -- CJTMainToolbarDelegate
-- (void)tappedInToolbar:(CJTMainToolbar *)toolbar recentButton:(UIButton *)button {
-    
-}
-- (void)tappedInToolbar:(CJTMainToolbar *)toolbar progressButton:(UIButton *)button {
-    [self bubbleSort:self.dataArray];
-    for (int i=0; i<self.dataArray.count; i++) {
-        SectionModel *section = (SectionModel *)[self.dataArray objectAtIndex:i];
-//        DLog(@"%@",section.sectionProgress);
-    }
-    self.progressArray = [NSArray arrayWithArray:self.dataArray];
+//按字母排序
+-(void)letterSort:(NSMutableArray *)array {
+    NSMutableArray *tempArray = array;
     self.dataArray = nil;
-    self.dataArray = [NSMutableArray arrayWithArray:self.progressArray];
+    self.dataArray = [[NSMutableArray alloc]init];
+    NSMutableArray *chineseStringsArray=[NSMutableArray array];
+    for(int i=0;i<[array count];i++){
+        ChineseString *chineseString=[[ChineseString alloc]init];
+        
+        SectionModel *section = (SectionModel *)[array objectAtIndex:i];
+        chineseString.string=[NSString stringWithString:section.sectionName];
+        
+        if(chineseString.string==nil){
+            chineseString.string=@"";
+        }
+        
+        if(![chineseString.string isEqualToString:@""]){
+            NSString *pinYinResult=[NSString string];
+            
+            NSString *regexCall = @"[\u4E00-\u9FFF]+$";
+            NSPredicate *predicateCall = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",regexCall];
+            //是汉字
+            if ([predicateCall evaluateWithObject:[chineseString.string substringToIndex:1]]) {
+                for(int j=0;j<chineseString.string.length;j++){
+                    NSString *singlePinyinLetter=[[NSString stringWithFormat:@"%c",pinyinFirstLetter([chineseString.string characterAtIndex:j])]uppercaseString];
+                    
+                    pinYinResult=[pinYinResult stringByAppendingString:singlePinyinLetter];
+                }
+            }else {//非汉字
+                pinYinResult = [pinYinResult stringByAppendingString:[[chineseString.string substringToIndex:1]uppercaseString]];
+            }
+            chineseString.pinYin=pinYinResult;
+        }else{
+            chineseString.pinYin=@"";
+        }
+        [chineseStringsArray addObject:chineseString];
+    }
+
+    NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"pinYin" ascending:YES]];
+    [chineseStringsArray sortUsingDescriptors:sortDescriptors];
+    NSMutableArray *result=[NSMutableArray array];
+    for(int i=0;i<[chineseStringsArray count];i++){
+        [result addObject:((ChineseString*)[chineseStringsArray objectAtIndex:i]).string];
+    }
+    for(int i=0;i<[result count];i++){
+        NSString *string = [result objectAtIndex:i];
+        for (int k=0; k<tempArray.count; k++) {
+            SectionModel *section = (SectionModel *)[array objectAtIndex:k];
+            if ([string isEqualToString:section.sectionName]) {
+                [self.dataArray addObject:section];
+            }
+        }
+    }
+}
+#pragma -- CJTMainToolbarDelegate
+//按学习进度排序
+-(void)initButton:(UIButton *)button {
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    NSArray *subViews = [self.mainToolBar subviews];
+    if (subViews.count>0) {
+        for (UIView *vv in subViews) {
+            if ([vv isKindOfClass:[UIButton class]]) {
+                UIButton *btn = (UIButton *)vv;
+                if (![btn isEqual:button]) {
+                    [btn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+                }
+            }
+        }
+    }
+}
+
+//默认(最近播放)
+- (void)tappedInToolbar:(CJTMainToolbar *)toolbar recentButton:(UIButton *)button {
+    [self initButton:button];
+    self.dataArray = nil;
+    self.dataArray = [NSMutableArray arrayWithArray:self.recentArray];
     [self displayNewView];
 }
+//学习进度
+- (void)tappedInToolbar:(CJTMainToolbar *)toolbar progressButton:(UIButton *)button {
+    if (self.progressArray.count >0) {
+        [self initButton:button];
+        self.dataArray = [NSMutableArray arrayWithArray:self.progressArray];
+        [self displayNewView];
+    }else {
+        if (self.dataArray.count>0) {
+            [self bubbleSort:self.dataArray];
+            [self initButton:button];
+            self.progressArray = [NSArray arrayWithArray:self.dataArray];
+            [self displayNewView];
+        }
+    }
+}
+//名称(A-Z)
 - (void)tappedInToolbar:(CJTMainToolbar *)toolbar nameButton:(UIButton *)button {
-    
+    if (self.nameArray.count>0) {
+        [self initButton:button];
+        self.dataArray = [NSMutableArray arrayWithArray:self.nameArray];
+        [self displayNewView];
+    }else {
+        if (self.dataArray.count>0) {
+            [self letterSort:self.dataArray];
+            [self initButton:button];
+            self.nameArray = [NSArray arrayWithArray:self.dataArray];
+            [self displayNewView];
+        }
+    }
 }
 
 @end

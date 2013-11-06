@@ -17,7 +17,6 @@
 -(NSString *)createPostURL:(NSDictionary *)params
 {
     NSString *postString=@"";
-    DLog(@"%@",[params allKeys]);
     for(NSString *key in [params allKeys])
     {
         NSString *value=[params objectForKey:key];
@@ -53,22 +52,19 @@
         [self.request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
         
         [self.request setTimeOutSeconds:60];
-        
         NSString *postURL=[self createPostURL:self.headers];
         NSMutableData *postData = [[NSMutableData alloc]initWithData:[postURL dataUsingEncoding:NSUTF8StringEncoding]];
         [self.request setPostBody:postData];
-        
         [self.request setRequestMethod:@"POST"];
-        
+        [self.request addRequestHeader:@"Content-Type" value:@"application/x-www-form-urlencoded"];
         if (self.headers) {
             for (NSString *key in self.headers) {
                 [self.request addRequestHeader:key value:[self.headers objectForKey:key]];  
             }
         }
-        
         [self.request setDelegate:self];
         [self.request startAsynchronous];
-        
+
     }else{
         //抛出异常
     }
@@ -77,16 +73,7 @@
 #pragma mark - ASIHttpRequestDelegate
 - (void)request:(ASIHTTPRequest *)request didReceiveResponseHeaders:(NSDictionary *)responseHeaders {
     responseHeaders = [responseHeaders allKeytoLowerCase];
-    
-//    NSString *result = [responseHeaders objectForKey:@"result"];
-//    if (![result isEqualToString:@"success"]) {
-//        //失败
-//        if ([@"102" isEqualToString:[responseHeaders objectForKey:@"error-code"]]) {
-//            [self.request clearDelegatesAndCancel];
-//            self.request = nil;
-//            
-//        }
-//    }
+
 }
 
 -(void)requestFinished:(ASIHTTPRequest *)request {

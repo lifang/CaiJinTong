@@ -10,7 +10,6 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-//@property (strong, nonatomic) UIViewController *popupedController;
 @property (strong, nonatomic)  NSMutableArray *popupedControllerArr;
 //网络监听所用
 @property (retain, nonatomic) Reachability *hostReach;

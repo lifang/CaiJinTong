@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0EA2A91A18288275003D152E /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EA2A91918288275003D152E /* libc++.dylib */; };
+		0EA2A91D1828847E003D152E /* pinyin.c in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2A91B1828847E003D152E /* pinyin.c */; };
+		0EA2A9201828893D003D152E /* ChineseString.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2A91F1828893D003D152E /* ChineseString.m */; };
+		0EA2A92318289E17003D152E /* SectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2A92218289E17003D152E /* SectionViewController.m */; };
+		0EA2A9261828D667003D152E /* SUNSlideSwitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2A9251828D667003D152E /* SUNSlideSwitchView.m */; };
+		0EA2A9281828D681003D152E /* red_line_and_shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EA2A9271828D681003D152E /* red_line_and_shadow@2x.png */; };
+		0EA2A92B1828D758003D152E /* Section_ChapterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2A92A1828D758003D152E /* Section_ChapterViewController.m */; };
+		0EA2A92E1828D77D003D152E /* Section_GradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2A92D1828D77D003D152E /* Section_GradeViewController.m */; };
+		0EA2A9311828D78F003D152E /* Section_NoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2A9301828D78F003D152E /* Section_NoteViewController.m */; };
+		0EA2A9341828E180003D152E /* Section_ChapterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2A9331828E180003D152E /* Section_ChapterCell.m */; };
 		0EA7EF09182336B600C47F69 /* chapterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA7EF08182336B600C47F69 /* chapterModel.m */; };
 		0EA7EF0C18233B0000C47F69 /* jiantou_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EA7EF0A18233B0000C47F69 /* jiantou_up.png */; };
 		0EA7EF0D18233B0000C47F69 /* jiantou_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EA7EF0B18233B0000C47F69 /* jiantou_down.png */; };
@@ -164,6 +174,24 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0EA2A91918288275003D152E /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		0EA2A91B1828847E003D152E /* pinyin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pinyin.c; sourceTree = "<group>"; };
+		0EA2A91C1828847E003D152E /* pinyin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pinyin.h; sourceTree = "<group>"; };
+		0EA2A91E1828893D003D152E /* ChineseString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChineseString.h; sourceTree = "<group>"; };
+		0EA2A91F1828893D003D152E /* ChineseString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChineseString.m; sourceTree = "<group>"; };
+		0EA2A92118289E17003D152E /* SectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionViewController.h; sourceTree = "<group>"; };
+		0EA2A92218289E17003D152E /* SectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionViewController.m; sourceTree = "<group>"; };
+		0EA2A9241828D667003D152E /* SUNSlideSwitchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUNSlideSwitchView.h; sourceTree = "<group>"; };
+		0EA2A9251828D667003D152E /* SUNSlideSwitchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUNSlideSwitchView.m; sourceTree = "<group>"; };
+		0EA2A9271828D681003D152E /* red_line_and_shadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "red_line_and_shadow@2x.png"; sourceTree = "<group>"; };
+		0EA2A9291828D758003D152E /* Section_ChapterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Section_ChapterViewController.h; sourceTree = "<group>"; };
+		0EA2A92A1828D758003D152E /* Section_ChapterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section_ChapterViewController.m; sourceTree = "<group>"; };
+		0EA2A92C1828D77D003D152E /* Section_GradeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Section_GradeViewController.h; sourceTree = "<group>"; };
+		0EA2A92D1828D77D003D152E /* Section_GradeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section_GradeViewController.m; sourceTree = "<group>"; };
+		0EA2A92F1828D78F003D152E /* Section_NoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Section_NoteViewController.h; sourceTree = "<group>"; };
+		0EA2A9301828D78F003D152E /* Section_NoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section_NoteViewController.m; sourceTree = "<group>"; };
+		0EA2A9321828E180003D152E /* Section_ChapterCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Section_ChapterCell.h; sourceTree = "<group>"; };
+		0EA2A9331828E180003D152E /* Section_ChapterCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section_ChapterCell.m; sourceTree = "<group>"; };
 		0EA7EF07182336B600C47F69 /* chapterModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = chapterModel.h; sourceTree = "<group>"; };
 		0EA7EF08182336B600C47F69 /* chapterModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = chapterModel.m; sourceTree = "<group>"; };
 		0EA7EF0A18233B0000C47F69 /* jiantou_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jiantou_up.png; sourceTree = "<group>"; };
@@ -422,6 +450,7 @@
 			files = (
 				630B95F61829F72B000ED31E /* MediaPlayer.framework in Frameworks */,
 				630CB0811828BD19002FD462 /* AVFoundation.framework in Frameworks */,
+				0EA2A91A18288275003D152E /* libc++.dylib in Frameworks */,
 				0EDF4E11182102E7007161E0 /* libz.dylib in Frameworks */,
 				0EDF4E0F182102DD007161E0 /* libsqlite3.0.dylib in Frameworks */,
 				0EDF4E0D182102D7007161E0 /* libxml2.dylib in Frameworks */,
@@ -528,6 +557,7 @@
 			children = (
 				630B95FA182A4A7F000ED31E /* retreat.png */,
 				630B95FB182A4A7F000ED31E /* speed.png */,
+				0EA2A9271828D681003D152E /* red_line_and_shadow@2x.png */,
 				0EA7EF0A18233B0000C47F69 /* jiantou_up.png */,
 				0EA7EF0B18233B0000C47F69 /* jiantou_down.png */,
 				0EAFA105182223BD00D01D3E /* loginBgImage_v.png */,
@@ -645,6 +675,14 @@
 				0EAFA12B18224C2700D01D3E /* LessonViewController.m */,
 				0EA7EF641827445500C47F69 /* ChapterViewController.h */,
 				0EA7EF651827445500C47F69 /* ChapterViewController.m */,
+				0EA2A92118289E17003D152E /* SectionViewController.h */,
+				0EA2A92218289E17003D152E /* SectionViewController.m */,
+				0EA2A9291828D758003D152E /* Section_ChapterViewController.h */,
+				0EA2A92A1828D758003D152E /* Section_ChapterViewController.m */,
+				0EA2A92C1828D77D003D152E /* Section_GradeViewController.h */,
+				0EA2A92D1828D77D003D152E /* Section_GradeViewController.m */,
+				0EA2A92F1828D78F003D152E /* Section_NoteViewController.h */,
+				0EA2A9301828D78F003D152E /* Section_NoteViewController.m */,
 				630CB0761828943D002FD462 /* DRMoviePlayViewController.h */,
 				630CB0771828943D002FD462 /* DRMoviePlayViewController.m */,
 			);
@@ -747,6 +785,8 @@
 				0EA7EF4818238D4600C47F69 /* QuestionModel.m */,
 				0EA7EF4A18238DF600C47F69 /* AnswerModel.h */,
 				0EA7EF4B18238DF600C47F69 /* AnswerModel.m */,
+				0EA2A91E1828893D003D152E /* ChineseString.h */,
+				0EA2A91F1828893D003D152E /* ChineseString.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -782,6 +822,10 @@
 				6323876218223E9500C71535 /* DRNavigationBar.m */,
 				0EA7EF881827792A00C47F69 /* SectionCustomView.h */,
 				0EA7EF891827792A00C47F69 /* SectionCustomView.m */,
+				0EA2A9241828D667003D152E /* SUNSlideSwitchView.h */,
+				0EA2A9251828D667003D152E /* SUNSlideSwitchView.m */,
+				0EA2A9321828E180003D152E /* Section_ChapterCell.h */,
+				0EA2A9331828E180003D152E /* Section_ChapterCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -794,6 +838,8 @@
 				0EDF4DFA1821028F007161E0 /* Const.h */,
 				0EDF4DFB1821028F007161E0 /* NSDictionary+AllKeytoLowerCase.h */,
 				0EDF4DFC1821028F007161E0 /* NSDictionary+AllKeytoLowerCase.m */,
+				0EA2A91B1828847E003D152E /* pinyin.c */,
+				0EA2A91C1828847E003D152E /* pinyin.h */,
 				0EA7EF8118276DC900C47F69 /* AMProgressView */,
 				0EA7EF67182748B000C47F69 /* SDWebImage */,
 				0EDF4DC818210241007161E0 /* DB */,
@@ -838,6 +884,7 @@
 			isa = PBXGroup;
 			children = (
 				630B95F51829F72B000ED31E /* MediaPlayer.framework */,
+				0EA2A91918288275003D152E /* libc++.dylib */,
 				630CB0801828BD19002FD462 /* AVFoundation.framework */,
 				0EDF4E10182102E7007161E0 /* libz.dylib */,
 				0EDF4E0E182102DD007161E0 /* libsqlite3.0.dylib */,
@@ -1030,6 +1077,7 @@
 			files = (
 				0EAFA0EC1822167800D01D3E /* askQuestion.json in Resources */,
 				0EA7EF631823B1FC00C47F69 /* answerList.json in Resources */,
+				0EA2A9281828D681003D152E /* red_line_and_shadow@2x.png in Resources */,
 				630B03C11820F5BB00F72C4C /* Main_iPad.storyboard in Resources */,
 				0EAFA0F41822167800D01D3E /* logIn.json in Resources */,
 				0EAFA0F21822167800D01D3E /* grade.json in Resources */,
@@ -1113,6 +1161,8 @@
 				0EDF4DF018210241007161E0 /* ASIS3ServiceRequest.m in Sources */,
 				0EDF4DDD18210241007161E0 /* ASICloudFilesContainer.m in Sources */,
 				63091FFA1827435400C1AF07 /* LessonListCell.m in Sources */,
+				0EA2A9261828D667003D152E /* SUNSlideSwitchView.m in Sources */,
+				0EA2A9201828893D003D152E /* ChineseString.m in Sources */,
 				0EDF4D9118210202007161E0 /* DownloadService.m in Sources */,
 				0EAFA1131822399100D01D3E /* InterfaceCache.m in Sources */,
 				0EA7EF3118234D8D00C47F69 /* GetUserQuestionInterface.m in Sources */,
@@ -1129,6 +1179,7 @@
 				0EDF4DEF18210241007161E0 /* ASIS3Request.m in Sources */,
 				0EA7EF4F1823A98600C47F69 /* PlayVideoInterface.m in Sources */,
 				0EDF4DDE18210241007161E0 /* ASICloudFilesContainerRequest.m in Sources */,
+				0EA2A9311828D78F003D152E /* Section_NoteViewController.m in Sources */,
 				0EA7EF8D1827805D00C47F69 /* SectionInfoInterface.m in Sources */,
 				0EDF4DF518210241007161E0 /* NSString+URLEncoding.m in Sources */,
 				0EDF4DE218210241007161E0 /* ASICloudFilesRequest.m in Sources */,
@@ -1139,6 +1190,7 @@
 				0EA7EF5B1823ADF100C47F69 /* SubmitAnswerInterface.m in Sources */,
 				639A07A71823909000B60670 /* UIViewController+MJPopupViewController.m in Sources */,
 				0EDF4DF318210241007161E0 /* GTMNSString+HTML.m in Sources */,
+				0EA2A91D1828847E003D152E /* pinyin.c in Sources */,
 				0EA7EF7F182748BB00C47F69 /* UIButton+WebCache.m in Sources */,
 				0EA7EF2818234CDC00C47F69 /* ChapterQuestionInterface.m in Sources */,
 				0EAFA11A18223FC500D01D3E /* CJTMainToolbar.m in Sources */,
@@ -1151,9 +1203,13 @@
 				0EDF4DF418210241007161E0 /* NSString+HTML.m in Sources */,
 				0EAFA1141822399100D01D3E /* LogInterface.m in Sources */,
 				630B03B71820F5BB00F72C4C /* main.m in Sources */,
+				0EA2A9341828E180003D152E /* Section_ChapterCell.m in Sources */,
+				0EA2A92B1828D758003D152E /* Section_ChapterViewController.m in Sources */,
 				0EDF4DDC18210241007161E0 /* ASICloudFilesCDNRequest.m in Sources */,
 				630CB0781828943E002FD462 /* DRMoviePlayViewController.m in Sources */,
 				639A07A61823909000B60670 /* MJPopupBackgroundView.m in Sources */,
+				0EA2A92E1828D77D003D152E /* Section_GradeViewController.m in Sources */,
+				0EA2A92318289E17003D152E /* SectionViewController.m in Sources */,
 				0EA7EF8718276DD300C47F69 /* AMProgressViewGradient.m in Sources */,
 				0EDF4DF618210241007161E0 /* Reachability.m in Sources */,
 				0EA7EF7D182748BB00C47F69 /* SDWebImageManager.m in Sources */,
@@ -1311,6 +1367,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_INPUT_FILETYPE = sourcecode.c.objc;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CaiJinTongApp/CaiJinTongApp-Prefix.pch";
@@ -1331,6 +1389,9 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = NO;
+				ENABLE_NS_ASSERTIONS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_INPUT_FILETYPE = sourcecode.c.objc;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CaiJinTongApp/CaiJinTongApp-Prefix.pch";

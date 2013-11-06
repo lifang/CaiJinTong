@@ -20,6 +20,7 @@
 #import "ChapterQuestionModel.h"
 #define LESSON_HEADER_IDENTIFIER @"lessonHeader"
 typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
+
 @interface LessonViewController ()
 @property(nonatomic,assign) TableListType listType;
 @end
@@ -288,15 +289,13 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                 section.sectionProgress = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionProgress"]];
                 [tempArray addObject:section];
             }
-            DLog(@"te = %@",tempArray);
         }
         //
         UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
         ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
-        chapterView.view.frame = (CGRect){50,20,768-200,1024-20};
-        DLog(@"te = %@",tempArray);
+        chapterView.view.frame = CGRectMake(50, 20, 768-200, 1024-20);
         if (tempArray.count>0) {
-//            chapterView.chapterArray = [[NSArray alloc]initWithArray:tempArray];//???
+            chapterView.recentArray = [[NSMutableArray alloc]initWithArray:tempArray];
             tempArray = nil;
         }
         

@@ -16,5 +16,5 @@
 @property (nonatomic, strong) UIImageView *imageView;//视频封面
 @property (nonatomic, strong) AMProgressView *pv;//视频进度
 
-- (id)initWithFrame:(CGRect)frame andSection:(SectionModel *)section;
+- (id)initWithFrame:(CGRect)frame andSection:(SectionModel *)section andItemLabel:(float)itemLabel;
 @end

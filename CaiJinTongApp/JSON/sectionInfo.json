@@ -6,31 +6,31 @@
                         "sectionName":"CFA-01-001",
                         "sectionImg":"http://116.255.135.175:3004/service_pics/1/20/2img20_154.jpg",
                         "sectionProgress":"0.86",
-                        "sectionSD":"",
-                        "sectionHD":"",
+                        "sectionSD":"ooxx",
+                        "sectionHD":"ooxx",
                         "sectionScore":"4.1",
                         "isGrade":"0",
                         "lessonInfo":"此内容已被屏蔽",
                         "sectionTeacher":"刘德华",
-                        "sectionDownload":"",
-                        "sectionStudy":"20'59",
-                        "sectionLastTime":"24'59",
+                        "sectionDownload":"ooxx",
+                        "sectionStudy":"2059",
+                        "sectionLastTime":"2459",
                         "noteList":[
                                     {
                                     "noteTime":"14'39",
-                                    "noteText":"我就是好男人，好男人就是我！",
+                                    "noteText":"我就是好男人，好男人就是我！"
                                     },
                                     {
                                     "noteTime":"18'39",
-                                    "noteText":"我就是好女人，好女人就是我！",
+                                    "noteText":"我就是好女人，好女人就是我！"
                                     },
                                     {
                                     "noteTime":"18'56",
-                                    "noteText":"我就是X-man，X-man就是我！",
+                                    "noteText":"我就是X-man，X-man就是我！"
                                     },
                                     {
                                     "noteTime":"20'39",
-                                    "noteText":"我就是好男人，好男人就是我！",
+                                    "noteText":"我就是好男人，好男人就是我！"
                                     }
                                    ],
                          "commentList":[
@@ -39,72 +39,72 @@
                                          "time":"2012-01-12 15:39",
                                          "content":"what can I do to save U ?",
                                          "pageIndex":"0",
-                                         "pageCount":"2",
+                                         "pageCount":"2"
                                         },
                                         {
                                          "nickName":"还珠格格",
                                          "time":"2012-01-14 15:39",
                                          "content":"hello everyone",
                                          "pageIndex":"0",
-                                         "pageCount":"2",
+                                         "pageCount":"2"
                                         },
                                         {
                                          "nickName":"紫薇格格",
                                          "time":"2012-01-15 15:39",
                                          "content":"what can I do to save U ?",
                                          "pageIndex":"0",
-                                         "pageCount":"2",
+                                         "pageCount":"2"
                                         },
                                         {
                                          "nickName":"古天乐",
                                          "time":"2012-02-12 15:39",
                                          "content":"what can I do to save U ?",
                                          "pageIndex":"0",
-                                         "pageCount":"2",
+                                         "pageCount":"2"
                                         },
                                         {
                                          "nickName":"天龙八部",
                                          "time":"2013-01-12 15:39",
                                          "content":"1条龙，2条龙，3条龙...",
                                          "pageIndex":"0",
-                                         "pageCount":"2",
+                                         "pageCount":"2"
                                         }
                                        ],
                          "sectionList":[
                                         {
                                          "sectionId":"111",
                                          "sectionName":"CFA-01-001",
-                                         "sectionDownload":""
+                                         "sectionDownload":"",
                                          "sectionLastTime":"24'59"
                                         },
                                         {
                                          "sectionId":"112",
                                          "sectionName":"CFA-01-002",
-                                         "sectionDownload":""
+                                         "sectionDownload":"",
                                          "sectionLastTime":"24'59"
                                         },
                                         {
                                          "sectionId":"113",
                                          "sectionName":"CFA-01-003",
-                                         "sectionDownload":""
+                                         "sectionDownload":"",
                                          "sectionLastTime":"24'59"
                                         },
                                         {
                                          "sectionId":"114",
                                          "sectionName":"CFA-01-004",
-                                         "sectionDownload":""
+                                         "sectionDownload":"",
                                          "sectionLastTime":"24'59"
                                         },
                                         {
                                          "sectionId":"115",
                                          "sectionName":"CFA-01-005",
-                                         "sectionDownload":""
+                                         "sectionDownload":"",
                                          "sectionLastTime":"24'59"
                                         },
                                         {
                                          "sectionId":"116",
                                          "sectionName":"CFA-01-006",
-                                         "sectionDownload":""
+                                         "sectionDownload":"",
                                          "sectionLastTime":"24'59"
                                         }
                                        ]
