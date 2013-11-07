@@ -61,8 +61,12 @@
     
     self.section_GradeView = [story instantiateViewControllerWithIdentifier:@"Section_GradeViewController"];
     self.section_GradeView.title = @"打分";
+    self.section_GradeView.dataArray = [NSMutableArray arrayWithArray:self.section.commentList];
+    
+    
     self.section_NoteView = [story instantiateViewControllerWithIdentifier:@"Section_NoteViewController"];
     self.section_NoteView.title = @"笔记";
+    self.section_NoteView.dataArray = [NSMutableArray arrayWithArray:self.section.noteList];
     
     [self.slideSwitchView buildUI];
 }

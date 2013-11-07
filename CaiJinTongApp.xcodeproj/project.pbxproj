@@ -83,6 +83,8 @@
 		0EAD1F78182B276700204FC3 /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAD1F77182B276700204FC3 /* Section.m */; };
 		0EAD1F7B182B369600204FC3 /* frame.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EAD1F79182B369600204FC3 /* frame.png */; };
 		0EAD1F7C182B369600204FC3 /* frame@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EAD1F7A182B369600204FC3 /* frame@2x.png */; };
+		0EAD1F83182B7D8C00204FC3 /* Section_GradeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAD1F82182B7D8C00204FC3 /* Section_GradeCell.m */; };
+		0EAD1F8C182B872000204FC3 /* Section_NoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAD1F8B182B872000204FC3 /* Section_NoteCell.m */; };
 		0EAFA0EA1822167800D01D3E /* acceptAnswer.json in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA0D51822167800D01D3E /* acceptAnswer.json */; };
 		0EAFA0EB1822167800D01D3E /* answerPraise.json in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA0D61822167800D01D3E /* answerPraise.json */; };
 		0EAFA0EC1822167800D01D3E /* askQuestion.json in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA0D71822167800D01D3E /* askQuestion.json */; };
@@ -340,6 +342,10 @@
 		0EAD1F77182B276700204FC3 /* Section.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section.m; sourceTree = "<group>"; };
 		0EAD1F79182B369600204FC3 /* frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame.png; sourceTree = "<group>"; };
 		0EAD1F7A182B369600204FC3 /* frame@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "frame@2x.png"; sourceTree = "<group>"; };
+		0EAD1F81182B7D8C00204FC3 /* Section_GradeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Section_GradeCell.h; sourceTree = "<group>"; };
+		0EAD1F82182B7D8C00204FC3 /* Section_GradeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section_GradeCell.m; sourceTree = "<group>"; };
+		0EAD1F8A182B872000204FC3 /* Section_NoteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Section_NoteCell.h; sourceTree = "<group>"; };
+		0EAD1F8B182B872000204FC3 /* Section_NoteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section_NoteCell.m; sourceTree = "<group>"; };
 		0EAFA0D51822167800D01D3E /* acceptAnswer.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = acceptAnswer.json; sourceTree = "<group>"; };
 		0EAFA0D61822167800D01D3E /* answerPraise.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = answerPraise.json; sourceTree = "<group>"; };
 		0EAFA0D71822167800D01D3E /* askQuestion.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = askQuestion.json; sourceTree = "<group>"; };
@@ -964,6 +970,10 @@
 				0E52672A1829EE990009E535 /* DownLoadInformView.h */,
 				0E52672B1829EE990009E535 /* DownLoadInformView.m */,
 				0E52672D1829F4EE0009E535 /* DownLoadInformView.xib */,
+				0EAD1F81182B7D8C00204FC3 /* Section_GradeCell.h */,
+				0EAD1F82182B7D8C00204FC3 /* Section_GradeCell.m */,
+				0EAD1F8A182B872000204FC3 /* Section_NoteCell.h */,
+				0EAD1F8B182B872000204FC3 /* Section_NoteCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1297,6 +1307,7 @@
 				0EDF4DE418210241007161E0 /* ASIDataCompressor.m in Sources */,
 				0EDF4DE118210241007161E0 /* ASICloudFilesObjectRequest.m in Sources */,
 				0EDF4DEB18210241007161E0 /* ASIS3Bucket.m in Sources */,
+				0EAD1F8C182B872000204FC3 /* Section_NoteCell.m in Sources */,
 				0EA7EF611823B0EC00C47F69 /* AnswerListInterface.m in Sources */,
 				0EDF4DEA18210241007161E0 /* ASINetworkQueue.m in Sources */,
 				0EA7EF1C18234AC600C47F69 /* SearchLessonInterface.m in Sources */,
@@ -1388,6 +1399,7 @@
 				0EDF4DEC18210241007161E0 /* ASIS3BucketObject.m in Sources */,
 				0EDF4DE518210241007161E0 /* ASIDataDecompressor.m in Sources */,
 				0EA7EF5E1823AE1800C47F69 /* AskQuestionInterface.m in Sources */,
+				0EAD1F83182B7D8C00204FC3 /* Section_GradeCell.m in Sources */,
 				0EA7EF7B182748BB00C47F69 /* SDWebImageDecoder.m in Sources */,
 				0EA7EF1618234A0400C47F69 /* GradeInterface.m in Sources */,
 				0EA7EF8618276DD300C47F69 /* AMProgressView.m in Sources */,
