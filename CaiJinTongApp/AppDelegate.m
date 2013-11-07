@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "LoginViewController.h"
-
+#import "CaiJinTongManager.h"
 
 @implementation AppDelegate
 
@@ -26,6 +26,7 @@
     self.hostReach = [Reachability reachabilityWithHostName:@"www.baidu.com"] ;
     [self.hostReach startNotifier];  //开始监听，会启动一个run loop
     
+    self.mDownloadService = [[DownloadService alloc]init];
     return YES;
 }
 //连接改变
@@ -52,13 +53,14 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    if ([[UIDevice currentDevice] isMultitaskingSupported]) {
+        [[CaiJinTongManager shared] run];
+    }
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    [[CaiJinTongManager shared] stop];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -68,7 +70,7 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    DLog(@"1223");
 }
 
 

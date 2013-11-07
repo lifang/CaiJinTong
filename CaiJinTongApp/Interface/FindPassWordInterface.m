@@ -24,7 +24,7 @@
     
     [reqheaders setValue:[NSString stringWithFormat:@"%@",theName] forKey:@"userName"];
     
-    self.interfaceUrl = [NSString stringWithFormat:@"%@",kHost];
+    self.interfaceUrl = @"http://i.finance365.com/_3G/FindPassword";
     
     self.baseDelegate = self;
     self.headers = reqheaders;
@@ -46,23 +46,26 @@
                 if (jsonData) {
                     if ([[jsonData objectForKey:@"Status"]intValue] == 1) {
                         @try {
-                            
+                            NSDictionary *staff = [jsonData objectForKey:@"ReturnObject"];
+                            [self.delegate getFindPassWordInfoDidFinished:staff];
                         }
                         @catch (NSException *exception) {
-                            
+                            [self.delegate getFindPassWordInfoDidFailed:@"加载失败!"];
                         }
+                    }else if ([[jsonData objectForKey:@"Status"]intValue] == 3) {
+                        [self.delegate getFindPassWordInfoDidFailed:@"请求过期!"];
                     }
                 }else {
-                    
+                    [self.delegate getFindPassWordInfoDidFailed:@"加载失败!"];
                 }
             }
         }
     }else {
-        
+        [self.delegate getFindPassWordInfoDidFailed:@"加载失败!"];
     }
 }
 -(void)requestIsFailed:(NSError *)error{
-    
+    [self.delegate getFindPassWordInfoDidFailed:@"加载失败!"];
 }
 
 @end

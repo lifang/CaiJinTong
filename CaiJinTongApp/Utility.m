@@ -12,7 +12,7 @@
 @implementation Utility
 
 + (void)errorAlert:(NSString *)message {
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"财精通提示" message:message delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"财金通提示" message:message delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
     [alert show];
 }
 + (NSString *)isExistenceNetwork {

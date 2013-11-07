@@ -40,9 +40,6 @@
 }
 
 -(void)drnavigationBarRightItemClicked:(id)sender{
-// [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
-//    AppDelegate *app = [[UIApplication sharedApplication] delegate];
-//    [app.popupedController dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
 }
 
@@ -59,6 +56,7 @@
         if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
             [Utility errorAlert:@"暂无网络!"];
         }else {
+            [SVProgressHUD showWithStatus:@"玩命加载中..."];
             FindPassWordInterface *fpw = [[FindPassWordInterface alloc]init];
             self.fpwInterface = fpw;
             self.fpwInterface.delegate = self;
@@ -67,5 +65,19 @@
     }else {
         [Utility errorAlert:@"请输入正确的手机号码或邮箱!"];
     }
+}
+
+#pragma  -- delegate
+-(void)getFindPassWordInfoDidFinished:(NSDictionary *)result {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [SVProgressHUD dismissWithSuccess:@"密码发送成功，请查收!"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
+        });
+    });
+}
+-(void)getFindPassWordInfoDidFailed:(NSString *)errorMsg {
+    [SVProgressHUD dismiss];
+    [Utility errorAlert:errorMsg];
 }
 @end

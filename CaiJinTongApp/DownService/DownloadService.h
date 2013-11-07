@@ -9,12 +9,13 @@
 #import <Foundation/Foundation.h>
 
 @class ASINetworkQueue;
-@class VideoSaveModel;
+#import "SectionSaveModel.h"
+
 @interface DownloadService : NSObject
 
 @property (nonatomic,retain) ASINetworkQueue *networkQueue;
 
--(void)addDownloadTask:(VideoSaveModel *) nm;//添加下载任务
--(void)removeTask:(VideoSaveModel *)nm;//根据VideoSaveModel删除下载任务
--(void)stopTask:(VideoSaveModel *)nm;//停止下载
+-(void)addDownloadTask:(SectionSaveModel *) nm;//添加下载任务
+-(void)removeTask:(SectionSaveModel *)nm;//根据VideoSaveModel删除下载任务
+-(void)stopTask:(SectionSaveModel *)nm;//停止下载
 @end

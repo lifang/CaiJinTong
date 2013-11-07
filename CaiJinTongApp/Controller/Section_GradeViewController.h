@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TQStarRatingView.h"
+@interface Section_GradeViewController : UIViewController<StarRatingViewDelegate>
 
-@interface Section_GradeViewController : UIViewController
 - (void)viewDidCurrentView;
 @end

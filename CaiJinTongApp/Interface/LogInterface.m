@@ -37,26 +37,25 @@
 -(void)parseResult:(ASIHTTPRequest *)request{
     NSDictionary *resultHeaders = [[request responseHeaders] allKeytoLowerCase];
     if (resultHeaders) {
-        DLog(@"%@",resultHeaders);
         NSData *data = [[NSData alloc]initWithData:[request responseData]];
         id jsonObject=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
         if (jsonObject !=nil) {
             if ([jsonObject isKindOfClass:[NSDictionary class]]) {
                 NSDictionary *jsonData=(NSDictionary *)jsonObject;
-                DLog(@"data = %@",jsonData);
                 if (jsonData) {
-                    NSString *text = [jsonData objectForKey:@"info"];
-                    if (text.length == 0) {
+                    if ([[jsonData objectForKey:@"Status"]intValue] == 1) {
                         @try {
-                            NSDictionary *staff = [jsonData objectForKey:@"staff"];
+                            NSDictionary *staff = [jsonData objectForKey:@"ReturnObject"];
                             [self.delegate getLogInfoDidFinished:staff];
                         }
                         @catch (NSException *exception) {
                             [self.delegate getLogInfoDidFailed:@"登录失败!"];
                         }
+                    }else if ([[jsonData objectForKey:@"Status"]intValue] == 3) {
+                        [self.delegate getLogInfoDidFailed:@"请求过期!"];
                     }
                 }else {
-                    
+                    [self.delegate getLogInfoDidFailed:@"登录失败!"];
                 }
             }
         }

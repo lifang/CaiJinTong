@@ -26,7 +26,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+	TQStarRatingView *starRatingView = [[TQStarRatingView alloc] initWithFrame:CGRectMake(20, 100, 250, 50) numberOfStar:5];
+    starRatingView.delegate = self;
+    [self.view addSubview:starRatingView];
 }
 - (void)viewDidCurrentView
 {
@@ -37,5 +39,10 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+#pragma  -- 打分
+-(void)starRatingView:(TQStarRatingView *)view score:(float)score
+{
+    DLog(@"score = %f",score);
+//    self.scoreLabel.text = [NSString stringWithFormat:@"%0.2f",score*5 ];
+}
 @end
