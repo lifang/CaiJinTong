@@ -80,7 +80,6 @@
 		0EAFA0FD1822167800D01D3E /* submitNote.json in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA0E81822167800D01D3E /* submitNote.json */; };
 		0EAFA0FE1822167800D01D3E /* suggestion.json in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA0E91822167800D01D3E /* suggestion.json */; };
 		0EAFA107182223BD00D01D3E /* loginBgImage_v.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA105182223BD00D01D3E /* loginBgImage_v.png */; };
-		0EAFA108182223BD00D01D3E /* loginBgImage_v@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA106182223BD00D01D3E /* loginBgImage_v@2x.png */; };
 		0EAFA1121822399000D01D3E /* BaseInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA10D1822399000D01D3E /* BaseInterface.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0EAFA1131822399100D01D3E /* InterfaceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA10F1822399000D01D3E /* InterfaceCache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0EAFA1141822399100D01D3E /* LogInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA1111822399000D01D3E /* LogInterface.m */; };
@@ -151,10 +150,14 @@
 		630B95FC182A4A7F000ED31E /* retreat.png in Resources */ = {isa = PBXBuildFile; fileRef = 630B95FA182A4A7F000ED31E /* retreat.png */; };
 		630B95FD182A4A7F000ED31E /* speed.png in Resources */ = {isa = PBXBuildFile; fileRef = 630B95FB182A4A7F000ED31E /* speed.png */; };
 		630B9600182A4CF6000ED31E /* MoviePlayerHolderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 630B95FF182A4CF6000ED31E /* MoviePlayerHolderView.m */; };
+		630B9602182A5A94000ED31E /* loginBgImage_v@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 630B9601182A5A94000ED31E /* loginBgImage_v@2x.png */; };
 		630CB0781828943E002FD462 /* DRMoviePlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 630CB0771828943D002FD462 /* DRMoviePlayViewController.m */; };
 		630CB07F1828BCF9002FD462 /* CustomPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 630CB07D1828BCF9002FD462 /* CustomPlayerView.m */; };
 		630CB0811828BD19002FD462 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630CB0801828BD19002FD462 /* AVFoundation.framework */; };
 		630CB0851828E8B0002FD462 /* MovieControllerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 630CB0841828E8B0002FD462 /* MovieControllerItem.m */; };
+		631227E0182B384B00530CC3 /* MyQuestionAndAnswerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 631227DF182B384B00530CC3 /* MyQuestionAndAnswerViewController.m */; };
+		631227E4182B409F00530CC3 /* QuestionAndAnswerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 631227E3182B409F00530CC3 /* QuestionAndAnswerCell.m */; };
+		631227E7182B40EB00530CC3 /* QuestionAndAnswerCellHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 631227E6182B40EB00530CC3 /* QuestionAndAnswerCellHeaderView.m */; };
 		6323875A1822056000C71535 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 632387591822056000C71535 /* LoginViewController.m */; };
 		6323875D18220E7D00C71535 /* ForgotPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6323875C18220E7D00C71535 /* ForgotPwdViewController.m */; };
 		6323876018222A1500C71535 /* DRNaviGationBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6323875F18222A1500C71535 /* DRNaviGationBarController.m */; };
@@ -296,7 +299,6 @@
 		0EAFA0E81822167800D01D3E /* submitNote.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = submitNote.json; sourceTree = "<group>"; };
 		0EAFA0E91822167800D01D3E /* suggestion.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = suggestion.json; sourceTree = "<group>"; };
 		0EAFA105182223BD00D01D3E /* loginBgImage_v.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loginBgImage_v.png; sourceTree = "<group>"; };
-		0EAFA106182223BD00D01D3E /* loginBgImage_v@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loginBgImage_v@2x.png"; sourceTree = "<group>"; };
 		0EAFA10C1822399000D01D3E /* BaseInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseInterface.h; sourceTree = "<group>"; };
 		0EAFA10D1822399000D01D3E /* BaseInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseInterface.m; sourceTree = "<group>"; };
 		0EAFA10E1822399000D01D3E /* InterfaceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceCache.h; sourceTree = "<group>"; };
@@ -422,6 +424,7 @@
 		630B95FB182A4A7F000ED31E /* speed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = speed.png; sourceTree = "<group>"; };
 		630B95FE182A4CF6000ED31E /* MoviePlayerHolderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoviePlayerHolderView.h; path = movieCotr/MoviePlayerHolderView.h; sourceTree = "<group>"; };
 		630B95FF182A4CF6000ED31E /* MoviePlayerHolderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MoviePlayerHolderView.m; path = movieCotr/MoviePlayerHolderView.m; sourceTree = "<group>"; };
+		630B9601182A5A94000ED31E /* loginBgImage_v@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loginBgImage_v@2x.png"; sourceTree = "<group>"; };
 		630CB0761828943D002FD462 /* DRMoviePlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRMoviePlayViewController.h; sourceTree = "<group>"; };
 		630CB0771828943D002FD462 /* DRMoviePlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRMoviePlayViewController.m; sourceTree = "<group>"; };
 		630CB07C1828BCF9002FD462 /* CustomPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomPlayerView.h; sourceTree = "<group>"; };
@@ -429,6 +432,12 @@
 		630CB0801828BD19002FD462 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		630CB0831828E8B0002FD462 /* MovieControllerItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MovieControllerItem.h; path = movieCotr/MovieControllerItem.h; sourceTree = "<group>"; };
 		630CB0841828E8B0002FD462 /* MovieControllerItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MovieControllerItem.m; path = movieCotr/MovieControllerItem.m; sourceTree = "<group>"; };
+		631227DE182B384B00530CC3 /* MyQuestionAndAnswerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyQuestionAndAnswerViewController.h; sourceTree = "<group>"; };
+		631227DF182B384B00530CC3 /* MyQuestionAndAnswerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyQuestionAndAnswerViewController.m; sourceTree = "<group>"; };
+		631227E2182B409F00530CC3 /* QuestionAndAnswerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QuestionAndAnswerCell.h; path = questionAndAnswer/QuestionAndAnswerCell.h; sourceTree = "<group>"; };
+		631227E3182B409F00530CC3 /* QuestionAndAnswerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QuestionAndAnswerCell.m; path = questionAndAnswer/QuestionAndAnswerCell.m; sourceTree = "<group>"; };
+		631227E5182B40EA00530CC3 /* QuestionAndAnswerCellHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QuestionAndAnswerCellHeaderView.h; path = questionAndAnswer/QuestionAndAnswerCellHeaderView.h; sourceTree = "<group>"; };
+		631227E6182B40EB00530CC3 /* QuestionAndAnswerCellHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QuestionAndAnswerCellHeaderView.m; path = questionAndAnswer/QuestionAndAnswerCellHeaderView.m; sourceTree = "<group>"; };
 		632387581822056000C71535 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginViewController.h; path = ../controllers/LoginViewController.h; sourceTree = "<group>"; };
 		632387591822056000C71535 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginViewController.m; path = ../controllers/LoginViewController.m; sourceTree = "<group>"; };
 		6323875B18220E7D00C71535 /* ForgotPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ForgotPwdViewController.h; path = ../controllers/ForgotPwdViewController.h; sourceTree = "<group>"; };
@@ -561,7 +570,7 @@
 				0EA7EF0A18233B0000C47F69 /* jiantou_up.png */,
 				0EA7EF0B18233B0000C47F69 /* jiantou_down.png */,
 				0EAFA105182223BD00D01D3E /* loginBgImage_v.png */,
-				0EAFA106182223BD00D01D3E /* loginBgImage_v@2x.png */,
+				630B9601182A5A94000ED31E /* loginBgImage_v@2x.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -685,6 +694,8 @@
 				0EA2A9301828D78F003D152E /* Section_NoteViewController.m */,
 				630CB0761828943D002FD462 /* DRMoviePlayViewController.h */,
 				630CB0771828943D002FD462 /* DRMoviePlayViewController.m */,
+				631227DE182B384B00530CC3 /* MyQuestionAndAnswerViewController.h */,
+				631227DF182B384B00530CC3 /* MyQuestionAndAnswerViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -814,6 +825,7 @@
 		0EDF4DDA18210241007161E0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				631227E1182B405C00530CC3 /* questionAndAnswer */,
 				630CB0821828E82A002FD462 /* movieCotr */,
 				63091FF71827431A00C1AF07 /* lessonList */,
 				0EAFA11818223FC500D01D3E /* CJTMainToolbar.h */,
@@ -979,6 +991,17 @@
 			name = movieCotr;
 			sourceTree = "<group>";
 		};
+		631227E1182B405C00530CC3 /* questionAndAnswer */ = {
+			isa = PBXGroup;
+			children = (
+				631227E2182B409F00530CC3 /* QuestionAndAnswerCell.h */,
+				631227E3182B409F00530CC3 /* QuestionAndAnswerCell.m */,
+				631227E5182B40EA00530CC3 /* QuestionAndAnswerCellHeaderView.h */,
+				631227E6182B40EB00530CC3 /* QuestionAndAnswerCellHeaderView.m */,
+			);
+			name = questionAndAnswer;
+			sourceTree = "<group>";
+		};
 		639A07A01823905900B60670 /* thirty */ = {
 			isa = PBXGroup;
 			children = (
@@ -1078,6 +1101,7 @@
 				0EAFA0EC1822167800D01D3E /* askQuestion.json in Resources */,
 				0EA7EF631823B1FC00C47F69 /* answerList.json in Resources */,
 				0EA2A9281828D681003D152E /* red_line_and_shadow@2x.png in Resources */,
+				630B9602182A5A94000ED31E /* loginBgImage_v@2x.png in Resources */,
 				630B03C11820F5BB00F72C4C /* Main_iPad.storyboard in Resources */,
 				0EAFA0F41822167800D01D3E /* logIn.json in Resources */,
 				0EAFA0F21822167800D01D3E /* grade.json in Resources */,
@@ -1098,7 +1122,6 @@
 				0EAFA0F61822167800D01D3E /* playVideo.json in Resources */,
 				0EAFA0EE1822167800D01D3E /* chapterQuestion.json in Resources */,
 				0EAFA0FB1822167800D01D3E /* sectionInfo.json in Resources */,
-				0EAFA108182223BD00D01D3E /* loginBgImage_v@2x.png in Resources */,
 				0EA7EF0C18233B0000C47F69 /* jiantou_up.png in Resources */,
 				0EAFA0F71822167800D01D3E /* questionInfo.json in Resources */,
 				0EAFA107182223BD00D01D3E /* loginBgImage_v.png in Resources */,
@@ -1161,6 +1184,7 @@
 				0EDF4DF018210241007161E0 /* ASIS3ServiceRequest.m in Sources */,
 				0EDF4DDD18210241007161E0 /* ASICloudFilesContainer.m in Sources */,
 				63091FFA1827435400C1AF07 /* LessonListCell.m in Sources */,
+				631227E0182B384B00530CC3 /* MyQuestionAndAnswerViewController.m in Sources */,
 				0EA2A9261828D667003D152E /* SUNSlideSwitchView.m in Sources */,
 				0EA2A9201828893D003D152E /* ChineseString.m in Sources */,
 				0EDF4D9118210202007161E0 /* DownloadService.m in Sources */,
@@ -1194,6 +1218,8 @@
 				0EA7EF7F182748BB00C47F69 /* UIButton+WebCache.m in Sources */,
 				0EA7EF2818234CDC00C47F69 /* ChapterQuestionInterface.m in Sources */,
 				0EAFA11A18223FC500D01D3E /* CJTMainToolbar.m in Sources */,
+				631227E4182B409F00530CC3 /* QuestionAndAnswerCell.m in Sources */,
+				631227E7182B40EB00530CC3 /* QuestionAndAnswerCellHeaderView.m in Sources */,
 				0EDF4E011821029B007161E0 /* CaiJinTongManager.m in Sources */,
 				630B95F9182A2909000ED31E /* DRMoviePlayerPlaybackProgressBar.m in Sources */,
 				0EA7EF3D182379E200C47F69 /* NoteModel.m in Sources */,

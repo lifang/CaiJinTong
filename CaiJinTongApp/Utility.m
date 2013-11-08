@@ -31,6 +31,15 @@
     }
     return str;
 }
+
++(CGSize)getTextSizeWithString:(NSString*)text withFont:(UIFont*)font{
+    if (text && font) {
+        return [text sizeWithFont:font];
+    } else {
+        return CGSizeZero;
+    }
+}
+
 +(NSString *)createMD5:(NSString *)signString
 {
     const char*cStr =[signString UTF8String];
