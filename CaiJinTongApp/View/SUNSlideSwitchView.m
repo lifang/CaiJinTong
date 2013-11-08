@@ -143,6 +143,27 @@ static const NSUInteger kTagOfRightSideButton = 999;
     [self setNeedsLayout];
 }
 
+//added by david
+-(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event{
+    if (_userSelectedChannelID == 101) {
+        CGPoint rootPoint = [self convertPoint:point toView:self.rootScrollView];
+        UIViewController *viewController =(UIViewController*) [self.viewArray objectAtIndex:1];
+        CGPoint subViewpoint = [self.rootScrollView convertPoint:rootPoint toView:viewController.view];
+        for (UIView *subView in viewController.view.subviews) {
+            if ([subView isKindOfClass:[TQStarRatingView class]]) {
+                CGRect subRect = subView.frame;
+                int scale = 20;
+                if (CGRectContainsPoint((CGRect){subRect.origin.x -scale*2,subRect.origin.y -scale,subRect.size.width+scale*4,subRect.size.height+scale*2}, subViewpoint)) {
+                    [self.rootScrollView setScrollEnabled:NO];
+                     return [super hitTest:point withEvent:event];
+                }
+            }
+        }
+    }
+    [self.rootScrollView setScrollEnabled:YES];
+     return [super hitTest:point withEvent:event];
+}
+
 /*!
  * @method 初始化顶部tab的各个按钮
  * @abstract

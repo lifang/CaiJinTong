@@ -43,7 +43,7 @@
         
         [self.view addSubview:self.sectionView];
         //显示分数
-        CustomLabel *scoreLabel = [[CustomLabel alloc]initWithFrame:CGRectMake(450, 64, 60, 60)];
+        CustomLabel *scoreLabel = [[CustomLabel alloc]initWithFrame:CGRectMake(480, 64, 60, 60)];
         scoreLabel.backgroundColor = [UIColor colorWithRed:0.10f green:0.84f blue:0.99f alpha:1.0f];
         scoreLabel.text = self.section.sectionScore;
         scoreLabel.layer.cornerRadius = 7;
@@ -69,16 +69,41 @@
         //简介
         if (self.section.lessonInfo.length >0) {
             UIFont *aFont = [UIFont boldSystemFontOfSize:16];
-            CGSize size = [self.section.lessonInfo sizeWithFont:aFont constrainedToSize:CGSizeMake(150, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
-            UILabel *infoLabel = [[UILabel alloc]initWithFrame:CGRectMake(275, labelTop, 150, size.height)];
-            infoLabel.backgroundColor = [UIColor clearColor];
-            infoLabel.textColor = [UIColor grayColor];
-            infoLabel.numberOfLines = 0;
-            infoLabel.text =[NSString stringWithFormat:@"简介:%@",self.section.lessonInfo];
-            self.infoLab = infoLabel;
-            [self.view addSubview:self.infoLab];
-            infoLabel = nil;
-            labelTop +=self.infoLab.frame.size.height+labelSpace;
+            CGSize size = [self.section.lessonInfo sizeWithFont:aFont constrainedToSize:CGSizeMake(170, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
+            CGFloat hh = 0;
+            if (size.height-100>0){
+                hh = 100;
+                self.scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(275, labelTop, 170, hh)];
+                self.scrollView.delegate = self;
+                UILabel *infoLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 170, size.height)];
+                infoLabel.backgroundColor = [UIColor clearColor];
+                infoLabel.textColor = [UIColor grayColor];
+                infoLabel.numberOfLines = 0;
+                infoLabel.font = aFont;
+                infoLabel.text =[NSString stringWithFormat:@"简介:%@",self.section.lessonInfo];
+                self.infoLab = infoLabel;
+                [self.scrollView addSubview:self.infoLab];
+                self.scrollView.contentSize = CGSizeMake(170,self.infoLab.frame.size.height);
+                [self.view addSubview:self.scrollView];
+                infoLabel = nil;
+                labelTop +=self.scrollView.frame.size.height+labelSpace;
+            }else {
+                if (size.height-100<0 && size.height-30>0) {
+                    hh = size.height;
+                }else if (size.height-30<0) {
+                    hh = 30;
+                }
+                UILabel *infoLabel = [[UILabel alloc]initWithFrame:CGRectMake(275, labelTop, 170, hh)];
+                infoLabel.backgroundColor = [UIColor clearColor];
+                infoLabel.textColor = [UIColor grayColor];
+                infoLabel.numberOfLines = 0;
+                infoLabel.font = aFont;
+                infoLabel.text =[NSString stringWithFormat:@"简介:%@",self.section.lessonInfo];
+                self.infoLab = infoLabel;
+                [self.view addSubview:self.infoLab];
+                infoLabel = nil;
+                labelTop +=self.infoLab.frame.size.height+labelSpace;
+            }
         }
         //讲师
         if (self.section.sectionTeacher.length >0) {
@@ -103,6 +128,7 @@
         lastLabel = nil;
         labelTop +=self.lastLab.frame.size.height+labelSpace;
         //已学习
+        DLog(@"labtop = %f",labelTop);
         UILabel *studyLabel = [[UILabel alloc]initWithFrame:CGRectMake(275, labelTop, 150, 30)];
         studyLabel.backgroundColor = [UIColor clearColor];
         studyLabel.textColor = [UIColor grayColor];
@@ -112,12 +138,24 @@
         [self.view addSubview:self.studyLab];
         studyLabel = nil;
         //播放按钮
-        
+        DLog(@"labtop = %f",labelTop);
+        UIButton *palyButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        palyButton.frame = CGRectMake(450, labelTop-20, 100, 50);
+        [palyButton setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
+        [palyButton setBackgroundColor:[UIColor redColor]];
+		[palyButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        [palyButton addTarget:self action:@selector(playVideo:) forControlEvents:UIControlEventTouchUpInside];
+        self.playBtn = palyButton;
+        [self.view addSubview:self.playBtn];
+        palyButton = nil;
         [self displayView];
         
     }
 }
-
+-(void)playVideo:(id)sender {
+    DLog(@"play");
+    //先匹配本地,在数据库中查找纪录
+}
 -(void)displayView {
     //3个选项卡
     self.slideSwitchView.tabItemNormalColor = [SUNSlideSwitchView colorFromHexRGB:@"868686"];

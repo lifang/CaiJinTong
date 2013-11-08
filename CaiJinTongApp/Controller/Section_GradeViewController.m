@@ -44,7 +44,6 @@
 -(void)starRatingView:(TQStarRatingView *)view score:(float)score
 {
     DLog(@"score = %.2f",score*5);
-//    self.scoreLabel.text = [NSString stringWithFormat:@"%0.2f",score*5 ];
 }
 #pragma -- UITableViewDelegate 
 

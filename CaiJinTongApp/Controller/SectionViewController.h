@@ -15,7 +15,7 @@
 #import "Section_NoteViewController.h"
 #import "CustomLabel.h"
 
-@interface SectionViewController : DRNaviGationBarController<SUNSlideSwitchViewDelegate>
+@interface SectionViewController : DRNaviGationBarController<SUNSlideSwitchViewDelegate,UIScrollViewDelegate>
 
 @property (nonatomic, strong) SectionCustomView *sectionView;
 @property (nonatomic, strong) SectionModel *section;
@@ -25,7 +25,7 @@
 @property (nonatomic, strong) Section_GradeViewController *section_GradeView;
 @property (nonatomic, strong) Section_NoteViewController *section_NoteView;
 
-
+@property (strong, nonatomic) UIScrollView *scrollView;
 @property (nonatomic, strong) UILabel *nameLab,*infoLab,*teacherlab,*studyLab,*lastLab;
 @property (nonatomic, strong) CustomLabel *scoreLab;
 @property (nonatomic, strong) UIButton *playBtn;

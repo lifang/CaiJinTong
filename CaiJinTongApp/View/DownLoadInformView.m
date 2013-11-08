@@ -25,7 +25,7 @@
 {
     //pic
     NSString *path = [[NSBundle mainBundle] pathForResource:@"frame" ofType:@"png"];
-    _mImageView.image = [[UIImage imageWithContentsOfFile:path] stretchableImageWithLeftCapWidth:15 topCapHeight:15];  // Todo use of myImage
+    _mImageView.image = [[UIImage imageWithContentsOfFile:path] stretchableImageWithLeftCapWidth:15 topCapHeight:15];
     
     UITapGestureRecognizer *tapGr = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                             action:@selector(viewTapped:)];
