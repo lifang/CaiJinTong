@@ -74,7 +74,10 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
             LessonViewController *lessonView = [story instantiateViewControllerWithIdentifier:@"LessonViewController"];
-            [self presentViewController:lessonView animated:YES completion:nil];
+            AppDelegate* appDelegate = [AppDelegate sharedInstance];
+            appDelegate.window.rootViewController = lessonView;
+            
+//            [self presentViewController:lessonView animated:YES completion:nil];
         });
     });
 }

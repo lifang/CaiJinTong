@@ -11,6 +11,7 @@
 #import "DownloadService.h"
 #import "DownLoadInformView.h"
 #import "Section.h"
+#import "LessonViewController.h"
 
 @implementation CustomButton
 

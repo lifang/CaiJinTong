@@ -26,6 +26,8 @@
 		0EA2A92E1828D77D003D152E /* Section_GradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2A92D1828D77D003D152E /* Section_GradeViewController.m */; };
 		0EA2A9311828D78F003D152E /* Section_NoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2A9301828D78F003D152E /* Section_NoteViewController.m */; };
 		0EA2A9341828E180003D152E /* Section_ChapterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2A9331828E180003D152E /* Section_ChapterCell.m */; };
+		0EA36ED2182C8E4F0074D67B /* CustomLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA36ED1182C8E4F0074D67B /* CustomLabel.m */; };
+		0EA36ED4182C8E930074D67B /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EA36ED3182C8E930074D67B /* CoreText.framework */; };
 		0EA717621829D02000560885 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA717601829D02000560885 /* SVProgressHUD.m */; };
 		0EA717631829D02000560885 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0EA717611829D02000560885 /* SVProgressHUD.bundle */; };
 		0EA717671829E2D100560885 /* TQStarRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA717661829E2D100560885 /* TQStarRatingView.m */; };
@@ -235,6 +237,9 @@
 		0EA2A9301828D78F003D152E /* Section_NoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section_NoteViewController.m; sourceTree = "<group>"; };
 		0EA2A9321828E180003D152E /* Section_ChapterCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Section_ChapterCell.h; sourceTree = "<group>"; };
 		0EA2A9331828E180003D152E /* Section_ChapterCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section_ChapterCell.m; sourceTree = "<group>"; };
+		0EA36ED0182C8E4F0074D67B /* CustomLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomLabel.h; sourceTree = "<group>"; };
+		0EA36ED1182C8E4F0074D67B /* CustomLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomLabel.m; sourceTree = "<group>"; };
+		0EA36ED3182C8E930074D67B /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		0EA7175F1829D02000560885 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
 		0EA717601829D02000560885 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 		0EA717611829D02000560885 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
@@ -516,6 +521,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0EA36ED4182C8E930074D67B /* CoreText.framework in Frameworks */,
 				630B95F61829F72B000ED31E /* MediaPlayer.framework in Frameworks */,
 				630CB0811828BD19002FD462 /* AVFoundation.framework in Frameworks */,
 				0EA2A91A18288275003D152E /* libc++.dylib in Frameworks */,
@@ -974,6 +980,8 @@
 				0EAD1F82182B7D8C00204FC3 /* Section_GradeCell.m */,
 				0EAD1F8A182B872000204FC3 /* Section_NoteCell.h */,
 				0EAD1F8B182B872000204FC3 /* Section_NoteCell.m */,
+				0EA36ED0182C8E4F0074D67B /* CustomLabel.h */,
+				0EA36ED1182C8E4F0074D67B /* CustomLabel.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1034,6 +1042,7 @@
 		630B03A91820F5BB00F72C4C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0EA36ED3182C8E930074D67B /* CoreText.framework */,
 				630B95F51829F72B000ED31E /* MediaPlayer.framework */,
 				0EA2A91918288275003D152E /* libc++.dylib */,
 				630CB0801828BD19002FD462 /* AVFoundation.framework */,
@@ -1344,6 +1353,7 @@
 				0EA7EF4F1823A98600C47F69 /* PlayVideoInterface.m in Sources */,
 				0EDF4DDE18210241007161E0 /* ASICloudFilesContainerRequest.m in Sources */,
 				0EA2A9311828D78F003D152E /* Section_NoteViewController.m in Sources */,
+				0EA36ED2182C8E4F0074D67B /* CustomLabel.m in Sources */,
 				0EA7EF8D1827805D00C47F69 /* SectionInfoInterface.m in Sources */,
 				0EDF4DF518210241007161E0 /* NSString+URLEncoding.m in Sources */,
 				0EDF4DE218210241007161E0 /* ASICloudFilesRequest.m in Sources */,

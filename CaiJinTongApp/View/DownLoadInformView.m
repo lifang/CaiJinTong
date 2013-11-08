@@ -35,8 +35,6 @@
 }
 -(void)viewTapped:(UITapGestureRecognizer*)tapGr{
     [self removeFromSuperview];
-    
-    
 }
 
 -(IBAction)cancleAction:(id)sender
@@ -54,9 +52,7 @@
         [_downStateBtn addTarget:self action:@selector(continueAction) forControlEvents:UIControlEventTouchUpInside];
         [_canceLoadBtn addTarget:self action:@selector(canceDownloadAction) forControlEvents:UIControlEventTouchUpInside];
         
-    }
-    else
-    {
+    }else {
         _mLable.text = @"正在下载中，请稍后....";
         [_downStateBtn addTarget:self action:@selector(pauseAction) forControlEvents:UIControlEventTouchUpInside];
         [_canceLoadBtn addTarget:self action:@selector(canceDownloadAction) forControlEvents:UIControlEventTouchUpInside];
