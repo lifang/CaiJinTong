@@ -52,7 +52,7 @@
         imageViewC = nil;
         
         //视频进度
-        AMProgressView *pvv = [[AMProgressView alloc] initWithFrame:CGRectMake(0, self.frame.size.width, self.frame.size.width, 30)
+        AMProgressView *pvv = [[AMProgressView alloc] initWithFrame:CGRectMake(0, self.frame.size.width-30, self.frame.size.width, 30)
                                                  andGradientColors:nil
                                                   andOutsideBorder:NO
                                                        andVertical:NO];

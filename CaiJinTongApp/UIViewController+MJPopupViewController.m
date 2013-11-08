@@ -286,7 +286,7 @@ static void * const keypath = (void*)&keypath;
         self.mj_popupBackgroundView.alpha = 1.0f;
         popupView.frame = popupEndRect;
     } completion:^(BOOL finished) {
-        [self.mj_popupViewController viewDidAppear:NO];
+//        [self.mj_popupViewController viewDidAppear:NO];
     }];
 }
 
@@ -366,7 +366,7 @@ static void * const keypath = (void*)&keypath;
         self.mj_popupBackgroundView.alpha = 0.5f;
         popupView.alpha = 1.0f;
     } completion:^(BOOL finished) {
-        [self.mj_popupViewController viewDidAppear:NO];
+//        [self.mj_popupViewController viewDidAppear:NO];
     }];
 }
 

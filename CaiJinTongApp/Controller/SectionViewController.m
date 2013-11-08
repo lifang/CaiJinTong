@@ -28,7 +28,7 @@
 {
     [super viewDidLoad];
     
-	[self displayView];
+	
 }
 -(void)drnavigationBarRightItemClicked:(id)sender{
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
@@ -41,7 +41,7 @@
         self.sectionView = sv;
         
         [self.view addSubview:self.sectionView];
-        
+        [self displayView];
         
     }
 }
@@ -51,13 +51,22 @@
     self.slideSwitchView.tabItemSelectedColor = [SUNSlideSwitchView colorFromHexRGB:@"bb0b15"];
     self.slideSwitchView.shadowImage = [[UIImage imageNamed:@"red_line_and_shadow.png"]
                                         stretchableImageWithLeftCapWidth:59.0f topCapHeight:0.0f];
+    
     UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+    
     self.section_ChapterView = [story instantiateViewControllerWithIdentifier:@"Section_ChapterViewController"];
     self.section_ChapterView.title = @"章节目录";
+    self.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:self.section.sectionList];
+    
+    
     self.section_GradeView = [story instantiateViewControllerWithIdentifier:@"Section_GradeViewController"];
     self.section_GradeView.title = @"打分";
+    self.section_GradeView.dataArray = [NSMutableArray arrayWithArray:self.section.commentList];
+    
+    
     self.section_NoteView = [story instantiateViewControllerWithIdentifier:@"Section_NoteViewController"];
     self.section_NoteView.title = @"笔记";
+    self.section_NoteView.dataArray = [NSMutableArray arrayWithArray:self.section.noteList];
     
     [self.slideSwitchView buildUI];
 }
@@ -77,15 +86,13 @@
         return self.section_GradeView;
     } else if (number == 2) {
         return self.section_NoteView;
-    }  else {
+    } else {
         return nil;
     }
 }
 
 - (void)slideSwitchView:(SUNSlideSwitchView *)view panLeftEdge:(UIPanGestureRecognizer *)panParam
 {
-//    SUNViewController *drawerController = (SUNViewController *)self.navigationController.mm_drawerController;
-//    [drawerController panGestureCallback:panParam];
 }
 
 - (void)slideSwitchView:(SUNSlideSwitchView *)view didselectTab:(NSUInteger)number

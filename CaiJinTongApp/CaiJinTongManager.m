@@ -7,38 +7,54 @@
 //
 
 #import "CaiJinTongManager.h"
-#import "RJFileUtils.h"
-#import "RJDBKit.h"
-
-@interface CaiJinTongManager(CJTPrivate)
-
-@end
-@implementation CaiJinTongManager(CJTPrivate)
-
-@end
 
 @implementation CaiJinTongManager
-@synthesize sessionId;
 
-static CaiJinTongManager * caiJinTongManager = nil;
-- (id)init{
+- (id)init
+{
     self = [super init];
-    if (!self) {
+    if (self) {
         
     }
     return self;
 }
 
-+ (CaiJinTongManager *)sharedInstance {
++ (CaiJinTongManager *)shared {
+    static CaiJinTongManager * caiJinTongManager = nil;
     static dispatch_once_t once;
-    
     dispatch_once(&once, ^{
         caiJinTongManager = [[super alloc] init];
     });
     return caiJinTongManager;
 }
-
-+ (void)releaseSharedInstance {
-    caiJinTongManager = nil;
+#pragma mark - public method
+- (void)hold
+{
+    _holding = YES;
+    while (_holding) {
+        [NSThread sleepForTimeInterval:1];
+        /** clean the runloop for other source */
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, TRUE);
+    }
 }
+
+- (void)stop
+{
+    _holding = NO;
+    DLog(@"end");
+}
+
+- (void)run
+{
+    UIApplication *application = [UIApplication sharedApplication];
+    __block UIBackgroundTaskIdentifier background_task;
+    //Create a task object
+    background_task = [application beginBackgroundTaskWithExpirationHandler: ^ {
+        [self hold];
+        [application endBackgroundTask: background_task];
+        background_task = UIBackgroundTaskInvalid;
+    }];
+    
+}
+
 @end

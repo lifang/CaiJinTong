@@ -8,13 +8,22 @@
 
 #import <Foundation/Foundation.h>
 
-@class RJDBKit;
-@interface CaiJinTongManager : NSObject {
-    RJDBKit* _db;
+@interface CaiJinTongManager : NSObject
+{
+    BOOL _free;
+    BOOL _holding;
 }
-@property (nonatomic, retain) NSString *sessionId;
-+ (CaiJinTongManager *)sharedInstance;
 
-+ (void)releaseSharedInstance;
+@property (nonatomic, strong) NSString * userId;
 
++ (CaiJinTongManager *)shared;
+
+/** hold the thread when background task will terminate */
+- (void)hold;
+
+/** free from holding when applicaiton become active */
+- (void)stop;
+
+/** running in background, call this funciton when application become background */
+- (void)run;
 @end

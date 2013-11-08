@@ -8,6 +8,9 @@
 
 #import "LoginViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "LessonViewController.h"
+#import "ForgotPwdViewController.h"
+
 @interface LoginViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *userNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *pwdTextField;
@@ -45,6 +48,7 @@
         if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
             [Utility errorAlert:@"暂无网络!"];
         }else {
+            [SVProgressHUD showWithStatus:@"玩命加载中..."];
             LogInterface *log = [[LogInterface alloc]init];
             self.logInterface = log;
             self.logInterface.delegate = self;
@@ -56,14 +60,26 @@
 }
 
 - (IBAction)forgotPwdBtClicked:(id)sender {
+    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+    ForgotPwdViewController *fpwView = [story instantiateViewControllerWithIdentifier:@"ForgotPwdViewController"];
+    [self presentPopupViewController:fpwView animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO];
 }
 
 #pragma mark - LogInterface
 
 -(void)getLogInfoDidFinished:(NSDictionary *)result {
-    DLog(@"finish = %@",result);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [SVProgressHUD dismissWithSuccess:@"登录成功!"];
+        [CaiJinTongManager shared].userId = [NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+            LessonViewController *lessonView = [story instantiateViewControllerWithIdentifier:@"LessonViewController"];
+            [self presentViewController:lessonView animated:YES completion:nil];
+        });
+    });
 }
 -(void)getLogInfoDidFailed:(NSString *)errorMsg {
-    DLog(@"error");
+    [SVProgressHUD dismiss];
+    [Utility errorAlert:errorMsg];
 }
 @end

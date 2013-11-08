@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TQStarRatingView.h"
+@interface Section_GradeViewController : UIViewController<StarRatingViewDelegate,UITableViewDataSource, UITableViewDelegate>
 
-@interface Section_GradeViewController : UIViewController
+
 - (void)viewDidCurrentView;
+@property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic, strong) IBOutlet UITableView *tableViewList;
+@property (nonatomic, assign) NSInteger pageCount;
 @end

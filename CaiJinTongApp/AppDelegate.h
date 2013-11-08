@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DownloadService.h"
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
@@ -16,6 +18,7 @@
 //网络是否连接
 @property (assign, nonatomic) BOOL isReachable;
 
+@property (strong, nonatomic) DownloadService *mDownloadService;
 +(AppDelegate *)sharedInstance;
 - (void)showRootView;
 @end
