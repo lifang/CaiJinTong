@@ -12,7 +12,7 @@
 #import "NSString+HTML.h"
 @implementation SumitNoteInterface
 
--(void)getSumitNoteInterfaceDelegateWithUserId:(NSString *)userId andSectionId:(NSString *)sectionId andNoteTime:(NSString *)noteTime andNoteText:(NSString *)noteText {
+-(void)getSumitNoteInterfaceDelegateWithUserId:(NSString *)userId andSectionId:(NSString *)sectionId andNoteTime:(NSString *)noteTime andNoteText:(NSString *)noteText andNoteTitle:(NSString *)noteTitle{
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     
     NSString *timespan = [Utility getNowDateFromatAnDate];
@@ -24,7 +24,7 @@
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",sectionId] forKey:@"sectionId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",noteText] forKey:@"noteText"];
-
+    [reqheaders setValue:[NSString stringWithFormat:@"%@",noteTitle] forKey:@"noteTitle"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",noteTime] forKey:@"noteTime"];
 
     self.interfaceUrl = [NSString stringWithFormat:@"%@",kHost];

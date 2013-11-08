@@ -18,6 +18,6 @@
         [dict setObject:[self objectForKey:k] forKey:k.lowercaseString];
     } 
     
-    return dict;
+    return self;
 }
 @end

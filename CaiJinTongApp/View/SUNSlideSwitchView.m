@@ -7,6 +7,7 @@
 //
 
 #import "SUNSlideSwitchView.h"
+#import "TQStarRatingView.h"
 
 static const CGFloat kHeightOfTopScrollView = 44.0f;
 static const CGFloat kWidthOfButtonMargin = 16.0f;
