@@ -33,7 +33,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [Utility setBackgroungWithView:self.view andImage6:@"login_bg.png" andImage7:@"login_bg_7.png"];
+    [Utility setBackgroungWithView:self.inputView andImage6:@"login_07" andImage7:@"login_07"];
+    
 }
+
+
 
 - (void)didReceiveMemoryWarning
 {
