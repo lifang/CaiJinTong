@@ -163,7 +163,18 @@
 -(void)imageButtonClick:(id)sender {
     UIControl *button = sender;
     DLog(@"imageTag = %d",button.tag);
-    
+    /*
+    //根据sectionID获取单个视频的详细信息
+    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+        [Utility errorAlert:@"暂无网络!"];
+    }else {
+        [SVProgressHUD showWithStatus:@"玩命加载中..."];
+        SectionInfoInterface *sectionInter = [[SectionInfoInterface alloc]init];
+        self.sectionInterface = sectionInter;
+        self.sectionInterface.delegate = self;
+        [self.sectionInterface getSectionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:[NSString stringWithFormat:@"%d",button.tag]];
+    }
+     */
     //数据来源
     NSDictionary *dictionary = [Utility initWithJSONFile:@"sectionInfo"];
     NSDictionary *dic = [dictionary objectForKey:@"ReturnObject"];
@@ -373,6 +384,21 @@
             [self displayNewView];
         }
     }
+}
+
+#pragma -- SectionInfoInterface
+-(void)getSectionInfoDidFinished:(SectionModel *)result {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+        });
+    });
+}
+-(void)getSectionInfoDidFailed:(NSString *)errorMsg {
+    [SVProgressHUD dismiss];
+    [Utility errorAlert:errorMsg];
 }
 
 @end

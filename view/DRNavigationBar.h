@@ -10,5 +10,5 @@
 
 @interface DRNavigationBar : UIView
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic)  IBOutlet  UIButton *navigationRightItem;
+@property (weak, nonatomic)  IBOutlet  UIButton *button;
 @end

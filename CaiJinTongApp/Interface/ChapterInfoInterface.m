@@ -15,17 +15,11 @@
 @implementation ChapterInfoInterface
 -(void)getChapterInfoInterfaceDelegateWithUserId:(NSString *)userId andChapterId:(NSString *)chapterId {
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
-    NSString *timespan = [Utility getNowDateFromatAnDate];
-    NSString *strKey = [NSString stringWithFormat:@"%@%@",timespan,MDKey];
-    NSString *md5Key = [Utility createMD5:strKey];
-    
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",timespan] forKey:@"timespan"];
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",md5Key] forKey:@"token"];
     
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",chapterId] forKey:@"chapterId"];
     
-    self.interfaceUrl = [NSString stringWithFormat:@"%@",kHost];
+    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=chapterInfo&userId=17079&sectionId=618";
     
     self.baseDelegate = self;
     self.headers = reqheaders;
@@ -63,7 +57,7 @@
                                             section.sectionProgress = [NSString stringWithFormat:@"%@",[dic_section objectForKey:@"sectionProgress"]];
                                             [sectionList addObject:section];
                                         }
-                                        DLog(@"sectionList = %@",sectionList);
+//                                        DLog(@"sectionList = %@",sectionList);
                                         if (sectionList.count>0) {
                                             [tempDic setObject:sectionList forKey:@"sectionList"];
                                         }

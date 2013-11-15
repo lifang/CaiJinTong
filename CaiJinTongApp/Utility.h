@@ -16,6 +16,6 @@
 + (NSDictionary *)initWithJSONFile:(NSString *)jsonPath;
 + (NSString *)getNowDateFromatAnDate;
 + (void)errorAlert:(NSString *)message;
-
++ (void)setBackgroungWithView:(UIView *)view andImage6:(NSString *)str6 andImage7:(NSString *)str7;
 +(CGSize)getTextSizeWithString:(NSString*)text withFont:(UIFont*)font;
 @end

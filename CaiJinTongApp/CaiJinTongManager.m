@@ -33,7 +33,6 @@
     _holding = YES;
     while (_holding) {
         [NSThread sleepForTimeInterval:1];
-        /** clean the runloop for other source */
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, TRUE);
     }
 }
@@ -48,7 +47,6 @@
 {
     UIApplication *application = [UIApplication sharedApplication];
     __block UIBackgroundTaskIdentifier background_task;
-    //Create a task object
     background_task = [application beginBackgroundTaskWithExpirationHandler: ^ {
         [self hold];
         [application endBackgroundTask: background_task];

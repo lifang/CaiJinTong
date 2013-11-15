@@ -9,6 +9,8 @@
 #import "SectionViewController.h"
 
 #import <QuartzCore/QuartzCore.h>
+#import "Section.h"
+#import "CommentModel.h"
 @interface SectionViewController ()
 
 @end
@@ -27,8 +29,34 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //打分之后提交
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refeshScore:)
+                                                 name: @"refeshScore"
+                                               object: nil];
+}
+-(void)refeshScore:(NSNotification *)notification {
+    NSDictionary *dic = notification.object;
+    DLog(@"dic = %@",dic);
+    NSString *score = [dic objectForKey:@"score"];
     
-	
+    for (UIView *vv in self.view.subviews) {
+        if ([vv isKindOfClass:[CustomLabel class]]) {
+            CustomLabel *vLabel = (CustomLabel *)vv;
+            CGRect frame = vLabel.frame;
+            [vv removeFromSuperview];
+            CustomLabel *scoreLabel = [[CustomLabel alloc]initWithFrame:frame];
+            scoreLabel.backgroundColor = [UIColor colorWithRed:0.10f green:0.84f blue:0.99f alpha:1.0f];
+            scoreLabel.text = [NSString stringWithFormat:@"%.1f",[score floatValue]];
+            scoreLabel.layer.cornerRadius = 7;
+            [scoreLabel setColor:[UIColor whiteColor] fromIndex:0 length:scoreLabel.text.length];
+            [scoreLabel setFont:[UIFont boldSystemFontOfSize:50] fromIndex:0 length:1];
+            [scoreLabel setFont:[UIFont boldSystemFontOfSize:30] fromIndex:1 length:2];
+            self.scoreLab = scoreLabel;
+            [self.view addSubview:self.scoreLab];
+            scoreLabel = nil;
+        }
+    }
 }
 -(void)drnavigationBarRightItemClicked:(id)sender{
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
@@ -154,7 +182,27 @@
 }
 -(void)playVideo:(id)sender {
     DLog(@"play");
+    NSString *path = nil;//视频路径
     //先匹配本地,在数据库中查找纪录
+    Section *sectionDb = [[Section alloc]init];
+    SectionSaveModel *sectionSave = [sectionDb getDataWithSid:self.section.sectionId];
+    if (sectionSave != nil && sectionSave.downloadState == 1) {
+        NSString *documentDir;
+        if (platform>5.0) {
+            documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        }else{
+            documentDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        }
+        path = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@",self.section.sectionId]];
+        DLog(@"path = %@",path);//本地保存路径
+    }else {
+        //在线播放
+        path = self.section.sectionSD;
+    }
+    if (path) {
+        //播放接口
+    }
+ 
 }
 -(void)displayView {
     //3个选项卡
@@ -169,10 +217,14 @@
     self.section_ChapterView.title = @"章节目录";
     self.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:self.section.sectionList];
     
-    
     self.section_GradeView = [story instantiateViewControllerWithIdentifier:@"Section_GradeViewController"];
     self.section_GradeView.title = @"打分";
     self.section_GradeView.dataArray = [NSMutableArray arrayWithArray:self.section.commentList];
+    self.section_GradeView.isGrade = [self.section.isGrade intValue];
+    self.section_GradeView.sectionId = self.section.sectionId;
+    CommentModel *comment = (CommentModel *)[self.section_GradeView.dataArray objectAtIndex:self.section_GradeView.dataArray.count-1];
+    self.section_GradeView.pageCount = comment.pageCount;
+    self.section_GradeView.nowPage = 0;
     
     
     self.section_NoteView = [story instantiateViewControllerWithIdentifier:@"Section_NoteViewController"];

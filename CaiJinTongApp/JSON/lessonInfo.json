@@ -39,7 +39,7 @@
                                                       "chapterId":"18",
                                                       "chapterName":"CFA-08"
                                                       }
-                                                     ],
+                                                     ]
                                       },
                                       {
                                       "lessonId":"2",
@@ -115,7 +115,7 @@
                                                       "chapterId":"18",
                                                       "chapterName":"CFA-08"
                                                       }
-                                                      ],
+                                                      ]
                                       },
                                       {
                                       "lessonId":"1",
@@ -153,35 +153,10 @@
                                                       "chapterId":"18",
                                                       "chapterName":"CFA-08"
                                                       }
-                                                      ],
+                                                      ]
                                       }
-                                     ],
-                        "nowList":[
-                                   {
-                                    "sectionId":"111",
-                                    "sectionName":"CFA-01-001",
-                                    "sectionImg":"http://116.255.135.175:3004/service_pics/1/20/2img20_154.jpg",
-                                    "sectionProgress":"0.86"                                  
-                                   },
-                                   {
-                                    "sectionId":"112",
-                                    "sectionName":"CFA-01-002",
-                                    "sectionImg":"http://116.255.135.175:3004/service_pics/1/20/2img20_154.jpg",
-                                    "sectionProgress":"0.16"                                  
-                                   },
-                                   {
-                                    "sectionId":"211",
-                                    "sectionName":"ACCA-01-001",
-                                    "sectionImg":"http://116.255.135.175:3004/service_pics/1/20/2img20_154.jpg",
-                                    "sectionProgress":"0.56"                                  
-                                   },
-                                   {
-                                    "sectionId":"212",
-                                    "sectionName":"ACCA-01-002",
-                                    "sectionImg":"http://116.255.135.175:3004/service_pics/1/20/2img20_154.jpg",
-                                    "sectionProgress":"0.86"                                  
-                                   }
-                                  ]
+                                     ]
+        
 
     }
 }

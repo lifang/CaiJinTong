@@ -28,7 +28,8 @@
      [self.view bringSubviewToFront:self.drnavigationBar];
     [super viewDidLoad];
     
-	// Do any additional setup after loading the view.
+	self.drnavigationBar.titleLabel.text = @"dsfasfg";
+//    self.drnavigationBar.button = [UIButton buttonWithType:UIButtonTypeCustom];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -53,7 +54,7 @@
     DRNavigationBar *bar = (DRNavigationBar*)[cotr view];
     bar.frame = CGRectMake(0,0,768,44);
     [self.view addSubview:bar];
-    [bar.navigationRightItem addTarget:self action:@selector(drnavigationBarRightItemClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [bar.button addTarget:self action:@selector(drnavigationBarRightItemClicked:) forControlEvents:UIControlEventTouchUpInside];
     return bar;
 }
 #pragma --

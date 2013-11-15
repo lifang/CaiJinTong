@@ -65,7 +65,23 @@
         
         if (![rs next]) {
             [rs close];
-            [self.db executeUpdate:@"CREATE TABLE Section (id INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE , sid INTEGER NOT NULL , name VARCHAR,fileUrl VARCHAR, downloadState INTEGER,contentLength DOUBLE,percentDown FLOAT,sectionStudy VARCHAR,sectionLastTime VARCHAR)"];
+            [self.db executeUpdate:@"CREATE TABLE Section (id INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE , sid VARCHAR , name VARCHAR,fileUrl VARCHAR, downloadState INTEGER,contentLength DOUBLE,percentDown FLOAT,sectionStudy VARCHAR,sectionLastTime VARCHAR,sectionImg VARCHAR,lessonInfo VARCHAR,sectionTeacher VARCHAR)"];
+        }
+        
+        [rs close];
+        //创建section章节目录表
+        rs = [self.db executeQuery:@"select name from SQLITE_MASTER where name = 'Chapter'"];
+        if (![rs next]) {
+            [rs close];
+            [self.db executeUpdate:@"CREATE TABLE Chapter (id INTEGER PRIMARY KEY  NOT NULL , sid VARCHAR, name VARCHAR, sectionId VARCHAR)"];
+        }
+        
+        [rs close];
+        //创建section笔记表
+        rs = [self.db executeQuery:@"select name from SQLITE_MASTER where name = 'Note'"];
+        if (![rs next]) {
+            [rs close];
+            [self.db executeUpdate:@"CREATE TABLE Note (id INTEGER PRIMARY KEY  NOT NULL , sid VARCHAR, noteTitle VARCHAR, noteTime VARCHAR, noteText VARCHAR)"];
         }
         
         [rs close];

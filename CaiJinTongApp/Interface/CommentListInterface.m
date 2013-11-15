@@ -15,7 +15,7 @@
 
 @implementation CommentListInterface
 
--(void)getGradeInterfaceDelegateWithUserId:(NSString *)userId andSectionId:(NSString *)sectionId andPageIndex:(int)pageIndex {
+-(void)getGradeInterfaceDelegateWithUserId:(NSString *)userId andSectionId:(NSString *)sectionId andPageIndex:(NSInteger)pageIndex {
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     
     NSString *timespan = [Utility getNowDateFromatAnDate];

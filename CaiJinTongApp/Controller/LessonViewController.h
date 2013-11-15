@@ -8,9 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "LessonListHeaderView.h"
-@interface LessonViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,LessonListHeaderViewDelegate>
-@property (weak, nonatomic) IBOutlet UIView *lessonListBackgroundView;
+#import "ChapterInfoInterface.h"
+#import "LessonInfoInterface.h"
 
+@interface LessonViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,LessonListHeaderViewDelegate,ChapterInfoInterfaceDelegate,LessonInfoInterfaceDelegate>
+@property (nonatomic, strong) LessonInfoInterface *lessonInterface;
+
+@property (weak, nonatomic) IBOutlet UIView *lessonListBackgroundView;
+@property (nonatomic, strong) ChapterInfoInterface *chapterInterface;
 @property (weak, nonatomic) IBOutlet UIView *leftBackGroundview;
 @property (weak, nonatomic) IBOutlet UIButton *lessonListBt;
 @property (weak, nonatomic) IBOutlet UIButton *questionListBt;
@@ -30,4 +35,7 @@
 @property (nonatomic, strong) NSMutableArray *questionList;
 @property (nonatomic, strong) NSMutableArray *questionArrSelSection;
 @property (nonatomic, assign) NSInteger questionTmpSection;
+
+@property (nonatomic, strong) NSMutableArray *temp_saveArray;//根据
+
 @end

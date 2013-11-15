@@ -11,7 +11,7 @@
 @implementation Section
 
 -(SectionSaveModel *)getDataWithSid:(NSString *) sid {
-    FMResultSet * rs = [self.db executeQuery:@"select id , sid , name , fileUrl , downloadState ,contentLength,percentDown,sectionStudy,sectionLastTime from Section where sid = ?",sid];
+    FMResultSet * rs = [self.db executeQuery:@"select id , sid , name , fileUrl , downloadState ,contentLength,percentDown,sectionStudy,sectionLastTime,sectionImg,lessonInfo,sectionTeacher from Section where sid = ?",sid];
     
     SectionSaveModel *nm = nil;
     
@@ -24,6 +24,10 @@
         nm.downloadPercent = [rs doubleForColumn:@"percentDown"];//获取下载进度
         nm.sectionStudy = [rs stringForColumn:@"sectionStudy"];
         nm.sectionLastTime = [rs stringForColumn:@"sectionLastTime"];
+        
+        nm.sectionImg = [rs stringForColumn:@"sectionImg"];
+        nm.lessonInfo = [rs stringForColumn:@"lessonInfo"];
+        nm.sectionTeacher = [rs stringForColumn:@"sectionTeacher"];
     }
     
     [rs close];
@@ -41,12 +45,19 @@
 }
 
 -(BOOL)addDataWithSectionSaveModel:(SectionSaveModel *)model {
-    BOOL res = [self.db executeUpdate:@"insert into Section ( sid , name , fileUrl , downloadState ,contentLength,percentDown,sectionStudy,sectionLastTime) values (?,?,?,?,?,?,?,?)"
+    BOOL res = [self.db executeUpdate:@"insert into Section ( sid , name , fileUrl , downloadState ,contentLength,percentDown,sectionStudy,sectionLastTime,sectionImg,lessonInfo,sectionTeacher) values (?,?,?,?,?,?,?,?,?,?,?)"
                 , model.sid
                 ,model.name
                 ,model.fileUrl
                 ,@"0"
-                ,[NSString stringWithFormat:@"%f", model.downloadPercent],@"0",@"0",model.sectionLastTime];
+                ,[NSString stringWithFormat:@"%f"
+                , model.downloadPercent]
+                ,@"0"
+                ,@"0"
+                ,model.sectionLastTime
+                ,model.sectionImg
+                ,model.lessonInfo
+                ,model.sectionTeacher];
     return res;
 }
 -(BOOL)updateTheStateWithSid:(NSString *) sid andDownloadState:(NSUInteger)downloadState {
@@ -66,6 +77,11 @@
 -(BOOL)updatePercentDown:(double)length BySid:(NSString *)sid {
     return [self.db executeUpdate:@"update Section set percentDown = ? where sid= ?",[NSString stringWithFormat:@"%lf", length], sid];
 }
+//更新学习时间
+-(BOOL)updateStudyTime:(NSString *)sectionStudy BySid:(NSString *)sid {
+    return [self.db executeUpdate:@"update Section set sectionStudy = ? where sid= ?",sectionStudy, sid];
+}
+
 -(float)getPercentDownBySid:(NSString *)sid {
     FMResultSet * rs = [self.db executeQuery:@"select percentDown,downloadState from Section where sid = ?",sid];
     
@@ -92,5 +108,62 @@
 }
 -(BOOL)updateContentLength:(double)length BySid:(NSString *)sid {
     return [self.db executeUpdate:@"update Section set contentLength = ? where sid= ?",[NSString stringWithFormat:@"%f", length],sid];
+}
+
+-(NSArray *)getAllInfo {
+    FMResultSet * rs = [self.db executeQuery:@"select id , sid , name , fileUrl , downloadState ,contentLength,percentDown,sectionStudy,sectionLastTime,sectionImg,lessonInfo,sectionTeacher from Section "];
+    
+    NSMutableArray *array = [NSMutableArray array];
+    while ([rs next]) {
+        SectionModel *nm = [[SectionModel alloc] init];
+        nm.sectionId = [rs stringForColumn:@"sid"];
+        nm.sectionName = [rs stringForColumn:@"name"];
+        nm.sectionDownload = [rs stringForColumn:@"fileUrl"];
+        nm.sectionStudy = [rs stringForColumn:@"sectionStudy"];
+        nm.sectionLastTime = [rs stringForColumn:@"sectionLastTime"];
+        nm.sectionImg = [rs stringForColumn:@"sectionImg"];
+        nm.lessonInfo = [rs stringForColumn:@"lessonInfo"];
+        nm.sectionTeacher = [rs stringForColumn:@"sectionTeacher"];
+        [array addObject:nm];
+    }
+    [rs close];
+    return array;
+}
+//笔记
+-(BOOL)addDataWithNoteModel:(NoteModel *)model andSid:(NSString *)sid{
+    BOOL res = [self.db executeUpdate:@"insert into Note ( sid , noteTitle , noteTime , noteText) values (?,?,?,?)"
+                ,sid
+                ,model.noteTitle
+                ,model.noteTime
+                ,model.noteText  ];
+    return res;
+}
+
+-(void)deleteDataFromNoteWithSid:(NSString *)sid {
+    BOOL res = [self.db executeUpdate:@"delete from Note where sid = ?",sid];
+    
+    if (!res) {
+        DLog(@"删除失败!");
+    } else {
+        DLog(@"删除成功");
+    }
+}
+
+//章节目录
+-(BOOL)addDataWithSectionModel:(SectionModel *)model andSid:(NSString *)sid {
+    BOOL res = [self.db executeUpdate:@"insert into Chapter ( sid , name, sectionId) values (?,?,?)"
+                ,sid
+                ,model.sectionName
+                ,model.sectionId  ];
+    return res;
+}
+-(void)deleteDataFromChapterWithSid:(NSString *)sid {
+    BOOL res = [self.db executeUpdate:@"delete from Chapter where sid = ?",sid];
+    
+    if (!res) {
+        DLog(@"删除失败!");
+    } else {
+        DLog(@"删除成功");
+    }
 }
 @end

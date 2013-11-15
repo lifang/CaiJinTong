@@ -10,7 +10,7 @@
 #define FONT_SIZE 20
 @interface LessonListHeaderView ()
 
-@property (nonatomic,strong) UIImageView *flagImageView;
+
 @property (nonatomic,strong) UIButton *coverBt;
 
 @end
@@ -78,10 +78,18 @@
 */
 -(void)setIsSelected:(BOOL)isSelected{
     _isSelected = isSelected;
-    if (isSelected) {
-        self.flagImageView.image = [UIImage imageNamed:@"jiantou_down.png"];
-    }else{
-        self.flagImageView.image = [UIImage imageNamed:@"jiantou_up.png"];
+    if ([self.lessonTextLabel.text isEqualToString:@"本地下载"]) {
+        if (isSelected) {
+            self.flagImageView.image = Image(@"foregroundStar.png");;
+        }else{
+            self.flagImageView.image = Image(@"backgroundStar.png");;
+        }
+    }else {
+        if (isSelected) {
+            self.flagImageView.image = [UIImage imageNamed:@"jiantou_down.png"];
+        }else{
+            self.flagImageView.image = [UIImage imageNamed:@"jiantou_up.png"];
+        }
     }
 }
 @end

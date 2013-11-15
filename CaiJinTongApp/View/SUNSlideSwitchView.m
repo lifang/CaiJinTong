@@ -311,6 +311,16 @@ static const NSUInteger kTagOfRightSideButton = 999;
         else {
             _isLeftScroll = NO;
         }
+        //textView
+        if (_userSelectedChannelID == 101) {
+            UIViewController *viewController =(UIViewController*) [self.viewArray objectAtIndex:1];
+            for (UIView *subView in viewController.view.subviews) {
+                if ([subView isKindOfClass:[UITextView class]]) {
+                    UITextView *vv = (UITextView *)subView;
+                    [vv resignFirstResponder];
+                }
+            }
+        }
     }
 }
 

@@ -33,6 +33,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [Utility setBackgroungWithView:self.view andImage6:@"loginBgImage_v" andImage7:@"login_bg"];
 }
 
 - (void)didReceiveMemoryWarning

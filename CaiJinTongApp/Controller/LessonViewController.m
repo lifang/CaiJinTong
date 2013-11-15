@@ -12,12 +12,15 @@
 
 #import "ChapterViewController.h"
 #import "SectionModel.h"
-
+#import "Section.h"
 #import "ForgotPwdViewController.h"
 
 #import "QuestionModel.h"
 #import "LessonQuestionModel.h"
 #import "ChapterQuestionModel.h"
+#import "UIImageView+WebCache.h"
+#import "SDImageCache.h"
+#import "SettingViewController.h"
 #define LESSON_HEADER_IDENTIFIER @"lessonHeader"
 typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 
@@ -34,13 +37,24 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     }
     return self;
 }
-
+-(void)getLessonInfo {
+    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+        [Utility errorAlert:@"暂无网络!"];
+    }else {
+        [SVProgressHUD showWithStatus:@"玩命加载中..."];
+        LessonInfoInterface *lessonInter = [[LessonInfoInterface alloc]init];
+        self.lessonInterface = lessonInter;
+        self.lessonInterface.delegate = self;
+        [self.lessonInterface getLessonInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId];
+    }
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self.tableView registerClass:[LessonListHeaderView class] forHeaderFooterViewReuseIdentifier:LESSON_HEADER_IDENTIFIER];
     self.listType = LESSON_LIST;
-    [self initTestData];
+//    [self initTestData];
+    [self getLessonInfo];
 }
 
 #pragma mark test
@@ -73,6 +87,8 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         }
     }
     DLog(@"%@",self.lessonList);
+    [self.lessonList  addObject:@"本地下载"];
+
     //标记是否选中了
     self.arrSelSection = [[NSMutableArray alloc] init];
     for (int i =0; i<self.lessonList.count; i++) {
@@ -121,21 +137,27 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 #pragma mark LessonListHeaderViewDelegate
 -(void)lessonHeaderView:(LessonListHeaderView *)header selectedAtIndex:(NSIndexPath *)path{
     if (self.listType == LESSON_LIST) {
-        BOOL isSelSection = NO;
-        _tmpSection = path.section;
-        for (int i = 0; i < self.arrSelSection.count; i++) {
-            NSString *strSection = [NSString stringWithFormat:@"%@",[self.arrSelSection objectAtIndex:i]];
-            NSInteger selSection = strSection.integerValue;
-            if (_tmpSection == selSection) {
-                isSelSection = YES;
-                [self.arrSelSection removeObjectAtIndex:i];
-                break;
+        if (path.section != self.lessonList.count-1) {
+            BOOL isSelSection = NO;
+            _tmpSection = path.section;
+            for (int i = 0; i < self.arrSelSection.count; i++) {
+                NSString *strSection = [NSString stringWithFormat:@"%@",[self.arrSelSection objectAtIndex:i]];
+                NSInteger selSection = strSection.integerValue;
+                if (_tmpSection == selSection) {
+                    isSelSection = YES;
+                    [self.arrSelSection removeObjectAtIndex:i];
+                    break;
+                }
             }
+            if (!isSelSection) {
+                [self.arrSelSection addObject:[NSString stringWithFormat:@"%i",_tmpSection]];
+            }
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
+        }else {//本地课程
+            //本地数据的获取
+//            Section *sectionDb = [[Section alloc]init];
+//            NSArray *local_array = [sectionDb getAllInfo];
         }
-        if (!isSelSection) {
-            [self.arrSelSection addObject:[NSString stringWithFormat:@"%i",_tmpSection]];
-        }
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
     }else{
         if (path.section == 0) {
             header.isSelected = NO;
@@ -170,23 +192,33 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 }
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     if (self.listType == LESSON_LIST) {
-        LessonModel *lesson = (LessonModel *)[self.lessonList objectAtIndex:section];
-        LessonListHeaderView *header = (LessonListHeaderView*)[tableView dequeueReusableHeaderFooterViewWithIdentifier:LESSON_HEADER_IDENTIFIER];
-        header.lessonTextLabel.text = lesson.lessonName;
-        header.lessonDetailLabel.text = [NSString stringWithFormat:@"%d",[lesson.chapterList count]];
-        header.path = [NSIndexPath indexPathForRow:0 inSection:section];
-        header.delegate = self;
-        BOOL isSelSection = NO;
-        for (int i = 0; i < self.arrSelSection.count; i++) {
-            NSString *strSection = [NSString stringWithFormat:@"%@",[self.arrSelSection objectAtIndex:i]];
-            NSInteger selSection = strSection.integerValue;
-            if (section == selSection) {
-                isSelSection = YES;
-                break;
+        if (section != self.lessonList.count-1) {
+            LessonListHeaderView *header = (LessonListHeaderView*)[tableView dequeueReusableHeaderFooterViewWithIdentifier:LESSON_HEADER_IDENTIFIER];
+            LessonModel *lesson = (LessonModel *)[self.lessonList objectAtIndex:section];
+            header.lessonTextLabel.font = [UIFont systemFontOfSize:18];
+            header.lessonTextLabel.text = lesson.lessonName;
+            header.lessonDetailLabel.text = [NSString stringWithFormat:@"%d",[lesson.chapterList count]];
+            header.path = [NSIndexPath indexPathForRow:0 inSection:section];
+            header.delegate = self;
+            BOOL isSelSection = NO;
+            for (int i = 0; i < self.arrSelSection.count; i++) {
+                NSString *strSection = [NSString stringWithFormat:@"%@",[self.arrSelSection objectAtIndex:i]];
+                NSInteger selSection = strSection.integerValue;
+                if (section == selSection) {
+                    isSelSection = YES;
+                    break;
+                }
             }
+            header.isSelected = isSelSection;
+            return header;
+        }else {
+            LessonListHeaderView *header = (LessonListHeaderView*)[tableView dequeueReusableHeaderFooterViewWithIdentifier:LESSON_HEADER_IDENTIFIER];
+            header.flagImageView.image = Image(@"backgroundStar.png");
+            header.lessonTextLabel.text = @"本地下载";
+            header.path = [NSIndexPath indexPathForRow:0 inSection:section];
+            header.delegate = self;
+            return header;
         }
-        header.isSelected = isSelSection;
-        return header;
     }else{
         LessonListHeaderView *header = (LessonListHeaderView*)[tableView dequeueReusableHeaderFooterViewWithIdentifier:LESSON_HEADER_IDENTIFIER];
         LessonQuestionModel *question = (LessonQuestionModel *)[self.questionList objectAtIndex:section];
@@ -255,8 +287,10 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"lessonCell"];
         LessonModel *lesson = (LessonModel *)[self.lessonList objectAtIndex:indexPath.section];
         chapterModel *chapter = (chapterModel *)[lesson.chapterList objectAtIndex:indexPath.row];
-        cell.imageView.image = [UIImage imageNamed:@"jiantou_down.png"];
+        cell.textLabel.font = [UIFont systemFontOfSize:16];
         cell.textLabel.text = chapter.chapterName;
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",chapter.chapterImg]];
+        [cell.imageView setImageWithURL:url placeholderImage:Image(@"defualt.jpg")];
         return cell;
     }else{
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"questionCell"];
@@ -264,16 +298,26 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         
         ChapterQuestionModel*chapter = (ChapterQuestionModel *)[question.chapterQuestionList objectAtIndex:indexPath.row];
         cell.textLabel.text = chapter.chapterQuestionName;
+        
         return cell;
     }
 
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.listType == LESSON_LIST) {
+        //根据chapterId获取章下面视频信息
         LessonModel *lesson = (LessonModel *)[self.lessonList objectAtIndex:indexPath.section];
         chapterModel *chapter = (chapterModel *)[lesson.chapterList objectAtIndex:indexPath.row];
-        DLog(@"id = %@",chapter.chapterId);
-        
+        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+            [Utility errorAlert:@"暂无网络!"];
+        }else {
+            [SVProgressHUD showWithStatus:@"玩命加载中..."];
+            ChapterInfoInterface *chapterInter = [[ChapterInfoInterface alloc]init];
+            self.chapterInterface = chapterInter;
+            self.chapterInterface.delegate = self;
+            [self.chapterInterface getChapterInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andChapterId:chapter.chapterId];
+        }
+         /*
         //数据来源
         NSDictionary *dictionary = [Utility initWithJSONFile:@"chapterInfo"];
         NSDictionary *dicc = [dictionary objectForKey:@"ReturnObject"];
@@ -300,22 +344,29 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         }
         
         [self presentPopupViewController:chapterView animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO];
+          */
     }else{
 
     }
 }
 - (IBAction)lessonListBtClicked:(id)sender {
     self.listType = LESSON_LIST;
-    
-     [self.tableView reloadData];
+    dispatch_async ( dispatch_get_main_queue (), ^{
+        [self.tableView reloadData];
+    });
 }
 
 - (IBAction)questionListBtClicked:(id)sender {
     self.listType = QUEATION_LIST;
-    
-    [self.tableView reloadData];
+    dispatch_async ( dispatch_get_main_queue (), ^{
+        [self.tableView reloadData];
+    });
 }
 
+-(IBAction)setBtnPressed:(id)sender {
+    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+    SettingViewController *setView = [story instantiateViewControllerWithIdentifier:@"SettingViewController"];
+}
 #pragma mark property
 -(NSMutableArray *)questionArrSelSection{
     if (!_questionArrSelSection) {
@@ -343,5 +394,46 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     }
     _listType = listType;
 }
-#pragma mark --
+#pragma mark -- ChapterInfoInterfaceDelegate
+-(void)getChapterInfoDidFinished:(NSDictionary *)result {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+            ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
+            chapterView.view.frame = CGRectMake(50, 20, 768-200, 1024-20);
+            if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
+                chapterView.recentArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
+                [self presentPopupViewController:chapterView animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO];
+            }
+        });
+    });
+}
+-(void)getChapterInfoDidFailed:(NSString *)errorMsg {
+    [SVProgressHUD dismiss];
+    [Utility errorAlert:errorMsg];
+}
+
+#pragma mark-- LessonInfoInterfaceDelegate
+-(void)getLessonInfoDidFinished:(NSDictionary *)result {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
+        self.lessonList = [NSMutableArray arrayWithArray:[result objectForKey:@"lessonList"]];
+        [self.lessonList  addObject:@"本地下载"];
+        
+        //标记是否选中了
+        self.arrSelSection = [[NSMutableArray alloc] init];
+        for (int i =0; i<self.lessonList.count; i++) {
+            [self.arrSelSection addObject:[NSString stringWithFormat:@"%d",i]];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
+    });
+}
+-(void)getLessonInfoDidFailed:(NSString *)errorMsg {
+    [SVProgressHUD dismiss];
+    [Utility errorAlert:errorMsg];
+}
 @end

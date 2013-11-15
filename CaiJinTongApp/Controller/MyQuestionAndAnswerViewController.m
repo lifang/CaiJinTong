@@ -28,7 +28,7 @@
     // [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
     //    AppDelegate *app = [[UIApplication sharedApplication] delegate];
     //    [app.popupedController dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
-    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
+//    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
 }
 
 - (void)viewDidLoad

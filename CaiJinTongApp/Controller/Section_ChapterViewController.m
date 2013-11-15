@@ -53,7 +53,9 @@
 }
 
 -(void)initBtn:(NSNotification *)notification {
-    [self.tableViewList reloadData];
+    dispatch_async ( dispatch_get_main_queue (), ^{
+        [self.tableViewList reloadData];
+    });
 }
 - (void)viewDidCurrentView
 {
@@ -65,7 +67,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-#pragma -- tableViewDelegate
+#pragma mark -- tableViewDelegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.dataArray.count;
 }
@@ -116,9 +118,6 @@
     }else {
         sectionSave = [[SectionSaveModel alloc]init];
         sectionSave.sid = section.sectionId;
-        sectionSave.name = section.sectionName;
-        sectionSave.fileUrl = section.sectionDownload;
-        sectionSave.sectionLastTime = section.sectionLastTime;
         sectionSave.downloadState = 4;
         sectionSave.downloadPercent = 0;
         cell.btn.buttonModel = sectionSave;

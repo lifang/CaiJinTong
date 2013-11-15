@@ -52,13 +52,16 @@
         imageViewC = nil;
         
         //视频进度
-        AMProgressView *pvv = [[AMProgressView alloc] initWithFrame:CGRectMake(0, self.frame.size.width-30, self.frame.size.width, 30)
+        AMProgressView *pvv = [[AMProgressView alloc] initWithFrame:CGRectMake(0, self.frame.size.height-30, self.frame.size.width, 30)
                                                  andGradientColors:nil
                                                   andOutsideBorder:NO
                                                        andVertical:NO];
         pvv.progress = [section.sectionProgress floatValue];
-        float pgress = [section.sectionProgress floatValue]*100;
-        pvv.text = [NSString stringWithFormat:@"学习进度:%.f%%",pgress];
+        float pgress = (float)[section.sectionProgress floatValue];
+        if (pgress-100>0) {
+            pgress = 100.0;
+        }
+        pvv.text = [NSString stringWithFormat:@"学习进度:%.2f%%",pgress];
         self.pv = pvv;
         [self addSubview:self.pv];
         pvv = nil;

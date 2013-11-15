@@ -18,6 +18,7 @@
 #import "Utility.h"
 #import "CaiJinTongManager.h"
 #import "SVProgressHUD.h"
+#import "UIViewController+MJPopupViewController.h"
 #endif
 
 //系统版本

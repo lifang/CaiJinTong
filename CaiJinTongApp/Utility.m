@@ -91,5 +91,11 @@
     return timeString;
 }
 
-
++ (void)setBackgroungWithView:(UIView *)view andImage6:(NSString *)str6 andImage7:(NSString *)str7{
+    if (platform == 6.0) {
+        view.backgroundColor = [UIColor colorWithPatternImage:Image(str6)];
+    }else {
+        view.backgroundColor = [UIColor colorWithPatternImage:Image(str7)];
+    }
+}
 @end
