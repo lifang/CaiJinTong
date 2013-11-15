@@ -26,7 +26,7 @@
     // [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
     //    AppDelegate *app = [[UIApplication sharedApplication] delegate];
     //    [app.popupedController dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
-    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
+//    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
 }
 
 - (void)viewDidLoad
@@ -146,7 +146,7 @@
     QuestionAndAnswerCellHeaderView *header = (QuestionAndAnswerCellHeaderView*)[tableView dequeueReusableHeaderFooterViewWithIdentifier:@"header"];
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:section];
     [header setQuestionModel:question];
-    header.backgroundColor = [UIColor clearColor];
+    header.backgroundColor = [UIColor whiteColor];
     header.delegate = self;
     header.path = [NSIndexPath indexPathForRow:0 inSection:section];
     return header;

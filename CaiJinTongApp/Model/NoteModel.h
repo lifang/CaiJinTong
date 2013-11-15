@@ -10,7 +10,8 @@
 
 @interface NoteModel : NSObject
 
+@property (nonatomic, strong) NSString *noteTitle;
 @property (nonatomic, strong) NSString *noteTime;
 @property (nonatomic, strong) NSString *noteText;
-@property (nonatomic, strong) NSString *noteTitle;
+
 @end

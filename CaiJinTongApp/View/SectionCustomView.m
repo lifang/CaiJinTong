@@ -57,8 +57,11 @@
                                                   andOutsideBorder:NO
                                                        andVertical:NO];
         pvv.progress = [section.sectionProgress floatValue];
-        float pgress = [section.sectionProgress floatValue]*100;
-        pvv.text = [NSString stringWithFormat:@"学习进度:%.f%%",pgress];
+        float pgress = (float)[section.sectionProgress floatValue];
+        if (pgress-100>0) {
+            pgress = 100.0;
+        }
+        pvv.text = [NSString stringWithFormat:@"学习进度:%.2f%%",pgress];
         self.pv = pvv;
         [self addSubview:self.pv];
         pvv = nil;

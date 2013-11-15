@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "SectionSaveModel.h"
-
-@interface CustomButton : UIButton
+#import "SectionInfoInterface.h"
+@interface CustomButton : UIButton<SectionInfoInterfaceDelegate>
 
 @property (nonatomic, strong) SectionSaveModel *buttonModel;
+@property (nonatomic, strong) SectionInfoInterface *sectionInterface;
 @end

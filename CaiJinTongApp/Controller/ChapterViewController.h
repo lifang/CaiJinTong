@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "SectionCustomView.h"
 #import "CJTMainToolbar.h"
-
-@interface ChapterViewController : DRNaviGationBarController <UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource,CJTMainToolbarDelegate>
-
+#import "SectionInfoInterface.h"
+@interface ChapterViewController : DRNaviGationBarController <UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource,CJTMainToolbarDelegate, SectionInfoInterfaceDelegate>
+@property (nonatomic, strong) SectionInfoInterface *sectionInterface;
 @property (nonatomic, strong) CJTMainToolbar *mainToolBar;
 @property (nonatomic, strong) UIScrollView *myScrollView;
 @property (nonatomic, strong) UITableView *myTable;

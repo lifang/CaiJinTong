@@ -10,7 +10,7 @@
 #define FONT_SIZE 20
 @interface LessonListHeaderView ()
 
-@property (nonatomic,strong) UIImageView *flagImageView;
+
 @property (nonatomic,strong) UIButton *coverBt;
 
 @end

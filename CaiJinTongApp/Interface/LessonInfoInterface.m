@@ -17,17 +17,10 @@
 @implementation LessonInfoInterface
 -(void)getLessonInfoInterfaceDelegateWithUserId:(NSString *)userId {
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
-    
-    NSString *timespan = [Utility getNowDateFromatAnDate];
-    NSString *strKey = [NSString stringWithFormat:@"%@%@",timespan,MDKey];
-    NSString *md5Key = [Utility createMD5:strKey];
-    
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",timespan] forKey:@"timespan"];
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",md5Key] forKey:@"token"];
-    
+   
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     
-    self.interfaceUrl = [NSString stringWithFormat:@"%@",kHost];
+    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=lessonInfo&userId=18676";
     
     self.baseDelegate = self;
     self.headers = reqheaders;
@@ -70,38 +63,20 @@
                                                     chapterModel *chapter = [[chapterModel alloc]init];
                                                     chapter.chapterId = [NSString stringWithFormat:@"%@",[dic_chapter objectForKey:@"chapterId"]];
                                                     chapter.chapterName = [NSString stringWithFormat:@"%@",[dic_chapter objectForKey:@"chapterName"]];
+                                                    chapter.chapterImg =[NSString stringWithFormat:@"%@",[dic_lessoon objectForKey:@"sectionImg"]];
                                                     [lesson.chapterList addObject:chapter];
                                                 }
-                                                DLog(@"chapterList = %@",lesson.chapterList);
+//                                                DLog(@"chapterList = %@",lesson.chapterList);
                                             }
                                             [lessonList  addObject:lesson];
                                         }
-                                        DLog(@"lessonList = %@",lessonList);
+//                                        DLog(@"lessonList = %@",lessonList);
                                         if (lessonList.count>0) {
                                             [tempDic setObject:lessonList forKey:@"lessonList"];
                                         }
                                     }
                                 }
-                                //最近课程
-                                if (![[dictionary objectForKey:@"nowList"]isKindOfClass:[NSNull class]] && [dictionary objectForKey:@"nowList"]!=nil) {
-                                    NSArray *array_section = [dictionary objectForKey:@"nowList"];
-                                    if (array_section.count>0) {
-                                        NSMutableArray *nowList = [[NSMutableArray alloc]init];
-                                        for (int j=0; j<array_section.count; j++) {
-                                            NSDictionary *dic_section = [array_section objectAtIndex:j];
-                                            SectionModel *section = [[SectionModel alloc]init];
-                                            section.sectionId = [NSString stringWithFormat:@"%@",[dic_section objectForKey:@"sectionId"]];
-                                            section.sectionImg = [NSString stringWithFormat:@"%@",[dic_section objectForKey:@"sectionImg"]];
-                                            section.sectionName = [NSString stringWithFormat:@"%@",[dic_section objectForKey:@"sectionName"]];
-                                            section.sectionProgress = [NSString stringWithFormat:@"%@",[dic_section objectForKey:@"sectionProgress"]];
-                                            [nowList addObject:section];
-                                        }
-                                        DLog(@"nowList = %@",nowList);
-                                        if (nowList.count>0) {
-                                            [tempDic setObject:nowList forKey:@"nowList"];
-                                        }
-                                    }
-                                }
+                                
                                 [self.delegate getLessonInfoDidFinished:tempDic];
                                 tempDic = nil;
                             }

@@ -11,8 +11,7 @@
 #import "DownloadService.h"
 #import "DownLoadInformView.h"
 #import "Section.h"
-#import "LessonViewController.h"
-
+#import "NoteModel.h"
 @implementation CustomButton
 
 - (id)initWithFrame:(CGRect)frame
@@ -83,7 +82,18 @@
 }
 //播放
 -(void)playVideo {
-    
+    NSString *path = nil;
+    NSString *documentDir;
+    if (platform>5.0) {
+        documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    }else{
+        documentDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    }
+    path = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@",self.buttonModel.sid]];
+    DLog(@"path = %@",path);//本地保存路径
+    if (path) {
+        //播放接口
+    }
 }
 //下载中
 -(void)downloadShowView
@@ -107,18 +117,65 @@
 //下载按钮 点击弹出框
 -(void)downloadClicked
 {
-    AppDelegate* appDelegate = [AppDelegate sharedInstance];
-    DownloadService *mDownloadService = appDelegate.mDownloadService;
-    self.buttonModel.downloadState = 0;
     //先判断是否存在然后添加到数据库
     Section *sectionDb = [[Section alloc]init];
     if ([sectionDb getDataWithSid:self.buttonModel.sid]) {
         
     }else {
-        [sectionDb addDataWithSectionSaveModel:self.buttonModel];
-        //下载
-        [mDownloadService addDownloadTask:self.buttonModel];
-    }
+        //请求视频详细信息
+        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+            [Utility errorAlert:@"暂无网络!"];
+        }else {
+            [SVProgressHUD showWithStatus:@"玩命加载中..."];
+            SectionInfoInterface *sectionInter = [[SectionInfoInterface alloc]init];
+            self.sectionInterface = sectionInter;
+            self.sectionInterface.delegate = self;
+            [self.sectionInterface getSectionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.buttonModel.sid];
+        }
+    }  
 }
 
+#pragma -- SectionInfoInterface
+-(void)getSectionInfoDidFinished:(SectionModel *)result {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [SVProgressHUD dismissWithSuccess:@"连接成功!"];
+
+        self.buttonModel.sectionImg = result.sectionImg;
+        self.buttonModel.lessonInfo = result.lessonInfo;
+        self.buttonModel.sectionTeacher = result.sectionTeacher;
+        self.buttonModel.noteList = result.noteList;
+        self.buttonModel.sectionList = result.sectionList;
+        self.buttonModel.name = result.sectionName;
+        self.buttonModel.fileUrl = result.sectionDownload;
+        self.buttonModel.sectionLastTime = result.sectionLastTime;
+        //添加数据库
+        Section *sectionDb = [[Section alloc]init];
+        if (self.buttonModel.noteList.count>0) {//笔记
+            for (int i=0; i<self.buttonModel.noteList.count; i++) {
+                NoteModel *note = (NoteModel *)[self.buttonModel.noteList objectAtIndex:i];
+                [sectionDb addDataWithNoteModel:note andSid:self.buttonModel.sid];
+            }
+        }
+        if (self.buttonModel.noteList.count>0) {//章节目录
+            for (int i=0; i<self.buttonModel.sectionList.count; i++) {
+                SectionModel *section = (SectionModel *)[self.buttonModel.sectionList objectAtIndex:i];
+                [sectionDb addDataWithSectionModel:section andSid:self.buttonModel.sid];
+            }
+        }
+        [sectionDb addDataWithSectionSaveModel:self.buttonModel];//基本信息
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            AppDelegate* appDelegate = [AppDelegate sharedInstance];
+            DownloadService *mDownloadService = appDelegate.mDownloadService;
+            self.buttonModel.downloadState = 0;
+            //下载
+            [mDownloadService addDownloadTask:self.buttonModel];
+        });
+    });
+    
+}
+-(void)getSectionInfoDidFailed:(NSString *)errorMsg {
+    [SVProgressHUD dismiss];
+    [Utility errorAlert:errorMsg];
+}
 @end

@@ -15,8 +15,6 @@
 
 @end
 
-UILabel *gradeLabel;
-
 @implementation TQStarRatingView
 
 - (id)initWithFrame:(CGRect)frame
@@ -33,10 +31,6 @@ UILabel *gradeLabel;
         self.starForegroundView = [self buidlStarViewWithImageName:@"x.png"];
         [self addSubview:self.starBackgroundView];
         [self addSubview:self.starForegroundView];
-        gradeLabel = [[UILabel alloc] initWithFrame:CGRectMake(350, 0, self.frame.size.width, self.frame.size.height)];
-        gradeLabel.backgroundColor = [UIColor clearColor];
-        gradeLabel.text = @"5分";
-        [self addSubview:gradeLabel];
     }
     return self;
 }
@@ -102,8 +96,6 @@ UILabel *gradeLabel;
     float score = [str floatValue];
     p.x = score * self.frame.size.width;
     self.starForegroundView.frame = CGRectMake(0, 0, p.x, self.frame.size.height);
-    
-    gradeLabel.text = [NSString stringWithFormat:@"%0.2f分",score*5];
     
     if(self.delegate && [self.delegate respondsToSelector:@selector(starRatingView: score:)])
     {

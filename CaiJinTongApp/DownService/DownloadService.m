@@ -184,6 +184,8 @@
     //删除
     Section *sectionDb = [[Section alloc]init];
     [sectionDb deleteDataWithSid:nm.sid];
+    [sectionDb deleteDataFromChapterWithSid:nm.sid];
+    [sectionDb deleteDataFromNoteWithSid:nm.sid];
     
     //删除Document下的残留
     NSFileManager *fileManager = [NSFileManager defaultManager];

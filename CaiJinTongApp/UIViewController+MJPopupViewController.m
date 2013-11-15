@@ -79,6 +79,7 @@ static void * const keypath = (void*)&keypath;
 
 - (void)presentPopupViewController:(UIViewController*)popupViewController animationType:(MJPopupViewAnimation)animationType
 {
+    [self presentPopupView:popupViewController.view animationType:animationType];
     [self presentPopupViewController:popupViewController animationType:animationType dismissed:nil];
 }
 

@@ -39,7 +39,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-#pragma  -- UITableViewDelegate
+#pragma  mark-- UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     NoteModel *note = (NoteModel *)[self.dataArray objectAtIndex:indexPath.row];

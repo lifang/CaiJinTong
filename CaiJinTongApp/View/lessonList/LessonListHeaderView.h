@@ -14,6 +14,7 @@
 @property (nonatomic,strong) NSIndexPath *path;
 @property (nonatomic,weak) id<LessonListHeaderViewDelegate> delegate;
 @property (nonatomic,assign) BOOL isSelected;
+@property (nonatomic,strong) UIImageView *flagImageView;
 @end
 
 @protocol LessonListHeaderViewDelegate <NSObject>

@@ -12,4 +12,5 @@
 
 @property (nonatomic, strong) NSString *chapterId;
 @property (nonatomic, strong) NSString *chapterName;
+@property (nonatomic, strong) NSString *chapterImg;
 @end

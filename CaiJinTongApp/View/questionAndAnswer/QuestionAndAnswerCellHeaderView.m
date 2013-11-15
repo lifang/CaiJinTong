@@ -24,7 +24,7 @@
     self =[super initWithReuseIdentifier:reuseIdentifier];
     if (self) {
         self.backgroundView = [[UIView alloc] init];
-        self.backgroundView.backgroundColor = [UIColor clearColor];
+        self.backgroundView.backgroundColor = [UIColor whiteColor];
         [self addSubview:self.backgroundView];
         
         self.questionNameLabel = [[UILabel alloc] init];
