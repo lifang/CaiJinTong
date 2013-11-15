@@ -35,6 +35,10 @@
     [self initTestData];
     [self.tableView registerClass:[QuestionAndAnswerCellHeaderView class] forHeaderFooterViewReuseIdentifier:@"header"];
 	// Do any additional setup after loading the view.
+    self.drnavigationBar.titleLabel.text = @"我的提问";
+    [self.drnavigationBar.navigationRightItem setTitle:@"提问" forState:UIControlStateNormal];
+    [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+//    self.addQuesitionBtn.backgroundColor = [UIColor clearColor];
 }
 
 -(void)initTestData{
@@ -142,7 +146,7 @@
     QuestionAndAnswerCellHeaderView *header = (QuestionAndAnswerCellHeaderView*)[tableView dequeueReusableHeaderFooterViewWithIdentifier:@"header"];
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:section];
     [header setQuestionModel:question];
-    header.backgroundColor = [UIColor redColor];
+    header.backgroundColor = [UIColor whiteColor];
     header.delegate = self;
     header.path = [NSIndexPath indexPathForRow:0 inSection:section];
     return header;

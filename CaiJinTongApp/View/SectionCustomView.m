@@ -41,7 +41,7 @@
         
         
         //视频封面
-        UIImageView *imageViewC = [[UIImageView alloc]initWithFrame:CGRectMake(0, itemLabel, self.frame.size.width, self.frame.size.width)];
+        UIImageView *imageViewC = [[UIImageView alloc]initWithFrame:CGRectMake(0, itemLabel, self.frame.size.width, self.frame.size.height)];
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",section.sectionImg]];
         [imageViewC setImageWithURL:url placeholderImage:Image(@"loginBgImage_v.png")];
         
@@ -52,7 +52,7 @@
         imageViewC = nil;
         
         //视频进度
-        AMProgressView *pvv = [[AMProgressView alloc] initWithFrame:CGRectMake(0, self.frame.size.height-30, self.frame.size.width, 30)
+        AMProgressView *pvv = [[AMProgressView alloc] initWithFrame:CGRectMake(0, self.frame.size.height+itemLabel-30, self.frame.size.width, 30)
                                                  andGradientColors:nil
                                                   andOutsideBorder:NO
                                                        andVertical:NO];

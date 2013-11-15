@@ -24,37 +24,37 @@
     self =[super initWithReuseIdentifier:reuseIdentifier];
     if (self) {
         self.backgroundView = [[UIView alloc] init];
-        self.backgroundView.backgroundColor = [UIColor redColor];
+        self.backgroundView.backgroundColor = [UIColor whiteColor];
         [self addSubview:self.backgroundView];
         
         self.questionNameLabel = [[UILabel alloc] init];
-        self.questionNameLabel.backgroundColor = [UIColor redColor];
+        self.questionNameLabel.backgroundColor = [UIColor clearColor];
         self.questionNameLabel.font = TEXT_FONT;
         self.questionNameLabel.textColor = [UIColor blackColor];
         self.questionNameLabel.textAlignment = NSTextAlignmentLeft;
         [self.backgroundView addSubview:self.questionNameLabel];
         
         self.questionDateLabel = [[UILabel alloc] init];
-        self.questionDateLabel.backgroundColor = [UIColor purpleColor];
+        self.questionDateLabel.backgroundColor = [UIColor clearColor];
         self.questionDateLabel.font = TEXT_FONT;
         self.questionDateLabel.textColor = [UIColor blackColor];
         self.questionDateLabel.textAlignment = NSTextAlignmentLeft;
         [self.backgroundView addSubview:self.questionDateLabel];
         
         self.questionFlowerImageView = [[UIImageView alloc] init];
-        self.questionFlowerImageView.image = [UIImage imageNamed:@"retreat.png"];
-        self.questionFlowerImageView.backgroundColor = [UIColor greenColor];
+        self.questionFlowerImageView.image = [UIImage imageNamed:@"Q&A-myq_11.png"];
+        self.questionFlowerImageView.backgroundColor = [UIColor clearColor];
         [self.backgroundView addSubview:self.questionFlowerImageView];
         
         self.questionFlowerLabel = [[UILabel alloc] init];
-        self.questionFlowerLabel.backgroundColor = [UIColor yellowColor];
+        self.questionFlowerLabel.backgroundColor = [UIColor clearColor];
         self.questionFlowerLabel.font = TEXT_FONT;
         self.questionFlowerLabel.textColor = [UIColor blackColor];
         self.questionFlowerLabel.textAlignment = NSTextAlignmentLeft;
         [self.backgroundView addSubview:self.questionFlowerLabel];
         
         self.questionContentTextField = [[UITextField alloc] init];
-        self.questionContentTextField.backgroundColor = [UIColor yellowColor];
+        self.questionContentTextField.backgroundColor = [UIColor clearColor];
         self.questionContentTextField.font = [UIFont systemFontOfSize:TEXT_FONT_SIZE+6];
         self.questionContentTextField.textColor = [UIColor blueColor];
         self.questionContentTextField.textAlignment = NSTextAlignmentLeft;
@@ -62,10 +62,10 @@
         [self.backgroundView addSubview:self.questionContentTextField];
         
         self.questionFlowerBt = [[UIButton alloc] init];
-        self.questionFlowerBt.backgroundColor = [UIColor orangeColor];
+        self.questionFlowerBt.backgroundColor = [UIColor clearColor];
         [self.questionFlowerBt addTarget:self action:@selector(flowerBtClicked) forControlEvents:UIControlEventTouchUpInside];
         [self.backgroundView addSubview:self.questionFlowerBt];
-        self.backgroundColor = [UIColor redColor];
+        self.backgroundColor = [UIColor clearColor];
     }
     return self;
 }

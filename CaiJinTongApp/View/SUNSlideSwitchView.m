@@ -177,7 +177,7 @@ static const NSUInteger kTagOfRightSideButton = 999;
     _shadowImageView = [[UIImageView alloc] init];
     [_shadowImageView setImage:_shadowImage];
     [_topScrollView addSubview:_shadowImageView];
-    
+
     //顶部tabbar的总长度
     CGFloat topScrollViewContentWidth = kWidthOfButtonMargin;
     //每个tab偏移量
@@ -195,10 +195,9 @@ static const NSUInteger kTagOfRightSideButton = 999;
                                     textSize.width, kHeightOfTopScrollView)];
         //计算下一个tab的x偏移量
         xOffset += textSize.width + kWidthOfButtonMargin;
-        
         [button setTag:i+100];
         if (i == 0) {
-            _shadowImageView.frame = CGRectMake(100, 0, textSize.width, _shadowImage.size.height);
+            _shadowImageView.frame = CGRectMake(100, 38, textSize.width, _shadowImage.size.height);
             button.selected = YES;
         }
         [button setTitle:vc.title forState:UIControlStateNormal];
@@ -245,7 +244,7 @@ static const NSUInteger kTagOfRightSideButton = 999;
         
         [UIView animateWithDuration:0.25 animations:^{
             
-            [_shadowImageView setFrame:CGRectMake(sender.frame.origin.x, 0, sender.frame.size.width, _shadowImage.size.height)];
+            [_shadowImageView setFrame:CGRectMake(sender.frame.origin.x, 38, sender.frame.size.width, _shadowImage.size.height)];
             
         } completion:^(BOOL finished) {
             if (finished) {

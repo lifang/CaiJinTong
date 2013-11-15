@@ -29,6 +29,7 @@
 -(id)initWithReuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithReuseIdentifier:reuseIdentifier];
     if (self) {
+        self.backgroundView = [UIView new];
         self.lessonTextLabel = [[UILabel alloc] init];
         self.lessonTextLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
         self.lessonTextLabel.textAlignment = NSTextAlignmentLeft;
@@ -38,12 +39,15 @@
         self.lessonDetailLabel.textAlignment = NSTextAlignmentRight;
         [self addSubview:self.lessonDetailLabel];
         
-        self.lessonTextLabel.backgroundColor = [UIColor redColor];
-        self.lessonDetailLabel.backgroundColor = [UIColor greenColor];
+        self.lessonTextLabel.backgroundColor = [UIColor clearColor];
+        self.lessonDetailLabel.backgroundColor = [UIColor clearColor];
+        
+        self.lessonTextLabel.textColor = [UIColor whiteColor];
+        self.lessonDetailLabel.textColor = [UIColor whiteColor];
         
         self.flagImageView = [[UIImageView alloc] init];
         
-        self.flagImageView.backgroundColor = [UIColor purpleColor];
+        self.flagImageView.backgroundColor = [UIColor clearColor];
         [self addSubview:self.flagImageView];
         
         self.coverBt = [[UIButton alloc] init];
@@ -59,7 +63,7 @@
 //    [super layoutSubviews];
     self.lessonTextLabel.frame = (CGRect){25,0,CGRectGetWidth(self.frame)-65,CGRectGetHeight(self.frame)};
     self.lessonDetailLabel.frame = (CGRect){CGRectGetMaxX(self.lessonTextLabel.frame),0,CGRectGetWidth(self.frame)-CGRectGetMaxX(self.lessonTextLabel.frame),CGRectGetHeight(self.frame)};
-    self.flagImageView.frame = (CGRect){5,CGRectGetHeight(self.frame)/2- 10,20,20};
+    self.flagImageView.frame = (CGRect){5,CGRectGetHeight(self.frame)/2- 5,10,10};
     self.coverBt.frame = self.bounds;
 }
 -(void)cellSelected{
@@ -78,18 +82,11 @@
 */
 -(void)setIsSelected:(BOOL)isSelected{
     _isSelected = isSelected;
-    if ([self.lessonTextLabel.text isEqualToString:@"本地下载"]) {
-        if (isSelected) {
-            self.flagImageView.image = Image(@"foregroundStar.png");;
-        }else{
-            self.flagImageView.image = Image(@"backgroundStar.png");;
-        }
-    }else {
-        if (isSelected) {
-            self.flagImageView.image = [UIImage imageNamed:@"jiantou_down.png"];
-        }else{
-            self.flagImageView.image = [UIImage imageNamed:@"jiantou_up.png"];
-        }
+    self.flagImageView.backgroundColor = [UIColor clearColor];
+    if (isSelected) {
+        self.flagImageView.image = [UIImage imageNamed:@"course-courses_06_right.png"];
+    }else{
+        self.flagImageView.image = [UIImage imageNamed:@"course-courses_06.png"];
     }
 }
 @end

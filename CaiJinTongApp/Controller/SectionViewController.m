@@ -29,6 +29,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.drnavigationBar.titleLabel.text = @"课程名称";
+    [self.drnavigationBar.navigationRightItem setTitle:@"关闭" forState:UIControlStateNormal];
+    self.drnavigationBar.navigationRightItem.titleLabel.textColor = [UIColor darkGrayColor];
     //打分之后提交
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(refeshScore:)
@@ -72,7 +75,7 @@
         [self.view addSubview:self.sectionView];
         //显示分数
         CustomLabel *scoreLabel = [[CustomLabel alloc]initWithFrame:CGRectMake(480, 64, 60, 60)];
-        scoreLabel.backgroundColor = [UIColor colorWithRed:0.10f green:0.84f blue:0.99f alpha:1.0f];
+        scoreLabel.backgroundColor = [UIColor colorWithRed:12.0/255.0 green:58.0/255.0 blue:94.0/255.0 alpha:1.0f];
         scoreLabel.text = self.section.sectionScore;
         scoreLabel.layer.cornerRadius = 7;
         [scoreLabel setColor:[UIColor whiteColor] fromIndex:0 length:scoreLabel.text.length];
@@ -168,11 +171,12 @@
         //播放按钮
         DLog(@"labtop = %f",labelTop);
         UIButton *palyButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        palyButton.frame = CGRectMake(450, labelTop-20, 100, 50);
+        palyButton.frame = CGRectMake(400, labelTop-20, 150, 50);
         [palyButton setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
-        [palyButton setBackgroundColor:[UIColor redColor]];
-		[palyButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        [palyButton setBackgroundColor:[UIColor clearColor]];
+		[palyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [palyButton addTarget:self action:@selector(playVideo:) forControlEvents:UIControlEventTouchUpInside];
+        [palyButton setBackgroundImage:[UIImage imageNamed:@"btn0.png"] forState:UIControlStateNormal];
         self.playBtn = palyButton;
         [self.view addSubview:self.playBtn];
         palyButton = nil;
@@ -205,10 +209,12 @@
  
 }
 -(void)displayView {
+    self.slideSwitchView.backgroundColor = [UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:232.0/255.0 alpha:1.0];
     //3个选项卡
     self.slideSwitchView.tabItemNormalColor = [SUNSlideSwitchView colorFromHexRGB:@"868686"];
-    self.slideSwitchView.tabItemSelectedColor = [SUNSlideSwitchView colorFromHexRGB:@"bb0b15"];
-    self.slideSwitchView.shadowImage = [[UIImage imageNamed:@"red_line_and_shadow.png"]
+//    self.slideSwitchView.tabItemSelectedColor = [SUNSlideSwitchView colorFromHexRGB:@"bb0b15"];
+    self.slideSwitchView.tabItemSelectedColor = [UIColor darkGrayColor];
+    self.slideSwitchView.shadowImage = [[UIImage imageNamed:@"play-courselist_0df3.png"]
                                         stretchableImageWithLeftCapWidth:59.0f topCapHeight:0.0f];
     
     UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];

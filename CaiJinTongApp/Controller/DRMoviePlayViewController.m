@@ -79,8 +79,10 @@
     self.isPlaying = !self.isPlaying;
     if (self.isPlaying) {
         [self.moviePlayer play];
+        [self.playBt setBackgroundImage:[UIImage imageNamed:@"play_play.png"] forState:UIControlStateNormal];
     }else{
         [self.moviePlayer pause];
+        [self.playBt setBackgroundImage:[UIImage imageNamed:@"play_paused.png"] forState:UIControlStateNormal];
     }
 }
 

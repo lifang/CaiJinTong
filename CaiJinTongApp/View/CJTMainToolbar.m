@@ -8,7 +8,7 @@
 
 #import "CJTMainToolbar.h"
 
-#define LABEL_X 63
+#define LABEL_X 53
 #define BUTTON_X 8.0f
 #define BUTTON_Y 8.0f
 #define BUTTON_SPACE 8.0f
@@ -33,6 +33,7 @@
         titleLab.text = @"筛选:";
         titleLab.font = [UIFont systemFontOfSize:20];
         titleLab.textColor = [UIColor grayColor];
+        titleLab.backgroundColor = [UIColor clearColor];
         [self addSubview:titleLab];
         
         leftButtonX = LABEL_X+LABEL_WIDTH+BUTTON_SPACE;

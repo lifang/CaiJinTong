@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface DRNavigationBar : UIView
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic)  IBOutlet  UIButton *button;
+@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
+@property (strong, nonatomic)  IBOutlet  UIButton *navigationRightItem;
 @end

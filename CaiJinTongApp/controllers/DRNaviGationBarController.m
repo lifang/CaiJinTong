@@ -25,8 +25,11 @@
 
 - (void)viewDidLoad
 {
+    [self.view addSubview:self.drnavigationBar];
      [self.view bringSubviewToFront:self.drnavigationBar];
     [super viewDidLoad];
+	// Do any additional setup after loading the view.
+    [self.drnavigationBar.navigationRightItem addTarget:self action:@selector(drnavigationBarRightItemClicked:) forControlEvents:UIControlEventTouchUpInside];
     
 	self.drnavigationBar.titleLabel.text = @"dsfasfg";
 //    self.drnavigationBar.button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -50,12 +53,12 @@
 }
 
 -(DRNavigationBar *)drnavigationBar{
-    UIViewController *cotr = [self.story instantiateViewControllerWithIdentifier:@"DRNaviBar"];
-    DRNavigationBar *bar = (DRNavigationBar*)[cotr view];
-    bar.frame = CGRectMake(0,0,768,44);
-    [self.view addSubview:bar];
-    [bar.button addTarget:self action:@selector(drnavigationBarRightItemClicked:) forControlEvents:UIControlEventTouchUpInside];
-    return bar;
+    if (!_drnavigationBar) {
+        _drnavigationBar = [[DRNavigationBar alloc] initWithFrame:CGRectMake(0,0,768,44)];
+        [self.view addSubview:_drnavigationBar];
+        
+    }
+    return _drnavigationBar;
 }
 #pragma --
 @end

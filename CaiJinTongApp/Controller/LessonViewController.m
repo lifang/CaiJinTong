@@ -53,6 +53,21 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     [super viewDidLoad];
     [self.tableView registerClass:[LessonListHeaderView class] forHeaderFooterViewReuseIdentifier:LESSON_HEADER_IDENTIFIER];
     self.listType = LESSON_LIST;
+    [self initTestData];
+    [Utility setBackgroungWithView:self.LogoImageView.superview andImage6:@"login_bg" andImage7:@"login_bg_7"];
+    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.separatorStyle = NO;
+    self.searchBarView.backgroundColor = [UIColor clearColor];
+    self.searchText.backgroundColor = [UIColor clearColor];
+    NSMutableAttributedString *placeholder = [[NSMutableAttributedString alloc] initWithString:@"搜索课程"];
+    [placeholder addAttribute:NSForegroundColorAttributeName value:[UIColor grayColor] range:NSMakeRange(0, placeholder.length)];
+    self.searchText.attributedPlaceholder = placeholder;
+    
+//    self.searchBarView.tintColor = [UIColor clearColor];
+//    self.searchBarView.backgroundImage = [UIImage new];
+//    self.searchBarView.translucent = YES;
+//    self.searchBarView.tintColor = [UIColor redColor];
+//    self.searchBarView.backgroundImage = [UIImage imageNamed:@"1.png"];
 //    [self initTestData];
     [self getLessonInfo];
 }
@@ -289,6 +304,9 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         chapterModel *chapter = (chapterModel *)[lesson.chapterList objectAtIndex:indexPath.row];
         cell.textLabel.font = [UIFont systemFontOfSize:16];
         cell.textLabel.text = chapter.chapterName;
+        cell.textLabel.textColor = [UIColor whiteColor];
+        cell.detailTextLabel.textColor = [UIColor whiteColor];
+        cell.backgroundColor = [UIColor clearColor];
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",chapter.chapterImg]];
         [cell.imageView setImageWithURL:url placeholderImage:Image(@"defualt.jpg")];
         return cell;
@@ -298,7 +316,9 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         
         ChapterQuestionModel*chapter = (ChapterQuestionModel *)[question.chapterQuestionList objectAtIndex:indexPath.row];
         cell.textLabel.text = chapter.chapterQuestionName;
-        
+        cell.textLabel.textColor = [UIColor whiteColor];
+        cell.detailTextLabel.textColor = [UIColor whiteColor];
+        cell.backgroundColor = [UIColor clearColor];
         return cell;
     }
 
@@ -394,6 +414,8 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     }
     _listType = listType;
 }
+#pragma mark --
+
 #pragma mark -- ChapterInfoInterfaceDelegate
 -(void)getChapterInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{

@@ -28,6 +28,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.tableViewList.separatorStyle = NO;
 }
 - (void)viewDidCurrentView
 {
@@ -63,6 +64,8 @@
     cell.titleLab.text = self.title;
     cell.contentLab.text = note.noteText;
     cell.timeLab.text = note.noteTime;
+    cell.contentLab.layer.borderWidth = 2.0;
+    cell.contentLab.layer.borderColor = [[UIColor colorWithRed:244.0/255.0 green:243.0/255.0 blue:244.0/255.0 alpha:1.0] CGColor];
     return cell;
 }
 @end

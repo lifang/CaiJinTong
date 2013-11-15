@@ -38,6 +38,7 @@
     if (self.delegate && [self.delegate respondsToSelector:@selector(questionAndAnswerCell:isHiddleQuestionView:atIndexPath:)]) {
         [self.delegate questionAndAnswerCell:self isHiddleQuestionView:self.questionBackgroundView.isHidden atIndexPath:self.path];
     }
+    self.answerTextField.backgroundColor = [UIColor colorWithRed:242.0/255.0 green:242.0/255.0 blue:242.0/255.0 alpha:1.0];
 }
 
 - (IBAction)questionOKBtClicked:(id)sender {
@@ -75,6 +76,16 @@
     [self.acceptAnswerBt setUserInteractionEnabled:!answer.IsAnswerAccept];
     [self.acceptAnswerBt setTitleColor:answer.IsAnswerAccept?[UIColor lightGrayColor]:[UIColor blueColor] forState:UIControlStateNormal];
     [self setNeedsLayout];
+    
+    self.qTitleNameLabel.backgroundColor = [UIColor clearColor];
+    self.qDateLabel.backgroundColor = [UIColor clearColor];
+    self.qflowerImageView.image = [UIImage imageNamed:@"Q&A-myq_19.png"];
+    self.qflowerLabel.backgroundColor = [UIColor clearColor];
+    self.answerTextField.backgroundColor = [UIColor whiteColor];
+    self.acceptAnswerBt.backgroundColor = [UIColor clearColor];
+    [self.qflowerBt setTitle:@"" forState:UIControlStateNormal];
+    self.questionTextField.backgroundColor = [UIColor colorWithRed:238.0/255.0 green:238.0/255.0 blue:238.0/255.0 alpha:1.0];
+    self.questionBackgroundView.backgroundColor = [UIColor clearColor];
 }
 
 -(void)layoutSubviews{
