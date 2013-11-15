@@ -10,7 +10,7 @@
 
 #import "DRNavigationBar.h"
 @interface DRNaviGationBarController : UIViewController
-@property (weak, nonatomic)   DRNavigationBar *drnavigationBar;
+@property (strong, nonatomic)   DRNavigationBar *drnavigationBar;
 @property (nonatomic,strong,readonly) UIStoryboard *story;
  - (void)drnavigationBarRightItemClicked:(id)sender;
 

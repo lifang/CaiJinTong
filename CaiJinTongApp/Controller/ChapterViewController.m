@@ -16,8 +16,8 @@
 
 #define ItemWidth 250
 #define ItemWidthSpace 23
-#define ItemHeight 280
-#define ItemHeightSpace 19
+#define ItemHeight 215
+#define ItemHeightSpace 4
 #define ItemLabel 30
 @interface ChapterViewController () 
 @end
@@ -36,11 +36,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    CJTMainToolbar *mainBar = [[CJTMainToolbar alloc]initWithFrame:CGRectMake (0, 44, self.view.frame.size.width, 44)];
+    NSLog(@"--%f--",self.view.frame.size.width);
+    CJTMainToolbar *mainBar = [[CJTMainToolbar alloc]initWithFrame:CGRectMake (50, 64, (self.view.frame.size.width - 200 - 100), 44)];
 	self.mainToolBar = mainBar;
     self.mainToolBar.delegate = self;
     [self.view addSubview:self.mainToolBar];
     mainBar = nil;
+    
+    self.drnavigationBar.titleLabel.text = @"我的课程";
+    [self.drnavigationBar.navigationRightItem setTitle:@"返回" forState:UIControlStateNormal];
+    self.drnavigationBar.navigationRightItem.titleLabel.textColor = [UIColor darkGrayColor];
+    
+    self.mainToolBar.backgroundColor = [UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:232.0/255.0 alpha:1.0];
+    
 }
 -(void)drnavigationBarRightItemClicked:(id)sender{
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
@@ -60,7 +68,7 @@
     [self.myScrollView removeFromSuperview];
     if (self.dataArray.count>0) {
         NSInteger count = ([self.dataArray count]-1)/6+1;
-        self.myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 88, self.view.frame.size.width, self.view.frame.size.height-20)];
+        self.myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 118, self.view.frame.size.width, self.view.frame.size.height-20)];
         
         self.myScrollView.delegate = self;
         self.myScrollView.contentSize = CGSizeMake(self.myScrollView.frame.size.width, self.myScrollView.frame.size.height*count);

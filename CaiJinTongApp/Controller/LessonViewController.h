@@ -9,13 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "LessonListHeaderView.h"
 @interface LessonViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,LessonListHeaderViewDelegate>
+@property (weak, nonatomic) IBOutlet UITextField *searchText;
+@property (weak, nonatomic) IBOutlet UIImageView *searchBarView;
+@property (weak, nonatomic) IBOutlet UIButton *searchBtn;
 @property (weak, nonatomic) IBOutlet UIView *lessonListBackgroundView;
 
 @property (weak, nonatomic) IBOutlet UIView *leftBackGroundview;
 @property (weak, nonatomic) IBOutlet UIButton *lessonListBt;
 @property (weak, nonatomic) IBOutlet UIButton *questionListBt;
 @property (weak, nonatomic) IBOutlet UILabel *lessonListTitleLabel;
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBarView;
+//@property (weak, nonatomic) IBOutlet UISearchBar *searchBarView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 - (IBAction)lessonListBtClicked:(id)sender;
 - (IBAction)questionListBtClicked:(id)sender;

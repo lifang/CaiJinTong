@@ -27,8 +27,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         _numberOfStar = number;
-        self.starBackgroundView = [self buidlStarViewWithImageName:@"backgroundStar"];
-        self.starForegroundView = [self buidlStarViewWithImageName:@"foregroundStar"];
+        self.starBackgroundView = [self buidlStarViewWithImageName:@"course-onecourse_03.png"];
+        self.starForegroundView = [self buidlStarViewWithImageName:@"x.png"];
         [self addSubview:self.starBackgroundView];
         [self addSubview:self.starForegroundView];
     }
@@ -73,7 +73,7 @@
     for (int i = 0; i < self.numberOfStar; i ++)
     {
         UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
-        imageView.frame = CGRectMake(i * frame.size.width / self.numberOfStar, 0, frame.size.width / self.numberOfStar, frame.size.height);
+        imageView.frame = CGRectMake(i * frame.size.width / self.numberOfStar, 0, frame.size.height, frame.size.height);
         [view addSubview:imageView];
     }
     return view;
