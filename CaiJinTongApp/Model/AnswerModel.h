@@ -19,7 +19,9 @@
 @property (nonatomic, strong) NSString *answerContent;//回答内容
 @property (nonatomic, strong) NSString *resultId;//答案id
 
+@property (assign,nonatomic) BOOL isPraised;//是否已经点赞
 @property (nonatomic, assign) int pageIndex;//
 @property (nonatomic, assign) int pageCount;//
 
+@property (assign,nonatomic) BOOL isEditing;//是否可编辑
 @end

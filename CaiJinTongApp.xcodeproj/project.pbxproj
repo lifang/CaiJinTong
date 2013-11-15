@@ -1278,7 +1278,6 @@
 				0EAFA0EE1822167800D01D3E /* chapterQuestion.json in Resources */,
 				0EAFA0FB1822167800D01D3E /* sectionInfo.json in Resources */,
 				0EA7176F1829E2D800560885 /* foregroundStar@2x.png in Resources */,
-				0EAFA108182223BD00D01D3E /* loginBgImage_v@2x.png in Resources */,
 				0EA7EF0C18233B0000C47F69 /* jiantou_up.png in Resources */,
 				0EAFA0F71822167800D01D3E /* questionInfo.json in Resources */,
 				0EAFA107182223BD00D01D3E /* loginBgImage_v.png in Resources */,

@@ -17,5 +17,6 @@
 + (NSString *)getNowDateFromatAnDate;
 + (void)errorAlert:(NSString *)message;
 
++(CGSize)getTextSizeWithString:(NSString*)text withFont:(UIFont*)font withWidth:(float)width;
 +(CGSize)getTextSizeWithString:(NSString*)text withFont:(UIFont*)font;
 @end
