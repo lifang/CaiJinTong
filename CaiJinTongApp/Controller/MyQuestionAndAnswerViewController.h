@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "QuestionAndAnswerCell.h"
-@interface MyQuestionAndAnswerViewController : DRNaviGationBarController<UITableViewDataSource,UITableViewDelegate,QuestionAndAnswerCellDelegate>
+#import "QuestionAndAnswerCellHeaderView.h"
+@interface MyQuestionAndAnswerViewController : DRNaviGationBarController<UITableViewDataSource,UITableViewDelegate,QuestionAndAnswerCellDelegate,QuestionAndAnswerCellHeaderViewDelegate>
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end

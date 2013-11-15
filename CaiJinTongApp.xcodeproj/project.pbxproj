@@ -162,6 +162,9 @@
 		1815324B1835F0810078A410 /* play-courselist_0df3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1815324A1835F0810078A410 /* play-courselist_0df3@2x.png */; };
 		1815324D1835FE9A0078A410 /* course-onecourse_03@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1815324C1835FE9A0078A410 /* course-onecourse_03@2x.png */; };
 		1815324F1835FEA10078A410 /* x@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1815324E1835FEA10078A410 /* x@2x.png */; };
+		18153251183608330078A410 /* Q&A-myq_11@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18153250183608330078A410 /* Q&A-myq_11@2x.png */; };
+		1815325418360DE60078A410 /* Q&A-myq_19@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1815325318360DE60078A410 /* Q&A-myq_19@2x.png */; };
+		1815325618360DF40078A410 /* Q&A-myq_15@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1815325518360DF40078A410 /* Q&A-myq_15@2x.png */; };
 		18491C3F18345E11003C82E4 /* play_0h5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18491C3E18345E11003C82E4 /* play_0h5@2x.png */; };
 		18491C4118345FF8003C82E4 /* play_05@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18491C4018345FF8003C82E4 /* play_05@2x.png */; };
 		18491C4518347A13003C82E4 /* course-courses_06_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18491C4418347A13003C82E4 /* course-courses_06_right@2x.png */; };
@@ -494,6 +497,9 @@
 		1815324A1835F0810078A410 /* play-courselist_0df3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play-courselist_0df3@2x.png"; sourceTree = "<group>"; };
 		1815324C1835FE9A0078A410 /* course-onecourse_03@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "course-onecourse_03@2x.png"; sourceTree = "<group>"; };
 		1815324E1835FEA10078A410 /* x@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "x@2x.png"; sourceTree = "<group>"; };
+		18153250183608330078A410 /* Q&A-myq_11@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Q&A-myq_11@2x.png"; sourceTree = "<group>"; };
+		1815325318360DE60078A410 /* Q&A-myq_19@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Q&A-myq_19@2x.png"; sourceTree = "<group>"; };
+		1815325518360DF40078A410 /* Q&A-myq_15@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Q&A-myq_15@2x.png"; sourceTree = "<group>"; };
 		18491C3E18345E11003C82E4 /* play_0h5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play_0h5@2x.png"; sourceTree = "<group>"; };
 		18491C4018345FF8003C82E4 /* play_05@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play_05@2x.png"; sourceTree = "<group>"; };
 		18491C4418347A13003C82E4 /* course-courses_06_right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "course-courses_06_right@2x.png"; sourceTree = "<group>"; };
@@ -1065,6 +1071,16 @@
 			name = Utility;
 			sourceTree = "<group>";
 		};
+		18153252183608C30078A410 /* Q&A */ = {
+			isa = PBXGroup;
+			children = (
+				1815325518360DF40078A410 /* Q&A-myq_15@2x.png */,
+				1815325318360DE60078A410 /* Q&A-myq_19@2x.png */,
+				18153250183608330078A410 /* Q&A-myq_11@2x.png */,
+			);
+			name = "Q&A";
+			sourceTree = "<group>";
+		};
 		18491C3D18345DF3003C82E4 /* course-welcome */ = {
 			isa = PBXGroup;
 			children = (
@@ -1091,6 +1107,7 @@
 		18E32DFF1831FD9F00041B8A /* images */ = {
 			isa = PBXGroup;
 			children = (
+				18153252183608C30078A410 /* Q&A */,
 				18491C3D18345DF3003C82E4 /* course-welcome */,
 				18E32E001831FDB700041B8A /* login */,
 			);
@@ -1360,6 +1377,7 @@
 				630B9602182A5A94000ED31E /* loginBgImage_v@2x.png in Resources */,
 				18E32E0B1831FDF900041B8A /* login_10@2x.png in Resources */,
 				630B03C11820F5BB00F72C4C /* Main_iPad.storyboard in Resources */,
+				1815325418360DE60078A410 /* Q&A-myq_19@2x.png in Resources */,
 				18E32E0C1831FDF900041B8A /* login_bg@2x.png in Resources */,
 				0EAFA0F41822167800D01D3E /* logIn.json in Resources */,
 				0EAFA0F21822167800D01D3E /* grade.json in Resources */,
@@ -1395,6 +1413,7 @@
 				0EAFA0EE1822167800D01D3E /* chapterQuestion.json in Resources */,
 				0EAFA0FB1822167800D01D3E /* sectionInfo.json in Resources */,
 				0EA7176F1829E2D800560885 /* foregroundStar@2x.png in Resources */,
+				1815325618360DF40078A410 /* Q&A-myq_15@2x.png in Resources */,
 				181532451835CD3D0078A410 /* btn0@2x.png in Resources */,
 				0EA7EF0C18233B0000C47F69 /* jiantou_up.png in Resources */,
 				0EAFA0F71822167800D01D3E /* questionInfo.json in Resources */,
@@ -1410,6 +1429,7 @@
 				0EAFA0EB1822167800D01D3E /* answerPraise.json in Resources */,
 				181532491835EA400078A410 /* pdlay-courselistd_07@2x.png in Resources */,
 				18E32E091831FDF900041B8A /* login_03@2x.png in Resources */,
+				18153251183608330078A410 /* Q&A-myq_11@2x.png in Resources */,
 				0EAFA0F91822167800D01D3E /* searchLesson.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

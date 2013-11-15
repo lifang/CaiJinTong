@@ -195,7 +195,6 @@ static const NSUInteger kTagOfRightSideButton = 999;
                                     textSize.width, kHeightOfTopScrollView)];
         //计算下一个tab的x偏移量
         xOffset += textSize.width + kWidthOfButtonMargin;
-        NSLog(@"=-=-=-=-=%f=-=-=-=-=",self.topScrollView.frame.size.height);
         [button setTag:i+100];
         if (i == 0) {
             _shadowImageView.frame = CGRectMake(100, 38, textSize.width, _shadowImage.size.height);

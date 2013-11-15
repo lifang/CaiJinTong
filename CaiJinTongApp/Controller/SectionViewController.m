@@ -30,7 +30,6 @@
     self.drnavigationBar.titleLabel.text = @"课程名称";
     [self.drnavigationBar.navigationRightItem setTitle:@"关闭" forState:UIControlStateNormal];
     self.drnavigationBar.navigationRightItem.titleLabel.textColor = [UIColor darkGrayColor];
-	
 }
 -(void)drnavigationBarRightItemClicked:(id)sender{
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
