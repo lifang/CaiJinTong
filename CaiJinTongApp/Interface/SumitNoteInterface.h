@@ -11,7 +11,7 @@
 @interface SumitNoteInterface : BaseInterface<BaseInterfaceDelegate>
 
 @property (nonatomic, assign) id<SumitNoteInterfaceDelegate>delegate;
--(void)getSumitNoteInterfaceDelegateWithUserId:(NSString *)userId andSectionId:(NSString *)sectionId andNoteTime:(NSString *)noteTime andNoteText:(NSString *)noteText;
+-(void)getSumitNoteInterfaceDelegateWithUserId:(NSString *)userId andSectionId:(NSString *)sectionId andNoteTime:(NSString *)noteTime andNoteText:(NSString *)noteText andNoteTitle:(NSString *)noteTitle;
 
 @end
 

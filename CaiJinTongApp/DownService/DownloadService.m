@@ -83,7 +83,6 @@
             
             ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:urlString]];
             request.delegate = self;
-//            sectionSave.downloadState = 0;
             NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:sectionSave , @"SectionSaveModel", nil];
             request.userInfo = userInfo;
             

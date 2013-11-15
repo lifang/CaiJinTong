@@ -11,6 +11,7 @@
 #import "DownloadService.h"
 #import "DownLoadInformView.h"
 #import "Section.h"
+#import "LessonViewController.h"
 
 @implementation CustomButton
 
@@ -40,8 +41,8 @@
         {//播放按钮
             [self setTitle:NSLocalizedString(@"播放", @"button") forState:UIControlStateNormal];
             [self removeTarget:self action:NULL forControlEvents:UIControlEventTouchUpInside];
-//            [self addTarget:self action:@selector(playVideo)
-//           forControlEvents:UIControlEventTouchUpInside];
+            [self addTarget:self action:@selector(playVideo)
+           forControlEvents:UIControlEventTouchUpInside];
             
         }
             break;
@@ -74,7 +75,10 @@
             break;
     }
 }
-
+//播放
+-(void)playVideo {
+    
+}
 //下载中
 -(void)downloadShowView
 {

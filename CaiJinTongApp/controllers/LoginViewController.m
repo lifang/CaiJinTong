@@ -33,7 +33,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [Utility setBackgroungWithView:self.view andImage6:@"login_bg.png" andImage7:@"login_bg_7.png"];
+    [Utility setBackgroungWithView:self.inputView andImage6:@"login_07" andImage7:@"login_07"];
+    
 }
+
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -74,7 +79,10 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
             LessonViewController *lessonView = [story instantiateViewControllerWithIdentifier:@"LessonViewController"];
-            [self presentViewController:lessonView animated:YES completion:nil];
+            AppDelegate* appDelegate = [AppDelegate sharedInstance];
+            appDelegate.window.rootViewController = lessonView;
+            
+//            [self presentViewController:lessonView animated:YES completion:nil];
         });
     });
 }

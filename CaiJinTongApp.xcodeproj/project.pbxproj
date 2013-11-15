@@ -26,6 +26,8 @@
 		0EA2A92E1828D77D003D152E /* Section_GradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2A92D1828D77D003D152E /* Section_GradeViewController.m */; };
 		0EA2A9311828D78F003D152E /* Section_NoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2A9301828D78F003D152E /* Section_NoteViewController.m */; };
 		0EA2A9341828E180003D152E /* Section_ChapterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2A9331828E180003D152E /* Section_ChapterCell.m */; };
+		0EA36ED2182C8E4F0074D67B /* CustomLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA36ED1182C8E4F0074D67B /* CustomLabel.m */; };
+		0EA36ED4182C8E930074D67B /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EA36ED3182C8E930074D67B /* CoreText.framework */; };
 		0EA717621829D02000560885 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA717601829D02000560885 /* SVProgressHUD.m */; };
 		0EA717631829D02000560885 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0EA717611829D02000560885 /* SVProgressHUD.bundle */; };
 		0EA717671829E2D100560885 /* TQStarRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA717661829E2D100560885 /* TQStarRatingView.m */; };
@@ -153,6 +155,12 @@
 		0EDF4E0D182102D7007161E0 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EDF4E0C182102D7007161E0 /* libxml2.dylib */; };
 		0EDF4E0F182102DD007161E0 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EDF4E0E182102DD007161E0 /* libsqlite3.0.dylib */; };
 		0EDF4E11182102E7007161E0 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EDF4E10182102E7007161E0 /* libz.dylib */; };
+		18E32DFE1831FD7F00041B8A /* login_bg_7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E32DFD1831FD7F00041B8A /* login_bg_7@2x.png */; };
+		18E32E081831FDF900041B8A /* btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E32E021831FDF900041B8A /* btn@2x.png */; };
+		18E32E091831FDF900041B8A /* login_03@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E32E031831FDF900041B8A /* login_03@2x.png */; };
+		18E32E0A1831FDF900041B8A /* login_07@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E32E041831FDF900041B8A /* login_07@2x.png */; };
+		18E32E0B1831FDF900041B8A /* login_10@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E32E051831FDF900041B8A /* login_10@2x.png */; };
+		18E32E0C1831FDF900041B8A /* login_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E32E061831FDF900041B8A /* login_bg@2x.png */; };
 		63091FFA1827435400C1AF07 /* LessonListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63091FF91827435400C1AF07 /* LessonListCell.m */; };
 		63091FFD1827473400C1AF07 /* LessonListHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63091FFC1827473300C1AF07 /* LessonListHeaderView.m */; };
 		630B03AB1820F5BB00F72C4C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630B03AA1820F5BB00F72C4C /* Foundation.framework */; };
@@ -238,6 +246,9 @@
 		0EA2A9301828D78F003D152E /* Section_NoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section_NoteViewController.m; sourceTree = "<group>"; };
 		0EA2A9321828E180003D152E /* Section_ChapterCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Section_ChapterCell.h; sourceTree = "<group>"; };
 		0EA2A9331828E180003D152E /* Section_ChapterCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section_ChapterCell.m; sourceTree = "<group>"; };
+		0EA36ED0182C8E4F0074D67B /* CustomLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomLabel.h; sourceTree = "<group>"; };
+		0EA36ED1182C8E4F0074D67B /* CustomLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomLabel.m; sourceTree = "<group>"; };
+		0EA36ED3182C8E930074D67B /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		0EA7175F1829D02000560885 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
 		0EA717601829D02000560885 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 		0EA717611829D02000560885 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
@@ -460,6 +471,12 @@
 		0EDF4E0C182102D7007161E0 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		0EDF4E0E182102DD007161E0 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		0EDF4E10182102E7007161E0 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		18E32DFD1831FD7F00041B8A /* login_bg_7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "login_bg_7@2x.png"; path = "Interface/login_bg_7@2x.png"; sourceTree = "<group>"; };
+		18E32E021831FDF900041B8A /* btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "btn@2x.png"; path = "login-images/btn@2x.png"; sourceTree = "<group>"; };
+		18E32E031831FDF900041B8A /* login_03@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "login_03@2x.png"; path = "login-images/login_03@2x.png"; sourceTree = "<group>"; };
+		18E32E041831FDF900041B8A /* login_07@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "login_07@2x.png"; path = "login-images/login_07@2x.png"; sourceTree = "<group>"; };
+		18E32E051831FDF900041B8A /* login_10@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "login_10@2x.png"; path = "login-images/login_10@2x.png"; sourceTree = "<group>"; };
+		18E32E061831FDF900041B8A /* login_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "login_bg@2x.png"; path = "login-images/login_bg@2x.png"; sourceTree = "<group>"; };
 		63091FF81827435400C1AF07 /* LessonListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LessonListCell.h; path = lessonList/LessonListCell.h; sourceTree = "<group>"; };
 		63091FF91827435400C1AF07 /* LessonListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LessonListCell.m; path = lessonList/LessonListCell.m; sourceTree = "<group>"; };
 		63091FFB1827473300C1AF07 /* LessonListHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LessonListHeaderView.h; path = lessonList/LessonListHeaderView.h; sourceTree = "<group>"; };
@@ -525,6 +542,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0EA36ED4182C8E930074D67B /* CoreText.framework in Frameworks */,
 				630B95F61829F72B000ED31E /* MediaPlayer.framework in Frameworks */,
 				630CB0811828BD19002FD462 /* AVFoundation.framework in Frameworks */,
 				0EA2A91A18288275003D152E /* libc++.dylib in Frameworks */,
@@ -986,6 +1004,8 @@
 				0EAD1F82182B7D8C00204FC3 /* Section_GradeCell.m */,
 				0EAD1F8A182B872000204FC3 /* Section_NoteCell.h */,
 				0EAD1F8B182B872000204FC3 /* Section_NoteCell.m */,
+				0EA36ED0182C8E4F0074D67B /* CustomLabel.h */,
+				0EA36ED1182C8E4F0074D67B /* CustomLabel.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1011,6 +1031,27 @@
 				0EDF4D9218210241007161E0 /* ASIHttp */,
 			);
 			name = Utility;
+			sourceTree = "<group>";
+		};
+		18E32DFF1831FD9F00041B8A /* images */ = {
+			isa = PBXGroup;
+			children = (
+				18E32E001831FDB700041B8A /* login */,
+			);
+			name = images;
+			sourceTree = "<group>";
+		};
+		18E32E001831FDB700041B8A /* login */ = {
+			isa = PBXGroup;
+			children = (
+				18E32E021831FDF900041B8A /* btn@2x.png */,
+				18E32E031831FDF900041B8A /* login_03@2x.png */,
+				18E32E041831FDF900041B8A /* login_07@2x.png */,
+				18E32E051831FDF900041B8A /* login_10@2x.png */,
+				18E32E061831FDF900041B8A /* login_bg@2x.png */,
+				18E32DFD1831FD7F00041B8A /* login_bg_7@2x.png */,
+			);
+			name = login;
 			sourceTree = "<group>";
 		};
 		63091FF71827431A00C1AF07 /* lessonList */ = {
@@ -1046,6 +1087,7 @@
 		630B03A91820F5BB00F72C4C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0EA36ED3182C8E930074D67B /* CoreText.framework */,
 				630B95F51829F72B000ED31E /* MediaPlayer.framework */,
 				0EA2A91918288275003D152E /* libc++.dylib */,
 				630CB0801828BD19002FD462 /* AVFoundation.framework */,
@@ -1094,6 +1136,7 @@
 		630B03B11820F5BB00F72C4C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				18E32DFF1831FD9F00041B8A /* images */,
 				630B03B21820F5BB00F72C4C /* CaiJinTongApp-Info.plist */,
 				630B03B31820F5BB00F72C4C /* InfoPlist.strings */,
 				630B03B61820F5BB00F72C4C /* main.m */,
@@ -1249,12 +1292,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18E32E081831FDF900041B8A /* btn@2x.png in Resources */,
 				0EAFA0EC1822167800D01D3E /* askQuestion.json in Resources */,
 				0EA7176E1829E2D800560885 /* foregroundStar.png in Resources */,
 				0EA7EF631823B1FC00C47F69 /* answerList.json in Resources */,
 				0EA2A9281828D681003D152E /* red_line_and_shadow@2x.png in Resources */,
 				630B9602182A5A94000ED31E /* loginBgImage_v@2x.png in Resources */,
+				18E32E0B1831FDF900041B8A /* login_10@2x.png in Resources */,
 				630B03C11820F5BB00F72C4C /* Main_iPad.storyboard in Resources */,
+				18E32E0C1831FDF900041B8A /* login_bg@2x.png in Resources */,
 				0EAFA0F41822167800D01D3E /* logIn.json in Resources */,
 				0EAFA0F21822167800D01D3E /* grade.json in Resources */,
 				0EAFA0F31822167800D01D3E /* lessonInfo.json in Resources */,
@@ -1267,12 +1313,14 @@
 				630B95FC182A4A7F000ED31E /* retreat.png in Resources */,
 				0EAFA0FD1822167800D01D3E /* submitNote.json in Resources */,
 				630B95FD182A4A7F000ED31E /* speed.png in Resources */,
+				18E32DFE1831FD7F00041B8A /* login_bg_7@2x.png in Resources */,
 				0EAFA0FA1822167800D01D3E /* searchQuestion.json in Resources */,
 				0EA7176D1829E2D800560885 /* backgroundStar@2x.png in Resources */,
 				0EAFA0EF1822167800D01D3E /* commentList.json in Resources */,
 				0EA7EF0D18233B0000C47F69 /* jiantou_down.png in Resources */,
 				0EAFA0ED1822167800D01D3E /* chapterInfo.json in Resources */,
 				630B03BE1820F5BB00F72C4C /* Main_iPhone.storyboard in Resources */,
+				18E32E0A1831FDF900041B8A /* login_07@2x.png in Resources */,
 				0EAD1F7B182B369600204FC3 /* frame.png in Resources */,
 				0EAFA0F61822167800D01D3E /* playVideo.json in Resources */,
 				0EAFA0EE1822167800D01D3E /* chapterQuestion.json in Resources */,
@@ -1289,6 +1337,7 @@
 				0EAFA0FC1822167800D01D3E /* submitAnswer.json in Resources */,
 				0EAFA0EA1822167800D01D3E /* acceptAnswer.json in Resources */,
 				0EAFA0EB1822167800D01D3E /* answerPraise.json in Resources */,
+				18E32E091831FDF900041B8A /* login_03@2x.png in Resources */,
 				0EAFA0F91822167800D01D3E /* searchLesson.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1368,6 +1417,7 @@
 				0EA7EF4F1823A98600C47F69 /* PlayVideoInterface.m in Sources */,
 				0EDF4DDE18210241007161E0 /* ASICloudFilesContainerRequest.m in Sources */,
 				0EA2A9311828D78F003D152E /* Section_NoteViewController.m in Sources */,
+				0EA36ED2182C8E4F0074D67B /* CustomLabel.m in Sources */,
 				0EA7EF8D1827805D00C47F69 /* SectionInfoInterface.m in Sources */,
 				0EDF4DF518210241007161E0 /* NSString+URLEncoding.m in Sources */,
 				0EDF4DE218210241007161E0 /* ASICloudFilesRequest.m in Sources */,
