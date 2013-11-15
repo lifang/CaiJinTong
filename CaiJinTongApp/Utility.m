@@ -91,6 +91,7 @@
     return timeString;
 }
 
+//对IOS7和6使用不同的背景
 + (void)setBackgroungWithView:(UIView *)view andImage6:(NSString *)str6 andImage7:(NSString *)str7{
     if (platform == 6.0) {
         view.backgroundColor = [UIColor colorWithPatternImage:Image(str6)];
