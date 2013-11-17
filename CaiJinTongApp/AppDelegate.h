@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "DownloadService.h"
-
+#import "LessonViewController.h"
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
@@ -19,6 +19,7 @@
 @property (assign, nonatomic) BOOL isReachable;
 
 @property (strong, nonatomic) DownloadService *mDownloadService;
+@property (strong, nonatomic)  LessonViewController *lessonViewCtrol;
 +(AppDelegate *)sharedInstance;
 - (void)showRootView;
 @end

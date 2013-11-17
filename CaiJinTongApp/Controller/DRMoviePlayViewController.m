@@ -287,5 +287,16 @@
 
 #pragma mark --
 
+- (BOOL)shouldAutorotate {
+    return NO;
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskLandscape;
+}
+// pre-iOS 6 support
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+    return (toInterfaceOrientation == UIInterfaceOrientationMaskLandscapeLeft);
+}
 
 @end

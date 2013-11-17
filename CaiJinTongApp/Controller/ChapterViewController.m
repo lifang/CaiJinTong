@@ -41,7 +41,13 @@
 	self.mainToolBar = mainBar;
     self.mainToolBar.delegate = self;
     [self.view addSubview:self.mainToolBar];
+    [self.mainToolBar setHidden:self.isSearch];
     mainBar = nil;
+    
+    self.searchBar = [[ChapterSearchBar alloc] initWithFrame:(CGRect){50, 64, (self.view.frame.size.width - 200 - 100), 74}];
+    [self.view addSubview:self.searchBar];
+    self.searchBar.backgroundColor = [UIColor lightGrayColor];
+    [self.searchBar setHidden:!self.isSearch];
     
     self.drnavigationBar.titleLabel.text = @"我的课程";
     [self.drnavigationBar.navigationRightItem setTitle:@"返回" forState:UIControlStateNormal];
@@ -49,6 +55,16 @@
     
     self.mainToolBar.backgroundColor = [UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:232.0/255.0 alpha:1.0];
     
+
+}
+
+
+-(void)reloadDataWithDataArray:(NSArray*)data{
+    self.recentArray = data;
+    if (self.recentArray.count>0) {
+        self.dataArray = [NSMutableArray arrayWithArray:self.recentArray];
+        [self displayNewView];
+    }
 }
 -(void)drnavigationBarRightItemClicked:(id)sender{
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
@@ -68,6 +84,9 @@
     [self.myScrollView removeFromSuperview];
     if (self.dataArray.count>0) {
         NSInteger count = ([self.dataArray count]-1)/6+1;
+        if (self.isSearch) {
+            self.myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 148, self.view.frame.size.width, self.view.frame.size.height-50)];
+        }else
         self.myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 118, self.view.frame.size.width, self.view.frame.size.height-20)];
         
         self.myScrollView.delegate = self;
@@ -258,7 +277,7 @@
         
         sectionView.section = section;
         
-        [self presentPopupViewController:sectionView animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO];
+        [self presentPopupViewController:sectionView animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:nil];
         
     }
 }
@@ -409,4 +428,12 @@
     [Utility errorAlert:errorMsg];
 }
 
+
+#pragma mark property
+-(void)setIsSearch:(BOOL)isSearch{
+    _isSearch = isSearch;
+    [self.searchBar setHidden:!isSearch];
+    [self.mainToolBar setHidden:isSearch];
+}
+#pragma mark --
 @end
