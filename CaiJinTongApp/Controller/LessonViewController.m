@@ -394,6 +394,9 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 -(IBAction)setBtnPressed:(id)sender {
     UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
     SettingViewController *setView = [story instantiateViewControllerWithIdentifier:@"SettingViewController"];
+    [self presentPopupViewController:setView animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:YES dismissed:^{
+        
+    }];
 }
 #pragma mark property
 -(NSMutableArray *)questionArrSelSection{

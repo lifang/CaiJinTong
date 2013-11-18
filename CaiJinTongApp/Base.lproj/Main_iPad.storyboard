@@ -93,7 +93,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="wcb-2W-NLW">
-                                <rect key="frame" x="314" y="959.00000059604645" width="141" height="45"/>
+                                <rect key="frame" x="314" y="959.00000120396635" width="141" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <state key="normal" title="找回密码" backgroundImage="btn.png">
@@ -372,7 +372,7 @@
                                                 </connections>
                                             </button>
                                             <view contentMode="scaleToFill" id="MO4-iT-hM6">
-                                                <rect key="frame" x="69" y="0.0" width="506.00000574486643" height="68"/>
+                                                <rect key="frame" x="69" y="0.0" width="506.00001198285531" height="68"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="X6G-Ja-eeH">
@@ -387,7 +387,7 @@
                                                         </connections>
                                                     </button>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="hPI-XB-wGH">
-                                                        <rect key="frame" x="88" y="19" width="378.00000465999881" height="34"/>
+                                                        <rect key="frame" x="88" y="19" width="378.00000971999827" height="34"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <connections>
@@ -526,7 +526,7 @@
         <!--Commit Question View Controller - popver-->
         <scene sceneID="zDI-4P-btZ">
             <objects>
-                <viewController title="popver" id="AgX-5c-jeX" customClass="DRCommitQuestionViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DRCommitQuestionViewController" title="popver" id="AgX-5c-jeX" customClass="DRCommitQuestionViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3po-fB-sZ9" customClass="UIControl">
                         <rect key="frame" x="0.0" y="0.0" width="804" height="426"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -626,7 +626,7 @@
         <!--Taking Movie Note View Controller-->
         <scene sceneID="NYN-p9-zgc">
             <objects>
-                <viewController id="S5J-IJ-reE" customClass="DRTakingMovieNoteViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DRTakingMovieNoteViewController" id="S5J-IJ-reE" customClass="DRTakingMovieNoteViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="7iQ-Cf-lgD" customClass="UIControl">
                         <rect key="frame" x="0.0" y="0.0" width="804" height="426"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
