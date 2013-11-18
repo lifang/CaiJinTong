@@ -364,7 +364,7 @@
         if (isHiddlePlayerControlView) {
             self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,CGRectGetWidth(self.view.frame) + CGRectGetHeight(self.movieplayerControlBackView.bounds)/2};
         }else{
-            self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,CGRectGetWidth(self.view.frame) -CGRectGetHeight(self.movieplayerControlBackView.bounds)/2};
+            self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,CGRectGetWidth(self.view.frame) -CGRectGetHeight(self.movieplayerControlBackView.bounds)/2+2};
             NSLog(@"%@",NSStringFromCGRect(self.movieplayerControlBackView.frame));
         }
     }];
