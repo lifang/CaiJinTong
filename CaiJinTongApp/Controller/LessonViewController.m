@@ -63,6 +63,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     NSMutableAttributedString *placeholder = [[NSMutableAttributedString alloc] initWithString:@"搜索课程"];
     [placeholder addAttribute:NSForegroundColorAttributeName value:[UIColor grayColor] range:NSMakeRange(0, placeholder.length)];
     self.searchText.attributedPlaceholder = placeholder;
+    self.isSearching = NO;
     
 //    self.searchBarView.tintColor = [UIColor clearColor];
 //    self.searchBarView.backgroundImage = [UIImage new];
@@ -305,11 +306,16 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         return cell;
     }else{
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"questionCell"];
-        if (indexPath.row == 0) {
-            cell.textLabel.text = @"   我的回答";
+        if (indexPath.section == 0) {
+            cell.textLabel.text = @"所有提问";
         }else{
-            cell.textLabel.text = @"   我的提问";
+            if (indexPath.row == 0) {
+                cell.textLabel.text = @"   我的提问";
+            }else{
+                cell.textLabel.text = @"   我的回答";
+            }
         }
+
         cell.textLabel.textColor = [UIColor whiteColor];
         cell.detailTextLabel.textColor = [UIColor whiteColor];
         cell.backgroundColor = [UIColor clearColor];
@@ -378,11 +384,16 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 }
 
 - (IBAction)SearchBrClicked:(id)sender {
-    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-    ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
-    chapterView.view.frame = CGRectMake(50, 20, 768-200, 1024-20);
-    chapterView.isSearch = YES;
-    [self presentPopupViewController:chapterView animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:nil];
+    self.isSearching = YES;
+    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+        [Utility errorAlert:@"暂无网络!"];
+    }else {
+        [SVProgressHUD showWithStatus:@"玩命加载中..."];
+        ChapterInfoInterface *chapterInter = [[ChapterInfoInterface alloc]init];
+        self.chapterInterface = chapterInter;
+        self.chapterInterface.delegate = self;
+        [self.chapterInterface getChapterInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andChapterId:nil];
+    }
 }
 
 -(IBAction)setBtnPressed:(id)sender {
@@ -422,21 +433,45 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 #pragma mark --
 
 #pragma mark -- ChapterInfoInterfaceDelegate
--(void)getChapterInfoDidFinished:(NSDictionary *)result {
+-(void)getChapterInfoDidFinished:(NSDictionary *)result {  //章节信息查询完毕,显示章节界面
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
 
         dispatch_async(dispatch_get_main_queue(), ^{
             UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
             ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
+            if(self.isSearching)chapterView.isSearch = YES;
             chapterView.view.frame = CGRectMake(50, 20, 768-200, 1024-20);
+            chapterView.searchBar.searchTextField.text = self.searchText.text;
+            [self presentPopupViewController:chapterView animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:nil];
             if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
-                chapterView.recentArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
-                [self presentPopupViewController:chapterView animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:nil];
-                [chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]]];
+                NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
+                
+                if(self.isSearching){
+                    if(self.searchText.text != nil && ![self.searchText.text isEqualToString:@""] && tempArray.count > 0){
+                        NSString *keyword = self.searchText.text;
+                        NSMutableArray *ary = [NSMutableArray arrayWithCapacity:5];
+                        for(int i = 0 ; i < tempArray.count ; i++){
+                            SectionModel *section = [tempArray objectAtIndex:i];
+                            NSLog(@"sectionName: %@",section.sectionName);
+                            NSRange range = [section.sectionName rangeOfString:[NSString stringWithFormat:@"(%@)+",keyword] options:NSRegularExpressionSearch];
+                            if(range.location != NSNotFound){
+                                [ary addObject:section];
+                            }
+                        }
+                        tempArray = [NSMutableArray arrayWithArray:ary];
+                    }
+                    chapterView.recentArray = [[NSMutableArray alloc]initWithArray:tempArray];
+                }else{
+                    chapterView.recentArray = [[NSMutableArray alloc]initWithArray:tempArray];
+                }
+                
+                [chapterView reloadDataWithDataArray:chapterView.recentArray];
+                self.isSearching = NO;
             }
         });
     });
+    
 }
 -(void)getChapterInfoDidFailed:(NSString *)errorMsg {
     [SVProgressHUD dismiss];
