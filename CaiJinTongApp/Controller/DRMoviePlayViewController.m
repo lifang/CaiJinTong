@@ -12,6 +12,7 @@
 #import "Section_ChapterViewController.h"
 #import "DRCommitQuestionViewController.h"
 #import "DRTakingMovieNoteViewController.h"
+#import "MBProgressHUD.h"
 #define MOVIE_CURRENT_PLAY_TIME_OBSERVE @"movieCurrentPlayTimeObserve"
 @interface DRMoviePlayViewController ()
 @property (nonatomic,strong) MPMoviePlayerController *moviePlayer;
@@ -57,6 +58,9 @@
     [self updateVolumeSlider];
     self.moviePlayerHolderView.layer.cornerRadius = 10;
     
+    //视频加载提示框
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     [self.moviePlayerControlBackDownView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"play_barBG.png"]]];
     [self.seekSlider setMaximumTrackImage:[UIImage imageNamed:@"play_black.png"] forState:UIControlStateNormal];
     [self.seekSlider setMinimumTrackImage:[UIImage imageNamed:@"play_bluetiao.png"] forState:UIControlStateNormal];
@@ -80,9 +84,48 @@
     if (item == self.chapterListItem) {
         if (!self.isPopupChapter) {
             Section_ChapterViewController *chapter = [self.storyboard instantiateViewControllerWithIdentifier:@"Section_ChapterViewController"];
+            
+            //数据来源
+            NSDictionary *dictionary = [Utility initWithJSONFile:@"sectionInfo"];
+            NSDictionary *dic = [dictionary objectForKey:@"ReturnObject"];
+            if (dic.count>0) {
+                SectionModel *section = [[SectionModel alloc]init];
+                section.sectionId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionId"]];
+                section.sectionName = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionName"]];
+                section.sectionImg = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionImg"]];
+                section.sectionProgress = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionProgress"]];
+                section.sectionSD = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionSD"]];
+                section.sectionHD = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionHD"]];
+                section.sectionScore = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionScore"]];
+                section.isGrade = [NSString stringWithFormat:@"%@",[dic objectForKey:@"isGrade"]];
+                section.lessonInfo = [NSString stringWithFormat:@"%@",[dic objectForKey:@"lessonInfo"]];
+                section.sectionTeacher = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionTeacher"]];
+                section.sectionDownload = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionDownload"]];
+                section.sectionStudy = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionStudy"]];
+                section.sectionLastTime = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionLastTime"]];
+                //章节目录
+                NSArray *sectionList = [NSArray arrayWithArray:[dic objectForKey:@"sectionList"]];
+                if (sectionList.count>0) {
+                    NSMutableArray *section_tempArray = [[NSMutableArray alloc]init];
+                    for (int i=0; i<sectionList.count; i++) {
+                        NSDictionary *dic = [sectionList objectAtIndex:i];
+                        SectionModel *section = [[SectionModel alloc]init];
+                        section.sectionId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionId"]];
+                        section.sectionName = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionName"]];
+                        section.sectionDownload = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionDownload"]];
+                        section.sectionLastTime = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionLastTime"]];
+                        [section_tempArray addObject:section];
+                    }
+                    if (section_tempArray.count>0) {
+                        section.sectionList = [NSMutableArray arrayWithArray:section_tempArray];
+                    }
+                }
+                chapter.dataArray = [NSMutableArray arrayWithArray:section.sectionList];
+            }
+            
             chapter.view.frame = (CGRect){1024,0,1024-500,685};
             [UIView animateWithDuration:0.5 animations:^{
-                chapter.view.frame = (CGRect){500,0,1024-500,685};
+                chapter.view.frame = (CGRect){450,0,1024-450,685};
             } completion:^(BOOL finished) {
                 
             }];
@@ -196,6 +239,7 @@
         
         case MPMoviePlaybackStatePlaying:
         {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             [self startObservePlayBackProgressBar];
             break;
         }
@@ -207,6 +251,7 @@
             
         case MPMoviePlaybackStateInterrupted:
         {
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             break;
         }
         
@@ -234,6 +279,11 @@
 
 -(void)didChangeMoviePlayerLoadStateNotification{//加载状态改变时触发：
     DLog(@"didChangeMoviePlayerLoadStateNotification:%d",self.moviePlayer.loadState);
+    if (self.moviePlayer.loadState == MPMovieLoadStatePlayable) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    } else if (self.moviePlayer.loadState == MPMovieLoadStateStalled) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    }
 }
 
 #pragma mark --
@@ -241,11 +291,13 @@
 #pragma mark DRMoviePlayerPlaybackProgressBarDelegate
 -(void)playBackProgressBarTouchBegin:(DRMoviePlayerPlaybackProgressBar *)progressBar{
 //    DLog(@"playBackProgressBarTouchBegin");
+    [self.moviePlayer pause];
     [self endObservePlayBackProgressBar];
 }
 
 -(void)playBackProgressBarTouchEnd:(DRMoviePlayerPlaybackProgressBar *)progressBar{
 //    DLog(@"playBackProgressBarTouchEnd");
+    [self.moviePlayer play];
     [self startObservePlayBackProgressBar];
 }
 
@@ -265,7 +317,7 @@
     [[NSNotificationCenter defaultCenter]removeObserver:self];
 }
 -(void)startObservePlayBackProgressBar{
-    if (self.timer && [self.timer isValid]) {
+    if (self.timer) {
         [self.timer invalidate];
         self.timer = nil;
     }
