@@ -25,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 - (IBAction)lessonListBtClicked:(id)sender;
 - (IBAction)questionListBtClicked:(id)sender;
+- (IBAction)SearchBrClicked:(id)sender;
 @property (weak, nonatomic) IBOutlet UIImageView *LogoImageView;
 @property (weak, nonatomic) IBOutlet UILabel *rightNameLabel;
 @property (nonatomic, strong) NSDictionary *lessonDictionary;

@@ -42,9 +42,9 @@
 -(void)setIsSelected:(BOOL)isSelected{
     _isSelected = isSelected;
     if (isSelected) {
-        self.backgroundColor = [UIColor redColor];
+//        self.backgroundColor = [UIColor redColor];
     }else{
-        self.backgroundColor = [UIColor greenColor];
+//        self.backgroundColor = [UIColor greenColor];
     }
 }
 @end

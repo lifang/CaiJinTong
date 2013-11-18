@@ -383,9 +383,20 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     });
 }
 
+- (IBAction)SearchBrClicked:(id)sender {
+    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+    ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
+    chapterView.view.frame = CGRectMake(50, 20, 768-200, 1024-20);
+    chapterView.isSearch = YES;
+    [self presentPopupViewController:chapterView animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:nil];
+}
+
 -(IBAction)setBtnPressed:(id)sender {
     UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
     SettingViewController *setView = [story instantiateViewControllerWithIdentifier:@"SettingViewController"];
+    [self presentPopupViewController:setView animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:YES dismissed:^{
+        
+    }];
 }
 #pragma mark property
 -(NSMutableArray *)questionArrSelSection{
@@ -427,7 +438,8 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             chapterView.view.frame = CGRectMake(50, 20, 768-200, 1024-20);
             if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
                 chapterView.recentArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
-                [self presentPopupViewController:chapterView animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO];
+                [self presentPopupViewController:chapterView animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:nil];
+                [chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]]];
             }
         });
     });
@@ -454,8 +466,11 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         });
     });
 }
+
 -(void)getLessonInfoDidFailed:(NSString *)errorMsg {
     [SVProgressHUD dismiss];
     [Utility errorAlert:errorMsg];
 }
+
+
 @end

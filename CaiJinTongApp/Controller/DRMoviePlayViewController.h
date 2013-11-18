@@ -25,6 +25,7 @@ typedef enum {MOVIE_FILE,MOVIE_INTERNET}MovieLocateType;
 @property (weak, nonatomic) IBOutlet MovieControllerItem *chapterListItem;
 @property (weak, nonatomic) IBOutlet MovieControllerItem *myQuestionItem;
 @property (weak, nonatomic) IBOutlet MovieControllerItem *myNotesItem;
+@property (weak, nonatomic) IBOutlet UIView *moviePlayerControlBackDownView;
 @property (strong,nonatomic) NSString *movieUrlString;
 @property (assign,nonatomic) MovieLocateType movieLacateType;
 - (IBAction)playBtClicked:(id)sender;

@@ -7,7 +7,7 @@
 //
 
 #import "SectionViewController.h"
-
+#import "DRMoviePlayViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "Section.h"
 #import "CommentModel.h"
@@ -205,6 +205,11 @@
     }
     if (path) {
         //播放接口
+        DRMoviePlayViewController *playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
+        AppDelegate *app = [AppDelegate sharedInstance];
+        [app.lessonViewCtrol presentViewController:playerController animated:YES completion:^{
+            
+        }];
     }
  
 }

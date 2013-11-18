@@ -27,8 +27,14 @@
 {
     [super viewDidLoad];
 	self.view.frame = CGRectMake(0, 0, 400, 500);
+    self.drnavigationBar.titleLabel.text = @"设置";
+    [self.drnavigationBar.navigationRightItem setImage:@"btn1.png" forState:UIControlStateNormal];
+    [self.drnavigationBar.navigationRightItem setTitle:@"关闭" forState:UIControlStateNormal];
 }
 
+-(void)drnavigationBarRightItemClicked:(id)sender{
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

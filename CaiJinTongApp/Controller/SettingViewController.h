@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SettingViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
+@interface SettingViewController : DRNaviGationBarController<UITableViewDataSource,UITableViewDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @end

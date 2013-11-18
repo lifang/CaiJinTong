@@ -27,10 +27,10 @@
     
     [self setBackgroundImage:[UIImage imageNamed:@"course-mycourse_03"] forState:UIControlStateNormal];
     [self setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    CGRect frame = self.frame;
-    frame.size = CGSizeMake(frame.size.width-20, frame.size.height-10);
-    self.frame = frame;
-    
+//    CGRect frame = self.frame;
+//    frame.size = CGSizeMake(frame.size.width-20, frame.size.height-10);
+//    self.frame = frame;
+
     switch (buttonModel.downloadState) {
         case 0:
         {

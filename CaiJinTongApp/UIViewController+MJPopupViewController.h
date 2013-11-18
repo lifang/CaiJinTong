@@ -26,9 +26,9 @@ typedef enum {
 @property (nonatomic, retain) UIViewController *mj_popupViewController;
 @property (nonatomic, retain) MJPopupBackgroundView *mj_popupBackgroundView;
 @property (nonatomic, assign) BOOL isAlignmentCenter;
-- (void)presentPopupViewController:(UIViewController*)popupViewController animationType:(MJPopupViewAnimation)animationType;
-- (void)presentPopupViewController:(UIViewController*)popupViewController animationType:(MJPopupViewAnimation)animationType dismissed:(void(^)(void))dismissed;
-- (void)presentPopupViewController:(UIViewController*)popupViewController animationType:(MJPopupViewAnimation)animationType isAlignmentCenter:(BOOL)alignmentCenter;
+//- (void)presentPopupViewController:(UIViewController*)popupViewController animationType:(MJPopupViewAnimation)animationType;
+//- (void)presentPopupViewController:(UIViewController*)popupViewController animationType:(MJPopupViewAnimation)animationType dismissed:(void(^)(void))dismissed;
+//- (void)presentPopupViewController:(UIViewController*)popupViewController animationType:(MJPopupViewAnimation)animationType isAlignmentCenter:(BOOL)alignmentCenter;
 - (void)presentPopupViewController:(UIViewController*)popupViewController animationType:(MJPopupViewAnimation)animationType isAlignmentCenter:(BOOL)alignmentCenter dismissed:(void(^)(void))dismissed;
 - (void)dismissPopupViewControllerWithanimationType:(MJPopupViewAnimation)animationType;
 
