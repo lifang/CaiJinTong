@@ -9,12 +9,17 @@
 #import "DRMoviePlayViewController.h"
 #import <MediaPlayer/MPMoviePlayerController.h>
 #import <QuartzCore/QuartzCore.h>
+#import "Section_ChapterViewController.h"
+#import "DRCommitQuestionViewController.h"
+#import "DRTakingMovieNoteViewController.h"
 #define MOVIE_CURRENT_PLAY_TIME_OBSERVE @"movieCurrentPlayTimeObserve"
 @interface DRMoviePlayViewController ()
 @property (nonatomic,strong) MPMoviePlayerController *moviePlayer;
 @property (nonatomic,strong) NSTimer *timer;
+@property (nonatomic,strong) Section_ChapterViewController *section_chapterController;
 @property (nonatomic,assign) BOOL isHiddlePlayerControlView;
 @property (nonatomic,assign) BOOL isPlaying;
+@property (nonatomic,assign) BOOL isPopupChapter;
 @property (nonatomic,assign) __block float currentMoviePlaterVolume;
 @end
 
@@ -42,6 +47,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.isPopupChapter = NO;
     [self addMoviePlayBackNotification];
 //    self.movieUrlString =  @"http://www.jxvdy.com/file/upload/201309/18/18-10-03-19-3.mp4";
     self.movieUrlString = @"http://archive.org/download/WaltDisneyCartoons-MickeyMouseMinnieMouseDonaldDuckGoofyAndPluto/WaltDisneyCartoons-MickeyMouseMinnieMouseDonaldDuckGoofyAndPluto-HawaiianHoliday1937-Video.mp4";
@@ -71,7 +77,39 @@
 }
 #pragma mark MovieControllerItemDelegate
 -(void)moviePlayBarSelected:(MovieControllerItem *)item{
+    if (item == self.chapterListItem) {
+        if (!self.isPopupChapter) {
+            Section_ChapterViewController *chapter = [self.storyboard instantiateViewControllerWithIdentifier:@"Section_ChapterViewController"];
+            chapter.view.frame = (CGRect){1024,0,1024-500,685};
+            [UIView animateWithDuration:0.5 animations:^{
+                chapter.view.frame = (CGRect){500,0,1024-500,685};
+            } completion:^(BOOL finished) {
+                
+            }];
+            self.section_chapterController = chapter;
+            [self.view addSubview:chapter.view];
+            self.isPopupChapter = YES;
+        }else {
+            self.isPopupChapter = NO;
+        }
 
+    }else
+    if (item == self.myQuestionItem) {
+        DRTakingMovieNoteViewController *takingController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRTakingMovieNoteViewController"];
+        takingController.view.frame = (CGRect){0,0,804,426};
+        [self presentPopupViewController:takingController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
+            
+        }];
+        self.isPopupChapter = NO;
+    }else
+    if (item == self.myNotesItem) {
+        DRCommitQuestionViewController *commitController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRCommitQuestionViewController"];
+        commitController.view.frame = (CGRect){0,0,804,426};
+        [self presentPopupViewController:commitController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
+            
+        }];
+        self.isPopupChapter = NO;
+    }
 }
 #pragma mark --
 
@@ -256,6 +294,18 @@
 #pragma mark --
 
 #pragma mark property
+
+-(void)setIsPopupChapter:(BOOL)isPopupChapter{
+    _isPopupChapter = isPopupChapter;
+    if (!isPopupChapter && self.section_chapterController) {
+        [UIView animateWithDuration:0.5 animations:^{
+            self.section_chapterController.view.frame = (CGRect){1024,0,1024-500,685};
+        } completion:^(BOOL finished) {
+            self.section_chapterController = nil;
+        }];
+    }
+}
+
 -(void)setIsHiddlePlayerControlView:(BOOL)isHiddlePlayerControlView{
     _isHiddlePlayerControlView = isHiddlePlayerControlView;
     [UIView animateWithDuration:0.5 animations:^{
@@ -298,5 +348,14 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
     return (toInterfaceOrientation == UIInterfaceOrientationMaskLandscapeLeft);
 }
+
+#pragma mark TOUCH
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+//    [super touchesBegan:touches withEvent:event];
+    if (self.isPopupChapter) {
+        self.isPopupChapter = NO;
+    }
+}
+#pragma mark --
 
 @end

@@ -60,8 +60,10 @@
 }
 
 - (IBAction)cancelBtnClicked:(UIButton *)sender {
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopTop];
 }
 
 - (IBAction)commitBtnClicked:(UIButton *)sender {
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopTop];
 }
 @end
