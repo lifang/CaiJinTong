@@ -170,6 +170,7 @@
 		18153251183608330078A410 /* Q&A-myq_11@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18153250183608330078A410 /* Q&A-myq_11@2x.png */; };
 		1815325418360DE60078A410 /* Q&A-myq_19@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1815325318360DE60078A410 /* Q&A-myq_19@2x.png */; };
 		1815325618360DF40078A410 /* Q&A-myq_15@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1815325518360DF40078A410 /* Q&A-myq_15@2x.png */; };
+		183F77AF1839B5E8004D0263 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F77AE1839B5E8004D0263 /* MBProgressHUD.m */; };
 		18491C3F18345E11003C82E4 /* play_0h5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18491C3E18345E11003C82E4 /* play_0h5@2x.png */; };
 		18491C4118345FF8003C82E4 /* play_05@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18491C4018345FF8003C82E4 /* play_05@2x.png */; };
 		18491C4518347A13003C82E4 /* course-courses_06_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18491C4418347A13003C82E4 /* course-courses_06_right@2x.png */; };
@@ -534,6 +535,8 @@
 		18153250183608330078A410 /* Q&A-myq_11@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Q&A-myq_11@2x.png"; sourceTree = "<group>"; };
 		1815325318360DE60078A410 /* Q&A-myq_19@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Q&A-myq_19@2x.png"; sourceTree = "<group>"; };
 		1815325518360DF40078A410 /* Q&A-myq_15@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Q&A-myq_15@2x.png"; sourceTree = "<group>"; };
+		183F77AD1839B5E8004D0263 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		183F77AE1839B5E8004D0263 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		18491C3E18345E11003C82E4 /* play_0h5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play_0h5@2x.png"; sourceTree = "<group>"; };
 		18491C4018345FF8003C82E4 /* play_05@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play_05@2x.png"; sourceTree = "<group>"; };
 		18491C4418347A13003C82E4 /* course-courses_06_right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "course-courses_06_right@2x.png"; sourceTree = "<group>"; };
@@ -1166,6 +1169,15 @@
 			name = "Q&A";
 			sourceTree = "<group>";
 		};
+		183F77AC1839B5D8004D0263 /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				183F77AD1839B5E8004D0263 /* MBProgressHUD.h */,
+				183F77AE1839B5E8004D0263 /* MBProgressHUD.m */,
+			);
+			name = MBProgressHUD;
+			sourceTree = "<group>";
+		};
 		18491C3D18345DF3003C82E4 /* course-welcome */ = {
 			isa = PBXGroup;
 			children = (
@@ -1269,6 +1281,7 @@
 		630B03B01820F5BB00F72C4C /* CaiJinTongApp */ = {
 			isa = PBXGroup;
 			children = (
+				183F77AC1839B5D8004D0263 /* MBProgressHUD */,
 				639A07A01823905900B60670 /* thirty */,
 				630B03B91820F5BB00F72C4C /* AppDelegate.h */,
 				630B03BA1820F5BB00F72C4C /* AppDelegate.m */,
@@ -1650,6 +1663,7 @@
 				0EA7EF2818234CDC00C47F69 /* ChapterQuestionInterface.m in Sources */,
 				0EAFA11A18223FC500D01D3E /* CJTMainToolbar.m in Sources */,
 				631227E4182B409F00530CC3 /* QuestionAndAnswerCell.m in Sources */,
+				183F77AF1839B5E8004D0263 /* MBProgressHUD.m in Sources */,
 				631227E7182B40EB00530CC3 /* QuestionAndAnswerCellHeaderView.m in Sources */,
 				0EDF4E011821029B007161E0 /* CaiJinTongManager.m in Sources */,
 				630B95F9182A2909000ED31E /* DRMoviePlayerPlaybackProgressBar.m in Sources */,
