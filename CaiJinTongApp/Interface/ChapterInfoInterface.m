@@ -17,7 +17,11 @@
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",chapterId] forKey:@"chapterId"];
+    if(chapterId != nil) {
+        [reqheaders setValue:[NSString stringWithFormat:@"%@",chapterId] forKey:@"chapterId"];
+    }else{
+        NSLog(@"参数为空,少添加一项");
+    }
     
     self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=chapterInfo&userId=17079&sectionId=618";
     

@@ -22,6 +22,10 @@
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) SectionCustomView *sectionView;
 @property (nonatomic, strong)  ChapterSearchBar *searchBar;
+
+@property (nonatomic,strong) NSString *searchKeyWord;//搜索词
+@property (nonatomic,strong) NSMutableArray *searchResultArray;//搜索结果
+
 @property (assign,nonatomic) BOOL isSearch;
 -(void)reloadDataWithDataArray:(NSArray*)data;
 @end

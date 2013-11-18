@@ -10,7 +10,7 @@
 #define SEARCH_MASK_LEFT 40
 @interface ChapterSearchBar()
 @property (nonatomic,strong) UIButton *searchBt;
-@property (nonatomic,strong) UITextField *searchTextField;
+
 @property (nonatomic,strong) UIImageView *backImageView;
 @property (nonatomic,strong) UILabel *searchTipLabel;
 @end
@@ -22,7 +22,11 @@
     if (self) {
         // Initialization code
         self.backImageView = [[UIImageView alloc] initWithFrame:(CGRect){}];
-        self.backImageView.image = [UIImage imageNamed:@"ss.png"];
+        self.backImageView.backgroundColor = [UIColor lightGrayColor];
+        self.backImageView.layer.borderColor = [UIColor grayColor].CGColor;
+        self.backImageView.layer.borderWidth =1.0;
+        self.backImageView.layer.cornerRadius =18.0;
+//        self.backImageView.image = [UIImage imageNamed:@"ss.png"];
 //        self.backImageView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleWidth;
         [self addSubview:self.backImageView];
         
@@ -32,15 +36,17 @@
 //        self.searchBt.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
         [self addSubview:self.searchBt];
         
-        self.searchTextField = [[UITextField alloc] initWithFrame:(CGRect){}];
+        self.searchTextField = [[UITextField alloc] init];
+        self.searchTextField.frame = CGRectMake(55, 10, 250, 33);
 //        self.searchTextField.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleWidth;
         [self addSubview:self.searchTextField];
         
         self.searchTipLabel = [[UILabel alloc] initWithFrame:(CGRect){}];
+//        self.searchTipLabel.backgroundColor = [UIColor blackColor];
 //        self.searchTipLabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleWidth;
         [self addSubview:self.searchTipLabel];
-        self.searchTipLabel.backgroundColor = [UIColor greenColor];
-        self.searchTextField.backgroundColor = [UIColor redColor];
+//        self.searchTipLabel.backgroundColor = [UIColor greenColor];
+//        self.searchTextField.backgroundColor = [UIColor redColor];
         
         
     }
@@ -51,7 +57,7 @@
     [super layoutSubviews];
     self.backImageView.frame = (CGRect){SEARCH_MASK_LEFT,0,CGRectGetWidth(self.frame)-SEARCH_MASK_LEFT*2,30};
     self.searchBt.frame = (CGRect){CGRectGetMinX(self.backImageView.frame)+2,2,CGRectGetHeight(self.backImageView.frame)-4,CGRectGetHeight(self.backImageView.frame)-4};
-    self.searchTextField.frame = (CGRect){CGRectGetMaxX(self.searchBt.frame)+5,0,CGRectGetWidth(self.backImageView.frame) - CGRectGetMaxX(self.searchBt.frame)-5,CGRectGetHeight(self.backImageView.frame)};
+    self.searchTextField.frame = (CGRect){CGRectGetMaxX(self.searchBt.frame)+5,5,CGRectGetWidth(self.backImageView.frame) - CGRectGetMaxX(self.searchBt.frame)-5,CGRectGetHeight(self.backImageView.frame)};
     self.searchTipLabel.frame = (CGRect){0,CGRectGetHeight(self.frame) - 30,CGRectGetWidth(self.frame),30};
 }
 /*

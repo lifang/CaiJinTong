@@ -46,10 +46,14 @@
     
     self.searchBar = [[ChapterSearchBar alloc] initWithFrame:(CGRect){50, 64, (self.view.frame.size.width - 200 - 100), 74}];
     [self.view addSubview:self.searchBar];
-    self.searchBar.backgroundColor = [UIColor lightGrayColor];
+//    self.searchBar.backgroundColor = [UIColor lightGrayColor];
     [self.searchBar setHidden:!self.isSearch];
     
-    self.drnavigationBar.titleLabel.text = @"我的课程";
+    if(self.isSearch){
+        self.drnavigationBar.titleLabel.text = @"搜索";
+    }else{
+        self.drnavigationBar.titleLabel.text = @"我的课程";
+    }
     [self.drnavigationBar.navigationRightItem setTitle:@"返回" forState:UIControlStateNormal];
     self.drnavigationBar.navigationRightItem.titleLabel.textColor = [UIColor darkGrayColor];
     
@@ -129,7 +133,7 @@
     return 300;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger count = ([self.dataArray count]-1)/6+1;
+    NSInteger count = ([self.dataArray count]-1)/6+1;//页数
     
     static NSString *CellIdentifier = @"Cell";
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -434,6 +438,12 @@
     _isSearch = isSearch;
     [self.searchBar setHidden:!isSearch];
     [self.mainToolBar setHidden:isSearch];
+    
+    if(isSearch){
+        self.drnavigationBar.titleLabel.text = @"搜索";
+    }else{
+        self.drnavigationBar.titleLabel.text = @"我的课程";
+    }
 }
 #pragma mark --
 @end
