@@ -36,6 +36,12 @@
     self.emailTextField.layer.cornerRadius = 5;
     self.emailTextField.layer.borderWidth = 1;
     self.emailTextField.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    
+    UIButton *rightItem = self.drnavigationBar.navigationRightItem;
+    [rightItem setTitle:@"返回" forState:UIControlStateNormal];
+    [rightItem setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    self.drnavigationBar.titleLabel.text = @"找回密码";
+    
 	// Do any additional setup after loading the view.
 }
 
