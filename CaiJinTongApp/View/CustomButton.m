@@ -127,6 +127,7 @@
             [Utility errorAlert:@"暂无网络!"];
         }else {
             [SVProgressHUD showWithStatus:@"玩命加载中..."];
+            
             SectionInfoInterface *sectionInter = [[SectionInfoInterface alloc]init];
             self.sectionInterface = sectionInter;
             self.sectionInterface.delegate = self;

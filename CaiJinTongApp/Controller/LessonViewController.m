@@ -21,6 +21,7 @@
 #import "UIImageView+WebCache.h"
 #import "SDImageCache.h"
 #import "SettingViewController.h"
+#import "MyQuestionAndAnswerViewController.h"
 #define LESSON_HEADER_IDENTIFIER @"lessonHeader"
 typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 
@@ -112,29 +113,29 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     }
     
     
-    //question
-    LessonQuestionModel *myquestion = [[LessonQuestionModel alloc] init];
-    myquestion.lessonQuestionName = @"我的提问";
-    [self.questionList addObject:myquestion];
-    LessonQuestionModel *myAnswer= [[LessonQuestionModel alloc] init];
-    myAnswer.lessonQuestionName = @"我的回答";
-    [self.questionList addObject:myAnswer];
-    
-    for (int index = 0; index < 20; index++) {
-        LessonQuestionModel *qu = [[LessonQuestionModel alloc] init];
-        qu.lessonQuestionName = @"TEST";
-        NSMutableArray *chapterQu = [NSMutableArray array];
-        for (int i =0; i < 20; i++) {
-            ChapterQuestionModel *model = [[ChapterQuestionModel alloc] init];
-            model.chapterQuestionName = @"水电管理学";
-            [chapterQu addObject:model];
-        }
-        qu.chapterQuestionList = chapterQu;
-        [self.questionList addObject:qu];
-    }
-    for (int i =0; i<self.questionList.count; i++) {
-        [self.questionArrSelSection addObject:[NSString stringWithFormat:@"%d",i]];
-    }
+//    //question
+//    LessonQuestionModel *myquestion = [[LessonQuestionModel alloc] init];
+//    myquestion.lessonQuestionName = @"我的提问";
+//    [self.questionList addObject:myquestion];
+//    LessonQuestionModel *myAnswer= [[LessonQuestionModel alloc] init];
+//    myAnswer.lessonQuestionName = @"我的回答";
+//    [self.questionList addObject:myAnswer];
+//    
+//    for (int index = 0; index < 20; index++) {
+//        LessonQuestionModel *qu = [[LessonQuestionModel alloc] init];
+//        qu.lessonQuestionName = @"TEST";
+//        NSMutableArray *chapterQu = [NSMutableArray array];
+//        for (int i =0; i < 20; i++) {
+//            ChapterQuestionModel *model = [[ChapterQuestionModel alloc] init];
+//            model.chapterQuestionName = @"水电管理学";
+//            [chapterQu addObject:model];
+//        }
+//        qu.chapterQuestionList = chapterQu;
+//        [self.questionList addObject:qu];
+//    }
+//    for (int i =0; i<self.questionList.count; i++) {
+//        [self.questionArrSelSection addObject:[NSString stringWithFormat:@"%d",i]];
+//    }
 }
 #pragma mark --
 
@@ -204,7 +205,16 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 #pragma mark - TableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section  {
-    return 50;
+    if (self.listType == LESSON_LIST) {
+       return 50;
+    }else{
+        if (section == 0) {
+            return 0;
+        }else{
+            return 50;
+        }
+    }
+    
 }
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     if (self.listType == LESSON_LIST) {
@@ -236,34 +246,26 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             return header;
         }
     }else{
-        LessonListHeaderView *header = (LessonListHeaderView*)[tableView dequeueReusableHeaderFooterViewWithIdentifier:LESSON_HEADER_IDENTIFIER];
-        LessonQuestionModel *question = (LessonQuestionModel *)[self.questionList objectAtIndex:section];
-        header.lessonTextLabel.text =question.lessonQuestionName;
-        header.lessonDetailLabel.text = [NSString stringWithFormat:@"%d",[question.chapterQuestionList count]];
-        header.path = [NSIndexPath indexPathForRow:0 inSection:section];
-        header.delegate = self;
-        BOOL isSelSection = NO;
-        for (int i = 0; i < self.questionArrSelSection.count; i++) {
-            NSString *strSection = [NSString stringWithFormat:@"%@",[self.questionArrSelSection objectAtIndex:i]];
-            NSInteger selSection = strSection.integerValue;
-            if (section == selSection) {
-                isSelSection = YES;
-                break;
-            }
+        if (section == 0) {
+            return [ [UIView alloc] initWithFrame:CGRectZero];
+        }else{
+            LessonListHeaderView *header = (LessonListHeaderView*)[tableView dequeueReusableHeaderFooterViewWithIdentifier:LESSON_HEADER_IDENTIFIER];
+            header.lessonTextLabel.text = @"我的问答";
+            header.lessonDetailLabel.text = [NSString stringWithFormat:@"5"];
+            header.path = [NSIndexPath indexPathForRow:0 inSection:section];
+            header.delegate = self;
+            header.isSelected = NO;
+//            [header setNeedsDisplay];
+            return header;
         }
-        if (section > 1) {
-                    header.isSelected = isSelSection;
         }
-
-        return header;
-    }
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if (self.listType == LESSON_LIST) {
          return self.lessonList.count;
     }else{
-        return  self.questionList.count;
+        return  2;
     }
    
 }
@@ -281,20 +283,11 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         count = lesson.chapterList.count;
         return count;
     }else{
-        if (section < 2) {
-            return 0;
+        if (section == 0) {
+            return 1;
+        }else{
+            return 2;
         }
-        NSInteger count = 0;
-        for (int i = 0; i < self.questionArrSelSection.count; i++) {
-            NSString *strSection = [NSString stringWithFormat:@"%@",[self.questionArrSelSection objectAtIndex:i]];
-            NSInteger selSection = strSection.integerValue;
-            if (section == selSection) {
-                return 0;
-            }
-        }
-        LessonQuestionModel *question = (LessonQuestionModel *)[self.questionList objectAtIndex:section];
-        count = question.chapterQuestionList.count;
-        return count;
     }
 }
 
@@ -313,10 +306,16 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         return cell;
     }else{
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"questionCell"];
-        LessonQuestionModel *question = (LessonQuestionModel *)[self.questionList objectAtIndex:indexPath.section];
-        
-        ChapterQuestionModel*chapter = (ChapterQuestionModel *)[question.chapterQuestionList objectAtIndex:indexPath.row];
-        cell.textLabel.text = chapter.chapterQuestionName;
+        if (indexPath.section == 0) {
+            cell.textLabel.text = @"所有提问";
+        }else{
+            if (indexPath.row == 0) {
+                cell.textLabel.text = @"   我的提问";
+            }else{
+                cell.textLabel.text = @"   我的回答";
+            }
+        }
+
         cell.textLabel.textColor = [UIColor whiteColor];
         cell.detailTextLabel.textColor = [UIColor whiteColor];
         cell.backgroundColor = [UIColor clearColor];
@@ -367,7 +366,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         [self presentPopupViewController:chapterView animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO];
           */
     }else{
-
+        MyQuestionAndAnswerViewController *myQuestionAndAnswerController = [self.storyboard instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
     }
 }
 - (IBAction)lessonListBtClicked:(id)sender {
@@ -412,12 +411,12 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     return _questionArrSelSection;
 }
 
--(NSMutableArray *)questionList{
-    if (!_questionList) {
-        _questionList = [NSMutableArray array];
-    }
-    return _questionList;
-}
+//-(NSMutableArray *)questionList{
+//    if (!_questionList) {
+//        _questionList = [NSMutableArray array];
+//    }
+//    return _questionList;
+//}
 
 -(void)setListType:(TableListType)listType{
     if (listType == LESSON_LIST) {
