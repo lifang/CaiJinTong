@@ -22,7 +22,7 @@
     if (self) {
         // Initialization code
         self.backImageView = [[UIImageView alloc] initWithFrame:(CGRect){}];
-        self.backImageView.backgroundColor = [UIColor lightGrayColor];
+        self.backImageView.backgroundColor = [UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:232.0/255.0 alpha:1.0];
         self.backImageView.layer.borderColor = [UIColor grayColor].CGColor;
         self.backImageView.layer.borderWidth =1.0;
         self.backImageView.layer.cornerRadius =18.0;
