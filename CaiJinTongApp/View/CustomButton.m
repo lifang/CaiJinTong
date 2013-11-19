@@ -24,13 +24,8 @@
 }
 -(void)setButtonModel:(SectionSaveModel *)buttonModel {
     _buttonModel = buttonModel;
-    
-//    [self setBackgroundImage:[UIImage imageNamed:@"course-mycourse_03"] forState:UIControlStateNormal];
-//    [self setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-//    CGRect frame = self.frame;
-//    frame.size = CGSizeMake(frame.size.width-20, frame.size.height-10);
-//    self.frame = frame;
-    
+    [self setBackgroundImage:[UIImage imageNamed:@"course-mycourse_03"] forState:UIControlStateNormal];
+    [self setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     switch (buttonModel.downloadState) {
         case 0:
         {
@@ -131,6 +126,7 @@
             [Utility errorAlert:@"暂无网络!"];
         }else {
             [SVProgressHUD showWithStatus:@"玩命加载中..."];
+            
             SectionInfoInterface *sectionInter = [[SectionInfoInterface alloc]init];
             self.sectionInterface = sectionInter;
             self.sectionInterface.delegate = self;

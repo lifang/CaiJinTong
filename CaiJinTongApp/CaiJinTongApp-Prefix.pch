@@ -19,6 +19,9 @@
 #import "CaiJinTongManager.h"
 #import "SVProgressHUD.h"
 #import "MZFormSheetController.h"
+
+#import "MBProgressHUD.h"
+
 #endif
 
 //系统版本

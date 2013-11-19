@@ -10,6 +10,7 @@
 @protocol ChapterSearchBarDelegate;
 @interface ChapterSearchBar : UIView
 @property (weak,nonatomic) id<ChapterSearchBarDelegate> delegate;
+@property (nonatomic,strong) UITextField *searchTextField;
 @end
 
 

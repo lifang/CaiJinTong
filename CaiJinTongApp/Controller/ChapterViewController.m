@@ -45,12 +45,10 @@
     
     self.searchBar = [[ChapterSearchBar alloc] initWithFrame:(CGRect){50, 64, (self.view.frame.size.width - 200 - 100), 74}];
     [self.view addSubview:self.searchBar];
-    self.searchBar.backgroundColor = [UIColor lightGrayColor];
+
     [self.searchBar setHidden:!self.isSearch];
-    
     self.mainToolBar.backgroundColor = [UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:232.0/255.0 alpha:1.0];
-    
-    
+   
 }
 
 
@@ -113,7 +111,7 @@
     return 300;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger count = ([self.dataArray count]-1)/6+1;
+    NSInteger count = ([self.dataArray count]-1)/6+1;//页数
     
     static NSString *CellIdentifier = @"Cell";
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -418,6 +416,15 @@
     _isSearch = isSearch;
     [self.searchBar setHidden:!isSearch];
     [self.mainToolBar setHidden:isSearch];
+    
+    UIBarButtonItem *tempBarButtonItem = (UIBarButtonItem *)self.navigationItem.backBarButtonItem;
+    tempBarButtonItem.target = self;
+
+    if(self.isSearch){
+        tempBarButtonItem.title = @"搜索";
+    }else{
+        tempBarButtonItem.title = @"返回";
+    }
 }
 
 @end

@@ -169,14 +169,14 @@ static const NSUInteger kTagOfRightSideButton = 999;
         //累计每个tab文字的长度
         topScrollViewContentWidth += kWidthOfButtonMargin+textSize.width;
         //设置按钮尺寸
-        [button setFrame:CGRectMake(xOffset,0,
+        [button setFrame:CGRectMake(120*i,0,
                                     textSize.width, kHeightOfTopScrollView)];
         //计算下一个tab的x偏移量
         xOffset += textSize.width + kWidthOfButtonMargin;
         
         [button setTag:i+100];
         if (i == 0) {
-            _shadowImageView.frame = CGRectMake(kWidthOfButtonMargin, 0, textSize.width, _shadowImage.size.height);
+            _shadowImageView.frame = CGRectMake(0, 0, textSize.width, _shadowImage.size.height);
             button.selected = YES;
         }
         [button setTitle:vc.title forState:UIControlStateNormal];

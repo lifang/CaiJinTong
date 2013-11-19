@@ -12,7 +12,7 @@
 
 
 @property (nonatomic,strong) UIButton *coverBt;
-
+@property (nonatomic,strong) UIImageView *lineImageView;
 @end
 @implementation LessonListHeaderView
 
@@ -29,6 +29,10 @@
 -(id)initWithReuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithReuseIdentifier:reuseIdentifier];
     if (self) {
+        self.lineImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"play-courselist_0d3@2x.png"]];
+        self.lineImageView.backgroundColor = [UIColor clearColor];
+        [self addSubview:self.lineImageView];
+        
         self.backgroundView = [UIView new];
         self.lessonTextLabel = [[UILabel alloc] init];
         self.lessonTextLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
@@ -61,8 +65,10 @@
 
 -(void)layoutSubviews{
 //    [super layoutSubviews];
-    self.lessonTextLabel.frame = (CGRect){25,0,CGRectGetWidth(self.frame)-65,CGRectGetHeight(self.frame)};
-    self.lessonDetailLabel.frame = (CGRect){CGRectGetMaxX(self.lessonTextLabel.frame),0,CGRectGetWidth(self.frame)-CGRectGetMaxX(self.lessonTextLabel.frame),CGRectGetHeight(self.frame)};
+    self.lineImageView.frame = (CGRect){0,0,CGRectGetWidth(self.frame),2};
+    
+    self.lessonTextLabel.frame = (CGRect){25,2,CGRectGetWidth(self.frame)-65,CGRectGetHeight(self.frame)-2};
+    self.lessonDetailLabel.frame = (CGRect){CGRectGetMaxX(self.lessonTextLabel.frame),2,CGRectGetWidth(self.frame)-CGRectGetMaxX(self.lessonTextLabel.frame),CGRectGetHeight(self.frame)-2};
     self.flagImageView.frame = (CGRect){5,CGRectGetHeight(self.frame)/2- 5,10,10};
     self.coverBt.frame = self.bounds;
 }

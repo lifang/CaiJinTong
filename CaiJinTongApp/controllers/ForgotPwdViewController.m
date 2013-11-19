@@ -30,12 +30,15 @@
 {
    
     [super viewDidLoad];
+    self.title = @"找回密码";
+    
     self.userNameTextField.layer.cornerRadius = 5;
     self.userNameTextField.layer.borderWidth = 1;
     self.userNameTextField.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.emailTextField.layer.cornerRadius = 5;
     self.emailTextField.layer.borderWidth = 1;
     self.emailTextField.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    
 	// Do any additional setup after loading the view.
 }
 
