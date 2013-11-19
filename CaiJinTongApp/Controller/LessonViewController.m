@@ -323,6 +323,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     }
 
 }
+static NSString *titleName = nil;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.listType == LESSON_LIST) {
         //根据chapterId获取章下面视频信息
@@ -332,12 +333,15 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             [Utility errorAlert:@"暂无网络!"];
         }else {
             [SVProgressHUD showWithStatus:@"玩命加载中..."];
+            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            titleName = cell.textLabel.text;
             ChapterInfoInterface *chapterInter = [[ChapterInfoInterface alloc]init];
             self.chapterInterface = chapterInter;
             self.chapterInterface.delegate = self;
             [self.chapterInterface getChapterInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andChapterId:chapter.chapterId];
         }
-         /*
+     
+        /*
         //数据来源
         NSDictionary *dictionary = [Utility initWithJSONFile:@"chapterInfo"];
         NSDictionary *dicc = [dictionary objectForKey:@"ReturnObject"];
@@ -355,16 +359,28 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             }
         }
         //
+        [CaiJinTongManager shared].defaultLeftInset = 200;
+        [CaiJinTongManager shared].defaultPortraitTopInset = 20;
+        [CaiJinTongManager shared].defaultWidth = 568;
+        [CaiJinTongManager shared].defaultHeight = 1004;
         UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
         ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
-        chapterView.view.frame = CGRectMake(50, 20, 768-200, 1024-20);
         if (tempArray.count>0) {
-            chapterView.recentArray = [[NSMutableArray alloc]initWithArray:tempArray];
+            [chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:tempArray]];
             tempArray = nil;
         }
+        UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:chapterView];
+        MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:navControl];
+        formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromRight;
+        formSheet.shadowRadius = 2.0;
+        formSheet.shadowOpacity = 0.3;
+        formSheet.shouldDismissOnBackgroundViewTap = YES;
+        formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
         
-        [self presentPopupViewController:chapterView animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO];
-          */
+        [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+            
+        }];
+        */
     }else{
 
     }
@@ -388,15 +404,28 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
     chapterView.view.frame = CGRectMake(50, 20, 768-200, 1024-20);
     chapterView.isSearch = YES;
-    [self presentPopupViewController:chapterView animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:nil];
+//    [self presentPopupViewController:chapterView animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:nil];
 }
 
 -(IBAction)setBtnPressed:(id)sender {
     UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-    SettingViewController *setView = [story instantiateViewControllerWithIdentifier:@"SettingViewController"];
-    [self presentPopupViewController:setView animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:YES dismissed:^{
+    UIViewController *vc = [story instantiateViewControllerWithIdentifier:@"modal"];
+
+    [CaiJinTongManager shared].defaultLeftInset = 184;
+    [CaiJinTongManager shared].defaultPortraitTopInset = 250;
+    [CaiJinTongManager shared].defaultWidth = 400;
+    [CaiJinTongManager shared].defaultHeight = 500;
+    MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:vc];
+    formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromRight;
+    formSheet.shadowRadius = 2.0;
+    formSheet.shadowOpacity = 0.3;
+    formSheet.shouldDismissOnBackgroundViewTap = YES;
+    formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
+    
+    [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
         
     }];
+    
 }
 #pragma mark property
 -(NSMutableArray *)questionArrSelSection{
@@ -434,16 +463,36 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 
         dispatch_async(dispatch_get_main_queue(), ^{
             UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+            [CaiJinTongManager shared].defaultLeftInset = 200;
+            [CaiJinTongManager shared].defaultPortraitTopInset = 20;
+            [CaiJinTongManager shared].defaultWidth = 568;
+            [CaiJinTongManager shared].defaultHeight = 1004;
+            
             ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
-            chapterView.view.frame = CGRectMake(50, 20, 768-200, 1024-20);
+            
             if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
                 chapterView.recentArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
-                [self presentPopupViewController:chapterView animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:nil];
                 [chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]]];
+                if (titleName) {
+                    chapterView.title = titleName;
+                }
+                UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:chapterView];
+                MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:navControl];
+                formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromRight;
+                formSheet.shadowRadius = 2.0;
+                formSheet.shadowOpacity = 0.3;
+                formSheet.shouldDismissOnBackgroundViewTap = YES;
+                formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
+                
+                [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+                   
+                }];
+                
             }
         });
     });
 }
+
 -(void)getChapterInfoDidFailed:(NSString *)errorMsg {
     [SVProgressHUD dismiss];
     [Utility errorAlert:errorMsg];

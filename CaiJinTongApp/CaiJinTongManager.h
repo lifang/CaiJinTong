@@ -16,6 +16,12 @@
 
 @property (nonatomic, strong) NSString * userId;
 
+@property (nonatomic, assign) CGFloat defaultPortraitTopInset;
+@property (nonatomic, assign) CGFloat defaultWidth;
+@property (nonatomic, assign) CGFloat defaultHeight;
+@property (nonatomic, assign) CGFloat defaultLeftInset;
+
+
 + (CaiJinTongManager *)shared;
 
 /** hold the thread when background task will terminate */

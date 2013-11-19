@@ -11,7 +11,8 @@
 #import "CJTMainToolbar.h"
 #import "ChapterSearchBar.h"
 #import "SectionInfoInterface.h"
-@interface ChapterViewController : DRNaviGationBarController <UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource,CJTMainToolbarDelegate, SectionInfoInterfaceDelegate>
+@interface ChapterViewController : UIViewController <UIScrollViewDelegate,UITableViewDataSource,UITableViewDelegate,CJTMainToolbarDelegate, SectionInfoInterfaceDelegate>
+
 @property (nonatomic, strong) SectionInfoInterface *sectionInterface;
 @property (nonatomic, strong) CJTMainToolbar *mainToolBar;
 @property (nonatomic, strong) UIScrollView *myScrollView;
@@ -21,7 +22,8 @@
 @property (nonatomic, strong) NSArray *nameArray;//名称(A-Z)
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) SectionCustomView *sectionView;
-@property (nonatomic, strong)  ChapterSearchBar *searchBar;
+@property (nonatomic, strong) ChapterSearchBar *searchBar;
 @property (assign,nonatomic) BOOL isSearch;
+
 -(void)reloadDataWithDataArray:(NSArray*)data;
 @end

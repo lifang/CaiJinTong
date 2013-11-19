@@ -36,8 +36,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSLog(@"--%f--",self.view.frame.size.width);
-    CJTMainToolbar *mainBar = [[CJTMainToolbar alloc]initWithFrame:CGRectMake (50, 64, (self.view.frame.size.width - 200 - 100), 44)];
+    CJTMainToolbar *mainBar = [[CJTMainToolbar alloc]initWithFrame:CGRectMake (50, 64, 468, 44)];
 	self.mainToolBar = mainBar;
     self.mainToolBar.delegate = self;
     [self.view addSubview:self.mainToolBar];
@@ -49,13 +48,9 @@
     self.searchBar.backgroundColor = [UIColor lightGrayColor];
     [self.searchBar setHidden:!self.isSearch];
     
-    self.drnavigationBar.titleLabel.text = @"我的课程";
-    [self.drnavigationBar.navigationRightItem setTitle:@"返回" forState:UIControlStateNormal];
-    self.drnavigationBar.navigationRightItem.titleLabel.textColor = [UIColor darkGrayColor];
-    
     self.mainToolBar.backgroundColor = [UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:232.0/255.0 alpha:1.0];
     
-
+    
 }
 
 
@@ -66,18 +61,7 @@
         [self displayNewView];
     }
 }
--(void)drnavigationBarRightItemClicked:(id)sender{
-    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
-}
--(void)viewDidAppear:(BOOL)animated {
-    
-    DLog(@"progress = %@",self.progressArray);
-    [super viewDidAppear:animated];
-    if (self.recentArray.count>0) {
-        self.dataArray = [NSMutableArray arrayWithArray:self.recentArray];
-        [self displayNewView];
-    }
-}
+
 #pragma -- 页面布局
 
 -(void)displayNewView {
@@ -86,14 +70,16 @@
         NSInteger count = ([self.dataArray count]-1)/6+1;
         if (self.isSearch) {
             self.myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 148, self.view.frame.size.width, self.view.frame.size.height-50)];
-        }else
-        self.myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 118, self.view.frame.size.width, self.view.frame.size.height-20)];
+        }else {
+            self.myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 118, self.view.frame.size.width, self.view.frame.size.height-20)];
+        }
         
         self.myScrollView.delegate = self;
         self.myScrollView.contentSize = CGSizeMake(self.myScrollView.frame.size.width, self.myScrollView.frame.size.height*count);
         [self.myScrollView setPagingEnabled:YES];
         self.myScrollView.showsVerticalScrollIndicator = NO;
         self.myScrollView.showsHorizontalScrollIndicator = NO;
+        self.myScrollView.backgroundColor = [UIColor orangeColor];
         [self.view addSubview:self.myScrollView];
         
         for (int i=0; i<count; i++) {
@@ -102,7 +88,7 @@
             self.myTable.delegate = self;
             self.myTable.dataSource = self;
             self.myTable.scrollEnabled = NO;
-            self.myTable.backgroundColor = [UIColor clearColor];
+            self.myTable.backgroundColor = [UIColor redColor];
             [self.myScrollView addSubview:self.myTable];
         }
         CGRect frame = [self.view bounds];
@@ -114,10 +100,8 @@
 
 #pragma -- UIScrollViewDelegate
 //控制滑动的时候分页按钮对应去显示
--(void)scrollViewDidScroll:(UIScrollView *)sender
-{
-}
-#pragma -- UITableViewDelegate
+
+#pragma mark -- UITableViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
@@ -273,11 +257,11 @@
         //
         UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
         SectionViewController *sectionView = [story instantiateViewControllerWithIdentifier:@"SectionViewController"];
-        sectionView.view.frame = CGRectMake(50, 0, 768-200, 1024);
-        
+
         sectionView.section = section;
-        
-        [self presentPopupViewController:sectionView animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:nil];
+        sectionView.title = section.sectionName;
+        [self.navigationController pushViewController:sectionView animated:YES];
+
         
     }
 }
@@ -287,7 +271,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma -- 筛选
+#pragma mark-- 筛选
 //学习进度
 - (void)bubbleSort:(NSMutableArray *)array {
     int i, y;
@@ -358,7 +342,7 @@
         }
     }
 }
-#pragma -- CJTMainToolbarDelegate
+#pragma mark -- CJTMainToolbarDelegate
 //按学习进度排序
 -(void)initButton:(UIButton *)button {
     [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -413,7 +397,7 @@
     }
 }
 
-#pragma -- SectionInfoInterface
+#pragma mark -- SectionInfoInterface
 -(void)getSectionInfoDidFinished:(SectionModel *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
@@ -435,5 +419,5 @@
     [self.searchBar setHidden:!isSearch];
     [self.mainToolBar setHidden:isSearch];
 }
-#pragma mark --
+
 @end

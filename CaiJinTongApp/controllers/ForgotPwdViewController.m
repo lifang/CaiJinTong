@@ -39,10 +39,6 @@
 	// Do any additional setup after loading the view.
 }
 
--(void)drnavigationBarRightItemClicked:(id)sender{
-    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
-}
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -72,7 +68,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [SVProgressHUD dismissWithSuccess:@"密码发送成功，请查收!"];
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
+//            [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
         });
     });
 }
