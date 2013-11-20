@@ -104,13 +104,12 @@
         UIFont *aFont = [UIFont fontWithName:@"Trebuchet MS" size:18];
         CGSize size = [comment.content sizeWithFont:aFont constrainedToSize:CGSizeMake(500, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
         cell.contentLab.frame = CGRectMake(25, 25, 500, size.height);
-        cell.titleLab.text = comment.nickName;
+        cell.titleLab.text = [NSString stringWithFormat:@"%@发表于%@",comment.nickName,comment.time];
         cell.contentLab.text = comment.content;
     }else {
         DLog(@"%d,,%d",self.nowPage,self.pageCount);
         if (self.nowPage < self.pageCount) {
             cell.titleLab.text = @"正在加载..."; //最后一行 触发下载更新代码
-//            [self loadMore];
             [self performSelector:@selector(loadMore) withObject:nil afterDelay:3];
         }else {
             cell.titleLab.text = @"已全部加载完毕"; //最后一行 触发下载更新代码

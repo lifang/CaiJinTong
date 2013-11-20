@@ -73,7 +73,7 @@
         rs = [self.db executeQuery:@"select name from SQLITE_MASTER where name = 'Chapter'"];
         if (![rs next]) {
             [rs close];
-            [self.db executeUpdate:@"CREATE TABLE Chapter (id INTEGER PRIMARY KEY  NOT NULL , sid VARCHAR, name VARCHAR, sectionId VARCHAR)"];
+            [self.db executeUpdate:@"CREATE TABLE Chapter (id INTEGER PRIMARY KEY  NOT NULL , sid VARCHAR, name VARCHAR, sectionId VARCHAR, sectionDownload VARCHAR)"];
         }
         
         [rs close];
@@ -81,7 +81,7 @@
         rs = [self.db executeQuery:@"select name from SQLITE_MASTER where name = 'Note'"];
         if (![rs next]) {
             [rs close];
-            [self.db executeUpdate:@"CREATE TABLE Note (id INTEGER PRIMARY KEY  NOT NULL , sid VARCHAR, noteTitle VARCHAR, noteTime VARCHAR, noteText VARCHAR)"];
+            [self.db executeUpdate:@"CREATE TABLE Note (id INTEGER PRIMARY KEY  NOT NULL , sid VARCHAR, noteId VARCHAR, noteTime VARCHAR, noteText VARCHAR)"];
         }
         
         [rs close];

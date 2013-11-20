@@ -131,9 +131,9 @@
 }
 //笔记
 -(BOOL)addDataWithNoteModel:(NoteModel *)model andSid:(NSString *)sid{
-    BOOL res = [self.db executeUpdate:@"insert into Note ( sid , noteTitle , noteTime , noteText) values (?,?,?,?)"
+    BOOL res = [self.db executeUpdate:@"insert into Note ( sid , noteId , noteTime , noteText) values (?,?,?,?)"
                 ,sid
-                ,model.noteTitle
+                ,model.noteId
                 ,model.noteTime
                 ,model.noteText  ];
     return res;
@@ -150,11 +150,12 @@
 }
 
 //章节目录
--(BOOL)addDataWithSectionModel:(SectionModel *)model andSid:(NSString *)sid {
-    BOOL res = [self.db executeUpdate:@"insert into Chapter ( sid , name, sectionId) values (?,?,?)"
+-(BOOL)addDataWithSectionModel:(Section_chapterModel *)model andSid:(NSString *)sid {
+    BOOL res = [self.db executeUpdate:@"insert into Chapter ( sid , name, sectionId, sectionDownload) values (?,?,?,?)"
                 ,sid
                 ,model.sectionName
-                ,model.sectionId  ];
+                ,model.sectionId
+                ,model.sectionDownload];
     return res;
 }
 -(void)deleteDataFromChapterWithSid:(NSString *)sid {

@@ -28,6 +28,7 @@
     [[MZFormSheetBackgroundWindow appearance] setBackgroundBlurEffect:YES];
     [[MZFormSheetBackgroundWindow appearance] setBlurRadius:5.0];
     [[MZFormSheetBackgroundWindow appearance] setBackgroundColor:[UIColor clearColor]];
+
     //开启网络状况的监听
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
     
@@ -35,6 +36,7 @@
     [self.hostReach startNotifier];  //开始监听，会启动一个run loop
     
     self.mDownloadService = [[DownloadService alloc]init];
+    
     return YES;
 }
 //连接改变

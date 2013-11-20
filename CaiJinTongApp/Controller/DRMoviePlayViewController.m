@@ -50,8 +50,8 @@
     [super viewDidLoad];
     self.isPopupChapter = NO;
     [self addMoviePlayBackNotification];
-//    self.movieUrlString =  @"http://www.jxvdy.com/file/upload/201309/18/18-10-03-19-3.mp4";
-    self.movieUrlString = @"http://archive.org/download/WaltDisneyCartoons-MickeyMouseMinnieMouseDonaldDuckGoofyAndPluto/WaltDisneyCartoons-MickeyMouseMinnieMouseDonaldDuckGoofyAndPluto-HawaiianHoliday1937-Video.mp4";
+//    self.movieUrlString =  @"http://lms.finance365.com/data/course/6/304/2690/20130717091047687.mp4";
+//    self.movieUrlString = @"http://archive.org/download/WaltDisneyCartoons-MickeyMouseMinnieMouseDonaldDuckGoofyAndPluto/WaltDisneyCartoons-MickeyMouseMinnieMouseDonaldDuckGoofyAndPluto-HawaiianHoliday1937-Video.mp4";
     [self.moviePlayer play];
     self.isPlaying = YES;
     [self hiddleMovieHolderView];
@@ -376,7 +376,7 @@
         [_moviePlayer setShouldAutoplay:YES];
         [self.moviePlayerView addSubview:_moviePlayer.view];
         [self.moviePlayerView sendSubviewToBack:_moviePlayer.view];
-        [_moviePlayer setMovieSourceType:MPMovieSourceTypeStreaming];
+        [_moviePlayer setMovieSourceType:MPMovieSourceTypeFile];
         _moviePlayer.view.frame = (CGRect){0,0,self.moviePlayerView.frame.size};
         [_moviePlayer setScalingMode:MPMovieScalingModeAspectFill];
         [_moviePlayer setContentURL:[NSURL URLWithString:self.movieUrlString]];

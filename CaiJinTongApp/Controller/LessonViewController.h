@@ -37,7 +37,7 @@
 @property (nonatomic, assign) NSInteger tmpSection;
 
 @property (nonatomic, strong) NSDictionary *questionDictionary;
-//@property (nonatomic, strong) NSMutableArray *questionList;
+@property (nonatomic, strong) NSMutableArray *questionList;
 @property (nonatomic, strong) NSMutableArray *questionArrSelSection;
 @property (nonatomic, assign) NSInteger questionTmpSection;
 
