@@ -64,7 +64,8 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     [placeholder addAttribute:NSForegroundColorAttributeName value:[UIColor grayColor] range:NSMakeRange(0, placeholder.length)];
     self.searchText.attributedPlaceholder = placeholder;
     self.isSearching = NO;
-    
+    self.editBtn.backgroundColor = [UIColor clearColor];
+    self.editBtn.alpha = 0.3;
 //    self.searchBarView.tintColor = [UIColor clearColor];
 //    self.searchBarView.backgroundImage = [UIImage new];
 //    self.searchBarView.translucent = YES;
@@ -397,6 +398,9 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 }
 
 -(IBAction)setBtnPressed:(id)sender {
+    self.editBtn.alpha = 1.0;
+    self.lessonListBt.alpha = 0.3;
+    self.questionListBt.alpha = 0.3;
     UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
     SettingViewController *setView = [story instantiateViewControllerWithIdentifier:@"SettingViewController"];
     [self presentPopupViewController:setView animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:YES dismissed:^{
@@ -423,10 +427,12 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         self.lessonListTitleLabel.text = @"我的课程";
         self.lessonListBt.alpha = 1;
         self.questionListBt.alpha = 0.3;
+        self.editBtn.alpha = 0.3;
     }else{
     self.lessonListTitleLabel.text = @"我的问答";
         self.lessonListBt.alpha = 0.3;
         self.questionListBt.alpha = 1;
+        self.editBtn.alpha = 0.3;
     }
     _listType = listType;
 }

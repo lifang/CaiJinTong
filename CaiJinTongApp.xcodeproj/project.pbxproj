@@ -170,6 +170,9 @@
 		18153251183608330078A410 /* Q&A-myq_11@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18153250183608330078A410 /* Q&A-myq_11@2x.png */; };
 		1815325418360DE60078A410 /* Q&A-myq_19@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1815325318360DE60078A410 /* Q&A-myq_19@2x.png */; };
 		1815325618360DF40078A410 /* Q&A-myq_15@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1815325518360DF40078A410 /* Q&A-myq_15@2x.png */; };
+		1836AFE2183AF875009E65B5 /* settings_delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 1836AFDF183AF875009E65B5 /* settings_delete.png */; };
+		1836AFE3183AF875009E65B5 /* settings_未选中.png in Resources */ = {isa = PBXBuildFile; fileRef = 1836AFE0183AF875009E65B5 /* settings_未选中.png */; };
+		1836AFE4183AF875009E65B5 /* settings_选中.png in Resources */ = {isa = PBXBuildFile; fileRef = 1836AFE1183AF875009E65B5 /* settings_选中.png */; };
 		183F77AF1839B5E8004D0263 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F77AE1839B5E8004D0263 /* MBProgressHUD.m */; };
 		18491C3F18345E11003C82E4 /* play_0h5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18491C3E18345E11003C82E4 /* play_0h5@2x.png */; };
 		18491C4118345FF8003C82E4 /* play_05@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18491C4018345FF8003C82E4 /* play_05@2x.png */; };
@@ -535,6 +538,9 @@
 		18153250183608330078A410 /* Q&A-myq_11@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Q&A-myq_11@2x.png"; sourceTree = "<group>"; };
 		1815325318360DE60078A410 /* Q&A-myq_19@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Q&A-myq_19@2x.png"; sourceTree = "<group>"; };
 		1815325518360DF40078A410 /* Q&A-myq_15@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Q&A-myq_15@2x.png"; sourceTree = "<group>"; };
+		1836AFDF183AF875009E65B5 /* settings_delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings_delete.png; sourceTree = "<group>"; };
+		1836AFE0183AF875009E65B5 /* settings_未选中.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings_未选中.png"; sourceTree = "<group>"; };
+		1836AFE1183AF875009E65B5 /* settings_选中.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings_选中.png"; sourceTree = "<group>"; };
 		183F77AD1839B5E8004D0263 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		183F77AE1839B5E8004D0263 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		18491C3E18345E11003C82E4 /* play_0h5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play_0h5@2x.png"; sourceTree = "<group>"; };
@@ -1372,6 +1378,9 @@
 		6376B3041839E6200015C537 /* lesson */ = {
 			isa = PBXGroup;
 			children = (
+				1836AFDF183AF875009E65B5 /* settings_delete.png */,
+				1836AFE0183AF875009E65B5 /* settings_未选中.png */,
+				1836AFE1183AF875009E65B5 /* settings_选中.png */,
 				6376B3051839E62F0015C537 /* line2@2x.png */,
 			);
 			name = lesson;
@@ -1504,6 +1513,7 @@
 				0EAFA0F81822167800D01D3E /* questionList.json in Resources */,
 				630B03C61820F5BB00F72C4C /* Images.xcassets in Resources */,
 				18491C4518347A13003C82E4 /* course-courses_06_right@2x.png in Resources */,
+				1836AFE3183AF875009E65B5 /* settings_未选中.png in Resources */,
 				0EAFA0F11822167800D01D3E /* getUserQuestion.json in Resources */,
 				18C9313418363B2A00FBE1A8 /* play_play@2x.png in Resources */,
 				18C9313818363B2A00FBE1A8 /* play-courselist_0df3@2x.png in Resources */,
@@ -1544,12 +1554,14 @@
 				0EA7EF0C18233B0000C47F69 /* jiantou_up.png in Resources */,
 				0EAFA0F71822167800D01D3E /* questionInfo.json in Resources */,
 				0EAFA107182223BD00D01D3E /* loginBgImage_v.png in Resources */,
+				1836AFE4183AF875009E65B5 /* settings_选中.png in Resources */,
 				0E52672E1829F4EE0009E535 /* DownLoadInformView.xib in Resources */,
 				0EAFA0F51822167800D01D3E /* playBack.json in Resources */,
 				630B03B51820F5BB00F72C4C /* InfoPlist.strings in Resources */,
 				18491C4718347A2A003C82E4 /* course-courses_06@2x.png in Resources */,
 				0EA7176C1829E2D800560885 /* backgroundStar.png in Resources */,
 				0EA717631829D02000560885 /* SVProgressHUD.bundle in Resources */,
+				1836AFE2183AF875009E65B5 /* settings_delete.png in Resources */,
 				0EAFA0FC1822167800D01D3E /* submitAnswer.json in Resources */,
 				0EAFA0EA1822167800D01D3E /* acceptAnswer.json in Resources */,
 				0EAFA0EB1822167800D01D3E /* answerPraise.json in Resources */,
