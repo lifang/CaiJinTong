@@ -29,9 +29,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.drnavigationBar.titleLabel.text = @"课程名称";
-    [self.drnavigationBar.navigationRightItem setTitle:@"关闭" forState:UIControlStateNormal];
-    self.drnavigationBar.navigationRightItem.titleLabel.textColor = [UIColor darkGrayColor];
     //打分之后提交
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(refeshScore:)
@@ -61,9 +58,7 @@
         }
     }
 }
--(void)drnavigationBarRightItemClicked:(id)sender{
-    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
-}
+
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     DLog(@"%f",self.view.frame.size.width);
@@ -217,9 +212,8 @@
     self.slideSwitchView.backgroundColor = [UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:232.0/255.0 alpha:1.0];
     //3个选项卡
     self.slideSwitchView.tabItemNormalColor = [SUNSlideSwitchView colorFromHexRGB:@"868686"];
-//    self.slideSwitchView.tabItemSelectedColor = [SUNSlideSwitchView colorFromHexRGB:@"bb0b15"];
     self.slideSwitchView.tabItemSelectedColor = [UIColor darkGrayColor];
-    self.slideSwitchView.shadowImage = [[UIImage imageNamed:@"play-courselist_0df3.png"]
+    self.slideSwitchView.shadowImage = [[UIImage imageNamed:@"play-courselist_0df3"]
                                         stretchableImageWithLeftCapWidth:59.0f topCapHeight:0.0f];
     
     UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
@@ -235,7 +229,7 @@
     self.section_GradeView.sectionId = self.section.sectionId;
     CommentModel *comment = (CommentModel *)[self.section_GradeView.dataArray objectAtIndex:self.section_GradeView.dataArray.count-1];
     self.section_GradeView.pageCount = comment.pageCount;
-    self.section_GradeView.nowPage = 0;
+    self.section_GradeView.nowPage = 1;
     
     
     self.section_NoteView = [story instantiateViewControllerWithIdentifier:@"Section_NoteViewController"];

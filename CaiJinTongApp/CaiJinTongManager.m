@@ -55,4 +55,27 @@
     
 }
 
+
+-(void)setDefaultLeftInset:(CGFloat)defaultLeftInset {
+    if (_defaultLeftInset != defaultLeftInset) {
+        _defaultLeftInset = defaultLeftInset;
+    }
+}
+-(void)setDefaultHeight:(CGFloat)defaultHeight {
+    if (_defaultHeight != defaultHeight) {
+        _defaultHeight = defaultHeight;
+    }
+}
+
+-(void)setDefaultWidth:(CGFloat)defaultWidth {
+    if (_defaultWidth != defaultWidth) {
+        _defaultWidth = defaultWidth;
+    }
+}
+-(void)setDefaultPortraitTopInset:(CGFloat)defaultPortraitTopInset {
+    if (_defaultPortraitTopInset != defaultPortraitTopInset) {
+        _defaultPortraitTopInset = defaultPortraitTopInset;
+    }
+}
+
 @end

@@ -17,6 +17,14 @@
 		0E52672C1829EE990009E535 /* DownLoadInformView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E52672B1829EE990009E535 /* DownLoadInformView.m */; };
 		0E52672E1829F4EE0009E535 /* DownLoadInformView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E52672D1829F4EE0009E535 /* DownLoadInformView.xib */; };
 		0EA137931831E3D600DA5D23 /* login_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EA137921831E3D600DA5D23 /* login_bg@2x.png */; };
+		0EA264B21839B35D0037489C /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA264B11839B35D0037489C /* InfoViewController.m */; };
+		0EA264C71839BFEB0037489C /* InfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA264C61839BFEB0037489C /* InfoCell.m */; };
+		0EA264D01839D2A40037489C /* UIImage+Additional.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA264C91839D2A40037489C /* UIImage+Additional.m */; };
+		0EA264D11839D2A40037489C /* MZFormSheetBackgroundWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA264CA1839D2A40037489C /* MZFormSheetBackgroundWindow.m */; };
+		0EA264D21839D2A40037489C /* MZFormSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA264CD1839D2A40037489C /* MZFormSheetController.m */; };
+		0EA264D31839D2A40037489C /* MZFormSheetSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA264CF1839D2A40037489C /* MZFormSheetSegue.m */; };
+		0EA264D81839D2AA0037489C /* MZAppearance.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA264D51839D2AA0037489C /* MZAppearance.m */; };
+		0EA264D91839D2AA0037489C /* NSInvocation+Copy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA264D71839D2AA0037489C /* NSInvocation+Copy.m */; };
 		0EA2A91A18288275003D152E /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EA2A91918288275003D152E /* libc++.dylib */; };
 		0EA2A91D1828847E003D152E /* pinyin.c in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2A91B1828847E003D152E /* pinyin.c */; };
 		0EA2A9201828893D003D152E /* ChineseString.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2A91F1828893D003D152E /* ChineseString.m */; };
@@ -120,8 +128,7 @@
 		0EAFA1261822488700D01D3E /* ChapterInfoInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA1251822488700D01D3E /* ChapterInfoInterface.m */; };
 		0EAFA12C18224C2700D01D3E /* LessonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA12B18224C2700D01D3E /* LessonViewController.m */; };
 		0EB849331835DE2700C97030 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB849321835DE2700C97030 /* SettingViewController.m */; };
-		0EB8494E1835F38400C97030 /* MJPopupBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB8494D1835F38400C97030 /* MJPopupBackgroundView.m */; };
-		0EB849511835F41B00C97030 /* UIViewController+MJPopupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB849501835F41B00C97030 /* UIViewController+MJPopupViewController.m */; };
+		0EBEB305183C51E0007E342B /* data.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0EBEB304183C51E0007E342B /* data.plist */; };
 		0EDF4D9118210202007161E0 /* DownloadService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDF4D9018210202007161E0 /* DownloadService.m */; };
 		0EDF4DDB18210241007161E0 /* ASIWebPageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDF4D9518210241007161E0 /* ASIWebPageRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0EDF4DDC18210241007161E0 /* ASICloudFilesCDNRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDF4D9818210241007161E0 /* ASICloudFilesCDNRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -275,6 +282,22 @@
 		0E52672B1829EE990009E535 /* DownLoadInformView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownLoadInformView.m; sourceTree = "<group>"; };
 		0E52672D1829F4EE0009E535 /* DownLoadInformView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DownLoadInformView.xib; sourceTree = "<group>"; };
 		0EA137921831E3D600DA5D23 /* login_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_bg@2x.png"; sourceTree = "<group>"; };
+		0EA264B01839B35D0037489C /* InfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoViewController.h; sourceTree = "<group>"; };
+		0EA264B11839B35D0037489C /* InfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoViewController.m; sourceTree = "<group>"; };
+		0EA264C51839BFEB0037489C /* InfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoCell.h; sourceTree = "<group>"; };
+		0EA264C61839BFEB0037489C /* InfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoCell.m; sourceTree = "<group>"; };
+		0EA264C81839D2A40037489C /* UIImage+Additional.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Additional.h"; sourceTree = "<group>"; };
+		0EA264C91839D2A40037489C /* UIImage+Additional.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Additional.m"; sourceTree = "<group>"; };
+		0EA264CA1839D2A40037489C /* MZFormSheetBackgroundWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZFormSheetBackgroundWindow.m; sourceTree = "<group>"; };
+		0EA264CB1839D2A40037489C /* MZFormSheetBackgroundWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZFormSheetBackgroundWindow.h; sourceTree = "<group>"; };
+		0EA264CC1839D2A40037489C /* MZFormSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZFormSheetController.h; sourceTree = "<group>"; };
+		0EA264CD1839D2A40037489C /* MZFormSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZFormSheetController.m; sourceTree = "<group>"; };
+		0EA264CE1839D2A40037489C /* MZFormSheetSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZFormSheetSegue.h; sourceTree = "<group>"; };
+		0EA264CF1839D2A40037489C /* MZFormSheetSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZFormSheetSegue.m; sourceTree = "<group>"; };
+		0EA264D41839D2AA0037489C /* MZAppearance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZAppearance.h; sourceTree = "<group>"; };
+		0EA264D51839D2AA0037489C /* MZAppearance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZAppearance.m; sourceTree = "<group>"; };
+		0EA264D61839D2AA0037489C /* NSInvocation+Copy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSInvocation+Copy.h"; sourceTree = "<group>"; };
+		0EA264D71839D2AA0037489C /* NSInvocation+Copy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSInvocation+Copy.m"; sourceTree = "<group>"; };
 		0EA2A91918288275003D152E /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		0EA2A91B1828847E003D152E /* pinyin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pinyin.c; sourceTree = "<group>"; };
 		0EA2A91C1828847E003D152E /* pinyin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pinyin.h; sourceTree = "<group>"; };
@@ -449,10 +472,7 @@
 		0EAFA12B18224C2700D01D3E /* LessonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonViewController.m; sourceTree = "<group>"; };
 		0EB849311835DE2700C97030 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		0EB849321835DE2700C97030 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
-		0EB8494C1835F38400C97030 /* MJPopupBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPopupBackgroundView.h; sourceTree = "<group>"; };
-		0EB8494D1835F38400C97030 /* MJPopupBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPopupBackgroundView.m; sourceTree = "<group>"; };
-		0EB8494F1835F38900C97030 /* UIViewController+MJPopupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+MJPopupViewController.h"; sourceTree = "<group>"; };
-		0EB849501835F41B00C97030 /* UIViewController+MJPopupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+MJPopupViewController.m"; sourceTree = "<group>"; };
+		0EBEB304183C51E0007E342B /* data.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = data.plist; sourceTree = "<group>"; };
 		0EDF4D8F18210202007161E0 /* DownloadService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadService.h; sourceTree = "<group>"; };
 		0EDF4D9018210202007161E0 /* DownloadService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadService.m; sourceTree = "<group>"; };
 		0EDF4D9418210241007161E0 /* ASIWebPageRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIWebPageRequest.h; sourceTree = "<group>"; };
@@ -983,6 +1003,8 @@
 				0EA2A92D1828D77D003D152E /* Section_GradeViewController.m */,
 				0EB849311835DE2700C97030 /* SettingViewController.h */,
 				0EB849321835DE2700C97030 /* SettingViewController.m */,
+				0EA264B01839B35D0037489C /* InfoViewController.h */,
+				0EA264B11839B35D0037489C /* InfoViewController.m */,
 				63841CF11838A60100E3FA9E /* DRNavigationController.h */,
 				63841CF21838A60100E3FA9E /* DRNavigationController.m */,
 			);
@@ -1235,6 +1257,8 @@
 				63091FF91827435400C1AF07 /* LessonListCell.m */,
 				63091FFB1827473300C1AF07 /* LessonListHeaderView.h */,
 				63091FFC1827473300C1AF07 /* LessonListHeaderView.m */,
+				0EA264C51839BFEB0037489C /* InfoCell.h */,
+				0EA264C61839BFEB0037489C /* InfoCell.m */,
 			);
 			name = lessonList;
 			sourceTree = "<group>";
@@ -1303,6 +1327,7 @@
 				630B03C21820F5BB00F72C4C /* ViewController.h */,
 				630B03C31820F5BB00F72C4C /* ViewController.m */,
 				0EA137921831E3D600DA5D23 /* login_bg@2x.png */,
+				0EBEB304183C51E0007E342B /* data.plist */,
 				630B03C51820F5BB00F72C4C /* Images.xcassets */,
 				0EAFA0D41822166700D01D3E /* JSON */,
 				0EDF4D8E18210202007161E0 /* DownService */,
@@ -1400,10 +1425,18 @@
 		639A07A11823906900B60670 /* popupView */ = {
 			isa = PBXGroup;
 			children = (
-				0EB8494C1835F38400C97030 /* MJPopupBackgroundView.h */,
-				0EB8494D1835F38400C97030 /* MJPopupBackgroundView.m */,
-				0EB8494F1835F38900C97030 /* UIViewController+MJPopupViewController.h */,
-				0EB849501835F41B00C97030 /* UIViewController+MJPopupViewController.m */,
+				0EA264D41839D2AA0037489C /* MZAppearance.h */,
+				0EA264D51839D2AA0037489C /* MZAppearance.m */,
+				0EA264D61839D2AA0037489C /* NSInvocation+Copy.h */,
+				0EA264D71839D2AA0037489C /* NSInvocation+Copy.m */,
+				0EA264C81839D2A40037489C /* UIImage+Additional.h */,
+				0EA264C91839D2A40037489C /* UIImage+Additional.m */,
+				0EA264CA1839D2A40037489C /* MZFormSheetBackgroundWindow.m */,
+				0EA264CB1839D2A40037489C /* MZFormSheetBackgroundWindow.h */,
+				0EA264CC1839D2A40037489C /* MZFormSheetController.h */,
+				0EA264CD1839D2A40037489C /* MZFormSheetController.m */,
+				0EA264CE1839D2A40037489C /* MZFormSheetSegue.h */,
+				0EA264CF1839D2A40037489C /* MZFormSheetSegue.m */,
 			);
 			name = popupView;
 			sourceTree = "<group>";
@@ -1540,6 +1573,7 @@
 				630B03BE1820F5BB00F72C4C /* Main_iPhone.storyboard in Resources */,
 				18E32E0A1831FDF900041B8A /* login_07@2x.png in Resources */,
 				0EAD1F7B182B369600204FC3 /* frame.png in Resources */,
+				0EBEB305183C51E0007E342B /* data.plist in Resources */,
 				18C9312F18363B2A00FBE1A8 /* play_bluetiao@2x.png in Resources */,
 				6309F8F9183AFAF6001397C0 /* play-M2@2x.png in Resources */,
 				181532471835EA330078A410 /* play-courselist_06@2x.png in Resources */,
@@ -1596,6 +1630,7 @@
 				63841CF31838A60100E3FA9E /* DRNavigationController.m in Sources */,
 				0EA7EF521823A99700C47F69 /* PlayBackInterface.m in Sources */,
 				6323876018222A1500C71535 /* DRNaviGationBarController.m in Sources */,
+				0EA264D01839D2A40037489C /* UIImage+Additional.m in Sources */,
 				0EA717671829E2D100560885 /* TQStarRatingView.m in Sources */,
 				6323875D18220E7D00C71535 /* ForgotPwdViewController.m in Sources */,
 				0EAFA1261822488700D01D3E /* ChapterInfoInterface.m in Sources */,
@@ -1629,6 +1664,7 @@
 				6323876318223E9500C71535 /* DRNavigationBar.m in Sources */,
 				0EDF4DF018210241007161E0 /* ASIS3ServiceRequest.m in Sources */,
 				0EDF4DDD18210241007161E0 /* ASICloudFilesContainer.m in Sources */,
+				0EA264D91839D2AA0037489C /* NSInvocation+Copy.m in Sources */,
 				63091FFA1827435400C1AF07 /* LessonListCell.m in Sources */,
 				18C9314118363B9C00FBE1A8 /* DRTakingMovieNoteViewController.m in Sources */,
 				631227E0182B384B00530CC3 /* MyQuestionAndAnswerViewController.m in Sources */,
@@ -1646,7 +1682,6 @@
 				0EA7EF4C18238DF600C47F69 /* AnswerModel.m in Sources */,
 				0EA7EF1918234A7500C47F69 /* CommentListInterface.m in Sources */,
 				0EA7EF2218234BA100C47F69 /* QuestionListInterface.m in Sources */,
-				0EB8494E1835F38400C97030 /* MJPopupBackgroundView.m in Sources */,
 				0EDF4DEF18210241007161E0 /* ASIS3Request.m in Sources */,
 				0EA7EF4F1823A98600C47F69 /* PlayVideoInterface.m in Sources */,
 				0EDF4DDE18210241007161E0 /* ASICloudFilesContainerRequest.m in Sources */,
@@ -1654,6 +1689,7 @@
 				0EA36ED2182C8E4F0074D67B /* CustomLabel.m in Sources */,
 				0EA7EF8D1827805D00C47F69 /* SectionInfoInterface.m in Sources */,
 				0EA36ED7182CB5570074D67B /* CustomTextView.m in Sources */,
+				0EA264D11839D2A40037489C /* MZFormSheetBackgroundWindow.m in Sources */,
 				0EDF4DF518210241007161E0 /* NSString+URLEncoding.m in Sources */,
 				0EB849331835DE2700C97030 /* SettingViewController.m in Sources */,
 				0EDF4DE218210241007161E0 /* ASICloudFilesRequest.m in Sources */,
@@ -1666,7 +1702,6 @@
 				0EDF4DF318210241007161E0 /* GTMNSString+HTML.m in Sources */,
 				0E5267221829E8B00009E535 /* unzip.c in Sources */,
 				0E5267201829E8B00009E535 /* ioapi.c in Sources */,
-				0EB849511835F41B00C97030 /* UIViewController+MJPopupViewController.m in Sources */,
 				0EAD1F75182B24E100204FC3 /* BaseDao.m in Sources */,
 				0EA2A91D1828847E003D152E /* pinyin.c in Sources */,
 				0EAD1F71182B24B100204FC3 /* FMDatabasePool.m in Sources */,
@@ -1683,12 +1718,15 @@
 				630CB0851828E8B0002FD462 /* MovieControllerItem.m in Sources */,
 				0EA7EF4018237A0D00C47F69 /* CommentModel.m in Sources */,
 				0E5267211829E8B00009E535 /* mztools.c in Sources */,
+				0EA264C71839BFEB0037489C /* InfoCell.m in Sources */,
 				0EAFA1201822464700D01D3E /* FindPassWordInterface.m in Sources */,
 				0EDF4DF418210241007161E0 /* NSString+HTML.m in Sources */,
 				63841CF01838977000E3FA9E /* ChapterSearchBar.m in Sources */,
 				0EAFA1141822399100D01D3E /* LogInterface.m in Sources */,
+				0EA264B21839B35D0037489C /* InfoViewController.m in Sources */,
 				630B03B71820F5BB00F72C4C /* main.m in Sources */,
 				18C9314018363B9C00FBE1A8 /* DRCommitQuestionViewController.m in Sources */,
+				0EA264D21839D2A40037489C /* MZFormSheetController.m in Sources */,
 				0EA717621829D02000560885 /* SVProgressHUD.m in Sources */,
 				0EA2A9341828E180003D152E /* Section_ChapterCell.m in Sources */,
 				0EA2A92B1828D758003D152E /* Section_ChapterViewController.m in Sources */,
@@ -1704,11 +1742,13 @@
 				0EDF4DE718210241007161E0 /* ASIFormDataRequest.m in Sources */,
 				0EAFA1121822399000D01D3E /* BaseInterface.m in Sources */,
 				0EA7EF3A1823581F00C47F69 /* SectionModel.m in Sources */,
+				0EA264D81839D2AA0037489C /* MZAppearance.m in Sources */,
 				630CB07F1828BCF9002FD462 /* CustomPlayerView.m in Sources */,
 				0EDF4DED18210241007161E0 /* ASIS3BucketRequest.m in Sources */,
 				0EDF4DFE1821028F007161E0 /* NSDictionary+AllKeytoLowerCase.m in Sources */,
 				0EA7EF80182748BB00C47F69 /* UIImageView+WebCache.m in Sources */,
 				0EAD1F6E182B24B100204FC3 /* FMDatabaseAdditions.m in Sources */,
+				0EA264D31839D2A40037489C /* MZFormSheetSegue.m in Sources */,
 				0EAD1F6F182B24B100204FC3 /* FMDatabase.m in Sources */,
 				0EDF4DEC18210241007161E0 /* ASIS3BucketObject.m in Sources */,
 				0EDF4DE518210241007161E0 /* ASIDataDecompressor.m in Sources */,

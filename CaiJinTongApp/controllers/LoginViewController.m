@@ -67,7 +67,7 @@
 - (IBAction)forgotPwdBtClicked:(id)sender {
     UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
     ForgotPwdViewController *fpwView = [story instantiateViewControllerWithIdentifier:@"ForgotPwdViewController"];
-    [self presentPopupViewController:fpwView animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:nil];
+    [self.navigationController pushViewController:fpwView animated:YES];
 }
 
 #pragma mark - LogInterface
@@ -85,7 +85,7 @@
             
 //            AppDelegate* appDelegate = [AppDelegate sharedInstance];
 //            appDelegate.window.rootViewController = lessonView;
-            
+//            
 //            [self presentViewController:lessonView animated:YES completion:nil];
         });
     });

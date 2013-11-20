@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "InfoCell.h"
 
-@interface SettingViewController : DRNaviGationBarController<UITableViewDataSource,UITableViewDelegate>
+@interface SettingViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,InfoCellDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @end

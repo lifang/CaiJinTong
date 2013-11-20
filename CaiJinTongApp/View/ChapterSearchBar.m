@@ -38,6 +38,9 @@
         
         self.searchTextField = [[UITextField alloc] init];
         self.searchTextField.frame = CGRectMake(55, 10, 250, 33);
+        self.searchTextField.keyboardType = UIKeyboardTypeWebSearch;
+        self.searchTextField.backgroundColor = [UIColor redColor];
+        [self.searchTextField.window makeKeyAndVisible];
 //        self.searchTextField.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleWidth;
         [self addSubview:self.searchTextField];
         
@@ -70,6 +73,7 @@
 */
 
 -(void)beginSearch{
+    [self.searchTextField resignFirstResponder];
     if ([[self.searchTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
         self.searchTipLabel.text = @"";
         [Utility errorAlert:@"搜索文本不能为空"];

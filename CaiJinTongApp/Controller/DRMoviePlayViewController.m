@@ -139,17 +139,17 @@
     if (item == self.myQuestionItem) {
         DRTakingMovieNoteViewController *takingController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRTakingMovieNoteViewController"];
         takingController.view.frame = (CGRect){0,0,804,426};
-        [self presentPopupViewController:takingController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
-             self.myQuestionItem.isSelected = NO;
-        }];
+//        [self presentPopupViewController:takingController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
+//             self.myQuestionItem.isSelected = NO;
+//        }];
         self.isPopupChapter = NO;
     }else
     if (item == self.myNotesItem) {
         DRCommitQuestionViewController *commitController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRCommitQuestionViewController"];
         commitController.view.frame = (CGRect){0,0,804,426};
-        [self presentPopupViewController:commitController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
-            self.myNotesItem.isSelected = NO;
-        }];
+//        [self presentPopupViewController:commitController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
+//            self.myNotesItem.isSelected = NO;
+//        }];
         self.isPopupChapter = NO;
     }
 }
