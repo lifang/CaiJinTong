@@ -209,7 +209,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
        return 50;
     }else{
         if (section == 0) {
-            return 0;
+            return 50;
         }else{
             return 50;
         }
@@ -246,10 +246,15 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             return header;
         }
     }else{
+        LessonListHeaderView *header = (LessonListHeaderView*)[tableView dequeueReusableHeaderFooterViewWithIdentifier:LESSON_HEADER_IDENTIFIER];
         if (section == 0) {
-            return [ [UIView alloc] initWithFrame:CGRectZero];
-        }else{
-            LessonListHeaderView *header = (LessonListHeaderView*)[tableView dequeueReusableHeaderFooterViewWithIdentifier:LESSON_HEADER_IDENTIFIER];
+            header.lessonTextLabel.text = @"所有问答";
+            header.lessonDetailLabel.text = [NSString stringWithFormat:@"5"];
+            header.path = [NSIndexPath indexPathForRow:0 inSection:section];
+            header.delegate = self;
+            header.isSelected = NO;
+            return header;
+        }else {
             header.lessonTextLabel.text = @"我的问答";
             header.lessonDetailLabel.text = [NSString stringWithFormat:@"5"];
             header.path = [NSIndexPath indexPathForRow:0 inSection:section];
@@ -284,7 +289,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         return count;
     }else{
         if (section == 0) {
-            return 1;
+            return self.questionList.count;
         }else{
             return 2;
         }
@@ -307,7 +312,8 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     }else{
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"questionCell"];
         if (indexPath.section == 0) {
-            cell.textLabel.text = @"所有提问";
+            cell.textLabel.text=[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"name"];
+            [cell setIndentationLevel:[[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"level"] intValue]];
         }else{
             if (indexPath.row == 0) {
                 cell.textLabel.text = @"   我的提问";
@@ -382,9 +388,54 @@ static NSString *titleName = nil;
         }];
         */
     }else{
-        MyQuestionAndAnswerViewController *myQuestionAndAnswerController = [self.storyboard instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
+//        MyQuestionAndAnswerViewController *myQuestionAndAnswerController = [self.storyboard instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
+        NSDictionary *d=[self.questionList objectAtIndex:indexPath.row];
+        if([d valueForKey:@"Objects"]) {
+            NSArray *ar=[d valueForKey:@"Objects"];
+            
+            BOOL isAlreadyInserted=NO;
+            
+            for(NSDictionary *dInner in ar ){
+                NSInteger index=[self.questionList indexOfObjectIdenticalTo:dInner];
+                isAlreadyInserted=(index>0 && index!=NSIntegerMax);
+                if(isAlreadyInserted) break;
+            }
+            
+            if(isAlreadyInserted) {
+                [self miniMizeThisRows:ar];
+            } else {
+                NSUInteger count=indexPath.row+1;
+                NSMutableArray *arCells=[NSMutableArray array];
+                for(NSDictionary *dInner in ar ) {
+                    [arCells addObject:[NSIndexPath indexPathForRow:count inSection:0]];
+                    [self.questionList insertObject:dInner atIndex:count++];
+                }
+                [tableView insertRowsAtIndexPaths:arCells withRowAnimation:UITableViewRowAnimationLeft];
+            }
+        }
     }
 }
+
+-(void)miniMizeThisRows:(NSArray*)ar{
+	
+	for(NSDictionary *dInner in ar ) {
+		NSUInteger indexToRemove=[self.questionList indexOfObjectIdenticalTo:dInner];
+		NSArray *arInner=[dInner valueForKey:@"Objects"];
+		if(arInner && [arInner count]>0){
+			[self miniMizeThisRows:arInner];
+		}
+		
+		if([self.questionList indexOfObjectIdenticalTo:dInner]!=NSNotFound) {
+			[self.questionList removeObjectIdenticalTo:dInner];
+			[self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:
+                                                    [NSIndexPath indexPathForRow:indexToRemove inSection:0]
+                                                    ]
+                                  withRowAnimation:UITableViewRowAnimationRight];
+		}
+	}
+}
+
+
 - (IBAction)lessonListBtClicked:(id)sender {
     self.listType = LESSON_LIST;
     dispatch_async ( dispatch_get_main_queue (), ^{
@@ -394,6 +445,8 @@ static NSString *titleName = nil;
 
 - (IBAction)questionListBtClicked:(id)sender {
     self.listType = QUEATION_LIST;
+    NSDictionary *dTmp=[[NSDictionary alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"data" ofType:@"plist"]];
+    self.questionList = [NSMutableArray arrayWithArray:[dTmp valueForKey:@"Objects"]];
     dispatch_async ( dispatch_get_main_queue (), ^{
         [self.tableView reloadData];
     });

@@ -128,6 +128,7 @@
 		0EAFA1261822488700D01D3E /* ChapterInfoInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA1251822488700D01D3E /* ChapterInfoInterface.m */; };
 		0EAFA12C18224C2700D01D3E /* LessonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAFA12B18224C2700D01D3E /* LessonViewController.m */; };
 		0EB849331835DE2700C97030 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB849321835DE2700C97030 /* SettingViewController.m */; };
+		0EBEB305183C51E0007E342B /* data.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0EBEB304183C51E0007E342B /* data.plist */; };
 		0EDF4D9118210202007161E0 /* DownloadService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDF4D9018210202007161E0 /* DownloadService.m */; };
 		0EDF4DDB18210241007161E0 /* ASIWebPageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDF4D9518210241007161E0 /* ASIWebPageRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0EDF4DDC18210241007161E0 /* ASICloudFilesCDNRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDF4D9818210241007161E0 /* ASICloudFilesCDNRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -470,6 +471,7 @@
 		0EAFA12B18224C2700D01D3E /* LessonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonViewController.m; sourceTree = "<group>"; };
 		0EB849311835DE2700C97030 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		0EB849321835DE2700C97030 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
+		0EBEB304183C51E0007E342B /* data.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = data.plist; sourceTree = "<group>"; };
 		0EDF4D8F18210202007161E0 /* DownloadService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadService.h; sourceTree = "<group>"; };
 		0EDF4D9018210202007161E0 /* DownloadService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadService.m; sourceTree = "<group>"; };
 		0EDF4D9418210241007161E0 /* ASIWebPageRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIWebPageRequest.h; sourceTree = "<group>"; };
@@ -1314,6 +1316,7 @@
 				630B03C21820F5BB00F72C4C /* ViewController.h */,
 				630B03C31820F5BB00F72C4C /* ViewController.m */,
 				0EA137921831E3D600DA5D23 /* login_bg@2x.png */,
+				0EBEB304183C51E0007E342B /* data.plist */,
 				630B03C51820F5BB00F72C4C /* Images.xcassets */,
 				0EAFA0D41822166700D01D3E /* JSON */,
 				0EDF4D8E18210202007161E0 /* DownService */,
@@ -1559,6 +1562,7 @@
 				630B03BE1820F5BB00F72C4C /* Main_iPhone.storyboard in Resources */,
 				18E32E0A1831FDF900041B8A /* login_07@2x.png in Resources */,
 				0EAD1F7B182B369600204FC3 /* frame.png in Resources */,
+				0EBEB305183C51E0007E342B /* data.plist in Resources */,
 				18C9312F18363B2A00FBE1A8 /* play_bluetiao@2x.png in Resources */,
 				181532471835EA330078A410 /* play-courselist_06@2x.png in Resources */,
 				1815324B1835F0810078A410 /* play-courselist_0df3@2x.png in Resources */,
