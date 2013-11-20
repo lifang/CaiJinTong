@@ -7,7 +7,9 @@
 //
 
 #import "SettingViewController.h"
+#import "InfoViewController.h"
 
+#define Info_HEADER_IDENTIFIER @"infoheader"
 @interface SettingViewController ()
 
 @end
@@ -26,14 +28,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	self.view.frame = CGRectMake(0, 0, 400, 500);
-    self.drnavigationBar.titleLabel.text = @"设置";
-    [self.drnavigationBar.navigationRightItem setImage:@"btn1.png" forState:UIControlStateNormal];
-    [self.drnavigationBar.navigationRightItem setTitle:@"关闭" forState:UIControlStateNormal];
+    self.title = @"设置";
+    
+    [self.tableView registerClass:[InfoCell class] forHeaderFooterViewReuseIdentifier:Info_HEADER_IDENTIFIER];
 }
 
 -(void)drnavigationBarRightItemClicked:(id)sender{
-    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
+//    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
 }
 - (void)didReceiveMemoryWarning
 {
@@ -41,6 +42,20 @@
     // Dispose of any resources that can be recreated.
 }
 #pragma mark -- tableViewDelegate
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section  {
+    if (section == 2) {
+        return 50;
+    }
+    return 0;
+}
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    if (section == 2) {
+        InfoCell *footer = (InfoCell *)[tableView dequeueReusableHeaderFooterViewWithIdentifier:Info_HEADER_IDENTIFIER];
+        footer.delegate = self;
+        return footer;
+    }
+    return nil;
+}
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 3;
 }
@@ -106,5 +121,53 @@
             break;
     }
     return cell;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+    InfoViewController *vc = [story instantiateViewControllerWithIdentifier:@"InfoViewController"];
+    switch (indexPath.section) {
+        case 0:
+            [self.navigationController pushViewController:vc animated:YES];
+            break;
+        case 1:
+            switch (indexPath.row) {
+                case 0:
+                    
+                    break;
+                case 1:
+                    
+                    break;
+                case 2:
+                    
+                    break;
+                    
+                default:
+                    break;
+            }
+            break;
+        case 2:
+            switch (indexPath.row) {
+                case 0:
+                    
+                    break;
+                case 1:
+                    
+                    break;
+                case 2:
+                    
+                    break;
+                    
+                default:
+                    break;
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+#pragma mark -- cellDelegate
+-(void)infoCellView:(InfoCell*)header {
+    
 }
 @end

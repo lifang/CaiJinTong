@@ -20,10 +20,6 @@
 - (id)initWithFrame:(CGRect)frame andSection:(SectionModel *)section andItemLabel:(float)itemLabel{
     self = [super initWithFrame:frame];
     if (self) {
-        [[self layer] setShadowOffset:CGSizeMake(5, 5)];
-        [[self layer] setShadowRadius:6];
-        [[self layer] setShadowOpacity:1];
-        [[self layer] setShadowColor:[UIColor grayColor].CGColor];
         //视频名称
         if (itemLabel>0) {
             UIFont *font = [UIFont systemFontOfSize:20];
@@ -38,7 +34,6 @@
             [self addSubview:self.nameLab];
             nameLabel = nil;
         }
-        
         
         //视频封面
         UIImageView *imageViewC = [[UIImageView alloc]initWithFrame:CGRectMake(0, itemLabel, self.frame.size.width, self.frame.size.height)];

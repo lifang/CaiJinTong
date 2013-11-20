@@ -18,8 +18,10 @@
 #import "Utility.h"
 #import "CaiJinTongManager.h"
 #import "SVProgressHUD.h"
-#import "UIViewController+MJPopupViewController.h"
+#import "MZFormSheetController.h"
+
 #import "MBProgressHUD.h"
+
 #endif
 
 //系统版本
@@ -31,8 +33,7 @@
 #else
 #define DLog(...)
 #endif
-
+#import "MZFormSheetController.h"
 #import "DRNaviGationBarController.h"
 #import "AppDelegate.h"
-#import "UIViewController+MJPopupViewController.h"
 #import "Utility.h"

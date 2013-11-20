@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 @protocol ChapterSearchBarDelegate;
-@interface ChapterSearchBar : UIView
+@interface ChapterSearchBar : UIView<UITextFieldDelegate>
 @property (weak,nonatomic) id<ChapterSearchBarDelegate> delegate;
 @property (nonatomic,strong) UITextField *searchTextField;
 @property (nonatomic,strong) UIButton *searchBt;

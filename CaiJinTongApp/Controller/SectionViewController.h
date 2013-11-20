@@ -15,7 +15,7 @@
 #import "Section_NoteViewController.h"
 #import "CustomLabel.h"
 
-@interface SectionViewController : DRNaviGationBarController<SUNSlideSwitchViewDelegate,UIScrollViewDelegate>
+@interface SectionViewController : UIViewController<SUNSlideSwitchViewDelegate,UIScrollViewDelegate>
 
 @property (nonatomic, strong) SectionCustomView *sectionView;
 @property (nonatomic, strong) SectionModel *section;

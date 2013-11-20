@@ -37,9 +37,9 @@
         
         self.searchTextField = [[UITextField alloc] init];
         self.searchTextField.frame = CGRectMake(55, 10, 250, 33);
-        self.searchTextField.keyboardType = UIKeyboardTypeAlphabet;
 //        self.searchTextField.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleWidth;
         [self addSubview:self.searchTextField];
+        self.searchTextField.delegate = self;
         
         self.searchTipLabel = [[UILabel alloc] initWithFrame:(CGRect){}];
 //        self.searchTipLabel.backgroundColor = [UIColor blackColor];
@@ -70,6 +70,7 @@
 */
 
 -(void)beginSearch{
+    [self.searchTextField resignFirstResponder];
     if ([[self.searchTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
         self.searchTipLabel.text = @"";
         [Utility errorAlert:@"搜索文本不能为空"];
@@ -79,4 +80,13 @@
         [self.delegate chapterSeachBar:self beginningSearchString:self.searchTextField.text];
     }
 }
+
+#pragma mark -- textField Delegate methods
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
+    if(!textField.window.isKeyWindow){
+        [textField.window makeKeyAndVisible];
+    }
+    return YES;
+}
+
 @end
