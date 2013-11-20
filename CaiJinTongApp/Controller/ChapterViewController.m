@@ -48,7 +48,6 @@
 
     [self.searchBar setHidden:!self.isSearch];
     self.mainToolBar.backgroundColor = [UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:232.0/255.0 alpha:1.0];
-   
 }
 
 
@@ -77,7 +76,7 @@
         [self.myScrollView setPagingEnabled:YES];
         self.myScrollView.showsVerticalScrollIndicator = NO;
         self.myScrollView.showsHorizontalScrollIndicator = NO;
-        self.myScrollView.backgroundColor = [UIColor orangeColor];
+        self.myScrollView.backgroundColor = [UIColor clearColor];
         [self.view addSubview:self.myScrollView];
         
         for (int i=0; i<count; i++) {
@@ -86,7 +85,7 @@
             self.myTable.delegate = self;
             self.myTable.dataSource = self;
             self.myTable.scrollEnabled = NO;
-            self.myTable.backgroundColor = [UIColor redColor];
+            self.myTable.backgroundColor = [UIColor clearColor];
             [self.myScrollView addSubview:self.myTable];
         }
         CGRect frame = [self.view bounds];
@@ -172,7 +171,6 @@
 -(void)imageButtonClick:(id)sender {
     UIControl *button = sender;
     DLog(@"imageTag = %d",button.tag);
-    /*
     //根据sectionID获取单个视频的详细信息
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
@@ -183,7 +181,7 @@
         self.sectionInterface.delegate = self;
         [self.sectionInterface getSectionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:[NSString stringWithFormat:@"%d",button.tag]];
     }
-     */
+     /*
     //数据来源
     NSDictionary *dictionary = [Utility initWithJSONFile:@"sectionInfo"];
     NSDictionary *dic = [dictionary objectForKey:@"ReturnObject"];
@@ -260,8 +258,9 @@
         sectionView.title = section.sectionName;
         [self.navigationController pushViewController:sectionView animated:YES];
 
-        
+      
     }
+      */
 }
 - (void)didReceiveMemoryWarning
 {
@@ -399,9 +398,12 @@
 -(void)getSectionInfoDidFinished:(SectionModel *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
-        
+        SectionModel *section = (SectionModel *)result;
         dispatch_async(dispatch_get_main_queue(), ^{
-            
+            UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+            SectionViewController *sectionView = [story instantiateViewControllerWithIdentifier:@"SectionViewController"];
+            sectionView.section = section;
+            [self.navigationController pushViewController:sectionView animated:YES];
         });
     });
 }

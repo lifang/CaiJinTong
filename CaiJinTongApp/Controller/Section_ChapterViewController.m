@@ -12,7 +12,7 @@
 #import "SectionSaveModel.h"
 #import "AMProgressView.h"
 #import "Section.h"
-
+#import "Section_chapterModel.h"
 @interface Section_ChapterViewController ()
 
 @end
@@ -80,7 +80,7 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
-    SectionModel *section = (SectionModel *)[self.dataArray objectAtIndex:indexPath.row];
+    Section_chapterModel *section = (Section_chapterModel *)[self.dataArray objectAtIndex:indexPath.row];
     
     cell.nameLab.text = section.sectionName;
     cell.sid = section.sectionId;

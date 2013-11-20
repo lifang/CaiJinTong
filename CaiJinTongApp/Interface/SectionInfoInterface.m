@@ -13,21 +13,16 @@
 
 #import "NoteModel.h"
 #import "CommentModel.h"
+#import "Section_chapterModel.h"
 @implementation SectionInfoInterface
 
 -(void)getSectionInfoInterfaceDelegateWithUserId:(NSString *)userId andSectionId:(NSString *)sectionId {
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     
-    NSString *timespan = [Utility getNowDateFromatAnDate];
-    NSString *strKey = [NSString stringWithFormat:@"%@%@",timespan,MDKey];
-    NSString *md5Key = [Utility createMD5:strKey];
-    
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",timespan] forKey:@"timespan"];
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",md5Key] forKey:@"token"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",sectionId] forKey:@"sectionId"];
     
-    self.interfaceUrl = [NSString stringWithFormat:@"%@",kHost];
+    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=sectionInfo&userId=17082&sectionId=2690";
     
     self.baseDelegate = self;
     self.headers = reqheaders;
@@ -73,6 +68,7 @@
                                         for (int i=0; i<array_note.count; i++) {
                                             NSDictionary *dic_note = [array_note objectAtIndex:i];
                                             NoteModel *note = [[NoteModel alloc]init];
+                                            note.noteId = [NSString stringWithFormat:@"%@",[dic_note objectForKey:@"noteId"]];
                                             note.noteTime = [NSString stringWithFormat:@"%@",[dic_note objectForKey:@"noteTime"]];
                                             note.noteText = [NSString stringWithFormat:@"%@",[dic_note objectForKey:@"noteText"]];
                                             [section.noteList addObject:note];
@@ -103,14 +99,15 @@
                                         section.sectionList = [[NSMutableArray alloc]init];
                                         for (int i=0; i<array_section.count; i++) {
                                             NSDictionary *dic_section = [array_section objectAtIndex:i];
-                                            SectionModel *section = [[SectionModel alloc]init];
-                                            section.sectionId = [NSString stringWithFormat:@"%@",[dic_section objectForKey:@"sectionId"]];
-                                            section.sectionDownload = [NSString stringWithFormat:@"%@",[dic_section objectForKey:@"sectionDownload"]];
-                                            section.sectionName = [NSString stringWithFormat:@"%@",[dic_section objectForKey:@"sectionName"]];
-                                            section.sectionLastTime = [NSString stringWithFormat:@"%@",[dic_section objectForKey:@"sectionLastTime"]];
-                                            [section.sectionList addObject:section];
+                                            Section_chapterModel *section_chapter = [[Section_chapterModel alloc]init];
+                                            section_chapter.sectionId = [NSString stringWithFormat:@"%@",[dic_section objectForKey:@"sectionId"]];
+                                            section_chapter.sectionDownload = [NSString stringWithFormat:@"%@",[dic_section objectForKey:@"sectionDownload"]];
+                                            section_chapter.sectionName = [NSString stringWithFormat:@"%@",[dic_section objectForKey:@"sectionName"]];
+                                            section_chapter.sectionLastTime = [NSString stringWithFormat:@"%@",[dic_section objectForKey:@"sectionLastTime"]];
+                                            [section.sectionList addObject:section_chapter];
                                         }
                                     }
+                                    DLog(@"se = %@",section.sectionList);
                                 }
                                 if (section) {
                                     [self.delegate getSectionInfoDidFinished:section];

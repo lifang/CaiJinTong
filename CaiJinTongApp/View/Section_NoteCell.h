@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface Section_NoteCell : UITableViewCell
-@property (nonatomic, strong) IBOutlet UILabel *titleLab, *contentLab, *timeLab;
+@property (nonatomic, strong) IBOutlet UILabel *contentLab, *timeLab;
 @end
