@@ -447,19 +447,6 @@
 }
 #pragma mark -- search methods
 -(void)searchBtClicked{
-//    if(self.searchBar.searchTextField.text != nil && ![self.searchBar.searchTextField.text isEqualToString:@""] && self.dataArray.count > 0){
-//        NSString *keyword = self.searchBar.searchTextField.text;
-//        NSMutableArray *ary = [NSMutableArray arrayWithCapacity:5];
-//        for(int i = 0 ; i < self.dataArray.count ; i++){
-//            SectionModel *section = [self.dataArray objectAtIndex:i];
-////            NSLog(@"sectionName: %@",section.sectionName);
-//            NSRange range = [section.sectionName rangeOfString:[NSString stringWithFormat:@"(%@)+",keyword] options:NSRegularExpressionSearch];
-//            if(range.location != NSNotFound){
-//                [ary addObject:section];
-//            }
-//        }
-//        self.searchResultArray = [NSMutableArray arrayWithArray:ary];
-//    }
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
