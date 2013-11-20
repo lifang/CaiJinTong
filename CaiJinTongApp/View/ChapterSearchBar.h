@@ -11,6 +11,7 @@
 @interface ChapterSearchBar : UIView
 @property (weak,nonatomic) id<ChapterSearchBarDelegate> delegate;
 @property (nonatomic,strong) UITextField *searchTextField;
+@property (nonatomic,strong) UIButton *searchBt;
 @end
 
 

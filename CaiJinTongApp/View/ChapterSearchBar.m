@@ -9,7 +9,6 @@
 #import "ChapterSearchBar.h"
 #define SEARCH_MASK_LEFT 40
 @interface ChapterSearchBar()
-@property (nonatomic,strong) UIButton *searchBt;
 
 @property (nonatomic,strong) UIImageView *backImageView;
 @property (nonatomic,strong) UILabel *searchTipLabel;
@@ -38,6 +37,7 @@
         
         self.searchTextField = [[UITextField alloc] init];
         self.searchTextField.frame = CGRectMake(55, 10, 250, 33);
+        self.searchTextField.keyboardType = UIKeyboardTypeAlphabet;
 //        self.searchTextField.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleWidth;
         [self addSubview:self.searchTextField];
         
