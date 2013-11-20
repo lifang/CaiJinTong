@@ -396,30 +396,36 @@ static NSString *titleName = nil;
 //        }];
         
 //        MyQuestionAndAnswerViewController *myQuestionAndAnswerController = [self.storyboard instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
-        NSDictionary *d=[self.questionList objectAtIndex:indexPath.row];
-        if([d valueForKey:@"Objects"]) {
-            NSArray *ar=[d valueForKey:@"Objects"];
-            
-            BOOL isAlreadyInserted=NO;
-            
-            for(NSDictionary *dInner in ar ){
-                NSInteger index=[self.questionList indexOfObjectIdenticalTo:dInner];
-                isAlreadyInserted=(index>0 && index!=NSIntegerMax);
-                if(isAlreadyInserted) break;
-            }
-            
-            if(isAlreadyInserted) {
-                [self miniMizeThisRows:ar];
-            } else {
-                NSUInteger count=indexPath.row+1;
-                NSMutableArray *arCells=[NSMutableArray array];
-                for(NSDictionary *dInner in ar ) {
-                    [arCells addObject:[NSIndexPath indexPathForRow:count inSection:0]];
-                    [self.questionList insertObject:dInner atIndex:count++];
+        if (indexPath.section == 0) {
+            NSDictionary *d=[self.questionList objectAtIndex:indexPath.row];
+            if([d valueForKey:@"Objects"]) {
+                NSArray *ar=[d valueForKey:@"Objects"];
+                
+                BOOL isAlreadyInserted=NO;
+                
+                for(NSDictionary *dInner in ar ){
+                    NSInteger index=[self.questionList indexOfObjectIdenticalTo:dInner];
+                    isAlreadyInserted=(index>0 && index!=NSIntegerMax);
+                    if(isAlreadyInserted) break;
                 }
-                [tableView insertRowsAtIndexPaths:arCells withRowAnimation:UITableViewRowAnimationLeft];
+                
+                if(isAlreadyInserted) {
+                    [self miniMizeThisRows:ar];
+                } else {
+                    NSUInteger count=indexPath.row+1;
+                    NSMutableArray *arCells=[NSMutableArray array];
+                    for(NSDictionary *dInner in ar ) {
+                        [arCells addObject:[NSIndexPath indexPathForRow:count inSection:0]];
+                        [self.questionList insertObject:dInner atIndex:count++];
+                    }
+                    [tableView insertRowsAtIndexPaths:arCells withRowAnimation:UITableViewRowAnimationLeft];
+                }
             }
+
+        }else{
+        
         }
+        
     }
 }
 
