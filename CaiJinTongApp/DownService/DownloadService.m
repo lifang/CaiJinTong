@@ -93,7 +93,7 @@
                 path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
             }
             
-            NSString *downloadPath = [path stringByAppendingPathComponent: [NSString stringWithFormat:@"/Application/%@.zip",sectionSave.sid]];
+            NSString *downloadPath = [path stringByAppendingPathComponent: [NSString stringWithFormat:@"/Application/%@.mp4",sectionSave.sid]];
             NSString *tempPath = [path stringByAppendingPathComponent:
                                   [NSString stringWithFormat:@"/Application/%@.temp",sectionSave.sid]];
             [request setDownloadDestinationPath:downloadPath];//下载路径
@@ -127,25 +127,25 @@
     SectionSaveModel *nm = (SectionSaveModel *)[request.userInfo objectForKey:@"SectionSaveModel"];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        //解压缩zip包
-        NSString *documentsDirectory;
-        if (platform>5.0) {
-            documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        }else{
-            documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        }
+//        //解压缩zip包
+//        NSString *documentsDirectory;
+//        if (platform>5.0) {
+//            documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+//        }else{
+//            documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+//        }
         
-        //路径
-        NSString *zipFilePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@.zip",nm.sid]];
-        NSString *output = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@.mp3",nm.sid]];
-        
-        ZipArchive* za = [[ZipArchive alloc] init];
-        if( [za UnzipOpenFile:zipFilePath] ) {
-            if( [za UnzipFileTo:output overWrite:NO] != NO ) {
-            }
-            
-            [za UnzipCloseFile];
-        }
+//        //路径
+//        NSString *zipFilePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@.zip",nm.sid]];
+//        NSString *output = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@.mp4",nm.sid]];
+//        
+//        ZipArchive* zip = [[ZipArchive alloc] init];
+//        if( [zip UnzipOpenFile:zipFilePath] ){
+//            BOOL ret = [zip UnzipFileTo:output overWrite:YES];
+//            if( NO==ret ){}
+//            
+//            [zip UnzipCloseFile];
+//        }
 
         nm.downloadState = 1;
        //数据库更新数据

@@ -10,6 +10,7 @@
 #import "SectionSaveModel.h"
 #import "NoteModel.h"
 #import "SectionModel.h"
+#import "Section_chapterModel.h"
 @interface Section : BaseDao
 
 -(SectionSaveModel *)getDataWithSid:(NSString *) sid;//获取信息
@@ -32,6 +33,6 @@
 -(void)deleteDataFromNoteWithSid:(NSString *)sid;
 
 //章节目录
--(BOOL)addDataWithSectionModel:(SectionModel *)model andSid:(NSString *)sid;
+-(BOOL)addDataWithSectionModel:(Section_chapterModel *)model andSid:(NSString *)sid;
 -(void)deleteDataFromChapterWithSid:(NSString *)sid;
 @end

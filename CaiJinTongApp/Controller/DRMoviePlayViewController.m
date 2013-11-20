@@ -376,7 +376,7 @@
         [_moviePlayer setShouldAutoplay:YES];
         [self.moviePlayerView addSubview:_moviePlayer.view];
         [self.moviePlayerView sendSubviewToBack:_moviePlayer.view];
-        [_moviePlayer setMovieSourceType:MPMovieSourceTypeStreaming];
+        [_moviePlayer setMovieSourceType:MPMovieSourceTypeFile];
         _moviePlayer.view.frame = (CGRect){0,0,self.moviePlayerView.frame.size};
         [_moviePlayer setScalingMode:MPMovieScalingModeAspectFill];
         [_moviePlayer setContentURL:[NSURL URLWithString:self.movieUrlString]];

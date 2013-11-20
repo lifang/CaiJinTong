@@ -195,8 +195,14 @@
         }else{
             documentDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         }
-        path = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@",self.section.sectionId]];
+        path = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@.mp4",self.section.sectionId]];
         DLog(@"path = %@",path);//本地保存路径
+        DRMoviePlayViewController *playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
+        playerController.movieUrlString = path;
+        [self presentViewController:playerController animated:YES completion:^{
+            
+        }];
+        
     }else {
         //在线播放
         path = self.section.sectionSD;
