@@ -31,6 +31,7 @@
     [self.hostReach startNotifier];  //开始监听，会启动一个run loop
     
     self.mDownloadService = [[DownloadService alloc]init];
+    
     return YES;
 }
 //连接改变

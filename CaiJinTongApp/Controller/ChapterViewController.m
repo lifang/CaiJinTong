@@ -47,7 +47,8 @@
     [self.view addSubview:self.searchBar];
 
     [self.searchBar setHidden:!self.isSearch];
-    self.mainToolBar.backgroundColor = [UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:232.0/255.0 alpha:1.0];
+    self.mainToolBar.backgroundColor = [UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:232.0/255.0 alpha:1.0]; 
+    [self.searchBar.searchBt addTarget:self action:@selector(searchBtClicked) forControlEvents:UIControlEventTouchUpInside];
 }
 
 
@@ -427,6 +428,52 @@
     }else{
         tempBarButtonItem.title = @"返回";
     }
+}
+#pragma mark -- search methods
+-(void)searchBtClicked{
+    DLog(@"搜索按钮按下!");
+    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+        [Utility errorAlert:@"暂无网络!"];
+    }else {
+        [SVProgressHUD showWithStatus:@"玩命加载中..."];
+        ChapterInfoInterface *chapterInter = [[ChapterInfoInterface alloc]init];
+        self.chapterInfoInterface = chapterInter;
+        self.chapterInfoInterface.delegate = self;
+        [self.chapterInfoInterface getChapterInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andChapterId:nil];
+    }
+
+}
+
+#pragma mark -- ChapterInfoInterfaceDelegate
+
+-(void)getChapterInfoDidFinished:(NSDictionary *)result {  //章节信息查询完毕,显示章节界面
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
+                NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
+                if(self.searchBar.searchTextField.text != nil && ![self.searchBar.searchTextField.text isEqualToString:@""] && tempArray.count > 0){
+                    NSString *keyword = self.searchBar.searchTextField.text;
+                    NSMutableArray *ary = [NSMutableArray arrayWithCapacity:5];
+                    for(int i = 0 ; i < tempArray.count ; i++){
+                        SectionModel *section = [tempArray objectAtIndex:i];
+                        NSLog(@"sectionName: %@",section.sectionName);
+                        NSRange range = [section.sectionName rangeOfString:[NSString stringWithFormat:@"(%@)+",keyword] options:NSRegularExpressionSearch];
+                        if(range.location != NSNotFound){
+                            [ary addObject:section];
+                        }
+                    }
+                    tempArray = [NSMutableArray arrayWithArray:ary];
+                }
+//                self.dataArray = [[NSMutableArray alloc]initWithArray:tempArray];
+                [self reloadDataWithDataArray:tempArray];
+            }
+        });
+    });
+}
+-(void)getChapterInfoDidFailed:(NSString *)errorMsg {
+    [SVProgressHUD dismiss];
+    [Utility errorAlert:errorMsg];
 }
 
 @end

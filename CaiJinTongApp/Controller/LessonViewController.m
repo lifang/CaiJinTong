@@ -135,7 +135,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 
 #pragma mark UISearchBarDelegate
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-
+    NSLog(@"警告:lessionviewcontroller searchbarSearchButtonClicked");
 }
 #pragma mark --
 
@@ -534,6 +534,8 @@ static NSString *titleName = nil;
                 NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
                 if (titleName) {
                     chapterView.title = titleName;
+                }else{
+                    chapterView.title = @"搜索";
                 }
                 if(self.isSearching){
                     if(self.searchText.text != nil && ![self.searchText.text isEqualToString:@""] && tempArray.count > 0){
