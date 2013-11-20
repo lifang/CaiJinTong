@@ -207,6 +207,7 @@
 		18E32E0C1831FDF900041B8A /* login_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E32E061831FDF900041B8A /* login_bg@2x.png */; };
 		63091FFA1827435400C1AF07 /* LessonListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63091FF91827435400C1AF07 /* LessonListCell.m */; };
 		63091FFD1827473400C1AF07 /* LessonListHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63091FFC1827473300C1AF07 /* LessonListHeaderView.m */; };
+		6309F8F9183AFAF6001397C0 /* play-M2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6309F8F8183AFAF6001397C0 /* play-M2@2x.png */; };
 		630B03AB1820F5BB00F72C4C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630B03AA1820F5BB00F72C4C /* Foundation.framework */; };
 		630B03AD1820F5BB00F72C4C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630B03AC1820F5BB00F72C4C /* CoreGraphics.framework */; };
 		630B03AF1820F5BB00F72C4C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630B03AE1820F5BB00F72C4C /* UIKit.framework */; };
@@ -578,6 +579,7 @@
 		63091FFB1827473300C1AF07 /* LessonListHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LessonListHeaderView.h; path = lessonList/LessonListHeaderView.h; sourceTree = "<group>"; };
 		63091FFC1827473300C1AF07 /* LessonListHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LessonListHeaderView.m; path = lessonList/LessonListHeaderView.m; sourceTree = "<group>"; };
 		630920011827873400C1AF07 /* SectionInfoInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionInfoInterface.h; sourceTree = "<group>"; };
+		6309F8F8183AFAF6001397C0 /* play-M2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play-M2@2x.png"; sourceTree = "<group>"; };
 		630B03A71820F5BB00F72C4C /* CaiJinTongApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CaiJinTongApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		630B03AA1820F5BB00F72C4C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		630B03AC1820F5BB00F72C4C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -972,13 +974,13 @@
 				0EA2A9291828D758003D152E /* Section_ChapterViewController.h */,
 				0EA2A92A1828D758003D152E /* Section_ChapterViewController.m */,
 				0EA2A92C1828D77D003D152E /* Section_GradeViewController.h */,
-				0EA2A92D1828D77D003D152E /* Section_GradeViewController.m */,
 				0EA2A92F1828D78F003D152E /* Section_NoteViewController.h */,
 				0EA2A9301828D78F003D152E /* Section_NoteViewController.m */,
 				630CB0761828943D002FD462 /* DRMoviePlayViewController.h */,
 				630CB0771828943D002FD462 /* DRMoviePlayViewController.m */,
 				631227DE182B384B00530CC3 /* MyQuestionAndAnswerViewController.h */,
 				631227DF182B384B00530CC3 /* MyQuestionAndAnswerViewController.m */,
+				0EA2A92D1828D77D003D152E /* Section_GradeViewController.m */,
 				0EB849311835DE2700C97030 /* SettingViewController.h */,
 				0EB849321835DE2700C97030 /* SettingViewController.m */,
 				63841CF11838A60100E3FA9E /* DRNavigationController.h */,
@@ -1204,6 +1206,7 @@
 		18E32DFF1831FD9F00041B8A /* images */ = {
 			isa = PBXGroup;
 			children = (
+				6309F8F7183AFADF001397C0 /* player */,
 				6376B3041839E6200015C537 /* lesson */,
 				18153252183608C30078A410 /* Q&A */,
 				18491C3D18345DF3003C82E4 /* course-welcome */,
@@ -1234,6 +1237,14 @@
 				63091FFC1827473300C1AF07 /* LessonListHeaderView.m */,
 			);
 			name = lessonList;
+			sourceTree = "<group>";
+		};
+		6309F8F7183AFADF001397C0 /* player */ = {
+			isa = PBXGroup;
+			children = (
+				6309F8F8183AFAF6001397C0 /* play-M2@2x.png */,
+			);
+			name = player;
 			sourceTree = "<group>";
 		};
 		630B039E1820F5BB00F72C4C = {
@@ -1530,6 +1541,7 @@
 				18E32E0A1831FDF900041B8A /* login_07@2x.png in Resources */,
 				0EAD1F7B182B369600204FC3 /* frame.png in Resources */,
 				18C9312F18363B2A00FBE1A8 /* play_bluetiao@2x.png in Resources */,
+				6309F8F9183AFAF6001397C0 /* play-M2@2x.png in Resources */,
 				181532471835EA330078A410 /* play-courselist_06@2x.png in Resources */,
 				1815324B1835F0810078A410 /* play-courselist_0df3@2x.png in Resources */,
 				0EAFA0F61822167800D01D3E /* playVideo.json in Resources */,

@@ -367,6 +367,10 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
           */
     }else{
         MyQuestionAndAnswerViewController *myQuestionAndAnswerController = [self.storyboard instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
+        myQuestionAndAnswerController.view.frame = CGRectMake(50, 20, 768-200, 1024-20);;
+        [self presentPopupViewController:myQuestionAndAnswerController animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
+            
+        }];
     }
 }
 - (IBAction)lessonListBtClicked:(id)sender {
