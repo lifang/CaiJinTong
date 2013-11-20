@@ -30,6 +30,8 @@
 {
    
     [super viewDidLoad];
+    self.title = @"找回密码";
+    
     self.userNameTextField.layer.cornerRadius = 5;
     self.userNameTextField.layer.borderWidth = 1;
     self.userNameTextField.layer.borderColor = [UIColor lightGrayColor].CGColor;
@@ -37,16 +39,7 @@
     self.emailTextField.layer.borderWidth = 1;
     self.emailTextField.layer.borderColor = [UIColor lightGrayColor].CGColor;
     
-    UIButton *rightItem = self.drnavigationBar.navigationRightItem;
-    [rightItem setTitle:@"返回" forState:UIControlStateNormal];
-    [rightItem setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    self.drnavigationBar.titleLabel.text = @"找回密码";
-    
 	// Do any additional setup after loading the view.
-}
-
--(void)drnavigationBarRightItemClicked:(id)sender{
-    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
 }
 
 - (void)didReceiveMemoryWarning
@@ -78,7 +71,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [SVProgressHUD dismissWithSuccess:@"密码发送成功，请查收!"];
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
+//            [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
         });
     });
 }

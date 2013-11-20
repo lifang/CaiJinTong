@@ -7,7 +7,6 @@
 //
 
 #import "SUNSlideSwitchView.h"
-#import "TQStarRatingView.h"
 
 static const CGFloat kHeightOfTopScrollView = 44.0f;
 static const CGFloat kWidthOfButtonMargin = 16.0f;
@@ -143,27 +142,6 @@ static const NSUInteger kTagOfRightSideButton = 999;
     [self setNeedsLayout];
 }
 
-//added by david
--(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event{
-    if (_userSelectedChannelID == 101) {
-        CGPoint rootPoint = [self convertPoint:point toView:self.rootScrollView];
-        UIViewController *viewController =(UIViewController*) [self.viewArray objectAtIndex:1];
-        CGPoint subViewpoint = [self.rootScrollView convertPoint:rootPoint toView:viewController.view];
-        for (UIView *subView in viewController.view.subviews) {
-            if ([subView isKindOfClass:[TQStarRatingView class]]) {
-                CGRect subRect = subView.frame;
-                int scale = 20;
-                if (CGRectContainsPoint((CGRect){subRect.origin.x -scale*2,subRect.origin.y -scale,subRect.size.width+scale*4,subRect.size.height+scale*2}, subViewpoint)) {
-                    [self.rootScrollView setScrollEnabled:NO];
-                     return [super hitTest:point withEvent:event];
-                }
-            }
-        }
-    }
-    [self.rootScrollView setScrollEnabled:YES];
-     return [super hitTest:point withEvent:event];
-}
-
 /*!
  * @method 初始化顶部tab的各个按钮
  * @abstract
@@ -177,7 +155,7 @@ static const NSUInteger kTagOfRightSideButton = 999;
     _shadowImageView = [[UIImageView alloc] init];
     [_shadowImageView setImage:_shadowImage];
     [_topScrollView addSubview:_shadowImageView];
-
+    
     //顶部tabbar的总长度
     CGFloat topScrollViewContentWidth = kWidthOfButtonMargin;
     //每个tab偏移量
@@ -191,13 +169,14 @@ static const NSUInteger kTagOfRightSideButton = 999;
         //累计每个tab文字的长度
         topScrollViewContentWidth += kWidthOfButtonMargin+textSize.width;
         //设置按钮尺寸
-        [button setFrame:CGRectMake(100+120*i,0,
+        [button setFrame:CGRectMake(120*i,0,
                                     textSize.width, kHeightOfTopScrollView)];
         //计算下一个tab的x偏移量
         xOffset += textSize.width + kWidthOfButtonMargin;
+        
         [button setTag:i+100];
         if (i == 0) {
-            _shadowImageView.frame = CGRectMake(100, 38, textSize.width, _shadowImage.size.height);
+            _shadowImageView.frame = CGRectMake(0, 0, textSize.width, _shadowImage.size.height);
             button.selected = YES;
         }
         [button setTitle:vc.title forState:UIControlStateNormal];
@@ -244,7 +223,7 @@ static const NSUInteger kTagOfRightSideButton = 999;
         
         [UIView animateWithDuration:0.25 animations:^{
             
-            [_shadowImageView setFrame:CGRectMake(sender.frame.origin.x, 38, sender.frame.size.width, _shadowImage.size.height)];
+            [_shadowImageView setFrame:CGRectMake(sender.frame.origin.x, 0, sender.frame.size.width, _shadowImage.size.height)];
             
         } completion:^(BOOL finished) {
             if (finished) {
@@ -309,16 +288,6 @@ static const NSUInteger kTagOfRightSideButton = 999;
         }
         else {
             _isLeftScroll = NO;
-        }
-        //textView
-        if (_userSelectedChannelID == 101) {
-            UIViewController *viewController =(UIViewController*) [self.viewArray objectAtIndex:1];
-            for (UIView *subView in viewController.view.subviews) {
-                if ([subView isKindOfClass:[UITextView class]]) {
-                    UITextView *vv = (UITextView *)subView;
-                    [vv resignFirstResponder];
-                }
-            }
         }
     }
 }
