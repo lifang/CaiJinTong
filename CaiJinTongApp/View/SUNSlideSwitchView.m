@@ -176,7 +176,7 @@ static const NSUInteger kTagOfRightSideButton = 999;
         
         [button setTag:i+100];
         if (i == 0) {
-            _shadowImageView.frame = CGRectMake(0, 0, textSize.width, _shadowImage.size.height);
+            _shadowImageView.frame = CGRectMake(0, 38, textSize.width, _shadowImage.size.height);
             button.selected = YES;
         }
         [button setTitle:vc.title forState:UIControlStateNormal];
@@ -223,7 +223,7 @@ static const NSUInteger kTagOfRightSideButton = 999;
         
         [UIView animateWithDuration:0.25 animations:^{
             
-            [_shadowImageView setFrame:CGRectMake(sender.frame.origin.x, 0, sender.frame.size.width, _shadowImage.size.height)];
+            [_shadowImageView setFrame:CGRectMake(sender.frame.origin.x, 38, sender.frame.size.width, _shadowImage.size.height)];
             
         } completion:^(BOOL finished) {
             if (finished) {

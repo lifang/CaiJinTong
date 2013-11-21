@@ -27,8 +27,8 @@
 }
 -(void)setButtonModel:(SectionSaveModel *)buttonModel {
     _buttonModel = buttonModel;
-//    [self setBackgroundImage:[UIImage imageNamed:@"course-mycourse_03"] forState:UIControlStateNormal];
-//    [self setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    [self setBackgroundImage:[UIImage imageNamed:@"course-mycourse_03"] forState:UIControlStateNormal];
+    [self setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     switch (buttonModel.downloadState) {
         case 0:
         {
@@ -137,6 +137,10 @@
             self.sectionInterface = sectionInter;
             self.sectionInterface.delegate = self;
             [self.sectionInterface getSectionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.buttonModel.sid];
+            
+//            [sectionDb updateTheStateWithSid:self.buttonModel.sid andDownloadState:0];
+            self.buttonModel.downloadState = 0;
+            [sectionDb addDataWithSectionSaveModel:self.buttonModel];
         }
     }  
 }
