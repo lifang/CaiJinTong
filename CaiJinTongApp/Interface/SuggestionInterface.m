@@ -11,21 +11,15 @@
 #import "NSString+URLEncoding.h"
 #import "NSString+HTML.h"
 @implementation SuggestionInterface
--(void)getAskQuestionInterfaceDelegateWithUserId:(NSString *)userId andSuggestionContent:(NSString *)suggestionContent andSuggestionTime:(NSString *)suggestionTime{
+-(void)getAskQuestionInterfaceDelegateWithUserId:(NSString *)userId andSuggestionContent:(NSString *)suggestionContent{
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     
-    NSString *timespan = [Utility getNowDateFromatAnDate];
-    NSString *strKey = [NSString stringWithFormat:@"%@%@",timespan,MDKey];
-    NSString *md5Key = [Utility createMD5:strKey];
-    
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",timespan] forKey:@"timespan"];
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",md5Key] forKey:@"token"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",suggestionContent]
-                  forKey:@"suggestionContent"];
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",suggestionTime] forKey:@"suggestionTime"];
-    self.interfaceUrl = [NSString stringWithFormat:@"%@",kHost];
+                  forKey:@"content"];
     
+    self.interfaceUrl = @"http://i.finance365.com/_3G/AddAdvice";
+
     self.baseDelegate = self;
     self.headers = reqheaders;
     
@@ -43,26 +37,29 @@
             if ([jsonObject isKindOfClass:[NSDictionary class]]) {
                 NSDictionary *jsonData=(NSDictionary *)jsonObject;
                 DLog(@"data = %@",jsonData);
+                DLog(@"%@",[jsonData objectForKey:@"Msg"]);
                 if (jsonData) {
                     if ([[jsonData objectForKey:@"Status"]intValue] == 1) {
                         @try {
-                            //                            NSDictionary *dictionary =[jsonData objectForKey:@"ReturnObject"];
+                            [self.delegate getSuggestionInfoDidFinished];
                         }
                         @catch (NSException *exception) {
-                            
+                            [self.delegate getSuggestionInfoDidFailed:@"上传失败"];
                         }
+                    }else {
+                        [self.delegate getSuggestionInfoDidFailed:[jsonData objectForKey:@"Msg"]];
                     }
                 }else {
-                    
+                    [self.delegate getSuggestionInfoDidFailed:@"上传失败"];
                 }
             }
         }
     }else {
-        
+        [self.delegate getSuggestionInfoDidFailed:@"上传失败"];
     }
 }
 -(void)requestIsFailed:(NSError *)error{
-    
+    [self.delegate getSuggestionInfoDidFailed:@"上传失败"];
 }
 
 @end

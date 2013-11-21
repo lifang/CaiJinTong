@@ -42,9 +42,9 @@
 -(void)setIsSelected:(BOOL)isSelected{
     _isSelected = isSelected;
     if (isSelected) {
-//        self.backgroundColor = [UIColor redColor];
+        self.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"play-M2@2x.png"]];
     }else{
-//        self.backgroundColor = [UIColor greenColor];
+        self.backgroundColor = [UIColor clearColor];
     }
 }
 @end

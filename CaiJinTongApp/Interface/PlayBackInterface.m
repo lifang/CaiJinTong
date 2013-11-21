@@ -11,19 +11,14 @@
 #import "NSString+URLEncoding.h"
 #import "NSString+HTML.h"
 @implementation PlayBackInterface
-
--(void)getPlayBackInterfaceDelegateWithUserId:(NSString *)userId andSectionId:(NSString *)sectionId andTimeEnd:(NSString *)timeEnd {
+//status: incomplete:表示正在进行, completed:表示视频已经播放完毕   就是播放状态，没播放完成传incomplete    课程播放结束传  completed
+-(void)getPlayBackInterfaceDelegateWithUserId:(NSString *)userId andSectionId:(NSString *)sectionId andTimeEnd:(NSString *)timeEnd andStatus:(NSString *)status{
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     
-    NSString *timespan = [Utility getNowDateFromatAnDate];
-    NSString *strKey = [NSString stringWithFormat:@"%@%@",timespan,MDKey];
-    NSString *md5Key = [Utility createMD5:strKey];
-    
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",timespan] forKey:@"timespan"];
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",md5Key] forKey:@"token"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",sectionId] forKey:@"sectionId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",timeEnd] forKey:@"timeEnd"];
+    [reqheaders setValue:[NSString stringWithFormat:@"%@",status] forKey:@"status"];
     self.interfaceUrl = [NSString stringWithFormat:@"%@",kHost];
     
     self.baseDelegate = self;
@@ -50,6 +45,8 @@
                         @catch (NSException *exception) {
                             
                         }
+                    }else {
+                        
                     }
                 }else {
                     

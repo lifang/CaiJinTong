@@ -7,13 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface SuggestionFeedbackViewController : UIViewController
+#import "SuggestionInterface.h"
+@interface SuggestionFeedbackViewController : UIViewController<SuggestionInterfaceDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *backgroundForTextView;
 @property (weak, nonatomic) IBOutlet UITextView *contentTextView;//文本输入框
 
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;  //返回按钮
 @property (weak, nonatomic) IBOutlet UIButton *submitButton;  //提交按钮
+
+@property (strong, nonatomic) SuggestionInterface *suggestionInterface;
 - (IBAction)keyboardFuckOff:(id)sender;
 - (IBAction)cancelButtonClicked:(UIButton *)sender;
 - (IBAction)submitButtonClicked:(UIButton *)sender;

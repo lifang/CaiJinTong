@@ -26,19 +26,28 @@
     return self;
 }
 
+-(void)drnavigationBarRightItemClicked:(id)sender{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.navigationItem.hidesBackButton = YES;
     //打分之后提交
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(refeshScore:)
                                                  name: @"refeshScore"
                                                object: nil];
+    
+    self.drnavigationBar.titleLabel.text = self.section.sectionName;
+    [self.drnavigationBar.navigationRightItem setTitle:@"关闭" forState:UIControlStateNormal];
+    [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
 }
 -(void)refeshScore:(NSNotification *)notification {
     NSDictionary *dic = notification.object;
     DLog(@"dic = %@",dic);
-    NSString *score = [dic objectForKey:@"score"];
+    NSString *score = [dic objectForKey:@"sectionScore"];
     
     for (UIView *vv in self.view.subviews) {
         if ([vv isKindOfClass:[CustomLabel class]]) {
@@ -184,7 +193,7 @@
 }
 -(void)playVideo:(id)sender {
     DLog(@"play");
-    NSString *path = nil;//视频路径
+    self.path = nil;//视频路径
     //先匹配本地,在数据库中查找纪录
     Section *sectionDb = [[Section alloc]init];
     SectionSaveModel *sectionSave = [sectionDb getDataWithSid:self.section.sectionId];
@@ -195,26 +204,29 @@
         }else{
             documentDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         }
-        path = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@.mp4",self.section.sectionId]];
-        DLog(@"path = %@",path);//本地保存路径
+        self.path = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@.mp4",self.section.sectionId]];
+        DLog(@"path = %@",self.path);//本地保存路径
         DRMoviePlayViewController *playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
-        playerController.movieUrlString = path;
+        playerController.movieUrlString = self.path;
         [self presentViewController:playerController animated:YES completion:^{
             
         }];
         
     }else {
         //在线播放
-        path = self.section.sectionSD;
+        self.path = self.section.sectionSD;
     }
-    if (path) {
-        //播放接口
-        DRMoviePlayViewController *playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
-        playerController.movieUrlString = path;
-        AppDelegate *app = [AppDelegate sharedInstance];
-        [self presentViewController:playerController animated:YES completion:^{
-            
-        }];
+    if (self.path) {
+        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+            [Utility errorAlert:@"暂无网络!"];
+        }else {
+            [SVProgressHUD showWithStatus:@"玩命加载中..."];
+            PlayVideoInterface *playVideoInter = [[PlayVideoInterface alloc]init];
+            self.playVideoInterface = playVideoInter;
+            self.playVideoInterface.delegate = self;
+            NSString *timespan = [Utility getNowDateFromatAnDate];
+            [self.playVideoInterface getPlayVideoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.section.sectionId andTimeStart:timespan];
+        }
     }
  
 }
@@ -296,5 +308,24 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+#pragma mark -- PlayVideoInterfaceDelegate
+-(void)getPlayVideoInfoDidFinished {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //播放接口
+            DRMoviePlayViewController *playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
+            playerController.movieUrlString = self.path;
+            playerController.sectionId = self.section.sectionId;
+            AppDelegate *app = [AppDelegate sharedInstance];
+            [self presentViewController:playerController animated:YES completion:^{
+                
+            }];
+        });
+    });
+}
+-(void)getPlayVideoInfoDidFailed:(NSString *)errorMsg {
+    [SVProgressHUD dismiss];
+    [Utility errorAlert:errorMsg];
+}
 @end

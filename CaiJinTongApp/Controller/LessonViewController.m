@@ -174,8 +174,18 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
         }else {//本地课程
             //本地数据的获取
-//            Section *sectionDb = [[Section alloc]init];
-//            NSArray *local_array = [sectionDb getAllInfo];
+            Section *sectionDb = [[Section alloc]init];
+            NSArray *local_array = [sectionDb getAllInfo];
+            UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+            [CaiJinTongManager shared].defaultLeftInset = 200;
+            [CaiJinTongManager shared].defaultPortraitTopInset = 20;
+            [CaiJinTongManager shared].defaultWidth = 568;
+            [CaiJinTongManager shared].defaultHeight = 984;
+            
+            ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
+            if(self.isSearching)chapterView.isSearch = YES;
+            chapterView.searchBar.searchTextField.text = self.searchText.text;
+            
         }
     }else{
         if (path.section == 0) {
@@ -390,6 +400,7 @@ static NSString *titleName = nil;
         }];
         */
     }else{
+        
 //        MyQuestionAndAnswerViewController *myQuestionAndAnswerController = [self.storyboard instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
         if (indexPath.section==0) {
             NSDictionary *d=[self.questionList objectAtIndex:indexPath.row];
@@ -416,7 +427,11 @@ static NSString *titleName = nil;
                     [tableView insertRowsAtIndexPaths:arCells withRowAnimation:UITableViewRowAnimationLeft];
                 }
             }
+
+        }else{
+        
         }
+        
     }
 }
 
@@ -569,7 +584,7 @@ static NSString *titleName = nil;
                 [chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:tempArray]];
                 self.isSearching = NO;
                 UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:chapterView];
-                
+                [navControl setNavigationBarHidden:YES];
                 
                 MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:navControl];
                 formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromRight;

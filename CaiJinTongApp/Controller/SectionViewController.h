@@ -14,12 +14,12 @@
 #import "Section_GradeViewController.h"
 #import "Section_NoteViewController.h"
 #import "CustomLabel.h"
-
-@interface SectionViewController : UIViewController<SUNSlideSwitchViewDelegate,UIScrollViewDelegate>
+#import "PlayVideoInterface.h"
+@interface SectionViewController : DRNaviGationBarController<SUNSlideSwitchViewDelegate,UIScrollViewDelegate,PlayVideoInterfaceDelegate>
 
 @property (nonatomic, strong) SectionCustomView *sectionView;
 @property (nonatomic, strong) SectionModel *section;
-
+@property (nonatomic, strong) NSString *path;
 @property (nonatomic, strong) IBOutlet SUNSlideSwitchView *slideSwitchView;
 @property (nonatomic, strong) Section_ChapterViewController *section_ChapterView;
 @property (nonatomic, strong) Section_GradeViewController *section_GradeView;
@@ -29,4 +29,6 @@
 @property (nonatomic, strong) UILabel *nameLab,*infoLab,*teacherlab,*studyLab,*lastLab;
 @property (nonatomic, strong) CustomLabel *scoreLab;
 @property (nonatomic, strong) UIButton *playBtn;
+
+@property (nonatomic, strong) PlayVideoInterface *playVideoInterface;
 @end

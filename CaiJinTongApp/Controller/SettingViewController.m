@@ -7,7 +7,6 @@
 //
 
 #import "SettingViewController.h"
-#import "InfoViewController.h"
 #import "UserInfoTableViewController.h"
 #import "iRate.h"
 

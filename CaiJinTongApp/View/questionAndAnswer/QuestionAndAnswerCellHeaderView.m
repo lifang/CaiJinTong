@@ -71,6 +71,9 @@
 }
 
 -(void)flowerBtClicked{
+    int flower = [self.questionFlowerLabel.text intValue];
+    self.questionFlowerLabel.text = [NSString stringWithFormat:@"%d",flower+1];
+     [self setNeedsLayout];
     if (self.delegate && [self.delegate respondsToSelector:@selector(questionAndAnswerCellHeaderView:flowerQuestionAtIndexPath:)]) {
         [self.delegate questionAndAnswerCellHeaderView:self flowerQuestionAtIndexPath:self.path];
     }
