@@ -562,9 +562,9 @@ static NSString *titleName = nil;
             if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
                 NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
                 if (!self.isSearching && titleName) {
-                    chapterView.title = titleName;
+                    chapterView.drnavigationBar.titleLabel.text  = titleName;
                 }else{
-                    chapterView.title = @"搜索";
+                    chapterView.drnavigationBar.titleLabel.text = @"搜索";
                 }
                 if(self.isSearching){
                     if(self.searchText.text != nil && ![self.searchText.text isEqualToString:@""] && tempArray.count > 0){
