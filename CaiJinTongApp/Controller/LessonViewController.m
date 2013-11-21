@@ -584,7 +584,7 @@ static NSString *titleName = nil;
                 [chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:tempArray]];
                 self.isSearching = NO;
                 UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:chapterView];
-                
+                [navControl setNavigationBarHidden:YES];
                 
                 MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:navControl];
                 formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromRight;
