@@ -54,7 +54,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     [super viewDidLoad];
     [self.tableView registerClass:[LessonListHeaderView class] forHeaderFooterViewReuseIdentifier:LESSON_HEADER_IDENTIFIER];
     self.listType = LESSON_LIST;
-    [self initTestData];
+//    [self initTestData];
     [Utility setBackgroungWithView:self.LogoImageView.superview andImage6:@"login_bg" andImage7:@"login_bg_7"];
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.separatorStyle = NO;
@@ -64,13 +64,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     [placeholder addAttribute:NSForegroundColorAttributeName value:[UIColor grayColor] range:NSMakeRange(0, placeholder.length)];
     self.searchText.attributedPlaceholder = placeholder;
     self.isSearching = NO;
-    
-//    self.searchBarView.tintColor = [UIColor clearColor];
-//    self.searchBarView.backgroundImage = [UIImage new];
-//    self.searchBarView.translucent = YES;
-//    self.searchBarView.tintColor = [UIColor redColor];
-//    self.searchBarView.backgroundImage = [UIImage imageNamed:@"1.png"];
-//    [self initTestData];
+
     [self getLessonInfo];
 }
 
@@ -141,7 +135,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 
 #pragma mark UISearchBarDelegate
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-
+    NSLog(@"警告:lessionviewcontroller searchbarSearchButtonClicked");
 }
 #pragma mark --
 
@@ -306,8 +300,8 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         cell.textLabel.textColor = [UIColor whiteColor];
         cell.detailTextLabel.textColor = [UIColor whiteColor];
         cell.backgroundColor = [UIColor clearColor];
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",chapter.chapterImg]];
-        [cell.imageView setImageWithURL:url placeholderImage:Image(@"defualt.jpg")];
+//        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",chapter.chapterImg]];
+//        [cell.imageView setImageWithURL:url placeholderImage:Image(@"defualt.jpg")];
         return cell;
     }else{
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"questionCell"];
@@ -390,13 +384,7 @@ static NSString *titleName = nil;
     }else{
         
 //        MyQuestionAndAnswerViewController *myQuestionAndAnswerController = [self.storyboard instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
-//        myQuestionAndAnswerController.view.frame = CGRectMake(50, 20, 768-200, 1024-20);;
-//        [self presentPopupViewController:myQuestionAndAnswerController animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
-//            
-//        }];
-        
-//        MyQuestionAndAnswerViewController *myQuestionAndAnswerController = [self.storyboard instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
-        if (indexPath.section == 0) {
+        if (indexPath.section==0) {
             NSDictionary *d=[self.questionList objectAtIndex:indexPath.row];
             if([d valueForKey:@"Objects"]) {
                 NSArray *ar=[d valueForKey:@"Objects"];
@@ -430,7 +418,6 @@ static NSString *titleName = nil;
 }
 
 -(void)miniMizeThisRows:(NSArray*)ar{
-	
 	for(NSDictionary *dInner in ar ) {
 		NSUInteger indexToRemove=[self.questionList indexOfObjectIdenticalTo:dInner];
 		NSArray *arInner=[dInner valueForKey:@"Objects"];
@@ -542,7 +529,7 @@ static NSString *titleName = nil;
             [CaiJinTongManager shared].defaultLeftInset = 200;
             [CaiJinTongManager shared].defaultPortraitTopInset = 20;
             [CaiJinTongManager shared].defaultWidth = 568;
-            [CaiJinTongManager shared].defaultHeight = 1004;
+            [CaiJinTongManager shared].defaultHeight = 984;
             
             ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
             if(self.isSearching)chapterView.isSearch = YES;
@@ -552,6 +539,8 @@ static NSString *titleName = nil;
                 NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
                 if (titleName) {
                     chapterView.title = titleName;
+                }else{
+                    chapterView.title = @"搜索";
                 }
                 if(self.isSearching){
                     if(self.searchText.text != nil && ![self.searchText.text isEqualToString:@""] && tempArray.count > 0){
@@ -616,6 +605,5 @@ static NSString *titleName = nil;
     [SVProgressHUD dismiss];
     [Utility errorAlert:errorMsg];
 }
-
 
 @end

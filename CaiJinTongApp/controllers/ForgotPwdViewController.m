@@ -40,8 +40,6 @@
     self.emailTextField.layer.cornerRadius = 5;
     self.emailTextField.layer.borderWidth = 1;
     self.emailTextField.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    
-	// Do any additional setup after loading the view.
 }
 
 -(void)drnavigationBarRightItemClicked:(id)sender{
@@ -84,4 +82,5 @@
     [SVProgressHUD dismiss];
     [Utility errorAlert:errorMsg];
 }
+
 @end

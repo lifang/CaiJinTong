@@ -9,7 +9,6 @@
 #import "ChapterSearchBar.h"
 #define SEARCH_MASK_LEFT 40
 @interface ChapterSearchBar()
-@property (nonatomic,strong) UIButton *searchBt;
 
 @property (nonatomic,strong) UIImageView *backImageView;
 @property (nonatomic,strong) UILabel *searchTipLabel;
@@ -22,7 +21,7 @@
     if (self) {
         // Initialization code
         self.backImageView = [[UIImageView alloc] initWithFrame:(CGRect){}];
-        self.backImageView.backgroundColor = [UIColor lightGrayColor];
+        self.backImageView.backgroundColor = [UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:232.0/255.0 alpha:1.0];
         self.backImageView.layer.borderColor = [UIColor grayColor].CGColor;
         self.backImageView.layer.borderWidth =1.0;
         self.backImageView.layer.cornerRadius =18.0;
@@ -43,6 +42,7 @@
         [self.searchTextField.window makeKeyAndVisible];
 //        self.searchTextField.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleWidth;
         [self addSubview:self.searchTextField];
+        self.searchTextField.delegate = self;
         
         self.searchTipLabel = [[UILabel alloc] initWithFrame:(CGRect){}];
 //        self.searchTipLabel.backgroundColor = [UIColor blackColor];
@@ -83,4 +83,13 @@
         [self.delegate chapterSeachBar:self beginningSearchString:self.searchTextField.text];
     }
 }
+
+#pragma mark -- textField Delegate methods
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
+    if(!textField.window.isKeyWindow){
+        [textField.window makeKeyAndVisible];
+    }
+    return YES;
+}
+
 @end

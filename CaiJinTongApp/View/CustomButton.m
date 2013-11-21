@@ -24,15 +24,13 @@
 }
 -(void)setButtonModel:(SectionSaveModel *)buttonModel {
     _buttonModel = buttonModel;
-    [self setBackgroundImage:[UIImage imageNamed:@"course-mycourse_03"] forState:UIControlStateNormal];
-    [self setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+//    [self setBackgroundImage:[UIImage imageNamed:@"course-mycourse_03"] forState:UIControlStateNormal];
+//    [self setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     switch (buttonModel.downloadState) {
         case 0:
         {
             //下载中按钮
             [self setTitle:NSLocalizedString(@"下载中...", @"button") forState:UIControlStateNormal];
-            [self setImage:Image(@"course-mycourse_03") forState:UIControlStateNormal];
-            [self setImage:Image(@"course-mycourse_03") forState:UIControlStateHighlighted];
             [self removeTarget:self action:NULL forControlEvents:UIControlEventTouchUpInside];
             [self addTarget:self action:@selector(downloadShowView)
            forControlEvents:UIControlEventTouchUpInside];
@@ -67,8 +65,6 @@
         case 4:
         {//下载按钮
             [self setTitle:NSLocalizedString(@"下载", @"button") forState:UIControlStateNormal];
-            [self setImage:Image(@"btn0") forState:UIControlStateNormal];
-            [self setImage:Image(@"btn0") forState:UIControlStateHighlighted];
             [self removeTarget:self action:NULL forControlEvents:UIControlEventTouchUpInside];
             [self addTarget:self action:@selector(downloadClicked)
            forControlEvents:UIControlEventTouchUpInside];

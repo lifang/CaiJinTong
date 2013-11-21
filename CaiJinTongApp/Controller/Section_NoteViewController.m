@@ -61,7 +61,6 @@
     UIFont *aFont = [UIFont fontWithName:@"Trebuchet MS" size:18];
     CGSize size = [note.noteText sizeWithFont:aFont constrainedToSize:CGSizeMake(500, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
     cell.contentLab.frame = CGRectMake(25, 35, 500, size.height);
-    cell.titleLab.text = self.title;
     cell.contentLab.text = note.noteText;
     cell.timeLab.text = note.noteTime;
     cell.contentLab.layer.borderWidth = 2.0;

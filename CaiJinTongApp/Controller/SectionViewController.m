@@ -71,7 +71,7 @@
         //显示分数
         CustomLabel *scoreLabel = [[CustomLabel alloc]initWithFrame:CGRectMake(480, 64, 60, 60)];
         scoreLabel.backgroundColor = [UIColor colorWithRed:12.0/255.0 green:58.0/255.0 blue:94.0/255.0 alpha:1.0f];
-        scoreLabel.text = self.section.sectionScore;
+        scoreLabel.text =[NSString stringWithFormat:@"%.1f",[self.section.sectionScore floatValue]];
         scoreLabel.layer.cornerRadius = 7;
         [scoreLabel setColor:[UIColor whiteColor] fromIndex:0 length:scoreLabel.text.length];
         [scoreLabel setFont:[UIFont boldSystemFontOfSize:50] fromIndex:0 length:1];
@@ -83,7 +83,7 @@
         CGFloat labelTop = 64;
         CGFloat labelSpace = 6;
         //标题
-        UILabel *nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(275, labelTop, 150, 30)];
+        UILabel *nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(275, labelTop, 200, 30)];
         nameLabel.backgroundColor = [UIColor clearColor];
         nameLabel.textColor = [UIColor grayColor];
         nameLabel.font = [UIFont boldSystemFontOfSize:16];
@@ -165,6 +165,9 @@
         studyLabel = nil;
         //播放按钮
         DLog(@"labtop = %f",labelTop);
+        if (labelTop <150) {
+            labelTop = 200;
+        }
         UIButton *palyButton = [UIButton buttonWithType:UIButtonTypeCustom];
         palyButton.frame = CGRectMake(400, labelTop-20, 150, 50);
         [palyButton setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
@@ -201,8 +204,8 @@
     if (path) {
         //播放接口
         DRMoviePlayViewController *playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
-        AppDelegate *app = [AppDelegate sharedInstance];
-        [app.lessonViewCtrol presentViewController:playerController animated:YES completion:^{
+        playerController.movieUrlString = path;
+        [self presentViewController:playerController animated:YES completion:^{
             
         }];
     }
