@@ -489,7 +489,8 @@ static NSString *titleName = nil;
     formSheet.shadowRadius = 2.0;
     formSheet.shadowOpacity = 0.3;
     formSheet.shouldDismissOnBackgroundViewTap = YES;
-    formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
+    formSheet.shouldCenterVerticallyWhenKeyboardAppears = NO;//lhl修改,取消界面在键盘出现时移动
+    formSheet.shouldMoveToTopWhenKeyboardAppears = NO;
     
     [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
         
