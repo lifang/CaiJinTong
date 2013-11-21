@@ -546,7 +546,7 @@ static NSString *titleName = nil;
             
             if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
                 NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
-                if (titleName) {
+                if (!self.isSearching && titleName) {
                     chapterView.title = titleName;
                 }else{
                     chapterView.title = @"搜索";
