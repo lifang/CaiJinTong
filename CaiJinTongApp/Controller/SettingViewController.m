@@ -185,7 +185,7 @@ NSString *appleID = @"6224939";
                     [[iRate sharedInstance] openRatingsPageInAppStore];
                     break;
                 case 1:
-                    
+                    [self suggestionFeedbackViewClicked];
                     break;
                 case 2:
                     
@@ -203,5 +203,12 @@ NSString *appleID = @"6224939";
 #pragma mark -- cellDelegate
 -(void)infoCellView:(InfoCell*)header {
     
+}
+
+#pragma mark -- suggestion feedback view
+-(void)suggestionFeedbackViewClicked{
+    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:[NSBundle mainBundle]];
+    SuggestionFeedbackViewController *suggestion = [story instantiateViewControllerWithIdentifier:@"SuggestionFeedbackViewController"];
+    [self.navigationController pushViewController:suggestion animated:YES];
 }
 @end
