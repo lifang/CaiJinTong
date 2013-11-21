@@ -11,12 +11,12 @@
 @interface SuggestionInterface : BaseInterface<BaseInterfaceDelegate>
 
 @property (nonatomic, assign) id<SuggestionInterfaceDelegate>delegate;
--(void)getAskQuestionInterfaceDelegateWithUserId:(NSString *)userId andSuggestionContent:(NSString *)suggestionContent andSuggestionTime:(NSString *)suggestionTime;
+-(void)getAskQuestionInterfaceDelegateWithUserId:(NSString *)userId andSuggestionContent:(NSString *)suggestionContent;
 
 @end
 
 @protocol SuggestionInterfaceDelegate <NSObject>
 
--(void)getSuggestionInfoDidFinished:(NSDictionary *)result;
+-(void)getSuggestionInfoDidFinished;
 -(void)getSuggestionInfoDidFailed:(NSString *)errorMsg;
 @end

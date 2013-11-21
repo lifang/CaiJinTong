@@ -64,6 +64,14 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     [placeholder addAttribute:NSForegroundColorAttributeName value:[UIColor grayColor] range:NSMakeRange(0, placeholder.length)];
     self.searchText.attributedPlaceholder = placeholder;
     self.isSearching = NO;
+    self.editBtn.backgroundColor = [UIColor clearColor];
+    self.editBtn.alpha = 0.3;
+//    self.searchBarView.tintColor = [UIColor clearColor];
+//    self.searchBarView.backgroundImage = [UIImage new];
+//    self.searchBarView.translucent = YES;
+//    self.searchBarView.tintColor = [UIColor redColor];
+//    self.searchBarView.backgroundImage = [UIImage imageNamed:@"1.png"];
+//    [self initTestData];
 
     [self getLessonInfo];
 }
@@ -166,8 +174,18 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
         }else {//本地课程
             //本地数据的获取
-//            Section *sectionDb = [[Section alloc]init];
-//            NSArray *local_array = [sectionDb getAllInfo];
+            Section *sectionDb = [[Section alloc]init];
+            NSArray *local_array = [sectionDb getAllInfo];
+            UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+            [CaiJinTongManager shared].defaultLeftInset = 200;
+            [CaiJinTongManager shared].defaultPortraitTopInset = 20;
+            [CaiJinTongManager shared].defaultWidth = 568;
+            [CaiJinTongManager shared].defaultHeight = 984;
+            
+            ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
+            if(self.isSearching)chapterView.isSearch = YES;
+            chapterView.searchBar.searchTextField.text = self.searchText.text;
+            
         }
     }else{
         if (path.section == 0) {
@@ -471,6 +489,9 @@ static NSString *titleName = nil;
 }
 
 -(IBAction)setBtnPressed:(id)sender {
+    self.editBtn.alpha = 1.0;
+    self.lessonListBt.alpha = 0.3;
+    self.questionListBt.alpha = 0.3;
     UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
     UIViewController *vc = [story instantiateViewControllerWithIdentifier:@"modal"];
 
@@ -483,7 +504,8 @@ static NSString *titleName = nil;
     formSheet.shadowRadius = 2.0;
     formSheet.shadowOpacity = 0.3;
     formSheet.shouldDismissOnBackgroundViewTap = YES;
-    formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
+    formSheet.shouldCenterVerticallyWhenKeyboardAppears = NO;//lhl修改,取消界面在键盘出现时移动
+    formSheet.shouldMoveToTopWhenKeyboardAppears = NO;
     
     [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
         
@@ -510,10 +532,12 @@ static NSString *titleName = nil;
         self.lessonListTitleLabel.text = @"我的课程";
         self.lessonListBt.alpha = 1;
         self.questionListBt.alpha = 0.3;
+        self.editBtn.alpha = 0.3;
     }else{
     self.lessonListTitleLabel.text = @"我的问答";
         self.lessonListBt.alpha = 0.3;
         self.questionListBt.alpha = 1;
+        self.editBtn.alpha = 0.3;
     }
     _listType = listType;
 }

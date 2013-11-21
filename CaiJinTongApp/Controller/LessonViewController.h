@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "LessonListHeaderView.h"
 #import "ChapterInfoInterface.h"
+//@interface LessonViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,LessonListHeaderViewDelegate>
 @interface LessonViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,LessonListHeaderViewDelegate,ChapterInfoInterfaceDelegate,LessonInfoInterfaceDelegate>
+@property (weak, nonatomic) IBOutlet UIButton *editBtn;
 @property (weak, nonatomic) IBOutlet UITextField *searchText;
 @property (weak, nonatomic) IBOutlet UIImageView *searchBarView;
 @property (weak, nonatomic) IBOutlet UIButton *searchBtn;

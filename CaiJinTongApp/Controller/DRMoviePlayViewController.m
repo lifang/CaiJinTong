@@ -47,6 +47,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.myNotesItem.delegate = self;
+    self.myQuestionItem.delegate = self;
+    
     self.isPopupChapter = NO;
     [self addMoviePlayBackNotification];
 //    self.movieUrlString =  @"http://lms.finance365.com/data/course/6/304/2690/20130717091047687.mp4";
@@ -290,21 +293,21 @@
 
 #pragma mark DRCommitQuestionViewControllerDelegate
 -(void)commitQuestionController:(DRCommitQuestionViewController *)controller didCommitQuestionWithTitle:(NSString *)title andText:(NSString *)text{
-
+    self.myQuestionItem.isSelected = NO;
 }
 
 -(void)commitQuestionControllerCancel{
-
+    self.myQuestionItem.isSelected = NO;
 }
 #pragma mark --
 
 #pragma mark DRTakingMovieNoteViewControllerDelegate
 -(void)takingMovieNoteController:(DRTakingMovieNoteViewController *)controller commitNote:(NSString *)text{
-
+    self.myNotesItem.isSelected = NO;
 }
 
 -(void)takingMovieNoteControllerCancel{
-
+    self.myNotesItem.isSelected = NO;
 }
 #pragma mark --
 
@@ -396,7 +399,7 @@
         [_moviePlayer setShouldAutoplay:YES];
         [self.moviePlayerView addSubview:_moviePlayer.view];
         [self.moviePlayerView sendSubviewToBack:_moviePlayer.view];
-        [_moviePlayer setMovieSourceType:MPMovieSourceTypeStreaming];
+        [_moviePlayer setMovieSourceType:MPMovieSourceTypeFile];
         _moviePlayer.view.frame = (CGRect){0,0,self.moviePlayerView.frame.size};
         [_moviePlayer setScalingMode:MPMovieScalingModeAspectFill];
         [_moviePlayer setContentURL:[NSURL URLWithString:self.movieUrlString]];
@@ -428,6 +431,18 @@
         self.isPopupChapter = NO;
     }
 }
-#pragma mark --
+#pragma mark -- PlayBackInterfaceDelegate
 
+-(void)getPlayBackInfoDidFinished:(NSDictionary *)result {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+        });
+    });
+}
+-(void)getPlayBackDidFailed:(NSString *)errorMsg {
+    [SVProgressHUD dismiss];
+    [Utility errorAlert:errorMsg];
+}
 @end

@@ -19,7 +19,7 @@
 #import "CaiJinTongManager.h"
 #import "SVProgressHUD.h"
 #import "MZFormSheetController.h"
-
+#import "UIViewController+MJPopupViewController.h"
 #import "MBProgressHUD.h"
 
 #endif

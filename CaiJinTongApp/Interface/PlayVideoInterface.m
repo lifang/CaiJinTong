@@ -15,16 +15,11 @@
 -(void)getPlayVideoInterfaceDelegateWithUserId:(NSString *)userId andSectionId:(NSString *)sectionId andTimeStart:(NSString *)timeStart {
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     
-    NSString *timespan = [Utility getNowDateFromatAnDate];
-    NSString *strKey = [NSString stringWithFormat:@"%@%@",timespan,MDKey];
-    NSString *md5Key = [Utility createMD5:strKey];
-    
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",timespan] forKey:@"timespan"];
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",md5Key] forKey:@"token"];
+
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",sectionId] forKey:@"sectionId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",timeStart] forKey:@"timeStart"];
-    self.interfaceUrl = [NSString stringWithFormat:@"%@",kHost];
+    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=playVideo&userId=17082&sectionId=2690&timeStart=2013-11-20 15:52";
     
     self.baseDelegate = self;
     self.headers = reqheaders;
@@ -45,23 +40,26 @@
                 if (jsonData) {
                     if ([[jsonData objectForKey:@"Status"]intValue] == 1) {
                         @try {
-//                            NSDictionary *dictionary =[jsonData objectForKey:@"ReturnObject"];
+                            
+                            [self.delegate getPlayVideoInfoDidFinished];
                         }
                         @catch (NSException *exception) {
-                            
+                            [self.delegate getPlayVideoInfoDidFailed:@"加载数据失败!"];
                         }
+                    }else {
+                        [self.delegate getPlayVideoInfoDidFailed:[jsonData objectForKey:@"Msg"]];
                     }
                 }else {
-                    
+                    [self.delegate getPlayVideoInfoDidFailed:@"加载数据失败!"];
                 }
             }
         }
     }else {
-        
+        [self.delegate getPlayVideoInfoDidFailed:@"加载数据失败!"];
     }
 }
 -(void)requestIsFailed:(NSError *)error{
-    
+    [self.delegate getPlayVideoInfoDidFailed:@"加载数据失败!"];
 }
 
 @end

@@ -12,6 +12,7 @@
 #import "DRMoviePlayerPlaybackProgressBar.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import "MoviePlayerHolderView.h"
+#import "PlayBackInterface.h"
 #import "DRCommitQuestionViewController.h"
 #import "DRTakingMovieNoteViewController.h"
 typedef enum {MOVIE_FILE,MOVIE_INTERNET}MovieLocateType;
@@ -30,6 +31,9 @@ typedef enum {MOVIE_FILE,MOVIE_INTERNET}MovieLocateType;
 @property (weak, nonatomic) IBOutlet UIView *moviePlayerControlBackDownView;
 @property (strong,nonatomic) NSString *movieUrlString;
 @property (assign,nonatomic) MovieLocateType movieLacateType;
+
+@property (nonatomic, strong) PlayBackInterface *playBackInterface;
+@property (strong, nonatomic) NSString *sectionId;
 - (IBAction)playBtClicked:(id)sender;
 - (IBAction)seekSliderTouchChangeValue:(id)sender;
 - (IBAction)volumeSliderTouchChangeValue:(id)sender;

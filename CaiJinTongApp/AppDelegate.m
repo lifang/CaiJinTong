@@ -9,8 +9,13 @@
 #import "AppDelegate.h"
 #import "LoginViewController.h"
 #import "CaiJinTongManager.h"
+#import "iRate.h"
 
 @implementation AppDelegate
+
++ (void)initialize {
+    [iRate sharedInstance].appStoreID = 355313284;
+}
 
 +(AppDelegate *)sharedInstance {
     return (AppDelegate *)[[UIApplication sharedApplication] delegate];

@@ -11,12 +11,13 @@
 #import "CustomTextView.h"
 
 #import "CommentListInterface.h"
-
-@interface Section_GradeViewController : UIViewController<StarRatingViewDelegate,UITableViewDataSource, UITableViewDelegate,UITextViewDelegate,CommentListInterfaceDelegate>
+#import "GradeInterface.h"
+@interface Section_GradeViewController : UIViewController<StarRatingViewDelegate,UITableViewDataSource, UITableViewDelegate,UITextViewDelegate,CommentListInterfaceDelegate,GradeInterfaceDelegate>
 
 
 - (void)viewDidCurrentView;
 @property (nonatomic, strong) CommentListInterface *commentInterface;
+@property (nonatomic, strong) GradeInterface *gradeInterface;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) IBOutlet UITableView *tableViewList;
 @property (nonatomic, assign) NSInteger isGrade;//0可以打分，1已经打过分

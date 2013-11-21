@@ -12,6 +12,9 @@
 #import "DownLoadInformView.h"
 #import "Section.h"
 #import "NoteModel.h"
+#import "Section_chapterModel.h"
+#import "DRMoviePlayViewController.h"
+
 @implementation CustomButton
 
 - (id)initWithFrame:(CGRect)frame
@@ -84,10 +87,17 @@
     }else{
         documentDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     }
-    path = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@",self.buttonModel.sid]];
+    path = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@.mp4",self.buttonModel.sid]];
     DLog(@"path = %@",path);//本地保存路径
     if (path) {
         //播放接口
+//        UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+//        DRMoviePlayViewController *playerController = [story instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
+//        playerController.movieUrlString = path;
+//        AppDelegate *app = [AppDelegate sharedInstance];
+//        [self presentViewController:playerController animated:YES completion:^{
+//            
+//        }];
     }
 }
 //下载中
@@ -152,9 +162,9 @@
                 [sectionDb addDataWithNoteModel:note andSid:self.buttonModel.sid];
             }
         }
-        if (self.buttonModel.noteList.count>0) {//章节目录
+        if (self.buttonModel.sectionList.count>0) {//章节目录
             for (int i=0; i<self.buttonModel.sectionList.count; i++) {
-                SectionModel *section = (SectionModel *)[self.buttonModel.sectionList objectAtIndex:i];
+                Section_chapterModel *section = (Section_chapterModel *)[self.buttonModel.sectionList objectAtIndex:i];
                 [sectionDb addDataWithSectionModel:section andSid:self.buttonModel.sid];
             }
         }

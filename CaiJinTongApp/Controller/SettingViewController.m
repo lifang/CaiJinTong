@@ -7,12 +7,15 @@
 //
 
 #import "SettingViewController.h"
-#import "InfoViewController.h"
+#import "UserInfoTableViewController.h"
+#import "iRate.h"
 
 #define Info_HEADER_IDENTIFIER @"infoheader"
 @interface SettingViewController ()
 
 @end
+
+NSString *appleID = @"6224939";
 
 @implementation SettingViewController
 
@@ -28,9 +31,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+//	self.view.frame = CGRectMake(0, 0, 400, 500);
+//    self.drnavigationBar.titleLabel.text = @"设置";
+//    [self.drnavigationBar.navigationRightItem setImage:[UIImage imageNamed:@"course-mycourse_03.png"] forState:UIControlStateNormal];
+//    [self.drnavigationBar.navigationRightItem setTitle:@"关闭" forState:UIControlStateNormal];
     self.title = @"设置";
     
     [self.tableView registerClass:[InfoCell class] forHeaderFooterViewReuseIdentifier:Info_HEADER_IDENTIFIER];
+    self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
 }
 
 -(void)drnavigationBarRightItemClicked:(id)sender{
@@ -124,21 +132,47 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-    InfoViewController *vc = [story instantiateViewControllerWithIdentifier:@"InfoViewController"];
+//    InfoViewController *vc = [story instantiateViewControllerWithIdentifier:@"InfoViewController"];
+    UserInfoTableViewController *userInfoVC = [story instantiateViewControllerWithIdentifier:@"UserInfoTableViewController"];
     switch (indexPath.section) {
         case 0:
-            [self.navigationController pushViewController:vc animated:YES];
+            [self.navigationController pushViewController:userInfoVC animated:YES];
             break;
         case 1:
             switch (indexPath.row) {
                 case 0:
-                    
+                    if (((UITableViewCell *)self.tableView.visibleCells[1]).accessoryType == UITableViewCellAccessoryCheckmark) {
+                        ((UITableViewCell *)self.tableView.visibleCells[1]).accessoryType = UITableViewCellAccessoryNone;
+                    } else {
+                        ((UITableViewCell *)self.tableView.visibleCells[1]).accessoryType = UITableViewCellAccessoryCheckmark;
+                    }
                     break;
                 case 1:
                     
                     break;
                 case 2:
-                    
+                {
+//                    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+//                    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://itunes.apple.com/lookup?id=%@",appleID]]];
+//                    [request setHTTPMethod:@"GET"];
+//                    NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+//                    NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:returnData options:0 error:nil];
+//                    NSString *latestVersion = [jsonData objectForKey:@"version"];
+//                    NSString *trackName = [jsonData objectForKey:@"trackName"];
+                    NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
+                    NSString *currentVersion = [infoDic objectForKey:@"CFBundleVersion"];
+                    ((UITableViewCell *)self.tableView.visibleCells[3]).textLabel.text = [NSString stringWithFormat:@"版本检测                                                %@",currentVersion];
+//                    if (currentVersion < latestVersion) {
+//                        UIAlertView *alert;
+//                        alert = [[UIAlertView alloc] initWithTitle:trackName
+//                                                           message:@"有新版本，是否升级！"
+//                                                          delegate: self
+//                                                 cancelButtonTitle:@"取消"
+//                                                 otherButtonTitles: @"升级", nil];
+//                        alert.tag = 1001;
+//                        [alert show];
+//                    }
+                }
                     break;
                     
                 default:
@@ -148,10 +182,10 @@
         case 2:
             switch (indexPath.row) {
                 case 0:
-                    
+                    [[iRate sharedInstance] openRatingsPageInAppStore];
                     break;
                 case 1:
-                    
+                    [self suggestionFeedbackViewClicked];
                     break;
                 case 2:
                     
@@ -169,5 +203,12 @@
 #pragma mark -- cellDelegate
 -(void)infoCellView:(InfoCell*)header {
     
+}
+
+#pragma mark -- suggestion feedback view
+-(void)suggestionFeedbackViewClicked{
+    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:[NSBundle mainBundle]];
+    SuggestionFeedbackViewController *suggestion = [story instantiateViewControllerWithIdentifier:@"SuggestionFeedbackViewController"];
+    [self.navigationController pushViewController:suggestion animated:YES];
 }
 @end

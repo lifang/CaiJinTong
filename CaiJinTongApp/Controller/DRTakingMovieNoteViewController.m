@@ -54,14 +54,14 @@
 }
 
 - (IBAction)cancelBtnClicked:(UIButton *)sender {
-//    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopTop];
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopTop];
     if (self.delegate && [self.delegate respondsToSelector:@selector(takingMovieNoteControllerCancel)]) {
         [self.delegate takingMovieNoteControllerCancel];
     }
 }
 
 - (IBAction)commitBtnClicked:(UIButton *)sender {
-//    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopTop];
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopTop];
     if (self.contentField.text == nil || [[self.contentField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
         [Utility errorAlert:@"内容不能为空"];
     }

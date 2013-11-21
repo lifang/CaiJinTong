@@ -11,6 +11,7 @@
 #import "CJTMainToolbar.h"
 #import "ChapterSearchBar.h"
 #import "SectionInfoInterface.h"
+
 @interface ChapterViewController : UIViewController <UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource,CJTMainToolbarDelegate, SectionInfoInterfaceDelegate,ChapterInfoInterfaceDelegate>
 @property (nonatomic, strong) SectionInfoInterface *sectionInterface;
 @property (nonatomic, strong) CJTMainToolbar *mainToolBar;

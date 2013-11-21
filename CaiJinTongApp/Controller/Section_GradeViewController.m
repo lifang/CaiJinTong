@@ -75,8 +75,17 @@
 }
 #pragma -- 提交
 -(IBAction)submitBtnPressed:(id)sender {
-    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:@"4.93",@"score", nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"refeshScore" object:dic userInfo:nil];
+    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+        [Utility errorAlert:@"暂无网络!"];
+    }else {
+        [SVProgressHUD showWithStatus:@"玩命加载中..."];
+        GradeInterface *gradeInter = [[GradeInterface alloc]init];
+        self.gradeInterface = gradeInter;
+        self.gradeInterface.delegate = self;
+        [self.gradeInterface getGradeInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionId andScore:self.pointLab.text andContent:self.textView.text];
+    }
+    
+    
 }
 #pragma mark-- UITableViewDelegate 
 
@@ -112,7 +121,7 @@
             cell.titleLab.text = @"正在加载..."; //最后一行 触发下载更新代码
             [self performSelector:@selector(loadMore) withObject:nil afterDelay:3];
         }else {
-            cell.titleLab.text = @"已全部加载完毕"; //最后一行 触发下载更新代码
+            cell.titleLab.text = @"已全部加载完毕";
         }
         cell.contentLab.text = @"";
     }
@@ -126,40 +135,16 @@
 //评论的分页加载
 -(void)loadMore {
     if (self.nowPage < self.pageCount) {//还有评论
-        self.nowPage =2;
         if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
             [Utility errorAlert:@"暂无网络!"];
         }else {
-            NSDictionary *dictionary = [Utility initWithJSONFile:@"commentList"];
-            NSDictionary *dic = [dictionary objectForKey:@"ReturnObject"];
-            if (dic.count>0) {
-                NSArray *array = [dic objectForKey:@"commentList"];
-                if (array.count>0) {
-                    for (int i=0; i<array.count; i++) {
-                        NSDictionary *dic_comment = [array objectAtIndex:i];
-                        CommentModel *comment = [[CommentModel alloc]init];
-                        comment.nickName = [NSString stringWithFormat:@"%@",[dic_comment objectForKey:@"nickName"]];
-                        comment.time = [NSString stringWithFormat:@"%@",[dic_comment objectForKey:@"time"]];
-                        comment.content = [NSString stringWithFormat:@"%@",[dic_comment objectForKey:@"content"]];
-                        comment.pageIndex = [[dic_comment objectForKey:@"pageIndex"]intValue];
-                        comment.pageCount = [[dic_comment objectForKey:@"pageCount"]intValue];
-                        [self.dataArray addObject:comment];
-                    }
-                }
-                dispatch_async ( dispatch_get_main_queue (), ^{
-                    [self.tableViewList reloadData];
-                });
-            }
-            /*
+            self.nowPage +=1;
             [SVProgressHUD showWithStatus:@"玩命加载中..."];
             CommentListInterface *commentList = [[CommentListInterface alloc]init];
             self.commentInterface = commentList;
             self.commentInterface.delegate = self;
             [self.commentInterface getGradeInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionId andPageIndex:self.nowPage];
-             */
         }
-    }else {//加载完毕
-        
     }
 }
 
@@ -167,9 +152,11 @@
 -(void)getCommentListInfoDidFinished:(SectionModel *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
-        
+        if (result.commentList.count>0) {
+            [self.dataArray addObjectsFromArray:result.commentList];
+        }
         dispatch_async(dispatch_get_main_queue(), ^{
-            
+            [self.tableViewList reloadData];
         });
     });
 }
@@ -178,4 +165,22 @@
     [Utility errorAlert:errorMsg];
 }
 
+#pragma  mark --GradeInterfaceDelegate
+-(void)getGradeInfoDidFinished:(NSDictionary *)result {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"refeshScore" object:result userInfo:nil];
+            //隐藏打分栏，只出现评论框
+            if (self.nowPage == self.pageCount) {
+                //更新tableview
+                
+            }
+        });
+    });
+}
+-(void)getGradeInfoDidFailed:(NSString *)errorMsg {
+    [SVProgressHUD dismiss];
+    [Utility errorAlert:errorMsg];
+}
 @end

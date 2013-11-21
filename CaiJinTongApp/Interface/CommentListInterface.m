@@ -17,18 +17,12 @@
 
 -(void)getGradeInterfaceDelegateWithUserId:(NSString *)userId andSectionId:(NSString *)sectionId andPageIndex:(NSInteger)pageIndex {
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
-    
-    NSString *timespan = [Utility getNowDateFromatAnDate];
-    NSString *strKey = [NSString stringWithFormat:@"%@%@",timespan,MDKey];
-    NSString *md5Key = [Utility createMD5:strKey];
-    
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",timespan] forKey:@"timespan"];
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",md5Key] forKey:@"token"];
+
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",sectionId] forKey:@"sectionId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%d",pageIndex] forKey:@"pageIndex"];
     
-    self.interfaceUrl = [NSString stringWithFormat:@"%@",kHost];
+    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=commentList&userId=17082&sectionId=2690&pageIndex=1";
     
     self.baseDelegate = self;
     self.headers = reqheaders;
