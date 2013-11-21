@@ -14,7 +14,7 @@
 #import "NoteModel.h"
 #import "Section_chapterModel.h"
 #import "DRMoviePlayViewController.h"
-
+#import "SectionViewController.h"
 @implementation CustomButton
 
 - (id)initWithFrame:(CGRect)frame
@@ -105,12 +105,10 @@
 {
     //下载中的点击弹窗
     DownLoadInformView *mDownLoadInformView = [[[NSBundle mainBundle]loadNibNamed:@"DownLoadInformView" owner:self options:nil]objectAtIndex:0];
-    AppDelegate *delegate = [AppDelegate sharedInstance];
-    mDownLoadInformView.frame = CGRectMake(0, 0, 768, 1024);
-    
+
+    mDownLoadInformView.frame = CGRectMake(0, 0, 568, 650);
     mDownLoadInformView.nm1 = self.buttonModel;
-    [delegate.window.rootViewController.view addSubview:mDownLoadInformView];
-    
+    [self.superview.superview.superview.superview.superview.superview.superview addSubview:mDownLoadInformView];
 }
 //继续下载
 -(void)reDownloadClicked
@@ -138,7 +136,7 @@
             self.sectionInterface.delegate = self;
             [self.sectionInterface getSectionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.buttonModel.sid];
         }
-    }  
+    }
 }
 
 #pragma -- SectionInfoInterface

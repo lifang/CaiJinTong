@@ -10,6 +10,7 @@
 
 @interface Section_NoteViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 - (void)viewDidCurrentView;
+
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) IBOutlet UITableView *tableViewList;
 @end

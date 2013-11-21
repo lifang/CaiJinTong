@@ -422,4 +422,17 @@
     [SVProgressHUD dismiss];
     [Utility errorAlert:errorMsg];
 }
+#pragma mark -- SumitNoteInterfaceDelegate
+-(void)getSumitNoteInfoDidFinished:(NSDictionary *)result {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+        });
+    });
+}
+-(void)getSumitNoteDidFailed:(NSString *)errorMsg {
+    [SVProgressHUD dismiss];
+    [Utility errorAlert:errorMsg];
+}
 @end

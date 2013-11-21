@@ -54,7 +54,6 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     [super viewDidLoad];
     [self.tableView registerClass:[LessonListHeaderView class] forHeaderFooterViewReuseIdentifier:LESSON_HEADER_IDENTIFIER];
     self.listType = LESSON_LIST;
-//    [self initTestData];
     [Utility setBackgroungWithView:self.LogoImageView.superview andImage6:@"login_bg" andImage7:@"login_bg_7"];
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.separatorStyle = NO;
@@ -63,7 +62,9 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     NSMutableAttributedString *placeholder = [[NSMutableAttributedString alloc] initWithString:@"搜索课程"];
     [placeholder addAttribute:NSForegroundColorAttributeName value:[UIColor grayColor] range:NSMakeRange(0, placeholder.length)];
     self.searchText.attributedPlaceholder = placeholder;
+    self.searchText.returnKeyType = UIReturnKeySearch;
     self.isSearching = NO;
+    self.searchText.delegate = self;
     self.editBtn.backgroundColor = [UIColor clearColor];
     self.editBtn.alpha = 0.3;
 //    self.searchBarView.tintColor = [UIColor clearColor];
@@ -466,23 +467,45 @@ static NSString *titleName = nil;
 }
 
 - (IBAction)SearchBrClicked:(id)sender {
-    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-    ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
-    chapterView.view.frame = CGRectMake(50, 20, 768-200, 1024-20);
-    chapterView.isSearch = YES;
-
-    self.isSearching = YES;
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
+    if (self.searchText.text.length == 0) {
+        [Utility errorAlert:@"请输入搜索内容!"];
     }else {
-        [SVProgressHUD showWithStatus:@"玩命加载中..."];
-        ChapterInfoInterface *chapterInter = [[ChapterInfoInterface alloc]init];
-        self.chapterInterface = chapterInter;
-        self.chapterInterface.delegate = self;
-        [self.chapterInterface getChapterInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andChapterId:nil];
+        [self.searchText resignFirstResponder];
+        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+            [Utility errorAlert:@"暂无网络!"];
+        }else {
+            self.isSearching = YES;
+            [SVProgressHUD showWithStatus:@"玩命加载中..."];
+            SearchLessonInterface *searchLessonInter = [[SearchLessonInterface alloc]init];
+            self.searchLessonInterface = searchLessonInter;
+            self.searchLessonInterface.delegate = self;
+            [self.searchLessonInterface getSearchLessonInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchText.text];
+        }
     }
 }
-
+/*
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    BOOL isSearch = NO;
+    if (self.searchText.text.length == 0) {
+        [Utility errorAlert:@"请输入搜索内容!"];
+        isSearch = NO;
+    }else {
+        isSearch = YES;
+        [self.searchText resignFirstResponder];
+        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+            [Utility errorAlert:@"暂无网络!"];
+        }else {
+            self.isSearching = YES;
+            [SVProgressHUD showWithStatus:@"玩命加载中..."];
+            SearchLessonInterface *searchLessonInter = [[SearchLessonInterface alloc]init];
+            self.searchLessonInterface = searchLessonInter;
+            self.searchLessonInterface.delegate = self;
+            [self.searchLessonInterface getSearchLessonInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchText.text];
+        }
+    }
+    return isSearch;
+}
+ */
 -(IBAction)setBtnPressed:(id)sender {
     self.editBtn.alpha = 1.0;
     self.lessonListBt.alpha = 0.3;
@@ -625,4 +648,27 @@ static NSString *titleName = nil;
     [Utility errorAlert:errorMsg];
 }
 
+#pragma mark--SearchLessonInterfaceDelegate
+-(void)getSearchLessonInfoDidFinished:(NSDictionary *)result {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+            [CaiJinTongManager shared].defaultLeftInset = 200;
+            [CaiJinTongManager shared].defaultPortraitTopInset = 20;
+            [CaiJinTongManager shared].defaultWidth = 568;
+            [CaiJinTongManager shared].defaultHeight = 984;
+            
+            ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
+            if(self.isSearching)chapterView.isSearch = YES;
+            chapterView.searchBar.searchTextField.text = self.searchText.text;
+            
+            
+        });
+    });
+}
+-(void)getSearchLessonInfoDidFailed:(NSString *)errorMsg {
+    [SVProgressHUD dismiss];
+    [Utility errorAlert:errorMsg];
+}
 @end
