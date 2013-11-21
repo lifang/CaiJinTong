@@ -18,6 +18,6 @@
 
 @protocol PlayVideoInterfaceDelegate <NSObject>
 
--(void)getPlayVideoInfoDidFinished:(NSDictionary *)result;
+-(void)getPlayVideoInfoDidFinished;
 -(void)getPlayVideoInfoDidFailed:(NSString *)errorMsg;
 @end

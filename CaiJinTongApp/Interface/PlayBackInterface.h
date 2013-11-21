@@ -13,7 +13,7 @@
 @interface PlayBackInterface : BaseInterface<BaseInterfaceDelegate>
 
 @property (nonatomic, assign) id<PlayBackInterfaceDelegate>delegate;
--(void)getPlayBackInterfaceDelegateWithUserId:(NSString *)userId andSectionId:(NSString *)sectionId andTimeEnd:(NSString *)timeEnd;
+-(void)getPlayBackInterfaceDelegateWithUserId:(NSString *)userId andSectionId:(NSString *)sectionId andTimeEnd:(NSString *)timeEnd andStatus:(NSString *)status;
 
 @end
 

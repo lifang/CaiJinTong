@@ -14,13 +14,7 @@
 
 -(void)getGradeInterfaceDelegateWithUserId:(NSString *)userId andSectionId:(NSString *)sectionId andScore:(NSString *)score andContent:(NSString *)content {
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
-    
-    NSString *timespan = [Utility getNowDateFromatAnDate];
-    NSString *strKey = [NSString stringWithFormat:@"%@%@",timespan,MDKey];
-    NSString *md5Key = [Utility createMD5:strKey];
-    
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",timespan] forKey:@"timespan"];
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",md5Key] forKey:@"token"];
+
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",sectionId] forKey:@"sectionId"];
     if (score) {
@@ -30,7 +24,7 @@
         [reqheaders setValue:[NSString stringWithFormat:@"%@",content] forKey:@"content"];
     }
     
-    self.interfaceUrl = [NSString stringWithFormat:@"%@",kHost];
+    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=grade&userId=17082&sectionId=2690&score=5&content=很好很强大";
     
     self.baseDelegate = self;
     self.headers = reqheaders;
@@ -59,6 +53,8 @@
                         @catch (NSException *exception) {
                             [self.delegate getGradeInfoDidFailed:@"打分失败!"];
                         }
+                    }else {
+                        [self.delegate getGradeInfoDidFailed:[jsonData objectForKey:@"Msg"]];
                     }
                 }else {
                     [self.delegate getGradeInfoDidFailed:@"打分失败!"];
