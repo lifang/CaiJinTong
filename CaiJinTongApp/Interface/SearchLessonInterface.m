@@ -20,7 +20,7 @@
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",text] forKey:@"text"];
     
-    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=searchLesson&userId=17082&text=财经通";
+    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=searchLesson&userId=17082&text=study_session_ethics";
     
     self.baseDelegate = self;
     self.headers = reqheaders;
@@ -72,6 +72,8 @@
                         @catch (NSException *exception) {
                             [self.delegate getSearchLessonInfoDidFailed:@"搜索失败!"];
                         }
+                    }else {
+                        [self.delegate getSearchLessonInfoDidFailed:[jsonData objectForKey:@"Msg"]];
                     }
                 }else {
                     [self.delegate getSearchLessonInfoDidFailed:@"搜索失败!"];

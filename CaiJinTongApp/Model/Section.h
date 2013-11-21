@@ -12,7 +12,7 @@
 #import "SectionModel.h"
 #import "Section_chapterModel.h"
 @interface Section : BaseDao
-
+-(NSArray *)getDowningInfo;
 -(SectionSaveModel *)getDataWithSid:(NSString *) sid;//获取信息
 -(void)deleteDataWithSid:(NSString *) sid;//删除
 -(BOOL)addDataWithSectionSaveModel:(SectionSaveModel *)model;

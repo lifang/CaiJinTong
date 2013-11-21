@@ -345,6 +345,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 static NSString *titleName = nil;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.listType == LESSON_LIST) {
+        self.isSearching = NO;
         //根据chapterId获取章下面视频信息
         LessonModel *lesson = (LessonModel *)[self.lessonList objectAtIndex:indexPath.section];
         chapterModel *chapter = (chapterModel *)[lesson.chapterList objectAtIndex:indexPath.row];
@@ -590,7 +591,6 @@ static NSString *titleName = nil;
                         NSMutableArray *ary = [NSMutableArray arrayWithCapacity:5];
                         for(int i = 0 ; i < tempArray.count ; i++){
                             SectionModel *section = [tempArray objectAtIndex:i];
-                            NSLog(@"sectionName: %@",section.sectionName);
                             NSRange range = [section.sectionName rangeOfString:[NSString stringWithFormat:@"(%@)+",keyword] options:NSRegularExpressionSearch];
                             if(range.location != NSNotFound){
                                 [ary addObject:section];
@@ -617,7 +617,6 @@ static NSString *titleName = nil;
             }
         });
     });
-    
 }
 
 -(void)getChapterInfoDidFailed:(NSString *)errorMsg {
@@ -663,7 +662,43 @@ static NSString *titleName = nil;
             if(self.isSearching)chapterView.isSearch = YES;
             chapterView.searchBar.searchTextField.text = self.searchText.text;
             
-            
+            if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
+                NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
+                DLog(@"count = %d",tempArray.count);
+                if (titleName) {
+                    chapterView.title = titleName;
+                }else{
+                    chapterView.title = @"搜索";
+                }
+                if(self.isSearching){
+                    if(self.searchText.text != nil && ![self.searchText.text isEqualToString:@""] && tempArray.count > 0){
+                        NSString *keyword = self.searchText.text;
+                        NSMutableArray *ary = [NSMutableArray arrayWithCapacity:5];
+                        for(int i = 0 ; i < tempArray.count ; i++){
+                            SectionModel *section = [tempArray objectAtIndex:i];
+                            NSRange range = [section.sectionName rangeOfString:[NSString stringWithFormat:@"(%@)+",keyword] options:NSRegularExpressionSearch];
+                            if(range.location != NSNotFound){
+                                [ary addObject:section];
+                            }
+                        }
+                        tempArray = [NSMutableArray arrayWithArray:ary];
+                    }
+                }
+                [chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:tempArray]];
+                self.isSearching = NO;
+                UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:chapterView];
+                
+                MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:navControl];
+                formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromRight;
+                formSheet.shadowRadius = 2.0;
+                formSheet.shadowOpacity = 0.3;
+                formSheet.shouldDismissOnBackgroundViewTap = YES;
+                formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
+                
+                [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+                    
+                }];
+            }
         });
     });
 }

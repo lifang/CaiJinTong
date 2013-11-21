@@ -129,6 +129,20 @@
     [rs close];
     return array;
 }
+-(NSArray *)getDowningInfo {
+    FMResultSet * rs = [self.db executeQuery:@"select id , sid , name , fileUrl , downloadState ,contentLength,percentDown,sectionStudy,sectionLastTime,sectionImg,lessonInfo,sectionTeacher from Section where downloadState = 0"];
+    
+    NSMutableArray *array = [NSMutableArray array];
+    while ([rs next]) {
+        SectionSaveModel *nm = [[SectionSaveModel alloc] init];
+        nm.sid = [rs stringForColumn:@"sid"];
+        nm.name = [rs stringForColumn:@"name"];
+        nm.downloadState = [rs doubleForColumn:@"downloadState"];
+        [array addObject:nm];
+    }
+    [rs close];
+    return array;
+}
 //笔记
 -(BOOL)addDataWithNoteModel:(NoteModel *)model andSid:(NSString *)sid{
     BOOL res = [self.db executeUpdate:@"insert into Note ( sid , noteId , noteTime , noteText) values (?,?,?,?)"
