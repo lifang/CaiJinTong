@@ -20,7 +20,7 @@ static const NSUInteger kTagOfRightSideButton = 999;
 - (void)initValues
 {
     //创建顶部可滑动的tab
-    _topScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, kHeightOfTopScrollView)];
+    _topScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(100, 0, self.bounds.size.width, kHeightOfTopScrollView)];
     _topScrollView.delegate = self;
     _topScrollView.backgroundColor = [UIColor clearColor];
     _topScrollView.pagingEnabled = NO;

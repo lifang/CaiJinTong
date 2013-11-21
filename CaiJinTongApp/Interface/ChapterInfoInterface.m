@@ -74,6 +74,8 @@
                         @catch (NSException *exception) {
                             [self.delegate getChapterInfoDidFailed:@"获取章节列表失败!"];
                         }
+                    }else {
+                        [self.delegate getChapterInfoDidFailed:[jsonData objectForKey:@"Msg"]];
                     }
                 }else {
                     [self.delegate getChapterInfoDidFailed:@"获取章节列表失败!"];

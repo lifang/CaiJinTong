@@ -118,6 +118,8 @@
                         @catch (NSException *exception) {
                             [self.delegate getSectionInfoDidFailed:@"获取视频详细信息失败!"];
                         }
+                    }else {
+                        [self.delegate getSectionInfoDidFailed:[jsonData objectForKey:@"Msg"]];
                     }
                 }else {
                     [self.delegate getSectionInfoDidFailed:@"获取视频详细信息失败!"];
