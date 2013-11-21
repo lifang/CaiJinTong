@@ -10,8 +10,7 @@
 #import <MediaPlayer/MPMoviePlayerController.h>
 #import <QuartzCore/QuartzCore.h>
 #import "Section_ChapterViewController.h"
-#import "DRCommitQuestionViewController.h"
-#import "DRTakingMovieNoteViewController.h"
+
 #import "MBProgressHUD.h"
 #define MOVIE_CURRENT_PLAY_TIME_OBSERVE @"movieCurrentPlayTimeObserve"
 @interface DRMoviePlayViewController ()
@@ -48,6 +47,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.myNotesItem.delegate = self;
+    self.myQuestionItem.delegate = self;
+    
     self.isPopupChapter = NO;
     [self addMoviePlayBackNotification];
 //    self.movieUrlString =  @"http://lms.finance365.com/data/course/6/304/2690/20130717091047687.mp4";
@@ -141,7 +143,7 @@
         DRTakingMovieNoteViewController *takingController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRTakingMovieNoteViewController"];
         takingController.view.frame = (CGRect){0,0,804,426};
 //        [self presentPopupViewController:takingController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
-        
+//             self.myQuestionItem.isSelected = NO;
 //        }];
         self.isPopupChapter = NO;
     }else
@@ -149,7 +151,7 @@
         DRCommitQuestionViewController *commitController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRCommitQuestionViewController"];
         commitController.view.frame = (CGRect){0,0,804,426};
 //        [self presentPopupViewController:commitController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
-        
+//            self.myNotesItem.isSelected = NO;
 //        }];
         self.isPopupChapter = NO;
     }
@@ -286,6 +288,27 @@
     }
 }
 
+#pragma mark --
+
+
+#pragma mark DRCommitQuestionViewControllerDelegate
+-(void)commitQuestionController:(DRCommitQuestionViewController *)controller didCommitQuestionWithTitle:(NSString *)title andText:(NSString *)text{
+    self.myQuestionItem.isSelected = NO;
+}
+
+-(void)commitQuestionControllerCancel{
+    self.myQuestionItem.isSelected = NO;
+}
+#pragma mark --
+
+#pragma mark DRTakingMovieNoteViewControllerDelegate
+-(void)takingMovieNoteController:(DRTakingMovieNoteViewController *)controller commitNote:(NSString *)text{
+    self.myNotesItem.isSelected = NO;
+}
+
+-(void)takingMovieNoteControllerCancel{
+    self.myNotesItem.isSelected = NO;
+}
 #pragma mark --
 
 #pragma mark DRMoviePlayerPlaybackProgressBarDelegate

@@ -400,6 +400,7 @@ static NSString *titleName = nil;
         }];
         */
     }else{
+        
 //        MyQuestionAndAnswerViewController *myQuestionAndAnswerController = [self.storyboard instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
         if (indexPath.section==0) {
             NSDictionary *d=[self.questionList objectAtIndex:indexPath.row];
@@ -426,7 +427,11 @@ static NSString *titleName = nil;
                     [tableView insertRowsAtIndexPaths:arCells withRowAnimation:UITableViewRowAnimationLeft];
                 }
             }
+
+        }else{
+        
         }
+        
     }
 }
 

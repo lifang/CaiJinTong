@@ -14,8 +14,12 @@
 #import "MoviePlayerHolderView.h"
 #import "PlayBackInterface.h"
 
+//@interface DRMoviePlayViewController : UIViewController<MovieControllerItemDelegate,DRMoviePlayerPlaybackProgressBarDelegate,CustomPlayerViewDelegate,PlayBackInterfaceDelegate>
+
+#import "DRCommitQuestionViewController.h"
+#import "DRTakingMovieNoteViewController.h"
 typedef enum {MOVIE_FILE,MOVIE_INTERNET}MovieLocateType;
-@interface DRMoviePlayViewController : UIViewController<MovieControllerItemDelegate,DRMoviePlayerPlaybackProgressBarDelegate,CustomPlayerViewDelegate,PlayBackInterfaceDelegate>
+@interface DRMoviePlayViewController : UIViewController<MovieControllerItemDelegate,DRMoviePlayerPlaybackProgressBarDelegate,CustomPlayerViewDelegate,DRCommitQuestionViewControllerDelegate,DRTakingMovieNoteViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet CustomPlayerView *moviePlayerView;
 @property (weak, nonatomic) IBOutlet UIButton *playBt;
 @property (weak, nonatomic) IBOutlet MoviePlayerHolderView *moviePlayerHolderView;

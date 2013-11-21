@@ -7,16 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@protocol DRTakingMovieNoteViewControllerDelegate;
 @interface DRTakingMovieNoteViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UILabel *noteTimeLabel;//记笔记时的播放时间
 @property (weak, nonatomic) IBOutlet UITextView *contentField; //主文本框
 @property (weak, nonatomic) IBOutlet UIButton *commitBtn;
 @property (weak, nonatomic) IBOutlet UIButton *cancelBtn;
-
+@property (weak,nonatomic) id<DRTakingMovieNoteViewControllerDelegate> delegate;
 
 - (IBAction)spaceAreaClicked:(id)sender;
 - (IBAction)cancelBtnClicked:(UIButton *)sender;
 - (IBAction)commitBtnClicked:(UIButton *)sender;
 
+@end
+
+@protocol DRTakingMovieNoteViewControllerDelegate <NSObject>
+
+-(void)takingMovieNoteController:(DRTakingMovieNoteViewController*)controller commitNote:(NSString*)text;
+
+-(void)takingMovieNoteControllerCancel;
 @end
