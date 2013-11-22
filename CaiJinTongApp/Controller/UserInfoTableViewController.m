@@ -55,25 +55,25 @@ static NSString *passValue;
     // Dispose of any resources that can be recreated.
 }
 
--  (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-    FixTableViewController *fixVC = [story instantiateViewControllerWithIdentifier:@"FixTableViewController"];
-    switch (indexPath.row) {
-        case 0:
-            break;
-        case 1:
-            passValue = self.birthLabel.text;
-            break;
-        case 2:
-            passValue = self.sexLabel.text;
-            break;
-        case 3:
-            passValue = self.addressLabel.text;
-        default:
-            break;
-    }
-    [self.navigationController pushViewController:fixVC animated:YES];
-}
+//-  (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+//    FixTableViewController *fixVC = [story instantiateViewControllerWithIdentifier:@"FixTableViewController"];
+//    switch (indexPath.row) {
+//        case 0:
+//            break;
+//        case 1:
+//            passValue = self.birthLabel.text;
+//            break;
+//        case 2:
+//            passValue = self.sexLabel.text;
+//            break;
+//        case 3:
+//            passValue = self.addressLabel.text;
+//        default:
+//            break;
+//    }
+//    [self.navigationController pushViewController:fixVC animated:YES];
+//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat rowHeight = 0.0;

@@ -19,6 +19,18 @@
 #define kMJPopupViewTag 23942
 #define kMJOverlayViewTag 23945
 
+@interface MJBackGroundView : UIView
+
+@end
+
+@implementation MJBackGroundView
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    [super touchesBegan:touches withEvent:event];
+    
+}
+
+@end
 @interface UIViewController (MJPopupViewControllerPrivate)
 - (UIView*)topView;
 - (void)presentPopupView:(UIView*)popupView;
@@ -142,7 +154,7 @@ static void * const keypath = (void*)&keypath;
     popupView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
     
     // Add semi overlay
-    UIView *overlayView = [[UIView alloc] initWithFrame:sourceView.bounds];
+    MJBackGroundView *overlayView = [[MJBackGroundView alloc] initWithFrame:sourceView.bounds];
     overlayView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     overlayView.tag = kMJOverlayViewTag;
     overlayView.backgroundColor = [UIColor clearColor];
@@ -165,7 +177,7 @@ static void * const keypath = (void*)&keypath;
     [overlayView addSubview:popupView];
     [sourceView addSubview:overlayView];
     
-//    [dismissButton addTarget:self action:@selector(dismissPopupViewControllerWithanimation:) forControlEvents:UIControlEventTouchUpInside];
+    [dismissButton addTarget:self action:@selector(dismissPopupViewControllerWithanimation:) forControlEvents:UIControlEventTouchUpInside];
     switch (animationType) {
         case MJPopupViewAnimationSlideBottomTop:
         case MJPopupViewAnimationSlideBottomBottom:
@@ -209,7 +221,11 @@ static void * const keypath = (void*)&keypath;
             case MJPopupViewAnimationSlideTopBottom:
             case MJPopupViewAnimationSlideLeftLeft:
             case MJPopupViewAnimationSlideLeftRight:
+                [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideRightLeft];
+                break;
             case MJPopupViewAnimationSlideRightLeft:
+                [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
+                break;
             case MJPopupViewAnimationSlideRightRight:
                 [self dismissPopupViewControllerWithanimationType:dismissButton.tag];
                 break;
