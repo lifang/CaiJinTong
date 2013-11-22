@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
+#import "BaseViewController.h"
+#import "QuestionInfoInterface.h"
 @protocol DRCommitQuestionViewControllerDelegate;
-@interface DRCommitQuestionViewController : UIViewController
+@interface DRCommitQuestionViewController : BaseViewController<QuestionInfoInterfaceDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *commitTimeLabel;
 @property (weak, nonatomic) IBOutlet UITextField *titleField;  //标题框
 @property (weak, nonatomic) IBOutlet UITextView *contentField;  //主文本框
@@ -17,6 +19,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *cancelBtn;
 @property (weak,nonatomic) id<DRCommitQuestionViewControllerDelegate> delegate;
 
+@property (nonatomic, strong) QuestionInfoInterface *questionInfoInterface;
+@property (nonatomic, strong) NSMutableArray *questionList;
 - (IBAction)spaceAreaClicked:(id)sender;
 - (IBAction)cancelBtnClicked:(UIButton *)sender;
 - (IBAction)commitBtnClicked:(UIButton *)sender;
