@@ -47,19 +47,35 @@
         imageViewC = nil;
         
         //视频进度
-        AMProgressView *pvv = [[AMProgressView alloc] initWithFrame:CGRectMake(0, self.frame.size.height+itemLabel-30, self.frame.size.width, 30)
-                                                 andGradientColors:nil
-                                                  andOutsideBorder:NO
-                                                       andVertical:NO];
-        pvv.progress = [section.sectionProgress floatValue];
-        float pgress = (float)[section.sectionProgress floatValue];
-        if (pgress-100>0) {
-            pgress = 100.0;
-        }
-        pvv.text = [NSString stringWithFormat:@"学习进度:%.2f%%",pgress];
-        self.pv = pvv;
+//        AMProgressView *pvv = [[AMProgressView alloc] initWithFrame:CGRectMake(0, self.frame.size.height+itemLabel-30, self.frame.size.width, 30)
+//                                                 andGradientColors:nil
+//                                                  andOutsideBorder:NO
+//                                                       andVertical:NO];
+//        pvv.progress = [section.sectionProgress floatValue];
+//        float pgress = (float)[section.sectionProgress floatValue];
+//        if (pgress-100>0) {
+//            pgress = 100.0;
+//        }
+//        pvv.text = [NSString stringWithFormat:@"学习进度:%.2f%%",pgress];
+//        self.pv = pvv;
+//        [self addSubview:self.pv];
+//        pvv = nil;
+        self.pv = [[UISlider alloc] initWithFrame:CGRectMake(-2, self.frame.size.height+itemLabel-30, self.frame.size.width+4, 37)];
+        UIImage *frontImage = [[UIImage imageNamed:@"progressBar-front.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0) resizingMode:UIImageResizingModeStretch];
+        UIImage *backgroundImage = [[UIImage imageNamed:@"progressBar-background.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0) resizingMode:UIImageResizingModeStretch];
+        [self.pv setMinimumTrackImage:frontImage forState:UIControlStateNormal];
+        [self.pv setMaximumTrackImage:backgroundImage forState:UIControlStateNormal];
+        [self.pv setThumbImage:[UIImage imageNamed:@"nothing"] forState:UIControlStateNormal];
+        [self.pv setMaximumValue:100.0];
+        [self.pv setMinimumValue:0.0];
+        self.pv.value = [section.sectionProgress floatValue];
+        UILabel *progressLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, self.frame.size.height+itemLabel-28, self.frame.size.width, 30)];
+        progressLabel.text = [NSString stringWithFormat:@"学习进度:%@%%",section.sectionProgress];
+        progressLabel.textAlignment = NSTextAlignmentLeft;
+        progressLabel.backgroundColor = [UIColor clearColor];
         [self addSubview:self.pv];
-        pvv = nil;
+        [self addSubview:progressLabel];
+        
     }
     return self;
 }

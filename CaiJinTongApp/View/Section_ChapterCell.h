@@ -18,7 +18,9 @@
 @property (nonatomic, strong) IBOutlet UILabel *statusLab;//正在下载／未下载
 @property (nonatomic, strong) IBOutlet UILabel *lengthLab;//视频大小：80/M
 @property (nonatomic, strong) IBOutlet UILabel *timeLab;//视频时长
-@property (nonatomic, strong) AMProgressView *pv;//视频下载进度
+@property ( nonatomic) double pv;//视频下载进度
+@property (strong, nonatomic) IBOutlet UIView *sliderFrontView;
+
 @property (nonatomic, strong) IBOutlet CustomButton *btn;//下载按钮
 
 @property (nonatomic, strong) SectionSaveModel *sectionS;

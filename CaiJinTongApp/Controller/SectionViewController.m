@@ -26,14 +26,23 @@
     return self;
 }
 
+-(void)drnavigationBarRightItemClicked:(id)sender{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.navigationItem.hidesBackButton = YES;
     //打分之后提交
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(refeshScore:)
                                                  name: @"refeshScore"
                                                object: nil];
+    
+    self.drnavigationBar.titleLabel.text = self.section.sectionName;
+    [self.drnavigationBar.navigationRightItem setTitle:@"关闭" forState:UIControlStateNormal];
+    [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
 }
 -(void)refeshScore:(NSNotification *)notification {
     NSDictionary *dic = notification.object;

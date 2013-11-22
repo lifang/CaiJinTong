@@ -561,10 +561,10 @@ static NSString *titleName = nil;
             
             if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
                 NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
-                if (titleName) {
-                    chapterView.title = titleName;
+                if (!self.isSearching && titleName) {
+                    chapterView.drnavigationBar.titleLabel.text  = titleName;
                 }else{
-                    chapterView.title = @"搜索";
+                    chapterView.drnavigationBar.titleLabel.text = @"搜索";
                 }
                 if(self.isSearching){
                     if(self.searchText.text != nil && ![self.searchText.text isEqualToString:@""] && tempArray.count > 0){
@@ -585,8 +585,8 @@ static NSString *titleName = nil;
                 self.isSearching = NO;
                 DRNavigationController *navControl = [[DRNavigationController alloc]initWithRootViewController:chapterView];
                 navControl.view.frame = (CGRect){0,0,568,1004};
+                [navControl setNavigationBarHidden:YES];
                 [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
-                    
                 }];
 //                MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:navControl];
 //                formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromRight;

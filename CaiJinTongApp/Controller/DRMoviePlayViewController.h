@@ -13,6 +13,9 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "MoviePlayerHolderView.h"
 #import "PlayBackInterface.h"
+
+//@interface DRMoviePlayViewController : UIViewController<MovieControllerItemDelegate,DRMoviePlayerPlaybackProgressBarDelegate,CustomPlayerViewDelegate,PlayBackInterfaceDelegate>
+
 #import "DRCommitQuestionViewController.h"
 #import "DRTakingMovieNoteViewController.h"
 typedef enum {MOVIE_FILE,MOVIE_INTERNET}MovieLocateType;
