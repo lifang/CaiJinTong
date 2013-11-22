@@ -218,6 +218,7 @@
 		18E32E0B1831FDF900041B8A /* login_10@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E32E051831FDF900041B8A /* login_10@2x.png */; };
 		18E32E0C1831FDF900041B8A /* login_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E32E061831FDF900041B8A /* login_bg@2x.png */; };
 		18F477E9183D9BDA00021886 /* SuggestionFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F477E8183D9BDA00021886 /* SuggestionFeedbackViewController.m */; };
+		18FBCF22183F22270025DAEA /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FBCF21183F22270025DAEA /* UserModel.m */; };
 		18F477EF183DB57000021886 /* progressBar-front.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F477ED183DB57000021886 /* progressBar-front.png */; };
 		18F477F0183DB57000021886 /* progressBar-background.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F477EE183DB57000021886 /* progressBar-background.png */; };
 		18F477F4183DC5CA00021886 /* nothing.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F477F3183DC5CA00021886 /* nothing.png */; };
@@ -612,6 +613,8 @@
 		18E32E061831FDF900041B8A /* login_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "login_bg@2x.png"; path = "login-images/login_bg@2x.png"; sourceTree = "<group>"; };
 		18F477E7183D9BDA00021886 /* SuggestionFeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuggestionFeedbackViewController.h; sourceTree = "<group>"; };
 		18F477E8183D9BDA00021886 /* SuggestionFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuggestionFeedbackViewController.m; sourceTree = "<group>"; };
+		18FBCF20183F22270025DAEA /* UserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
+		18FBCF21183F22270025DAEA /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
 		18F477ED183DB57000021886 /* progressBar-front.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progressBar-front.png"; sourceTree = "<group>"; };
 		18F477EE183DB57000021886 /* progressBar-background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progressBar-background.png"; sourceTree = "<group>"; };
 		18F477F3183DC5CA00021886 /* nothing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nothing.png; sourceTree = "<group>"; };
@@ -1084,6 +1087,8 @@
 		0EDF4DD118210241007161E0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				18FBCF20183F22270025DAEA /* UserModel.h */,
+				18FBCF21183F22270025DAEA /* UserModel.m */,
 				0EAD1F72182B24C700204FC3 /* DB */,
 				0EA7EF0E18233CDC00C47F69 /* LessonModel.h */,
 				0EA7EF0F18233CDC00C47F69 /* LessonModel.m */,
@@ -1715,6 +1720,10 @@
 				0E9DA3BD183F568D000A5995 /* ASICloudFilesContainerRequest.m in Sources */,
 				0EA7EF4318238C8A00C47F69 /* LessonQuestionModel.m in Sources */,
 				0E9DA2D8183F3788000A5995 /* BaseViewController.m in Sources */,
+
+				0EDF4DE318210241007161E0 /* ASIAuthenticationDialog.m in Sources */,
+				18FBCF22183F22270025DAEA /* UserModel.m in Sources */,
+
 				0EA7EF1F18234B5600C47F69 /* QuestionInfoInterface.m in Sources */,
 				0EA7EF4918238D4600C47F69 /* QuestionModel.m in Sources */,
 				0E9DA3B9183F568D000A5995 /* ASINetworkQueue.m in Sources */,

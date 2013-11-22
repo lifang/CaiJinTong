@@ -253,6 +253,44 @@
     self.section_ChapterView = [story instantiateViewControllerWithIdentifier:@"Section_ChapterViewController"];
     self.section_ChapterView.title = @"章节目录";
     self.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:self.section.sectionList];
+
+    //数据来源
+    NSDictionary *dictionary = [Utility initWithJSONFile:@"sectionInfo"];
+    NSDictionary *dic = [dictionary objectForKey:@"ReturnObject"];
+    if (dic.count>0) {
+        SectionModel *section = [[SectionModel alloc]init];
+        section.sectionId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionId"]];
+        section.sectionName = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionName"]];
+        section.sectionImg = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionImg"]];
+        section.sectionProgress = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionProgress"]];
+        section.sectionSD = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionSD"]];
+        section.sectionHD = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionHD"]];
+        section.sectionScore = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionScore"]];
+        section.isGrade = [NSString stringWithFormat:@"%@",[dic objectForKey:@"isGrade"]];
+        section.lessonInfo = [NSString stringWithFormat:@"%@",[dic objectForKey:@"lessonInfo"]];
+        section.sectionTeacher = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionTeacher"]];
+        section.sectionDownload = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionDownload"]];
+        section.sectionStudy = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionStudy"]];
+        section.sectionLastTime = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionLastTime"]];
+        //章节目录
+        NSArray *sectionList = [NSArray arrayWithArray:[dic objectForKey:@"sectionList"]];
+        if (sectionList.count>0) {
+            NSMutableArray *section_tempArray = [[NSMutableArray alloc]init];
+            for (int i=0; i<sectionList.count; i++) {
+                NSDictionary *dic = [sectionList objectAtIndex:i];
+                SectionModel *section = [[SectionModel alloc]init];
+                section.sectionId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionId"]];
+                section.sectionName = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionName"]];
+                section.sectionDownload = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionDownload"]];
+                section.sectionLastTime = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionLastTime"]];
+                [section_tempArray addObject:section];
+            }
+            if (section_tempArray.count>0) {
+                section.sectionList = [NSMutableArray arrayWithArray:section_tempArray];
+            }
+        }
+        self.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:section.sectionList];
+    }
     
     AppDelegate *app = [AppDelegate sharedInstance];
     if (app.isLocal == NO) {
