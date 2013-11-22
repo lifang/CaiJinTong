@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseViewController.h"
+
 @protocol DRTakingMovieNoteViewControllerDelegate;
-@interface DRTakingMovieNoteViewController : UIViewController
+@interface DRTakingMovieNoteViewController : BaseViewController
 @property (weak, nonatomic) IBOutlet UILabel *noteTimeLabel;//记笔记时的播放时间
 @property (weak, nonatomic) IBOutlet UITextView *contentField; //主文本框
 @property (weak, nonatomic) IBOutlet UIButton *commitBtn;
@@ -23,7 +25,7 @@
 
 @protocol DRTakingMovieNoteViewControllerDelegate <NSObject>
 
--(void)takingMovieNoteController:(DRTakingMovieNoteViewController*)controller commitNote:(NSString*)text;
+-(void)takingMovieNoteController:(DRTakingMovieNoteViewController*)controller commitNote:(NSString*)text andTime:(NSString *)noteTime;
 
 -(void)takingMovieNoteControllerCancel;
 @end

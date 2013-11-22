@@ -12,7 +12,7 @@
 #import "Section.h"
 #import "CommentModel.h"
 @interface SectionViewController ()
-
+@property (nonatomic,strong) DRMoviePlayViewController *playerController;
 @end
 
 @implementation SectionViewController
@@ -192,6 +192,7 @@
     }
 }
 -(void)playVideo:(id)sender {
+     
     DLog(@"play");
     self.path = nil;//视频路径
     //先匹配本地,在数据库中查找纪录
@@ -206,12 +207,21 @@
         }
         self.path = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@.mp4",self.section.sectionId]];
         DLog(@"path = %@",self.path);//本地保存路径
-        DRMoviePlayViewController *playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
-        playerController.movieUrlString = self.path;
-        [self presentViewController:playerController animated:YES completion:^{
+//        DRMoviePlayViewController *playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
+//        playerController.movieUrlString = self.path;
+//         [[MZFormSheetBackgroundWindow appearance] setSupportedInterfaceOrientations:UIInterfaceOrientationMaskLandscape];
+//       
+//        [self presentFormSheetWithViewController:playerController animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
+//            
+//        }];
+        self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
+        self.playerController.movieUrlString = self.path;
+        self.playerController.sectionId = self.section.sectionId;
+        
+        AppDelegate *app = [AppDelegate sharedInstance];
+        [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
             
         }];
-        
     }else {
         //在线播放
         self.path = self.section.sectionSD;
@@ -243,17 +253,56 @@
     self.section_ChapterView = [story instantiateViewControllerWithIdentifier:@"Section_ChapterViewController"];
     self.section_ChapterView.title = @"章节目录";
     self.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:self.section.sectionList];
+
+    //数据来源
+    NSDictionary *dictionary = [Utility initWithJSONFile:@"sectionInfo"];
+    NSDictionary *dic = [dictionary objectForKey:@"ReturnObject"];
+    if (dic.count>0) {
+        SectionModel *section = [[SectionModel alloc]init];
+        section.sectionId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionId"]];
+        section.sectionName = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionName"]];
+        section.sectionImg = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionImg"]];
+        section.sectionProgress = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionProgress"]];
+        section.sectionSD = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionSD"]];
+        section.sectionHD = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionHD"]];
+        section.sectionScore = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionScore"]];
+        section.isGrade = [NSString stringWithFormat:@"%@",[dic objectForKey:@"isGrade"]];
+        section.lessonInfo = [NSString stringWithFormat:@"%@",[dic objectForKey:@"lessonInfo"]];
+        section.sectionTeacher = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionTeacher"]];
+        section.sectionDownload = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionDownload"]];
+        section.sectionStudy = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionStudy"]];
+        section.sectionLastTime = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionLastTime"]];
+        //章节目录
+        NSArray *sectionList = [NSArray arrayWithArray:[dic objectForKey:@"sectionList"]];
+        if (sectionList.count>0) {
+            NSMutableArray *section_tempArray = [[NSMutableArray alloc]init];
+            for (int i=0; i<sectionList.count; i++) {
+                NSDictionary *dic = [sectionList objectAtIndex:i];
+                SectionModel *section = [[SectionModel alloc]init];
+                section.sectionId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionId"]];
+                section.sectionName = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionName"]];
+                section.sectionDownload = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionDownload"]];
+                section.sectionLastTime = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionLastTime"]];
+                [section_tempArray addObject:section];
+            }
+            if (section_tempArray.count>0) {
+                section.sectionList = [NSMutableArray arrayWithArray:section_tempArray];
+            }
+        }
+        self.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:section.sectionList];
+    }
     
-    self.section_GradeView = [story instantiateViewControllerWithIdentifier:@"Section_GradeViewController"];
-    self.section_GradeView.title = @"打分";
-    self.section_GradeView.dataArray = [NSMutableArray arrayWithArray:self.section.commentList];
-    self.section_GradeView.isGrade = [self.section.isGrade intValue];
-    self.section_GradeView.sectionId = self.section.sectionId;
-    CommentModel *comment = (CommentModel *)[self.section_GradeView.dataArray objectAtIndex:self.section_GradeView.dataArray.count-1];
-    self.section_GradeView.pageCount = comment.pageCount;
-    self.section_GradeView.nowPage = 1;
-    
-    
+    AppDelegate *app = [AppDelegate sharedInstance];
+    if (app.isLocal == NO) {
+        self.section_GradeView = [story instantiateViewControllerWithIdentifier:@"Section_GradeViewController"];
+        self.section_GradeView.title = @"打分";
+        self.section_GradeView.dataArray = [NSMutableArray arrayWithArray:self.section.commentList];
+        self.section_GradeView.isGrade = [self.section.isGrade intValue];
+        self.section_GradeView.sectionId = self.section.sectionId;
+        CommentModel *comment = (CommentModel *)[self.section_GradeView.dataArray objectAtIndex:self.section_GradeView.dataArray.count-1];
+        self.section_GradeView.pageCount = comment.pageCount;
+        self.section_GradeView.nowPage = 1;
+    }
     self.section_NoteView = [story instantiateViewControllerWithIdentifier:@"Section_NoteViewController"];
     self.section_NoteView.title = @"笔记";
     self.section_NoteView.dataArray = [NSMutableArray arrayWithArray:self.section.noteList];
@@ -265,19 +314,34 @@
 
 - (NSUInteger)numberOfTab:(SUNSlideSwitchView *)view
 {
+    AppDelegate *app = [AppDelegate sharedInstance];
+    if (app.isLocal == YES) {
+        return 2;
+    }
     return 3;
 }
 
 - (UIViewController *)slideSwitchView:(SUNSlideSwitchView *)view viewOfTab:(NSUInteger)number
 {
-    if (number == 0) {
-        return self.section_ChapterView;
-    } else if (number == 1) {
-        return self.section_GradeView;
-    } else if (number == 2) {
-        return self.section_NoteView;
-    } else {
-        return nil;
+    AppDelegate *app = [AppDelegate sharedInstance];
+    if (app.isLocal == YES) {
+        if (number == 0) {
+            return self.section_ChapterView;
+        }  else if (number == 1) {
+            return self.section_NoteView;
+        } else {
+            return nil;
+        }
+    }else {
+        if (number == 0) {
+            return self.section_ChapterView;
+        } else if (number == 1) {
+            return self.section_GradeView;
+        } else if (number == 2) {
+            return self.section_NoteView;
+        } else {
+            return nil;
+        }
     }
 }
 
@@ -287,18 +351,31 @@
 
 - (void)slideSwitchView:(SUNSlideSwitchView *)view didselectTab:(NSUInteger)number
 {
-    Section_ChapterViewController *section_ChapterView = nil;
-    Section_GradeViewController *section_GradeView = nil;
-    Section_NoteViewController *section_NoteView = nil;
-    if (number == 0) {
-        section_ChapterView = self.section_ChapterView;
-        [section_ChapterView viewDidCurrentView];
-    } else if (number == 1) {
-        section_GradeView = self.section_GradeView;
-        [section_GradeView viewDidCurrentView];
-    } else if (number == 2) {
-        section_NoteView = self.section_NoteView;
-        [section_NoteView viewDidCurrentView];
+    AppDelegate *app = [AppDelegate sharedInstance];
+    if (app.isLocal == YES) {
+        Section_ChapterViewController *section_ChapterView = nil;
+        Section_NoteViewController *section_NoteView = nil;
+        if (number == 0) {
+            section_ChapterView = self.section_ChapterView;
+            [section_ChapterView viewDidCurrentView];
+        } else if (number == 1) {
+            section_NoteView = self.section_NoteView;
+            [section_NoteView viewDidCurrentView];
+        }
+    }else {
+        Section_ChapterViewController *section_ChapterView = nil;
+        Section_GradeViewController *section_GradeView = nil;
+        Section_NoteViewController *section_NoteView = nil;
+        if (number == 0) {
+            section_ChapterView = self.section_ChapterView;
+            [section_ChapterView viewDidCurrentView];
+        } else if (number == 1) {
+            section_GradeView = self.section_GradeView;
+            [section_GradeView viewDidCurrentView];
+        } else if (number == 2) {
+            section_NoteView = self.section_NoteView;
+            [section_NoteView viewDidCurrentView];
+        }
     }
 }
 
@@ -314,13 +391,18 @@
         [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
         dispatch_async(dispatch_get_main_queue(), ^{
             //播放接口
-            DRMoviePlayViewController *playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
-            playerController.movieUrlString = self.path;
-            playerController.sectionId = self.section.sectionId;
+            self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
+            self.playerController.movieUrlString = self.path;
+            self.playerController.sectionId = self.section.sectionId;
+            
             AppDelegate *app = [AppDelegate sharedInstance];
-            [self presentViewController:playerController animated:YES completion:^{
+            [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
                 
             }];
+//            [[MZFormSheetBackgroundWindow appearance] setSupportedInterfaceOrientations:UIInterfaceOrientationMaskLandscape];
+//            [self presentFormSheetWithViewController:self.playerController animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
+//                
+//            }];
         });
     });
 }

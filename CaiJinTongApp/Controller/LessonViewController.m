@@ -49,12 +49,22 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         [self.lessonInterface getLessonInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId];
     }
 }
+-(void)getQuestionInfo  {
+    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+        [Utility errorAlert:@"暂无网络!"];
+    }else {
+        [SVProgressHUD showWithStatus:@"玩命加载中..."];
+        QuestionInfoInterface *questionInfoInter = [[QuestionInfoInterface alloc]init];
+        self.questionInfoInterface = questionInfoInter;
+        self.questionInfoInterface.delegate = self;
+        [self.questionInfoInterface getQuestionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId];
+    }
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self.tableView registerClass:[LessonListHeaderView class] forHeaderFooterViewReuseIdentifier:LESSON_HEADER_IDENTIFIER];
     self.listType = LESSON_LIST;
-//    [self initTestData];
     [Utility setBackgroungWithView:self.LogoImageView.superview andImage6:@"login_bg" andImage7:@"login_bg_7"];
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.separatorStyle = NO;
@@ -63,83 +73,14 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     NSMutableAttributedString *placeholder = [[NSMutableAttributedString alloc] initWithString:@"搜索课程"];
     [placeholder addAttribute:NSForegroundColorAttributeName value:[UIColor grayColor] range:NSMakeRange(0, placeholder.length)];
     self.searchText.attributedPlaceholder = placeholder;
+    self.searchText.returnKeyType = UIReturnKeySearch;
     self.isSearching = NO;
+    self.searchText.delegate = self;
     self.editBtn.backgroundColor = [UIColor clearColor];
     self.editBtn.alpha = 0.3;
-//    self.searchBarView.tintColor = [UIColor clearColor];
-//    self.searchBarView.backgroundImage = [UIImage new];
-//    self.searchBarView.translucent = YES;
-//    self.searchBarView.tintColor = [UIColor redColor];
-//    self.searchBarView.backgroundImage = [UIImage imageNamed:@"1.png"];
-//    [self initTestData];
 
     [self getLessonInfo];
 }
-
-#pragma mark test
--(void)initTestData{
-    //数据来源
-	self.lessonDictionary = [Utility initWithJSONFile:@"lessonInfo"];
-    NSDictionary *dic =[self.lessonDictionary objectForKey:@"ReturnObject"];
-    NSArray *array = [dic objectForKey:@"lessonList"];
-    if (array.count>0) {
-        self.lessonList = [[NSMutableArray alloc]init];
-        for (int i=0; i<array.count; i++) {
-            NSDictionary *dic_lessoon = [array objectAtIndex:i];
-            LessonModel *lesson = [[LessonModel alloc]init];
-            lesson.lessonId = [NSString stringWithFormat:@"%@",[dic_lessoon objectForKey:@"lessonId"]];
-            lesson.lessonName = [NSString stringWithFormat:@"%@",[dic_lessoon objectForKey:@"lessonName"]];
-            
-            NSArray *arr_chapter = [dic_lessoon objectForKey:@"chapterList"];
-            if (arr_chapter.count >0) {
-                lesson.chapterList = [[NSMutableArray alloc]init];
-                for (int k=0; k<arr_chapter.count; k++) {
-                    NSDictionary *dic_chapter = [arr_chapter objectAtIndex:k];
-                    chapterModel *chapter = [[chapterModel alloc]init];
-                    chapter.chapterId = [NSString stringWithFormat:@"%@",[dic_chapter objectForKey:@"chapterId"]];
-                    chapter.chapterName = [NSString stringWithFormat:@"%@",[dic_chapter objectForKey:@"chapterName"]];
-                    [lesson.chapterList addObject:chapter];
-                }
-                DLog(@"chapterList = %@",lesson.chapterList);
-            }
-            [self.lessonList  addObject:lesson];
-        }
-    }
-    DLog(@"%@",self.lessonList);
-    [self.lessonList  addObject:@"本地下载"];
-
-    //标记是否选中了
-    self.arrSelSection = [[NSMutableArray alloc] init];
-    for (int i =0; i<self.lessonList.count; i++) {
-        [self.arrSelSection addObject:[NSString stringWithFormat:@"%d",i]];
-    }
-    
-    
-//    //question
-//    LessonQuestionModel *myquestion = [[LessonQuestionModel alloc] init];
-//    myquestion.lessonQuestionName = @"我的提问";
-//    [self.questionList addObject:myquestion];
-//    LessonQuestionModel *myAnswer= [[LessonQuestionModel alloc] init];
-//    myAnswer.lessonQuestionName = @"我的回答";
-//    [self.questionList addObject:myAnswer];
-//    
-//    for (int index = 0; index < 20; index++) {
-//        LessonQuestionModel *qu = [[LessonQuestionModel alloc] init];
-//        qu.lessonQuestionName = @"TEST";
-//        NSMutableArray *chapterQu = [NSMutableArray array];
-//        for (int i =0; i < 20; i++) {
-//            ChapterQuestionModel *model = [[ChapterQuestionModel alloc] init];
-//            model.chapterQuestionName = @"水电管理学";
-//            [chapterQu addObject:model];
-//        }
-//        qu.chapterQuestionList = chapterQu;
-//        [self.questionList addObject:qu];
-//    }
-//    for (int i =0; i<self.questionList.count; i++) {
-//        [self.questionArrSelSection addObject:[NSString stringWithFormat:@"%d",i]];
-//    }
-}
-#pragma mark --
 
 #pragma mark UISearchBarDelegate
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
@@ -174,6 +115,8 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
         }else {//本地课程
             //本地数据的获取
+            AppDelegate *app = [AppDelegate sharedInstance];
+            app.isLocal = YES;
             Section *sectionDb = [[Section alloc]init];
             NSArray *local_array = [sectionDb getAllInfo];
             UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
@@ -186,30 +129,40 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             if(self.isSearching)chapterView.isSearch = YES;
             chapterView.searchBar.searchTextField.text = self.searchText.text;
             
+            [chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:local_array]];
+            self.isSearching = NO;
+            UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:chapterView];
+            navControl.view.frame = (CGRect){0,0,568,1004};
+            [navControl setNavigationBarHidden:YES];
+            [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
+            }];
+//            MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:navControl];
+//            formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromRight;
+//            formSheet.shadowRadius = 2.0;
+//            formSheet.shadowOpacity = 0.3;
+//            formSheet.shouldDismissOnBackgroundViewTap = YES;
+//            formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
+//            
+//            [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+//                
+//            }];
         }
     }else{
-        if (path.section == 0) {
-            header.isSelected = NO;
-        }else
-        if (path.section == 1) {
-            header.isSelected = NO;
-        }else{
-            BOOL isSelSection = NO;
-            _questionTmpSection = path.section;
-            for (int i = 0; i < self.questionArrSelSection.count; i++) {
-                NSString *strSection = [NSString stringWithFormat:@"%@",[self.questionArrSelSection objectAtIndex:i]];
-                NSInteger selSection = strSection.integerValue;
-                if (_questionTmpSection == selSection) {
-                    isSelSection = YES;
-                    [self.questionArrSelSection removeObjectAtIndex:i];
-                    break;
-                }
+        BOOL isSelSection = NO;
+        _questionTmpSection = path.section;
+        for (int i = 0; i < self.questionArrSelSection.count; i++) {
+            NSString *strSection = [NSString stringWithFormat:@"%@",[self.questionArrSelSection objectAtIndex:i]];
+            NSInteger selSection = strSection.integerValue;
+            if (_questionTmpSection == selSection) {
+                isSelSection = YES;
+                [self.questionArrSelSection removeObjectAtIndex:i];
+                break;
             }
-            if (!isSelSection) {
-                [self.questionArrSelSection addObject:[NSString stringWithFormat:@"%i",_questionTmpSection]];
-            }
-            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
+        if (!isSelSection) {
+            [self.questionArrSelSection addObject:[NSString stringWithFormat:@"%i",_questionTmpSection]];
+        }
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
 }
 #pragma mark --
@@ -220,11 +173,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     if (self.listType == LESSON_LIST) {
        return 50;
     }else{
-        if (section == 0) {
-            return 50;
-        }else{
-            return 50;
-        }
+        return 50;
     }
     
 }
@@ -259,22 +208,24 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         }
     }else{
         LessonListHeaderView *header = (LessonListHeaderView*)[tableView dequeueReusableHeaderFooterViewWithIdentifier:LESSON_HEADER_IDENTIFIER];
+        header.delegate = self;
+        header.path = [NSIndexPath indexPathForRow:0 inSection:section];
         if (section == 0) {
             header.lessonTextLabel.text = @"所有问答";
-            header.lessonDetailLabel.text = [NSString stringWithFormat:@"5"];
-            header.path = [NSIndexPath indexPathForRow:0 inSection:section];
-            header.delegate = self;
-            header.isSelected = NO;
-            return header;
         }else {
             header.lessonTextLabel.text = @"我的问答";
-            header.lessonDetailLabel.text = [NSString stringWithFormat:@"5"];
-            header.path = [NSIndexPath indexPathForRow:0 inSection:section];
-            header.delegate = self;
-            header.isSelected = NO;
-//            [header setNeedsDisplay];
-            return header;
         }
+        BOOL isSelSection = NO;
+        for (int i = 0; i < self.questionArrSelSection.count; i++) {
+            NSString *strSection = [NSString stringWithFormat:@"%@",[self.questionArrSelSection objectAtIndex:i]];
+            NSInteger selSection = strSection.integerValue;
+            if (section == selSection) {
+                isSelSection = YES;
+                break;
+            }
+        }
+        header.isSelected = isSelSection;
+        return header;
         }
 }
 
@@ -300,6 +251,13 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         count = lesson.chapterList.count;
         return count;
     }else{
+        for (int i = 0; i < self.questionArrSelSection.count; i++) {
+            NSString *strSection = [NSString stringWithFormat:@"%@",[self.questionArrSelSection objectAtIndex:i]];
+            NSInteger selSection = strSection.integerValue;
+            if (section == selSection) {
+                return 0;
+            }
+        }
         if (section == 0) {
             return self.questionList.count;
         }else{
@@ -324,13 +282,26 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     }else{
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"questionCell"];
         if (indexPath.section == 0) {
-            cell.textLabel.text=[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"name"];
-            [cell setIndentationLevel:[[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"level"] intValue]];
+            NSDictionary *d=[self.questionList objectAtIndex:indexPath.row];
+            NSArray *ar=[d valueForKey:@"questionNode"];
+            if (ar.count>0) {
+                cell.backgroundView =  [[UIView alloc] initWithFrame:cell.frame];
+                cell.backgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"headview_cell_background_selected.png")];
+                cell.selectedBackgroundView =  [[UIView alloc] initWithFrame:cell.frame];
+                cell.selectedBackgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"headview_cell_background_selected.png")];
+            }else {
+                cell.backgroundView =  [[UIView alloc] initWithFrame:cell.frame];
+                cell.backgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"headview_cell_background.png")];
+                cell.selectedBackgroundView =  [[UIView alloc] initWithFrame:cell.frame];
+                cell.selectedBackgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"headview_cell_background.png")];
+            }
+            cell.textLabel.text=[NSString stringWithFormat:@"  %@",[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"questionName"]];
+//            [cell setIndentationLevel:indexPath.row];
         }else{
             if (indexPath.row == 0) {
-                cell.textLabel.text = @"   我的提问";
+                cell.textLabel.text = @"  我的提问";
             }else{
-                cell.textLabel.text = @"   我的回答";
+                cell.textLabel.text = @"  我的回答";
             }
         }
 
@@ -341,9 +312,11 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     }
 
 }
-static NSString *titleName = nil;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.listType == LESSON_LIST) {
+        AppDelegate *app = [AppDelegate sharedInstance];
+        app.isLocal = NO;
+        self.isSearching = NO;
         //根据chapterId获取章下面视频信息
         LessonModel *lesson = (LessonModel *)[self.lessonList objectAtIndex:indexPath.section];
         chapterModel *chapter = (chapterModel *)[lesson.chapterList objectAtIndex:indexPath.row];
@@ -351,83 +324,50 @@ static NSString *titleName = nil;
             [Utility errorAlert:@"暂无网络!"];
         }else {
             [SVProgressHUD showWithStatus:@"玩命加载中..."];
-            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-            titleName = cell.textLabel.text;
             ChapterInfoInterface *chapterInter = [[ChapterInfoInterface alloc]init];
             self.chapterInterface = chapterInter;
             self.chapterInterface.delegate = self;
             [self.chapterInterface getChapterInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andChapterId:chapter.chapterId];
         }
-     
-        /*
-        //数据来源
-        NSDictionary *dictionary = [Utility initWithJSONFile:@"chapterInfo"];
-        NSDictionary *dicc = [dictionary objectForKey:@"ReturnObject"];
-        NSArray *sectionArray = [dicc objectForKey:@"sectionList"];
-        NSMutableArray *tempArray = [[NSMutableArray alloc]init];
-        if (sectionArray.count>0) {
-            for (int i=0; i<sectionArray.count; i++) {
-                NSDictionary *dic = [sectionArray objectAtIndex:i];
-                SectionModel *section = [[SectionModel alloc]init];
-                section.sectionId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionId"]];
-                section.sectionName = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionName"]];
-                section.sectionImg = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionImg"]];
-                section.sectionProgress = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionProgress"]];
-                [tempArray addObject:section];
-            }
-        }
-        //
-        [CaiJinTongManager shared].defaultLeftInset = 200;
-        [CaiJinTongManager shared].defaultPortraitTopInset = 20;
-        [CaiJinTongManager shared].defaultWidth = 568;
-        [CaiJinTongManager shared].defaultHeight = 1004;
-        UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-        ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
-        if (tempArray.count>0) {
-            [chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:tempArray]];
-            tempArray = nil;
-        }
-        UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:chapterView];
-        MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:navControl];
-        formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromRight;
-        formSheet.shadowRadius = 2.0;
-        formSheet.shadowOpacity = 0.3;
-        formSheet.shouldDismissOnBackgroundViewTap = YES;
-        formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
-        
-        [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
-            
-        }];
-        */
     }else{
-        
-//        MyQuestionAndAnswerViewController *myQuestionAndAnswerController = [self.storyboard instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
         if (indexPath.section==0) {
             NSDictionary *d=[self.questionList objectAtIndex:indexPath.row];
-            if([d valueForKey:@"Objects"]) {
-                NSArray *ar=[d valueForKey:@"Objects"];
-                
-                BOOL isAlreadyInserted=NO;
-                
-                for(NSDictionary *dInner in ar ){
-                    NSInteger index=[self.questionList indexOfObjectIdenticalTo:dInner];
-                    isAlreadyInserted=(index>0 && index!=NSIntegerMax);
-                    if(isAlreadyInserted) break;
-                }
-                
-                if(isAlreadyInserted) {
-                    [self miniMizeThisRows:ar];
-                } else {
-                    NSUInteger count=indexPath.row+1;
-                    NSMutableArray *arCells=[NSMutableArray array];
-                    for(NSDictionary *dInner in ar ) {
-                        [arCells addObject:[NSIndexPath indexPathForRow:count inSection:0]];
-                        [self.questionList insertObject:dInner atIndex:count++];
+            if([d valueForKey:@"questionNode"]) {
+                NSArray *ar=[d valueForKey:@"questionNode"];
+                if (ar.count == 0) {
+                    //请求问题分类下详细问题信息
+                    DLog(@"questionId = %@",[d valueForKey:@"questionID"])
+                    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+                        [Utility errorAlert:@"暂无网络!"];
+                    }else {
+                        [SVProgressHUD showWithStatus:@"玩命加载中..."];
+                        ChapterQuestionInterface *chapterInter = [[ChapterQuestionInterface alloc]init];
+                        self.chapterQuestionInterface = chapterInter;
+                        self.chapterQuestionInterface.delegate = self;
+                        [self.chapterQuestionInterface getChapterQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andChapterQuestionId:[d valueForKey:@"questionID"]];
                     }
-                    [tableView insertRowsAtIndexPaths:arCells withRowAnimation:UITableViewRowAnimationLeft];
+                }else {
+                    BOOL isAlreadyInserted=NO;
+                    
+                    for(NSDictionary *dInner in ar ){
+                        NSInteger index=[self.questionList indexOfObjectIdenticalTo:dInner];
+                        isAlreadyInserted=(index>0 && index!=NSIntegerMax);
+                        if(isAlreadyInserted) break;
+                    }
+                    
+                    if(isAlreadyInserted) {
+                        [self miniMizeThisRows:ar];
+                    } else {
+                        NSUInteger count=indexPath.row+1;
+                        NSMutableArray *arCells=[NSMutableArray array];
+                        for(NSDictionary *dInner in ar ) {
+                            [arCells addObject:[NSIndexPath indexPathForRow:count inSection:0]];
+                            [self.questionList insertObject:dInner atIndex:count++];
+                        }
+                        [tableView insertRowsAtIndexPaths:arCells withRowAnimation:UITableViewRowAnimationLeft];
+                    }
                 }
             }
-
         }else{
             UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
             MyQuestionAndAnswerViewController *myQAVC = [story instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
@@ -448,11 +388,17 @@ static NSString *titleName = nil;
             [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
                 
             }];
-//            if (indexPath.row == 0) {
-//                
-//            } else if (indexPath.row ==1) {
-//                
-//            }
+            switch (indexPath.row) {
+                case 0:
+                    //请求我的提问
+                    break;
+                case 1:
+                    //请求我的回答
+                    break;
+                    
+                default:
+                    break;
+            }
         }
         
     }
@@ -461,7 +407,7 @@ static NSString *titleName = nil;
 -(void)miniMizeThisRows:(NSArray*)ar{
 	for(NSDictionary *dInner in ar ) {
 		NSUInteger indexToRemove=[self.questionList indexOfObjectIdenticalTo:dInner];
-		NSArray *arInner=[dInner valueForKey:@"Objects"];
+		NSArray *arInner=[dInner valueForKey:@"questionNode"];
 		if(arInner && [arInner count]>0){
 			[self miniMizeThisRows:arInner];
 		}
@@ -486,31 +432,58 @@ static NSString *titleName = nil;
 
 - (IBAction)questionListBtClicked:(id)sender {
     self.listType = QUEATION_LIST;
-    NSDictionary *dTmp=[[NSDictionary alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"data" ofType:@"plist"]];
-    self.questionList = [NSMutableArray arrayWithArray:[dTmp valueForKey:@"Objects"]];
-    dispatch_async ( dispatch_get_main_queue (), ^{
-        [self.tableView reloadData];
-    });
-}
-
-- (IBAction)SearchBrClicked:(id)sender {
-    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-    ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
-    chapterView.view.frame = CGRectMake(50, 20, 768-200, 1024-20);
-    chapterView.isSearch = YES;
-
-    self.isSearching = YES;
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
+    if ([CaiJinTongManager shared].question.count == 0) {
+        [self getQuestionInfo];
     }else {
-        [SVProgressHUD showWithStatus:@"玩命加载中..."];
-        ChapterInfoInterface *chapterInter = [[ChapterInfoInterface alloc]init];
-        self.chapterInterface = chapterInter;
-        self.chapterInterface.delegate = self;
-        [self.chapterInterface getChapterInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andChapterId:nil];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            self.questionList = [NSMutableArray arrayWithArray:[CaiJinTongManager shared].question];
+            dispatch_async ( dispatch_get_main_queue (), ^{
+            [self.tableView reloadData];
+            });
+        });
     }
 }
 
+- (IBAction)SearchBrClicked:(id)sender {
+    if (self.searchText.text.length == 0) {
+        [Utility errorAlert:@"请输入搜索内容!"];
+    }else {
+        [self.searchText resignFirstResponder];
+        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+            [Utility errorAlert:@"暂无网络!"];
+        }else {
+            self.isSearching = YES;
+            [SVProgressHUD showWithStatus:@"玩命加载中..."];
+            SearchLessonInterface *searchLessonInter = [[SearchLessonInterface alloc]init];
+            self.searchLessonInterface = searchLessonInter;
+            self.searchLessonInterface.delegate = self;
+            [self.searchLessonInterface getSearchLessonInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchText.text];
+        }
+    }
+}
+/*
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    BOOL isSearch = NO;
+    if (self.searchText.text.length == 0) {
+        [Utility errorAlert:@"请输入搜索内容!"];
+        isSearch = NO;
+    }else {
+        isSearch = YES;
+        [self.searchText resignFirstResponder];
+        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+            [Utility errorAlert:@"暂无网络!"];
+        }else {
+            self.isSearching = YES;
+            [SVProgressHUD showWithStatus:@"玩命加载中..."];
+            SearchLessonInterface *searchLessonInter = [[SearchLessonInterface alloc]init];
+            self.searchLessonInterface = searchLessonInter;
+            self.searchLessonInterface.delegate = self;
+            [self.searchLessonInterface getSearchLessonInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchText.text];
+        }
+    }
+    return isSearch;
+}
+ */
 -(IBAction)setBtnPressed:(id)sender {
     self.editBtn.alpha = 1.0;
     self.lessonListBt.alpha = 0.3;
@@ -543,13 +516,6 @@ static NSString *titleName = nil;
     return _questionArrSelSection;
 }
 
-//-(NSMutableArray *)questionList{
-//    if (!_questionList) {
-//        _questionList = [NSMutableArray array];
-//    }
-//    return _questionList;
-//}
-
 -(void)setListType:(TableListType)listType{
     if (listType == LESSON_LIST) {
         self.lessonListTitleLabel.text = @"我的课程";
@@ -576,26 +542,20 @@ static NSString *titleName = nil;
             [CaiJinTongManager shared].defaultLeftInset = 200;
             [CaiJinTongManager shared].defaultPortraitTopInset = 20;
             [CaiJinTongManager shared].defaultWidth = 568;
-            [CaiJinTongManager shared].defaultHeight = 984;
+            [CaiJinTongManager shared].defaultHeight = 1004;
             
             ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
-            if(self.isSearching)chapterView.isSearch = YES;
-            chapterView.searchBar.searchTextField.text = self.searchText.text;
+            if(self.isSearching){chapterView.isSearch = YES;}
+            
             
             if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
                 NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
-                if (titleName) {
-                    chapterView.title = titleName;
-                }else{
-                    chapterView.title = @"搜索";
-                }
                 if(self.isSearching){
                     if(self.searchText.text != nil && ![self.searchText.text isEqualToString:@""] && tempArray.count > 0){
                         NSString *keyword = self.searchText.text;
                         NSMutableArray *ary = [NSMutableArray arrayWithCapacity:5];
                         for(int i = 0 ; i < tempArray.count ; i++){
                             SectionModel *section = [tempArray objectAtIndex:i];
-                            NSLog(@"sectionName: %@",section.sectionName);
                             NSRange range = [section.sectionName rangeOfString:[NSString stringWithFormat:@"(%@)+",keyword] options:NSRegularExpressionSearch];
                             if(range.location != NSNotFound){
                                 [ary addObject:section];
@@ -605,24 +565,30 @@ static NSString *titleName = nil;
                     }
                 }
                 [chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:tempArray]];
+                chapterView.searchBar.searchTipLabel.text = [NSString stringWithFormat:@"以下是根据内容\"%@\"搜索出的内容",self.searchText.text];
+                chapterView.searchBar.searchTextField.text = self.searchText.text;
                 self.isSearching = NO;
-                UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:chapterView];
+                DRNavigationController *navControl = [[DRNavigationController alloc]initWithRootViewController:chapterView];
+                navControl.view.frame = (CGRect){0,0,568,1004};
                 [navControl setNavigationBarHidden:YES];
-                
-                MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:navControl];
-                formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromRight;
-                formSheet.shadowRadius = 2.0;
-                formSheet.shadowOpacity = 0.3;
-                formSheet.shouldDismissOnBackgroundViewTap = YES;
-                formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
-                
-                [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
-                   
+                [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
                 }];
+//                MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:navControl];
+//                formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromRight;
+//                formSheet.shadowRadius = 2.0;
+//                formSheet.shadowOpacity = 0.3;
+//                formSheet.shouldDismissOnBackgroundViewTap = YES;
+//                formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
+//                [[MZFormSheetBackgroundWindow appearance] setBackgroundBlurEffect:NO];
+//                [[MZFormSheetBackgroundWindow appearance] setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5]];
+//                [[MZFormSheetBackgroundWindow appearance] setSupportedInterfaceOrientations:UIInterfaceOrientationMaskPortrait];
+//                
+//                [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+//                   
+//                }];
             }
         });
     });
-    
 }
 
 -(void)getChapterInfoDidFailed:(NSString *)errorMsg {
@@ -652,5 +618,100 @@ static NSString *titleName = nil;
     [SVProgressHUD dismiss];
     [Utility errorAlert:errorMsg];
 }
+#pragma mark--QuestionInfoInterfaceDelegate {
+-(void)getQuestionInfoDidFinished:(NSDictionary *)result {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
+        self.questionList = [NSMutableArray arrayWithArray:[result valueForKey:@"questionList"]];
+        [CaiJinTongManager shared].question = [NSMutableArray arrayWithArray:[result valueForKey:@"questionList"]];
+        //标记是否选中了
+        self.questionArrSelSection = [[NSMutableArray alloc] init];
+        for (int i =0; i<self.questionList.count; i++) {
+            [self.questionArrSelSection addObject:[NSString stringWithFormat:@"%d",i]];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
+    });
+}
+-(void)getQuestionInfoDidFailed:(NSString *)errorMsg {
+    [SVProgressHUD dismiss];
+    [Utility errorAlert:errorMsg];
+}
+#pragma mark--ChapterQuestionInterfaceDelegate
+-(void)getChapterQuestionInfoDidFinished:(NSDictionary *)result {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
+        NSMutableArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+        });
+    });
+}
+-(void)getChapterQuestionInfoDidFailed:(NSString *)errorMsg {
+    [SVProgressHUD dismiss];
+    [Utility errorAlert:errorMsg];
+}
+#pragma mark--SearchLessonInterfaceDelegate
+-(void)getSearchLessonInfoDidFinished:(NSDictionary *)result {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+            [CaiJinTongManager shared].defaultLeftInset = 200;
+            [CaiJinTongManager shared].defaultPortraitTopInset = 20;
+            [CaiJinTongManager shared].defaultWidth = 568;
+            [CaiJinTongManager shared].defaultHeight = 984;
+            
+            ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
+            if(self.isSearching)chapterView.isSearch = YES;
+            chapterView.searchBar.searchTextField.text = self.searchText.text;
+            
+            if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
+                NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
+                if(self.isSearching){
+                    if(self.searchText.text != nil && ![self.searchText.text isEqualToString:@""] && tempArray.count > 0){
+                        NSString *keyword = self.searchText.text;
+                        NSMutableArray *ary = [NSMutableArray arrayWithCapacity:5];
+                        for(int i = 0 ; i < tempArray.count ; i++){
+                            SectionModel *section = [tempArray objectAtIndex:i];
+                            NSRange range = [section.sectionName rangeOfString:[NSString stringWithFormat:@"(%@)+",keyword] options:NSRegularExpressionSearch];
+                            if(range.location != NSNotFound){
+                                [ary addObject:section];
+                            }
+                        }
+                        tempArray = [NSMutableArray arrayWithArray:ary];
+                    }
+                }
+                [chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:tempArray]];
+                self.isSearching = NO;
+                UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:chapterView];
+                navControl.view.frame = (CGRect){0,0,568,1004};
+                [navControl setNavigationBarHidden:YES];
+                [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
+                }];
+//                MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:navControl];
+//                formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromRight;
+//                formSheet.shadowRadius = 2.0;
+//                formSheet.shadowOpacity = 0.3;
+//                formSheet.shouldDismissOnBackgroundViewTap = YES;
+//                formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
+//                
+//                [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+//                    
+//                }];
+            }
+        });
+    });
+}
+-(void)getSearchLessonInfoDidFailed:(NSString *)errorMsg {
+    [SVProgressHUD dismiss];
+    [Utility errorAlert:errorMsg];
+}
 
+#pragma mark UITextField Delegate
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [self SearchBrClicked:nil];//点击键盘return键搜索
+    return YES;
+}
 @end

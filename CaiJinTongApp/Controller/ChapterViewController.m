@@ -13,7 +13,7 @@
 #import "NoteModel.h"
 #import "CommentModel.h"
 #import "SectionViewController.h"
-
+#import "Section.h"
 #define ItemWidth 250
 #define ItemWidthSpace 23
 #define ItemHeight 215
@@ -34,9 +34,7 @@
 }
 
 -(void)drnavigationBarRightItemClicked:(id)sender{
-[self dismissFormSheetControllerAnimated:YES completionHandler:^(MZFormSheetController *formSheetController) {
-    
-}];
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
 }
 
 - (void)viewDidLoad
@@ -50,6 +48,8 @@
     mainBar = nil;
     
     self.searchBar = [[ChapterSearchBar alloc] initWithFrame:(CGRect){50, 64, (self.view.frame.size.width - 200 - 100), 74}];
+    self.searchBar.searchTextField.delegate = self;
+    self.searchBar.searchTextField.returnKeyType = UIReturnKeySearch;
     [self.view addSubview:self.searchBar];
 
     [self.searchBar setHidden:!self.isSearch];
@@ -60,6 +60,7 @@
     [self.drnavigationBar.navigationRightItem setTitle:@"返回" forState:UIControlStateNormal];
     [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
 }
+
 
 
 -(void)reloadDataWithDataArray:(NSArray*)data{
@@ -105,9 +106,6 @@
         [self.myScrollView setContentOffset:CGPointMake(frame.origin.x, frame.origin.y)];
     }
 }
-
-#pragma -- UIScrollViewDelegate
-//控制滑动的时候分页按钮对应去显示
 
 #pragma mark -- UITableViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -173,6 +171,7 @@
     SectionModel *section = (SectionModel *)[self.dataArray objectAtIndex:currentTag];
     //自定义view
     SectionCustomView *sv = [[SectionCustomView alloc]initWithFrame:CGRectMake(ItemWidthSpace+(ItemWidthSpace+ItemWidth)*col, ItemHeightSpace, ItemWidth, ItemHeight) andSection:section andItemLabel:ItemLabel];
+    sv.tag = currentTag;
     self.sectionView = sv;
 
     [self.sectionView addTarget:self  action:@selector(imageButtonClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -182,96 +181,35 @@
 -(void)imageButtonClick:(id)sender {
     UIControl *button = sender;
     DLog(@"imageTag = %d",button.tag);
-    //根据sectionID获取单个视频的详细信息
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
-    }else {
-        [SVProgressHUD showWithStatus:@"玩命加载中..."];
-        SectionInfoInterface *sectionInter = [[SectionInfoInterface alloc]init];
-        self.sectionInterface = sectionInter;
-        self.sectionInterface.delegate = self;
-        [self.sectionInterface getSectionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:[NSString stringWithFormat:@"%d",button.tag]];
-    }
-     /*
-    //数据来源
-    NSDictionary *dictionary = [Utility initWithJSONFile:@"sectionInfo"];
-    NSDictionary *dic = [dictionary objectForKey:@"ReturnObject"];
-    if (dic.count>0) {
-        SectionModel *section = [[SectionModel alloc]init];
-        section.sectionId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionId"]];
-        section.sectionName = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionName"]];
-        section.sectionImg = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionImg"]];
-        section.sectionProgress = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionProgress"]];
-        section.sectionSD = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionSD"]];
-        section.sectionHD = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionHD"]];
-        section.sectionScore = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionScore"]];
-        section.isGrade = [NSString stringWithFormat:@"%@",[dic objectForKey:@"isGrade"]];
-        section.lessonInfo = [NSString stringWithFormat:@"%@",[dic objectForKey:@"lessonInfo"]];
-        section.sectionTeacher = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionTeacher"]];
-        section.sectionDownload = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionDownload"]];
-        section.sectionStudy = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionStudy"]];
-        section.sectionLastTime = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionLastTime"]];
+    SectionModel *section = (SectionModel *)[self.dataArray objectAtIndex:button.tag];
+    DLog(@"sid = %@",section.sectionId);
+    AppDelegate *app = [AppDelegate sharedInstance];
+    if (app.isLocal == YES) {
+        Section *sectionDb = [[Section alloc]init];
         //笔记
-        NSArray *noteList = [NSArray arrayWithArray:[dic objectForKey:@"noteList"]];
-        if (noteList.count>0) {
-            NSMutableArray *note_tempArray = [[NSMutableArray alloc]init];
-            for (int i=0; i<noteList.count; i++) {
-                NSDictionary *dic = [noteList objectAtIndex:i];
-                NoteModel *note = [[NoteModel alloc]init];
-                note.noteText = [NSString stringWithFormat:@"%@",[dic objectForKey:@"noteText"]];
-                note.noteTime = [NSString stringWithFormat:@"%@",[dic objectForKey:@"noteTime"]];
-                [note_tempArray addObject:note];
-            }
-            if (note_tempArray.count>0) {
-                section.noteList = [NSMutableArray arrayWithArray:note_tempArray];
-            }
-        }
-        //评论
-        NSArray *commentList = [NSArray arrayWithArray:[dic objectForKey:@"commentList"]];
-        if (commentList.count>0) {
-            NSMutableArray *comment_tempArray = [[NSMutableArray alloc]init];
-            for (int i=0; i<commentList.count; i++) {
-                NSDictionary *dic = [commentList objectAtIndex:i];
-                CommentModel *comment = [[CommentModel alloc]init];
-                comment.nickName = [NSString stringWithFormat:@"%@",[dic objectForKey:@"nickName"]];
-                comment.time = [NSString stringWithFormat:@"%@",[dic objectForKey:@"time"]];
-                comment.content = [NSString stringWithFormat:@"%@",[dic objectForKey:@"content"]];
-                comment.pageIndex = [[dic objectForKey:@"pageIndex"]intValue];
-                comment.pageCount = [[dic objectForKey:@"pageCount"]intValue];
-                [comment_tempArray addObject:comment];
-            }
-            if (comment_tempArray.count>0) {
-                section.commentList = [NSMutableArray arrayWithArray:comment_tempArray];
-            }
-        }
-        //章节目录
-        NSArray *sectionList = [NSArray arrayWithArray:[dic objectForKey:@"sectionList"]];
-        if (sectionList.count>0) {
-            NSMutableArray *section_tempArray = [[NSMutableArray alloc]init];
-            for (int i=0; i<sectionList.count; i++) {
-                NSDictionary *dic = [sectionList objectAtIndex:i];
-                SectionModel *section = [[SectionModel alloc]init];
-                section.sectionId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionId"]];
-                section.sectionName = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionName"]];
-                section.sectionDownload = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionDownload"]];
-                section.sectionLastTime = [NSString stringWithFormat:@"%@",[dic objectForKey:@"sectionLastTime"]];
-                [section_tempArray addObject:section];
-            }
-            if (section_tempArray.count>0) {
-                section.sectionList = [NSMutableArray arrayWithArray:section_tempArray];
-            }
-        }
-        //
+        NSArray *noteArray = [sectionDb getNoteInfoWithSid:section.sectionId];
+        section.noteList = [[NSMutableArray alloc]initWithArray:noteArray];
+        //章节下载列表
+        NSArray *section_chapterArray = [sectionDb getChapterInfoWithSid:section.sectionId];
+        section.sectionList  =[[NSMutableArray alloc]initWithArray:section_chapterArray];
+        
         UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
         SectionViewController *sectionView = [story instantiateViewControllerWithIdentifier:@"SectionViewController"];
-
         sectionView.section = section;
-        sectionView.title = section.sectionName;
         [self.navigationController pushViewController:sectionView animated:YES];
-
-      
+        
+    }else {
+        //根据sectionID获取单个视频的详细信息
+        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+            [Utility errorAlert:@"暂无网络!"];
+        }else {
+            [SVProgressHUD showWithStatus:@"玩命加载中..."];
+            SectionInfoInterface *sectionInter = [[SectionInfoInterface alloc]init];
+            self.sectionInterface = sectionInter;
+            self.sectionInterface.delegate = self;
+            [self.sectionInterface getSectionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:section.sectionId];
+        }
     }
-      */
 }
 - (void)didReceiveMemoryWarning
 {
@@ -467,7 +405,6 @@
                     NSMutableArray *ary = [NSMutableArray arrayWithCapacity:5];
                     for(int i = 0 ; i < tempArray.count ; i++){
                         SectionModel *section = [tempArray objectAtIndex:i];
-                        NSLog(@"sectionName: %@",section.sectionName);
                         NSRange range = [section.sectionName rangeOfString:[NSString stringWithFormat:@"(%@)+",keyword] options:NSRegularExpressionSearch];
                         if(range.location != NSNotFound){
                             [ary addObject:section];
@@ -475,8 +412,8 @@
                     }
                     tempArray = [NSMutableArray arrayWithArray:ary];
                 }
-//                self.dataArray = [[NSMutableArray alloc]initWithArray:tempArray];
                 [self reloadDataWithDataArray:tempArray];
+                
             }
         });
     });
@@ -486,4 +423,9 @@
     [Utility errorAlert:errorMsg];
 }
 
+#pragma mark UITextField Delegate
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [self searchBtClicked];
+    return YES;
+}
 @end

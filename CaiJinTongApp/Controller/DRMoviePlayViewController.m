@@ -10,8 +10,9 @@
 #import <MediaPlayer/MPMoviePlayerController.h>
 #import <QuartzCore/QuartzCore.h>
 #import "Section_ChapterViewController.h"
-
+#import "DRTakingMovieNoteViewController.h"
 #import "MBProgressHUD.h"
+#import "DRCommitQuestionViewController.h"
 #define MOVIE_CURRENT_PLAY_TIME_OBSERVE @"movieCurrentPlayTimeObserve"
 @interface DRMoviePlayViewController ()
 @property (nonatomic,strong) MPMoviePlayerController *moviePlayer;
@@ -52,8 +53,7 @@
     
     self.isPopupChapter = NO;
     [self addMoviePlayBackNotification];
-//    self.movieUrlString =  @"http://lms.finance365.com/data/course/6/304/2690/20130717091047687.mp4";
-//    self.movieUrlString = @"http://archive.org/download/WaltDisneyCartoons-MickeyMouseMinnieMouseDonaldDuckGoofyAndPluto/WaltDisneyCartoons-MickeyMouseMinnieMouseDonaldDuckGoofyAndPluto-HawaiianHoliday1937-Video.mp4";
+
     [self.moviePlayer play];
     self.isPlaying = YES;
     [self hiddleMovieHolderView];
@@ -138,21 +138,19 @@
             self.isPopupChapter = NO;
         }
 
-    }else
-    if (item == self.myQuestionItem) {
-        DRTakingMovieNoteViewController *takingController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRTakingMovieNoteViewController"];
-        takingController.view.frame = (CGRect){0,0,804,426};
-//        [self presentPopupViewController:takingController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
-//             self.myQuestionItem.isSelected = NO;
-//        }];
-        self.isPopupChapter = NO;
-    }else
-    if (item == self.myNotesItem) {
+    }else if (item == self.myQuestionItem) {
         DRCommitQuestionViewController *commitController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRCommitQuestionViewController"];
         commitController.view.frame = (CGRect){0,0,804,426};
-//        [self presentPopupViewController:commitController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
-//            self.myNotesItem.isSelected = NO;
-//        }];
+        [self presentPopupViewController:commitController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
+             self.myQuestionItem.isSelected = NO;
+        }];
+        self.isPopupChapter = NO;
+    }else if (item == self.myNotesItem) {
+        DRTakingMovieNoteViewController *takingController= [self.storyboard instantiateViewControllerWithIdentifier:@"DRTakingMovieNoteViewController"];
+        takingController.view.frame = (CGRect){0,0,804,426};
+        [self presentPopupViewController:takingController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
+            self.myNotesItem.isSelected = NO;
+        }];
         self.isPopupChapter = NO;
     }
 }
@@ -162,10 +160,10 @@
     self.isPlaying = !self.isPlaying;
     if (self.isPlaying) {
         [self.moviePlayer play];
-        [self.playBt setBackgroundImage:[UIImage imageNamed:@"play_play.png"] forState:UIControlStateNormal];
+        [self.playBt setBackgroundImage:[UIImage imageNamed:@"play_paused.png"] forState:UIControlStateNormal];
     }else{
         [self.moviePlayer pause];
-        [self.playBt setBackgroundImage:[UIImage imageNamed:@"play_paused.png"] forState:UIControlStateNormal];
+        [self.playBt setBackgroundImage:[UIImage imageNamed:@"play_play.png"] forState:UIControlStateNormal];
     }
 }
 
@@ -301,9 +299,19 @@
 }
 #pragma mark --
 
-#pragma mark DRTakingMovieNoteViewControllerDelegate
--(void)takingMovieNoteController:(DRTakingMovieNoteViewController *)controller commitNote:(NSString *)text{
+#pragma mark -- 提交笔记
+-(void)takingMovieNoteController:(DRTakingMovieNoteViewController *)controller commitNote:(NSString *)text andTime:(NSString *)noteTime{
     self.myNotesItem.isSelected = NO;
+    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+        [Utility errorAlert:@"暂无网络!"];
+    }else {
+        [SVProgressHUD showWithStatus:@"玩命加载中..."];
+        SumitNoteInterface *sumitNoteInter = [[SumitNoteInterface alloc]init];
+        self.sumitNoteInterface = sumitNoteInter;
+        self.sumitNoteInterface.delegate = self;
+        [self.sumitNoteInterface getSumitNoteInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionId andNoteTime:noteTime andNoteText:text];
+    }
+    
 }
 
 -(void)takingMovieNoteControllerCancel{
@@ -385,9 +393,11 @@
     _isHiddlePlayerControlView = isHiddlePlayerControlView;
     [UIView animateWithDuration:0.5 animations:^{
         if (isHiddlePlayerControlView) {
-            self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,CGRectGetWidth(self.view.frame) + CGRectGetHeight(self.movieplayerControlBackView.bounds)/2};
+//            self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,CGRectGetWidth(self.view.frame) + CGRectGetHeight(self.movieplayerControlBackView.bounds)/2};
+            self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,768+50};
         }else{
-            self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,CGRectGetWidth(self.view.frame) -CGRectGetHeight(self.movieplayerControlBackView.bounds)/2+2};
+//            self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,CGRectGetWidth(self.view.frame) -CGRectGetHeight(self.movieplayerControlBackView.bounds)/2+2};
+            self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,768-50};
             NSLog(@"%@",NSStringFromCGRect(self.movieplayerControlBackView.frame));
         }
     }];
@@ -413,11 +423,15 @@
 #pragma mark --
 
 - (BOOL)shouldAutorotate {
-    return NO;
+    UIInterfaceOrientation interface = [[UIApplication sharedApplication] statusBarOrientation];
+    if (!UIInterfaceOrientationIsLandscape(interface)) {
+        return YES;
+    }
+    return YES;
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskLandscape;
+    return UIInterfaceOrientationMaskLandscapeLeft;
 }
 // pre-iOS 6 support
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
@@ -442,6 +456,20 @@
     });
 }
 -(void)getPlayBackDidFailed:(NSString *)errorMsg {
+    [SVProgressHUD dismiss];
+    [Utility errorAlert:errorMsg];
+}
+#pragma mark -- SumitNoteInterfaceDelegate
+-(void)getSumitNoteInfoDidFinished:(NSDictionary *)result {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //前一个view笔记里面加上刚提交的笔记
+        });
+    });
+}
+-(void)getSumitNoteDidFailed:(NSString *)errorMsg {
     [SVProgressHUD dismiss];
     [Utility errorAlert:errorMsg];
 }

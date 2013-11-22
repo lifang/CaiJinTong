@@ -194,7 +194,6 @@
                 //todo 考虑是否需要发送nofification通知
                 [request clearDelegatesAndCancel];
                 request = nil;
-                
             }
         }
     }

@@ -14,7 +14,7 @@
 #import "NoteModel.h"
 #import "Section_chapterModel.h"
 #import "DRMoviePlayViewController.h"
-
+#import "SectionViewController.h"
 @implementation CustomButton
 
 - (id)initWithFrame:(CGRect)frame
@@ -98,6 +98,17 @@
 //        [self presentViewController:playerController animated:YES completion:^{
 //            
 //        }];
+        DRMoviePlayViewController *playerController = [[DRMoviePlayViewController alloc] init];
+        UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+        playerController = [story instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
+        playerController.movieUrlString = path;
+        playerController.sectionId = self.buttonModel.sid;
+        
+        AppDelegate *app = [AppDelegate sharedInstance];
+        [app.lessonViewCtrol presentViewController:playerController animated:YES completion:^{
+            
+        }];
+
     }
 }
 //下载中
@@ -139,7 +150,7 @@
 //            self.buttonModel.downloadState = 0;
 //            [sectionDb addDataWithSectionSaveModel:self.buttonModel];
         }
-    }  
+    }
 }
 
 #pragma -- SectionInfoInterface

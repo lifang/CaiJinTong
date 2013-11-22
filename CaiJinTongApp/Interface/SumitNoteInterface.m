@@ -12,22 +12,15 @@
 #import "NSString+HTML.h"
 @implementation SumitNoteInterface
 
--(void)getSumitNoteInterfaceDelegateWithUserId:(NSString *)userId andSectionId:(NSString *)sectionId andNoteTime:(NSString *)noteTime andNoteText:(NSString *)noteText andNoteTitle:(NSString *)noteTitle{
+-(void)getSumitNoteInterfaceDelegateWithUserId:(NSString *)userId andSectionId:(NSString *)sectionId andNoteTime:(NSString *)noteTime andNoteText:(NSString *)noteText{
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
-    
-    NSString *timespan = [Utility getNowDateFromatAnDate];
-    NSString *strKey = [NSString stringWithFormat:@"%@%@",timespan,MDKey];
-    NSString *md5Key = [Utility createMD5:strKey];
-    
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",timespan] forKey:@"timespan"];
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",md5Key] forKey:@"token"];
+
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",sectionId] forKey:@"sectionId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",noteText] forKey:@"noteText"];
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",noteTitle] forKey:@"noteTitle"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",noteTime] forKey:@"noteTime"];
 
-    self.interfaceUrl = [NSString stringWithFormat:@"%@",kHost];
+    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=submitNote&userId=17082%20&sectionId=2690&noteTime=2013-11-21%2011:00&noteText=做笔记";
     
     self.baseDelegate = self;
     self.headers = reqheaders;
