@@ -23,11 +23,6 @@
 {
     [super viewDidLoad];
     
-//    
-//    NSDateFormatter *format = [[NSDateFormatter alloc] init];
-//    [format setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
-//    NSString *timeString = [format stringFromDate:[NSDate date]];
-//	self.commitTimeLabel.text = timeString;
     self.noteTimeLabel.text = [Utility getNowDateFromatAnDate];
     
     UIImage *btnImageHighlighted = [[UIImage imageNamed:@"btn0.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 6) resizingMode:UIImageResizingModeStretch];
@@ -43,6 +38,7 @@
     
     [self.view.layer setCornerRadius:6];
     [self.view.layer setMasksToBounds:YES];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -62,12 +58,16 @@
 }
 
 - (IBAction)commitBtnClicked:(UIButton *)sender {
-    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopTop];
     if (self.contentField.text == nil || [[self.contentField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
         [Utility errorAlert:@"内容不能为空"];
-    }
-    if (self.delegate && [self.delegate respondsToSelector:@selector(takingMovieNoteController:commitNote:)]) {
-        [self.delegate takingMovieNoteController:self commitNote:self.contentField.text];
+    }else {
+        [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopTop];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(takingMovieNoteController:commitNote: andTime:)]) {
+            [self.delegate takingMovieNoteController:self commitNote:self.contentField.text andTime:self.noteTimeLabel.text];
+        }
     }
 }
+
+
+
 @end

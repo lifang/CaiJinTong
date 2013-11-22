@@ -138,19 +138,17 @@
             self.isPopupChapter = NO;
         }
 
-    }else
-    if (item == self.myQuestionItem) {
-        DRTakingMovieNoteViewController *takingController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRCommitQuestionViewController"];
-        takingController.view.frame = (CGRect){0,0,804,426};
-        [self presentPopupViewController:takingController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
+    }else if (item == self.myQuestionItem) {
+        DRCommitQuestionViewController *commitController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRCommitQuestionViewController"];
+        commitController.view.frame = (CGRect){0,0,804,426};
+        [self presentPopupViewController:commitController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
              self.myQuestionItem.isSelected = NO;
         }];
         self.isPopupChapter = NO;
-    }else
-    if (item == self.myNotesItem) {
-        DRCommitQuestionViewController *commitController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRTakingMovieNoteViewController"];
-        commitController.view.frame = (CGRect){0,0,804,426};
-        [self presentPopupViewController:commitController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
+    }else if (item == self.myNotesItem) {
+        DRTakingMovieNoteViewController *takingController= [self.storyboard instantiateViewControllerWithIdentifier:@"DRTakingMovieNoteViewController"];
+        takingController.view.frame = (CGRect){0,0,804,426};
+        [self presentPopupViewController:takingController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
             self.myNotesItem.isSelected = NO;
         }];
         self.isPopupChapter = NO;
@@ -301,9 +299,18 @@
 }
 #pragma mark --
 
-#pragma mark DRTakingMovieNoteViewControllerDelegate
--(void)takingMovieNoteController:(DRTakingMovieNoteViewController *)controller commitNote:(NSString *)text{
+#pragma mark -- 提交笔记
+-(void)takingMovieNoteController:(DRTakingMovieNoteViewController *)controller commitNote:(NSString *)text andTime:(NSString *)noteTime{
     self.myNotesItem.isSelected = NO;
+    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+        [Utility errorAlert:@"暂无网络!"];
+    }else {
+        [SVProgressHUD showWithStatus:@"玩命加载中..."];
+        SumitNoteInterface *sumitNoteInter = [[SumitNoteInterface alloc]init];
+        self.sumitNoteInterface = sumitNoteInter;
+        self.sumitNoteInterface.delegate = self;
+        [self.sumitNoteInterface getSumitNoteInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionId andNoteTime:noteTime andNoteText:text];
+    }
     
 }
 
@@ -456,8 +463,9 @@
 -(void)getSumitNoteInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
-            
+            //前一个view笔记里面加上刚提交的笔记
         });
     });
 }
