@@ -28,10 +28,11 @@
     [super viewDidLoad];
     
     
-    NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    [format setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
-    NSString *timeString = [format stringFromDate:[NSDate date]];
-	self.commitTimeLabel.text = timeString;
+//    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+//    [format setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
+//    NSString *timeString = [format stringFromDate:[NSDate date]];
+//	self.commitTimeLabel.text = timeString;
+    self.commitTimeLabel.text = [Utility getNowDateFromatAnDate];
     
     UIImage *btnImageHighlighted = [[UIImage imageNamed:@"btn0.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 6) resizingMode:UIImageResizingModeStretch];
     UIImage *btnImageNormal = [[UIImage imageNamed:@"btn1.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 6) resizingMode:UIImageResizingModeStretch];

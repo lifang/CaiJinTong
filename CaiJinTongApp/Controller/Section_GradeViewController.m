@@ -27,22 +27,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//	TQStarRatingView *starRatingView = [[TQStarRatingView alloc] initWithFrame:CGRectMake(100, 20, 350, 50) numberOfStar:5];
-//    starRatingView.backgroundColor = [UIColor colorWithRed:246.0/255.0 green:246.0/255.0 blue:246.0/255.0 alpha:1.0];
-//    starRatingView.delegate = self;
-//    [self.view addSubview:starRatingView];
 }
 - (void)viewDidCurrentView
 {
     DLog(@"加载为当前视图 = %@",self.title);
 }
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
--(void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+-(void)displayView {
     if (self.isGrade == 0) {//有打分界面
         TQStarRatingView *starRatingView = [[TQStarRatingView alloc] initWithFrame:CGRectMake(100, 3, 250, 50) numberOfStar:5];
         starRatingView.delegate = self;
@@ -53,6 +49,7 @@
         label.font = [UIFont boldSystemFontOfSize:16];
         label.textColor = [UIColor grayColor];
         label.text = @"0分";
+        label.tag = 9999;
         self.pointLab = label;
         [self.view addSubview:self.pointLab];
         label = nil;
@@ -61,11 +58,26 @@
         self.submitBtn.frame =CGRectMake(240, self.textView.frame.origin.y+80, 90, 30);
         self.tableViewList.frame =CGRectMake(0, self.submitBtn.frame.origin.y+40, 768, self.view.frame.size.height-self.submitBtn.frame.origin.y-60);
     }else {//隐藏打分界面
+        NSArray *subViews = [self.view subviews];
+        for (UIView *vv in subViews) {
+            if ([vv isKindOfClass:[TQStarRatingView class]]) {
+                TQStarRatingView *vview = (TQStarRatingView *)vv;
+                [vview removeFromSuperview];
+            }else if ([vv isKindOfClass:[UILabel class]]) {
+                UILabel *lab = (UILabel *)vv;
+                if (lab.tag == 9999) {
+                    [lab removeFromSuperview];
+                }
+            }
+        }
         self.textView.frame = CGRectMake(25, 3, 520, 70);
         self.submitBtn.frame =CGRectMake(240, self.textView.frame.origin.y+80, 90, 30);
         self.tableViewList.frame =CGRectMake(0, self.submitBtn.frame.origin.y+40, 768, self.view.frame.size.height-self.submitBtn.frame.origin.y-60);
     }
-   
+}
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self displayView];
 }
 #pragma  -- 打分
 -(void)starRatingView:(TQStarRatingView *)view score:(float)score
@@ -74,10 +86,12 @@
     self.pointLab.text = [NSString stringWithFormat:@" %.2f分",score*5];
 }
 #pragma -- 提交
+static NSString *timespan = nil;
 -(IBAction)submitBtnPressed:(id)sender {
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
+        timespan = [Utility getNowDateFromatAnDate];//提交时间
         [SVProgressHUD showWithStatus:@"玩命加载中..."];
         GradeInterface *gradeInter = [[GradeInterface alloc]init];
         self.gradeInterface = gradeInter;
@@ -116,7 +130,6 @@
         cell.titleLab.text = [NSString stringWithFormat:@"%@发表于%@",comment.nickName,comment.time];
         cell.contentLab.text = comment.content;
     }else {
-        DLog(@"%d,,%d",self.nowPage,self.pageCount);
         if (self.nowPage < self.pageCount) {
             cell.titleLab.text = @"正在加载..."; //最后一行 触发下载更新代码
             [self performSelector:@selector(loadMore) withObject:nil afterDelay:3];
@@ -128,8 +141,10 @@
     
     return cell;
 }
--(void)scrollViewDidScroll:(UITableView *)scrollView {
-    [self.textView resignFirstResponder];
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (scrollView == self.tableViewList) {
+        [self.textView resignFirstResponder];
+    }
 }
 
 //评论的分页加载
@@ -172,6 +187,8 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [[NSNotificationCenter defaultCenter] postNotificationName:@"refeshScore" object:result userInfo:nil];
             //隐藏打分栏，只出现评论框
+            self.isGrade = 1;
+            [self displayView];
             if (self.nowPage == self.pageCount) {
                 //更新tableview
                 

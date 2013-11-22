@@ -71,7 +71,6 @@
                       [UIColor colorWithRed:1.0f green:0.8f blue:0.0f alpha:1.0f],
                       [UIColor colorWithRed:0.0f green:0.8f blue:0.0f alpha:1.0f],
                       nil];
-            DLog(@"111");
         } else {
             colors = [[NSMutableArray alloc] init];
             for (__strong UIColor* c in gradientColors) {

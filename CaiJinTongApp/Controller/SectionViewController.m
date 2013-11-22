@@ -247,16 +247,17 @@
     self.section_ChapterView.title = @"章节目录";
     self.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:self.section.sectionList];
     
-    self.section_GradeView = [story instantiateViewControllerWithIdentifier:@"Section_GradeViewController"];
-    self.section_GradeView.title = @"打分";
-    self.section_GradeView.dataArray = [NSMutableArray arrayWithArray:self.section.commentList];
-    self.section_GradeView.isGrade = [self.section.isGrade intValue];
-    self.section_GradeView.sectionId = self.section.sectionId;
-    CommentModel *comment = (CommentModel *)[self.section_GradeView.dataArray objectAtIndex:self.section_GradeView.dataArray.count-1];
-    self.section_GradeView.pageCount = comment.pageCount;
-    self.section_GradeView.nowPage = 1;
-    
-    
+    AppDelegate *app = [AppDelegate sharedInstance];
+    if (app.isLocal == NO) {
+        self.section_GradeView = [story instantiateViewControllerWithIdentifier:@"Section_GradeViewController"];
+        self.section_GradeView.title = @"打分";
+        self.section_GradeView.dataArray = [NSMutableArray arrayWithArray:self.section.commentList];
+        self.section_GradeView.isGrade = [self.section.isGrade intValue];
+        self.section_GradeView.sectionId = self.section.sectionId;
+        CommentModel *comment = (CommentModel *)[self.section_GradeView.dataArray objectAtIndex:self.section_GradeView.dataArray.count-1];
+        self.section_GradeView.pageCount = comment.pageCount;
+        self.section_GradeView.nowPage = 1;
+    }
     self.section_NoteView = [story instantiateViewControllerWithIdentifier:@"Section_NoteViewController"];
     self.section_NoteView.title = @"笔记";
     self.section_NoteView.dataArray = [NSMutableArray arrayWithArray:self.section.noteList];
@@ -268,19 +269,34 @@
 
 - (NSUInteger)numberOfTab:(SUNSlideSwitchView *)view
 {
+    AppDelegate *app = [AppDelegate sharedInstance];
+    if (app.isLocal == YES) {
+        return 2;
+    }
     return 3;
 }
 
 - (UIViewController *)slideSwitchView:(SUNSlideSwitchView *)view viewOfTab:(NSUInteger)number
 {
-    if (number == 0) {
-        return self.section_ChapterView;
-    } else if (number == 1) {
-        return self.section_GradeView;
-    } else if (number == 2) {
-        return self.section_NoteView;
-    } else {
-        return nil;
+    AppDelegate *app = [AppDelegate sharedInstance];
+    if (app.isLocal == YES) {
+        if (number == 0) {
+            return self.section_ChapterView;
+        }  else if (number == 1) {
+            return self.section_NoteView;
+        } else {
+            return nil;
+        }
+    }else {
+        if (number == 0) {
+            return self.section_ChapterView;
+        } else if (number == 1) {
+            return self.section_GradeView;
+        } else if (number == 2) {
+            return self.section_NoteView;
+        } else {
+            return nil;
+        }
     }
 }
 
@@ -290,18 +306,31 @@
 
 - (void)slideSwitchView:(SUNSlideSwitchView *)view didselectTab:(NSUInteger)number
 {
-    Section_ChapterViewController *section_ChapterView = nil;
-    Section_GradeViewController *section_GradeView = nil;
-    Section_NoteViewController *section_NoteView = nil;
-    if (number == 0) {
-        section_ChapterView = self.section_ChapterView;
-        [section_ChapterView viewDidCurrentView];
-    } else if (number == 1) {
-        section_GradeView = self.section_GradeView;
-        [section_GradeView viewDidCurrentView];
-    } else if (number == 2) {
-        section_NoteView = self.section_NoteView;
-        [section_NoteView viewDidCurrentView];
+    AppDelegate *app = [AppDelegate sharedInstance];
+    if (app.isLocal == YES) {
+        Section_ChapterViewController *section_ChapterView = nil;
+        Section_NoteViewController *section_NoteView = nil;
+        if (number == 0) {
+            section_ChapterView = self.section_ChapterView;
+            [section_ChapterView viewDidCurrentView];
+        } else if (number == 1) {
+            section_NoteView = self.section_NoteView;
+            [section_NoteView viewDidCurrentView];
+        }
+    }else {
+        Section_ChapterViewController *section_ChapterView = nil;
+        Section_GradeViewController *section_GradeView = nil;
+        Section_NoteViewController *section_NoteView = nil;
+        if (number == 0) {
+            section_ChapterView = self.section_ChapterView;
+            [section_ChapterView viewDidCurrentView];
+        } else if (number == 1) {
+            section_GradeView = self.section_GradeView;
+            [section_GradeView viewDidCurrentView];
+        } else if (number == 2) {
+            section_NoteView = self.section_NoteView;
+            [section_NoteView viewDidCurrentView];
+        }
     }
 }
 
@@ -322,7 +351,7 @@
             self.playerController.sectionId = self.section.sectionId;
             
             AppDelegate *app = [AppDelegate sharedInstance];
-            [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
+            [self presentViewController:self.playerController animated:YES completion:^{
                 
             }];
 //            [[MZFormSheetBackgroundWindow appearance] setSupportedInterfaceOrientations:UIInterfaceOrientationMaskLandscape];

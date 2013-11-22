@@ -9,8 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "LessonListHeaderView.h"
 #import "ChapterInfoInterface.h"
-//@interface LessonViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,LessonListHeaderViewDelegate>
-@interface LessonViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,LessonListHeaderViewDelegate,ChapterInfoInterfaceDelegate,LessonInfoInterfaceDelegate>
+#import "SearchLessonInterface.h"
+#import "QuestionInfoInterface.h"
+#import "GetUserQuestionInterface.h"
+#import "ChapterQuestionInterface.h"
+@interface LessonViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,LessonListHeaderViewDelegate,ChapterInfoInterfaceDelegate,LessonInfoInterfaceDelegate,UITextFieldDelegate,SearchLessonInterfaceDelegate,QuestionInfoInterfaceDelegate,ChapterQuestionInterfaceDelegate>
+
+@property (nonatomic, strong) SearchLessonInterface *searchLessonInterface;
 @property (weak, nonatomic) IBOutlet UIButton *editBtn;
 @property (weak, nonatomic) IBOutlet UITextField *searchText;
 @property (weak, nonatomic) IBOutlet UIImageView *searchBarView;
@@ -18,13 +23,12 @@
 @property (nonatomic) BOOL isSearching; //标志某次动作是否为搜索动作
 @property (weak, nonatomic) IBOutlet UIView *lessonListBackgroundView;
 @property (nonatomic, strong) LessonInfoInterface *lessonInterface;
-
+@property (nonatomic, strong) QuestionInfoInterface *questionInfoInterface;
 @property (nonatomic, strong) ChapterInfoInterface *chapterInterface;
 @property (weak, nonatomic) IBOutlet UIView *leftBackGroundview;
 @property (weak, nonatomic) IBOutlet UIButton *lessonListBt;
 @property (weak, nonatomic) IBOutlet UIButton *questionListBt;
 @property (weak, nonatomic) IBOutlet UILabel *lessonListTitleLabel;
-//@property (weak, nonatomic) IBOutlet UISearchBar *searchBarView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 - (IBAction)lessonListBtClicked:(id)sender;
 - (IBAction)questionListBtClicked:(id)sender;
@@ -43,5 +47,5 @@
 
 @property (nonatomic, strong) NSMutableArray *temp_saveArray;//根据
 
-
+@property (nonatomic, strong) ChapterQuestionInterface *chapterQuestionInterface;
 @end

@@ -10,8 +10,9 @@
 #import <MediaPlayer/MPMoviePlayerController.h>
 #import <QuartzCore/QuartzCore.h>
 #import "Section_ChapterViewController.h"
-
+#import "DRTakingMovieNoteViewController.h"
 #import "MBProgressHUD.h"
+#import "DRCommitQuestionViewController.h"
 #define MOVIE_CURRENT_PLAY_TIME_OBSERVE @"movieCurrentPlayTimeObserve"
 @interface DRMoviePlayViewController ()
 @property (nonatomic,strong) MPMoviePlayerController *moviePlayer;
@@ -43,17 +44,31 @@
     }
     return self;
 }
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [[UIApplication sharedApplication] setStatusBarOrientation:UIDeviceOrientationLandscapeRight animated:YES];
+    CGFloat duration = [UIApplication sharedApplication].statusBarOrientationAnimationDuration;
+    //设置旋转动画
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:duration];
 
+    //设置视图旋转
+    self.view.bounds = CGRectMake(0, 0, 1024, 768);
+    self.view.transform = CGAffineTransformMakeRotation(M_PI*1.5);
+    [UIView commitAnimations];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    
     self.myNotesItem.delegate = self;
     self.myQuestionItem.delegate = self;
     
     self.isPopupChapter = NO;
     [self addMoviePlayBackNotification];
-//    self.movieUrlString =  @"http://lms.finance365.com/data/course/6/304/2690/20130717091047687.mp4";
-//    self.movieUrlString = @"http://archive.org/download/WaltDisneyCartoons-MickeyMouseMinnieMouseDonaldDuckGoofyAndPluto/WaltDisneyCartoons-MickeyMouseMinnieMouseDonaldDuckGoofyAndPluto-HawaiianHoliday1937-Video.mp4";
+
     [self.moviePlayer play];
     self.isPlaying = YES;
     [self hiddleMovieHolderView];
@@ -304,6 +319,7 @@
 #pragma mark DRTakingMovieNoteViewControllerDelegate
 -(void)takingMovieNoteController:(DRTakingMovieNoteViewController *)controller commitNote:(NSString *)text{
     self.myNotesItem.isSelected = NO;
+    
 }
 
 -(void)takingMovieNoteControllerCancel{
@@ -448,6 +464,19 @@
     });
 }
 -(void)getPlayBackDidFailed:(NSString *)errorMsg {
+    [SVProgressHUD dismiss];
+    [Utility errorAlert:errorMsg];
+}
+#pragma mark -- SumitNoteInterfaceDelegate
+-(void)getSumitNoteInfoDidFinished:(NSDictionary *)result {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+        });
+    });
+}
+-(void)getSumitNoteDidFailed:(NSString *)errorMsg {
     [SVProgressHUD dismiss];
     [Utility errorAlert:errorMsg];
 }

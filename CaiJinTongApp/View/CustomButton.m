@@ -14,7 +14,7 @@
 #import "NoteModel.h"
 #import "Section_chapterModel.h"
 #import "DRMoviePlayViewController.h"
-
+#import "SectionViewController.h"
 @implementation CustomButton
 
 - (id)initWithFrame:(CGRect)frame
@@ -139,7 +139,7 @@
 //            self.buttonModel.downloadState = 0;
 //            [sectionDb addDataWithSectionSaveModel:self.buttonModel];
         }
-    }  
+    }
 }
 
 #pragma -- SectionInfoInterface
