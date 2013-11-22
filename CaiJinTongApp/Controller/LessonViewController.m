@@ -132,18 +132,20 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             [chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:local_array]];
             self.isSearching = NO;
             UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:chapterView];
+            navControl.view.frame = (CGRect){0,0,568,1004};
             [navControl setNavigationBarHidden:YES];
-            
-            MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:navControl];
-            formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromRight;
-            formSheet.shadowRadius = 2.0;
-            formSheet.shadowOpacity = 0.3;
-            formSheet.shouldDismissOnBackgroundViewTap = YES;
-            formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
-            
-            [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
-                
+            [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
             }];
+//            MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:navControl];
+//            formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromRight;
+//            formSheet.shadowRadius = 2.0;
+//            formSheet.shadowOpacity = 0.3;
+//            formSheet.shouldDismissOnBackgroundViewTap = YES;
+//            formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
+//            
+//            [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+//                
+//            }];
         }
     }else{
         BOOL isSelSection = NO;
@@ -661,17 +663,20 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                 [chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:tempArray]];
                 self.isSearching = NO;
                 UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:chapterView];
-                
-                MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:navControl];
-                formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromRight;
-                formSheet.shadowRadius = 2.0;
-                formSheet.shadowOpacity = 0.3;
-                formSheet.shouldDismissOnBackgroundViewTap = YES;
-                formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
-                
-                [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
-                    
+                navControl.view.frame = (CGRect){0,0,568,1004};
+                [navControl setNavigationBarHidden:YES];
+                [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
                 }];
+//                MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:navControl];
+//                formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromRight;
+//                formSheet.shadowRadius = 2.0;
+//                formSheet.shadowOpacity = 0.3;
+//                formSheet.shouldDismissOnBackgroundViewTap = YES;
+//                formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
+//                
+//                [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+//                    
+//                }];
             }
         });
     });
