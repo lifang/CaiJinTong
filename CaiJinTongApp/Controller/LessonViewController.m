@@ -335,6 +335,15 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                 if (ar.count == 0) {
                     //请求问题分类下详细问题信息
                     DLog(@"questionId = %@",[d valueForKey:@"questionID"])
+                    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+                        [Utility errorAlert:@"暂无网络!"];
+                    }else {
+                        [SVProgressHUD showWithStatus:@"玩命加载中..."];
+                        ChapterQuestionInterface *chapterInter = [[ChapterQuestionInterface alloc]init];
+                        self.chapterQuestionInterface = chapterInter;
+                        self.chapterQuestionInterface.delegate = self;
+                        [self.chapterQuestionInterface getChapterQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andChapterQuestionId:[d valueForKey:@"questionID"]];
+                    }
                 }else {
                     BOOL isAlreadyInserted=NO;
                     
@@ -601,6 +610,20 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     });
 }
 -(void)getQuestionInfoDidFailed:(NSString *)errorMsg {
+    [SVProgressHUD dismiss];
+    [Utility errorAlert:errorMsg];
+}
+#pragma mark--
+-(void)getChapterQuestionInfoDidFinished:(NSDictionary *)result {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
+        NSMutableArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+        });
+    });
+}
+-(void)getChapterQuestionInfoDidFailed:(NSString *)errorMsg {
     [SVProgressHUD dismiss];
     [Utility errorAlert:errorMsg];
 }

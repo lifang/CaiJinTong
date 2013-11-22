@@ -12,7 +12,8 @@
 #import "SearchLessonInterface.h"
 #import "QuestionInfoInterface.h"
 #import "GetUserQuestionInterface.h"
-@interface LessonViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,LessonListHeaderViewDelegate,ChapterInfoInterfaceDelegate,LessonInfoInterfaceDelegate,UITextFieldDelegate,SearchLessonInterfaceDelegate,QuestionInfoInterfaceDelegate>
+#import "ChapterQuestionInterface.h"
+@interface LessonViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,LessonListHeaderViewDelegate,ChapterInfoInterfaceDelegate,LessonInfoInterfaceDelegate,UITextFieldDelegate,SearchLessonInterfaceDelegate,QuestionInfoInterfaceDelegate,ChapterQuestionInterfaceDelegate>
 
 @property (nonatomic, strong) SearchLessonInterface *searchLessonInterface;
 @property (weak, nonatomic) IBOutlet UIButton *editBtn;
@@ -46,5 +47,5 @@
 
 @property (nonatomic, strong) NSMutableArray *temp_saveArray;//根据
 
-
+@property (nonatomic, strong) ChapterQuestionInterface *chapterQuestionInterface;
 @end

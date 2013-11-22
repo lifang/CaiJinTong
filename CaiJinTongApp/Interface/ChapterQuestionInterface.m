@@ -17,17 +17,11 @@
 
 -(void)getChapterQuestionInterfaceDelegateWithUserId:(NSString *)userId andChapterQuestionId:(NSString *)chapterQuestionId {
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
-    
-    NSString *timespan = [Utility getNowDateFromatAnDate];
-    NSString *strKey = [NSString stringWithFormat:@"%@%@",timespan,MDKey];
-    NSString *md5Key = [Utility createMD5:strKey];
-    
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",timespan] forKey:@"timespan"];
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",md5Key] forKey:@"token"];
+
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",chapterQuestionId] forKey:@"chapterQuestionId"];
     
-    self.interfaceUrl = [NSString stringWithFormat:@"%@",kHost];
+    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=chapterQuestion&userId=17079&categoryId=42";
     
     self.baseDelegate = self;
     self.headers = reqheaders;
@@ -66,6 +60,7 @@
                                         question.askTime = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"askTime"]];
                                         question.praiseCount = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"praiseCount"]];
                                         question.isAcceptAnswer = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"isAcceptAnswer"]];
+                                        question.questiontitle = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"questiontitle"]];
                                         question.pageIndex =[[question_dic objectForKey:@"pageIndex"]intValue];
                                         question.pageCount =[[question_dic objectForKey:@"pageCount"]intValue];
                                         
@@ -104,6 +99,8 @@
                         @catch (NSException *exception) {
                             [self.delegate getChapterQuestionInfoDidFailed:@"加载失败!"];
                         }
+                    }else {
+                        [self.delegate getChapterQuestionInfoDidFailed:[jsonData objectForKey:@"Msg"]];
                     }
                 }else {
                     [self.delegate getChapterQuestionInfoDidFailed:@"加载失败!"];
