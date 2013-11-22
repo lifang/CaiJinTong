@@ -12,7 +12,7 @@
 #import "Section.h"
 #import "CommentModel.h"
 @interface SectionViewController ()
-
+@property (nonatomic,strong) DRMoviePlayViewController *playerController;
 @end
 
 @implementation SectionViewController
@@ -183,6 +183,7 @@
     }
 }
 -(void)playVideo:(id)sender {
+     
     DLog(@"play");
     self.path = nil;//视频路径
     //先匹配本地,在数据库中查找纪录
@@ -199,7 +200,9 @@
         DLog(@"path = %@",self.path);//本地保存路径
         DRMoviePlayViewController *playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
         playerController.movieUrlString = self.path;
-        [self presentViewController:playerController animated:YES completion:^{
+         [[MZFormSheetBackgroundWindow appearance] setSupportedInterfaceOrientations:UIInterfaceOrientationMaskLandscape];
+       
+        [self presentFormSheetWithViewController:playerController animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
             
         }];
         
@@ -305,13 +308,18 @@
         [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
         dispatch_async(dispatch_get_main_queue(), ^{
             //播放接口
-            DRMoviePlayViewController *playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
-            playerController.movieUrlString = self.path;
-            playerController.sectionId = self.section.sectionId;
+            self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
+            self.playerController.movieUrlString = self.path;
+            self.playerController.sectionId = self.section.sectionId;
+            
             AppDelegate *app = [AppDelegate sharedInstance];
-            [self presentViewController:playerController animated:YES completion:^{
+            [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
                 
             }];
+//            [[MZFormSheetBackgroundWindow appearance] setSupportedInterfaceOrientations:UIInterfaceOrientationMaskLandscape];
+//            [self presentFormSheetWithViewController:self.playerController animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
+//                
+//            }];
         });
     });
 }

@@ -553,7 +553,7 @@ static NSString *titleName = nil;
             [CaiJinTongManager shared].defaultLeftInset = 200;
             [CaiJinTongManager shared].defaultPortraitTopInset = 20;
             [CaiJinTongManager shared].defaultWidth = 568;
-            [CaiJinTongManager shared].defaultHeight = 984;
+            [CaiJinTongManager shared].defaultHeight = 1004;
             
             ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
             if(self.isSearching)chapterView.isSearch = YES;
@@ -583,19 +583,24 @@ static NSString *titleName = nil;
                 }
                 [chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:tempArray]];
                 self.isSearching = NO;
-                UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:chapterView];
-                
-                
-                MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:navControl];
-                formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromRight;
-                formSheet.shadowRadius = 2.0;
-                formSheet.shadowOpacity = 0.3;
-                formSheet.shouldDismissOnBackgroundViewTap = YES;
-                formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
-                
-                [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
-                   
+                DRNavigationController *navControl = [[DRNavigationController alloc]initWithRootViewController:chapterView];
+                navControl.view.frame = (CGRect){0,0,568,1004};
+                [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
+                    
                 }];
+//                MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:navControl];
+//                formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromRight;
+//                formSheet.shadowRadius = 2.0;
+//                formSheet.shadowOpacity = 0.3;
+//                formSheet.shouldDismissOnBackgroundViewTap = YES;
+//                formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
+//                [[MZFormSheetBackgroundWindow appearance] setBackgroundBlurEffect:NO];
+//                [[MZFormSheetBackgroundWindow appearance] setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5]];
+//                [[MZFormSheetBackgroundWindow appearance] setSupportedInterfaceOrientations:UIInterfaceOrientationMaskPortrait];
+//                
+//                [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+//                   
+//                }];
             }
         });
     });

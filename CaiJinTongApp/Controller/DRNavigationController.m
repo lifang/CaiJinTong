@@ -7,7 +7,7 @@
 //
 
 #import "DRNavigationController.h"
-
+#import "DRMoviePlayViewController.h"
 @interface DRNavigationController ()
 
 @end
@@ -36,8 +36,13 @@
 }
 
 
+
 - (BOOL)shouldAutorotate {
     UIInterfaceOrientation interface = [[UIApplication sharedApplication] statusBarOrientation];
+    UIViewController *subViewController = [[self childViewControllers] lastObject];
+    if (subViewController && [subViewController isKindOfClass:[DRMoviePlayViewController class]]) {
+        return [subViewController shouldAutorotate];
+    }
     if (UIInterfaceOrientationIsLandscape(interface)) {
         return YES;
     }
@@ -45,10 +50,18 @@
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
+    UIViewController *subViewController = [[self childViewControllers] lastObject];
+    if (subViewController && [subViewController isKindOfClass:[DRMoviePlayViewController class]]) {
+        return [subViewController supportedInterfaceOrientations];
+    }
     return UIInterfaceOrientationMaskPortrait;
 }
 // pre-iOS 6 support
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+    UIViewController *subViewController = [[self childViewControllers] lastObject];
+    if (subViewController && [subViewController isKindOfClass:[DRMoviePlayViewController class]]) {
+        return [subViewController shouldAutorotateToInterfaceOrientation:toInterfaceOrientation];
+    }
     return (toInterfaceOrientation == UIInterfaceOrientationPortrait);
 }
 @end
