@@ -15,8 +15,6 @@
 #import <libxml/xpath.h>
 #import <libxml/xpathInternals.h>
 
-#import "Reachability.h"    //added by hanchao
-
 // An xPath query that controls the external resources ASIWebPageRequest will fetch
 // By default, it will fetch stylesheets, javascript files, images, frames, iframes, and html 5 video / audio
 static xmlChar *xpathExpr = (xmlChar *)"//link/@href|//a/@href|//script/@src|//img/@src|//frame/@src|//iframe/@src|//style|//*/@style|//source/@src|//video/@poster|//audio/@src";
@@ -87,16 +85,6 @@ static NSMutableArray *requestsUsingXMLParser = nil;
 		[super markAsFinished];
 		return;
 	}
-    
-//    //若有网络则先返回html内容
-//    if (([[Reachability reachabilityForInternetConnection] currentReachabilityStatus] != NotReachable)) {
-//        if (isPACFileRequest) {
-//            [super reportFinished];
-//        } else {
-//            [super performSelectorOnMainThread:@selector(reportFinished) withObject:nil waitUntilDone:[NSThread isMainThread]];
-//        }
-//    }
-        
 	webContentType = ASINotParsedWebContentType;
 	NSString *contentType = [[[self responseHeaders] objectForKey:@"Content-Type"] lowercaseString];
 	contentType = [[contentType componentsSeparatedByString:@";"] objectAtIndex:0];

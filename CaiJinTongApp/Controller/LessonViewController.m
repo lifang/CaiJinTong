@@ -282,29 +282,17 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     }else{
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"questionCell"];
         if (indexPath.section == 0) {
-            NSDictionary *d=[self.questionList objectAtIndex:indexPath.row];
-            NSArray *ar=[d valueForKey:@"questionNode"];
-            if (ar.count>0) {
-                cell.backgroundView =  [[UIView alloc] initWithFrame:cell.frame];
-                cell.backgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"headview_cell_background_selected.png")];
-                cell.selectedBackgroundView =  [[UIView alloc] initWithFrame:cell.frame];
-                cell.selectedBackgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"headview_cell_background_selected.png")];
-            }else {
-                cell.backgroundView =  [[UIView alloc] initWithFrame:cell.frame];
-                cell.backgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"headview_cell_background.png")];
-                cell.selectedBackgroundView =  [[UIView alloc] initWithFrame:cell.frame];
-                cell.selectedBackgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"headview_cell_background.png")];
-            }
-            cell.textLabel.text=[NSString stringWithFormat:@"  %@",[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"questionName"]];
-//            [cell setIndentationLevel:indexPath.row];
+            
+            cell.textLabel.text=[NSString stringWithFormat:@"%@",[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"questionName"]];
+            [cell setIndentationLevel:[[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"level"]intValue]];
         }else{
             if (indexPath.row == 0) {
-                cell.textLabel.text = @"  我的提问";
+                cell.textLabel.text = @" 我的提问";
             }else{
-                cell.textLabel.text = @"  我的回答";
+                cell.textLabel.text = @" 我的回答";
             }
         }
-
+        [cell setIndentationLevel:1];
         cell.textLabel.textColor = [UIColor whiteColor];
         cell.detailTextLabel.textColor = [UIColor whiteColor];
         cell.backgroundColor = [UIColor clearColor];
@@ -369,6 +357,25 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                 }
             }
         }else{
+            UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+            MyQuestionAndAnswerViewController *myQAVC = [story instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
+
+            [CaiJinTongManager shared].defaultLeftInset = 200;
+            [CaiJinTongManager shared].defaultPortraitTopInset = 20;
+            [CaiJinTongManager shared].defaultWidth = 568;
+            [CaiJinTongManager shared].defaultHeight = 984;
+            UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:myQAVC];
+            [navControl setNavigationBarHidden:YES];
+            MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:navControl];
+            formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromRight;
+            formSheet.shadowRadius = 2.0;
+            formSheet.shadowOpacity = 0.3;
+            formSheet.shouldDismissOnBackgroundViewTap = YES;
+            formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
+            
+            [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+                
+            }];
             switch (indexPath.row) {
                 case 0:
                     //请求我的提问

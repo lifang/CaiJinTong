@@ -42,6 +42,15 @@
     [self.submitButton setBackgroundImage:btnImageNormal forState:UIControlStateNormal];
     [self.submitButton setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
     
+    [self.drnavigationBar.navigationRightItem setTitle:@"返回" forState:UIControlStateNormal];
+    self.drnavigationBar.navigationRightItem.titleLabel.textColor = [UIColor grayColor];
+    
+    self.drnavigationBar.titleLabel.text = @"我要提问";
+    
+}
+
+-(void)drnavigationBarRightItemClicked:(id)sender{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning

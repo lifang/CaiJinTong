@@ -98,7 +98,7 @@
     self.qDateLabel.backgroundColor = [UIColor clearColor];
     self.qflowerImageView.image = [UIImage imageNamed:@"Q&A-myq_19.png"];
     self.qflowerLabel.backgroundColor = [UIColor clearColor];
-    self.answerTextField.backgroundColor = [UIColor whiteColor];
+    self.answerTextField.backgroundColor = [UIColor clearColor];
     self.acceptAnswerBt.backgroundColor = [UIColor clearColor];
     [self.qflowerBt setTitle:@"" forState:UIControlStateNormal];
     self.questionTextField.backgroundColor = [UIColor colorWithRed:238.0/255.0 green:238.0/255.0 blue:238.0/255.0 alpha:1.0];
@@ -117,8 +117,21 @@
     
     self.acceptAnswerBt.frame = (CGRect){CGRectGetMaxX(self.qflowerLabel.frame)+TEXT_PADDING,0,self.acceptAnswerBt.frame.size};
     
-    CGSize size = [Utility getTextSizeWithString:self.answerTextField.text withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:CGRectGetWidth(self.answerBackgroundView.frame)];
-    self.answerBackgroundView.frame = (CGRect){self.answerBackgroundView.frame.origin,CGRectGetWidth(self.answerBackgroundView.frame),size.height+20};
+//    CGSize size = [Utility getTextSizeWithString:self.answerTextField.text withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:CGRectGetWidth(self.answerBackgroundView.frame)];
+//    self.answerBackgroundView.frame = (CGRect){self.answerBackgroundView.frame.origin,CGRectGetWidth(self.answerBackgroundView.frame),size.height+20};
+    
+//    CGSize size = [Utility getTextSizeWithString:self.answerTextField.text withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:350];
+//    CGSize size = [Utility getTextSizeWithString:self.answerTextField.text withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:350];
+//    self.answerBackgroundView.frame = (CGRect){self.answerBackgroundView.frame.origin,CGRectGetWidth(self.answerBackgroundView.frame),size.height+20};
+    
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:self.answerTextField.text];
+    [str setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6]} range:NSMakeRange(0, self.answerTextField.text.length)];
+    float height = [str boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.answerBackgroundView.frame), 2000) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading|NSStringDrawingTruncatesLastVisibleLine context:nil].size.height + TEXT_PADDING*2;
+    self.answerBackgroundView.frame = (CGRect){self.answerBackgroundView.frame.origin,CGRectGetWidth(self.answerBackgroundView.frame),height};
+//    CGRect frame = self.questionBackgroundView.frame;
+//    frame.origin.y = self.answerBackgroundView.frame.origin.y + self.answerBackgroundView.frame.size.height;
+//    self.questionBackgroundView.frame = frame;
+    
     self.qflowerBt.frame = (CGRect){CGRectGetMinX(self.qflowerImageView.frame)-TEXT_PADDING,0,CGRectGetMaxX(self.qflowerLabel.frame) - CGRectGetMinX(self.qflowerImageView.frame)+TEXT_PADDING*2,CGRectGetHeight(self.qTitleNameLabel.frame)};
 }
 

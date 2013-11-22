@@ -80,6 +80,10 @@ static CGRect frame;
         [self getQuestionInfo];
     }else{
         self.questionList = [NSMutableArray arrayWithArray:[CaiJinTongManager shared].question];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+        });
     }
         //标记是否选中了
     self.questionArrSelSection = [[NSMutableArray alloc] init];
