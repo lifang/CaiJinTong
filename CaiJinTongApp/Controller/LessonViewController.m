@@ -685,4 +685,10 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     [SVProgressHUD dismiss];
     [Utility errorAlert:errorMsg];
 }
+
+#pragma mark UITextField Delegate
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [self SearchBrClicked:nil];//点击键盘return键搜索
+    return YES;
+}
 @end
