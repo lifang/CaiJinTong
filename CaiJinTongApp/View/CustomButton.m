@@ -103,6 +103,7 @@
         playerController = [story instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
         playerController.movieUrlString = path;
         playerController.sectionId = self.buttonModel.sid;
+        playerController.sectionSaveModel = self.buttonModel;
         
         AppDelegate *app = [AppDelegate sharedInstance];
         [app.lessonViewCtrol presentViewController:playerController animated:YES completion:^{
