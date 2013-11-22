@@ -51,7 +51,6 @@
 }
 
 - (IBAction)keyboardFuckOff:(id)sender {
-    NSLog(@"??");
     [self.questionTitleTextField resignFirstResponder];
     [self.questionContentTextView resignFirstResponder];
 }
