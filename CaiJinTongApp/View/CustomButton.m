@@ -98,6 +98,17 @@
 //        [self presentViewController:playerController animated:YES completion:^{
 //            
 //        }];
+        DRMoviePlayViewController *playerController = [[DRMoviePlayViewController alloc] init];
+        UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+        playerController = [story instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
+        [playerController playMovieWithURL:[NSURL fileURLWithPath:path] withFileType:MPMovieSourceTypeFile];
+        playerController.sectionId = self.buttonModel.sid;
+        
+        AppDelegate *app = [AppDelegate sharedInstance];
+        [app.lessonViewCtrol presentViewController:playerController animated:YES completion:^{
+            
+        }];
+
     }
 }
 //下载中

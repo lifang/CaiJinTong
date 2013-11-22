@@ -10,6 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "LessonViewController.h"
 #import "ForgotPwdViewController.h"
+#import "UserModel.h"
 
 @interface LoginViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *userNameTextField;
@@ -76,6 +77,14 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [SVProgressHUD dismissWithSuccess:@"登录成功!"];
         [CaiJinTongManager shared].userId = [NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]];
+        
+        UserModel *user = [[UserModel alloc] init];
+        user.birthday = [NSString stringWithFormat:@"%@",[result objectForKey:@"birthday"]];
+        user.sex = [NSString stringWithFormat:@"%@",[result objectForKey:@"sex"]];
+        user.address = [NSString stringWithFormat:@"%@",[result objectForKey:@"address"]];
+        user.userImg = [NSString stringWithFormat:@"%@",[result objectForKey:@"userImg"]];
+        [CaiJinTongManager shared].user = user;
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
             LessonViewController *lessonView = [story instantiateViewControllerWithIdentifier:@"LessonViewController"];
