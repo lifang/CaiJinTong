@@ -52,16 +52,16 @@
     self.myQuestionItem.delegate = self;
     
     self.isPopupChapter = NO;
-//    [self addMoviePlayBackNotification];
+    [self addMoviePlayBackNotification];
 
-//    [self.moviePlayer play];
-//    self.isPlaying = YES;
-//    [self hiddleMovieHolderView];
-//    [self updateVolumeSlider];
-//    self.moviePlayerHolderView.layer.cornerRadius = 10;
+    [self.moviePlayer play];
+    self.isPlaying = YES;
+    [self hiddleMovieHolderView];
+    [self updateVolumeSlider];
+    self.moviePlayerHolderView.layer.cornerRadius = 10;
     
     //视频加载提示框
-//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     [self.moviePlayerControlBackDownView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"play_barBG.png"]]];
     [self.seekSlider setMaximumTrackImage:[UIImage imageNamed:@"play_black.png"] forState:UIControlStateNormal];

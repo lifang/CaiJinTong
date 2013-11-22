@@ -20,7 +20,7 @@
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",text] forKey:@"text"];
     
-    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=searchLesson&userId=17082&text=study_session_ethics";
+    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=searchLesson&userId=17082&text=";
     
     self.baseDelegate = self;
     self.headers = reqheaders;
