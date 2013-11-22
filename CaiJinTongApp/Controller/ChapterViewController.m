@@ -34,9 +34,7 @@
 }
 
 -(void)drnavigationBarRightItemClicked:(id)sender{
-[self dismissFormSheetControllerAnimated:YES completionHandler:^(MZFormSheetController *formSheetController) {
-    
-}];
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
 }
 
 - (void)viewDidLoad
