@@ -54,7 +54,18 @@
     self.isPopupChapter = NO;
     [self addMoviePlayBackNotification];
 
-    [self.moviePlayer play];
+//    [self.moviePlayer play];
+    self.moviePlayer.view.frame = (CGRect){0,0,1024,768};
+    [self.moviePlayer setFullscreen:YES];
+    if (self.drMovieSourceType == MPMovieSourceTypeFile) {
+        [self.moviePlayer setContentURL:self.movieUrl];
+        [self.moviePlayer play];
+    }else
+        if (self.drMovieSourceType == MPMovieSourceTypeStreaming) {
+            [self.moviePlayer setContentURL:self.movieUrl];
+            [self.moviePlayer prepareToPlay];
+            [self.moviePlayer play];
+        }
     self.isPlaying = YES;
     [self hiddleMovieHolderView];
     [self updateVolumeSlider];
@@ -141,7 +152,6 @@
         }else {
             self.isPopupChapter = NO;
         }
-
     }else
     if (item == self.myQuestionItem) {
         DRCommitQuestionViewController *commitController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRCommitQuestionViewController"];
@@ -168,10 +178,10 @@
     self.isPlaying = !self.isPlaying;
     if (self.isPlaying) {
         [self.moviePlayer play];
-        [self.playBt setBackgroundImage:[UIImage imageNamed:@"play_play.png"] forState:UIControlStateNormal];
+        [self.playBt setBackgroundImage:[UIImage imageNamed:@"play_paused.png"] forState:UIControlStateNormal];
     }else{
         [self.moviePlayer pause];
-        [self.playBt setBackgroundImage:[UIImage imageNamed:@"play_paused.png"] forState:UIControlStateNormal];
+        [self.playBt setBackgroundImage:[UIImage imageNamed:@"play_play.png"] forState:UIControlStateNormal];
     }
 }
 
@@ -307,14 +317,36 @@
 }
 #pragma mark --
 
-#pragma mark DRTakingMovieNoteViewControllerDelegate
--(void)takingMovieNoteController:(DRTakingMovieNoteViewController *)controller commitNote:(NSString *)text{
+#pragma mark -- 提交笔记
+-(void)takingMovieNoteController:(DRTakingMovieNoteViewController *)controller commitNote:(NSString *)text andTime:(NSString *)noteTime{
+    self.commitNoteText = text;
+    self.commitNoteTime = noteTime;
     self.myNotesItem.isSelected = NO;
+    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+        [Utility errorAlert:@"暂无网络!"];
+    }else {
+        [SVProgressHUD showWithStatus:@"玩命加载中..."];
+        SumitNoteInterface *sumitNoteInter = [[SumitNoteInterface alloc]init];
+        self.sumitNoteInterface = sumitNoteInter;
+        self.sumitNoteInterface.delegate = self;
+        [self.sumitNoteInterface getSumitNoteInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionId andNoteTime:noteTime andNoteText:text];
+    }
     
 }
 
 -(void)takingMovieNoteControllerCancel{
     self.myNotesItem.isSelected = NO;
+}
+#pragma mark --
+
+#pragma mark DRMoviePlayerTopBarDelegate
+-(void)drMoviePlayerTopBarbackItemClicked:(DRMoviePlayerTopBar *)topBar{
+[self dismissViewControllerAnimated:YES completion:^{
+    [self.moviePlayer stop];
+    self.moviePlayer = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}];
+    
 }
 #pragma mark --
 
@@ -333,6 +365,12 @@
 
 #pragma mark --
 #pragma mark action
+
+-(void)playMovieWithURL:(NSURL*)url withFileType:(MPMovieSourceType)fileType{
+    self.movieUrl = url;
+    self.drMovieSourceType = fileType;
+}
+
 -(void)addMoviePlayBackNotification{
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeMoviePlayerLoadStateNotification) name:MPMoviePlayerLoadStateDidChangeNotification object:nil];
     
@@ -395,9 +433,11 @@
         if (isHiddlePlayerControlView) {
 //            self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,CGRectGetWidth(self.view.frame) + CGRectGetHeight(self.movieplayerControlBackView.bounds)/2};
             self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,768+50};
+            self.drMovieTopBar.center = (CGPoint){self.movieplayerControlBackView.center.x,-20};
         }else{
 //            self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,CGRectGetWidth(self.view.frame) -CGRectGetHeight(self.movieplayerControlBackView.bounds)/2+2};
             self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,768-50};
+            self.drMovieTopBar.center = (CGPoint){self.movieplayerControlBackView.center.x,20};
             NSLog(@"%@",NSStringFromCGRect(self.movieplayerControlBackView.frame));
         }
     }];
@@ -410,13 +450,10 @@
         _moviePlayer.controlStyle = MPMovieControlStyleNone;
         [self.moviePlayerView addSubview:_moviePlayer.view];
         [self.moviePlayerView sendSubviewToBack:_moviePlayer.view];
-        [_moviePlayer setMovieSourceType:MPMovieSourceTypeFile];
-        _moviePlayer.view.frame = (CGRect){0,0,1024,768};
+        
         [_moviePlayer setScalingMode:MPMovieScalingModeAspectFill];
-        [_moviePlayer setContentURL:[NSURL URLWithString:self.movieUrlString]];
+//        [_moviePlayer setContentURL:[NSURL URLWithString:self.movieUrlString]];
 //        [self.view sendSubviewToBack:_moviePlayer.view];
-        [_moviePlayer setFullscreen:YES];
-        [_moviePlayer prepareToPlay];
     }
     return _moviePlayer;
 }
@@ -464,8 +501,12 @@
 -(void)getSumitNoteInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
-            
+            //前一个view笔记里面加上刚提交的笔记
+            if (self.delegate && [self.delegate respondsToSelector:@selector(drMoviePlayerViewController:commitNotesSuccess:andTime:)]) {
+                [self.delegate drMoviePlayerViewController:self commitNotesSuccess:self.commitNoteText andTime:self.commitNoteTime];
+            }
         });
     });
 }

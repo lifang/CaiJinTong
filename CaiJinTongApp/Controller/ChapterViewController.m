@@ -48,6 +48,8 @@
     mainBar = nil;
     
     self.searchBar = [[ChapterSearchBar alloc] initWithFrame:(CGRect){50, 64, (self.view.frame.size.width - 200 - 100), 74}];
+    self.searchBar.searchTextField.delegate = self;
+    self.searchBar.searchTextField.returnKeyType = UIReturnKeySearch;
     [self.view addSubview:self.searchBar];
 
     [self.searchBar setHidden:!self.isSearch];
@@ -58,6 +60,7 @@
     [self.drnavigationBar.navigationRightItem setTitle:@"返回" forState:UIControlStateNormal];
     [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
 }
+
 
 
 -(void)reloadDataWithDataArray:(NSArray*)data{
@@ -410,6 +413,7 @@
                     tempArray = [NSMutableArray arrayWithArray:ary];
                 }
                 [self reloadDataWithDataArray:tempArray];
+                
             }
         });
     });
@@ -419,4 +423,9 @@
     [Utility errorAlert:errorMsg];
 }
 
+#pragma mark UITextField Delegate
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [self searchBtClicked];
+    return YES;
+}
 @end

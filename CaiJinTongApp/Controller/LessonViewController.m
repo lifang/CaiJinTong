@@ -413,11 +413,14 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 
 - (IBAction)questionListBtClicked:(id)sender {
     self.listType = QUEATION_LIST;
-    if (self.questionList.count==0) {
+    if ([CaiJinTongManager shared].question.count == 0) {
         [self getQuestionInfo];
     }else {
-        dispatch_async ( dispatch_get_main_queue (), ^{
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            self.questionList = [NSMutableArray arrayWithArray:[CaiJinTongManager shared].question];
+            dispatch_async ( dispatch_get_main_queue (), ^{
             [self.tableView reloadData];
+            });
         });
     }
 }
@@ -523,8 +526,8 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             [CaiJinTongManager shared].defaultHeight = 1004;
             
             ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
-            if(self.isSearching)chapterView.isSearch = YES;
-            chapterView.searchBar.searchTextField.text = self.searchText.text;
+            if(self.isSearching){chapterView.isSearch = YES;}
+            
             
             if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
                 NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
@@ -543,6 +546,8 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                     }
                 }
                 [chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:tempArray]];
+                chapterView.searchBar.searchTipLabel.text = [NSString stringWithFormat:@"以下是根据内容\"%@\"搜索出的内容",self.searchText.text];
+                chapterView.searchBar.searchTextField.text = self.searchText.text;
                 self.isSearching = NO;
                 DRNavigationController *navControl = [[DRNavigationController alloc]initWithRootViewController:chapterView];
                 navControl.view.frame = (CGRect){0,0,568,1004};
@@ -599,6 +604,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
         self.questionList = [NSMutableArray arrayWithArray:[result valueForKey:@"questionList"]];
+        [CaiJinTongManager shared].question = [NSMutableArray arrayWithArray:[result valueForKey:@"questionList"]];
         //标记是否选中了
         self.questionArrSelSection = [[NSMutableArray alloc] init];
         for (int i =0; i<self.questionList.count; i++) {
@@ -682,5 +688,11 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 -(void)getSearchLessonInfoDidFailed:(NSString *)errorMsg {
     [SVProgressHUD dismiss];
     [Utility errorAlert:errorMsg];
+}
+
+#pragma mark UITextField Delegate
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [self SearchBrClicked:nil];//点击键盘return键搜索
+    return YES;
 }
 @end
