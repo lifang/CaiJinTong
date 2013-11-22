@@ -21,6 +21,9 @@
 
 @property (nonatomic, strong) QuestionInfoInterface *questionInfoInterface;
 @property (nonatomic, strong) NSMutableArray *questionList;
+
+
+
 - (IBAction)spaceAreaClicked:(id)sender;
 - (IBAction)cancelBtnClicked:(UIButton *)sender;
 - (IBAction)commitBtnClicked:(UIButton *)sender;
