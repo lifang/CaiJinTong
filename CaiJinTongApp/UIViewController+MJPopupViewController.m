@@ -196,7 +196,9 @@ static void * const keypath = (void*)&keypath;
             break;
     }
     
-    [self setDismissedCallback:dismissed];
+//    [self setDismissedCallback:dismissed];
+    AppDelegate *app  =[AppDelegate sharedInstance];
+    app.popupedControllerDimissBlock = dismissed;
     DLog(@"%@",[sourceView subviews]);
     DLog(@"%@>>>>%@",[sourceView subviews],sourceView);
 }
@@ -220,6 +222,8 @@ static void * const keypath = (void*)&keypath;
             case MJPopupViewAnimationSlideTopTop:
             case MJPopupViewAnimationSlideTopBottom:
             case MJPopupViewAnimationSlideLeftLeft:
+                [self dismissPopupViewControllerWithanimationType:dismissButton.tag];
+                break;
             case MJPopupViewAnimationSlideLeftRight:
                 [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideRightLeft];
                 break;
@@ -352,12 +356,17 @@ static void * const keypath = (void*)&keypath;
         [self.mj_popupViewController viewDidDisappear:NO];
         self.mj_popupViewController = nil;
         
-        id dismissed = [self dismissedCallback];
-        if (dismissed != nil)
-        {
-            ((void(^)(void))dismissed)();
-            [self setDismissedCallback:nil];
+        AppDelegate *app  =[AppDelegate sharedInstance];
+        if (app.popupedControllerDimissBlock) {
+            app.popupedControllerDimissBlock();
         }
+        
+//        id dismissed = [self dismissedCallback];
+//        if (dismissed != nil)
+//        {
+//            ((void(^)(void))dismissed)();
+//            [self setDismissedCallback:nil];
+//        }
     }];
 }
 
@@ -397,13 +406,16 @@ static void * const keypath = (void*)&keypath;
         [overlayView removeFromSuperview];
         [self.mj_popupViewController viewDidDisappear:NO];
         self.mj_popupViewController = nil;
-        
-        id dismissed = [self dismissedCallback];
-        if (dismissed != nil)
-        {
-            ((void(^)(void))dismissed)();
-            [self setDismissedCallback:nil];
+        AppDelegate *app  =[AppDelegate sharedInstance];
+        if (app.popupedControllerDimissBlock) {
+            app.popupedControllerDimissBlock();
         }
+//        id dismissed = [self dismissedCallback];
+//        if (dismissed != nil)
+//        {
+//            ((void(^)(void))dismissed)();
+//            [self setDismissedCallback:nil];
+//        }
     }];
 }
 

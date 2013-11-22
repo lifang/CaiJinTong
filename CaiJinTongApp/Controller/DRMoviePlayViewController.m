@@ -85,7 +85,12 @@
 -(void)moviePlayBarSelected:(MovieControllerItem *)item{
     if (item == self.chapterListItem) {
         if (!self.isPopupChapter) {
-            Section_ChapterViewController *chapter = [self.storyboard instantiateViewControllerWithIdentifier:@"Section_ChapterViewController"];
+            if (!self.section_chapterController) {
+                self.section_chapterController = [self.storyboard instantiateViewControllerWithIdentifier:@"Section_ChapterViewController"];
+                 [self.view addSubview:self.section_chapterController.view];
+                [self addChildViewController:self.section_chapterController];
+                
+            }
             
             //数据来源
             NSDictionary *dictionary = [Utility initWithJSONFile:@"sectionInfo"];
@@ -122,17 +127,16 @@
                         section.sectionList = [NSMutableArray arrayWithArray:section_tempArray];
                     }
                 }
-                chapter.dataArray = [NSMutableArray arrayWithArray:section.sectionList];
+                self.section_chapterController.dataArray = [NSMutableArray arrayWithArray:section.sectionList];
             }
             
-            chapter.view.frame = (CGRect){1024,0,1024-500,685};
+            self.section_chapterController.view.frame = (CGRect){1024,0,1024-500,685};
+            [self.movieplayerControlBackView setUserInteractionEnabled:NO];
             [UIView animateWithDuration:0.5 animations:^{
-                chapter.view.frame = (CGRect){450,0,1024-450,685};
+                self.section_chapterController.view.frame = (CGRect){450,0,1024-450,685};
             } completion:^(BOOL finished) {
-                
+                [self.movieplayerControlBackView setUserInteractionEnabled:YES];
             }];
-            self.section_chapterController = chapter;
-            [self.view addSubview:chapter.view];
             self.isPopupChapter = YES;
         }else {
             self.isPopupChapter = NO;
@@ -140,20 +144,22 @@
 
     }else
     if (item == self.myQuestionItem) {
-        DRTakingMovieNoteViewController *takingController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRTakingMovieNoteViewController"];
-        takingController.view.frame = (CGRect){0,0,804,426};
-        [self presentPopupViewController:takingController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
-             self.myQuestionItem.isSelected = NO;
+        DRCommitQuestionViewController *commitController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRCommitQuestionViewController"];
+        commitController.view.frame = (CGRect){0,0,804,426};
+        [self presentPopupViewController:commitController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
+            self.myQuestionItem.isSelected = NO;
         }];
         self.isPopupChapter = NO;
     }else
     if (item == self.myNotesItem) {
-        DRCommitQuestionViewController *commitController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRCommitQuestionViewController"];
-        commitController.view.frame = (CGRect){0,0,804,426};
-        [self presentPopupViewController:commitController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
+        DRTakingMovieNoteViewController *takingController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRTakingMovieNoteViewController"];
+        takingController.view.frame = (CGRect){0,0,804,426};
+        [self presentPopupViewController:takingController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
             self.myNotesItem.isSelected = NO;
         }];
         self.isPopupChapter = NO;
+        
+        
     }
 }
 #pragma mark --
@@ -374,10 +380,11 @@
 -(void)setIsPopupChapter:(BOOL)isPopupChapter{
     _isPopupChapter = isPopupChapter;
     if (!isPopupChapter && self.section_chapterController) {
+        [self.movieplayerControlBackView setUserInteractionEnabled:NO];
         [UIView animateWithDuration:0.5 animations:^{
             self.section_chapterController.view.frame = (CGRect){1024,0,1024-500,685};
         } completion:^(BOOL finished) {
-            self.section_chapterController = nil;
+            [self.movieplayerControlBackView setUserInteractionEnabled:YES];
         }];
     }
 }
@@ -400,10 +407,11 @@
     if (!_moviePlayer) {
         _moviePlayer = [[MPMoviePlayerController alloc] init];
         [_moviePlayer setShouldAutoplay:YES];
+        _moviePlayer.controlStyle = MPMovieControlStyleNone;
         [self.moviePlayerView addSubview:_moviePlayer.view];
         [self.moviePlayerView sendSubviewToBack:_moviePlayer.view];
         [_moviePlayer setMovieSourceType:MPMovieSourceTypeFile];
-        _moviePlayer.view.frame = (CGRect){0,0,self.moviePlayerView.frame.size};
+        _moviePlayer.view.frame = (CGRect){0,0,1024,768};
         [_moviePlayer setScalingMode:MPMovieScalingModeAspectFill];
         [_moviePlayer setContentURL:[NSURL URLWithString:self.movieUrlString]];
 //        [self.view sendSubviewToBack:_moviePlayer.view];
