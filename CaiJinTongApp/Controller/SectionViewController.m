@@ -7,7 +7,7 @@
 //
 
 #import "SectionViewController.h"
-#import "DRMoviePlayViewController.h"
+
 #import <QuartzCore/QuartzCore.h>
 #import "Section.h"
 #import "CommentModel.h"
@@ -215,9 +215,10 @@
 //            
 //        }];
         self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
-        self.playerController.movieUrlString = self.path;
+//        self.playerController.movieUrlString = self.path;
+        [self.playerController playMovieWithURL:[NSURL fileURLWithPath:self.path] withFileType:MPMovieSourceTypeFile];
         self.playerController.sectionId = self.section.sectionId;
-        
+        self.playerController.delegate = self;
         AppDelegate *app = [AppDelegate sharedInstance];
         [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
             
@@ -310,6 +311,12 @@
     [self.slideSwitchView buildUI];
 }
 
+#pragma mark DRMoviePlayViewControllerDelegate
+-(void)drMoviePlayerViewController:(DRMoviePlayViewController *)playerController commitNotesSuccess:(NSString *)noteText andTime:(NSString *)noteTime{
+
+}
+#pragma mark --
+
 #pragma mark - 滑动tab视图代理方法
 
 - (NSUInteger)numberOfTab:(SUNSlideSwitchView *)view
@@ -392,9 +399,10 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             //播放接口
             self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
-            self.playerController.movieUrlString = self.path;
+//            self.playerController.movieUrlString = self.path;
+            [self.playerController playMovieWithURL:[NSURL URLWithString:self.path] withFileType:MPMovieSourceTypeStreaming];
             self.playerController.sectionId = self.section.sectionId;
-            
+            self.playerController.delegate = self;
             AppDelegate *app = [AppDelegate sharedInstance];
             [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
                 

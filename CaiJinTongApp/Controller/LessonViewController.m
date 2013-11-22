@@ -292,7 +292,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                 cell.textLabel.text = @" 我的回答";
             }
         }
-
+        [cell setIndentationLevel:1];
         cell.textLabel.textColor = [UIColor whiteColor];
         cell.detailTextLabel.textColor = [UIColor whiteColor];
         cell.backgroundColor = [UIColor clearColor];
@@ -359,7 +359,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         }else{
             UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
             MyQuestionAndAnswerViewController *myQAVC = [story instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
-//            myQAVC.view.frame = CGRectMake(0, 0, 768-200, 1024-20);
+
             [CaiJinTongManager shared].defaultLeftInset = 200;
             [CaiJinTongManager shared].defaultPortraitTopInset = 20;
             [CaiJinTongManager shared].defaultWidth = 568;

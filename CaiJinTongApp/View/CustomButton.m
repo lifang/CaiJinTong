@@ -101,7 +101,7 @@
         DRMoviePlayViewController *playerController = [[DRMoviePlayViewController alloc] init];
         UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
         playerController = [story instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
-        playerController.movieUrlString = path;
+        [playerController playMovieWithURL:[NSURL fileURLWithPath:path] withFileType:MPMovieSourceTypeFile];
         playerController.sectionId = self.buttonModel.sid;
         
         AppDelegate *app = [AppDelegate sharedInstance];
