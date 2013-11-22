@@ -17,7 +17,7 @@
 @property (retain, nonatomic) Reachability *hostReach;
 //网络是否连接
 @property (assign, nonatomic) BOOL isReachable;
-
+@property (assign, nonatomic) BOOL isLocal;
 @property (strong, nonatomic) DownloadService *mDownloadService;
 @property (strong, nonatomic)  LessonViewController *lessonViewCtrol;
 +(AppDelegate *)sharedInstance;

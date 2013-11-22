@@ -73,7 +73,7 @@
         rs = [self.db executeQuery:@"select name from SQLITE_MASTER where name = 'Chapter'"];
         if (![rs next]) {
             [rs close];
-            [self.db executeUpdate:@"CREATE TABLE Chapter (id INTEGER PRIMARY KEY  NOT NULL , sid VARCHAR, name VARCHAR, sectionId VARCHAR, sectionDownload VARCHAR)"];
+            [self.db executeUpdate:@"CREATE TABLE Chapter (id INTEGER PRIMARY KEY  NOT NULL , sid VARCHAR, name VARCHAR, sectionId VARCHAR, sectionDownload VARCHAR, sectionLastTime VARCHAR)"];
         }
         
         [rs close];

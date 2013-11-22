@@ -13,7 +13,7 @@
 #import "LessonModel.h"
 #import "chapterModel.h"
 #import "SectionModel.h"
-
+//我这边统一做了一个status 的定义 ， status=-1;表示漏了参数，msg返回的是"查询超时"   status=0 表示没有查询出数据,msg: 返回的是"未搜索到任何数据"  status=1 表示数据查询成功
 @implementation LessonInfoInterface
 -(void)getLessonInfoInterfaceDelegateWithUserId:(NSString *)userId {
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
@@ -33,6 +33,7 @@
     
     NSDictionary *resultHeaders = [[request responseHeaders] allKeytoLowerCase];
     if (resultHeaders) {
+        NSString *str = [request responseString];
         NSData *data = [[NSData alloc]initWithData:[request responseData]];
         id jsonObject=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
         if (jsonObject !=nil) {

@@ -22,6 +22,8 @@
 @property (nonatomic, strong) NSString *isAcceptAnswer;//是否采纳了正确答案
 @property (nonatomic, strong) NSMutableArray *answerList;//回答列表
 
+@property (nonatomic, strong) NSString *questiontitle;
+
 @property (nonatomic, assign) int pageIndex;//
 @property (nonatomic, assign) int pageCount;//
 
