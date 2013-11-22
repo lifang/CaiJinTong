@@ -48,6 +48,8 @@
     mainBar = nil;
     
     self.searchBar = [[ChapterSearchBar alloc] initWithFrame:(CGRect){50, 64, (self.view.frame.size.width - 200 - 100), 74}];
+    self.searchBar.searchTextField.delegate = self;
+    self.searchBar.searchTextField.returnKeyType = UIReturnKeySearch;
     [self.view addSubview:self.searchBar];
 
     [self.searchBar setHidden:!self.isSearch];
@@ -419,5 +421,11 @@
 -(void)getChapterInfoDidFailed:(NSString *)errorMsg {
     [SVProgressHUD dismiss];
     [Utility errorAlert:errorMsg];
+}
+
+#pragma mark UITextField Delegate
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [self searchBtClicked];
+    return YES;
 }
 @end

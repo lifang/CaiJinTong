@@ -37,7 +37,8 @@
         
         self.searchTextField = [[UITextField alloc] init];
         self.searchTextField.frame = CGRectMake(55, 10, 250, 33);
-        self.searchTextField.keyboardType = UIKeyboardTypeWebSearch;
+        self.searchTextField.keyboardType = UIKeyboardTypeDefault;
+        self.searchTextField.returnKeyType = UIReturnKeySearch;
 //        self.searchTextField.backgroundColor = [UIColor redColor];
         [self.searchTextField.window makeKeyAndVisible];
 //        self.searchTextField.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleWidth;
