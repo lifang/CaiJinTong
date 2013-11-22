@@ -13,10 +13,6 @@
 		0E52672E1829F4EE0009E535 /* DownLoadInformView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E52672D1829F4EE0009E535 /* DownLoadInformView.xib */; };
 		0E9DA2C0183EF00D000A5995 /* questionInfo副本.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E9DA2BF183EF00D000A5995 /* questionInfo副本.json */; };
 		0E9DA2D8183F3788000A5995 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9DA2D7183F3788000A5995 /* BaseViewController.m */; };
-		0E9DA2E3183F5038000A5995 /* headview_cell_background_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E9DA2DF183F5038000A5995 /* headview_cell_background_selected.png */; };
-		0E9DA2E4183F5038000A5995 /* headview_cell_background_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E9DA2E0183F5038000A5995 /* headview_cell_background_selected@2x.png */; };
-		0E9DA2E5183F5038000A5995 /* headview_cell_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E9DA2E1183F5038000A5995 /* headview_cell_background.png */; };
-		0E9DA2E6183F5038000A5995 /* headview_cell_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E9DA2E2183F5038000A5995 /* headview_cell_background@2x.png */; };
 		0E9DA3B2183F568D000A5995 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9DA361183F568D000A5995 /* ASIAuthenticationDialog.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0E9DA3B3183F568D000A5995 /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9DA364183F568D000A5995 /* ASIDataCompressor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0E9DA3B4183F568D000A5995 /* ASIDataDecompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9DA366183F568D000A5995 /* ASIDataDecompressor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -218,10 +214,10 @@
 		18E32E0B1831FDF900041B8A /* login_10@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E32E051831FDF900041B8A /* login_10@2x.png */; };
 		18E32E0C1831FDF900041B8A /* login_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E32E061831FDF900041B8A /* login_bg@2x.png */; };
 		18F477E9183D9BDA00021886 /* SuggestionFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F477E8183D9BDA00021886 /* SuggestionFeedbackViewController.m */; };
-		18FBCF22183F22270025DAEA /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FBCF21183F22270025DAEA /* UserModel.m */; };
 		18F477EF183DB57000021886 /* progressBar-front.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F477ED183DB57000021886 /* progressBar-front.png */; };
 		18F477F0183DB57000021886 /* progressBar-background.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F477EE183DB57000021886 /* progressBar-background.png */; };
 		18F477F4183DC5CA00021886 /* nothing.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F477F3183DC5CA00021886 /* nothing.png */; };
+		18FBCF22183F22270025DAEA /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FBCF21183F22270025DAEA /* UserModel.m */; };
 		63091FFA1827435400C1AF07 /* LessonListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63091FF91827435400C1AF07 /* LessonListCell.m */; };
 		63091FFD1827473400C1AF07 /* LessonListHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63091FFC1827473300C1AF07 /* LessonListHeaderView.m */; };
 		63098F39183CBA0B007A76AC /* MJPopupBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63098F36183CBA0B007A76AC /* MJPopupBackgroundView.m */; };
@@ -285,10 +281,6 @@
 		0E9DA2BF183EF00D000A5995 /* questionInfo副本.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "questionInfo副本.json"; sourceTree = "<group>"; };
 		0E9DA2D6183F3788000A5995 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		0E9DA2D7183F3788000A5995 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
-		0E9DA2DF183F5038000A5995 /* headview_cell_background_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = headview_cell_background_selected.png; sourceTree = "<group>"; };
-		0E9DA2E0183F5038000A5995 /* headview_cell_background_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "headview_cell_background_selected@2x.png"; sourceTree = "<group>"; };
-		0E9DA2E1183F5038000A5995 /* headview_cell_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = headview_cell_background.png; sourceTree = "<group>"; };
-		0E9DA2E2183F5038000A5995 /* headview_cell_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "headview_cell_background@2x.png"; sourceTree = "<group>"; };
 		0E9DA360183F568D000A5995 /* ASIAuthenticationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIAuthenticationDialog.h; sourceTree = "<group>"; };
 		0E9DA361183F568D000A5995 /* ASIAuthenticationDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIAuthenticationDialog.m; sourceTree = "<group>"; };
 		0E9DA362183F568D000A5995 /* ASICacheDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASICacheDelegate.h; sourceTree = "<group>"; };
@@ -613,11 +605,11 @@
 		18E32E061831FDF900041B8A /* login_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "login_bg@2x.png"; path = "login-images/login_bg@2x.png"; sourceTree = "<group>"; };
 		18F477E7183D9BDA00021886 /* SuggestionFeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuggestionFeedbackViewController.h; sourceTree = "<group>"; };
 		18F477E8183D9BDA00021886 /* SuggestionFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuggestionFeedbackViewController.m; sourceTree = "<group>"; };
-		18FBCF20183F22270025DAEA /* UserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
-		18FBCF21183F22270025DAEA /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
 		18F477ED183DB57000021886 /* progressBar-front.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progressBar-front.png"; sourceTree = "<group>"; };
 		18F477EE183DB57000021886 /* progressBar-background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progressBar-background.png"; sourceTree = "<group>"; };
 		18F477F3183DC5CA00021886 /* nothing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nothing.png; sourceTree = "<group>"; };
+		18FBCF20183F22270025DAEA /* UserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
+		18FBCF21183F22270025DAEA /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
 		63091FF81827435400C1AF07 /* LessonListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LessonListCell.h; path = lessonList/LessonListCell.h; sourceTree = "<group>"; };
 		63091FF91827435400C1AF07 /* LessonListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LessonListCell.m; path = lessonList/LessonListCell.m; sourceTree = "<group>"; };
 		63091FFB1827473300C1AF07 /* LessonListHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LessonListHeaderView.h; path = lessonList/LessonListHeaderView.h; sourceTree = "<group>"; };
@@ -988,10 +980,6 @@
 				6323875F18222A1500C71535 /* DRNaviGationBarController.m */,
 				0EAFA12A18224C2700D01D3E /* LessonViewController.h */,
 				0EAFA12B18224C2700D01D3E /* LessonViewController.m */,
-				0E9DA2DF183F5038000A5995 /* headview_cell_background_selected.png */,
-				0E9DA2E0183F5038000A5995 /* headview_cell_background_selected@2x.png */,
-				0E9DA2E1183F5038000A5995 /* headview_cell_background.png */,
-				0E9DA2E2183F5038000A5995 /* headview_cell_background@2x.png */,
 				0EA7EF641827445500C47F69 /* ChapterViewController.h */,
 				0EA7EF651827445500C47F69 /* ChapterViewController.m */,
 				0EA2A92118289E17003D152E /* SectionViewController.h */,
@@ -1585,7 +1573,6 @@
 				0EAFA0F81822167800D01D3E /* questionList.json in Resources */,
 				630B03C61820F5BB00F72C4C /* Images.xcassets in Resources */,
 				18491C4518347A13003C82E4 /* course-courses_06_right@2x.png in Resources */,
-				0E9DA2E3183F5038000A5995 /* headview_cell_background_selected.png in Resources */,
 				1836AFE3183AF875009E65B5 /* settings_未选中.png in Resources */,
 				0EAFA0F11822167800D01D3E /* getUserQuestion.json in Resources */,
 				18C9313418363B2A00FBE1A8 /* play_play@2x.png in Resources */,
@@ -1593,7 +1580,6 @@
 				18C9313118363B2A00FBE1A8 /* play_movieSlider@2x.png in Resources */,
 				18491C4F1834C7C3003C82E4 /* s@2x.png in Resources */,
 				1815324D1835FE9A0078A410 /* course-onecourse_03@2x.png in Resources */,
-				0E9DA2E5183F5038000A5995 /* headview_cell_background.png in Resources */,
 				0EAFA0F01822167800D01D3E /* findPassWord.json in Resources */,
 				630B95FC182A4A7F000ED31E /* retreat.png in Resources */,
 				18C9313618363B2A00FBE1A8 /* play_volume@2x.png in Resources */,
@@ -1601,7 +1587,6 @@
 				630B95FD182A4A7F000ED31E /* speed.png in Resources */,
 				1815324F1835FEA10078A410 /* x@2x.png in Resources */,
 				18E32DFE1831FD7F00041B8A /* login_bg_7@2x.png in Resources */,
-				0E9DA2E6183F5038000A5995 /* headview_cell_background@2x.png in Resources */,
 				0EAFA0FA1822167800D01D3E /* searchQuestion.json in Resources */,
 				0EA7176D1829E2D800560885 /* backgroundStar@2x.png in Resources */,
 				0EAFA0EF1822167800D01D3E /* commentList.json in Resources */,
@@ -1646,7 +1631,6 @@
 				181532491835EA400078A410 /* pdlay-courselistd_07@2x.png in Resources */,
 				18E32E091831FDF900041B8A /* login_03@2x.png in Resources */,
 				18153251183608330078A410 /* Q&A-myq_11@2x.png in Resources */,
-				0E9DA2E4183F5038000A5995 /* headview_cell_background_selected@2x.png in Resources */,
 				0EAFA0F91822167800D01D3E /* searchLesson.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1720,10 +1704,7 @@
 				0E9DA3BD183F568D000A5995 /* ASICloudFilesContainerRequest.m in Sources */,
 				0EA7EF4318238C8A00C47F69 /* LessonQuestionModel.m in Sources */,
 				0E9DA2D8183F3788000A5995 /* BaseViewController.m in Sources */,
-
-				0EDF4DE318210241007161E0 /* ASIAuthenticationDialog.m in Sources */,
 				18FBCF22183F22270025DAEA /* UserModel.m in Sources */,
-
 				0EA7EF1F18234B5600C47F69 /* QuestionInfoInterface.m in Sources */,
 				0EA7EF4918238D4600C47F69 /* QuestionModel.m in Sources */,
 				0E9DA3B9183F568D000A5995 /* ASINetworkQueue.m in Sources */,
