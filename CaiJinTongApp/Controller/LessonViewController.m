@@ -294,7 +294,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                 cell.selectedBackgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"headview_cell_background.png")];
             }
             cell.textLabel.text=[NSString stringWithFormat:@"  %@",[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"questionName"]];
-            [cell setIndentationLevel:indexPath.row];
+//            [cell setIndentationLevel:indexPath.row];
         }else{
             if (indexPath.row == 0) {
                 cell.textLabel.text = @"  我的提问";
