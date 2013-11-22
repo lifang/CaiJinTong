@@ -207,14 +207,21 @@
         }
         self.path = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@.mp4",self.section.sectionId]];
         DLog(@"path = %@",self.path);//本地保存路径
-        DRMoviePlayViewController *playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
-        playerController.movieUrlString = self.path;
-         [[MZFormSheetBackgroundWindow appearance] setSupportedInterfaceOrientations:UIInterfaceOrientationMaskLandscape];
-       
-        [self presentFormSheetWithViewController:playerController animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
+//        DRMoviePlayViewController *playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
+//        playerController.movieUrlString = self.path;
+//         [[MZFormSheetBackgroundWindow appearance] setSupportedInterfaceOrientations:UIInterfaceOrientationMaskLandscape];
+//       
+//        [self presentFormSheetWithViewController:playerController animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
+//            
+//        }];
+        self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
+        self.playerController.movieUrlString = self.path;
+        self.playerController.sectionId = self.section.sectionId;
+        
+        AppDelegate *app = [AppDelegate sharedInstance];
+        [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
             
         }];
-        
     }else {
         //在线播放
         self.path = self.section.sectionSD;
@@ -351,7 +358,7 @@
             self.playerController.sectionId = self.section.sectionId;
             
             AppDelegate *app = [AppDelegate sharedInstance];
-            [self presentViewController:self.playerController animated:YES completion:^{
+            [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
                 
             }];
 //            [[MZFormSheetBackgroundWindow appearance] setSupportedInterfaceOrientations:UIInterfaceOrientationMaskLandscape];

@@ -44,25 +44,10 @@
     }
     return self;
 }
--(void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-    [[UIApplication sharedApplication] setStatusBarOrientation:UIDeviceOrientationLandscapeRight animated:YES];
-    CGFloat duration = [UIApplication sharedApplication].statusBarOrientationAnimationDuration;
-    //设置旋转动画
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:duration];
 
-    //设置视图旋转
-    self.view.bounds = CGRectMake(0, 0, 1024, 768);
-    self.view.transform = CGAffineTransformMakeRotation(M_PI*1.5);
-    [UIView commitAnimations];
-}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    
     self.myNotesItem.delegate = self;
     self.myQuestionItem.delegate = self;
     
@@ -155,7 +140,7 @@
 
     }else
     if (item == self.myQuestionItem) {
-        DRTakingMovieNoteViewController *takingController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRTakingMovieNoteViewController"];
+        DRTakingMovieNoteViewController *takingController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRCommitQuestionViewController"];
         takingController.view.frame = (CGRect){0,0,804,426};
         [self presentPopupViewController:takingController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
              self.myQuestionItem.isSelected = NO;
@@ -163,7 +148,7 @@
         self.isPopupChapter = NO;
     }else
     if (item == self.myNotesItem) {
-        DRCommitQuestionViewController *commitController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRCommitQuestionViewController"];
+        DRCommitQuestionViewController *commitController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRTakingMovieNoteViewController"];
         commitController.view.frame = (CGRect){0,0,804,426};
         [self presentPopupViewController:commitController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
             self.myNotesItem.isSelected = NO;
@@ -177,10 +162,10 @@
     self.isPlaying = !self.isPlaying;
     if (self.isPlaying) {
         [self.moviePlayer play];
-        [self.playBt setBackgroundImage:[UIImage imageNamed:@"play_play.png"] forState:UIControlStateNormal];
+        [self.playBt setBackgroundImage:[UIImage imageNamed:@"play_paused.png"] forState:UIControlStateNormal];
     }else{
         [self.moviePlayer pause];
-        [self.playBt setBackgroundImage:[UIImage imageNamed:@"play_paused.png"] forState:UIControlStateNormal];
+        [self.playBt setBackgroundImage:[UIImage imageNamed:@"play_play.png"] forState:UIControlStateNormal];
     }
 }
 
@@ -439,7 +424,7 @@
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskLandscape;
+    return UIInterfaceOrientationMaskLandscapeLeft;
 }
 // pre-iOS 6 support
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
