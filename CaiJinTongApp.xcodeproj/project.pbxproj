@@ -12,11 +12,10 @@
 		0E52672C1829EE990009E535 /* DownLoadInformView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E52672B1829EE990009E535 /* DownLoadInformView.m */; };
 		0E52672E1829F4EE0009E535 /* DownLoadInformView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E52672D1829F4EE0009E535 /* DownLoadInformView.xib */; };
 		0E9DA2C0183EF00D000A5995 /* questionInfo副本.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E9DA2BF183EF00D000A5995 /* questionInfo副本.json */; };
-		0E9DA2C5183EF8A3000A5995 /* headview_cell_background_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E9DA2C1183EF8A3000A5995 /* headview_cell_background_selected.png */; };
-		0E9DA2C6183EF8A3000A5995 /* headview_cell_background_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E9DA2C2183EF8A3000A5995 /* headview_cell_background_selected@2x.png */; };
-		0E9DA2C7183EF8A3000A5995 /* headview_cell_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E9DA2C3183EF8A3000A5995 /* headview_cell_background.png */; };
-		0E9DA2C8183EF8A3000A5995 /* headview_cell_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E9DA2C4183EF8A3000A5995 /* headview_cell_background@2x.png */; };
 		0E9DA2D8183F3788000A5995 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9DA2D7183F3788000A5995 /* BaseViewController.m */; };
+		0E9DA2DC183F42AC000A5995 /* 11@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E9DA2D9183F42AC000A5995 /* 11@2x.png */; };
+		0E9DA2DD183F42AC000A5995 /* 12@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E9DA2DA183F42AC000A5995 /* 12@2x.png */; };
+		0E9DA2DE183F42AC000A5995 /* 13@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E9DA2DB183F42AC000A5995 /* 13@2x.png */; };
 		0EA137931831E3D600DA5D23 /* login_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EA137921831E3D600DA5D23 /* login_bg@2x.png */; };
 		0EA264C71839BFEB0037489C /* InfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA264C61839BFEB0037489C /* InfoCell.m */; };
 		0EA264D01839D2A40037489C /* UIImage+Additional.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA264C91839D2A40037489C /* UIImage+Additional.m */; };
@@ -287,12 +286,11 @@
 		0E52672B1829EE990009E535 /* DownLoadInformView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownLoadInformView.m; sourceTree = "<group>"; };
 		0E52672D1829F4EE0009E535 /* DownLoadInformView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DownLoadInformView.xib; sourceTree = "<group>"; };
 		0E9DA2BF183EF00D000A5995 /* questionInfo副本.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "questionInfo副本.json"; sourceTree = "<group>"; };
-		0E9DA2C1183EF8A3000A5995 /* headview_cell_background_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = headview_cell_background_selected.png; sourceTree = "<group>"; };
-		0E9DA2C2183EF8A3000A5995 /* headview_cell_background_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "headview_cell_background_selected@2x.png"; sourceTree = "<group>"; };
-		0E9DA2C3183EF8A3000A5995 /* headview_cell_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = headview_cell_background.png; sourceTree = "<group>"; };
-		0E9DA2C4183EF8A3000A5995 /* headview_cell_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "headview_cell_background@2x.png"; sourceTree = "<group>"; };
 		0E9DA2D6183F3788000A5995 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		0E9DA2D7183F3788000A5995 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		0E9DA2D9183F42AC000A5995 /* 11@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "11@2x.png"; sourceTree = "<group>"; };
+		0E9DA2DA183F42AC000A5995 /* 12@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "12@2x.png"; sourceTree = "<group>"; };
+		0E9DA2DB183F42AC000A5995 /* 13@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "13@2x.png"; sourceTree = "<group>"; };
 		0EA137921831E3D600DA5D23 /* login_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_bg@2x.png"; sourceTree = "<group>"; };
 		0EA264C51839BFEB0037489C /* InfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoCell.h; sourceTree = "<group>"; };
 		0EA264C61839BFEB0037489C /* InfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoCell.m; sourceTree = "<group>"; };
@@ -1005,10 +1003,9 @@
 				6323875F18222A1500C71535 /* DRNaviGationBarController.m */,
 				0EAFA12A18224C2700D01D3E /* LessonViewController.h */,
 				0EAFA12B18224C2700D01D3E /* LessonViewController.m */,
-				0E9DA2C1183EF8A3000A5995 /* headview_cell_background_selected.png */,
-				0E9DA2C2183EF8A3000A5995 /* headview_cell_background_selected@2x.png */,
-				0E9DA2C3183EF8A3000A5995 /* headview_cell_background.png */,
-				0E9DA2C4183EF8A3000A5995 /* headview_cell_background@2x.png */,
+				0E9DA2D9183F42AC000A5995 /* 11@2x.png */,
+				0E9DA2DA183F42AC000A5995 /* 12@2x.png */,
+				0E9DA2DB183F42AC000A5995 /* 13@2x.png */,
 				0EA7EF641827445500C47F69 /* ChapterViewController.h */,
 				0EA7EF651827445500C47F69 /* ChapterViewController.m */,
 				0EA2A92118289E17003D152E /* SectionViewController.h */,
@@ -1588,7 +1585,8 @@
 				18C9312C18363B2A00FBE1A8 /* btn1@2x.png in Resources */,
 				18E32E0B1831FDF900041B8A /* login_10@2x.png in Resources */,
 				18C9313018363B2A00FBE1A8 /* play_chat@2x.png in Resources */,
-				0E9DA2C8183EF8A3000A5995 /* headview_cell_background@2x.png in Resources */,
+				0E9DA2DD183F42AC000A5995 /* 12@2x.png in Resources */,
+				0E9DA2DE183F42AC000A5995 /* 13@2x.png in Resources */,
 				630B03C11820F5BB00F72C4C /* Main_iPad.storyboard in Resources */,
 				1815325418360DE60078A410 /* Q&A-myq_19@2x.png in Resources */,
 				18E32E0C1831FDF900041B8A /* login_bg@2x.png in Resources */,
@@ -1622,7 +1620,6 @@
 				0EA7176D1829E2D800560885 /* backgroundStar@2x.png in Resources */,
 				0EAFA0EF1822167800D01D3E /* commentList.json in Resources */,
 				0EA7EF0D18233B0000C47F69 /* jiantou_down.png in Resources */,
-				0E9DA2C6183EF8A3000A5995 /* headview_cell_background_selected@2x.png in Resources */,
 				18491C4118345FF8003C82E4 /* play_05@2x.png in Resources */,
 				0EAFA0ED1822167800D01D3E /* chapterInfo.json in Resources */,
 				6376B3061839E62F0015C537 /* line2@2x.png in Resources */,
@@ -1632,7 +1629,6 @@
 				18E32E0A1831FDF900041B8A /* login_07@2x.png in Resources */,
 				0EAD1F7B182B369600204FC3 /* frame.png in Resources */,
 				18C9312F18363B2A00FBE1A8 /* play_bluetiao@2x.png in Resources */,
-				0E9DA2C7183EF8A3000A5995 /* headview_cell_background.png in Resources */,
 				6309F8F9183AFAF6001397C0 /* play-M2@2x.png in Resources */,
 				181532471835EA330078A410 /* play-courselist_06@2x.png in Resources */,
 				1815324B1835F0810078A410 /* play-courselist_0df3@2x.png in Resources */,
@@ -1648,10 +1644,10 @@
 				181532451835CD3D0078A410 /* btn0@2x.png in Resources */,
 				0EA7EF0C18233B0000C47F69 /* jiantou_up.png in Resources */,
 				0EAFA0F71822167800D01D3E /* questionInfo.json in Resources */,
-				0E9DA2C5183EF8A3000A5995 /* headview_cell_background_selected.png in Resources */,
 				0EAFA107182223BD00D01D3E /* loginBgImage_v.png in Resources */,
 				1836AFE4183AF875009E65B5 /* settings_选中.png in Resources */,
 				0E52672E1829F4EE0009E535 /* DownLoadInformView.xib in Resources */,
+				0E9DA2DC183F42AC000A5995 /* 11@2x.png in Resources */,
 				0EAFA0F51822167800D01D3E /* playBack.json in Resources */,
 				18F477F8183DD4FE00021886 /* play-courselist_06@2x.png in Resources */,
 				630B03B51820F5BB00F72C4C /* InfoPlist.strings in Resources */,

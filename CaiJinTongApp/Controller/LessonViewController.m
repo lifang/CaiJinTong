@@ -284,16 +284,18 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         if (indexPath.section == 0) {
             NSDictionary *d=[self.questionList objectAtIndex:indexPath.row];
             NSArray *ar=[d valueForKey:@"questionNode"];
+            cell.backgroundView = nil;
+            cell.selectedBackgroundView = nil;
             if (ar.count>0) {
                 cell.backgroundView =  [[UIView alloc] initWithFrame:cell.frame];
-                cell.backgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"headview_cell_background_selected.png")];
+                cell.backgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"13")];
                 cell.selectedBackgroundView =  [[UIView alloc] initWithFrame:cell.frame];
-                cell.selectedBackgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"headview_cell_background_selected.png")];
+                cell.selectedBackgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"12")];
             }else {
                 cell.backgroundView =  [[UIView alloc] initWithFrame:cell.frame];
-                cell.backgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"headview_cell_background.png")];
+                cell.backgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"11")];
                 cell.selectedBackgroundView =  [[UIView alloc] initWithFrame:cell.frame];
-                cell.selectedBackgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"headview_cell_background.png")];
+                cell.selectedBackgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"11")];
             }
             cell.textLabel.text=[NSString stringWithFormat:@"  %@",[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"questionName"]];
 //            [cell setIndentationLevel:indexPath.row];
