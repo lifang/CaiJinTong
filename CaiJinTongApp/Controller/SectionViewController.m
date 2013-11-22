@@ -351,7 +351,7 @@
             self.playerController.sectionId = self.section.sectionId;
             
             AppDelegate *app = [AppDelegate sharedInstance];
-            [self presentViewController:self.playerController animated:YES completion:^{
+            [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
                 
             }];
 //            [[MZFormSheetBackgroundWindow appearance] setSupportedInterfaceOrientations:UIInterfaceOrientationMaskLandscape];

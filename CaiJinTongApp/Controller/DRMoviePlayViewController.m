@@ -44,25 +44,10 @@
     }
     return self;
 }
--(void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-    [[UIApplication sharedApplication] setStatusBarOrientation:UIDeviceOrientationLandscapeRight animated:YES];
-    CGFloat duration = [UIApplication sharedApplication].statusBarOrientationAnimationDuration;
-    //设置旋转动画
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:duration];
 
-    //设置视图旋转
-    self.view.bounds = CGRectMake(0, 0, 1024, 768);
-    self.view.transform = CGAffineTransformMakeRotation(M_PI*1.5);
-    [UIView commitAnimations];
-}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    
     self.myNotesItem.delegate = self;
     self.myQuestionItem.delegate = self;
     
