@@ -62,6 +62,11 @@
 }
 
 
+- (IBAction)keyboardGoAway:(id)sender {
+    
+    [self.searchBar.searchTextField resignFirstResponder];
+}
+
 -(void)reloadDataWithDataArray:(NSArray*)data{
     self.recentArray = data;
     if (self.recentArray.count>0) {
@@ -486,5 +491,4 @@
     [SVProgressHUD dismiss];
     [Utility errorAlert:errorMsg];
 }
-
 @end

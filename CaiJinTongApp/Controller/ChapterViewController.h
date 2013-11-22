@@ -28,6 +28,7 @@
 @property (nonatomic,strong) NSMutableArray *searchResultArray;//搜索结果
 
 @property (assign,nonatomic) BOOL isSearch;
+- (IBAction)keyboardGoAway:(id)sender;
 
 -(void)reloadDataWithDataArray:(NSArray*)data;
 @end
