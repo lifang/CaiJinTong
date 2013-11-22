@@ -294,7 +294,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                 cell.selectedBackgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"headview_cell_background.png")];
             }
             cell.textLabel.text=[NSString stringWithFormat:@"  %@",[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"questionName"]];
-//            [cell setIndentationLevel:[[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"level"] intValue]];
+            [cell setIndentationLevel:indexPath.row];
         }else{
             if (indexPath.row == 0) {
                 cell.textLabel.text = @"  我的提问";
@@ -492,13 +492,6 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     return _questionArrSelSection;
 }
 
-//-(NSMutableArray *)questionList{
-//    if (!_questionList) {
-//        _questionList = [NSMutableArray array];
-//    }
-//    return _questionList;
-//}
-
 -(void)setListType:(TableListType)listType{
     if (listType == LESSON_LIST) {
         self.lessonListTitleLabel.text = @"我的课程";
@@ -525,7 +518,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             [CaiJinTongManager shared].defaultLeftInset = 200;
             [CaiJinTongManager shared].defaultPortraitTopInset = 20;
             [CaiJinTongManager shared].defaultWidth = 568;
-            [CaiJinTongManager shared].defaultHeight = 984;
+            [CaiJinTongManager shared].defaultHeight = 1004;
             
             ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
             if(self.isSearching)chapterView.isSearch = YES;
@@ -549,19 +542,24 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                 }
                 [chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:tempArray]];
                 self.isSearching = NO;
-                UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:chapterView];
+                DRNavigationController *navControl = [[DRNavigationController alloc]initWithRootViewController:chapterView];
+                navControl.view.frame = (CGRect){0,0,568,1004};
                 [navControl setNavigationBarHidden:YES];
-                
-                MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:navControl];
-                formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromRight;
-                formSheet.shadowRadius = 2.0;
-                formSheet.shadowOpacity = 0.3;
-                formSheet.shouldDismissOnBackgroundViewTap = YES;
-                formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
-                
-                [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
-                   
+                [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
                 }];
+//                MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:navControl];
+//                formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromRight;
+//                formSheet.shadowRadius = 2.0;
+//                formSheet.shadowOpacity = 0.3;
+//                formSheet.shouldDismissOnBackgroundViewTap = YES;
+//                formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
+//                [[MZFormSheetBackgroundWindow appearance] setBackgroundBlurEffect:NO];
+//                [[MZFormSheetBackgroundWindow appearance] setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5]];
+//                [[MZFormSheetBackgroundWindow appearance] setSupportedInterfaceOrientations:UIInterfaceOrientationMaskPortrait];
+//                
+//                [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+//                   
+//                }];
             }
         });
     });
@@ -613,7 +611,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     [SVProgressHUD dismiss];
     [Utility errorAlert:errorMsg];
 }
-#pragma mark--
+#pragma mark--ChapterQuestionInterfaceDelegate
 -(void)getChapterQuestionInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];

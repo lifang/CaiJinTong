@@ -44,17 +44,31 @@
     }
     return self;
 }
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [[UIApplication sharedApplication] setStatusBarOrientation:UIDeviceOrientationLandscapeRight animated:YES];
+    CGFloat duration = [UIApplication sharedApplication].statusBarOrientationAnimationDuration;
+    //设置旋转动画
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:duration];
 
+    //设置视图旋转
+    self.view.bounds = CGRectMake(0, 0, 1024, 768);
+    self.view.transform = CGAffineTransformMakeRotation(M_PI*1.5);
+    [UIView commitAnimations];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    
     self.myNotesItem.delegate = self;
     self.myQuestionItem.delegate = self;
     
     self.isPopupChapter = NO;
     [self addMoviePlayBackNotification];
-//    self.movieUrlString =  @"http://lms.finance365.com/data/course/6/304/2690/20130717091047687.mp4";
-//    self.movieUrlString = @"http://archive.org/download/WaltDisneyCartoons-MickeyMouseMinnieMouseDonaldDuckGoofyAndPluto/WaltDisneyCartoons-MickeyMouseMinnieMouseDonaldDuckGoofyAndPluto-HawaiianHoliday1937-Video.mp4";
+
     [self.moviePlayer play];
     self.isPlaying = YES;
     [self hiddleMovieHolderView];
@@ -143,17 +157,17 @@
     if (item == self.myQuestionItem) {
         DRTakingMovieNoteViewController *takingController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRTakingMovieNoteViewController"];
         takingController.view.frame = (CGRect){0,0,804,426};
-//        [self presentPopupViewController:takingController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
-//             self.myQuestionItem.isSelected = NO;
-//        }];
+        [self presentPopupViewController:takingController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
+             self.myQuestionItem.isSelected = NO;
+        }];
         self.isPopupChapter = NO;
     }else
     if (item == self.myNotesItem) {
         DRCommitQuestionViewController *commitController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRCommitQuestionViewController"];
         commitController.view.frame = (CGRect){0,0,804,426};
-//        [self presentPopupViewController:commitController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
-//            self.myNotesItem.isSelected = NO;
-//        }];
+        [self presentPopupViewController:commitController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
+            self.myNotesItem.isSelected = NO;
+        }];
         self.isPopupChapter = NO;
     }
 }
@@ -387,9 +401,11 @@
     _isHiddlePlayerControlView = isHiddlePlayerControlView;
     [UIView animateWithDuration:0.5 animations:^{
         if (isHiddlePlayerControlView) {
-            self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,CGRectGetWidth(self.view.frame) + CGRectGetHeight(self.movieplayerControlBackView.bounds)/2};
+//            self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,CGRectGetWidth(self.view.frame) + CGRectGetHeight(self.movieplayerControlBackView.bounds)/2};
+            self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,768+50};
         }else{
-            self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,CGRectGetWidth(self.view.frame) -CGRectGetHeight(self.movieplayerControlBackView.bounds)/2+2};
+//            self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,CGRectGetWidth(self.view.frame) -CGRectGetHeight(self.movieplayerControlBackView.bounds)/2+2};
+            self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,768-50};
             NSLog(@"%@",NSStringFromCGRect(self.movieplayerControlBackView.frame));
         }
     }];
@@ -415,7 +431,11 @@
 #pragma mark --
 
 - (BOOL)shouldAutorotate {
-    return NO;
+    UIInterfaceOrientation interface = [[UIApplication sharedApplication] statusBarOrientation];
+    if (!UIInterfaceOrientationIsLandscape(interface)) {
+        return YES;
+    }
+    return YES;
 }
 
 - (NSUInteger)supportedInterfaceOrientations {

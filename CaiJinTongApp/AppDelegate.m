@@ -91,6 +91,17 @@
 }
 
 
+-(NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window{
+    NSUInteger orientations = UIInterfaceOrientationMaskAll;
+    
+    if ([MZFormSheetController formSheetControllersStack] > 0) {
+        MZFormSheetController *viewController = [[MZFormSheetController formSheetControllersStack] lastObject];
+        return [viewController.presentedFSViewController supportedInterfaceOrientations];
+    }
+    
+    return orientations;
+}
+
 #pragma mark property
 -(NSMutableArray *)popupedControllerArr{
     if (!_popupedControllerArr) {
