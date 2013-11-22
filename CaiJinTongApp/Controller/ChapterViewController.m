@@ -34,9 +34,7 @@
 }
 
 -(void)drnavigationBarRightItemClicked:(id)sender{
-[self dismissFormSheetControllerAnimated:YES completionHandler:^(MZFormSheetController *formSheetController) {
-    
-}];
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
 }
 
 - (void)viewDidLoad
@@ -62,10 +60,6 @@
 }
 
 
-- (IBAction)keyboardGoAway:(id)sender {
-    
-    [self.searchBar.searchTextField resignFirstResponder];
-}
 
 -(void)reloadDataWithDataArray:(NSArray*)data{
     self.recentArray = data;
