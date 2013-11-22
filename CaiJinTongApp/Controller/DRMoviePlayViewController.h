@@ -16,6 +16,7 @@
 #import "SumitNoteInterface.h"
 typedef enum {MOVIE_FILE,MOVIE_INTERNET}MovieLocateType;
 @interface DRMoviePlayViewController : UIViewController<MovieControllerItemDelegate,DRMoviePlayerPlaybackProgressBarDelegate,CustomPlayerViewDelegate,PlayBackInterfaceDelegate,SumitNoteInterfaceDelegate>
+
 @property (nonatomic, strong) SumitNoteInterface *sumitNoteInterface;
 @property (weak, nonatomic) IBOutlet CustomPlayerView *moviePlayerView;
 @property (weak, nonatomic) IBOutlet UIButton *playBt;

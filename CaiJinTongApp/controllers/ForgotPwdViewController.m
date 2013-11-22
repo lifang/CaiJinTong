@@ -31,7 +31,9 @@
    
     [super viewDidLoad];
     self.title = @"找回密码";
-    
+    [self.drnavigationBar.navigationRightItem setTitle:@"返回" forState:UIControlStateNormal];
+    self.drnavigationBar.titleLabel.text = @"找回密码";
+    [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     self.userNameTextField.layer.cornerRadius = 5;
     self.userNameTextField.layer.borderWidth = 1;
     self.userNameTextField.layer.borderColor = [UIColor lightGrayColor].CGColor;
@@ -40,6 +42,9 @@
     self.emailTextField.layer.borderColor = [UIColor lightGrayColor].CGColor;
 }
 
+-(void)drnavigationBarRightItemClicked:(id)sender{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

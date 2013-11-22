@@ -29,6 +29,9 @@
 }
 
 - (IBAction)qflowerBtClicked:(id)sender {
+    int flower = [self.qflowerLabel.text intValue];
+    self.qflowerLabel.text  = [NSString stringWithFormat:@"%d",flower+1];
+    [self setNeedsLayout];
     if (self.delegate && [self.delegate respondsToSelector:@selector(questionAndAnswerCell:flowerAnswerAtIndexPath:)]) {
         [self.delegate questionAndAnswerCell:self flowerAnswerAtIndexPath:self.path];
     }
@@ -64,7 +67,7 @@
 
 #pragma mark --
 
--(void)setAnswerModel:(AnswerModel*)answer{
+-(void)setAnswerModel:(AnswerModel*)answer isQuestionID:(NSString*)questionID{
     self.answerTextField.delegate = self;
     self.qTitleNameLabel.text = answer.answerNick;
     self.qDateLabel.text = [NSString stringWithFormat:@"发表于%@",answer.answerTime];
@@ -73,8 +76,22 @@
     [self.questionBackgroundView setHidden:!answer.isEditing];
     self.answerTextField.font = [UIFont systemFontOfSize:TEXT_FONT_SIZE+6];
     [self.qflowerBt setUserInteractionEnabled:!answer.isPraised];
-    [self.acceptAnswerBt setUserInteractionEnabled:!answer.IsAnswerAccept];
-    [self.acceptAnswerBt setTitleColor:answer.IsAnswerAccept?[UIColor lightGrayColor]:[UIColor blueColor] forState:UIControlStateNormal];
+    if (questionID) {
+        if (answer.IsAnswerAccept && [answer.IsAnswerAccept isEqualToString:@"YES"]&& [questionID isEqualToString:answer.resultId]) {
+            [self.acceptAnswerBt setHidden:NO];
+            [self.acceptAnswerBt setUserInteractionEnabled:NO];
+            [self.acceptAnswerBt setTitle:@"正确回答" forState:UIControlStateNormal];
+            [self.acceptAnswerBt setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        }else{
+            [self.acceptAnswerBt setHidden:YES];
+        }
+    }else{
+        [self.acceptAnswerBt setHidden:NO];
+        [self.acceptAnswerBt setUserInteractionEnabled:YES];
+        [self.acceptAnswerBt setTitle:@"采纳回答" forState:UIControlStateNormal];
+        [self.acceptAnswerBt setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    }
+
     [self setNeedsLayout];
     
     self.qTitleNameLabel.backgroundColor = [UIColor clearColor];

@@ -16,7 +16,6 @@
 @interface Section_ChapterViewController ()
 
 @end
-
 @implementation Section_ChapterViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -50,6 +49,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(initBtn:) name:@"stopDownLoad" object:nil];
+    
 }
 
 -(void)initBtn:(NSNotification *)notification {
@@ -89,16 +89,7 @@
     Section *sectionDb = [[Section alloc]init];
     SectionSaveModel *sectionSave = [sectionDb getDataWithSid:section.sectionId];
     float contentlength = [sectionDb getContentLengthBySid:section.sectionId];
-    
-    if (!cell.pv) {
-        AMProgressView *pvv = [[AMProgressView alloc] initWithFrame:CGRectMake(50, 100, 484, 30)
-                                                  andGradientColors:nil
-                                                   andOutsideBorder:NO
-                                                        andVertical:NO];
-        cell.pv = pvv;
-        [cell.contentView addSubview:cell.pv];
-    }
-    
+    //进度条
     if (sectionSave) {
         if (sectionSave.downloadState== 0) {
             cell.statusLab.text = @"下载中...";
@@ -109,7 +100,7 @@
         }else {
             cell.statusLab.text = @"下载";
         }
-        cell.pv.progress = sectionSave.downloadPercent;
+        cell.sliderFrontView.frame = CGRectMake(50, 102, 484 * sectionSave.downloadPercent, 33);
         if (contentlength>0) {
             cell.lengthLab.text = [NSString stringWithFormat:@"%.2fM/%.2fM",contentlength*sectionSave.downloadPercent,contentlength];
         }
@@ -121,7 +112,7 @@
         sectionSave.downloadState = 4;
         sectionSave.downloadPercent = 0;
         cell.btn.buttonModel = sectionSave;
-        cell.pv.progress = 0;
+        cell.sliderFrontView.frame = CGRectMake(50, 102, 484 * 0.4, 33);
         cell.statusLab.text = @"未下载";
         cell.lengthLab.text = @"";
     }

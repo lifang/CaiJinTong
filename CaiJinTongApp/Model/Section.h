@@ -31,8 +31,9 @@
 //笔记
 -(BOOL)addDataWithNoteModel:(NoteModel *)model andSid:(NSString *)sid;
 -(void)deleteDataFromNoteWithSid:(NSString *)sid;
-
+-(NSArray *)getNoteInfoWithSid:(NSString *)sid;
 //章节目录
 -(BOOL)addDataWithSectionModel:(Section_chapterModel *)model andSid:(NSString *)sid;
 -(void)deleteDataFromChapterWithSid:(NSString *)sid;
+-(NSArray *)getChapterInfoWithSid:(NSString *)sid;
 @end

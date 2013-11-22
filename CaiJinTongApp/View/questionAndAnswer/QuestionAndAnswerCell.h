@@ -35,7 +35,7 @@
 - (IBAction)questionOKBtClicked:(id)sender;
 - (IBAction)acceptAnswerBtClicked:(id)sender;
 
--(void)setAnswerModel:(AnswerModel*)answer;
+-(void)setAnswerModel:(AnswerModel*)answer isQuestionID:(NSString*)questionID;
 @end
 
 @protocol QuestionAndAnswerCellDelegate <NSObject>

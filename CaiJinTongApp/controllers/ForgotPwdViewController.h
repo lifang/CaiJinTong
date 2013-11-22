@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "FindPassWordInterface.h"
-@interface ForgotPwdViewController : UIViewController <FindPassWordInterfaceDelegate>
+@interface ForgotPwdViewController : DRNaviGationBarController <FindPassWordInterfaceDelegate>
 
 @property (nonatomic, strong) FindPassWordInterface *fpwInterface;
 @end

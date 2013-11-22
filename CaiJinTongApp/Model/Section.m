@@ -162,14 +162,28 @@
         DLog(@"删除成功");
     }
 }
-
+-(NSArray *)getNoteInfoWithSid:(NSString *)sid {
+    FMResultSet * rs = [self.db executeQuery:@"select id , sid , noteId , noteTime , noteText from Note where sid = ?",sid];
+    
+    NSMutableArray *array = [NSMutableArray array];
+    while ([rs next]) {
+        NoteModel *nm = [[NoteModel alloc] init];
+        nm.noteId = [rs stringForColumn:@"noteId"];
+        nm.noteTime = [rs stringForColumn:@"noteTime"];
+        nm.noteText = [rs stringForColumn:@"noteText"];
+        [array addObject:nm];
+    }
+    [rs close];
+    return array;
+}
 //章节目录
 -(BOOL)addDataWithSectionModel:(Section_chapterModel *)model andSid:(NSString *)sid {
-    BOOL res = [self.db executeUpdate:@"insert into Chapter ( sid , name, sectionId, sectionDownload) values (?,?,?,?)"
+    BOOL res = [self.db executeUpdate:@"insert into Chapter ( sid , name, sectionId, sectionDownload, sectionLastTime) values (?,?,?,?,?)"
                 ,sid
                 ,model.sectionName
                 ,model.sectionId
-                ,model.sectionDownload];
+                ,model.sectionDownload
+                ,model.sectionLastTime];
     return res;
 }
 -(void)deleteDataFromChapterWithSid:(NSString *)sid {
@@ -180,5 +194,20 @@
     } else {
         DLog(@"删除成功");
     }
+}
+-(NSArray *)getChapterInfoWithSid:(NSString *)sid {
+    FMResultSet * rs = [self.db executeQuery:@"select id , sid , name , sectionId , sectionDownload , sectionLastTime from Chapter where sid = ?",sid];
+    
+    NSMutableArray *array = [NSMutableArray array];
+    while ([rs next]) {
+        Section_chapterModel *nm = [[Section_chapterModel alloc] init];
+        nm.sectionId = [rs stringForColumn:@"sectionId"];
+        nm.sectionName = [rs stringForColumn:@"sectionName"];
+        nm.sectionDownload = [rs stringForColumn:@"sectionDownload"];
+        nm.sectionLastTime = [rs stringForColumn:@"sectionLastTime"];
+        [array addObject:nm];
+    }
+    [rs close];
+    return array;
 }
 @end

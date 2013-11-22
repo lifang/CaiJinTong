@@ -30,6 +30,7 @@
 #pragma mark - BaseInterfaceDelegate
 
 -(void)parseResult:(ASIHTTPRequest *)request{
+    
     NSDictionary *resultHeaders = [[request responseHeaders] allKeytoLowerCase];
     if (resultHeaders) {
         NSString *str = [request responseString];

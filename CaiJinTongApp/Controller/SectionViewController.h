@@ -15,7 +15,7 @@
 #import "Section_NoteViewController.h"
 #import "CustomLabel.h"
 #import "PlayVideoInterface.h"
-@interface SectionViewController : UIViewController<SUNSlideSwitchViewDelegate,UIScrollViewDelegate,PlayVideoInterfaceDelegate>
+@interface SectionViewController : DRNaviGationBarController<SUNSlideSwitchViewDelegate,UIScrollViewDelegate,PlayVideoInterfaceDelegate>
 
 @property (nonatomic, strong) SectionCustomView *sectionView;
 @property (nonatomic, strong) SectionModel *section;
