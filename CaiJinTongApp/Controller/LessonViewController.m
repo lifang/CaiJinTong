@@ -556,8 +556,8 @@ static NSString *titleName = nil;
             [CaiJinTongManager shared].defaultHeight = 984;
             
             ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
-            if(self.isSearching)chapterView.isSearch = YES;
-            chapterView.searchBar.searchTextField.text = self.searchText.text;
+            if(self.isSearching){chapterView.isSearch = YES;}
+            
             
             if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
                 NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
@@ -582,6 +582,8 @@ static NSString *titleName = nil;
                     }
                 }
                 [chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:tempArray]];
+                chapterView.searchBar.searchTipLabel.text = [NSString stringWithFormat:@"以下是根据内容\"%@\"搜索出的内容",self.searchText.text];
+                chapterView.searchBar.searchTextField.text = self.searchText.text;
                 self.isSearching = NO;
                 UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:chapterView];
                 [navControl setNavigationBarHidden:YES];

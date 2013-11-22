@@ -477,6 +477,7 @@
                 }
 //                self.dataArray = [[NSMutableArray alloc]initWithArray:tempArray];
                 [self reloadDataWithDataArray:tempArray];
+                
             }
         });
     });

@@ -12,6 +12,7 @@
 @property (weak,nonatomic) id<ChapterSearchBarDelegate> delegate;
 @property (nonatomic,strong) UITextField *searchTextField;
 @property (nonatomic,strong) UIButton *searchBt;
+@property (nonatomic,strong) UILabel *searchTipLabel;
 @end
 
 
