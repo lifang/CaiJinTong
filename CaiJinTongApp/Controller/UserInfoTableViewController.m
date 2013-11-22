@@ -40,6 +40,13 @@ static NSString *passValue;
     rect.size = newSize;
     [self.addressLabel setFrame:rect];
     
+    NSString *userImgURL = [CaiJinTongManager shared].user.userImg;
+    NSData *imgData = [NSData dataWithContentsOfURL:[NSURL URLWithString:userImgURL]];
+    self.userImgView.image = [UIImage imageWithData:imgData];
+    self.birthLabel.text = [CaiJinTongManager shared].user.birthday;
+    self.sexLabel.text = [CaiJinTongManager shared].user.sex;
+    self.addressLabel.text = [CaiJinTongManager shared].user.address;
+    
 //    ((UITableViewCell *)self.tableView.visibleCells[3]).
     
     // Uncomment the following line to preserve selection between presentations.

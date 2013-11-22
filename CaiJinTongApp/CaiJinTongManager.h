@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "UserModel.h"
+
 @interface CaiJinTongManager : NSObject
 {
     BOOL _free;
@@ -15,6 +17,7 @@
 }
 
 @property (nonatomic, strong) NSString * userId;
+@property (nonatomic, strong) UserModel *user;
 
 @property (nonatomic, assign) CGFloat defaultPortraitTopInset;
 @property (nonatomic, assign) CGFloat defaultWidth;

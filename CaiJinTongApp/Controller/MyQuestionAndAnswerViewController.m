@@ -139,6 +139,7 @@ QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
     
     cell.delegate = self;
     cell.path = indexPath;
+    cell.contentView.frame = (CGRect){cell.contentView.frame.origin,CGRectGetWidth(cell.contentView.frame),[self getTableViewRowHeightWithIndexPath:indexPath]};
     return cell;
 }
 
@@ -179,8 +180,13 @@ QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
     AnswerModel *answer = [question.answerList objectAtIndex:path.row];
     float questionTextFieldHeight = answer.isEditing?141:0;
     
-//    return  [Utility getTextSizeWithString:answer.answerContent withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:CGRectGetWidth(self.tableView.frame)-128].height + TEXT_HEIGHT + TEXT_PADDING+ questionTextFieldHeight;
-    return  [Utility getTextSizeWithString:answer.answerContent withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:CGRectGetWidth(self.tableView.frame)-108].height + TEXT_HEIGHT + TEXT_PADDING*3+ questionTextFieldHeight;
+//    return  [Utility getTextSizeWithString:answer.answerContent withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:CGRectGetWidth(self.tableView.frame)-108].height + TEXT_HEIGHT + TEXT_PADDING*3+ questionTextFieldHeight;
+    
+//    return  [Utility getTextSizeWithString:answer.answerContent withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:350].height + TEXT_HEIGHT + TEXT_PADDING*3+ questionTextFieldHeight;
+    
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:answer.answerContent];
+    [str setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6]} range:NSMakeRange(0, answer.answerContent.length)];
+    return [str boundingRectWithSize:CGSizeMake(460, 2000) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading|NSStringDrawingTruncatesLastVisibleLine context:nil].size.height + TEXT_HEIGHT + TEXT_PADDING*3+ questionTextFieldHeight;
 }
 #pragma mark --
 

@@ -216,6 +216,7 @@
 		18E32E0B1831FDF900041B8A /* login_10@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E32E051831FDF900041B8A /* login_10@2x.png */; };
 		18E32E0C1831FDF900041B8A /* login_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E32E061831FDF900041B8A /* login_bg@2x.png */; };
 		18F477E9183D9BDA00021886 /* SuggestionFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F477E8183D9BDA00021886 /* SuggestionFeedbackViewController.m */; };
+		18FBCF22183F22270025DAEA /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FBCF21183F22270025DAEA /* UserModel.m */; };
 		63091FFA1827435400C1AF07 /* LessonListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63091FF91827435400C1AF07 /* LessonListCell.m */; };
 		63091FFD1827473400C1AF07 /* LessonListHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63091FFC1827473300C1AF07 /* LessonListHeaderView.m */; };
 		63098F39183CBA0B007A76AC /* MJPopupBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63098F36183CBA0B007A76AC /* MJPopupBackgroundView.m */; };
@@ -603,6 +604,8 @@
 		18E32E061831FDF900041B8A /* login_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "login_bg@2x.png"; path = "login-images/login_bg@2x.png"; sourceTree = "<group>"; };
 		18F477E7183D9BDA00021886 /* SuggestionFeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuggestionFeedbackViewController.h; sourceTree = "<group>"; };
 		18F477E8183D9BDA00021886 /* SuggestionFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuggestionFeedbackViewController.m; sourceTree = "<group>"; };
+		18FBCF20183F22270025DAEA /* UserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
+		18FBCF21183F22270025DAEA /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
 		63091FF81827435400C1AF07 /* LessonListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LessonListCell.h; path = lessonList/LessonListCell.h; sourceTree = "<group>"; };
 		63091FF91827435400C1AF07 /* LessonListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LessonListCell.m; path = lessonList/LessonListCell.m; sourceTree = "<group>"; };
 		63091FFB1827473300C1AF07 /* LessonListHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LessonListHeaderView.h; path = lessonList/LessonListHeaderView.h; sourceTree = "<group>"; };
@@ -1071,6 +1074,8 @@
 		0EDF4DD118210241007161E0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				18FBCF20183F22270025DAEA /* UserModel.h */,
+				18FBCF21183F22270025DAEA /* UserModel.m */,
 				0EAD1F72182B24C700204FC3 /* DB */,
 				0EA7EF0E18233CDC00C47F69 /* LessonModel.h */,
 				0EA7EF0F18233CDC00C47F69 /* LessonModel.m */,
@@ -1680,10 +1685,7 @@
 				0EAD1F70182B24B100204FC3 /* FMResultSet.m in Sources */,
 				0EAFA1231822485500D01D3E /* LessonInfoInterface.m in Sources */,
 				0EDF4DE018210241007161E0 /* ASICloudFilesObject.m in Sources */,
-
-				0E5267151829E8A00009E535 /* ZipArchive.mm in Sources */,
 				18F477E9183D9BDA00021886 /* SuggestionFeedbackViewController.m in Sources */,
-
 				0EA7EF4618238CC600C47F69 /* ChapterQuestionModel.m in Sources */,
 				0EDF4DDF18210241007161E0 /* ASICloudFilesContainerXMLParserDelegate.m in Sources */,
 				0EA7EF7C182748BB00C47F69 /* SDWebImageDownloader.m in Sources */,
@@ -1703,6 +1705,7 @@
 				0EA7EF3118234D8D00C47F69 /* GetUserQuestionInterface.m in Sources */,
 				0EA7EF4318238C8A00C47F69 /* LessonQuestionModel.m in Sources */,
 				0EDF4DE318210241007161E0 /* ASIAuthenticationDialog.m in Sources */,
+				18FBCF22183F22270025DAEA /* UserModel.m in Sources */,
 				0EA7EF1F18234B5600C47F69 /* QuestionInfoInterface.m in Sources */,
 				0EA7EF4918238D4600C47F69 /* QuestionModel.m in Sources */,
 				630B03BB1820F5BB00F72C4C /* AppDelegate.m in Sources */,
