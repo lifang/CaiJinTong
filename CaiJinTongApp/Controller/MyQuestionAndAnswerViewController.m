@@ -27,6 +27,10 @@
     //    AppDelegate *app = [[UIApplication sharedApplication] delegate];
     //    [app.popupedController dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
 //    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
+    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+    DRAskQuestionViewController *ask = [story instantiateViewControllerWithIdentifier:@"DRAskQuestionViewController"];
+    [self.navigationController pushViewController:ask animated:YES];
+    
 }
 
 - (void)viewDidLoad
@@ -38,6 +42,7 @@
     self.drnavigationBar.titleLabel.text = @"我的提问";
     [self.drnavigationBar.navigationRightItem setTitle:@"提问" forState:UIControlStateNormal];
     [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [self.noticeBarImageView setImage:[[UIImage imageNamed:@"btn0.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 6) resizingMode:UIImageResizingModeStretch]];
 //    self.addQuesitionBtn.backgroundColor = [UIColor clearColor];
 }
 
@@ -205,4 +210,9 @@ QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
     return _myQuestionArr;
 }
 #pragma mark --
+- (IBAction)noticeHideBtnClick:(id)sender {
+    [self.noticeBarView setHidden:YES];
+    CGRect frame = self.tableView.frame;
+    [self.tableView setFrame: CGRectMake(frame.origin.x,frame.origin.y - 35,frame.size.width,frame.size.height)];
+}
 @end
