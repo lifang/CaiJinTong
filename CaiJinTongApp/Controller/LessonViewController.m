@@ -71,6 +71,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     self.tableView.separatorStyle = NO;
     self.searchBarView.backgroundColor = [UIColor clearColor];
     self.searchText.backgroundColor = [UIColor clearColor];
+    [self.searchText setBorderStyle:UITextBorderStyleNone];
     NSMutableAttributedString *placeholder = [[NSMutableAttributedString alloc] initWithString:@"搜索课程"];
     [placeholder addAttribute:NSForegroundColorAttributeName value:[UIColor grayColor] range:NSMakeRange(0, placeholder.length)];
     self.searchText.attributedPlaceholder = placeholder;
