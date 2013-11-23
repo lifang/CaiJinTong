@@ -40,21 +40,26 @@
 }
 -(void)displayView {
     if (self.isGrade == 0) {//有打分界面
-        TQStarRatingView *starRatingView = [[TQStarRatingView alloc] initWithFrame:CGRectMake(100, 3, 250, 50) numberOfStar:5];
-        starRatingView.delegate = self;
-        [self.view addSubview:starRatingView];
+        if (!self.starRatingView) {
+            TQStarRatingView *starRating = [[TQStarRatingView alloc] initWithFrame:CGRectMake(25, 7, 520, 50) numberOfStar:5];
+            starRating.delegate = self;
+            starRating.backgroundColor = [UIColor colorWithRed:231 green:231 blue:235 alpha:1];
+            [self.view addSubview:starRating];
+            self.starRatingView = starRating;
+        }
+
         
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(370, 3, 60, 50)];
-        label.backgroundColor = [UIColor clearColor];
-        label.font = [UIFont boldSystemFontOfSize:16];
-        label.textColor = [UIColor grayColor];
-        label.text = @"0分";
-        label.tag = 9999;
-        self.pointLab = label;
-        [self.view addSubview:self.pointLab];
-        label = nil;
+//        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(370, 3, 60, 50)];
+//        label.backgroundColor = [UIColor clearColor];
+//        label.font = [UIFont boldSystemFontOfSize:16];
+//        label.textColor = [UIColor grayColor];
+//        label.text = @"0分";
+//        label.tag = 9999;
+//        self.pointLab = label;
+//        [self.view addSubview:self.pointLab];
+//        label = nil;
         
-        self.textView.frame = CGRectMake(25, starRatingView.frame.origin.y+55, 520, 70);
+        self.textView.frame = CGRectMake(25, self.starRatingView.frame.origin.y+55, 520, 70);
         self.submitBtn.frame =CGRectMake(240, self.textView.frame.origin.y+80, 90, 30);
         self.tableViewList.frame =CGRectMake(0, self.submitBtn.frame.origin.y+40, 768, self.view.frame.size.height-self.submitBtn.frame.origin.y-60);
     }else {//隐藏打分界面
@@ -82,8 +87,8 @@
 #pragma  -- 打分
 -(void)starRatingView:(TQStarRatingView *)view score:(float)score
 {
-    DLog(@"score = %.2f",score*5);
-    self.pointLab.text = [NSString stringWithFormat:@" %.2f分",score*5];
+//    DLog(@"score = %.2f",score*5);
+//    self.pointLab.text = [NSString stringWithFormat:@" %.2f分",score*5];
 }
 #pragma -- 提交
 static NSString *timespan = nil;
@@ -96,7 +101,7 @@ static NSString *timespan = nil;
         GradeInterface *gradeInter = [[GradeInterface alloc]init];
         self.gradeInterface = gradeInter;
         self.gradeInterface.delegate = self;
-        [self.gradeInterface getGradeInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionId andScore:self.pointLab.text andContent:self.textView.text];
+        [self.gradeInterface getGradeInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionId andScore:[NSString stringWithFormat:@"%d",self.starRatingView.score]andContent:self.textView.text];
     }
     
     

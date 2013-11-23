@@ -378,16 +378,20 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             [CaiJinTongManager shared].defaultHeight = 984;
             UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:myQAVC];
             [navControl setNavigationBarHidden:YES];
-            MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:navControl];
-            formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromRight;
-            formSheet.shadowRadius = 2.0;
-            formSheet.shadowOpacity = 0.3;
-            formSheet.shouldDismissOnBackgroundViewTap = YES;
-            formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
-            
-            [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+            navControl.view.frame = (CGRect){0,0,568,1004};
+            [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
                 
             }];
+//            MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:navControl];
+//            formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromRight;
+//            formSheet.shadowRadius = 2.0;
+//            formSheet.shadowOpacity = 0.3;
+//            formSheet.shouldDismissOnBackgroundViewTap = YES;
+//            formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
+//            
+//            [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+//                
+//            }];
             switch (indexPath.row) {
                 case 0:
                     //请求我的提问
@@ -644,7 +648,14 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
         NSMutableArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
         dispatch_async(dispatch_get_main_queue(), ^{
-            
+            UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+            MyQuestionAndAnswerViewController *myQAVC = [story instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
+            UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:myQAVC];
+            [navControl setNavigationBarHidden:YES];
+            navControl.view.frame = (CGRect){0,0,568,1004};
+            [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
+                
+            }];
         });
     });
 }
