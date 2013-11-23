@@ -95,7 +95,11 @@
 }
 
 -(void)questionAndAnswerCell:(QuestionAndAnswerCell *)cell flowerAnswerAtIndexPath:(NSIndexPath *)path{
-
+    QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
+    AnswerModel *answer = [question.answerList objectAtIndex:path.row];
+    answer.isPraised = YES;
+    answer.answerPraiseCount = [NSString stringWithFormat:@"%d",[answer.answerPraiseCount integerValue]+1];;
+     [self.tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 -(void)questionAndAnswerCell:(QuestionAndAnswerCell *)cell summitQuestion:(NSString *)questionStr atIndexPath:(NSIndexPath *)path{
@@ -107,6 +111,7 @@
     AnswerModel *answer = [question.answerList objectAtIndex:path.row];
     answer.isEditing = isHiddle;
     [self.tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
+    
 }
 
 -(void)questionAndAnswerCell:(QuestionAndAnswerCell *)cell acceptAnswerAtIndexPath:(NSIndexPath *)path{
@@ -118,6 +123,7 @@ QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
     [question.answerList removeObjectAtIndex:path.row];
     [question.answerList insertObject:answer atIndex:0];
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationTop];
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:path.section] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 #pragma mark --
 

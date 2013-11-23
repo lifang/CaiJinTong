@@ -102,6 +102,7 @@
     self.questionDateLabel.text = [NSString stringWithFormat:@"发表于%@",question.askTime];
     self.questionFlowerLabel.text = question.praiseCount;
     self.questionContentTextField.text = question.questionName;
+    [self.questionFlowerBt setUserInteractionEnabled:NO];
     [self setNeedsLayout];
 }
 

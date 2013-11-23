@@ -24,7 +24,7 @@
 @property (nonatomic, assign) NSInteger pageCount;//评论的总页数用来判断分页加载
 @property (nonatomic, assign) NSInteger nowPage;//当先评论列表的页码
 @property (nonatomic, strong) NSString *sectionId;//
-@property (nonatomic, strong) UILabel *pointLab;
+@property (nonatomic, strong) TQStarRatingView *starRatingView;
 @property (nonatomic, strong) IBOutlet CustomTextView *textView;
 @property (weak, nonatomic) IBOutlet UILabel *myComment;
 @property (nonatomic, strong) IBOutlet UIButton *submitBtn;
