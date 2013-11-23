@@ -542,11 +542,11 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 <subviews>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" id="vce-lR-XZD">
-                                        <rect key="frame" x="0.0" y="35" width="1024" height="69.999999999999986"/>
+                                        <rect key="frame" x="0.0" y="35" width="1024" height="70"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="jlm-Ld-8yc">
-                                                <rect key="frame" x="0.0" y="0.0" width="70" height="68.999999999999986"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="70" height="69"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <state key="normal" backgroundImage="play_paused.png">
@@ -557,7 +557,7 @@
                                                 </connections>
                                             </button>
                                             <view contentMode="scaleToFill" id="MO4-iT-hM6">
-                                                <rect key="frame" x="69" y="0.0" width="502" height="67.999999999999986"/>
+                                                <rect key="frame" x="69" y="0.0" width="503" height="68"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="X6G-Ja-eeH">
@@ -572,7 +572,7 @@
                                                         </connections>
                                                     </button>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="hPI-XB-wGH">
-                                                        <rect key="frame" x="88" y="18" width="374" height="34"/>
+                                                        <rect key="frame" x="88" y="17.999999999999996" width="375" height="34"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <connections>
@@ -583,7 +583,7 @@
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             </view>
                                             <view contentMode="scaleToFill" id="fbD-0u-PH4" userLabel="itemBt" customClass="MovieControllerItem">
-                                                <rect key="frame" x="585" y="0.0" width="146" height="68.999999999999986"/>
+                                                <rect key="frame" x="585" y="0.0" width="146" height="69"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="play-table.png" id="ewy-Wf-gjC">
@@ -591,7 +591,7 @@
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                                     </imageView>
                                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="章节列表" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0jf-x8-jVt">
-                                                        <rect key="frame" x="0.0" y="36.999999999999986" width="146" height="21"/>
+                                                        <rect key="frame" x="0.0" y="37" width="146" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -611,7 +611,7 @@
                                                 </connections>
                                             </view>
                                             <view contentMode="scaleToFill" id="1AH-hI-ne6" userLabel="itemBt" customClass="MovieControllerItem">
-                                                <rect key="frame" x="731" y="0.0" width="146" height="69.999999999999986"/>
+                                                <rect key="frame" x="731" y="0.0" width="146" height="70"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="play_chat.png" id="bcW-Kd-UW1">
@@ -619,7 +619,7 @@
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                                     </imageView>
                                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我要提问" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="78q-K5-QB2">
-                                                        <rect key="frame" x="0.0" y="36.999999999999986" width="146" height="21"/>
+                                                        <rect key="frame" x="0.0" y="37" width="146" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -635,7 +635,7 @@
                                                 </connections>
                                             </view>
                                             <view contentMode="scaleToFill" id="c63-XO-bv3" userLabel="itemBt" customClass="MovieControllerItem">
-                                                <rect key="frame" x="877" y="0.0" width="146" height="68.999999999999986"/>
+                                                <rect key="frame" x="877" y="0.0" width="146" height="69"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="play_note.png" id="Akv-lA-ZDM">
@@ -643,7 +643,7 @@
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                                     </imageView>
                                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="记笔记" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZAq-06-8fk">
-                                                        <rect key="frame" x="0.0" y="36.999999999999986" width="146" height="21"/>
+                                                        <rect key="frame" x="0.0" y="37" width="146" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -1161,8 +1161,39 @@
                         <rect key="frame" x="0.0" y="0.0" width="568" height="984"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" id="kwd-RL-NQ4">
+                                <rect key="frame" x="0.0" y="90" width="586" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="jWT-H4-rpD">
+                                        <rect key="frame" x="15" y="0.0" width="516" height="35"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </imageView>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击回答者语句可进行追问,点击&quot;采纳回答&quot;则采纳对方的回答." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="X0I-yw-pa2">
+                                        <rect key="frame" x="27" y="7" width="450" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1pi-Vg-4sj">
+                                        <rect key="frame" x="500" y="5" width="25" height="25"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal" backgroundImage="delete_2.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="noticeHideBtnClick:" destination="xg3-PT-MB4" eventType="touchUpInside" id="pVt-EN-3dx"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="331" sectionHeaderHeight="22" sectionFooterHeight="22" id="A22-Yj-Ugi">
-                                <rect key="frame" x="0.0" y="90" width="568" height="894"/>
+                                <rect key="frame" x="0.0" y="125" width="568" height="894"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -1321,6 +1352,8 @@
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <connections>
+                        <outlet property="noticeBarImageView" destination="jWT-H4-rpD" id="duA-ax-WEy"/>
+                        <outlet property="noticeBarView" destination="kwd-RL-NQ4" id="1bS-eY-Igl"/>
                         <outlet property="tableView" destination="A22-Yj-Ugi" id="b0B-LW-BWw"/>
                     </connections>
                 </viewController>
@@ -1731,17 +1764,12 @@
     </scenes>
     <resources>
         <image name="Q&amp;A-myq_11.png" width="15" height="15"/>
-        <image name="Q&amp;A-myq_11.png" width="15" height="15"/>
         <image name="btn.png" width="141" height="45"/>
-        <image name="btn0.png" width="118" height="33"/>
-        <image name="btn0.png" width="118" height="33"/>
-        <image name="btn0.png" width="118" height="33"/>
         <image name="btn0.png" width="118" height="33"/>
         <image name="course-courses_03.png" width="16" height="16"/>
         <image name="course-mycourse_03.png" width="57" height="30"/>
+        <image name="delete_2.png" width="32" height="32"/>
         <image name="line2.png" width="192" height="8"/>
-        <image name="line2.png" width="192" height="8"/>
-        <image name="login_03.png" width="150" height="50"/>
         <image name="login_03.png" width="150" height="50"/>
         <image name="login_10.png" width="353" height="47"/>
         <image name="pdlay-courselistd_07.png" width="436" height="20"/>
@@ -1754,9 +1782,6 @@
         <image name="play_chat.png" width="26" height="26"/>
         <image name="play_note.png" width="26" height="26"/>
         <image name="play_paused.png" width="69" height="69"/>
-        <image name="play_shuxian.png" width="1" height="69"/>
-        <image name="play_shuxian.png" width="1" height="69"/>
-        <image name="play_shuxian.png" width="1" height="69"/>
         <image name="play_shuxian.png" width="1" height="69"/>
         <image name="play_volume.png" width="28" height="19"/>
         <image name="settings_delete.png" width="36" height="36"/>

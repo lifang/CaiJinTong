@@ -57,7 +57,6 @@
     self.mainToolBar.backgroundColor = [UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:232.0/255.0 alpha:1.0]; 
     [self.searchBar.searchBt addTarget:self action:@selector(searchBtClicked) forControlEvents:UIControlEventTouchUpInside];
     
-    self.drnavigationBar.titleLabel.text = @"我的课程";
     [self.drnavigationBar.navigationRightItem setTitle:@"返回" forState:UIControlStateNormal];
     [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
 }
