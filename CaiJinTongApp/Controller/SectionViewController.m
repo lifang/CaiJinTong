@@ -7,7 +7,7 @@
 //
 
 #import "SectionViewController.h"
-#import "DRMoviePlayViewController.h"
+
 #import <QuartzCore/QuartzCore.h>
 #import "Section.h"
 #import "CommentModel.h"
@@ -43,6 +43,8 @@
     self.drnavigationBar.titleLabel.text = self.section.sectionName;
     [self.drnavigationBar.navigationRightItem setTitle:@"关闭" forState:UIControlStateNormal];
     [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotoMoviePlayWithSid:) name:@"gotoMoviePlay" object:nil];
 }
 -(void)refeshScore:(NSNotification *)notification {
     NSDictionary *dic = notification.object;
@@ -215,10 +217,12 @@
 //            
 //        }];
         self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
-        self.playerController.movieUrlString = self.path;
+//        self.playerController.movieUrlString = self.path;
+        [self.playerController playMovieWithURL:[NSURL fileURLWithPath:self.path] withFileType:MPMovieSourceTypeFile];
         self.playerController.sectionId = self.section.sectionId;
         self.playerController.sectionModel = self.section;
         
+        self.playerController.delegate = self;
         AppDelegate *app = [AppDelegate sharedInstance];
         [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
             
@@ -272,6 +276,12 @@
     
     [self.slideSwitchView buildUI];
 }
+
+#pragma mark DRMoviePlayViewControllerDelegate
+-(void)drMoviePlayerViewController:(DRMoviePlayViewController *)playerController commitNotesSuccess:(NSString *)noteText andTime:(NSString *)noteTime{
+
+}
+#pragma mark --
 
 #pragma mark - 滑动tab视图代理方法
 
@@ -355,10 +365,12 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             //播放接口
             self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
-            self.playerController.movieUrlString = self.path;
+//            self.playerController.movieUrlString = self.path;
+            [self.playerController playMovieWithURL:[NSURL URLWithString:self.path] withFileType:MPMovieSourceTypeStreaming];
             self.playerController.sectionId = self.section.sectionId;
             self.playerController.sectionModel = self.section;
             
+            self.playerController.delegate = self;
             AppDelegate *app = [AppDelegate sharedInstance];
             [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
                 
@@ -373,5 +385,46 @@
 -(void)getPlayVideoInfoDidFailed:(NSString *)errorMsg {
     [SVProgressHUD dismiss];
     [Utility errorAlert:errorMsg];
+}
+
+- (void)gotoMoviePlayWithSid:(NSNotification *)info {
+    NSString *sectionID = [info.userInfo objectForKey:@"sectionID"];
+    NSString *path = nil;
+    NSString *documentDir;
+    if (platform>5.0) {
+        documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    }else{
+        documentDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    }
+    path = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@.mp4",sectionID]];
+    DLog(@"path = %@",path);//本地保存路径
+    if (path) {
+        //播放接口
+        //        UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+        //        DRMoviePlayViewController *playerController = [story instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
+        //        playerController.movieUrlString = path;
+        //        AppDelegate *app = [AppDelegate sharedInstance];
+        //        [self presentViewController:playerController animated:YES completion:^{
+        //
+        //        }];
+        DRMoviePlayViewController *playerController = [[DRMoviePlayViewController alloc] init];
+        UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+        playerController = [story instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
+        [playerController playMovieWithURL:[NSURL fileURLWithPath:path] withFileType:MPMovieSourceTypeFile];
+        playerController.sectionId =sectionID;
+        
+        //------------------------------------
+        Section *s = [[Section alloc] init];
+        SectionSaveModel *ssm = [s getDataWithSid:sectionID];
+        playerController.sectionSaveModel = ssm;
+        NSLog(@"----buttonModel.sid: %@----",ssm.sid);
+        NSLog(@"----buttonModel.sectionList: %@----",ssm.sectionList);
+        
+        AppDelegate *app = [AppDelegate sharedInstance];
+        [app.lessonViewCtrol presentViewController:playerController animated:YES completion:^{
+            
+        }];
+        
+    }
 }
 @end

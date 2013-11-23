@@ -56,7 +56,13 @@
         
         self.textView.frame = CGRectMake(25, starRatingView.frame.origin.y+55, 520, 70);
         self.submitBtn.frame =CGRectMake(240, self.textView.frame.origin.y+80, 90, 30);
-        self.tableViewList.frame =CGRectMake(0, self.submitBtn.frame.origin.y+40, 768, self.view.frame.size.height-self.submitBtn.frame.origin.y-60);
+//        self.tableViewList.frame =CGRectMake(0, self.submitBtn.frame.origin.y+40, 768, self.view.frame.size.height-self.submitBtn.frame.origin.y-60);
+        
+        self.myComment.frame = CGRectMake(25, self.submitBtn.frame.origin.y+40, 100, 30);
+        self.tableViewList.frame =  CGRectMake(0, self.myComment.frame.origin.y+40, 768, self.view.frame.size.height-self.submitBtn.frame.origin.y-60);
+        [self.submitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [self.submitBtn setBackgroundImage:[UIImage imageNamed:@"btn0.png"] forState:UIControlStateNormal];
+        
     }else {//隐藏打分界面
         NSArray *subViews = [self.view subviews];
         for (UIView *vv in subViews) {

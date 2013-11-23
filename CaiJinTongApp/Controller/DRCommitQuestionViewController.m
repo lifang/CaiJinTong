@@ -59,6 +59,10 @@
         [self getQuestionInfo];
     }else  {
         self.questionList = [NSMutableArray arrayWithArray:[CaiJinTongManager shared].question];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+        });
     }
 }
 
@@ -93,6 +97,7 @@
 #pragma mark--QuestionInfoInterfaceDelegate {
 -(void)getQuestionInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [SVProgressHUD dismiss];
         //分类的数据
         self.questionList = [NSMutableArray arrayWithArray:[result valueForKey:@"questionList"]];
         [CaiJinTongManager shared].question = [NSMutableArray arrayWithArray:[result valueForKey:@"questionList"]];

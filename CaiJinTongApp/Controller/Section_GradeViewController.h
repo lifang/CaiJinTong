@@ -26,5 +26,6 @@
 @property (nonatomic, strong) NSString *sectionId;//
 @property (nonatomic, strong) UILabel *pointLab;
 @property (nonatomic, strong) IBOutlet CustomTextView *textView;
+@property (weak, nonatomic) IBOutlet UILabel *myComment;
 @property (nonatomic, strong) IBOutlet UIButton *submitBtn;
 @end

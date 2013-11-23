@@ -16,6 +16,7 @@
 @property (nonatomic,strong) UITextField *questionContentTextField;
 @property (nonatomic,strong) UIButton *questionFlowerBt;
 @property (nonatomic,strong) UIView *backgroundView;
+@property (nonatomic,strong) UIImageView *questionImg;
 @end
 
 @implementation QuestionAndAnswerCellHeaderView
@@ -65,6 +66,12 @@
         self.questionFlowerBt.backgroundColor = [UIColor clearColor];
         [self.questionFlowerBt addTarget:self action:@selector(flowerBtClicked) forControlEvents:UIControlEventTouchUpInside];
         [self.backgroundView addSubview:self.questionFlowerBt];
+        
+        self.questionImg = [[UIImageView alloc] init];
+        self.questionImg.image = [UIImage imageNamed:@"Q&A-myq_15.png"];
+        self.questionImg.backgroundColor = [UIColor clearColor];
+        [self.backgroundView addSubview:self.questionImg];
+        
         self.backgroundColor = [UIColor clearColor];
     }
     return self;
@@ -108,6 +115,10 @@
     self.questionFlowerLabel.frame = (CGRect){CGRectGetMaxX(self.questionFlowerImageView.frame)+TEXT_PADDING,0,[Utility getTextSizeWithString:self.questionFlowerLabel.text withFont:self.questionFlowerLabel.font].width,TEXT_HEIGHT};
     
     self.questionFlowerBt.frame = (CGRect){CGRectGetMinX(self.questionFlowerImageView.frame)-TEXT_PADDING*5,0,CGRectGetMaxX(self.questionFlowerLabel.frame) -CGRectGetMinX(self.questionFlowerImageView.frame) +50,TEXT_HEIGHT};
-    self.questionContentTextField.frame = (CGRect){TEXT_PADDING*2,TEXT_HEIGHT,CGRectGetWidth(self.frame)-TEXT_PADDING*4,[Utility getTextSizeWithString:self.questionContentTextField.text withFont:self.questionContentTextField.font withWidth:CGRectGetWidth(self.frame)].height};
+
+//    self.questionContentTextField.frame = (CGRect){TEXT_PADDING*2,TEXT_HEIGHT,CGRectGetWidth(self.frame)-TEXT_PADDING*4,[Utility getTextSizeWithString:self.questionContentTextField.text withFont:self.questionContentTextField.font withWidth:CGRectGetWidth(self.frame)].height};
+    
+    self.questionImg.frame = (CGRect){TEXT_PADDING*2+2,TEXT_HEIGHT+2,20,20};
+    self.questionContentTextField.frame = (CGRect){CGRectGetMaxX(self.questionImg.frame)+TEXT_PADDING,TEXT_HEIGHT,CGRectGetWidth(self.frame)-TEXT_PADDING*4,[Utility getTextSizeWithString:self.questionContentTextField.text withFont:self.questionContentTextField.font withWidth:CGRectGetWidth(self.frame)].height};
 }
 @end

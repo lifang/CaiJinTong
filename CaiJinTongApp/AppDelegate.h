@@ -13,6 +13,7 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic)  NSMutableArray *popupedControllerArr;
+@property (strong, nonatomic)  void (^popupedControllerDimissBlock)(void);
 //网络监听所用
 @property (retain, nonatomic) Reachability *hostReach;
 //网络是否连接
