@@ -62,25 +62,25 @@ static NSString *passValue;
     // Dispose of any resources that can be recreated.
 }
 
-//-  (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-//    FixTableViewController *fixVC = [story instantiateViewControllerWithIdentifier:@"FixTableViewController"];
-//    switch (indexPath.row) {
-//        case 0:
-//            break;
-//        case 1:
-//            passValue = self.birthLabel.text;
-//            break;
-//        case 2:
-//            passValue = self.sexLabel.text;
-//            break;
-//        case 3:
-//            passValue = self.addressLabel.text;
-//        default:
-//            break;
-//    }
-//    [self.navigationController pushViewController:fixVC animated:YES];
-//}
+-  (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+    FixTableViewController *fixVC = [story instantiateViewControllerWithIdentifier:@"FixTableViewController"];
+    switch (indexPath.row) {
+        case 0:
+            break;
+        case 1:
+            passValue = self.birthLabel.text;
+            break;
+        case 2:
+            passValue = self.sexLabel.text;
+            break;
+        case 3:
+            passValue = self.addressLabel.text;
+        default:
+            break;
+    }
+    [self.navigationController pushViewController:fixVC animated:YES];
+}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat rowHeight = 0.0;
@@ -93,8 +93,13 @@ static NSString *passValue;
             rowHeight = 66.0;
             break;
         case 3:
+        {
             rowHeight = self.addressLabel.frame.size.height+44.0;
-            NSLog(@"self.addressLabel.frame.size.height:%f",self.addressLabel.frame.size.height);
+//            NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:self.addressLabel.text];
+//            [str setAttributes:@{NSFontAttributeName:self.addressLabel.font.fontName} range:NSMakeRange(0, self.addressLabel.text.length)];
+//            rowHeight =  [str boundingRectWithSize:CGSizeMake(self.addressLabel.frame.size.width, 2000) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading|NSStringDrawingTruncatesLastVisibleLine context:nil].size.height + 20;
+//            NSLog(@"self.addressLabel.frame.size.height:%f",self.addressLabel.frame.size.height);
+        }
             break;
         default:
             break;

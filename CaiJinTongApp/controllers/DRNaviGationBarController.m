@@ -25,13 +25,15 @@
 
 - (void)viewDidLoad
 {
+     if(!self.drnavigationBar){
+          UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+          self.drnavigationBar = [story instantiateViewControllerWithIdentifier:@"DRNaviBar"];
+     }
     [self.view addSubview:self.drnavigationBar];
      [self.view bringSubviewToFront:self.drnavigationBar];
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     [self.drnavigationBar.navigationRightItem addTarget:self action:@selector(drnavigationBarRightItemClicked:) forControlEvents:UIControlEventTouchUpInside];
-    
-	self.drnavigationBar.titleLabel.text = @"dsfasfg";
 //    self.drnavigationBar.button = [UIButton buttonWithType:UIButtonTypeCustom];
 }
 -(void)viewWillAppear:(BOOL)animated{

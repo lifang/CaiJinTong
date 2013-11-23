@@ -61,7 +61,7 @@
     [super layoutSubviews];
     self.backImageView.frame = (CGRect){SEARCH_MASK_LEFT,0,CGRectGetWidth(self.frame)-SEARCH_MASK_LEFT*2,30};
     self.searchBt.frame = (CGRect){CGRectGetMinX(self.backImageView.frame)+2,2,CGRectGetHeight(self.backImageView.frame)-4,CGRectGetHeight(self.backImageView.frame)-4};
-    self.searchTextField.frame = (CGRect){CGRectGetMaxX(self.searchBt.frame)+5,5,CGRectGetWidth(self.backImageView.frame) - CGRectGetMaxX(self.searchBt.frame)-5,CGRectGetHeight(self.backImageView.frame)};
+    self.searchTextField.frame = (CGRect){CGRectGetMaxX(self.searchBt.frame)+3,1,CGRectGetWidth(self.backImageView.frame) - CGRectGetMaxX(self.searchBt.frame)+25,CGRectGetHeight(self.backImageView.frame)};
     self.searchTipLabel.frame = (CGRect){0,CGRectGetHeight(self.frame) - 30,CGRectGetWidth(self.frame),30};
 }
 /*

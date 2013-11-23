@@ -40,8 +40,13 @@
 }
 -(void)displayView {
     if (self.isGrade == 0) {//有打分界面
+        UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(25, 3, 520, 50)];
+        backView.backgroundColor = [UIColor colorWithRed:246.0/255.0 green:246.0/255.0 blue:246.0/255.0 alpha:1.0];
+        [self.view addSubview:backView];
+        
         TQStarRatingView *starRatingView = [[TQStarRatingView alloc] initWithFrame:CGRectMake(100, 3, 250, 50) numberOfStar:5];
         starRatingView.delegate = self;
+//        starRatingView.backgroundColor = [UIColor colorWithRed:246.0/255.0 green:246.0/255.0 blue:246.0/255.0 alpha:1.0];
         [self.view addSubview:starRatingView];
         
         UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(370, 3, 60, 50)];
@@ -63,6 +68,8 @@
         [self.submitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [self.submitBtn setBackgroundImage:[UIImage imageNamed:@"btn0.png"] forState:UIControlStateNormal];
         
+        self.textView.backgroundColor = [UIColor colorWithRed:238.0/255.0 green:238.0/255.0 blue:238.0/255.0 alpha:1.0];
+        
     }else {//隐藏打分界面
         NSArray *subViews = [self.view subviews];
         for (UIView *vv in subViews) {
@@ -78,7 +85,15 @@
         }
         self.textView.frame = CGRectMake(25, 3, 520, 70);
         self.submitBtn.frame =CGRectMake(240, self.textView.frame.origin.y+80, 90, 30);
-        self.tableViewList.frame =CGRectMake(0, self.submitBtn.frame.origin.y+40, 768, self.view.frame.size.height-self.submitBtn.frame.origin.y-60);
+//        self.tableViewList.frame =CGRectMake(0, self.submitBtn.frame.origin.y+40, 768, self.view.frame.size.height-self.submitBtn.frame.origin.y-60);
+        
+        self.myComment.frame = CGRectMake(25, self.submitBtn.frame.origin.y+40, 100, 30);
+        self.tableViewList.frame =  CGRectMake(0, self.myComment.frame.origin.y+40, 768, self.view.frame.size.height-self.submitBtn.frame.origin.y-60);
+        [self.submitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [self.submitBtn setBackgroundImage:[UIImage imageNamed:@"btn0.png"] forState:UIControlStateNormal];
+        
+        self.textView.backgroundColor = [UIColor colorWithRed:238.0/255.0 green:238.0/255.0 blue:238.0/255.0 alpha:1.0];
+
     }
 }
 -(void)viewDidAppear:(BOOL)animated {

@@ -23,6 +23,7 @@
 #import "SettingViewController.h"
 #import "MyQuestionAndAnswerViewController.h"
 #define LESSON_HEADER_IDENTIFIER @"lessonHeader"
+static NSString *chapterName;
 typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 
 @interface LessonViewController ()
@@ -78,6 +79,9 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     self.searchText.delegate = self;
     self.editBtn.backgroundColor = [UIColor clearColor];
     self.editBtn.alpha = 0.3;
+    
+//    NSLog(@"----user: %@----",[CaiJinTongManager shared].user);
+//    self.rightNameLabel.text = [NSString stringWithFormat:@"欢迎您：%@",[CaiJinTongManager shared].user.userId];
 
     [self getLessonInfo];
 }
@@ -273,6 +277,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         chapterModel *chapter = (chapterModel *)[lesson.chapterList objectAtIndex:indexPath.row];
         cell.textLabel.font = [UIFont systemFontOfSize:16];
         cell.textLabel.text = chapter.chapterName;
+        chapterName = [NSString stringWithFormat:@"%@",chapter.chapterName];
         cell.textLabel.textColor = [UIColor whiteColor];
         cell.detailTextLabel.textColor = [UIColor whiteColor];
         cell.backgroundColor = [UIColor clearColor];
@@ -282,29 +287,17 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     }else{
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"questionCell"];
         if (indexPath.section == 0) {
-            NSDictionary *d=[self.questionList objectAtIndex:indexPath.row];
-            NSArray *ar=[d valueForKey:@"questionNode"];
-            if (ar.count>0) {
-                cell.backgroundView =  [[UIView alloc] initWithFrame:cell.frame];
-                cell.backgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"headview_cell_background_selected.png")];
-                cell.selectedBackgroundView =  [[UIView alloc] initWithFrame:cell.frame];
-                cell.selectedBackgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"headview_cell_background_selected.png")];
-            }else {
-                cell.backgroundView =  [[UIView alloc] initWithFrame:cell.frame];
-                cell.backgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"headview_cell_background.png")];
-                cell.selectedBackgroundView =  [[UIView alloc] initWithFrame:cell.frame];
-                cell.selectedBackgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"headview_cell_background.png")];
-            }
-            cell.textLabel.text=[NSString stringWithFormat:@"  %@",[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"questionName"]];
-//            [cell setIndentationLevel:indexPath.row];
+            
+            cell.textLabel.text=[NSString stringWithFormat:@"%@",[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"questionName"]];
+            [cell setIndentationLevel:[[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"level"]intValue]];
         }else{
             if (indexPath.row == 0) {
-                cell.textLabel.text = @"  我的提问";
+                cell.textLabel.text = @" 我的提问";
             }else{
-                cell.textLabel.text = @"  我的回答";
+                cell.textLabel.text = @" 我的回答";
             }
         }
-
+        [cell setIndentationLevel:1];
         cell.textLabel.textColor = [UIColor whiteColor];
         cell.detailTextLabel.textColor = [UIColor whiteColor];
         cell.backgroundColor = [UIColor clearColor];
@@ -334,7 +327,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             NSDictionary *d=[self.questionList objectAtIndex:indexPath.row];
             if([d valueForKey:@"questionNode"]) {
                 NSArray *ar=[d valueForKey:@"questionNode"];
-                if (ar.count == 0) {
+                if (ar.count == 0) { //判定问题分类到最底层
                     //请求问题分类下详细问题信息
                     DLog(@"questionId = %@",[d valueForKey:@"questionID"])
                     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
@@ -371,7 +364,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         }else{
             UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
             MyQuestionAndAnswerViewController *myQAVC = [story instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
-//            myQAVC.view.frame = CGRectMake(0, 0, 768-200, 1024-20);
+
             [CaiJinTongManager shared].defaultLeftInset = 200;
             [CaiJinTongManager shared].defaultPortraitTopInset = 20;
             [CaiJinTongManager shared].defaultWidth = 568;
@@ -545,12 +538,16 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             [CaiJinTongManager shared].defaultHeight = 1004;
             
             ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
-            if(self.isSearching){chapterView.isSearch = YES;}
-            
-            
+            if(self.isSearching){
+                chapterView.drnavigationBar.titleLabel.text = @"搜索";
+                chapterView.isSearch = YES;
+            }else{
+                chapterView.drnavigationBar.titleLabel.text = chapterName;
+            }
             if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
                 NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
                 if(self.isSearching){
+                    
                     if(self.searchText.text != nil && ![self.searchText.text isEqualToString:@""] && tempArray.count > 0){
                         NSString *keyword = self.searchText.text;
                         NSMutableArray *ary = [NSMutableArray arrayWithCapacity:5];
@@ -563,6 +560,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                         }
                         tempArray = [NSMutableArray arrayWithArray:ary];
                     }
+                    
                 }
                 [chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:tempArray]];
                 chapterView.searchBar.searchTipLabel.text = [NSString stringWithFormat:@"以下是根据内容\"%@\"搜索出的内容",self.searchText.text];
@@ -664,7 +662,10 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             [CaiJinTongManager shared].defaultHeight = 984;
             
             ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
-            if(self.isSearching)chapterView.isSearch = YES;
+            if(self.isSearching){
+                chapterView.drnavigationBar.titleLabel.text = @"搜索";
+                chapterView.isSearch = YES;
+            }
             chapterView.searchBar.searchTextField.text = self.searchText.text;
             
             if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
