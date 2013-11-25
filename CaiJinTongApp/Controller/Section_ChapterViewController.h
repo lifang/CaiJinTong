@@ -12,7 +12,5 @@
 
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) IBOutlet UITableView *tableViewList;
-
-
 - (void)viewDidCurrentView;
 @end

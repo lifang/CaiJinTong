@@ -66,7 +66,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     [super viewDidLoad];
     [self.tableView registerClass:[LessonListHeaderView class] forHeaderFooterViewReuseIdentifier:LESSON_HEADER_IDENTIFIER];
     self.listType = LESSON_LIST;
-    [Utility setBackgroungWithView:self.LogoImageView.superview andImage6:@"login_bg" andImage7:@"login_bg_7"];
+    [Utility setBackgroungWithView:self.LogoImageView.superview andImage6:@"login_bg_7" andImage7:@"login_bg_7"];
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.separatorStyle = NO;
     self.searchBarView.backgroundColor = [UIColor clearColor];

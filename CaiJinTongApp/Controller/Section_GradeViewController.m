@@ -31,6 +31,7 @@
 - (void)viewDidCurrentView
 {
     DLog(@"加载为当前视图 = %@",self.title);
+    [self displayView];
 }
 
 - (void)didReceiveMemoryWarning
@@ -105,7 +106,7 @@
 }
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self displayView];
+//    [self displayView];
 }
 #pragma  -- 打分
 -(void)starRatingView:(TQStarRatingView *)view score:(float)score
