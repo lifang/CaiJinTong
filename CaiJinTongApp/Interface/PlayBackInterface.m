@@ -19,7 +19,7 @@
     [reqheaders setValue:[NSString stringWithFormat:@"%@",sectionId] forKey:@"sectionId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",timeEnd] forKey:@"timeEnd"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",status] forKey:@"status"];
-    self.interfaceUrl = [NSString stringWithFormat:@"%@",kHost];
+    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=playBack&userId=17082&sectionId=2690&timeEnd=2013-11-25%2011:25&status=incomplete";
     
     self.baseDelegate = self;
     self.headers = reqheaders;

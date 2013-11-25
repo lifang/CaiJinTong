@@ -311,7 +311,17 @@
 [self dismissViewControllerAnimated:YES completion:^{
     [self.moviePlayer stop];
     self.moviePlayer = nil;
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+        [Utility errorAlert:@"暂无网络!"];
+    }else {
+        //判断是否播放完毕
+        [SVProgressHUD showWithStatus:@"玩命加载中..."];
+        PlayBackInterface *playBackInter = [[PlayBackInterface alloc]init];
+        self.playBackInterface = playBackInter;
+        self.playBackInterface.delegate = self;
+        NSString *timespan = [Utility getNowDateFromatAnDate];
+        [self.playBackInterface getPlayBackInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionId andTimeEnd:timespan andStatus:@"incomplete"];
+    }
 }];
     
 }
@@ -465,7 +475,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
         dispatch_async(dispatch_get_main_queue(), ^{
-            
+            [[NSNotificationCenter defaultCenter] removeObserver:self];
         });
     });
 }
