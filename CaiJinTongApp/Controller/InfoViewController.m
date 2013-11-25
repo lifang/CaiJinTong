@@ -9,7 +9,8 @@
 #import "InfoViewController.h"
 #import "UIImageView+WebCache.h"
 #import "SDImageCache.h"
-
+#import <AssetsLibrary/ALAsset.h>
+#import <AssetsLibrary/AssetsLibrary.h>
 @interface InfoViewController ()
 
 @end
@@ -64,6 +65,11 @@
     
     self.navigationItem.rightBarButtonItem = self.editButton;
     
+    imagePicker
+    = [[UIImagePickerController alloc] init];
+    imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    imagePicker.delegate = self;
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShowing:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHideing:) name: UIKeyboardWillHideNotification object:nil];
 }
@@ -78,7 +84,7 @@
     [self.textField2 resignFirstResponder];
     [self.textField3 resignFirstResponder];
     [self.textField4 resignFirstResponder];
-    
+    self.navigationItem.leftBarButtonItem = nil;
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
@@ -105,10 +111,27 @@
     self.textField4.userInteractionEnabled = YES;
     self.pickerBtn.hidden = NO;
 
+    self.navigationItem.leftBarButtonItem = self.albumButton;
     self.pickView.hidden = NO;
     self.navigationItem.rightBarButtonItem = self.saveButton;
 }
-
+- (IBAction)openAlbum:(id)sender {
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){
+        if(![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]){
+            [Utility errorAlert:@"PhotoLibrary is not supportted in this device."];
+            return;
+        }
+        [self presentViewController:imagePicker animated:YES completion:nil];
+    }else{
+        if(!popover){
+            popover = [[UIPopoverController alloc] initWithContentViewController:imagePicker];
+            [popover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        }else{
+            [popover dismissPopoverAnimated:YES];
+             popover = nil;
+        }
+    }
+}
 -(IBAction)showPicker:(id)sender {
     [self.textField1 resignFirstResponder];
     [self.textField2 resignFirstResponder];
@@ -190,4 +213,20 @@
     [SVProgressHUD dismiss];
     [Utility errorAlert:errorMsg];
 }
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    self.navigationItem.leftBarButtonItem = nil;
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    [popover dismissPopoverAnimated:NO];
+    self.navigationItem.leftBarButtonItem = nil;
+    NSLog(@"imageview.image=image start");
+    UIImage *image = (UIImage*)[info objectForKey:UIImagePickerControllerOriginalImage];
+    self.userImage.image = image;
+}
+
 @end

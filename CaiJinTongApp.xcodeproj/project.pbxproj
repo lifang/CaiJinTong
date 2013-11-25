@@ -16,6 +16,7 @@
 		0E9C9EF5184321E600D48781 /* down.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E9C9EF4184321E600D48781 /* down.png */; };
 		0E9C9EF8184328CC00D48781 /* EditInfoInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9C9EF7184328CC00D48781 /* EditInfoInterface.m */; };
 		0E9C9EFB18433C3000D48781 /* BaseImageInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9C9EFA18433C3000D48781 /* BaseImageInfo.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0E9C9EFD184343F700D48781 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E9C9EFC184343F700D48781 /* AssetsLibrary.framework */; };
 		0E9DA2C0183EF00D000A5995 /* questionInfo副本.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E9DA2BF183EF00D000A5995 /* questionInfo副本.json */; };
 		0E9DA2D8183F3788000A5995 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9DA2D7183F3788000A5995 /* BaseViewController.m */; };
 		0E9DA3B2183F568D000A5995 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9DA361183F568D000A5995 /* ASIAuthenticationDialog.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -177,7 +178,7 @@
 		18153251183608330078A410 /* Q&A-myq_11@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18153250183608330078A410 /* Q&A-myq_11@2x.png */; };
 		1815325418360DE60078A410 /* Q&A-myq_19@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1815325318360DE60078A410 /* Q&A-myq_19@2x.png */; };
 		1815325618360DF40078A410 /* Q&A-myq_15@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1815325518360DF40078A410 /* Q&A-myq_15@2x.png */; };
-		1823143F18408D7100DE9422 /* delete_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1823143E18408D7100DE9422 /* delete_2.png */; };
+		182314411840A35D00DE9422 /* delete_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 182314401840A35D00DE9422 /* delete_2.png */; };
 		18335B67183C982600DB8B7E /* DRAskQuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18335B66183C982600DB8B7E /* DRAskQuestionViewController.m */; };
 		1836AFE2183AF875009E65B5 /* settings_delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 1836AFDF183AF875009E65B5 /* settings_delete.png */; };
 		1836AFE3183AF875009E65B5 /* settings_未选中.png in Resources */ = {isa = PBXBuildFile; fileRef = 1836AFE0183AF875009E65B5 /* settings_未选中.png */; };
@@ -219,6 +220,8 @@
 		18E32E0A1831FDF900041B8A /* login_07@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E32E041831FDF900041B8A /* login_07@2x.png */; };
 		18E32E0B1831FDF900041B8A /* login_10@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E32E051831FDF900041B8A /* login_10@2x.png */; };
 		18E32E0C1831FDF900041B8A /* login_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E32E061831FDF900041B8A /* login_bg@2x.png */; };
+		18EBD11C1842FA0900F9BDA9 /* lhl1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18EBD11A1842FA0900F9BDA9 /* lhl1@2x.png */; };
+		18EBD11D1842FA0900F9BDA9 /* lhl2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18EBD11B1842FA0900F9BDA9 /* lhl2@2x.png */; };
 		18F477E9183D9BDA00021886 /* SuggestionFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F477E8183D9BDA00021886 /* SuggestionFeedbackViewController.m */; };
 		18F477EF183DB57000021886 /* progressBar-front.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F477ED183DB57000021886 /* progressBar-front.png */; };
 		18F477F0183DB57000021886 /* progressBar-background.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F477EE183DB57000021886 /* progressBar-background.png */; };
@@ -294,6 +297,7 @@
 		0E9C9EF7184328CC00D48781 /* EditInfoInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditInfoInterface.m; sourceTree = "<group>"; };
 		0E9C9EF918433C3000D48781 /* BaseImageInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseImageInfo.h; sourceTree = "<group>"; };
 		0E9C9EFA18433C3000D48781 /* BaseImageInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseImageInfo.m; sourceTree = "<group>"; };
+		0E9C9EFC184343F700D48781 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		0E9DA2BF183EF00D000A5995 /* questionInfo副本.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "questionInfo副本.json"; sourceTree = "<group>"; };
 		0E9DA2D6183F3788000A5995 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		0E9DA2D7183F3788000A5995 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
@@ -571,7 +575,7 @@
 		18153250183608330078A410 /* Q&A-myq_11@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Q&A-myq_11@2x.png"; sourceTree = "<group>"; };
 		1815325318360DE60078A410 /* Q&A-myq_19@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Q&A-myq_19@2x.png"; sourceTree = "<group>"; };
 		1815325518360DF40078A410 /* Q&A-myq_15@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Q&A-myq_15@2x.png"; sourceTree = "<group>"; };
-		1823143E18408D7100DE9422 /* delete_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_2.png; sourceTree = "<group>"; };
+		182314401840A35D00DE9422 /* delete_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_2.png; sourceTree = "<group>"; };
 		18335B65183C982600DB8B7E /* DRAskQuestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRAskQuestionViewController.h; sourceTree = "<group>"; };
 		18335B66183C982600DB8B7E /* DRAskQuestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRAskQuestionViewController.m; sourceTree = "<group>"; };
 		1836AFDF183AF875009E65B5 /* settings_delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings_delete.png; sourceTree = "<group>"; };
@@ -620,6 +624,8 @@
 		18E32E041831FDF900041B8A /* login_07@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "login_07@2x.png"; path = "login-images/login_07@2x.png"; sourceTree = "<group>"; };
 		18E32E051831FDF900041B8A /* login_10@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "login_10@2x.png"; path = "login-images/login_10@2x.png"; sourceTree = "<group>"; };
 		18E32E061831FDF900041B8A /* login_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "login_bg@2x.png"; path = "login-images/login_bg@2x.png"; sourceTree = "<group>"; };
+		18EBD11A1842FA0900F9BDA9 /* lhl1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lhl1@2x.png"; sourceTree = "<group>"; };
+		18EBD11B1842FA0900F9BDA9 /* lhl2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lhl2@2x.png"; sourceTree = "<group>"; };
 		18F477E7183D9BDA00021886 /* SuggestionFeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuggestionFeedbackViewController.h; sourceTree = "<group>"; };
 		18F477E8183D9BDA00021886 /* SuggestionFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuggestionFeedbackViewController.m; sourceTree = "<group>"; };
 		18F477ED183DB57000021886 /* progressBar-front.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progressBar-front.png"; sourceTree = "<group>"; };
@@ -700,6 +706,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E9C9EFD184343F700D48781 /* AssetsLibrary.framework in Frameworks */,
 				0EA36ED4182C8E930074D67B /* CoreText.framework in Frameworks */,
 				630B95F61829F72B000ED31E /* MediaPlayer.framework in Frameworks */,
 				630CB0811828BD19002FD462 /* AVFoundation.framework in Frameworks */,
@@ -936,7 +943,9 @@
 		0EAFA1011822200200D01D3E /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				1823143E18408D7100DE9422 /* delete_2.png */,
+				18EBD11A1842FA0900F9BDA9 /* lhl1@2x.png */,
+				18EBD11B1842FA0900F9BDA9 /* lhl2@2x.png */,
+				182314401840A35D00DE9422 /* delete_2.png */,
 				18F477F3183DC5CA00021886 /* nothing.png */,
 				18F477ED183DB57000021886 /* progressBar-front.png */,
 				18F477EE183DB57000021886 /* progressBar-background.png */,
@@ -1342,6 +1351,7 @@
 		630B03A91820F5BB00F72C4C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0E9C9EFC184343F700D48781 /* AssetsLibrary.framework */,
 				0EA36ED3182C8E930074D67B /* CoreText.framework */,
 				630B95F51829F72B000ED31E /* MediaPlayer.framework */,
 				0EA2A91918288275003D152E /* libc++.dylib */,
@@ -1592,9 +1602,11 @@
 				18C9313018363B2A00FBE1A8 /* play_chat@2x.png in Resources */,
 				630B03C11820F5BB00F72C4C /* Main_iPad.storyboard in Resources */,
 				1815325418360DE60078A410 /* Q&A-myq_19@2x.png in Resources */,
+				18EBD11C1842FA0900F9BDA9 /* lhl1@2x.png in Resources */,
 				18E32E0C1831FDF900041B8A /* login_bg@2x.png in Resources */,
 				0EAFA0F41822167800D01D3E /* logIn.json in Resources */,
 				0EAFA0F21822167800D01D3E /* grade.json in Resources */,
+				18EBD11D1842FA0900F9BDA9 /* lhl2@2x.png in Resources */,
 				0EAFA0F31822167800D01D3E /* lessonInfo.json in Resources */,
 				18C9313518363B2A00FBE1A8 /* play_shuxian@2x.png in Resources */,
 				18C9313218363B2A00FBE1A8 /* play_note@2x.png in Resources */,
@@ -1644,7 +1656,7 @@
 				18C9313B18363B2A00FBE1A8 /* play-table@2x.png in Resources */,
 				0EA7176F1829E2D800560885 /* foregroundStar@2x.png in Resources */,
 				1815325618360DF40078A410 /* Q&A-myq_15@2x.png in Resources */,
-				1823143F18408D7100DE9422 /* delete_2.png in Resources */,
+				182314411840A35D00DE9422 /* delete_2.png in Resources */,
 				181532451835CD3D0078A410 /* btn0@2x.png in Resources */,
 				0EA7EF0C18233B0000C47F69 /* jiantou_up.png in Resources */,
 				0EAFA0F71822167800D01D3E /* questionInfo.json in Resources */,

@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "EditInfoInterface.h"
-@interface InfoViewController : UIViewController <UITextFieldDelegate,UITextViewDelegate,UIPickerViewDelegate,EditInfoInterfaceDelegate>
+@interface InfoViewController : UIViewController <UITextFieldDelegate,UITextViewDelegate,UIPickerViewDelegate,EditInfoInterfaceDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+{
+    UIImagePickerController *imagePicker;
+    UIPopoverController *popover;
+}
 
 @property (nonatomic, strong) EditInfoInterface *editInfoInterface;
 
@@ -26,4 +30,6 @@
 
 @property (nonatomic, strong)  UIBarButtonItem *editButton;
 @property (nonatomic, strong)  UIBarButtonItem *saveButton;
+
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *albumButton;
 @end
