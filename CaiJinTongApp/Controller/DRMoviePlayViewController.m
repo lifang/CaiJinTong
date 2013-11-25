@@ -104,10 +104,11 @@
                 
             }
             
+            Section *sectionDB = [[Section alloc] init];
             if (self.sectionModel) {
-                self.section_chapterController.dataArray = self.sectionModel.sectionList;
+                self.section_chapterController.dataArray =  [NSMutableArray arrayWithArray:[sectionDB getChapterInfoWithSid:self.sectionId]];
             } else if (self.sectionSaveModel) {
-                self.section_chapterController.dataArray = self.sectionSaveModel.sectionList;
+                self.section_chapterController.dataArray = [NSMutableArray arrayWithArray:[sectionDB getChapterInfoWithSid:self.sectionId]];
             }
             
             self.section_chapterController.view.frame = (CGRect){1024,0,1024-500,685};

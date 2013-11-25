@@ -67,6 +67,7 @@ static NSString *passValue;
     FixTableViewController *fixVC = [story instantiateViewControllerWithIdentifier:@"FixTableViewController"];
     switch (indexPath.row) {
         case 0:
+            passValue = self.nickNameLabel.text;
             break;
         case 1:
             passValue = self.birthLabel.text;
@@ -86,13 +87,16 @@ static NSString *passValue;
     CGFloat rowHeight = 0.0;
     switch (indexPath.row) {
         case 0:
-            rowHeight = 132.0;
-            break;
-        case 1:
-        case 2:
             rowHeight = 66.0;
             break;
+        case 1:
+            rowHeight = 132.0;
+            break;
+        case 2:
         case 3:
+            rowHeight = 66.0;
+            break;
+        case 4:
         {
             rowHeight = self.addressLabel.frame.size.height+44.0;
 //            NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:self.addressLabel.text];

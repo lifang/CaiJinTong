@@ -418,8 +418,8 @@
         Section *s = [[Section alloc] init];
         SectionSaveModel *ssm = [s getDataWithSid:sectionID];
         playerController.sectionSaveModel = ssm;
-        NSLog(@"----buttonModel.sid: %@----",ssm.sid);
-        NSLog(@"----buttonModel.sectionList: %@----",ssm.sectionList);
+//        NSLog(@"----buttonModel.sid: %@----",ssm.sid);
+//        NSLog(@"----buttonModel.sectionList: %@----",ssm.sectionList);
         
         AppDelegate *app = [AppDelegate sharedInstance];
         [app.lessonViewCtrol presentViewController:playerController animated:YES completion:^{

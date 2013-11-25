@@ -148,14 +148,10 @@
         if (self.buttonModel.sectionList.count>0) {//章节目录
             for (int i=0; i<self.buttonModel.sectionList.count; i++) {
                 Section_chapterModel *section = (Section_chapterModel *)[self.buttonModel.sectionList objectAtIndex:i];
-                [sectionDb addDataWithSectionModel:section andSid:self.buttonModel.sid];
+                [sectionDb addDataWithSectionModel:section andSid:self.buttonModel.sid];                
             }
         }
         [sectionDb addDataWithSectionSaveModel:self.buttonModel];//基本信息
-        
-        //------------------------------------
-        NSLog(@"====buttonModel.sid: %@====",self.buttonModel.sid);
-        NSLog(@"====buttonModel.sectionList: %@====",self.buttonModel.sectionList);
         
         dispatch_async(dispatch_get_main_queue(), ^{
             AppDelegate* appDelegate = [AppDelegate sharedInstance];
