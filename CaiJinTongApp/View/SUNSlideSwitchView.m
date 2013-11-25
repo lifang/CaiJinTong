@@ -128,6 +128,8 @@ static const NSUInteger kTagOfRightSideButton = 999;
         UIViewController *vc = [self.slideSwitchViewDelegate slideSwitchView:self viewOfTab:i];
         [_viewArray addObject:vc];
         [_rootScrollView addSubview:vc.view];
+        
+//        NSLog(@"----_rootScrollView.subviews: %@----",_rootScrollView.subviews);
     }
     [self createNameButtons];
     

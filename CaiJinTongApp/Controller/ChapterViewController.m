@@ -177,6 +177,7 @@
 
     [self.sectionView addTarget:self  action:@selector(imageButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     [cell.contentView addSubview:self.sectionView];
+    NSLog(@"---contentView.subviews.count: %i----",cell.contentView.subviews.count);
     sv = nil;
 }
 -(void)imageButtonClick:(id)sender {

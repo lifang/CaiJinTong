@@ -80,36 +80,7 @@
 }
 //播放
 -(void)playVideo {
-    NSString *path = nil;
-    NSString *documentDir;
-    if (platform>5.0) {
-        documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    }else{
-        documentDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    }
-    path = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@.mp4",self.buttonModel.sid]];
-    DLog(@"path = %@",path);//本地保存路径
-    if (path) {
-        //播放接口
-//        UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-//        DRMoviePlayViewController *playerController = [story instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
-//        playerController.movieUrlString = path;
-//        AppDelegate *app = [AppDelegate sharedInstance];
-//        [self presentViewController:playerController animated:YES completion:^{
-//            
-//        }];
-        DRMoviePlayViewController *playerController = [[DRMoviePlayViewController alloc] init];
-        UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-        playerController = [story instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
-        [playerController playMovieWithURL:[NSURL fileURLWithPath:path] withFileType:MPMovieSourceTypeFile];
-        playerController.sectionId = self.buttonModel.sid;
-        
-        AppDelegate *app = [AppDelegate sharedInstance];
-        [app.lessonViewCtrol presentViewController:playerController animated:YES completion:^{
-            
-        }];
-
-    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"gotoMoviePlay" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.buttonModel.sid, @"sectionID", nil]];
 }
 //下载中
 -(void)downloadShowView
@@ -181,6 +152,10 @@
             }
         }
         [sectionDb addDataWithSectionSaveModel:self.buttonModel];//基本信息
+        
+        //------------------------------------
+        NSLog(@"====buttonModel.sid: %@====",self.buttonModel.sid);
+        NSLog(@"====buttonModel.sectionList: %@====",self.buttonModel.sectionList);
         
         dispatch_async(dispatch_get_main_queue(), ^{
             AppDelegate* appDelegate = [AppDelegate sharedInstance];

@@ -202,7 +202,6 @@ NSString *appleID = @"6224939";
 
 #pragma mark -- cellDelegate
 -(void)infoCellView:(InfoCell*)header {
-    
 }
 
 #pragma mark -- suggestion feedback view

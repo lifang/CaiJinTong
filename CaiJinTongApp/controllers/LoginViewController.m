@@ -79,6 +79,7 @@
         [CaiJinTongManager shared].userId = [NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]];
         
         UserModel *user = [[UserModel alloc] init];
+        user.userId = [NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]];
         user.birthday = [NSString stringWithFormat:@"%@",[result objectForKey:@"birthday"]];
         user.sex = [NSString stringWithFormat:@"%@",[result objectForKey:@"sex"]];
         user.address = [NSString stringWithFormat:@"%@",[result objectForKey:@"address"]];

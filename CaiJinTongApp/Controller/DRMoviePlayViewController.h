@@ -14,6 +14,10 @@
 #import "MoviePlayerHolderView.h"
 #import "PlayBackInterface.h"
 #import "SumitNoteInterface.h"
+
+#import "SectionModel.h"
+#import "SectionSaveModel.h"
+
 #import "DRMoviePlayerTopBar.h"
 typedef enum {MOVIE_FILE,MOVIE_INTERNET}MovieLocateType;
 @protocol DRMoviePlayViewControllerDelegate;
@@ -38,9 +42,14 @@ typedef enum {MOVIE_FILE,MOVIE_INTERNET}MovieLocateType;
 @property (nonatomic,weak) id<DRMoviePlayViewControllerDelegate> delegate;
 @property (nonatomic, strong) PlayBackInterface *playBackInterface;
 @property (strong, nonatomic) NSString *sectionId;
+
+@property (nonatomic, strong) SectionModel *sectionModel;
+@property (nonatomic, strong) SectionSaveModel *sectionSaveModel;
+
 @property (strong, nonatomic) NSString *commitNoteText;
 @property (strong, nonatomic) NSString *commitNoteTime;
 @property (assign,nonatomic) MPMovieSourceType drMovieSourceType;
+
 - (IBAction)playBtClicked:(id)sender;
 - (IBAction)seekSliderTouchChangeValue:(id)sender;
 - (IBAction)volumeSliderTouchChangeValue:(id)sender;

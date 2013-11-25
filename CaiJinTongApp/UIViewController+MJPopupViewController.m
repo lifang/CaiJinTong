@@ -351,7 +351,10 @@ static void * const keypath = (void*)&keypath;
         popupView.frame = popupEndRect;
         self.mj_popupBackgroundView.alpha = 0.0f;
     } completion:^(BOOL finished) {
-        [popupView removeFromSuperview];
+        if (popupView) {
+                 [popupView removeFromSuperview];
+        }
+   
         [overlayView removeFromSuperview];
         [self.mj_popupViewController viewDidDisappear:NO];
         self.mj_popupViewController = nil;
