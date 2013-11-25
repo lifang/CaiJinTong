@@ -81,15 +81,16 @@ static CGRect frame;
     }else{
         self.questionList = [NSMutableArray arrayWithArray:[CaiJinTongManager shared].question];
 
+        //标记是否选中了
+        self.questionArrSelSection = [[NSMutableArray alloc] init];
+        for (int i =0; i<self.questionList.count; i++) {
+            [self.questionArrSelSection addObject:[NSString stringWithFormat:@"%d",i]];
+        }
         dispatch_async(dispatch_get_main_queue(), ^{
-            
+            [self.selectTable reloadData];
         });
     }
-        //标记是否选中了
-    self.questionArrSelSection = [[NSMutableArray alloc] init];
-    for (int i =0; i<self.questionList.count; i++) {
-        [self.questionArrSelSection addObject:[NSString stringWithFormat:@"%d",i]];
-    }
+    
     NSLog(@"%@第三方斯蒂芬斯蒂芬苏打",self.questionList);
 }
 
@@ -179,18 +180,15 @@ static CGRect frame;
         return  1;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-        for (int i = 0; i < self.questionArrSelSection.count; i++) {
-            NSString *strSection = [NSString stringWithFormat:@"%@",[self.questionArrSelSection objectAtIndex:i]];
-            NSInteger selSection = strSection.integerValue;
-            if (section == selSection) {
-                return 0;
-            }
+    for (int i = 0; i < self.questionArrSelSection.count; i++) {
+        NSString *strSection = [NSString stringWithFormat:@"%@",[self.questionArrSelSection objectAtIndex:i]];
+        NSInteger selSection = strSection.integerValue;
+        if (section == selSection) {
+            return 0;
         }
-        if (section == 0) {
-            return self.questionList.count;
-        }else{
-            return 2;
-        }
+    }
+    
+    return self.questionList.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -199,26 +197,8 @@ static CGRect frame;
         cell = [[UITableViewCell alloc] init];
     }
         if (indexPath.section == 0) {
-            NSDictionary *d=[self.questionList objectAtIndex:indexPath.row];
-            NSArray *ar=[d valueForKey:@"questionNode"];
-            if (ar.count>0) {
-                cell.backgroundView =  [[UIView alloc] initWithFrame:cell.frame];
-                cell.backgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"headview_cell_background_selected.png")];
-                cell.selectedBackgroundView =  [[UIView alloc] initWithFrame:cell.frame];
-                cell.selectedBackgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"headview_cell_background_selected.png")];
-            }else {
-                cell.backgroundView =  [[UIView alloc] initWithFrame:cell.frame];
-                cell.backgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"headview_cell_background.png")];
-                cell.selectedBackgroundView =  [[UIView alloc] initWithFrame:cell.frame];
-                cell.selectedBackgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"headview_cell_background.png")];
-            }
             cell.textLabel.text=[NSString stringWithFormat:@"  %@",[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"questionName"]];
-        }else{
-            if (indexPath.row == 0) {
-                cell.textLabel.text = @"  我的提问";
-            }else{
-                cell.textLabel.text = @"  我的回答";
-            }
+            [cell setIndentationLevel:[[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"level"]intValue]];
         }
         
         cell.textLabel.textColor = [UIColor blackColor];
@@ -320,7 +300,7 @@ static CGRect frame;
         [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
         NSMutableArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
         dispatch_async(dispatch_get_main_queue(), ^{
-            
+            [self.selectTable reloadData];
         });
     });
 }
@@ -351,6 +331,7 @@ static CGRect frame;
 
 #pragma mark button methods
 -(void)showSelectTable{
+    
     if(self.selectTable.hidden){
         self.selectTable.hidden = NO;
         [self.selectTable reloadData];
