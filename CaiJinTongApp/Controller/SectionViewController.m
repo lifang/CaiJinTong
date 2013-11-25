@@ -30,6 +30,10 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+-(void)willDismissPopoupController{
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

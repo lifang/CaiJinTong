@@ -24,9 +24,13 @@
     return self;
 }
 
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sunsliderScrollWillBeginDragging) name:@"SUNSlideScrollWillDraggingNotification" object:nil];
 }
 - (void)viewDidCurrentView
 {
@@ -203,6 +207,12 @@ static NSString *timespan = nil;
         }
     }
 }
+
+#pragma mark Notification
+-(void)sunsliderScrollWillBeginDragging{
+    [self.textView resignFirstResponder];
+}
+#pragma mark --
 
 #pragma  mark --CommentListInterfaceDelegate
 -(void)getCommentListInfoDidFinished:(SectionModel *)result {

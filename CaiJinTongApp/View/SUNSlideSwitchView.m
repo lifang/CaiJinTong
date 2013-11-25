@@ -281,6 +281,7 @@ static const NSUInteger kTagOfRightSideButton = 999;
     if (scrollView == _rootScrollView) {
         _userContentOffsetX = scrollView.contentOffset.x;
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"SUNSlideScrollWillDraggingNotification" object:nil];
 }
 
 //滚动视图结束

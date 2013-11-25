@@ -29,6 +29,11 @@
     
 }
 
+
+-(void)willDismissPopoupController{
+    CGPoint offset = self.tableView.contentOffset;
+    [self.tableView setContentOffset:offset animated:NO];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -38,7 +43,7 @@
     self.drnavigationBar.titleLabel.text = @"我的提问";
     [self.drnavigationBar.navigationRightItem setTitle:@"提问" forState:UIControlStateNormal];
     [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    [self.noticeBarImageView setImage:[[UIImage imageNamed:@"btn0.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 6) resizingMode:UIImageResizingModeStretch]];
+    [self.noticeBarImageView.layer setCornerRadius:4];
 }
 
 -(void)initTestData{
