@@ -9,11 +9,10 @@
 #import <Foundation/Foundation.h>
 
 @interface UserModel : NSObject
-
+@property (nonatomic, strong) NSString *userName;
 @property (nonatomic, strong) NSString *userId;
 @property (nonatomic, strong) NSString *birthday;
 @property (nonatomic, strong) NSString *sex;
 @property (nonatomic, strong) NSString *address;
 @property (nonatomic, strong) NSString *userImg;
-
 @end

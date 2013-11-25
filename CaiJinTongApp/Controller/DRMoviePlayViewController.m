@@ -112,12 +112,6 @@
             }
             
             self.section_chapterController.view.frame = (CGRect){1024,0,1024-500,685};
-            [self.movieplayerControlBackView setUserInteractionEnabled:NO];
-            [UIView animateWithDuration:0.5 animations:^{
-                self.section_chapterController.view.frame = (CGRect){450,0,1024-450,685};
-            } completion:^(BOOL finished) {
-                [self.movieplayerControlBackView setUserInteractionEnabled:YES];
-            }];
             self.isPopupChapter = YES;
         }else {
             self.isPopupChapter = NO;
@@ -206,6 +200,10 @@
 
 -(void)TouchSingleTap{
     self.isHiddlePlayerControlView = !self.isHiddlePlayerControlView;
+    if (self.chapterListItem.isSelected) {
+        self.isPopupChapter = !self.isPopupChapter;
+    }
+    
 }
 
 -(void)TouchVolumeUP{
@@ -259,6 +257,12 @@
 
 -(void)didFinishedMoviePlayerNotification:(NSNotification*)notification{//播放完成，或者错误时触发
     DLog(@"didFinishedMoviePlayerNotification:%@",[notification.userInfo  objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey]);
+    [self endObservePlayBackProgressBar];
+    [self updateMoviePlayBackProgressBar];
+    
+    if ([[notification.userInfo  objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey] integerValue] == MPMovieFinishReasonPlaybackEnded) {
+        self.seekSlider.value = 1;
+    }
 }
 
 -(void)didChangeMoviePlayerURLNotification{//播放的视频url改变时触发
@@ -314,7 +318,18 @@
 [self dismissViewControllerAnimated:YES completion:^{
     [self.moviePlayer stop];
     self.moviePlayer = nil;
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+        [Utility errorAlert:@"暂无网络!"];
+    }else {
+        //判断是否播放完毕
+        [SVProgressHUD showWithStatus:@"玩命加载中..."];
+        PlayBackInterface *playBackInter = [[PlayBackInterface alloc]init];
+        self.playBackInterface = playBackInter;
+        self.playBackInterface.delegate = self;
+        NSString *timespan = [Utility getNowDateFromatAnDate];
+        NSString *status = self.seekSlider.value >= 1?@"completed": @"incomplete";
+        [self.playBackInterface getPlayBackInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionId andTimeEnd:timespan andStatus:status];
+    }
 }];
     
 }
@@ -354,6 +369,7 @@
 -(void)removeMoviePlayBackNotification{
     [[NSNotificationCenter defaultCenter]removeObserver:self];
 }
+//实时更新进度条
 -(void)startObservePlayBackProgressBar{
     if (self.timer) {
         [self.timer invalidate];
@@ -387,13 +403,22 @@
 
 -(void)setIsPopupChapter:(BOOL)isPopupChapter{
     _isPopupChapter = isPopupChapter;
-    if (!isPopupChapter && self.section_chapterController) {
+    if (self.section_chapterController) {
         [self.movieplayerControlBackView setUserInteractionEnabled:NO];
-        [UIView animateWithDuration:0.5 animations:^{
-            self.section_chapterController.view.frame = (CGRect){1024,0,1024-500,685};
-        } completion:^(BOOL finished) {
-            [self.movieplayerControlBackView setUserInteractionEnabled:YES];
-        }];
+        if (!isPopupChapter) {
+            
+            [UIView animateWithDuration:0.5 animations:^{
+                self.section_chapterController.view.frame = (CGRect){1024,0,1024-500,685};
+            } completion:^(BOOL finished) {
+                [self.movieplayerControlBackView setUserInteractionEnabled:YES];
+            }];
+        }else{
+            [UIView animateWithDuration:0.5 animations:^{
+                self.section_chapterController.view.frame = (CGRect){450,0,1024-450,685};
+            } completion:^(BOOL finished) {
+                [self.movieplayerControlBackView setUserInteractionEnabled:YES];
+            }];
+        }
     }
 }
 
@@ -447,19 +472,19 @@
 }
 
 #pragma mark TOUCH
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
-//    [super touchesBegan:touches withEvent:event];
-    if (self.isPopupChapter) {
-        self.isPopupChapter = NO;
-    }
-}
+//-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+////    [super touchesBegan:touches withEvent:event];
+//    if (self.isPopupChapter) {
+//        self.isPopupChapter = NO;
+//    }
+//}
 #pragma mark -- PlayBackInterfaceDelegate
 
 -(void)getPlayBackInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
         dispatch_async(dispatch_get_main_queue(), ^{
-            
+            [[NSNotificationCenter defaultCenter] removeObserver:self];
         });
     });
 }

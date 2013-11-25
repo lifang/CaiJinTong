@@ -23,27 +23,27 @@
 }
 
 -(void)drnavigationBarRightItemClicked:(id)sender{
-    // [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
-    //    AppDelegate *app = [[UIApplication sharedApplication] delegate];
-    //    [app.popupedController dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
-//    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
     UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
     DRAskQuestionViewController *ask = [story instantiateViewControllerWithIdentifier:@"DRAskQuestionViewController"];
     [self.navigationController pushViewController:ask animated:YES];
     
 }
 
+
+-(void)willDismissPopoupController{
+    CGPoint offset = self.tableView.contentOffset;
+    [self.tableView setContentOffset:offset animated:NO];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self initTestData];
     [self.tableView registerClass:[QuestionAndAnswerCellHeaderView class] forHeaderFooterViewReuseIdentifier:@"header"];
-	// Do any additional setup after loading the view.
+    
     self.drnavigationBar.titleLabel.text = @"我的提问";
     [self.drnavigationBar.navigationRightItem setTitle:@"提问" forState:UIControlStateNormal];
     [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    [self.noticeBarImageView setImage:[[UIImage imageNamed:@"btn0.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 6) resizingMode:UIImageResizingModeStretch]];
-//    self.addQuesitionBtn.backgroundColor = [UIColor clearColor];
+    [self.noticeBarImageView.layer setCornerRadius:4];
 }
 
 -(void)initTestData{
@@ -85,7 +85,6 @@
 #pragma mark QuestionAndAnswerCellDelegate
 
 -(void)questionAndAnswerCell:(QuestionAndAnswerCell *)cell willBeginTypeQuestionTextFieldAtIndexPath:(NSIndexPath *)path{
-//    QuestionAndAnswerCell *cell = [self.tableView cellForRowAtIndexPath:path];
     CGRect cellRect = [self.tableView rectForRowAtIndexPath:path];
     float cellmaxHeight = CGRectGetMaxY(cellRect) - self.tableView.contentOffset.y;
     float keyheight = CGRectGetMaxY(self.tableView.frame) - 400;
@@ -190,11 +189,7 @@ QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
     AnswerModel *answer = [question.answerList objectAtIndex:path.row];
     float questionTextFieldHeight = answer.isEditing?141:0;
-    
-//    return  [Utility getTextSizeWithString:answer.answerContent withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:CGRectGetWidth(self.tableView.frame)-108].height + TEXT_HEIGHT + TEXT_PADDING*3+ questionTextFieldHeight;
-    
-//    return  [Utility getTextSizeWithString:answer.answerContent withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:350].height + TEXT_HEIGHT + TEXT_PADDING*3+ questionTextFieldHeight;
-    
+
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:answer.answerContent];
     [str setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6]} range:NSMakeRange(0, answer.answerContent.length)];
     return [str boundingRectWithSize:CGSizeMake(460, 2000) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading|NSStringDrawingTruncatesLastVisibleLine context:nil].size.height + TEXT_HEIGHT + TEXT_PADDING*3+ questionTextFieldHeight;

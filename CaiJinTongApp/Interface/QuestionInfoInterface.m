@@ -78,6 +78,21 @@
                                                                 for (int n=0; n<array4.count; n++) {
                                                                     NSDictionary *question_dic4 = [array4 objectAtIndex:m];
                                                                     NSMutableDictionary *dic4 = [self setDictionary:question_dic4 WithLevel:level4];
+                                                                    //层级5
+                                                                    NSMutableArray *array5 = [NSMutableArray arrayWithArray:[dic4 objectForKey:@"questionNode"]];
+                                                                    if (array5.count>0) {
+                                                                        int level5 = 10;
+                                                                        for (int x=0; x<array5.count; x++) {
+                                                                            NSDictionary *question_dic5 = [array5 objectAtIndex:x];
+                                                                            NSMutableDictionary *dic5 = [self setDictionary:question_dic5 WithLevel:level5];
+                                                                            
+                                                                            [array5 replaceObjectAtIndex:x withObject:dic5];
+                                                                        }
+                                                                        [dic4 removeObjectForKey:@"questionNode"];
+                                                                        [dic4 setObject:array5 forKey:@"questionNode"];
+                                                                    }
+                                                                    
+                                                                    
                                                                     [array4 replaceObjectAtIndex:n withObject:dic4];
                                                                 }
                                                                 [dic3 removeObjectForKey:@"questionNode"];

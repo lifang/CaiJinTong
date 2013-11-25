@@ -9,6 +9,8 @@
 #import "DRCommitQuestionViewController.h"
 #define LESSON_HEADER_IDENTIFIER @"lessonHeader"
 static CGRect frame;
+static CGRect tableFrame;
+static BOOL tableVisible;
 @interface DRCommitQuestionViewController ()
 
 @end
@@ -71,9 +73,9 @@ static CGRect frame;
     [self.selectTable.layer setBorderColor:[UIColor blackColor].CGColor];
     [self.selectTable.layer setBorderWidth:2];
     self.selectTable.separatorStyle = NO;
-    self.selectTable.hidden = YES;
     
-    frame = CGRectMake(0, 151, 41, 123);//按钮坐标
+    frame = CGRectMake(6, 151, 41, 123);//按钮坐标
+    tableFrame = CGRectMake(-229, 30, 235, 370);//table坐标
     
     //问答分类
     if ([CaiJinTongManager shared].question.count == 0) {
@@ -81,15 +83,16 @@ static CGRect frame;
     }else{
         self.questionList = [NSMutableArray arrayWithArray:[CaiJinTongManager shared].question];
 
+        //标记是否选中了
+        self.questionArrSelSection = [[NSMutableArray alloc] init];
+        for (int i =0; i<self.questionList.count; i++) {
+            [self.questionArrSelSection addObject:[NSString stringWithFormat:@"%d",i]];
+        }
         dispatch_async(dispatch_get_main_queue(), ^{
-            
+            [self.selectTable reloadData];
         });
     }
-        //标记是否选中了
-    self.questionArrSelSection = [[NSMutableArray alloc] init];
-    for (int i =0; i<self.questionList.count; i++) {
-        [self.questionArrSelSection addObject:[NSString stringWithFormat:@"%d",i]];
-    }
+    
     NSLog(@"%@第三方斯蒂芬斯蒂芬苏打",self.questionList);
 }
 
@@ -179,18 +182,15 @@ static CGRect frame;
         return  1;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-        for (int i = 0; i < self.questionArrSelSection.count; i++) {
-            NSString *strSection = [NSString stringWithFormat:@"%@",[self.questionArrSelSection objectAtIndex:i]];
-            NSInteger selSection = strSection.integerValue;
-            if (section == selSection) {
-                return 0;
-            }
+    for (int i = 0; i < self.questionArrSelSection.count; i++) {
+        NSString *strSection = [NSString stringWithFormat:@"%@",[self.questionArrSelSection objectAtIndex:i]];
+        NSInteger selSection = strSection.integerValue;
+        if (section == selSection) {
+            return 0;
         }
-        if (section == 0) {
-            return self.questionList.count;
-        }else{
-            return 2;
-        }
+    }
+    
+    return self.questionList.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -199,26 +199,8 @@ static CGRect frame;
         cell = [[UITableViewCell alloc] init];
     }
         if (indexPath.section == 0) {
-            NSDictionary *d=[self.questionList objectAtIndex:indexPath.row];
-            NSArray *ar=[d valueForKey:@"questionNode"];
-            if (ar.count>0) {
-                cell.backgroundView =  [[UIView alloc] initWithFrame:cell.frame];
-                cell.backgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"headview_cell_background_selected.png")];
-                cell.selectedBackgroundView =  [[UIView alloc] initWithFrame:cell.frame];
-                cell.selectedBackgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"headview_cell_background_selected.png")];
-            }else {
-                cell.backgroundView =  [[UIView alloc] initWithFrame:cell.frame];
-                cell.backgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"headview_cell_background.png")];
-                cell.selectedBackgroundView =  [[UIView alloc] initWithFrame:cell.frame];
-                cell.selectedBackgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"headview_cell_background.png")];
-            }
             cell.textLabel.text=[NSString stringWithFormat:@"  %@",[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"questionName"]];
-        }else{
-            if (indexPath.row == 0) {
-                cell.textLabel.text = @"  我的提问";
-            }else{
-                cell.textLabel.text = @"  我的回答";
-            }
+            [cell setIndentationLevel:[[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"level"]intValue]];
         }
         
         cell.textLabel.textColor = [UIColor blackColor];
@@ -235,7 +217,7 @@ static CGRect frame;
                 if (ar.count == 0) {
                     self.selectedQuestionId = [d valueForKey:@"questionID"];
                     self.selectedQuestionName.text = [d valueForKey:@"questionName"];
-                    NSLog(@"%@%@斯蒂芬斯蒂芬",self.selectedQuestionName.text,self.selectedQuestionId);
+                    [self showSelectTable];
                 }else {
                     BOOL isAlreadyInserted=NO;
                     
@@ -293,40 +275,12 @@ static CGRect frame;
 
 
 
-- (IBAction)questionListBtClicked:(id)sender {
-    if ([CaiJinTongManager shared].question.count == 0) {
-        [self getQuestionInfo];
-    }else {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            self.questionList = [NSMutableArray arrayWithArray:[CaiJinTongManager shared].question];
-            dispatch_async ( dispatch_get_main_queue (), ^{
-                [self.selectTable reloadData];
-            });
-        });
-    }
-}
-
 #pragma mark property
 -(NSMutableArray *)questionArrSelSection{
     if (!_questionArrSelSection) {
         _questionArrSelSection = [NSMutableArray array];
     }
     return _questionArrSelSection;
-}
-
-#pragma mark--ChapterQuestionInterfaceDelegate
--(void)getChapterQuestionInfoDidFinished:(NSDictionary *)result {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
-        NSMutableArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-        });
-    });
-}
--(void)getChapterQuestionInfoDidFailed:(NSString *)errorMsg {
-    [SVProgressHUD dismiss];
-    [Utility errorAlert:errorMsg];
 }
 
 #pragma mark LessonListHeaderViewDelegate
@@ -351,13 +305,22 @@ static CGRect frame;
 
 #pragma mark button methods
 -(void)showSelectTable{
-    if(self.selectTable.hidden){
-        self.selectTable.hidden = NO;
+    if(!tableVisible){
         [self.selectTable reloadData];
-        [self.selectTableBtn setFrame:CGRectMake(frame.origin.x + 235, frame.origin.y, frame.size.width, frame.size.height)];
+        [UIView animateWithDuration:0.5 delay:0.0 options: UIViewAnimationOptionBeginFromCurrentState animations:^{
+            [self.selectTableBtn setFrame:CGRectMake(frame.origin.x + 235, frame.origin.y, frame.size.width, frame.size.height)];
+            [self.selectTable setFrame:CGRectMake(tableFrame.origin.x + 235, tableFrame.origin.y, tableFrame.size.width, tableFrame.size.height)];
+            tableVisible = YES;
+        }
+                         completion:NULL];
     }else{
-        self.selectTable.hidden = YES;
-        [self.selectTableBtn setFrame:frame];
+        [UIView animateWithDuration:0.5 delay:0.0 options: UIViewAnimationOptionBeginFromCurrentState animations:^{
+            [self.selectTableBtn setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height)];
+            [self.selectTable setFrame:CGRectMake(tableFrame.origin.x, tableFrame.origin.y, tableFrame.size.width, tableFrame.size.height)];
+            tableVisible = NO;
+        }
+                         completion:NULL];
     }
+
 }
 @end

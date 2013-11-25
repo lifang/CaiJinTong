@@ -66,7 +66,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     [super viewDidLoad];
     [self.tableView registerClass:[LessonListHeaderView class] forHeaderFooterViewReuseIdentifier:LESSON_HEADER_IDENTIFIER];
     self.listType = LESSON_LIST;
-    [Utility setBackgroungWithView:self.LogoImageView.superview andImage6:@"login_bg" andImage7:@"login_bg_7"];
+    [Utility setBackgroungWithView:self.LogoImageView.superview andImage6:@"login_bg_7" andImage7:@"login_bg_7"];
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.separatorStyle = NO;
     self.searchBarView.backgroundColor = [UIColor clearColor];
@@ -288,7 +288,6 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     }else{
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"questionCell"];
         if (indexPath.section == 0) {
-            
             cell.textLabel.text=[NSString stringWithFormat:@"%@",[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"questionName"]];
             [cell setIndentationLevel:[[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"level"]intValue]];
         }else{
@@ -298,7 +297,6 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                 cell.textLabel.text = @" 我的回答";
             }
         }
-        [cell setIndentationLevel:1];
         cell.textLabel.textColor = [UIColor whiteColor];
         cell.detailTextLabel.textColor = [UIColor whiteColor];
         cell.backgroundColor = [UIColor clearColor];
@@ -365,27 +363,12 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         }else{
             UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
             MyQuestionAndAnswerViewController *myQAVC = [story instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
-
-            [CaiJinTongManager shared].defaultLeftInset = 200;
-            [CaiJinTongManager shared].defaultPortraitTopInset = 20;
-            [CaiJinTongManager shared].defaultWidth = 568;
-            [CaiJinTongManager shared].defaultHeight = 984;
             UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:myQAVC];
             [navControl setNavigationBarHidden:YES];
             navControl.view.frame = (CGRect){0,0,568,1004};
             [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
                 
             }];
-//            MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:navControl];
-//            formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromRight;
-//            formSheet.shadowRadius = 2.0;
-//            formSheet.shadowOpacity = 0.3;
-//            formSheet.shouldDismissOnBackgroundViewTap = YES;
-//            formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
-//            
-//            [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
-//                
-//            }];
             switch (indexPath.row) {
                 case 0:
                     //请求我的提问

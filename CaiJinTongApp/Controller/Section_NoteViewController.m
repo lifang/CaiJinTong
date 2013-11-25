@@ -33,6 +33,7 @@
 - (void)viewDidCurrentView
 {
     DLog(@"加载为当前视图 = %@",self.title);
+    [self.tableViewList reloadData];
 }
 - (void)didReceiveMemoryWarning
 {
@@ -60,11 +61,6 @@
     NoteModel *note = (NoteModel *)[self.dataArray objectAtIndex:indexPath.row];
     UIFont *aFont = [UIFont fontWithName:@"Trebuchet MS" size:18];
     CGSize size = [note.noteText sizeWithFont:aFont constrainedToSize:CGSizeMake(500, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
-//    cell.contentLab.frame = CGRectMake(30, 35, 500, size.height);
-//    cell.contentLab.text = note.noteText;
-//    cell.timeLab.text = note.noteTime;
-//    cell.contentLab.layer.borderWidth = 2.0;
-//    cell.contentLab.layer.borderColor = [[UIColor colorWithRed:244.0/255.0 green:243.0/255.0 blue:244.0/255.0 alpha:1.0] CGColor];
     
     [cell.contentTextView setUserInteractionEnabled:NO];
     cell.contentTextView.frame = CGRectMake(30, 35, 500, size.height+20);
@@ -75,7 +71,7 @@
     cell.contentTextView.font = aFont;
     cell.contentTextView.contentInset = UIEdgeInsetsMake(0, 5.0f, 0, 5.0f);
     
-    cell.sectionNameLab.text = note.noteId;
+//    cell.sectionNameLab.text = note.noteId;
     
     return cell;
 }

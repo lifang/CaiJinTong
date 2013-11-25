@@ -30,6 +30,10 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+-(void)willDismissPopoupController{
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -195,7 +199,6 @@
 //    }
 }
 -(void)playVideo:(id)sender {
-     
     DLog(@"play");
     self.path = nil;//视频路径
     //先匹配本地,在数据库中查找纪录
@@ -209,16 +212,9 @@
             documentDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         }
         self.path = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@.mp4",self.section.sectionId]];
-        DLog(@"path = %@",self.path);//本地保存路径
-//        DRMoviePlayViewController *playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
-//        playerController.movieUrlString = self.path;
-//         [[MZFormSheetBackgroundWindow appearance] setSupportedInterfaceOrientations:UIInterfaceOrientationMaskLandscape];
-//       
-//        [self presentFormSheetWithViewController:playerController animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
-//            
-//        }];
+        
         self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
-//        self.playerController.movieUrlString = self.path;
+
         [self.playerController playMovieWithURL:[NSURL fileURLWithPath:self.path] withFileType:MPMovieSourceTypeFile];
         self.playerController.sectionId = self.section.sectionId;
         self.playerController.sectionModel = self.section;
@@ -280,9 +276,13 @@
 
 #pragma mark DRMoviePlayViewControllerDelegate
 -(void)drMoviePlayerViewController:(DRMoviePlayViewController *)playerController commitNotesSuccess:(NSString *)noteText andTime:(NSString *)noteTime{
-
+    if (self.section_NoteView) {
+        NoteModel *note = [[NoteModel alloc] init];
+        note.noteTime = noteTime;
+        note.noteText = noteText;
+        [self.section_NoteView.dataArray addObject:note];
+    }
 }
-#pragma mark --
 
 #pragma mark - 滑动tab视图代理方法
 
@@ -366,7 +366,6 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             //播放接口
             self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
-//            self.playerController.movieUrlString = self.path;
             [self.playerController playMovieWithURL:[NSURL URLWithString:self.path] withFileType:MPMovieSourceTypeStreaming];
             self.playerController.sectionId = self.section.sectionId;
             self.playerController.sectionModel = self.section;
@@ -376,10 +375,6 @@
             [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
                 
             }];
-//            [[MZFormSheetBackgroundWindow appearance] setSupportedInterfaceOrientations:UIInterfaceOrientationMaskLandscape];
-//            [self presentFormSheetWithViewController:self.playerController animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
-//                
-//            }];
         });
     });
 }
