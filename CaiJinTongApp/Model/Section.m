@@ -202,7 +202,7 @@
     while ([rs next]) {
         Section_chapterModel *nm = [[Section_chapterModel alloc] init];
         nm.sectionId = [rs stringForColumn:@"sectionId"];
-        nm.sectionName = [rs stringForColumn:@"sectionName"];
+        nm.sectionName = [rs stringForColumn:@"name"];
         nm.sectionDownload = [rs stringForColumn:@"sectionDownload"];
         nm.sectionLastTime = [rs stringForColumn:@"sectionLastTime"];
         [array addObject:nm];

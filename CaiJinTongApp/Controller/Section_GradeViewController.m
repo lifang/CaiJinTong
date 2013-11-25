@@ -116,6 +116,7 @@
 #pragma -- 提交
 static NSString *timespan = nil;
 -(IBAction)submitBtnPressed:(id)sender {
+    
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
