@@ -33,6 +33,11 @@
     return self;
 }
 
+-(void)willDismissPopoupController{
+    CGPoint offset = self.myScrollView.contentOffset;
+    [self.myScrollView setContentOffset:offset animated:NO];
+}
+
 -(void)drnavigationBarRightItemClicked:(id)sender{
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
 }

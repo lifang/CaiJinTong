@@ -256,6 +256,12 @@
 
 -(void)didFinishedMoviePlayerNotification:(NSNotification*)notification{//播放完成，或者错误时触发
     DLog(@"didFinishedMoviePlayerNotification:%@",[notification.userInfo  objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey]);
+    [self endObservePlayBackProgressBar];
+    [self updateMoviePlayBackProgressBar];
+    
+    if ([[notification.userInfo  objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey] integerValue] == MPMovieFinishReasonPlaybackEnded) {
+        self.seekSlider.value = 1;
+    }
 }
 
 -(void)didChangeMoviePlayerURLNotification{//播放的视频url改变时触发
@@ -320,7 +326,8 @@
         self.playBackInterface = playBackInter;
         self.playBackInterface.delegate = self;
         NSString *timespan = [Utility getNowDateFromatAnDate];
-        [self.playBackInterface getPlayBackInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionId andTimeEnd:timespan andStatus:@"incomplete"];
+        NSString *status = self.seekSlider.value >= 1?@"completed": @"incomplete";
+        [self.playBackInterface getPlayBackInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionId andTimeEnd:timespan andStatus:status];
     }
 }];
     
@@ -361,6 +368,7 @@
 -(void)removeMoviePlayBackNotification{
     [[NSNotificationCenter defaultCenter]removeObserver:self];
 }
+//实时更新进度条
 -(void)startObservePlayBackProgressBar{
     if (self.timer) {
         [self.timer invalidate];

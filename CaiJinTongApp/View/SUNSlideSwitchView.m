@@ -7,7 +7,7 @@
 //
 
 #import "SUNSlideSwitchView.h"
-
+#define SHADOW_HEIGHT 4
 static const CGFloat kHeightOfTopScrollView = 44.0f;
 static const CGFloat kWidthOfButtonMargin = 16.0f;
 static const CGFloat kFontSizeOfTabButton = 17.0f;
@@ -155,7 +155,10 @@ static const NSUInteger kTagOfRightSideButton = 999;
 {
     
     _shadowImageView = [[UIImageView alloc] init];
-    [_shadowImageView setImage:_shadowImage];
+//    [_shadowImageView setImage:_shadowImage];
+//    _shadowImageView.contentMode = UIViewContentModeScaleAspectFit;
+    _shadowImageView.backgroundColor = [UIColor colorWithRed:0 green:2/255.0 blue:57/255.0 alpha:1];
+//    _shadowImageView.layer.cornerRadius = 4;
     [_topScrollView addSubview:_shadowImageView];
     
     //顶部tabbar的总长度
@@ -178,7 +181,7 @@ static const NSUInteger kTagOfRightSideButton = 999;
         
         [button setTag:i+100];
         if (i == 0) {
-            _shadowImageView.frame = CGRectMake(0, 38, textSize.width, _shadowImage.size.height);
+            _shadowImageView.frame = CGRectMake(0, 38, textSize.width, SHADOW_HEIGHT);
             button.selected = YES;
         }
         [button setTitle:vc.title forState:UIControlStateNormal];
@@ -225,7 +228,7 @@ static const NSUInteger kTagOfRightSideButton = 999;
         
         [UIView animateWithDuration:0.25 animations:^{
             
-            [_shadowImageView setFrame:CGRectMake(sender.frame.origin.x, 38, sender.frame.size.width, _shadowImage.size.height)];
+            [_shadowImageView setFrame:CGRectMake(sender.frame.origin.x, 38, sender.frame.size.width,SHADOW_HEIGHT)];
             
         } completion:^(BOOL finished) {
             if (finished) {
@@ -278,6 +281,7 @@ static const NSUInteger kTagOfRightSideButton = 999;
     if (scrollView == _rootScrollView) {
         _userContentOffsetX = scrollView.contentOffset.x;
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"SUNSlideScrollWillDraggingNotification" object:nil];
 }
 
 //滚动视图结束

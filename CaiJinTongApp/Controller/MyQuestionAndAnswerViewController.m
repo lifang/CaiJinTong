@@ -29,6 +29,11 @@
     
 }
 
+
+-(void)willDismissPopoupController{
+    CGPoint offset = self.tableView.contentOffset;
+    [self.tableView setContentOffset:offset animated:NO];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];

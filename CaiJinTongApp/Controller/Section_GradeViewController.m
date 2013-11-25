@@ -24,13 +24,18 @@
     return self;
 }
 
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sunsliderScrollWillBeginDragging) name:@"SUNSlideScrollWillDraggingNotification" object:nil];
 }
 - (void)viewDidCurrentView
 {
     DLog(@"加载为当前视图 = %@",self.title);
+    [self displayView];
 }
 
 - (void)didReceiveMemoryWarning
@@ -105,7 +110,7 @@
 }
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self displayView];
+//    [self displayView];
 }
 #pragma  -- 打分
 -(void)starRatingView:(TQStarRatingView *)view score:(float)score
@@ -127,8 +132,6 @@ static NSString *timespan = nil;
         self.gradeInterface.delegate = self;
         [self.gradeInterface getGradeInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionId andScore:[NSString stringWithFormat:@"%d",self.starRatingView.score]andContent:self.textView.text];
     }
-    
-    
 }
 #pragma mark-- UITableViewDelegate 
 
@@ -170,6 +173,19 @@ static NSString *timespan = nil;
     
     return cell;
 }
+//提交评论成功后加入到评论列表
+-(void)insertCommitDataInToCommentTable{
+    CommentModel *model = [[CommentModel alloc] init];
+    UserModel *user = [[CaiJinTongManager shared] user];
+    if (user) {
+        model.nickName = user.userName;
+    }
+    model.time = [Utility getNowDateFromatAnDate];
+    model.content = self.textView.text;
+    [self.dataArray addObject:model];
+    [self.tableViewList reloadData];
+}
+
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (scrollView == self.tableViewList) {
         [self.textView resignFirstResponder];
@@ -191,6 +207,12 @@ static NSString *timespan = nil;
         }
     }
 }
+
+#pragma mark Notification
+-(void)sunsliderScrollWillBeginDragging{
+    [self.textView resignFirstResponder];
+}
+#pragma mark --
 
 #pragma  mark --CommentListInterfaceDelegate
 -(void)getCommentListInfoDidFinished:(SectionModel *)result {
@@ -220,6 +242,7 @@ static NSString *timespan = nil;
             [self displayView];
             if (self.nowPage == self.pageCount) {
                 //更新tableview
+                [self insertCommitDataInToCommentTable];
                 
             }
         });
