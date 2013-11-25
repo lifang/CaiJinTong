@@ -9,7 +9,7 @@
 #import "SettingViewController.h"
 #import "UserInfoTableViewController.h"
 #import "iRate.h"
-
+#import "InfoViewController.h"
 #define Info_HEADER_IDENTIFIER @"infoheader"
 @interface SettingViewController ()
 
@@ -132,11 +132,11 @@ NSString *appleID = @"6224939";
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-//    InfoViewController *vc = [story instantiateViewControllerWithIdentifier:@"InfoViewController"];
-    UserInfoTableViewController *userInfoVC = [story instantiateViewControllerWithIdentifier:@"UserInfoTableViewController"];
+    InfoViewController *vc = [story instantiateViewControllerWithIdentifier:@"InfoViewController"];
+//    UserInfoTableViewController *userInfoVC = [story instantiateViewControllerWithIdentifier:@"UserInfoTableViewController"];
     switch (indexPath.section) {
         case 0:
-            [self.navigationController pushViewController:userInfoVC animated:YES];
+            [self.navigationController pushViewController:vc animated:YES];
             break;
         case 1:
             switch (indexPath.row) {

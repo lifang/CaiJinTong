@@ -1,0 +1,193 @@
+//
+//  InfoViewController.m
+//  CaiJinTongApp
+//
+//  Created by comdosoft on 13-11-25.
+//  Copyright (c) 2013年 david. All rights reserved.
+//
+
+#import "InfoViewController.h"
+#import "UIImageView+WebCache.h"
+#import "SDImageCache.h"
+
+@interface InfoViewController ()
+
+@end
+#define kPickerAnimationDuration 0.40
+@implementation InfoViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+	self.title = @"我的资料";
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",[CaiJinTongManager shared].user.userImg]];
+    [self.userImage setImageWithURL:url placeholderImage:Image(@"loginBgImage_v.png")];
+    self.textField2.text = [CaiJinTongManager shared].user.birthday;
+    self.textField3.text = [CaiJinTongManager shared].user.sex;
+    self.textField1.text = [CaiJinTongManager shared].user.userName;
+    self.textField4.text = [CaiJinTongManager shared].user.address;
+    
+    self.textField4.layer.masksToBounds = YES;
+    self.textField4.layer.cornerRadius = 6;
+    [self.textField4 setKeyboardType:UIKeyboardTypeDefault];
+    
+    self.textField1.tag = 1;
+    self.textField2.tag = 2;
+    self.textField3.tag = 3;
+    self.textField4.tag = 4;
+    
+    [self.textField1 setEnabled:NO];
+    [self.textField2 setEnabled:NO];
+    [self.textField3 setEnabled:NO];
+    self.textField4.userInteractionEnabled = NO;
+    
+    self.pickerBtn.hidden = YES;
+    self.pickView.hidden = YES;
+    self.dateFormatter = [[NSDateFormatter alloc] init];
+    [self.dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    
+    UIBarButtonItem *rightBar = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStyleBordered target:self action:@selector(textEdited:)];
+    self.editButton = rightBar;
+    
+    UIBarButtonItem *rightBar2 = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStyleBordered target:self action:@selector(saveinfo:)];
+    self.saveButton = rightBar2;
+    
+    self.navigationItem.rightBarButtonItem = self.editButton;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShowing:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHideing:) name: UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+-(void)saveinfo:(id)sender {
+    [self.textField1 resignFirstResponder];
+    [self.textField2 resignFirstResponder];
+    [self.textField3 resignFirstResponder];
+    [self.textField4 resignFirstResponder];
+    
+    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+        [Utility errorAlert:@"暂无网络!"];
+    }else {
+        [SVProgressHUD showWithStatus:@"玩命加载中..."];
+
+        EditInfoInterface *chapterInter = [[EditInfoInterface alloc]init];
+        self.editInfoInterface = chapterInter;
+        self.editInfoInterface.delegate = self;
+        
+        NSData *imgData = [NSData data];
+        if (UIImagePNGRepresentation(self.userImage.image) == nil) {
+            imgData = UIImageJPEGRepresentation(self.userImage.image, 1);
+        } else {
+            imgData = UIImagePNGRepresentation(self.userImage.image);
+        }
+    
+        [self.editInfoInterface getEditInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andBirthday:self.textField2.text andSex:self.textField3.text andAddress:self.textField4.text andImage:imgData];
+    }
+}
+
+-(void)textEdited:(id)sender {
+    [self.textField1 setEnabled:YES];
+    [self.textField3 setEnabled:YES];
+    self.textField4.userInteractionEnabled = YES;
+    self.pickerBtn.hidden = NO;
+
+    self.pickView.hidden = NO;
+    self.navigationItem.rightBarButtonItem = self.saveButton;
+}
+
+-(IBAction)showPicker:(id)sender {
+    [self.textField1 resignFirstResponder];
+    [self.textField2 resignFirstResponder];
+    [self.textField3 resignFirstResponder];
+    [self.textField4 resignFirstResponder];
+    
+    //初识状态
+    if(self.textField2.text.length >0) {
+        self.pickerView.date = [self.dateFormatter dateFromString:self.textField2.text];
+    }else {
+        self.pickerView.date = [NSDate date];
+    }
+    if ([CaiJinTongManager shared].tagOfBtn == 0) {
+        CGRect startFrame = self.pickView.frame;
+        CGRect endFrame = self.pickView.frame;
+        startFrame.origin.y = self.view.frame.size.height;
+        endFrame.origin.y = startFrame.origin.y - endFrame.size.height;
+        self.pickView.frame = startFrame;
+        [self.view addSubview:self.pickView];
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:kPickerAnimationDuration];
+        self.pickView.frame = endFrame;
+        [UIView commitAnimations];
+        [CaiJinTongManager shared].tagOfBtn = 1;
+    }
+    
+}
+- (void)slideDownDidStop
+{
+	[self.pickView removeFromSuperview];
+}
+-(IBAction)pickerViewDown:(id)sender {
+    CGRect pickerFrame = self.pickView.frame;
+    pickerFrame.origin.y = self.view.frame.size.height;
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:kPickerAnimationDuration];
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDidStopSelector:@selector(slideDownDidStop)];
+    self.pickView.frame = pickerFrame;
+    [UIView commitAnimations];
+    [CaiJinTongManager shared].tagOfBtn = 0;
+}
+
+- (void)keyBoardWillShowing:(id)sender{
+    [UIView beginAnimations:nil context:nil];
+    CGRect pickerFrame = self.pickView.frame;
+    pickerFrame.origin.y = self.view.frame.size.height;
+    
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:kPickerAnimationDuration];
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDidStopSelector:@selector(slideDownDidStop)];
+    self.pickView.frame = pickerFrame;
+    [UIView commitAnimations];
+    [CaiJinTongManager shared].tagOfBtn = 0;
+}
+
+- (void)keyBoardWillHideing:(id)sender{
+    [UIView beginAnimations:nil context:nil];
+
+    [UIView commitAnimations];
+}
+- (IBAction)dateAction:(id)sender
+{
+	self.textField2.text = [self.dateFormatter stringFromDate:self.pickerView.date];
+}
+
+#pragma mark -- EditInfoInterfaceDelegate
+
+-(void)getEditInfoDidFinished:(NSDictionary *)result {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [SVProgressHUD dismissWithSuccess:@"资料更新成功!"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+        });
+    });
+}
+-(void)getEditInfoDidFailed:(NSString *)errorMsg {
+    [SVProgressHUD dismiss];
+    [Utility errorAlert:errorMsg];
+}
+@end

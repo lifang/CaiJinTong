@@ -27,21 +27,26 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.txt = [UserInfoTableViewController passValue];
     self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
     self.tableView.separatorStyle = NO;
     self.fixTextField.borderStyle = UITextBorderStyleNone;
-    UIBarButtonItem *rightBar = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStyleBordered target:self action:@selector(saveInfo)];
-    self.navigationItem.rightBarButtonItem = rightBar;
-    self.fixTextField.text = [UserInfoTableViewController passValue];
-    self.fixClearImg.userInteractionEnabled = YES;
-    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTap:)];
-    [self.fixClearImg addGestureRecognizer:singleTap];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    if (self.isImage == YES) {
+        self.fixClearImg.hidden = YES;
+        UIBarButtonItem *rightBar = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStyleBordered target:self action:@selector(editImage)];
+        self.navigationItem.rightBarButtonItem = rightBar;
+    }else {
+        self.fixClearImg.hidden = NO;
+        UIBarButtonItem *rightBar = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStyleBordered target:self action:@selector(saveInfo)];
+        self.navigationItem.rightBarButtonItem = rightBar;
+        self.fixTextField.text = [UserInfoTableViewController passValue];
+        
+        self.fixClearImg.userInteractionEnabled = YES;
+        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTap:)];
+        [self.fixClearImg addGestureRecognizer:singleTap];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -57,6 +62,7 @@
 - (void)saveInfo {
     NSLog(@"save");
 }
+
 
 /*
 // Override to support conditional editing of the table view.

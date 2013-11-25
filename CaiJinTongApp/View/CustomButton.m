@@ -116,10 +116,6 @@
             self.sectionInterface = sectionInter;
             self.sectionInterface.delegate = self;
             [self.sectionInterface getSectionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.buttonModel.sid];
-            
-//            [sectionDb updateTheStateWithSid:self.buttonModel.sid andDownloadState:0];
-//            self.buttonModel.downloadState = 0;
-//            [sectionDb addDataWithSectionSaveModel:self.buttonModel];
         }
     }
 }

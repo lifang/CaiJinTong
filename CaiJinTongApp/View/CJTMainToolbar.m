@@ -44,8 +44,6 @@
         recentPlayBtn.tag = RECENT_TAG;
 		[recentPlayBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [recentPlayBtn addTarget:self action:@selector(recentButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-//		[recentPlayBtn setBackgroundImage:buttonH forState:UIControlStateHighlighted];
-//		[recentPlayBtn setBackgroundImage:buttonN forState:UIControlStateNormal];
 		recentPlayBtn.titleLabel.font = [UIFont systemFontOfSize:20.0f];
 		recentPlayBtn.autoresizingMask = UIViewAutoresizingNone;
 		[self addSubview:recentPlayBtn];
@@ -58,8 +56,6 @@
         progressBtn.tag = PROGRESS_TAG;
 		[progressBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [progressBtn addTarget:self action:@selector(progressButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-//		[progressBtn setBackgroundImage:buttonH forState:UIControlStateHighlighted];
-//		[progressBtn setBackgroundImage:buttonN forState:UIControlStateNormal];
 		progressBtn.titleLabel.font = [UIFont systemFontOfSize:20.0f];
 		progressBtn.autoresizingMask = UIViewAutoresizingNone;
 		[self addSubview:progressBtn];
@@ -72,8 +68,6 @@
         nameBtn.tag = NAME_TAG;
 		[nameBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [nameBtn addTarget:self action:@selector(nameButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-//		[nameBtn setBackgroundImage:buttonH forState:UIControlStateHighlighted];
-//		[nameBtn setBackgroundImage:buttonN forState:UIControlStateNormal];
 		nameBtn.titleLabel.font = [UIFont systemFontOfSize:20.0f];
 		nameBtn.autoresizingMask = UIViewAutoresizingNone;
 		[self addSubview:nameBtn];
