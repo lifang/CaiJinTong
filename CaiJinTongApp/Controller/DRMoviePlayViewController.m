@@ -314,6 +314,7 @@
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
+        //判断是否播放完毕
         [SVProgressHUD showWithStatus:@"玩命加载中..."];
         PlayBackInterface *playBackInter = [[PlayBackInterface alloc]init];
         self.playBackInterface = playBackInter;
