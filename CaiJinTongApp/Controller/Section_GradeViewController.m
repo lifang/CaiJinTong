@@ -127,8 +127,6 @@ static NSString *timespan = nil;
         self.gradeInterface.delegate = self;
         [self.gradeInterface getGradeInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionId andScore:[NSString stringWithFormat:@"%d",self.starRatingView.score]andContent:self.textView.text];
     }
-    
-    
 }
 #pragma mark-- UITableViewDelegate 
 
@@ -170,6 +168,21 @@ static NSString *timespan = nil;
     
     return cell;
 }
+//提交评论成功后加入到评论列表
+-(void)insertCommitDataInToCommentTable{
+    CommentModel *model = [[CommentModel alloc] init];
+    UserModel *user = [[CaiJinTongManager shared] user];
+    if (user) {
+        model.nickName = user.userName;
+    }
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"YYYY-MM-dd HH:MM"];
+    model.time = [formatter stringFromDate:[NSDate date]];
+    model.content = self.textView.text;
+    [self.dataArray addObject:model];
+    [self.tableViewList reloadData];
+}
+
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (scrollView == self.tableViewList) {
         [self.textView resignFirstResponder];
@@ -220,6 +233,7 @@ static NSString *timespan = nil;
             [self displayView];
             if (self.nowPage == self.pageCount) {
                 //更新tableview
+                [self insertCommitDataInToCommentTable];
                 
             }
         });
