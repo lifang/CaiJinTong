@@ -8,7 +8,8 @@
 
 #import "UserInfoTableViewController.h"
 #import "FixTableViewController.h"
-
+#import "UIImageView+WebCache.h"
+#import "SDImageCache.h"
 @interface UserInfoTableViewController ()
 
 @end
@@ -40,9 +41,8 @@ static NSString *passValue;
     rect.size = newSize;
     [self.addressLabel setFrame:rect];
     
-    NSString *userImgURL = [CaiJinTongManager shared].user.userImg;
-    NSData *imgData = [NSData dataWithContentsOfURL:[NSURL URLWithString:userImgURL]];
-    self.userImgView.image = [UIImage imageWithData:imgData];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",[CaiJinTongManager shared].user.userImg]];
+    [self.userImgView setImageWithURL:url placeholderImage:Image(@"loginBgImage_v.png")];
     self.birthLabel.text = [CaiJinTongManager shared].user.birthday;
     self.sexLabel.text = [CaiJinTongManager shared].user.sex;
     self.addressLabel.text = [CaiJinTongManager shared].user.address;
@@ -68,15 +68,25 @@ static NSString *passValue;
     switch (indexPath.row) {
         case 0:
             passValue = self.nickNameLabel.text;
+            passValue = @"";
+            fixVC.title = @"头像";
+            fixVC.isImage = YES;
+            fixVC.fixClearImg.Image = self.userImgView.image;
             break;
         case 1:
             passValue = self.birthLabel.text;
+            fixVC.title = @"生日";
+            fixVC.isImage = NO;
             break;
         case 2:
             passValue = self.sexLabel.text;
+            fixVC.title = @"性别";
+            fixVC.isImage = NO;
             break;
         case 3:
             passValue = self.addressLabel.text;
+            fixVC.title = @"地址";
+            fixVC.isImage = NO;
         default:
             break;
     }

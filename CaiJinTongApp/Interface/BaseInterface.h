@@ -12,10 +12,10 @@
 @protocol BaseInterfaceDelegate;
 @interface BaseInterface : NSObject
 
-@property (nonatomic, retain) ASIHTTPRequest *request;
-@property (nonatomic, retain) NSString *interfaceUrl;
-@property (nonatomic, retain) NSDictionary *headers;
-@property (nonatomic, retain) NSDictionary *bodys;
+@property (nonatomic, strong) ASIHTTPRequest *request;
+@property (nonatomic, strong) NSString *interfaceUrl;
+@property (nonatomic, strong) NSDictionary *headers;
+@property (nonatomic, strong) NSDictionary *bodys;
 @property (nonatomic, assign) id<BaseInterfaceDelegate> baseDelegate;
 
 -(void)connect;

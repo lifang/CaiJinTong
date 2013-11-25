@@ -42,7 +42,6 @@
         
         imageViewC.tag = [section.sectionId intValue];
         self.imageView = imageViewC;
-//        self.tag = self.imageView.tag;
         [self addSubview:self.imageView];
         imageViewC = nil;
         
@@ -60,7 +59,10 @@
         if ( xx-100 >0) {
             xx=100;
         }
-        progressLabel.text = [NSString stringWithFormat:@"学习进度:%@%%",section.sectionProgress];
+        if (!xx) {
+            xx = 0;
+        }
+        progressLabel.text = [NSString stringWithFormat:@"学习进度:%.2f%%",xx];
         progressLabel.textAlignment = NSTextAlignmentLeft;
         progressLabel.backgroundColor = [UIColor clearColor];
         [self addSubview:self.pv];
