@@ -9,6 +9,8 @@
 #import "DRCommitQuestionViewController.h"
 #define LESSON_HEADER_IDENTIFIER @"lessonHeader"
 static CGRect frame;
+static CGRect tableFrame;
+static BOOL tableVisible;
 @interface DRCommitQuestionViewController ()
 
 @end
@@ -71,9 +73,9 @@ static CGRect frame;
     [self.selectTable.layer setBorderColor:[UIColor blackColor].CGColor];
     [self.selectTable.layer setBorderWidth:2];
     self.selectTable.separatorStyle = NO;
-    self.selectTable.hidden = YES;
     
-    frame = CGRectMake(0, 151, 41, 123);//按钮坐标
+    frame = CGRectMake(6, 151, 41, 123);//按钮坐标
+    tableFrame = CGRectMake(-229, 30, 235, 370);//table坐标
     
     //问答分类
     if ([CaiJinTongManager shared].question.count == 0) {
@@ -235,7 +237,7 @@ static CGRect frame;
                 if (ar.count == 0) {
                     self.selectedQuestionId = [d valueForKey:@"questionID"];
                     self.selectedQuestionName.text = [d valueForKey:@"questionName"];
-                    NSLog(@"%@%@斯蒂芬斯蒂芬",self.selectedQuestionName.text,self.selectedQuestionId);
+                    [self showSelectTable];
                 }else {
                     BOOL isAlreadyInserted=NO;
                     
@@ -351,13 +353,22 @@ static CGRect frame;
 
 #pragma mark button methods
 -(void)showSelectTable{
-    if(self.selectTable.hidden){
-        self.selectTable.hidden = NO;
+    if(!tableVisible){
         [self.selectTable reloadData];
-        [self.selectTableBtn setFrame:CGRectMake(frame.origin.x + 235, frame.origin.y, frame.size.width, frame.size.height)];
+        [UIView animateWithDuration:0.5 delay:0.0 options: UIViewAnimationOptionBeginFromCurrentState animations:^{
+            [self.selectTableBtn setFrame:CGRectMake(frame.origin.x + 235, frame.origin.y, frame.size.width, frame.size.height)];
+            [self.selectTable setFrame:CGRectMake(tableFrame.origin.x + 235, tableFrame.origin.y, tableFrame.size.width, tableFrame.size.height)];
+            tableVisible = YES;
+        }
+                         completion:NULL];
     }else{
-        self.selectTable.hidden = YES;
-        [self.selectTableBtn setFrame:frame];
+        [UIView animateWithDuration:0.5 delay:0.0 options: UIViewAnimationOptionBeginFromCurrentState animations:^{
+            [self.selectTableBtn setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height)];
+            [self.selectTable setFrame:CGRectMake(tableFrame.origin.x, tableFrame.origin.y, tableFrame.size.width, tableFrame.size.height)];
+            tableVisible = NO;
+        }
+                         completion:NULL];
     }
+
 }
 @end
