@@ -272,7 +272,12 @@
 
 #pragma mark DRMoviePlayViewControllerDelegate
 -(void)drMoviePlayerViewController:(DRMoviePlayViewController *)playerController commitNotesSuccess:(NSString *)noteText andTime:(NSString *)noteTime{
-
+    if (self.section_NoteView) {
+        NoteModel *note = [[NoteModel alloc] init];
+        note.noteTime = noteTime;
+        note.noteText = noteText;
+        [self.section_NoteView.dataArray addObject:note];
+    }
 }
 
 #pragma mark - 滑动tab视图代理方法

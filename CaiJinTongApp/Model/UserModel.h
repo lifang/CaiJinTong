@@ -15,5 +15,4 @@
 @property (nonatomic, strong) NSString *sex;
 @property (nonatomic, strong) NSString *address;
 @property (nonatomic, strong) NSString *userImg;
-@property (nonatomic, strong) NSString *userName;
 @end

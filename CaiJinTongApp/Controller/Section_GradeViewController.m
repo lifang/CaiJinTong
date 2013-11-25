@@ -176,9 +176,7 @@ static NSString *timespan = nil;
     if (user) {
         model.nickName = user.userName;
     }
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"YYYY-MM-dd HH:MM"];
-    model.time = [formatter stringFromDate:[NSDate date]];
+    model.time = [Utility getNowDateFromatAnDate];
     model.content = self.textView.text;
     [self.dataArray addObject:model];
     [self.tableViewList reloadData];
