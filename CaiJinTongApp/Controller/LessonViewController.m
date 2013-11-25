@@ -288,7 +288,6 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     }else{
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"questionCell"];
         if (indexPath.section == 0) {
-            
             cell.textLabel.text=[NSString stringWithFormat:@"%@",[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"questionName"]];
             [cell setIndentationLevel:[[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"level"]intValue]];
         }else{
@@ -298,7 +297,6 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                 cell.textLabel.text = @" 我的回答";
             }
         }
-        [cell setIndentationLevel:1];
         cell.textLabel.textColor = [UIColor whiteColor];
         cell.detailTextLabel.textColor = [UIColor whiteColor];
         cell.backgroundColor = [UIColor clearColor];

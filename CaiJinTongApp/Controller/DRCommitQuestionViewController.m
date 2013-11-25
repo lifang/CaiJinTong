@@ -273,40 +273,12 @@ static CGRect frame;
 
 
 
-- (IBAction)questionListBtClicked:(id)sender {
-    if ([CaiJinTongManager shared].question.count == 0) {
-        [self getQuestionInfo];
-    }else {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            self.questionList = [NSMutableArray arrayWithArray:[CaiJinTongManager shared].question];
-            dispatch_async ( dispatch_get_main_queue (), ^{
-                [self.selectTable reloadData];
-            });
-        });
-    }
-}
-
 #pragma mark property
 -(NSMutableArray *)questionArrSelSection{
     if (!_questionArrSelSection) {
         _questionArrSelSection = [NSMutableArray array];
     }
     return _questionArrSelSection;
-}
-
-#pragma mark--ChapterQuestionInterfaceDelegate
--(void)getChapterQuestionInfoDidFinished:(NSDictionary *)result {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
-        NSMutableArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.selectTable reloadData];
-        });
-    });
-}
--(void)getChapterQuestionInfoDidFailed:(NSString *)errorMsg {
-    [SVProgressHUD dismiss];
-    [Utility errorAlert:errorMsg];
 }
 
 #pragma mark LessonListHeaderViewDelegate
