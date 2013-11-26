@@ -77,7 +77,7 @@
     self.answerTextField.font = [UIFont systemFontOfSize:TEXT_FONT_SIZE+6];
     [self.qflowerBt setUserInteractionEnabled:!answer.isPraised];
     if (questionID) {
-        if (answer.IsAnswerAccept && [answer.IsAnswerAccept isEqualToString:@"YES"]&& [questionID isEqualToString:answer.resultId]) {
+        if (answer.IsAnswerAccept && [answer.IsAnswerAccept intValue]==1) {
             [self.acceptAnswerBt setHidden:NO];
             [self.acceptAnswerBt setUserInteractionEnabled:NO];
             [self.acceptAnswerBt setTitle:@"正确回答" forState:UIControlStateNormal];

@@ -20,7 +20,7 @@
     [reqheaders setValue:[NSString stringWithFormat:@"%@",noteText] forKey:@"noteText"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",noteTime] forKey:@"noteTime"];
 
-    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=submitNote&userId=17082%20&sectionId=2690&noteTime=2013-11-21%2011:00&noteText=做笔记";
+    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=submitNote&userId=17082&sectionId=2690&noteTime=2013-11-21 11:00&noteText=做笔记";
     
     self.baseDelegate = self;
     self.headers = reqheaders;
@@ -41,22 +41,24 @@
                 if (jsonData) {
                     if ([[jsonData objectForKey:@"Status"]intValue] == 1) {
                         @try {
-                            //                            NSDictionary *dictionary =[jsonData objectForKey:@"ReturnObject"];
+                            [self.delegate getSumitNoteInfoDidFinished];
                         }
                         @catch (NSException *exception) {
-                            
+                            [self.delegate getSumitNoteDidFailed:@"笔记提交失败!"];
                         }
+                    }else {
+                        [self.delegate getSumitNoteDidFailed:[jsonData objectForKey:@"Msg"]];
                     }
                 }else {
-                    
+                    [self.delegate getSumitNoteDidFailed:@"连接失败!"];
                 }
             }
         }
     }else {
-        
+        [self.delegate getSumitNoteDidFailed:@"连接失败!"];
     }
 }
 -(void)requestIsFailed:(NSError *)error{
-    
+    [self.delegate getSumitNoteDidFailed:@"连接失败!"];
 }
 @end

@@ -61,7 +61,7 @@
         if (self.headers) {
             for (NSString *key in self.headers) {
                 [self.request addRequestHeader:key value:[self.headers objectForKey:key]];  
-            }//添加getter请求参数
+            }
         }
         [self.request setDelegate:self];
         [self.request startAsynchronous];

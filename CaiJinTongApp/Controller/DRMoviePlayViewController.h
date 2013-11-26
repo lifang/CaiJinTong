@@ -19,12 +19,15 @@
 #import "SectionSaveModel.h"
 
 #import "DRMoviePlayerTopBar.h"
+#import "AskQuestionInterface.h"
+
 typedef enum {MOVIE_FILE,MOVIE_INTERNET}MovieLocateType;
 @protocol DRMoviePlayViewControllerDelegate;
-@interface DRMoviePlayViewController : UIViewController<MovieControllerItemDelegate,DRMoviePlayerPlaybackProgressBarDelegate,CustomPlayerViewDelegate,PlayBackInterfaceDelegate,SumitNoteInterfaceDelegate,DRMoviePlayerTopBarDelegate>
+@interface DRMoviePlayViewController : UIViewController<MovieControllerItemDelegate,DRMoviePlayerPlaybackProgressBarDelegate,CustomPlayerViewDelegate,PlayBackInterfaceDelegate,SumitNoteInterfaceDelegate,DRMoviePlayerTopBarDelegate,AskQuestionInterfaceDelegate>
 
 @property (weak, nonatomic) IBOutlet DRMoviePlayerTopBar *drMovieTopBar;
 @property (nonatomic, strong) SumitNoteInterface *sumitNoteInterface;
+@property (nonatomic, strong) AskQuestionInterface *askQuestionInterface;
 @property (weak, nonatomic) IBOutlet CustomPlayerView *moviePlayerView;
 @property (weak, nonatomic) IBOutlet UIButton *playBt;
 @property (weak, nonatomic) IBOutlet MoviePlayerHolderView *moviePlayerHolderView;

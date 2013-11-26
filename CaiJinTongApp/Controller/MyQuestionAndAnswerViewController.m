@@ -85,7 +85,7 @@
 -(void)questionAndAnswerCell:(QuestionAndAnswerCell *)cell flowerAnswerAtIndexPath:(NSIndexPath *)path{
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
     AnswerModel *answer = [question.answerList objectAtIndex:path.row];
-    answer.isPraised = YES;
+//    answer.isPraised = YES;
     answer.answerPraiseCount = [NSString stringWithFormat:@"%d",[answer.answerPraiseCount integerValue]+1];;
      [self.tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
@@ -101,17 +101,31 @@
     [self.tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
     
 }
-
+#pragma mark -- 采纳答案
+static NSIndexPath *indexPath = nil;
 -(void)questionAndAnswerCell:(QuestionAndAnswerCell *)cell acceptAnswerAtIndexPath:(NSIndexPath *)path{
- QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
-    question.isAcceptAnswer = [NSString stringWithFormat:@"YES"];
+    QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
     AnswerModel *answer = [question.answerList objectAtIndex:path.row];
-    answer.IsAnswerAccept = [NSString stringWithFormat:@"YES"];
-    answer.resultId = question.questionId;
-    [question.answerList removeObjectAtIndex:path.row];
-    [question.answerList insertObject:answer atIndex:0];
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationTop];
-    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:path.section] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+        [Utility errorAlert:@"暂无网络!"];
+    }else {
+        [SVProgressHUD showWithStatus:@"玩命加载中..."];
+        indexPath = path;
+        AcceptAnswerInterface *acceptAnswerInter = [[AcceptAnswerInterface alloc]init];
+        self.acceptAnswerInterface = acceptAnswerInter;
+        self.acceptAnswerInterface.delegate = self;
+        [self.acceptAnswerInterface getAcceptAnswerInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andQuestionId:question.questionId andResultId:answer.resultId];
+    }
+//    
+// QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
+//    question.isAcceptAnswer = [NSString stringWithFormat:@"YES"];
+//    
+//    answer.IsAnswerAccept = [NSString stringWithFormat:@"YES"];
+//    answer.resultId = question.questionId;
+//    [question.answerList removeObjectAtIndex:path.row];
+//    [question.answerList insertObject:answer atIndex:0];
+//    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationTop];
+//    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:path.section] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 #pragma mark --
 
@@ -130,7 +144,7 @@
     QuestionAndAnswerCell *cell = (QuestionAndAnswerCell*)[tableView dequeueReusableCellWithIdentifier:@"questionAndAnswerCell"];
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:indexPath.section];
     AnswerModel *answer = [question.answerList objectAtIndex:indexPath.row];
-    if (question.isAcceptAnswer && [question.isAcceptAnswer isEqualToString:@"YES"]) {
+    if (question.isAcceptAnswer && [question.isAcceptAnswer intValue]==1) {
         [cell setAnswerModel:answer isQuestionID:question.questionId];
     } else {
         [cell setAnswerModel:answer isQuestionID:nil];
@@ -198,5 +212,23 @@
     [self.noticeBarView setHidden:YES];
     CGRect frame = self.tableView.frame;
     [self.tableView setFrame: CGRectMake(frame.origin.x,frame.origin.y - 35,frame.size.width,frame.size.height)];
+}
+
+#pragma mark -- AcceptAnswerInterfaceDelegate 
+-(void)getAcceptAnswerInfoDidFinished:(NSDictionary *)result {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [SVProgressHUD dismissWithSuccess:@"成功!"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            QuestionModel *question = [self.myQuestionArr  objectAtIndex:indexPath.section];
+            AnswerModel *answer = [question.answerList objectAtIndex:indexPath.row];
+            question.isAcceptAnswer = @"1";
+            answer.IsAnswerAccept = @"1";
+            [self.tableView reloadData];
+        });
+    });
+}
+-(void)getAcceptAnswerInfoDidFailed:(NSString *)errorMsg {
+    [SVProgressHUD dismiss];
+    [Utility errorAlert:errorMsg];
 }
 @end
