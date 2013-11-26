@@ -589,13 +589,14 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 -(void)getChapterQuestionInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
-        NSMutableArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
+        NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
         dispatch_async(dispatch_get_main_queue(), ^{
             UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
             MyQuestionAndAnswerViewController *myQAVC = [story instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
             UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:myQAVC];
             [navControl setNavigationBarHidden:YES];
             navControl.view.frame = (CGRect){0,0,568,1004};
+            [myQAVC reloadDataWithDataArray:chapterQuestionList];
             [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
                 
             }];
