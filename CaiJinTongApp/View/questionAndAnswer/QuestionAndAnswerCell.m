@@ -49,7 +49,7 @@
         [self.delegate questionAndAnswerCell:self summitQuestion:self.questionTextField.text atIndexPath:self.path];
     }
 }
-
+//采纳答案
 - (IBAction)acceptAnswerBtClicked:(id)sender {
     if (self.delegate && [self.delegate respondsToSelector:@selector(questionAndAnswerCell:acceptAnswerAtIndexPath:)]) {
         [self.delegate questionAndAnswerCell:self acceptAnswerAtIndexPath:self.path];

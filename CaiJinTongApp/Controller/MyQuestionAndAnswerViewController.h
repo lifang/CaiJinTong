@@ -14,6 +14,12 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *noticeBarView;
 @property (weak, nonatomic) IBOutlet UIImageView *noticeBarImageView;
-- (IBAction)noticeHideBtnClick:(id)sender;
 
+@property (assign, nonatomic) NSInteger question_pageIndex;
+@property (assign, nonatomic) NSInteger question_pageCount;
+@property (assign, nonatomic) NSInteger answer_pageIndex;
+@property (assign, nonatomic) NSInteger answer_pageCount;
+
+- (IBAction)noticeHideBtnClick:(id)sender;
+-(void)reloadDataWithDataArray:(NSArray*)data;
 @end

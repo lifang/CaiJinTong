@@ -37,7 +37,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self initTestData];
     [self.tableView registerClass:[QuestionAndAnswerCellHeaderView class] forHeaderFooterViewReuseIdentifier:@"header"];
     
     self.drnavigationBar.titleLabel.text = @"我的提问";
@@ -45,31 +44,21 @@
     [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [self.noticeBarImageView.layer setCornerRadius:4];
 }
-
--(void)initTestData{
-    for (int index = 0; index < 20; index++) {
-        QuestionModel *question = [[QuestionModel alloc] init];
-        question.questionName = @"世界会不会有终结一天？";
-        question.askerNick = @"雪花飘飘";
-        question.askTime = [[NSDate date] description];
-        question.praiseCount = @"999";
-        question.questionId = [NSString stringWithFormat:@"%d",index];
-        NSMutableArray *answerArr = [NSMutableArray array];
-        for (int row = 0; row < 20; row++) {
-            AnswerModel *answer = [[AnswerModel alloc] init];
-            answer.answerNick = @"千里马";
-            answer.answerId = [NSString stringWithFormat:@"%d",row];
-            answer.answerTime = @"2013.14.21";
-            answer.answerPraiseCount = @"10";
-            answer.answerContent = @"平行宇宙经常被用以说明：一个事件不同的过程或一个不同的决定的后续发展是存在于不同的平行宇宙中的；这个理论也常被用于解释其他的一些诡论，像关于时间旅行的一些诡论，像“一颗球落入时光隧道，回到了过去撞上了自己因而使得自己无法进入时光隧道”，解决此诡论除了假设时间旅行是不可能的以外，另外也可以以平行宇宙做解释，根据平行宇宙理论的解释：这颗球撞上自己和没有撞上自己是两个不同的平行宇宙";
-            [answerArr addObject:answer];
-        }
-        question.answerList = answerArr;
-        [self.myQuestionArr addObject:question];
+//数据源
+-(void)reloadDataWithDataArray:(NSArray*)data{
+    self.myQuestionArr = [NSMutableArray arrayWithArray:data];
+    if (self.myQuestionArr.count>0) {
+        QuestionModel *question = [self.myQuestionArr  objectAtIndex:self.myQuestionArr.count-1];
+        self.question_pageIndex = question.pageIndex;
+        self.question_pageCount = question.pageCount;
+        AnswerModel *answer = [question.answerList objectAtIndex:question.answerList.count-1];
+        self.answer_pageIndex = answer.pageIndex;
+        self.answer_pageCount = answer.pageCount;
+        dispatch_async ( dispatch_get_main_queue (), ^{
+            [self.tableView reloadData];
+        });
     }
-    
 }
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -114,7 +103,7 @@
 }
 
 -(void)questionAndAnswerCell:(QuestionAndAnswerCell *)cell acceptAnswerAtIndexPath:(NSIndexPath *)path{
-QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
+ QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
     question.isAcceptAnswer = [NSString stringWithFormat:@"YES"];
     AnswerModel *answer = [question.answerList objectAtIndex:path.row];
     answer.IsAnswerAccept = [NSString stringWithFormat:@"YES"];
