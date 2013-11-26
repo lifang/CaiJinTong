@@ -29,7 +29,7 @@ static BOOL tableVisible;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.questionContentTextView.delegate = self;
     self.backgroundTextField.frame = self.questionContentTextView.frame;
     self.backgroundTextField.borderStyle = UITextBorderStyleRoundedRect;
 
@@ -116,6 +116,13 @@ static BOOL tableVisible;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (IBAction)inputBegin:(id)sender {
+    if(tableVisible){
+        [self showSelectTable];
+    }
+}
+
 
 #pragma mark --TableView Delegate
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section  {
@@ -298,7 +305,9 @@ static BOOL tableVisible;
 - (IBAction)keyboardFuckOff:(id)sender {
     [self.questionTitleTextField resignFirstResponder];
     [self.questionContentTextView resignFirstResponder];
+    [self inputBegin:nil];
 }
+
 
 #pragma mark LessonListHeaderViewDelegate
 -(void)lessonHeaderView:(LessonListHeaderView *)header selectedAtIndex:(NSIndexPath *)path{
@@ -323,6 +332,7 @@ static BOOL tableVisible;
 //显示/隐藏提问类型table
 -(void)showSelectTable{
     if(!tableVisible){
+        [self.questionContentTextView resignFirstResponder];//便于触发点击事件
         [self.selectTable reloadData];
         [self.selectTableBtn setBackgroundImage:[UIImage imageNamed:@"lhl2.png"] forState:UIControlStateNormal];
         [UIView animateWithDuration:0.5 delay:0.0 options: UIViewAnimationOptionBeginFromCurrentState animations:^{
@@ -340,6 +350,12 @@ static BOOL tableVisible;
         }
                          completion:NULL];
     }
+}
+
+#pragma mark --text View delegate
+- (BOOL) textViewShouldBeginEditing:(UITextView *)textView{
+    [self inputBegin:nil];
+    return YES;
 }
 
 -(void)submitButtonClicked{
