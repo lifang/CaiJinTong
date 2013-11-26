@@ -11,6 +11,7 @@
 #import "BaseViewController.h"
 #import "QuestionInfoInterface.h"
 @protocol DRCommitQuestionViewControllerDelegate;
+
 @interface DRCommitQuestionViewController : BaseViewController<QuestionInfoInterfaceDelegate,LessonListHeaderViewDelegate, UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *commitTimeLabel;
 @property (weak, nonatomic) IBOutlet UITextField *titleField;  //标题框
@@ -31,6 +32,7 @@
 - (IBAction)spaceAreaClicked:(id)sender;
 - (IBAction)cancelBtnClicked:(UIButton *)sender;
 - (IBAction)commitBtnClicked:(UIButton *)sender;
+- (IBAction)inputBegin:(id)sender;
 
 
 @end

@@ -7,8 +7,10 @@
 //
 
 #import "DRNaviGationBarController.h"
+
 #import "AskQuestionInterface.h"
-@interface DRAskQuestionViewController : DRNaviGationBarController<LessonListHeaderViewDelegate,UITableViewDataSource,UITableViewDelegate,AskQuestionInterfaceDelegate>
+@interface DRAskQuestionViewController : DRNaviGationBarController<QuestionInfoInterfaceDelegate,LessonListHeaderViewDelegate,UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,AskQuestionInterfaceDelegate>
+
 @property (weak, nonatomic) IBOutlet UITextField *questionTitleTextField;
 @property (weak, nonatomic) IBOutlet UITextView *questionContentTextView;
 @property (weak, nonatomic) IBOutlet UIButton *submitButton;
@@ -25,4 +27,5 @@
 
 @property (nonatomic, strong) AskQuestionInterface *askQuestionInterface;
 - (IBAction)keyboardFuckOff:(id)sender;
+- (IBAction)inputBegin:(id)sender;
 @end
