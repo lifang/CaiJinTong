@@ -13,11 +13,6 @@
 #import "Section.h"
 #import "SectionSaveModel.h"
 @implementation AppDelegate
-
-+ (void)initialize {
-    [iRate sharedInstance].appStoreID = 355313284;
-}
-
 +(AppDelegate *)sharedInstance {
     return (AppDelegate *)[[UIApplication sharedApplication] delegate];
 }
@@ -29,7 +24,14 @@
     [[MZFormSheetBackgroundWindow appearance] setBackgroundBlurEffect:YES];
     [[MZFormSheetBackgroundWindow appearance] setBlurRadius:5.0];
     [[MZFormSheetBackgroundWindow appearance] setBackgroundColor:[UIColor clearColor]];
-
+    
+    //设置是否加载图片
+    BOOL isloadLargeImage = [[NSUserDefaults standardUserDefaults] boolForKey:ISLOADLARGEIMAGE_KEY];
+    [[CaiJinTongManager shared] setIsLoadLargeImage:isloadLargeImage];
+    
+    //设置appstore上评分
+     [iRate sharedInstance].appStoreID = 355313284;
+    
     //开启网络状况的监听
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
     

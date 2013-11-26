@@ -11,13 +11,13 @@
 @interface AskQuestionInterface : BaseInterface<BaseInterfaceDelegate>
 
 @property (nonatomic, assign) id<AskQuestionInterfaceDelegate>delegate;
--(void)getAskQuestionInterfaceDelegateWithUserId:(NSString *)userId andSectionId:(NSString *)sectionId andQuestionName:(NSString *)questionName;
+-(void)getAskQuestionInterfaceDelegateWithUserId:(NSString *)userId andSectionId:(NSString *)sectionId andQuestionName:(NSString *)questionName andQuestionContent:(NSString *)content;
 
 @end
 
 @protocol AskQuestionInterfaceDelegate <NSObject>
 
--(void)getAskQuestionInfoDidFinished:(NSDictionary *)result;
+-(void)getAskQuestionInfoDidFinished;
 -(void)getAskQuestionDidFailed:(NSString *)errorMsg;
 @end
 

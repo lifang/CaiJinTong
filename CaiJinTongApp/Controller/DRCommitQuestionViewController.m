@@ -40,7 +40,7 @@ static BOOL tableVisible;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.contentField.delegate = self;
     self.commitTimeLabel.text = [Utility getNowDateFromatAnDate];
     
     UIImage *btnImageHighlighted = [[UIImage imageNamed:@"btn0.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 6) resizingMode:UIImageResizingModeStretch];
@@ -105,8 +105,7 @@ static BOOL tableVisible;
 - (IBAction)spaceAreaClicked:(id)sender {
     [self.titleField resignFirstResponder];
     [self.contentField resignFirstResponder];
-    self.selectTable.hidden = YES;
-    [self.selectTableBtn setFrame:frame];
+    [self inputBegin:nil];
 }
 
 - (IBAction)cancelBtnClicked:(UIButton *)sender {
@@ -121,11 +120,16 @@ static BOOL tableVisible;
     if (self.contentField.text == nil || [[self.contentField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
         [Utility errorAlert:@"内容不能为空"];
     }
-    if (self.delegate && [self.delegate respondsToSelector:@selector(commitQuestionController:didCommitQuestionWithTitle:andText:)]) {
-        [self.delegate commitQuestionController:self didCommitQuestionWithTitle:self.titleField.text andText:self.contentField.text];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(commitQuestionController:didCommitQuestionWithTitle:andText:andQuestionId:)]) {
+        [self.delegate commitQuestionController:self didCommitQuestionWithTitle:self.titleField.text andText:self.contentField.text andQuestionId:self.selectedQuestionId];
     }
 }
 
+- (IBAction)inputBegin:(id)sender {
+    if(tableVisible){
+        [self showSelectTable];
+    }
+}
 
 #pragma mark--QuestionInfoInterfaceDelegate {
 -(void)getQuestionInfoDidFinished:(NSDictionary *)result {
@@ -240,18 +244,6 @@ static BOOL tableVisible;
                     }
                 }
             }
-        }else{
-            switch (indexPath.row) {
-                case 0:
-                    //请求我的提问
-                    break;
-                case 1:
-                    //请求我的回答
-                    break;
-                    
-                default:
-                    break;
-            }
         }
 }
 
@@ -302,10 +294,17 @@ static BOOL tableVisible;
         [self.selectTable reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
+#pragma mark textView delegate
+-(BOOL)textViewShouldBeginEditing:(UITextView *)textView{
+    [self inputBegin:nil];
+    return YES;
+}
+
 
 #pragma mark button methods
 -(void)showSelectTable{
     if(!tableVisible){
+        [self.contentField resignFirstResponder];//table出现时使textView失去焦点,以便触发其点击事件
         [self.selectTable reloadData];
         [UIView animateWithDuration:0.5 delay:0.0 options: UIViewAnimationOptionBeginFromCurrentState animations:^{
             [self.selectTableBtn setFrame:CGRectMake(frame.origin.x + 235, frame.origin.y, frame.size.width, frame.size.height)];

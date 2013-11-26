@@ -56,6 +56,7 @@ NSString *appleID = @"6224939";
     }
     return 0;
 }
+
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     if (section == 2) {
         InfoCell *footer = (InfoCell *)[tableView dequeueReusableHeaderFooterViewWithIdentifier:Info_HEADER_IDENTIFIER];
@@ -96,7 +97,16 @@ NSString *appleID = @"6224939";
         case 1:
             switch (indexPath.row) {
                 case 0:
-                    cell.textLabel.text = @"2G/3G网络为无图模式";
+                {
+                    BOOL isloadLargeImage = [[NSUserDefaults standardUserDefaults] boolForKey:ISLOADLARGEIMAGE_KEY];
+                    if (isloadLargeImage) {
+                        cell.accessoryType = UITableViewCellAccessoryNone;
+                    }else{
+                        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                    }
+                     cell.textLabel.text = @"2G/3G网络为无图模式";
+                }
+                   
                     break;
                 case 1:
                     cell.textLabel.text = @"清理缓存";
@@ -141,11 +151,16 @@ NSString *appleID = @"6224939";
         case 1:
             switch (indexPath.row) {
                 case 0:
-                    if (((UITableViewCell *)self.tableView.visibleCells[1]).accessoryType == UITableViewCellAccessoryCheckmark) {
+                {
+                    BOOL isloadLargeImage = [[NSUserDefaults standardUserDefaults] boolForKey:ISLOADLARGEIMAGE_KEY];
+                    if (!isloadLargeImage) {
                         ((UITableViewCell *)self.tableView.visibleCells[1]).accessoryType = UITableViewCellAccessoryNone;
-                    } else {
+                    }else{
                         ((UITableViewCell *)self.tableView.visibleCells[1]).accessoryType = UITableViewCellAccessoryCheckmark;
                     }
+                    [[CaiJinTongManager shared] setIsLoadLargeImage:!isloadLargeImage];
+                    [[NSUserDefaults standardUserDefaults] setBool:!isloadLargeImage forKey:ISLOADLARGEIMAGE_KEY];
+                }
                     break;
                 case 1:
                     

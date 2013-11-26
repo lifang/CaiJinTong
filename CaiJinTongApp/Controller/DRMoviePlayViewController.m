@@ -15,7 +15,7 @@
 #import "DRCommitQuestionViewController.h"
 #import "Section.h"
 #define MOVIE_CURRENT_PLAY_TIME_OBSERVE @"movieCurrentPlayTimeObserve"
-@interface DRMoviePlayViewController ()
+@interface DRMoviePlayViewController ()<DRTakingMovieNoteViewControllerDelegate,DRCommitQuestionViewControllerDelegate>
 @property (nonatomic,strong) MPMoviePlayerController *moviePlayer;
 @property (nonatomic,strong) NSTimer *timer;
 @property (nonatomic,strong) Section_ChapterViewController *section_chapterController;
@@ -120,6 +120,7 @@
     if (item == self.myQuestionItem) {
         DRCommitQuestionViewController *commitController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRCommitQuestionViewController"];
         commitController.view.frame = (CGRect){0,0,804,426};
+        commitController.delegate = self;
         [self presentPopupViewController:commitController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
             self.myQuestionItem.isSelected = NO;
         }];
@@ -128,6 +129,7 @@
     if (item == self.myNotesItem) {
         DRTakingMovieNoteViewController *takingController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRTakingMovieNoteViewController"];
         takingController.view.frame = (CGRect){0,0,804,426};
+        takingController.delegate = self;
         [self presentPopupViewController:takingController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
             self.myNotesItem.isSelected = NO;
         }];
@@ -281,9 +283,19 @@
 #pragma mark --
 
 
-#pragma mark DRCommitQuestionViewControllerDelegate
--(void)commitQuestionController:(DRCommitQuestionViewController *)controller didCommitQuestionWithTitle:(NSString *)title andText:(NSString *)text{
+#pragma mark -- 提交问题
+-(void)commitQuestionController:(DRCommitQuestionViewController *)controller didCommitQuestionWithTitle:(NSString *)title andText:(NSString *)text andQuestionId:(NSString *)questionId{
     self.myQuestionItem.isSelected = NO;
+    
+    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+        [Utility errorAlert:@"暂无网络!"];
+    }else {
+        [SVProgressHUD showWithStatus:@"玩命加载中..."];
+        AskQuestionInterface *askQuestionInter = [[AskQuestionInterface alloc]init];
+        self.askQuestionInterface = askQuestionInter;
+        self.askQuestionInterface.delegate = self;
+        [self.askQuestionInterface getAskQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:questionId andQuestionName:title andQuestionContent:text];
+    }
 }
 
 -(void)commitQuestionControllerCancel{
@@ -305,7 +317,6 @@
         self.sumitNoteInterface.delegate = self;
         [self.sumitNoteInterface getSumitNoteInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionId andNoteTime:noteTime andNoteText:text];
     }
-    
 }
 
 -(void)takingMovieNoteControllerCancel{
@@ -337,13 +348,11 @@
 
 #pragma mark DRMoviePlayerPlaybackProgressBarDelegate
 -(void)playBackProgressBarTouchBegin:(DRMoviePlayerPlaybackProgressBar *)progressBar{
-//    DLog(@"playBackProgressBarTouchBegin");
     [self.moviePlayer pause];
     [self endObservePlayBackProgressBar];
 }
 
 -(void)playBackProgressBarTouchEnd:(DRMoviePlayerPlaybackProgressBar *)progressBar{
-//    DLog(@"playBackProgressBarTouchEnd");
     [self.moviePlayer play];
     [self startObservePlayBackProgressBar];
 }
@@ -426,11 +435,9 @@
     _isHiddlePlayerControlView = isHiddlePlayerControlView;
     [UIView animateWithDuration:0.5 animations:^{
         if (isHiddlePlayerControlView) {
-//            self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,CGRectGetWidth(self.view.frame) + CGRectGetHeight(self.movieplayerControlBackView.bounds)/2};
             self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,768+50};
             self.drMovieTopBar.center = (CGPoint){self.movieplayerControlBackView.center.x,-20};
         }else{
-//            self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,CGRectGetWidth(self.view.frame) -CGRectGetHeight(self.movieplayerControlBackView.bounds)/2+2};
             self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,768-50};
             self.drMovieTopBar.center = (CGPoint){self.movieplayerControlBackView.center.x,20};
             NSLog(@"%@",NSStringFromCGRect(self.movieplayerControlBackView.frame));
@@ -447,8 +454,6 @@
         [self.moviePlayerView sendSubviewToBack:_moviePlayer.view];
         
         [_moviePlayer setScalingMode:MPMovieScalingModeAspectFill];
-//        [_moviePlayer setContentURL:[NSURL URLWithString:self.movieUrlString]];
-//        [self.view sendSubviewToBack:_moviePlayer.view];
     }
     return _moviePlayer;
 }
@@ -482,7 +487,7 @@
 
 -(void)getPlayBackInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
+//        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
         dispatch_async(dispatch_get_main_queue(), ^{
             [[NSNotificationCenter defaultCenter] removeObserver:self];
         });
@@ -490,12 +495,12 @@
 }
 -(void)getPlayBackDidFailed:(NSString *)errorMsg {
     [SVProgressHUD dismiss];
-    [Utility errorAlert:errorMsg];
+//    [Utility errorAlert:errorMsg];
 }
 #pragma mark -- SumitNoteInterfaceDelegate
--(void)getSumitNoteInfoDidFinished:(NSDictionary *)result {
+-(void)getSumitNoteInfoDidFinished{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
+        [SVProgressHUD dismissWithSuccess:@"提交笔记成功!"];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             //前一个view笔记里面加上刚提交的笔记
@@ -506,6 +511,19 @@
     });
 }
 -(void)getSumitNoteDidFailed:(NSString *)errorMsg {
+    [SVProgressHUD dismiss];
+    [Utility errorAlert:errorMsg];
+}
+#pragma mark -- AskQuestionInterfaceDelegate
+-(void)getAskQuestionInfoDidFinished {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [SVProgressHUD dismissWithSuccess:@"提问成功!"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+
+        });
+    });
+}
+-(void)getAskQuestionDidFailed:(NSString *)errorMsg {
     [SVProgressHUD dismiss];
     [Utility errorAlert:errorMsg];
 }

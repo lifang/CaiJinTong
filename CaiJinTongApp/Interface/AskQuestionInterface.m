@@ -11,19 +11,14 @@
 #import "NSString+URLEncoding.h"
 #import "NSString+HTML.h"
 @implementation AskQuestionInterface
--(void)getAskQuestionInterfaceDelegateWithUserId:(NSString *)userId andSectionId:(NSString *)sectionId andQuestionName:(NSString *)questionName {
+-(void)getAskQuestionInterfaceDelegateWithUserId:(NSString *)userId andSectionId:(NSString *)sectionId andQuestionName:(NSString *)questionName andQuestionContent:(NSString *)content{
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     
-    NSString *timespan = [Utility getNowDateFromatAnDate];
-    NSString *strKey = [NSString stringWithFormat:@"%@%@",timespan,MDKey];
-    NSString *md5Key = [Utility createMD5:strKey];
-    
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",timespan] forKey:@"timespan"];
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",md5Key] forKey:@"token"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",sectionId] forKey:@"sectionId"];
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",questionName] forKey:@"questionName"];
-    self.interfaceUrl = [NSString stringWithFormat:@"%@",kHost];
+    [reqheaders setValue:[NSString stringWithFormat:@"%@",questionName] forKey:@"title"];
+    [reqheaders setValue:[NSString stringWithFormat:@"%@",content] forKey:@"content"];
+    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=askQuestion&userId=17079&sectionId=42&title=ios提问测试标题&content=ios提问内容";
     
     self.baseDelegate = self;
     self.headers = reqheaders;
@@ -44,22 +39,24 @@
                 if (jsonData) {
                     if ([[jsonData objectForKey:@"Status"]intValue] == 1) {
                         @try {
-                            //                            NSDictionary *dictionary =[jsonData objectForKey:@"ReturnObject"];
+                            [self.delegate getAskQuestionInfoDidFinished];
                         }
                         @catch (NSException *exception) {
-                            
+                            [self.delegate getAskQuestionDidFailed:@"请求失败!"];
                         }
+                    }else {
+                        [self.delegate getAskQuestionDidFailed:[jsonData objectForKey:@"Msg"]];
                     }
                 }else {
-                    
+                    [self.delegate getAskQuestionDidFailed:@"请求失败!"];
                 }
             }
         }
     }else {
-        
+        [self.delegate getAskQuestionDidFailed:@"请求失败!"];
     }
 }
 -(void)requestIsFailed:(NSError *)error{
-    
+    [self.delegate getAskQuestionDidFailed:@"请求失败!"];
 }
 @end
