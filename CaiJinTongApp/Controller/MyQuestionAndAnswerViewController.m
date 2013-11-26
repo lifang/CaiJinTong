@@ -190,9 +190,10 @@ QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
     AnswerModel *answer = [question.answerList objectAtIndex:path.row];
     float questionTextFieldHeight = answer.isEditing?141:0;
 
-    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:answer.answerContent];
-    [str setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6]} range:NSMakeRange(0, answer.answerContent.length)];
-    return [str boundingRectWithSize:CGSizeMake(460, 2000) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading|NSStringDrawingTruncatesLastVisibleLine context:nil].size.height + TEXT_HEIGHT + TEXT_PADDING*3+ questionTextFieldHeight;
+    return [Utility getTextSizeWithString:answer.answerContent withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:460].height;
+//    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:answer.answerContent];
+//    [str setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6]} range:NSMakeRange(0, answer.answerContent.length)];
+//    return [str boundingRectWithSize:CGSizeMake(460, 2000) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading|NSStringDrawingTruncatesLastVisibleLine context:nil].size.height + TEXT_HEIGHT + TEXT_PADDING*3+ questionTextFieldHeight;
 }
 #pragma mark --
 
