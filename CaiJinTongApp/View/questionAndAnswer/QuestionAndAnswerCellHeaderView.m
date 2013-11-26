@@ -13,10 +13,11 @@
 @property (nonatomic,strong) UILabel *questionDateLabel;
 @property (nonatomic,strong) UIImageView *questionFlowerImageView;
 @property (nonatomic,strong) UILabel *questionFlowerLabel;
-@property (nonatomic,strong) UITextField *questionContentTextField;
+@property (nonatomic,strong) UITextView *questionContentTextField;
 @property (nonatomic,strong) UIButton *questionFlowerBt;
 @property (nonatomic,strong) UIView *backgroundView;
 @property (nonatomic,strong) UIImageView *questionImg;
+@property (nonatomic,strong) UIView *lineView;
 @end
 
 @implementation QuestionAndAnswerCellHeaderView
@@ -33,6 +34,7 @@
         self.questionNameLabel.font = TEXT_FONT;
         self.questionNameLabel.textColor = [UIColor blackColor];
         self.questionNameLabel.textAlignment = NSTextAlignmentLeft;
+        self.questionNameLabel.textColor = [UIColor darkGrayColor];
         [self.backgroundView addSubview:self.questionNameLabel];
         
         self.questionDateLabel = [[UILabel alloc] init];
@@ -40,6 +42,7 @@
         self.questionDateLabel.font = TEXT_FONT;
         self.questionDateLabel.textColor = [UIColor blackColor];
         self.questionDateLabel.textAlignment = NSTextAlignmentLeft;
+        self.questionDateLabel.textColor = [UIColor darkGrayColor];
         [self.backgroundView addSubview:self.questionDateLabel];
         
         self.questionFlowerImageView = [[UIImageView alloc] init];
@@ -52,14 +55,17 @@
         self.questionFlowerLabel.font = TEXT_FONT;
         self.questionFlowerLabel.textColor = [UIColor blackColor];
         self.questionFlowerLabel.textAlignment = NSTextAlignmentLeft;
+        self.questionFlowerLabel.textColor = [UIColor darkGrayColor];
         [self.backgroundView addSubview:self.questionFlowerLabel];
         
-        self.questionContentTextField = [[UITextField alloc] init];
+        self.questionContentTextField = [[UITextView alloc] init];
         self.questionContentTextField.backgroundColor = [UIColor clearColor];
         self.questionContentTextField.font = [UIFont systemFontOfSize:TEXT_FONT_SIZE+6];
         self.questionContentTextField.textColor = [UIColor blueColor];
         self.questionContentTextField.textAlignment = NSTextAlignmentLeft;
-        [self.questionContentTextField setEnabled:NO];
+        [self.questionContentTextField setUserInteractionEnabled:NO];
+        self.questionContentTextField.contentInset = UIEdgeInsetsMake(-10,-5,0,0);
+//        self.questionContentTextField.textColor = [UIColor darkGrayColor];
         [self.backgroundView addSubview:self.questionContentTextField];
         
         self.questionFlowerBt = [[UIButton alloc] init];
@@ -72,7 +78,11 @@
         self.questionImg.backgroundColor = [UIColor clearColor];
         [self.backgroundView addSubview:self.questionImg];
         
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundView.backgroundColor = [UIColor clearColor];
+        
+        self.lineView = [[UIView alloc] init];
+        self.lineView.backgroundColor = [UIColor darkGrayColor];
+        [self.backgroundView addSubview:self.lineView];
     }
     return self;
 }
@@ -108,18 +118,21 @@
 
 -(void)layoutSubviews{
     self.backgroundView.frame = self.bounds;
-    self.questionNameLabel.frame = (CGRect){TEXT_PADDING*2,0,[Utility getTextSizeWithString:self.questionNameLabel.text withFont:self.questionNameLabel.font].width,TEXT_HEIGHT};
-    self.questionDateLabel.frame = (CGRect){CGRectGetMaxX(self.questionNameLabel.frame)+TEXT_PADDING,0,[Utility getTextSizeWithString:self.questionDateLabel.text withFont:self.questionNameLabel.font].width,TEXT_HEIGHT};
     
-    self.questionFlowerImageView.frame = (CGRect){CGRectGetMaxX(self.questionDateLabel.frame)+TEXT_PADDING,0,TEXT_HEIGHT,TEXT_HEIGHT};
+    self.lineView.frame = (CGRect){TEXT_PADDING*2,0,self.bounds.size.width-TEXT_PADDING*4,1};
+    float topY = 10;
+    float textHeight = TEXT_HEIGHT-10;
+    self.questionNameLabel.frame = (CGRect){TEXT_PADDING*2,topY,[Utility getTextSizeWithString:self.questionNameLabel.text withFont:self.questionNameLabel.font].width,textHeight};
+    self.questionDateLabel.frame = (CGRect){CGRectGetMaxX(self.questionNameLabel.frame)+TEXT_PADDING,topY,[Utility getTextSizeWithString:self.questionDateLabel.text withFont:self.questionNameLabel.font].width,textHeight};
     
-    self.questionFlowerLabel.frame = (CGRect){CGRectGetMaxX(self.questionFlowerImageView.frame)+TEXT_PADDING,0,[Utility getTextSizeWithString:self.questionFlowerLabel.text withFont:self.questionFlowerLabel.font].width,TEXT_HEIGHT};
+    self.questionFlowerImageView.frame = (CGRect){CGRectGetMaxX(self.questionDateLabel.frame)+TEXT_PADDING,topY,TEXT_HEIGHT,textHeight};
     
-    self.questionFlowerBt.frame = (CGRect){CGRectGetMinX(self.questionFlowerImageView.frame)-TEXT_PADDING*5,0,CGRectGetMaxX(self.questionFlowerLabel.frame) -CGRectGetMinX(self.questionFlowerImageView.frame) +50,TEXT_HEIGHT};
+    self.questionFlowerLabel.frame = (CGRect){CGRectGetMaxX(self.questionFlowerImageView.frame)+TEXT_PADDING,topY,[Utility getTextSizeWithString:self.questionFlowerLabel.text withFont:self.questionFlowerLabel.font].width,textHeight};
+    
+    self.questionFlowerBt.frame = (CGRect){CGRectGetMinX(self.questionFlowerImageView.frame)-TEXT_PADDING*5,topY,CGRectGetMaxX(self.questionFlowerLabel.frame) -CGRectGetMinX(self.questionFlowerImageView.frame) +50,textHeight};
 
-//    self.questionContentTextField.frame = (CGRect){TEXT_PADDING*2,TEXT_HEIGHT,CGRectGetWidth(self.frame)-TEXT_PADDING*4,[Utility getTextSizeWithString:self.questionContentTextField.text withFont:self.questionContentTextField.font withWidth:CGRectGetWidth(self.frame)].height};
-    
     self.questionImg.frame = (CGRect){TEXT_PADDING*2+2,TEXT_HEIGHT+2,20,20};
-    self.questionContentTextField.frame = (CGRect){CGRectGetMaxX(self.questionImg.frame)+TEXT_PADDING,TEXT_HEIGHT,CGRectGetWidth(self.frame)-TEXT_PADDING*4,[Utility getTextSizeWithString:self.questionContentTextField.text withFont:self.questionContentTextField.font withWidth:CGRectGetWidth(self.frame)].height};
+//    float contentWidth = CGRectGetWidth(self.frame)-CGRectGetMaxX(self.questionImg.frame)-TEXT_PADDING*2;
+    self.questionContentTextField.frame = (CGRect){CGRectGetMaxX(self.questionImg.frame),TEXT_HEIGHT,QUESTIONHEARD_VIEW_WIDTH,[Utility getTextSizeWithString:self.questionContentTextField.text withFont:self.questionContentTextField.font withWidth:QUESTIONHEARD_VIEW_WIDTH].height};
 }
 @end

@@ -12,6 +12,7 @@
 #define TEXT_FONT [UIFont systemFontOfSize:TEXT_FONT_SIZE]
 #define TEXT_PADDING 10
 #define TEXT_HEIGHT 30
+#define  QUESTIONANDANSWER_CELL_WIDTH 460
 @protocol QuestionAndAnswerCellDelegate;
 
 @interface QuestionAndAnswerCell : UITableViewCell<UITextViewDelegate>
