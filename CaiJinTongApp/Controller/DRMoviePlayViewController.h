@@ -50,6 +50,8 @@ typedef enum {MOVIE_FILE,MOVIE_INTERNET}MovieLocateType;
 @property (strong, nonatomic) NSString *commitNoteTime;
 @property (assign,nonatomic) MPMovieSourceType drMovieSourceType;
 
+
+
 - (IBAction)playBtClicked:(id)sender;
 - (IBAction)seekSliderTouchChangeValue:(id)sender;
 - (IBAction)volumeSliderTouchChangeValue:(id)sender;

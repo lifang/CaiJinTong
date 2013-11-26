@@ -22,12 +22,18 @@
     }
     return self;
 }
+//当popoup view退出当前界面时调用
+-(void)willDismissPopoupController{
+
+}
 
 - (void)viewDidLoad
 {
      if(!self.drnavigationBar){
           UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-          self.drnavigationBar = [story instantiateViewControllerWithIdentifier:@"DRNaviBar"];
+          UIViewController *controller =    (UIViewController*)[story instantiateViewControllerWithIdentifier:@"DRNaviBar"];
+          [self addChildViewController:controller];
+          self.drnavigationBar = (DRNavigationBar*)[controller view];
      }
     [self.view addSubview:self.drnavigationBar];
      [self.view bringSubviewToFront:self.drnavigationBar];

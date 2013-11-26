@@ -30,6 +30,10 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+-(void)willDismissPopoupController{
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -272,7 +276,12 @@
 
 #pragma mark DRMoviePlayViewControllerDelegate
 -(void)drMoviePlayerViewController:(DRMoviePlayViewController *)playerController commitNotesSuccess:(NSString *)noteText andTime:(NSString *)noteTime{
-
+    if (self.section_NoteView) {
+        NoteModel *note = [[NoteModel alloc] init];
+        note.noteTime = noteTime;
+        note.noteText = noteText;
+        [self.section_NoteView.dataArray addObject:note];
+    }
 }
 
 #pragma mark - 滑动tab视图代理方法
@@ -404,8 +413,8 @@
         Section *s = [[Section alloc] init];
         SectionSaveModel *ssm = [s getDataWithSid:sectionID];
         playerController.sectionSaveModel = ssm;
-        NSLog(@"----buttonModel.sid: %@----",ssm.sid);
-        NSLog(@"----buttonModel.sectionList: %@----",ssm.sectionList);
+//        NSLog(@"----buttonModel.sid: %@----",ssm.sid);
+//        NSLog(@"----buttonModel.sectionList: %@----",ssm.sectionList);
         
         AppDelegate *app = [AppDelegate sharedInstance];
         [app.lessonViewCtrol presentViewController:playerController animated:YES completion:^{

@@ -11,5 +11,6 @@
 @interface FixTableViewController : UITableViewController
 @property (weak, nonatomic) IBOutlet UITextField *fixTextField;
 @property (weak, nonatomic) IBOutlet UIImageView *fixClearImg;
-
+@property (nonatomic, assign) BOOL isImage;//判断是否为头像
+@property (nonatomic, weak) NSString *txt;//传过来的值
 @end

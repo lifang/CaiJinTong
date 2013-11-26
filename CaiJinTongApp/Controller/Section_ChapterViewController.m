@@ -84,7 +84,7 @@
     
     cell.nameLab.text = section.sectionName;
     cell.sid = section.sectionId;
-    
+        
     //查询数据库
     Section *sectionDb = [[Section alloc]init];
     SectionSaveModel *sectionSave = [sectionDb getDataWithSid:section.sectionId];

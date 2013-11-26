@@ -11,6 +11,12 @@
 		0E5267291829EA450009E535 /* SectionSaveModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E5267281829EA450009E535 /* SectionSaveModel.m */; };
 		0E52672C1829EE990009E535 /* DownLoadInformView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E52672B1829EE990009E535 /* DownLoadInformView.m */; };
 		0E52672E1829F4EE0009E535 /* DownLoadInformView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E52672D1829F4EE0009E535 /* DownLoadInformView.xib */; };
+		0E9C9EF0184309A200D48781 /* QuestionListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9C9EEF184309A200D48781 /* QuestionListCell.m */; };
+		0E9C9EF318431A5300D48781 /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9C9EF218431A5300D48781 /* InfoViewController.m */; };
+		0E9C9EF5184321E600D48781 /* down.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E9C9EF4184321E600D48781 /* down.png */; };
+		0E9C9EF8184328CC00D48781 /* EditInfoInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9C9EF7184328CC00D48781 /* EditInfoInterface.m */; };
+		0E9C9EFB18433C3000D48781 /* BaseImageInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9C9EFA18433C3000D48781 /* BaseImageInfo.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0E9C9EFD184343F700D48781 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E9C9EFC184343F700D48781 /* AssetsLibrary.framework */; };
 		0E9DA2C0183EF00D000A5995 /* questionInfo副本.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E9DA2BF183EF00D000A5995 /* questionInfo副本.json */; };
 		0E9DA2D8183F3788000A5995 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9DA2D7183F3788000A5995 /* BaseViewController.m */; };
 		0E9DA3B2183F568D000A5995 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9DA361183F568D000A5995 /* ASIAuthenticationDialog.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -284,6 +290,16 @@
 		0E52672A1829EE990009E535 /* DownLoadInformView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownLoadInformView.h; sourceTree = "<group>"; };
 		0E52672B1829EE990009E535 /* DownLoadInformView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownLoadInformView.m; sourceTree = "<group>"; };
 		0E52672D1829F4EE0009E535 /* DownLoadInformView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DownLoadInformView.xib; sourceTree = "<group>"; };
+		0E9C9EEE184309A200D48781 /* QuestionListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionListCell.h; sourceTree = "<group>"; };
+		0E9C9EEF184309A200D48781 /* QuestionListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionListCell.m; sourceTree = "<group>"; };
+		0E9C9EF118431A5300D48781 /* InfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoViewController.h; sourceTree = "<group>"; };
+		0E9C9EF218431A5300D48781 /* InfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoViewController.m; sourceTree = "<group>"; };
+		0E9C9EF4184321E600D48781 /* down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = down.png; sourceTree = "<group>"; };
+		0E9C9EF6184328CC00D48781 /* EditInfoInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditInfoInterface.h; sourceTree = "<group>"; };
+		0E9C9EF7184328CC00D48781 /* EditInfoInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditInfoInterface.m; sourceTree = "<group>"; };
+		0E9C9EF918433C3000D48781 /* BaseImageInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseImageInfo.h; sourceTree = "<group>"; };
+		0E9C9EFA18433C3000D48781 /* BaseImageInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseImageInfo.m; sourceTree = "<group>"; };
+		0E9C9EFC184343F700D48781 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		0E9DA2BF183EF00D000A5995 /* questionInfo副本.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "questionInfo副本.json"; sourceTree = "<group>"; };
 		0E9DA2D6183F3788000A5995 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		0E9DA2D7183F3788000A5995 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
@@ -696,6 +712,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E9C9EFD184343F700D48781 /* AssetsLibrary.framework in Frameworks */,
 				0EA36ED4182C8E930074D67B /* CoreText.framework in Frameworks */,
 				630B95F61829F72B000ED31E /* MediaPlayer.framework in Frameworks */,
 				630CB0811828BD19002FD462 /* AVFoundation.framework in Frameworks */,
@@ -985,6 +1002,8 @@
 				184F8AA518432C4100A2FEB4 /* Controller_iPhone */,
 				18A19C7A183C4A6A00C11310 /* UserInfoTableViewController.h */,
 				18A19C7B183C4A6A00C11310 /* UserInfoTableViewController.m */,
+				18A19C7D183C53AB00C11310 /* FixTableViewController.h */,
+				18A19C7E183C53AB00C11310 /* FixTableViewController.m */,
 				0E9DA2D6183F3788000A5995 /* BaseViewController.h */,
 				0E9DA2D7183F3788000A5995 /* BaseViewController.m */,
 				18C9313C18363B9C00FBE1A8 /* DRCommitQuestionViewController.h */,
@@ -1015,8 +1034,8 @@
 				631227DF182B384B00530CC3 /* MyQuestionAndAnswerViewController.m */,
 				0EB849311835DE2700C97030 /* SettingViewController.h */,
 				0EB849321835DE2700C97030 /* SettingViewController.m */,
-				18A19C7D183C53AB00C11310 /* FixTableViewController.h */,
-				18A19C7E183C53AB00C11310 /* FixTableViewController.m */,
+				0E9C9EF118431A5300D48781 /* InfoViewController.h */,
+				0E9C9EF218431A5300D48781 /* InfoViewController.m */,
 				63841CF11838A60100E3FA9E /* DRNavigationController.h */,
 				63841CF21838A60100E3FA9E /* DRNavigationController.m */,
 				18335B65183C982600DB8B7E /* DRAskQuestionViewController.h */,
@@ -1045,6 +1064,10 @@
 				0EAFA1111822399000D01D3E /* LogInterface.m */,
 				0EAFA11E1822464700D01D3E /* FindPassWordInterface.h */,
 				0EAFA11F1822464700D01D3E /* FindPassWordInterface.m */,
+				0E9C9EF918433C3000D48781 /* BaseImageInfo.h */,
+				0E9C9EFA18433C3000D48781 /* BaseImageInfo.m */,
+				0E9C9EF6184328CC00D48781 /* EditInfoInterface.h */,
+				0E9C9EF7184328CC00D48781 /* EditInfoInterface.m */,
 				0EAFA1211822485500D01D3E /* LessonInfoInterface.h */,
 				0EAFA1221822485500D01D3E /* LessonInfoInterface.m */,
 				0EAFA1241822488700D01D3E /* ChapterInfoInterface.h */,
@@ -1303,6 +1326,8 @@
 			children = (
 				63091FF81827435400C1AF07 /* LessonListCell.h */,
 				63091FF91827435400C1AF07 /* LessonListCell.m */,
+				0E9C9EEE184309A200D48781 /* QuestionListCell.h */,
+				0E9C9EEF184309A200D48781 /* QuestionListCell.m */,
 				63091FFB1827473300C1AF07 /* LessonListHeaderView.h */,
 				63091FFC1827473300C1AF07 /* LessonListHeaderView.m */,
 				0EA264C51839BFEB0037489C /* InfoCell.h */,
@@ -1352,6 +1377,7 @@
 		630B03A91820F5BB00F72C4C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0E9C9EFC184343F700D48781 /* AssetsLibrary.framework */,
 				0EA36ED3182C8E930074D67B /* CoreText.framework */,
 				630B95F51829F72B000ED31E /* MediaPlayer.framework */,
 				0EA2A91918288275003D152E /* libc++.dylib */,
@@ -1386,6 +1412,7 @@
 				630B03BC1820F5BB00F72C4C /* Main_iPhone.storyboard */,
 				630B03C21820F5BB00F72C4C /* ViewController.h */,
 				630B03C31820F5BB00F72C4C /* ViewController.m */,
+				0E9C9EF4184321E600D48781 /* down.png */,
 				630B03C51820F5BB00F72C4C /* Images.xcassets */,
 				0EAFA0D41822166700D01D3E /* JSON */,
 				0EDF4D8E18210202007161E0 /* DownService */,
@@ -1651,6 +1678,7 @@
 				0EAFA0FB1822167800D01D3E /* sectionInfo.json in Resources */,
 				18C9312E18363B2A00FBE1A8 /* play_black@2x.png in Resources */,
 				18F477F4183DC5CA00021886 /* nothing.png in Resources */,
+				0E9C9EF5184321E600D48781 /* down.png in Resources */,
 				18C9313B18363B2A00FBE1A8 /* play-table@2x.png in Resources */,
 				0EA7176F1829E2D800560885 /* foregroundStar@2x.png in Resources */,
 				1815325618360DF40078A410 /* Q&A-myq_15@2x.png in Resources */,
@@ -1717,6 +1745,7 @@
 				0EAD1F78182B276700204FC3 /* Section.m in Sources */,
 				0EAD1F8C182B872000204FC3 /* Section_NoteCell.m in Sources */,
 				0EA7EF611823B0EC00C47F69 /* AnswerListInterface.m in Sources */,
+				0E9C9EF0184309A200D48781 /* QuestionListCell.m in Sources */,
 				0E9DA3BF183F568D000A5995 /* ASICloudFilesObject.m in Sources */,
 				18A19C7F183C53AB00C11310 /* FixTableViewController.m in Sources */,
 				0E9DA3B2183F568D000A5995 /* ASIAuthenticationDialog.m in Sources */,
@@ -1731,6 +1760,7 @@
 				18F477E9183D9BDA00021886 /* SuggestionFeedbackViewController.m in Sources */,
 				0E9DA3B5183F568D000A5995 /* ASIDownloadCache.m in Sources */,
 				0E9DA3B4183F568D000A5995 /* ASIDataDecompressor.m in Sources */,
+				0E9C9EFB18433C3000D48781 /* BaseImageInfo.m in Sources */,
 				0EA7EF4618238CC600C47F69 /* ChapterQuestionModel.m in Sources */,
 				0EA7EF7C182748BB00C47F69 /* SDWebImageDownloader.m in Sources */,
 				6323876318223E9500C71535 /* DRNavigationBar.m in Sources */,
@@ -1739,6 +1769,7 @@
 				18C9314118363B9C00FBE1A8 /* DRTakingMovieNoteViewController.m in Sources */,
 				0E9DA3C4183F568D000A5995 /* ASIS3BucketRequest.m in Sources */,
 				0E9DA3B7183F568D000A5995 /* ASIHTTPRequest.m in Sources */,
+				0E9C9EF318431A5300D48781 /* InfoViewController.m in Sources */,
 				631227E0182B384B00530CC3 /* MyQuestionAndAnswerViewController.m in Sources */,
 				0EA2A9261828D667003D152E /* SUNSlideSwitchView.m in Sources */,
 				0EA2A9201828893D003D152E /* ChineseString.m in Sources */,
@@ -1773,6 +1804,7 @@
 				0EA7EF7A182748BB00C47F69 /* SDImageCache.m in Sources */,
 				0E5267291829EA450009E535 /* SectionSaveModel.m in Sources */,
 				0E9DA3C7183F568D000A5995 /* ASIS3ServiceRequest.m in Sources */,
+				0E9C9EF8184328CC00D48781 /* EditInfoInterface.m in Sources */,
 				0EA7EF7E182748BB00C47F69 /* SDWebImagePrefetcher.m in Sources */,
 				0EA7EF5B1823ADF100C47F69 /* SubmitAnswerInterface.m in Sources */,
 				0EDF4DF318210241007161E0 /* GTMNSString+HTML.m in Sources */,

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface UserInfoTableViewController : UITableViewController
+@property (weak, nonatomic) IBOutlet UILabel *nickNameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *userImgView;
 @property (weak, nonatomic) IBOutlet UILabel *birthLabel;
 @property (weak, nonatomic) IBOutlet UILabel *sexLabel;

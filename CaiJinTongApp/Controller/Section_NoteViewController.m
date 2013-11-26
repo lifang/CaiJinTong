@@ -33,6 +33,7 @@
 - (void)viewDidCurrentView
 {
     DLog(@"加载为当前视图 = %@",self.title);
+    [self.tableViewList reloadData];
 }
 - (void)didReceiveMemoryWarning
 {
@@ -70,7 +71,7 @@
     cell.contentTextView.font = aFont;
     cell.contentTextView.contentInset = UIEdgeInsetsMake(0, 5.0f, 0, 5.0f);
     
-    cell.sectionNameLab.text = note.noteId;
+//    cell.sectionNameLab.text = note.noteId;
     
     return cell;
 }

@@ -66,7 +66,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     [super viewDidLoad];
     [self.tableView registerClass:[LessonListHeaderView class] forHeaderFooterViewReuseIdentifier:LESSON_HEADER_IDENTIFIER];
     self.listType = LESSON_LIST;
-    [Utility setBackgroungWithView:self.LogoImageView.superview andImage6:@"login_bg" andImage7:@"login_bg_7"];
+    [Utility setBackgroungWithView:self.LogoImageView.superview andImage6:@"login_bg_7" andImage7:@"login_bg_7"];
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.separatorStyle = NO;
     self.searchBarView.backgroundColor = [UIColor clearColor];
@@ -89,7 +89,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 
 #pragma mark UISearchBarDelegate
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-    NSLog(@"警告:lessionviewcontroller searchbarSearchButtonClicked");
+    DLog(@"警告:lessionviewcontroller searchbarSearchButtonClicked");
 }
 #pragma mark --
 
@@ -125,11 +125,6 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             Section *sectionDb = [[Section alloc]init];
             NSArray *local_array = [sectionDb getAllInfo];
             UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-            [CaiJinTongManager shared].defaultLeftInset = 200;
-            [CaiJinTongManager shared].defaultPortraitTopInset = 20;
-            [CaiJinTongManager shared].defaultWidth = 568;
-            [CaiJinTongManager shared].defaultHeight = 984;
-            
             ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
             if(self.isSearching)chapterView.isSearch = YES;
             chapterView.searchBar.searchTextField.text = self.searchText.text;
@@ -141,16 +136,6 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             [navControl setNavigationBarHidden:YES];
             [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
             }];
-//            MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:navControl];
-//            formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromRight;
-//            formSheet.shadowRadius = 2.0;
-//            formSheet.shadowOpacity = 0.3;
-//            formSheet.shouldDismissOnBackgroundViewTap = YES;
-//            formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
-//            
-//            [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
-//                
-//            }];
         }
     }else{
         BOOL isSelSection = NO;
@@ -279,11 +264,10 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         cell.textLabel.font = [UIFont systemFontOfSize:16];
         cell.textLabel.text = chapter.chapterName;
         chapterName = [NSString stringWithFormat:@"%@",chapter.chapterName];
+        [cell setIndentationLevel:2];
         cell.textLabel.textColor = [UIColor whiteColor];
         cell.detailTextLabel.textColor = [UIColor whiteColor];
         cell.backgroundColor = [UIColor clearColor];
-//        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",chapter.chapterImg]];
-//        [cell.imageView setImageWithURL:url placeholderImage:Image(@"defualt.jpg")];
         return cell;
     }else{
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"questionCell"];
@@ -328,7 +312,6 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                 NSArray *ar=[d valueForKey:@"questionNode"];
                 if (ar.count == 0) { //判定问题分类到最底层
                     //请求问题分类下详细问题信息
-                    DLog(@"questionId = %@",[d valueForKey:@"questionID"])
                     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
                         [Utility errorAlert:@"暂无网络!"];
                     }else {
@@ -442,29 +425,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         }
     }
 }
-/*
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    BOOL isSearch = NO;
-    if (self.searchText.text.length == 0) {
-        [Utility errorAlert:@"请输入搜索内容!"];
-        isSearch = NO;
-    }else {
-        isSearch = YES;
-        [self.searchText resignFirstResponder];
-        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-            [Utility errorAlert:@"暂无网络!"];
-        }else {
-            self.isSearching = YES;
-            [SVProgressHUD showWithStatus:@"玩命加载中..."];
-            SearchLessonInterface *searchLessonInter = [[SearchLessonInterface alloc]init];
-            self.searchLessonInterface = searchLessonInter;
-            self.searchLessonInterface.delegate = self;
-            [self.searchLessonInterface getSearchLessonInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchText.text];
-        }
-    }
-    return isSearch;
-}
- */
+
 -(IBAction)setBtnPressed:(id)sender {
     self.editBtn.alpha = 1.0;
     self.lessonListBt.alpha = 0.3;
@@ -628,13 +589,14 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 -(void)getChapterQuestionInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
-        NSMutableArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
+        NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
         dispatch_async(dispatch_get_main_queue(), ^{
             UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
             MyQuestionAndAnswerViewController *myQAVC = [story instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
             UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:myQAVC];
             [navControl setNavigationBarHidden:YES];
             navControl.view.frame = (CGRect){0,0,568,1004};
+            [myQAVC reloadDataWithDataArray:chapterQuestionList];
             [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
                 
             }];
@@ -651,11 +613,6 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
         dispatch_async(dispatch_get_main_queue(), ^{
             UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-            [CaiJinTongManager shared].defaultLeftInset = 200;
-            [CaiJinTongManager shared].defaultPortraitTopInset = 20;
-            [CaiJinTongManager shared].defaultWidth = 568;
-            [CaiJinTongManager shared].defaultHeight = 984;
-            
             ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
             if(self.isSearching){
                 chapterView.drnavigationBar.titleLabel.text = @"搜索";
@@ -686,16 +643,6 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                 [navControl setNavigationBarHidden:YES];
                 [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
                 }];
-//                MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:navControl];
-//                formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromRight;
-//                formSheet.shadowRadius = 2.0;
-//                formSheet.shadowOpacity = 0.3;
-//                formSheet.shouldDismissOnBackgroundViewTap = YES;
-//                formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
-//                
-//                [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
-//                    
-//                }];
             }
         });
     });

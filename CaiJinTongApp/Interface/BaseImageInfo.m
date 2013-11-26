@@ -1,16 +1,16 @@
 //
-//  BaseInterface.m
-//  CaiJinTong
+//  BaseImageInfo.m
+//  CaiJinTongApp
 //
-//  Created by comdosoft on 13-9-17.
-//  Copyright (c) 2013年 CaiJinTong. All rights reserved.
+//  Created by comdosoft on 13-11-25.
+//  Copyright (c) 2013年 david. All rights reserved.
 //
 
-#import "BaseInterface.h"
+#import "BaseImageInfo.h"
 #import "NSDictionary+AllKeytoLowerCase.h"
 #import "InterfaceCache.h"
 
-@implementation BaseInterface
+@implementation BaseImageInfo
 @synthesize baseDelegate = _baseDelegate , request = _request;
 @synthesize interfaceUrl = _interfaceUrl , headers = _headers , bodys = _bodys;
 
@@ -34,13 +34,13 @@
         NSMutableString *urlStr = [NSMutableString stringWithFormat:@"%@",self.interfaceUrl];
         //url含中文转化UTF8
         urlStr = (NSMutableString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
-                                                                        (CFStringRef)urlStr,
-                                                                        NULL,
-                                                                        NULL,
-                                                                        kCFStringEncodingUTF8);
+                                                                            (CFStringRef)urlStr,
+                                                                            NULL,
+                                                                            NULL,
+                                                                            kCFStringEncodingUTF8);
         NSURL *url = [[NSURL alloc]initWithString:urlStr];
         if (url) {
-            self.request = [ASIHTTPRequest requestWithURL:url];
+            self.request = [ASIFormDataRequest requestWithURL:url];
         }
         
         [url release];
@@ -54,27 +54,26 @@
         [self.request setTimeOutSeconds:60];
         NSString *postURL=[self createPostURL:self.headers];
         NSMutableData *postData = [[NSMutableData alloc]initWithData:[postURL dataUsingEncoding:NSUTF8StringEncoding]];
-        
+        [postData appendData:self.imageData];
         [self.request setPostBody:postData];
         [self.request setRequestMethod:@"POST"];
         [self.request addRequestHeader:@"Content-Type" value:@"application/x-www-form-urlencoded"];
         if (self.headers) {
             for (NSString *key in self.headers) {
-                [self.request addRequestHeader:key value:[self.headers objectForKey:key]];  
+                [self.request addRequestHeader:key value:[self.headers objectForKey:key]];
             }//添加getter请求参数
         }
         [self.request setDelegate:self];
         [self.request startAsynchronous];
-
+        
     }else{
         //抛出异常
     }
 }
-
 #pragma mark - ASIHttpRequestDelegate
 - (void)request:(ASIHTTPRequest *)request didReceiveResponseHeaders:(NSDictionary *)responseHeaders {
     responseHeaders = [responseHeaders allKeytoLowerCase];
-
+    
 }
 
 -(void)requestFinished:(ASIHTTPRequest *)request {

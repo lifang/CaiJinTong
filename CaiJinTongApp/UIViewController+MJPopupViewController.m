@@ -98,9 +98,19 @@ static void * const keypath = (void*)&keypath;
 {
     AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication]delegate];
     UIViewController *presentedController = [app.popupedControllerArr lastObject];
-    [app.popupedControllerArr removeLastObject];
+    if ([self.mj_popupViewController isKindOfClass:[UINavigationController class]]) {
+        if ([(UINavigationController*)self.mj_popupViewController viewControllers] >0) {
+            UIViewController *con = [[(UINavigationController*)self.mj_popupViewController viewControllers] lastObject];
+            if ([con isKindOfClass:[DRNaviGationBarController class]]) {
+                DRNaviGationBarController *controller = (DRNaviGationBarController*)con;
+                [controller willDismissPopoupController];
+            }
+            
+        }
+    }
+    
     UIView *sourceView = [presentedController topView];
-    DLog(@"%@>>>>%@",[sourceView subviews],sourceView);
+//    DLog(@"%@>>>>%@",[sourceView subviews],sourceView);
     UIView *popupView = [sourceView viewWithTag:kMJPopupViewTag];
     UIView *overlayView = [sourceView viewWithTag:kMJOverlayViewTag];
     
@@ -121,6 +131,8 @@ static void * const keypath = (void*)&keypath;
             break;
     }
     self.mj_popupViewController = nil;
+     [app.popupedControllerArr removeLastObject];
+    NSLog(@"////////////////////////////////////////////////////////");
 }
 
 
