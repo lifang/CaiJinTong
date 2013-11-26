@@ -269,6 +269,8 @@
 		6376B3061839E62F0015C537 /* line2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6376B3051839E62F0015C537 /* line2@2x.png */; };
 		63841CF01838977000E3FA9E /* ChapterSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 63841CEF1838977000E3FA9E /* ChapterSearchBar.m */; };
 		63841CF31838A60100E3FA9E /* DRNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63841CF21838A60100E3FA9E /* DRNavigationController.m */; };
+		63B710FB1844A16100A61B14 /* iVersion.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 63B710F81844A16100A61B14 /* iVersion.bundle */; };
+		63B710FC1844A16100A61B14 /* iVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B710FA1844A16100A61B14 /* iVersion.m */; };
 		63C15C73183F54E600890086 /* DRMoviePlayerTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C15C72183F54E600890086 /* DRMoviePlayerTopBar.m */; };
 /* End PBXBuildFile section */
 
@@ -703,6 +705,9 @@
 		63841CEF1838977000E3FA9E /* ChapterSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChapterSearchBar.m; sourceTree = "<group>"; };
 		63841CF11838A60100E3FA9E /* DRNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRNavigationController.h; sourceTree = "<group>"; };
 		63841CF21838A60100E3FA9E /* DRNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRNavigationController.m; sourceTree = "<group>"; };
+		63B710F81844A16100A61B14 /* iVersion.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = iVersion.bundle; sourceTree = "<group>"; };
+		63B710F91844A16100A61B14 /* iVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iVersion.h; sourceTree = "<group>"; };
+		63B710FA1844A16100A61B14 /* iVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iVersion.m; sourceTree = "<group>"; };
 		63C15C71183F54E600890086 /* DRMoviePlayerTopBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DRMoviePlayerTopBar.h; path = movieCotr/DRMoviePlayerTopBar.h; sourceTree = "<group>"; };
 		63C15C72183F54E600890086 /* DRMoviePlayerTopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DRMoviePlayerTopBar.m; path = movieCotr/DRMoviePlayerTopBar.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1506,6 +1511,7 @@
 		639A07A01823905900B60670 /* thirty */ = {
 			isa = PBXGroup;
 			children = (
+				63B710F71844A16100A61B14 /* iVersion */,
 				630CB0791828BCCE002FD462 /* LGPlayer */,
 				639A07A11823906900B60670 /* popupView */,
 			);
@@ -1530,6 +1536,16 @@
 				0EA264CF1839D2A40037489C /* MZFormSheetSegue.m */,
 			);
 			name = popupView;
+			sourceTree = "<group>";
+		};
+		63B710F71844A16100A61B14 /* iVersion */ = {
+			isa = PBXGroup;
+			children = (
+				63B710F81844A16100A61B14 /* iVersion.bundle */,
+				63B710F91844A16100A61B14 /* iVersion.h */,
+				63B710FA1844A16100A61B14 /* iVersion.m */,
+			);
+			path = iVersion;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1678,6 +1694,7 @@
 				0EAFA0FB1822167800D01D3E /* sectionInfo.json in Resources */,
 				18C9312E18363B2A00FBE1A8 /* play_black@2x.png in Resources */,
 				18F477F4183DC5CA00021886 /* nothing.png in Resources */,
+				63B710FB1844A16100A61B14 /* iVersion.bundle in Resources */,
 				0E9C9EF5184321E600D48781 /* down.png in Resources */,
 				18C9313B18363B2A00FBE1A8 /* play-table@2x.png in Resources */,
 				0EA7176F1829E2D800560885 /* foregroundStar@2x.png in Resources */,
@@ -1825,6 +1842,7 @@
 				630B95F9182A2909000ED31E /* DRMoviePlayerPlaybackProgressBar.m in Sources */,
 				0EA7EF3D182379E200C47F69 /* NoteModel.m in Sources */,
 				630CB0851828E8B0002FD462 /* MovieControllerItem.m in Sources */,
+				63B710FC1844A16100A61B14 /* iVersion.m in Sources */,
 				0E9DA3C0183F568D000A5995 /* ASICloudFilesObjectRequest.m in Sources */,
 				0E9DA3B3183F568D000A5995 /* ASIDataCompressor.m in Sources */,
 				0EA7EF4018237A0D00C47F69 /* CommentModel.m in Sources */,
@@ -2017,6 +2035,7 @@
 				INFOPLIST_FILE = "CaiJinTongApp/CaiJinTongApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "4A0415A6-0E58-4B50-A5DB-0697FDA891DE";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2030,6 +2049,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = NO;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				ENABLE_NS_ASSERTIONS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_INPUT_FILETYPE = sourcecode.c.objc;
@@ -2039,6 +2059,7 @@
 				INFOPLIST_FILE = "CaiJinTongApp/CaiJinTongApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "4A0415A6-0E58-4B50-A5DB-0697FDA891DE";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

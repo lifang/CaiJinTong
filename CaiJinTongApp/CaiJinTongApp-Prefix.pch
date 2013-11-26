@@ -22,7 +22,7 @@
 #import "UIViewController+MJPopupViewController.h"
 #import "MBProgressHUD.h"
 #import "DRNavigationController.h"
-
+#import "iVersion.h"
 #endif
 
 //系统版本
