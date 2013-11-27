@@ -22,12 +22,13 @@
 #import "UIViewController+MJPopupViewController.h"
 #import "MBProgressHUD.h"
 #import "DRNavigationController.h"
-
+#import "iVersion.h"
 #endif
 
 //系统版本
 #define platform [[[UIDevice currentDevice] systemVersion] floatValue]
 #define Image(x) [UIImage imageNamed:x]
+#define ISLOADLARGEIMAGE_KEY @"ISLOADLARGEIMAGE_KEY"
 
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);

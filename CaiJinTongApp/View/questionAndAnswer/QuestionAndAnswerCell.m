@@ -77,7 +77,7 @@
     self.answerTextField.font = [UIFont systemFontOfSize:TEXT_FONT_SIZE+6];
     [self.qflowerBt setUserInteractionEnabled:!answer.isPraised];
     if (questionID) {
-        if (answer.IsAnswerAccept && [answer.IsAnswerAccept isEqualToString:@"YES"]&& [questionID isEqualToString:answer.resultId]) {
+        if (answer.IsAnswerAccept && [answer.IsAnswerAccept intValue]==1) {
             [self.acceptAnswerBt setHidden:NO];
             [self.acceptAnswerBt setUserInteractionEnabled:NO];
             [self.acceptAnswerBt setTitle:@"正确回答" forState:UIControlStateNormal];
@@ -103,6 +103,8 @@
     [self.qflowerBt setTitle:@"" forState:UIControlStateNormal];
     self.questionTextField.backgroundColor = [UIColor colorWithRed:238.0/255.0 green:238.0/255.0 blue:238.0/255.0 alpha:1.0];
     self.questionBackgroundView.backgroundColor = [UIColor clearColor];
+    self.answerBackgroundView.backgroundColor = [UIColor clearColor];
+    self.answerTextField.contentInset = UIEdgeInsetsMake(-10, -5, 0, 0);
 }
 
 -(void)layoutSubviews{
@@ -116,21 +118,9 @@
     self.qflowerLabel.frame = (CGRect){CGRectGetMaxX(self.qflowerImageView.frame)+TEXT_PADDING,0,[Utility getTextSizeWithString:self.qflowerLabel.text withFont:self.qflowerLabel.font].width,CGRectGetHeight(self.qflowerLabel.frame)};
     
     self.acceptAnswerBt.frame = (CGRect){CGRectGetMaxX(self.qflowerLabel.frame)+TEXT_PADDING,0,self.acceptAnswerBt.frame.size};
-    
-//    CGSize size = [Utility getTextSizeWithString:self.answerTextField.text withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:CGRectGetWidth(self.answerBackgroundView.frame)];
-//    self.answerBackgroundView.frame = (CGRect){self.answerBackgroundView.frame.origin,CGRectGetWidth(self.answerBackgroundView.frame),size.height+20};
-    
-//    CGSize size = [Utility getTextSizeWithString:self.answerTextField.text withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:350];
-//    CGSize size = [Utility getTextSizeWithString:self.answerTextField.text withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:350];
-//    self.answerBackgroundView.frame = (CGRect){self.answerBackgroundView.frame.origin,CGRectGetWidth(self.answerBackgroundView.frame),size.height+20};
-    
-    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:self.answerTextField.text];
-    [str setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6]} range:NSMakeRange(0, self.answerTextField.text.length)];
-    float height = [str boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.answerBackgroundView.frame), 2000) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading|NSStringDrawingTruncatesLastVisibleLine context:nil].size.height + TEXT_PADDING*2;
-    self.answerBackgroundView.frame = (CGRect){self.answerBackgroundView.frame.origin,CGRectGetWidth(self.answerBackgroundView.frame),height};
-//    CGRect frame = self.questionBackgroundView.frame;
-//    frame.origin.y = self.answerBackgroundView.frame.origin.y + self.answerBackgroundView.frame.size.height;
-//    self.questionBackgroundView.frame = frame;
+
+    CGSize contentSize = [Utility getTextSizeWithString:self.answerTextField.text withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:QUESTIONANDANSWER_CELL_WIDTH];
+    self.answerBackgroundView.frame = (CGRect){self.answerBackgroundView.frame.origin,QUESTIONANDANSWER_CELL_WIDTH,contentSize.height};
     
     self.qflowerBt.frame = (CGRect){CGRectGetMinX(self.qflowerImageView.frame)-TEXT_PADDING,0,CGRectGetMaxX(self.qflowerLabel.frame) - CGRectGetMinX(self.qflowerImageView.frame)+TEXT_PADDING*2,CGRectGetHeight(self.qTitleNameLabel.frame)};
 }

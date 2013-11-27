@@ -53,7 +53,6 @@
 }
 -(void)refeshScore:(NSNotification *)notification {
     NSDictionary *dic = notification.object;
-    DLog(@"dic = %@",dic);
     NSString *score = [dic objectForKey:@"sectionScore"];
     
     for (UIView *vv in self.view.subviews) {
@@ -75,129 +74,6 @@
     }
 }
 
--(void)viewDidAppear:(BOOL)animated {
-//    [super viewDidAppear:animated];
-//    DLog(@"%f",self.view.frame.size.width);
-//    if (self.section) {
-//        //封面
-//        SectionCustomView *sv = [[SectionCustomView alloc]initWithFrame:CGRectMake(10, 54, 250, 250) andSection:self.section andItemLabel:0];
-//        self.sectionView = sv;
-//        
-//        [self.view addSubview:self.sectionView];
-//        //显示分数
-//        CustomLabel *scoreLabel = [[CustomLabel alloc]initWithFrame:CGRectMake(480, 64, 60, 60)];
-//        scoreLabel.backgroundColor = [UIColor colorWithRed:12.0/255.0 green:58.0/255.0 blue:94.0/255.0 alpha:1.0f];
-//        scoreLabel.text =[NSString stringWithFormat:@"%.1f",[self.section.sectionScore floatValue]];
-//        scoreLabel.layer.cornerRadius = 7;
-//        [scoreLabel setColor:[UIColor whiteColor] fromIndex:0 length:scoreLabel.text.length];
-//        [scoreLabel setFont:[UIFont boldSystemFontOfSize:50] fromIndex:0 length:1];
-//        [scoreLabel setFont:[UIFont boldSystemFontOfSize:30] fromIndex:1 length:2];
-//        self.scoreLab = scoreLabel;
-//        [self.view addSubview:self.scoreLab];
-//        scoreLabel = nil;
-//        //
-//        CGFloat labelTop = 64;
-//        CGFloat labelSpace = 6;
-//        //标题
-//        UILabel *nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(275, labelTop, 200, 30)];
-//        nameLabel.backgroundColor = [UIColor clearColor];
-//        nameLabel.textColor = [UIColor grayColor];
-//        nameLabel.font = [UIFont boldSystemFontOfSize:16];
-//        nameLabel.text =[NSString stringWithFormat:@"名称:%@",self.section.sectionName];
-//        self.nameLab = nameLabel;
-//        [self.view addSubview:self.nameLab];
-//        nameLabel = nil;
-//        labelTop +=self.nameLab.frame.size.height+labelSpace;
-//        //简介
-//        if (self.section.lessonInfo.length >0) {
-//            UIFont *aFont = [UIFont boldSystemFontOfSize:16];
-//            CGSize size = [self.section.lessonInfo sizeWithFont:aFont constrainedToSize:CGSizeMake(170, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
-//            CGFloat hh = 0;
-//            if (size.height-100>0){
-//                hh = 100;
-//                self.scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(275, labelTop, 170, hh)];
-//                self.scrollView.delegate = self;
-//                UILabel *infoLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 170, size.height)];
-//                infoLabel.backgroundColor = [UIColor clearColor];
-//                infoLabel.textColor = [UIColor grayColor];
-//                infoLabel.numberOfLines = 0;
-//                infoLabel.font = aFont;
-//                infoLabel.text =[NSString stringWithFormat:@"简介:%@",self.section.lessonInfo];
-//                self.infoLab = infoLabel;
-//                [self.scrollView addSubview:self.infoLab];
-//                self.scrollView.contentSize = CGSizeMake(170,self.infoLab.frame.size.height);
-//                [self.view addSubview:self.scrollView];
-//                infoLabel = nil;
-//                labelTop +=self.scrollView.frame.size.height+labelSpace;
-//            }else {
-//                if (size.height-100<0 && size.height-30>0) {
-//                    hh = size.height;
-//                }else if (size.height-30<0) {
-//                    hh = 30;
-//                }
-//                UILabel *infoLabel = [[UILabel alloc]initWithFrame:CGRectMake(275, labelTop, 170, hh)];
-//                infoLabel.backgroundColor = [UIColor clearColor];
-//                infoLabel.textColor = [UIColor grayColor];
-//                infoLabel.numberOfLines = 0;
-//                infoLabel.font = aFont;
-//                infoLabel.text =[NSString stringWithFormat:@"简介:%@",self.section.lessonInfo];
-//                self.infoLab = infoLabel;
-//                [self.view addSubview:self.infoLab];
-//                infoLabel = nil;
-//                labelTop +=self.infoLab.frame.size.height+labelSpace;
-//            }
-//        }
-//        //讲师
-//        if (self.section.sectionTeacher.length >0) {
-//            UILabel *teacherLabel = [[UILabel alloc]initWithFrame:CGRectMake(275, labelTop, 150, 30)];
-//            teacherLabel.backgroundColor = [UIColor clearColor];
-//            teacherLabel.textColor = [UIColor grayColor];
-//            teacherLabel.font = [UIFont boldSystemFontOfSize:16];
-//            teacherLabel.text =[NSString stringWithFormat:@"讲师:%@",self.section.sectionTeacher];
-//            self.teacherlab = teacherLabel;
-//            [self.view addSubview:self.teacherlab];
-//            teacherLabel = nil;
-//            labelTop +=self.teacherlab.frame.size.height+labelSpace;
-//        }
-//        //时长
-//        UILabel *lastLabel = [[UILabel alloc]initWithFrame:CGRectMake(275, labelTop, 150, 30)];
-//        lastLabel.backgroundColor = [UIColor clearColor];
-//        lastLabel.textColor = [UIColor grayColor];
-//        lastLabel.font = [UIFont boldSystemFontOfSize:16];
-//        lastLabel.text =[NSString stringWithFormat:@"时长:%@",self.section.sectionLastTime];
-//        self.lastLab = lastLabel;
-//        [self.view addSubview:self.lastLab];
-//        lastLabel = nil;
-//        labelTop +=self.lastLab.frame.size.height+labelSpace;
-//        //已学习
-//        DLog(@"labtop = %f",labelTop);
-//        UILabel *studyLabel = [[UILabel alloc]initWithFrame:CGRectMake(275, labelTop, 150, 30)];
-//        studyLabel.backgroundColor = [UIColor clearColor];
-//        studyLabel.textColor = [UIColor grayColor];
-//        studyLabel.font = [UIFont boldSystemFontOfSize:16];
-//        studyLabel.text =[NSString stringWithFormat:@"已学习:%@",self.section.sectionStudy];
-//        self.studyLab = studyLabel;
-//        [self.view addSubview:self.studyLab];
-//        studyLabel = nil;
-//        //播放按钮
-//        DLog(@"labtop = %f",labelTop);
-//        if (labelTop <150) {
-//            labelTop = 200;
-//        }
-//        UIButton *palyButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//        palyButton.frame = CGRectMake(400, labelTop-20, 150, 50);
-//        [palyButton setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
-//        [palyButton setBackgroundColor:[UIColor clearColor]];
-//		[palyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//        [palyButton addTarget:self action:@selector(playVideo:) forControlEvents:UIControlEventTouchUpInside];
-//        [palyButton setBackgroundImage:[UIImage imageNamed:@"btn0.png"] forState:UIControlStateNormal];
-//        self.playBtn = palyButton;
-//        [self.view addSubview:self.playBtn];
-//        palyButton = nil;
-//        [self displayView];
-//        
-//    }
-}
 -(void)playVideo:(id)sender {
     DLog(@"play");
     self.path = nil;//视频路径
@@ -227,20 +103,19 @@
     }else {
         //在线播放
         self.path = self.section.sectionSD;
-    }
-    if (self.path) {
-        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-            [Utility errorAlert:@"暂无网络!"];
-        }else {
-            [SVProgressHUD showWithStatus:@"玩命加载中..."];
-            PlayVideoInterface *playVideoInter = [[PlayVideoInterface alloc]init];
-            self.playVideoInterface = playVideoInter;
-            self.playVideoInterface.delegate = self;
-            NSString *timespan = [Utility getNowDateFromatAnDate];
-            [self.playVideoInterface getPlayVideoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.section.sectionId andTimeStart:timespan];
+        if (self.path) {
+            if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+                [Utility errorAlert:@"暂无网络!"];
+            }else {
+                [SVProgressHUD showWithStatus:@"玩命加载中..."];
+                PlayVideoInterface *playVideoInter = [[PlayVideoInterface alloc]init];
+                self.playVideoInterface = playVideoInter;
+                self.playVideoInterface.delegate = self;
+                NSString *timespan = [Utility getNowDateFromatAnDate];
+                [self.playVideoInterface getPlayVideoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.section.sectionId andTimeStart:timespan];
+            }
         }
     }
- 
 }
 -(void)displayView {
     self.slideSwitchView.backgroundColor = [UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:232.0/255.0 alpha:1.0];

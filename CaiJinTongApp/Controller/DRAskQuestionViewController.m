@@ -34,9 +34,7 @@ static BOOL tableVisible;
     self.backgroundTextField.borderStyle = UITextBorderStyleRoundedRect;
 
     self.backgroundTextField.enabled = NO;
-    
-//    self.questionContentTextView.layer.borderWidth = 1;
-//    self.questionContentTextView.layer.borderColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.1].CGColor;
+
     [self.questionContentTextView.layer setCornerRadius:6];
     
     UIImage *btnImageHighlighted = [[UIImage imageNamed:@"btn.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 6) resizingMode:UIImageResizingModeStretch];
@@ -56,23 +54,20 @@ static BOOL tableVisible;
     
     
     //问答分类
-    if ([CaiJinTongManager shared].question.count == 0) {
-        [self getQuestionInfo];
-    }else{
+
         self.questionList = [NSMutableArray arrayWithArray:[CaiJinTongManager shared].question];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-        });
+    //标记是否选中了
+    self.questionArrSelSection = [[NSMutableArray alloc] init];
+    for (int i =0; i<self.questionList.count; i++) {
+        [self.questionArrSelSection addObject:[NSString stringWithFormat:@"%d",i]];
     }
-    
     //tableView of 问答分类
     frame = CGRectMake(532, 60, 30, 30);//按钮坐标
     [self.selectTableBtn.titleLabel setNumberOfLines:6];
     [self.selectTableBtn.layer setBorderColor:[UIColor blackColor].CGColor];
     [self.selectTableBtn.layer setBorderWidth:1];
     [self.selectTableBtn.layer setCornerRadius:3];
-//    [self.selectTableBtn setTitle:@"选\n择\n问\n题\n类\n型" forState:UIControlStateNormal];
+
     [self.selectTableBtn addTarget:self action:@selector(showSelectTable) forControlEvents:UIControlEventTouchUpInside];
     [self.selectTableBtn.titleLabel setFrame: self.selectTableBtn.frame];
     self.selectTableBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
@@ -85,27 +80,8 @@ static BOOL tableVisible;
     [self.selectTable.layer setBorderWidth:2];
     self.selectTable.separatorStyle = NO;
     tableVisible = NO;
-    
-    //标记是否选中了
-    self.questionArrSelSection = [[NSMutableArray alloc] init];
-    for (int i =0; i<self.questionList.count; i++) {
-        [self.questionArrSelSection addObject:[NSString stringWithFormat:@"%d",i]];
-    }
-    NSLog(@"%@第三方斯蒂芬斯蒂芬苏打",self.questionList);
-    
 }
 
--(void)getQuestionInfo  {
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
-    }else {
-        [SVProgressHUD showWithStatus:@"玩命加载中..."];
-        QuestionInfoInterface *questionInfoInter = [[QuestionInfoInterface alloc]init];
-        self.questionInfoInterface = questionInfoInter;
-        self.questionInfoInterface.delegate = self;
-        [self.questionInfoInterface getQuestionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId];
-    }
-}
 
 -(void)drnavigationBarRightItemClicked:(id)sender{
     [self.navigationController popViewControllerAnimated:YES];
@@ -134,8 +110,6 @@ static BOOL tableVisible;
     header.path = [NSIndexPath indexPathForRow:0 inSection:section];
     if (section == 0) {
         header.lessonTextLabel.text = @"所有问答";
-    }else {
-        header.lessonTextLabel.text = @"我的问答";
     }
     BOOL isSelSection = NO;
     for (int i = 0; i < self.questionArrSelSection.count; i++) {
@@ -161,11 +135,8 @@ static BOOL tableVisible;
             return 0;
         }
     }
-    if (section == 0) {
-        return self.questionList.count;
-    }else{
-        return 2;
-    }
+
+    return self.questionList.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -174,28 +145,9 @@ static BOOL tableVisible;
         cell = [[UITableViewCell alloc] init];
     }
     if (indexPath.section == 0) {
-        NSDictionary *d=[self.questionList objectAtIndex:indexPath.row];
-        NSArray *ar=[d valueForKey:@"questionNode"];
-        if (ar.count>0) {
-            cell.backgroundView =  [[UIView alloc] initWithFrame:cell.frame];
-            cell.backgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"headview_cell_background_selected.png")];
-            cell.selectedBackgroundView =  [[UIView alloc] initWithFrame:cell.frame];
-            cell.selectedBackgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"headview_cell_background_selected.png")];
-        }else {
-            cell.backgroundView =  [[UIView alloc] initWithFrame:cell.frame];
-            cell.backgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"headview_cell_background.png")];
-            cell.selectedBackgroundView =  [[UIView alloc] initWithFrame:cell.frame];
-            cell.selectedBackgroundView.backgroundColor = [UIColor colorWithPatternImage:Image(@"headview_cell_background.png")];
-        }
         cell.textLabel.text=[NSString stringWithFormat:@"  %@",[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"questionName"]];
-    }else{
-        if (indexPath.row == 0) {
-            cell.textLabel.text = @"  我的提问";
-        }else{
-            cell.textLabel.text = @"  我的回答";
-        }
+        [cell setIndentationLevel:[[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"level"]intValue]];
     }
-    
     cell.textLabel.textColor = [UIColor blackColor];
     cell.detailTextLabel.textColor = [UIColor blackColor];
     cell.backgroundColor = [UIColor clearColor];
@@ -210,7 +162,6 @@ static BOOL tableVisible;
             if (ar.count == 0) {
                 self.selectedQuestionId = [d valueForKey:@"questionID"];
                 self.selectedQuestionName.text = [d valueForKey:@"questionName"];
-                NSLog(@"%@%@斯蒂芬斯蒂芬",self.selectedQuestionName.text,self.selectedQuestionId);
                 //点击生效
                 [self showSelectTable];
             }else {
@@ -266,32 +217,6 @@ static BOOL tableVisible;
                                     withRowAnimation:UITableViewRowAnimationRight];
 		}
 	}
-}
-
-
-#pragma mark--QuestionInfoInterfaceDelegate {
--(void)getQuestionInfoDidFinished:(NSDictionary *)result {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [SVProgressHUD dismiss];
-        //分类的数据
-        self.questionList = [NSMutableArray arrayWithArray:[result valueForKey:@"questionList"]];
-        NSLog(@"%@ 斯蒂芬",self.questionList);
-        [CaiJinTongManager shared].question = [NSMutableArray arrayWithArray:[result valueForKey:@"questionList"]];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            //标记是否选中了
-            self.questionArrSelSection = [[NSMutableArray alloc] init];
-            for (int i =0; i<self.questionList.count; i++) {
-                [self.questionArrSelSection addObject:[NSString stringWithFormat:@"%d",i]];
-            }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.selectTable reloadData];
-            });
-        });
-    });
-}
--(void)getQuestionInfoDidFailed:(NSString *)errorMsg {
-    [SVProgressHUD dismiss];
-    [Utility errorAlert:errorMsg];
 }
 
 #pragma mark property
@@ -359,12 +284,33 @@ static BOOL tableVisible;
 }
 
 -(void)submitButtonClicked{
+    [self.questionTitleTextField resignFirstResponder];
+    [self.questionContentTextView resignFirstResponder];
     if(![self.selectedQuestionName.text isEqualToString:@"点击按钮选择一个类型:"] && (self.selectedQuestionName.text != nil) && (self.selectedQuestionId != nil)){
-        
+        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+            [Utility errorAlert:@"暂无网络!"];
+        }else {
+            [SVProgressHUD showWithStatus:@"玩命加载中..."];
+            AskQuestionInterface *askQuestionInter = [[AskQuestionInterface alloc]init];
+            self.askQuestionInterface = askQuestionInter;
+            self.askQuestionInterface.delegate = self;
+            [self.askQuestionInterface getAskQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.selectedQuestionId andQuestionName:self.questionTitleTextField.text andQuestionContent:self.questionContentTextView.text];
+        }
     }else{
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请选择一个问题类型!" delegate:self cancelButtonTitle:@"好的" otherButtonTitles:nil];
-        [alert show];
+        [Utility errorAlert:@"请选择一个问题类型!"];
     }
 }
-
+#pragma mark -- AskQuestionInterfaceDelegate
+-(void)getAskQuestionInfoDidFinished {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [SVProgressHUD dismissWithSuccess:@"提问成功!"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+        });
+    });
+}
+-(void)getAskQuestionDidFailed:(NSString *)errorMsg {
+    [SVProgressHUD dismiss];
+    [Utility errorAlert:errorMsg];
+}
 @end

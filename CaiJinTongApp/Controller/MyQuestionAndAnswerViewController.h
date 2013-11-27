@@ -10,10 +10,15 @@
 #import "QuestionAndAnswerCell.h"
 #import "QuestionAndAnswerCellHeaderView.h"
 #import "DRAskQuestionViewController.h"
-@interface MyQuestionAndAnswerViewController : DRNaviGationBarController<UITableViewDataSource,UITableViewDelegate,QuestionAndAnswerCellDelegate,QuestionAndAnswerCellHeaderViewDelegate>
+
+#import "AcceptAnswerInterface.h"
+
+@interface MyQuestionAndAnswerViewController : DRNaviGationBarController<UITableViewDataSource,UITableViewDelegate,QuestionAndAnswerCellDelegate,QuestionAndAnswerCellHeaderViewDelegate,AcceptAnswerInterfaceDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *noticeBarView;
 @property (weak, nonatomic) IBOutlet UIImageView *noticeBarImageView;
+
+@property (nonatomic, strong) AcceptAnswerInterface *acceptAnswerInterface;
 
 @property (assign, nonatomic) NSInteger question_pageIndex;
 @property (assign, nonatomic) NSInteger question_pageCount;

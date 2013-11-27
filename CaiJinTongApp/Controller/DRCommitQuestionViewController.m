@@ -120,8 +120,8 @@ static BOOL tableVisible;
     if (self.contentField.text == nil || [[self.contentField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
         [Utility errorAlert:@"内容不能为空"];
     }
-    if (self.delegate && [self.delegate respondsToSelector:@selector(commitQuestionController:didCommitQuestionWithTitle:andText:)]) {
-        [self.delegate commitQuestionController:self didCommitQuestionWithTitle:self.titleField.text andText:self.contentField.text];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(commitQuestionController:didCommitQuestionWithTitle:andText:andQuestionId:)]) {
+        [self.delegate commitQuestionController:self didCommitQuestionWithTitle:self.titleField.text andText:self.contentField.text andQuestionId:self.selectedQuestionId];
     }
 }
 
@@ -243,18 +243,6 @@ static BOOL tableVisible;
                         [tableView insertRowsAtIndexPaths:arCells withRowAnimation:UITableViewRowAnimationLeft];
                     }
                 }
-            }
-        }else{
-            switch (indexPath.row) {
-                case 0:
-                    //请求我的提问
-                    break;
-                case 1:
-                    //请求我的回答
-                    break;
-                    
-                default:
-                    break;
             }
         }
 }

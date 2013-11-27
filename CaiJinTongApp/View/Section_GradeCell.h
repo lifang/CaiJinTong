@@ -10,5 +10,6 @@
 
 @interface Section_GradeCell : UITableViewCell
 
-@property (nonatomic, strong) IBOutlet UILabel *titleLab, *contentLab;
+@property (nonatomic, strong) IBOutlet UILabel *titleLab;
+@property (nonatomic, strong) IBOutlet UITextView *contentLab;
 @end

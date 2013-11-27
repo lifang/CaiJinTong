@@ -63,6 +63,7 @@
                                         question.questiontitle = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"questiontitle"]];
                                         question.pageIndex =[[question_dic objectForKey:@"pageIndex"]intValue];
                                         question.pageCount =[[question_dic objectForKey:@"pageCount"]intValue];
+                                        question.isPraised =[NSString stringWithFormat:@"%@",[question_dic objectForKey:@"isPraised"]];
                                         
                                         if (![[question_dic objectForKey:@"answerList"]isKindOfClass:[NSNull class]] && [question_dic objectForKey:@"answerList"]!=nil) {
                                             NSArray *array_answer = [question_dic objectForKey:@"answerList"];
@@ -78,6 +79,9 @@
                                                     answer.answerPraiseCount =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"answerPraiseCount"]];
                                                     answer.IsAnswerAccept =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"IsAnswerAccept"]];
                                                     answer.answerContent =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"answerContent"]];
+                                                    answer.isPraised=[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"isPraised"]];
+                                                    answer.askPeopleId =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"askPeopleId"]];
+                                                    answer.askPeopleNick =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"askPeopleNick"]];
                                                     answer.pageIndex =[[answer_dic objectForKey:@"pageIndex"]intValue];
                                                     answer.pageCount =[[answer_dic objectForKey:@"pageCount"]intValue];
                                                     [question.answerList addObject:answer];

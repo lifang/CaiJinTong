@@ -27,7 +27,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
     self.tableViewList.separatorStyle = NO;
 }
 - (void)viewDidCurrentView
@@ -70,8 +69,6 @@
     cell.contentTextView.layer.borderColor = [[UIColor colorWithRed:244.0/255.0 green:243.0/255.0 blue:244.0/255.0 alpha:1.0] CGColor];
     cell.contentTextView.font = aFont;
     cell.contentTextView.contentInset = UIEdgeInsetsMake(0, 5.0f, 0, 5.0f);
-    
-//    cell.sectionNameLab.text = note.noteId;
     
     return cell;
 }

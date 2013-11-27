@@ -11,7 +11,8 @@
 #import "BaseViewController.h"
 #import "QuestionInfoInterface.h"
 @protocol DRCommitQuestionViewControllerDelegate;
-@interface DRCommitQuestionViewController : BaseViewController<QuestionInfoInterfaceDelegate,LessonListHeaderViewDelegate, UITableViewDataSource,UITableViewDelegate,UITextViewDelegate>
+
+@interface DRCommitQuestionViewController : BaseViewController<QuestionInfoInterfaceDelegate,LessonListHeaderViewDelegate, UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *commitTimeLabel;
 @property (weak, nonatomic) IBOutlet UITextField *titleField;  //标题框
 @property (weak, nonatomic) IBOutlet UITextView *contentField;  //主文本框
@@ -21,7 +22,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *selectTable;
 @property (weak, nonatomic) IBOutlet UITableViewCell *selectTableCell;
 @property (weak,nonatomic) id<DRCommitQuestionViewControllerDelegate> delegate;
-@property (nonatomic,strong) ChapterQuestionInterface *chapterQuestionInterface;
+
 @property (nonatomic,strong) NSMutableArray *questionArrSelSection;
 @property (nonatomic, strong) QuestionInfoInterface *questionInfoInterface;
 @property (nonatomic, strong) NSMutableArray *questionList;
@@ -38,7 +39,7 @@
 
 @protocol DRCommitQuestionViewControllerDelegate <NSObject>
 
--(void)commitQuestionController:(DRCommitQuestionViewController*)controller didCommitQuestionWithTitle:(NSString*)title andText:(NSString*)text;
+-(void)commitQuestionController:(DRCommitQuestionViewController*)controller didCommitQuestionWithTitle:(NSString*)title andText:(NSString*)text andQuestionId:(NSString *)questionId;
 -(void)commitQuestionControllerCancel;
 
 @end

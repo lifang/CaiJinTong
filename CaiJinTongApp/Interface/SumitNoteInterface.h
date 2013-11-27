@@ -17,7 +17,7 @@
 
 @protocol SumitNoteInterfaceDelegate <NSObject>
 
--(void)getSumitNoteInfoDidFinished:(NSDictionary *)result;
+-(void)getSumitNoteInfoDidFinished;
 -(void)getSumitNoteDidFailed:(NSString *)errorMsg;
 @end
 

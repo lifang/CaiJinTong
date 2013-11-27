@@ -19,6 +19,6 @@
 
 @protocol PlayBackInterfaceDelegate <NSObject>
 
--(void)getPlayBackInfoDidFinished:(NSDictionary *)result;
+-(void)getPlayBackInfoDidFinished;
 -(void)getPlayBackDidFailed:(NSString *)errorMsg;
 @end

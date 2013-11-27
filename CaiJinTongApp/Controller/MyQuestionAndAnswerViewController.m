@@ -66,7 +66,17 @@
 }
 
 #pragma mark QuestionAndAnswerCellHeaderViewDelegate
+//赞问题
 -(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header flowerQuestionAtIndexPath:(NSIndexPath *)path{
+
+}
+//将要点击回答问题按钮
+-(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header willAnswerQuestionAtIndexPath:(NSIndexPath *)path{
+
+}
+
+//提交问题的答案
+-(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header didAnswerQuestionAtIndexPath:(NSIndexPath *)path withAnswer:(NSString *)text{
 
 }
 #pragma mark --
@@ -85,7 +95,7 @@
 -(void)questionAndAnswerCell:(QuestionAndAnswerCell *)cell flowerAnswerAtIndexPath:(NSIndexPath *)path{
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
     AnswerModel *answer = [question.answerList objectAtIndex:path.row];
-    answer.isPraised = YES;
+//    answer.isPraised = YES;
     answer.answerPraiseCount = [NSString stringWithFormat:@"%d",[answer.answerPraiseCount integerValue]+1];;
      [self.tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
@@ -101,17 +111,31 @@
     [self.tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
     
 }
-
+#pragma mark -- 采纳答案
+static NSIndexPath *indexPath = nil;
 -(void)questionAndAnswerCell:(QuestionAndAnswerCell *)cell acceptAnswerAtIndexPath:(NSIndexPath *)path{
- QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
-    question.isAcceptAnswer = [NSString stringWithFormat:@"YES"];
+    QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
     AnswerModel *answer = [question.answerList objectAtIndex:path.row];
-    answer.IsAnswerAccept = [NSString stringWithFormat:@"YES"];
-    answer.resultId = question.questionId;
-    [question.answerList removeObjectAtIndex:path.row];
-    [question.answerList insertObject:answer atIndex:0];
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationTop];
-    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:path.section] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+        [Utility errorAlert:@"暂无网络!"];
+    }else {
+        [SVProgressHUD showWithStatus:@"玩命加载中..."];
+        indexPath = path;
+        AcceptAnswerInterface *acceptAnswerInter = [[AcceptAnswerInterface alloc]init];
+        self.acceptAnswerInterface = acceptAnswerInter;
+        self.acceptAnswerInterface.delegate = self;
+        [self.acceptAnswerInterface getAcceptAnswerInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andQuestionId:question.questionId andResultId:answer.resultId];
+    }
+//    
+// QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
+//    question.isAcceptAnswer = [NSString stringWithFormat:@"YES"];
+//    
+//    answer.IsAnswerAccept = [NSString stringWithFormat:@"YES"];
+//    answer.resultId = question.questionId;
+//    [question.answerList removeObjectAtIndex:path.row];
+//    [question.answerList insertObject:answer atIndex:0];
+//    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationTop];
+//    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:path.section] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 #pragma mark --
 
@@ -130,7 +154,7 @@
     QuestionAndAnswerCell *cell = (QuestionAndAnswerCell*)[tableView dequeueReusableCellWithIdentifier:@"questionAndAnswerCell"];
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:indexPath.section];
     AnswerModel *answer = [question.answerList objectAtIndex:indexPath.row];
-    if (question.isAcceptAnswer && [question.isAcceptAnswer isEqualToString:@"YES"]) {
+    if (question.isAcceptAnswer && [question.isAcceptAnswer intValue]==1) {
         [cell setAnswerModel:answer isQuestionID:question.questionId];
     } else {
         [cell setAnswerModel:answer isQuestionID:nil];
@@ -153,7 +177,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:section];
-    return [question.answerList count];
+    return question.answerList != nil ?[question.answerList count]:0;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -171,17 +195,24 @@
 #pragma mark action
 -(float)getTableViewHeaderHeightWithSection:(NSInteger)section{
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:section];
-    return  [Utility getTextSizeWithString:question.questionName withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:CGRectGetWidth(self.tableView.frame)-40].height + TEXT_HEIGHT + TEXT_PADDING;
+    return  [Utility getTextSizeWithString:question.questionName withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:QUESTIONHEARD_VIEW_WIDTH].height + TEXT_HEIGHT + TEXT_PADDING;
 }
 
 -(float)getTableViewRowHeightWithIndexPath:(NSIndexPath*)path{
+    NSLog(@"%d,%d",path.section,path.row);
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
+    if (question.answerList == nil || [question.answerList count] <= 0) {
+        return 0;
+    }
     AnswerModel *answer = [question.answerList objectAtIndex:path.row];
     float questionTextFieldHeight = answer.isEditing?141:0;
 
-    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:answer.answerContent];
-    [str setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6]} range:NSMakeRange(0, answer.answerContent.length)];
-    return [str boundingRectWithSize:CGSizeMake(460, 2000) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading|NSStringDrawingTruncatesLastVisibleLine context:nil].size.height + TEXT_HEIGHT + TEXT_PADDING*3+ questionTextFieldHeight;
+    if (platform >= 7.0) {
+        return [Utility getTextSizeWithString:answer.answerContent withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:QUESTIONANDANSWER_CELL_WIDTH].height+ TEXT_HEIGHT + TEXT_PADDING*3+ questionTextFieldHeight;
+    }else{
+        float height = [Utility getTextSizeWithString:answer.answerContent withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:QUESTIONANDANSWER_CELL_WIDTH].height+ TEXT_HEIGHT + TEXT_PADDING+ questionTextFieldHeight;
+        return height;
+    }
 }
 #pragma mark --
 
@@ -198,5 +229,23 @@
     [self.noticeBarView setHidden:YES];
     CGRect frame = self.tableView.frame;
     [self.tableView setFrame: CGRectMake(frame.origin.x,frame.origin.y - 35,frame.size.width,frame.size.height)];
+}
+
+#pragma mark -- AcceptAnswerInterfaceDelegate 
+-(void)getAcceptAnswerInfoDidFinished:(NSDictionary *)result {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [SVProgressHUD dismissWithSuccess:@"成功!"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            QuestionModel *question = [self.myQuestionArr  objectAtIndex:indexPath.section];
+            AnswerModel *answer = [question.answerList objectAtIndex:indexPath.row];
+            question.isAcceptAnswer = @"1";
+            answer.IsAnswerAccept = @"1";
+            [self.tableView reloadData];
+        });
+    });
+}
+-(void)getAcceptAnswerInfoDidFailed:(NSString *)errorMsg {
+    [SVProgressHUD dismiss];
+    [Utility errorAlert:errorMsg];
 }
 @end

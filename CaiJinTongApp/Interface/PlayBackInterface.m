@@ -19,7 +19,7 @@
     [reqheaders setValue:[NSString stringWithFormat:@"%@",sectionId] forKey:@"sectionId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",timeEnd] forKey:@"timeEnd"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",status] forKey:@"status"];
-    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=playBack&userId=17082&sectionId=2690&timeEnd=2013-11-25%2011:25&status=incomplete";
+    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=playBack&userId=17082&sectionId=2690&timeEnd=2013-11-25 11:25&status=incomplete";
     
     self.baseDelegate = self;
     self.headers = reqheaders;
@@ -40,25 +40,25 @@
                 if (jsonData) {
                     if ([[jsonData objectForKey:@"Status"]intValue] == 1) {
                         @try {
-//                            NSDictionary *dictionary =[jsonData objectForKey:@"ReturnObject"];
+                            [self.delegate getPlayBackInfoDidFinished];
                         }
                         @catch (NSException *exception) {
-                            
+                            [self.delegate getPlayBackDidFailed:@""];
                         }
                     }else {
-                        
+                        [self.delegate getPlayBackDidFailed:[jsonData objectForKey:@"Msg"]];
                     }
                 }else {
-                    
+                    [self.delegate getPlayBackDidFailed:@""];
                 }
             }
         }
     }else {
-        
+        [self.delegate getPlayBackDidFailed:@""];
     }
 }
 -(void)requestIsFailed:(NSError *)error{
-    
+    [self.delegate getPlayBackDidFailed:@""];
 }
 
 @end

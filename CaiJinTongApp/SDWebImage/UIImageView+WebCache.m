@@ -17,7 +17,12 @@
 
 - (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder
 {
-    [self setImageWithURL:url placeholderImage:placeholder options:0];
+    if ([[CaiJinTongManager shared]  isLoadLargeImage]) {
+     [self setImageWithURL:url placeholderImage:placeholder options:0];
+    }else{
+        self.image = [UIImage imageNamed:@"login_03@2x.png"];
+    }
+    
 }
 
 - (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options

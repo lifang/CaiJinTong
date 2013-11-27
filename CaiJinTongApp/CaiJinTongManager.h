@@ -25,7 +25,7 @@
 @property (nonatomic, assign) CGFloat defaultWidth;
 @property (nonatomic, assign) CGFloat defaultHeight;
 @property (nonatomic, assign) CGFloat defaultLeftInset;
-
+@property (nonatomic, assign) BOOL isLoadLargeImage;//是否加载图片
 
 + (CaiJinTongManager *)shared;
 

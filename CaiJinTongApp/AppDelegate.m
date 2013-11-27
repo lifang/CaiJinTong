@@ -14,8 +14,25 @@
 #import "SectionSaveModel.h"
 @implementation AppDelegate
 
-+ (void)initialize {
++ (void)initialize
+{
+    //设置appstore上评分
     [iRate sharedInstance].appStoreID = 355313284;
+    [iRate sharedInstance].messageTitle = @"应用打分";
+    [iRate sharedInstance].message = @"喜欢这个app，就去打个分吧，或者给我们一些宝贵的建议吧";
+    [iRate sharedInstance].cancelButtonLabel = @"取消";
+    [iRate sharedInstance].remindButtonLabel = @"下次再说";
+    [iRate sharedInstance].rateButtonLabel = @"去评分";
+    //检测版本
+    [iVersion sharedInstance].inThisVersionTitle = NSLocalizedString(@"新版本", @"iVersion local version alert title");
+    [iVersion sharedInstance].updateAvailableTitle = NSLocalizedString(@"A new version of MyApp is available to download", @"iVersion new version alert title");
+    [iVersion sharedInstance].versionLabelFormat = NSLocalizedString(@"Version %@", @"iVersion version label format");
+    [iVersion sharedInstance].okButtonLabel = NSLocalizedString(@"确定", @"iVersion OK button");
+    [iVersion sharedInstance].ignoreButtonLabel = NSLocalizedString(@"取消", @"iVersion ignore button");
+    [iVersion sharedInstance].remindButtonLabel = NSLocalizedString(@"下次再说", @"iVersion remind button");
+    [iVersion sharedInstance].downloadButtonLabel = NSLocalizedString(@"下载", @"iVersion download button");
+    [iVersion sharedInstance].appStoreID = 355313284;
+    [iVersion sharedInstance].checkAtLaunch = YES;
 }
 
 +(AppDelegate *)sharedInstance {
@@ -29,7 +46,12 @@
     [[MZFormSheetBackgroundWindow appearance] setBackgroundBlurEffect:YES];
     [[MZFormSheetBackgroundWindow appearance] setBlurRadius:5.0];
     [[MZFormSheetBackgroundWindow appearance] setBackgroundColor:[UIColor clearColor]];
-
+    
+    //设置是否加载图片
+    BOOL isloadLargeImage = [[NSUserDefaults standardUserDefaults] boolForKey:ISLOADLARGEIMAGE_KEY];
+    [[CaiJinTongManager shared] setIsLoadLargeImage:isloadLargeImage];
+    
+    
     //开启网络状况的监听
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
     
