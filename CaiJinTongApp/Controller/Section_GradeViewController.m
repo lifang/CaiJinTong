@@ -119,9 +119,8 @@ static NSString *timespan = nil;
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row<self.dataArray.count) {
         CommentModel *comment = (CommentModel *)[self.dataArray objectAtIndex:indexPath.row];
-        UIFont *aFont = [UIFont fontWithName:@"Trebuchet MS" size:18];
-        CGSize size = [comment.content sizeWithFont:aFont constrainedToSize:CGSizeMake(500, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
-        return size.height+25;
+        CGSize size = [Utility getTextSizeWithString:comment.content withFont:[UIFont systemFontOfSize:15] withWidth:500];
+        return size.height+20+35;
     }
     return 35;
 }
@@ -131,17 +130,17 @@ static NSString *timespan = nil;
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Section_GradeCell";
     Section_GradeCell *cell = (Section_GradeCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[Section_GradeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
     if (indexPath.row<self.dataArray.count) { // 正常的cell
         CommentModel *comment = (CommentModel *)[self.dataArray objectAtIndex:indexPath.row];
-        UIFont *aFont = [UIFont fontWithName:@"Trebuchet MS" size:18];
-        CGSize size = [comment.content sizeWithFont:aFont constrainedToSize:CGSizeMake(500, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
-        cell.contentLab.frame = CGRectMake(25, 25, 500, size.height);
+        CGSize size = [Utility getTextSizeWithString:comment.content withFont:[UIFont systemFontOfSize:15] withWidth:500];
+        cell.contentLab.layer.borderWidth = 2.0;
+        cell.contentLab.layer.borderColor = [[UIColor colorWithRed:244.0/255.0 green:243.0/255.0 blue:244.0/255.0 alpha:1.0] CGColor];
+        cell.contentLab.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+        cell.contentLab.frame = CGRectMake(25, 25, 500, size.height+10);
+        cell.contentLab.font = [UIFont systemFontOfSize:15];
+        cell.alpha = 0.5;
+        cell.contentLab.text = [comment.content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         cell.titleLab.text = [NSString stringWithFormat:@"%@发表于%@",comment.nickName,comment.time];
-        cell.contentLab.text = comment.content;
     }else {
         if (self.nowPage < self.pageCount) {
             cell.titleLab.text = @"正在加载..."; //最后一行 触发下载更新代码
@@ -151,7 +150,7 @@ static NSString *timespan = nil;
         }
         cell.contentLab.text = @"";
     }
-    
+
     return cell;
 }
 //提交评论成功后加入到评论列表

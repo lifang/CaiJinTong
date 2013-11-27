@@ -66,7 +66,17 @@
 }
 
 #pragma mark QuestionAndAnswerCellHeaderViewDelegate
+//赞问题
 -(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header flowerQuestionAtIndexPath:(NSIndexPath *)path{
+
+}
+//将要点击回答问题按钮
+-(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header willAnswerQuestionAtIndexPath:(NSIndexPath *)path{
+
+}
+
+//提交问题的答案
+-(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header didAnswerQuestionAtIndexPath:(NSIndexPath *)path withAnswer:(NSString *)text{
 
 }
 #pragma mark --
@@ -167,7 +177,7 @@ static NSIndexPath *indexPath = nil;
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:section];
-    return [question.answerList count];
+    return question.answerList != nil ?[question.answerList count]:0;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -185,17 +195,24 @@ static NSIndexPath *indexPath = nil;
 #pragma mark action
 -(float)getTableViewHeaderHeightWithSection:(NSInteger)section{
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:section];
-    return  [Utility getTextSizeWithString:question.questionName withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:CGRectGetWidth(self.tableView.frame)-40].height + TEXT_HEIGHT + TEXT_PADDING;
+    return  [Utility getTextSizeWithString:question.questionName withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:QUESTIONHEARD_VIEW_WIDTH].height + TEXT_HEIGHT + TEXT_PADDING;
 }
 
 -(float)getTableViewRowHeightWithIndexPath:(NSIndexPath*)path{
+    NSLog(@"%d,%d",path.section,path.row);
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
+    if (question.answerList == nil || [question.answerList count] <= 0) {
+        return 0;
+    }
     AnswerModel *answer = [question.answerList objectAtIndex:path.row];
     float questionTextFieldHeight = answer.isEditing?141:0;
 
-    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:answer.answerContent];
-    [str setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6]} range:NSMakeRange(0, answer.answerContent.length)];
-    return [str boundingRectWithSize:CGSizeMake(460, 2000) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading|NSStringDrawingTruncatesLastVisibleLine context:nil].size.height + TEXT_HEIGHT + TEXT_PADDING*3+ questionTextFieldHeight;
+    if (platform >= 7.0) {
+        return [Utility getTextSizeWithString:answer.answerContent withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:QUESTIONANDANSWER_CELL_WIDTH].height+ TEXT_HEIGHT + TEXT_PADDING*3+ questionTextFieldHeight;
+    }else{
+        float height = [Utility getTextSizeWithString:answer.answerContent withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:QUESTIONANDANSWER_CELL_WIDTH].height+ TEXT_HEIGHT + TEXT_PADDING+ questionTextFieldHeight;
+        return height;
+    }
 }
 #pragma mark --
 

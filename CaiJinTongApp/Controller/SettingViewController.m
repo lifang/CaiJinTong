@@ -59,6 +59,7 @@ NSString *appleID = @"6224939";
     }
     return 0;
 }
+
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     if (section == 2) {
         InfoCell *footer = (InfoCell *)[tableView dequeueReusableHeaderFooterViewWithIdentifier:Info_HEADER_IDENTIFIER];
@@ -99,7 +100,16 @@ NSString *appleID = @"6224939";
         case 1:
             switch (indexPath.row) {
                 case 0:
-                    cell.textLabel.text = @"2G/3G网络为无图模式";
+                {
+                    BOOL isloadLargeImage = [[NSUserDefaults standardUserDefaults] boolForKey:ISLOADLARGEIMAGE_KEY];
+                    if (isloadLargeImage) {
+                        cell.accessoryType = UITableViewCellAccessoryNone;
+                    }else{
+                        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                    }
+                     cell.textLabel.text = @"2G/3G网络为无图模式";
+                }
+                   
                     break;
                 case 1:
                     cell.textLabel.text = @"清理缓存";
@@ -143,11 +153,16 @@ NSString *appleID = @"6224939";
         case 1:
             switch (indexPath.row) {
                 case 0:
-                    if (((UITableViewCell *)self.tableView.visibleCells[1]).accessoryType == UITableViewCellAccessoryCheckmark) {
+                {
+                    BOOL isloadLargeImage = [[NSUserDefaults standardUserDefaults] boolForKey:ISLOADLARGEIMAGE_KEY];
+                    if (!isloadLargeImage) {
                         ((UITableViewCell *)self.tableView.visibleCells[1]).accessoryType = UITableViewCellAccessoryNone;
-                    } else {
+                    }else{
                         ((UITableViewCell *)self.tableView.visibleCells[1]).accessoryType = UITableViewCellAccessoryCheckmark;
                     }
+                    [[CaiJinTongManager shared] setIsLoadLargeImage:!isloadLargeImage];
+                    [[NSUserDefaults standardUserDefaults] setBool:!isloadLargeImage forKey:ISLOADLARGEIMAGE_KEY];
+                }
                     break;
                 case 1:
                     [[SDImageCache sharedImageCache]clearMemory];
@@ -162,9 +177,11 @@ NSString *appleID = @"6224939";
 //                    NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:returnData options:0 error:nil];
 //                    NSString *latestVersion = [jsonData objectForKey:@"version"];
 //                    NSString *trackName = [jsonData objectForKey:@"trackName"];
-                    NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
-                    NSString *currentVersion = [infoDic objectForKey:@"CFBundleVersion"];
-                    ((UITableViewCell *)self.tableView.visibleCells[3]).textLabel.text = [NSString stringWithFormat:@"版本检测                                                %@",currentVersion];
+//                    NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
+//                    NSString *currentVersion = [infoDic objectForKey:@"CFBundleVersion"];
+                    [iVersion sharedInstance].delegate = self;
+                    [[iVersion sharedInstance] checkForNewVersion];
+                    
 //                    if (currentVersion < latestVersion) {
 //                        UIAlertView *alert;
 //                        alert = [[UIAlertView alloc] initWithTitle:trackName
@@ -202,6 +219,21 @@ NSString *appleID = @"6224939";
             break;
     }
 }
+
+#pragma mark iVersionDelegate
+-(void)iVersionDidNotDetectNewVersion{
+    iVersion *version = [iVersion sharedInstance];
+ ((UITableViewCell *)self.tableView.visibleCells[3]).textLabel.text = [NSString stringWithFormat:@"版本检测                                        最新版本%@",version.applicationVersion];
+}
+
+-(void)iVersionDidDetectNewVersion:(NSString *)version details:(NSString *)versionDetails{
+ ((UITableViewCell *)self.tableView.visibleCells[3]).textLabel.text = [NSString stringWithFormat:@"版本检测                                            最新版本%@",version];
+}
+
+-(void)iVersionVersionCheckDidFailWithError:(NSError *)error{
+
+}
+#pragma mark --
 
 #pragma mark -- cellDelegate
 -(void)infoCellView:(InfoCell*)header {

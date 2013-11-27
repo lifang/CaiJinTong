@@ -11,7 +11,8 @@
 #define TEXT_FONT_SIZE 14
 #define TEXT_FONT [UIFont systemFontOfSize:TEXT_FONT_SIZE]
 #define TEXT_PADDING 10
-#define TEXT_HEIGHT 30
+#define TEXT_HEIGHT 40
+#define QUESTIONHEARD_VIEW_WIDTH  506
 @protocol QuestionAndAnswerCellHeaderViewDelegate;
 @interface QuestionAndAnswerCellHeaderView : UITableViewHeaderFooterView
 @property (strong,nonatomic) NSIndexPath *path;
@@ -23,4 +24,7 @@
 
 -(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView*)header flowerQuestionAtIndexPath:(NSIndexPath*)path;
 
+-(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView*)header willAnswerQuestionAtIndexPath:(NSIndexPath*)path;
+
+-(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView*)header didAnswerQuestionAtIndexPath:(NSIndexPath*)path withAnswer:(NSString*)text;
 @end
