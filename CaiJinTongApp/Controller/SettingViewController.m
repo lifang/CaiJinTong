@@ -10,6 +10,9 @@
 #import "UserInfoTableViewController.h"
 #import "iRate.h"
 #import "InfoViewController.h"
+#import "UIImageView+WebCache.h"
+#import "SDImageCache.h"
+
 #define Info_HEADER_IDENTIFIER @"infoheader"
 @interface SettingViewController ()
 
@@ -133,7 +136,6 @@ NSString *appleID = @"6224939";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
     InfoViewController *vc = [story instantiateViewControllerWithIdentifier:@"InfoViewController"];
-//    UserInfoTableViewController *userInfoVC = [story instantiateViewControllerWithIdentifier:@"UserInfoTableViewController"];
     switch (indexPath.section) {
         case 0:
             [self.navigationController pushViewController:vc animated:YES];
@@ -148,7 +150,8 @@ NSString *appleID = @"6224939";
                     }
                     break;
                 case 1:
-                    
+                    [[SDImageCache sharedImageCache]clearMemory];
+                    [[SDImageCache sharedImageCache]clearDisk];
                     break;
                 case 2:
                 {
