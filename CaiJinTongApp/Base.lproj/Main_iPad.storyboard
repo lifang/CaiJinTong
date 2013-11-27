@@ -94,7 +94,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="wcb-2W-NLW">
-                                <rect key="frame" x="314" y="959.00000059604645" width="141" height="45"/>
+                                <rect key="frame" x="314" y="959" width="141" height="45.000000596046405"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -530,7 +530,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="0Wi-vy-C3h" userLabel="player view" customClass="CustomPlayerView">
-                                <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                                <rect key="frame" x="0.0" y="0.0" width="1024" height="767.99994724547128"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <view alpha="0.5" contentMode="scaleToFill" id="tUn-gr-Lyb" customClass="MoviePlayerHolderView">
@@ -563,7 +563,7 @@
                                 </connections>
                             </view>
                             <view contentMode="scaleToFill" id="sTk-LN-cVa" userLabel="controllerView">
-                                <rect key="frame" x="0.0" y="667" width="1024" height="102"/>
+                                <rect key="frame" x="0.0" y="666.99994724547128" width="1024" height="102"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 <subviews>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" id="vce-lR-XZD">
@@ -710,15 +710,15 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" id="i1p-cn-L3h" userLabel="topBar" customClass="DRMoviePlayerTopBar">
-                                <rect key="frame" x="-2" y="0.0" width="1028" height="44"/>
+                                <rect key="frame" x="-2" y="0.0" width="1028" height="43.999947245471276"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="play_barBG.png" id="eNb-PW-OHv">
-                                        <rect key="frame" x="-2" y="0.0" width="1028" height="44"/>
+                                        <rect key="frame" x="-2" y="0.0" width="1028" height="43.999947245471276"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="H2G-Sd-0Nv">
-                                        <rect key="frame" x="0.0" y="0.0" width="134" height="44"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="134" height="43.999947245471276"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <state key="normal" title="返回">
@@ -730,7 +730,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="JB0-5w-RgV">
-                                        <rect key="frame" x="142" y="0.0" width="803" height="44"/>
+                                        <rect key="frame" x="142" y="0.0" width="803" height="43.999947245471276"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1190,15 +1190,6 @@
                                     <outlet property="delegate" destination="Qz4-4p-tiZ" id="sxd-qO-Z7X"/>
                                 </connections>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" minimumFontSize="17" id="yv5-0o-4Dr">
-                                <rect key="frame" x="126" y="269" width="207" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <attributedString key="attributedText"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                                <connections>
-                                    <outlet property="delegate" destination="Qz4-4p-tiZ" id="mRr-Cz-2R6"/>
-                                </connections>
-                            </textField>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="名称：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="HqY-pf-TVP">
                                 <rect key="frame" x="47" y="177" width="54" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1313,6 +1304,11 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                     <action selector="showPicker:" destination="Qz4-4p-tiZ" eventType="touchUpInside" id="u56-vl-Xtr"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" id="qgQ-Gf-DEO">
+                                <rect key="frame" x="126" y="265" width="207" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -1330,9 +1326,9 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                         <outlet property="pickView" destination="963-mm-a3Z" id="SnJ-C3-J3f"/>
                         <outlet property="pickerBtn" destination="sZC-Es-rvb" id="XGK-Cz-beR"/>
                         <outlet property="pickerView" destination="tFX-sw-i06" id="hZ4-5J-lQ6"/>
+                        <outlet property="sexSelectedView" destination="qgQ-Gf-DEO" id="Ni0-Hl-4H1"/>
                         <outlet property="textField1" destination="ZAF-JO-hsa" id="WpA-gS-Vns"/>
                         <outlet property="textField2" destination="fW0-YQ-lTn" id="YPl-Gb-BFY"/>
-                        <outlet property="textField3" destination="yv5-0o-4Dr" id="ZCQ-a2-jL0"/>
                         <outlet property="textField4" destination="H5n-2H-ubZ" id="Z2r-AX-HzJ"/>
                         <outlet property="userImage" destination="Od8-82-1lG" id="BYk-as-sIN"/>
                     </connections>

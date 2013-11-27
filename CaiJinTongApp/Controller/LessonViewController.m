@@ -128,7 +128,6 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
             if(self.isSearching)chapterView.isSearch = YES;
             chapterView.searchBar.searchTextField.text = self.searchText.text;
-            
             [chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:local_array]];
             self.isSearching = NO;
             UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:chapterView];

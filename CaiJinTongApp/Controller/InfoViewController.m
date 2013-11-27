@@ -11,8 +11,10 @@
 #import "SDImageCache.h"
 #import <AssetsLibrary/ALAsset.h>
 #import <AssetsLibrary/AssetsLibrary.h>
+#import "SexRadioView.h"
 @interface InfoViewController ()
-
+@property (nonatomic,strong) SexRadioView *sexRadio;
+@property (nonatomic,strong)  NSString *sexStr;
 @end
 #define kPickerAnimationDuration 0.40
 @implementation InfoViewController
@@ -34,7 +36,11 @@
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",[CaiJinTongManager shared].user.userImg]];
     [self.userImage setImageWithURL:url placeholderImage:Image(@"loginBgImage_v.png")];
     self.textField2.text = [CaiJinTongManager shared].user.birthday;
-    self.textField3.text = [CaiJinTongManager shared].user.sex;
+    NSString *sex =  [[CaiJinTongManager shared].user.sex isEqualToString:@"1"]?@"man":@"female";
+    self.sexRadio = [SexRadioView defaultSexRadioViewWithFrame:(CGRect){0,0,self.sexSelectedView.frame.size} withDefaultSex:sex selectedSex:^(NSString *sexText) {
+        self.sexStr = [sex isEqualToString:@"男"]?@"1":@"0";
+    }];
+    [self.sexSelectedView addSubview:self.sexRadio];
     self.textField1.text = [CaiJinTongManager shared].user.userName;
     self.textField4.text = [CaiJinTongManager shared].user.address;
     
@@ -44,12 +50,12 @@
     
     self.textField1.tag = 1;
     self.textField2.tag = 2;
-    self.textField3.tag = 3;
+    self.sexSelectedView.tag = 3;
     self.textField4.tag = 4;
     
     [self.textField1 setEnabled:NO];
     [self.textField2 setEnabled:NO];
-    [self.textField3 setEnabled:NO];
+    [self.sexSelectedView setUserInteractionEnabled:NO];
     self.textField4.userInteractionEnabled = NO;
     
     self.pickerBtn.hidden = YES;
@@ -82,7 +88,6 @@
 -(void)saveinfo:(id)sender {
     [self.textField1 resignFirstResponder];
     [self.textField2 resignFirstResponder];
-    [self.textField3 resignFirstResponder];
     [self.textField4 resignFirstResponder];
     self.navigationItem.leftBarButtonItem = nil;
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
@@ -101,17 +106,17 @@
             imgData = UIImagePNGRepresentation(self.userImage.image);
         }
     
-        [self.editInfoInterface getEditInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andBirthday:self.textField2.text andSex:self.textField3.text andAddress:self.textField4.text andImage:imgData];
+        [self.editInfoInterface getEditInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andBirthday:self.textField2.text andSex:self.sexStr andAddress:self.textField4.text andImage:imgData withNickName:self.textField1.text];
     }
 }
 
 -(void)textEdited:(id)sender {
     [self.textField1 setEnabled:YES];
-    [self.textField3 setEnabled:YES];
+    [self.sexSelectedView setUserInteractionEnabled:YES];
     self.textField4.userInteractionEnabled = YES;
     self.pickerBtn.hidden = NO;
 
-    self.navigationItem.leftBarButtonItem = self.albumButton;
+//    self.navigationItem.leftBarButtonItem = self.albumButton;
     self.pickView.hidden = NO;
     self.navigationItem.rightBarButtonItem = self.saveButton;
 }
@@ -135,7 +140,6 @@
 -(IBAction)showPicker:(id)sender {
     [self.textField1 resignFirstResponder];
     [self.textField2 resignFirstResponder];
-    [self.textField3 resignFirstResponder];
     [self.textField4 resignFirstResponder];
     
     //初识状态
@@ -205,7 +209,11 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [SVProgressHUD dismissWithSuccess:@"资料更新成功!"];
         dispatch_async(dispatch_get_main_queue(), ^{
-            
+            UserModel *user = [[CaiJinTongManager shared] user];
+            user.userName = self.textField1.text;
+            user.birthday = self.textField2.text;
+            user.sex = self.sexStr;
+            user.address = self.textField4.text;
         });
     });
 }
