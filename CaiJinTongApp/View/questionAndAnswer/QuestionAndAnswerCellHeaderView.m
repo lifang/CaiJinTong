@@ -14,10 +14,12 @@
 @property (nonatomic,strong) UIImageView *questionFlowerImageView;
 @property (nonatomic,strong) UILabel *questionFlowerLabel;
 @property (nonatomic,strong) UITextView *questionContentTextField;
-@property (nonatomic,strong) UIButton *questionFlowerBt;
+//@property (nonatomic,strong) UIButton *questionFlowerBt;
 @property (nonatomic,strong) UIView *backgroundView;
 @property (nonatomic,strong) UIImageView *questionImg;
 @property (nonatomic,strong) UIView *lineView;
+@property (nonatomic,strong) UIButton *answerQuestionBt;//回答按钮
+@property (nonatomic,strong) UIView *summitQuestionAnswerBackView;
 @end
 
 @implementation QuestionAndAnswerCellHeaderView
@@ -68,10 +70,10 @@
 //        self.questionContentTextField.textColor = [UIColor darkGrayColor];
         [self.backgroundView addSubview:self.questionContentTextField];
         
-        self.questionFlowerBt = [[UIButton alloc] init];
-        self.questionFlowerBt.backgroundColor = [UIColor clearColor];
-        [self.questionFlowerBt addTarget:self action:@selector(flowerBtClicked) forControlEvents:UIControlEventTouchUpInside];
-        [self.backgroundView addSubview:self.questionFlowerBt];
+//        self.questionFlowerBt = [[UIButton alloc] init];
+//        self.questionFlowerBt.backgroundColor = [UIColor clearColor];
+//        [self.questionFlowerBt addTarget:self action:@selector(flowerBtClicked) forControlEvents:UIControlEventTouchUpInside];
+//        [self.backgroundView addSubview:self.questionFlowerBt];
         
         self.questionImg = [[UIImageView alloc] init];
         self.questionImg.image = [UIImage imageNamed:@"Q&A-myq_15.png"];
@@ -79,6 +81,13 @@
         [self.backgroundView addSubview:self.questionImg];
         
         self.backgroundView.backgroundColor = [UIColor clearColor];
+        
+        self.answerQuestionBt = [[UIButton alloc] init];
+        self.answerQuestionBt.backgroundColor = [UIColor redColor];
+        [self.answerQuestionBt setTitle:@"回答" forState:UIControlStateNormal];
+        [self.answerQuestionBt.titleLabel setFont:TEXT_FONT];
+        [self.answerQuestionBt addTarget:self action:@selector(willAnswerQuestionBtClicked) forControlEvents:UIControlEventTouchUpInside];
+        [self.backgroundView addSubview:self.answerQuestionBt];
         
         self.lineView = [[UIView alloc] init];
         self.lineView.backgroundColor = [UIColor darkGrayColor];
@@ -104,6 +113,12 @@
 }
 */
 
+-(void)willAnswerQuestionBtClicked{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(questionAndAnswerCellHeaderView:willAnswerQuestionAtIndexPath:)]) {
+        [self.delegate questionAndAnswerCellHeaderView:self willAnswerQuestionAtIndexPath:self.path];
+    }
+}
+
 -(void)setQuestionModel:(QuestionModel*)question{
     if (!question) {
         return;
@@ -112,7 +127,7 @@
     self.questionDateLabel.text = [NSString stringWithFormat:@"发表于%@",question.askTime];
     self.questionFlowerLabel.text = question.praiseCount;
     self.questionContentTextField.text = question.questionName;
-    [self.questionFlowerBt setUserInteractionEnabled:NO];
+//    [self.questionFlowerBt setUserInteractionEnabled:NO];
     [self setNeedsLayout];
 }
 
@@ -129,8 +144,10 @@
     
     self.questionFlowerLabel.frame = (CGRect){CGRectGetMaxX(self.questionFlowerImageView.frame)+TEXT_PADDING,topY,[Utility getTextSizeWithString:self.questionFlowerLabel.text withFont:self.questionFlowerLabel.font].width,textHeight};
     
-    self.questionFlowerBt.frame = (CGRect){CGRectGetMinX(self.questionFlowerImageView.frame)-TEXT_PADDING*5,topY,CGRectGetMaxX(self.questionFlowerLabel.frame) -CGRectGetMinX(self.questionFlowerImageView.frame) +50,textHeight};
+//    self.questionFlowerBt.frame = (CGRect){CGRectGetMinX(self.questionFlowerImageView.frame)-TEXT_PADDING*5,topY,CGRectGetMaxX(self.questionFlowerLabel.frame) -CGRectGetMinX(self.questionFlowerImageView.frame) +50,textHeight};
 
+    self.answerQuestionBt.frame = (CGRect){CGRectGetMaxX(self.questionFlowerLabel.frame),5,100,TEXT_HEIGHT};
+    
     self.questionImg.frame = (CGRect){TEXT_PADDING*2+2,TEXT_HEIGHT+2,20,20};
 //    float contentWidth = CGRectGetWidth(self.frame)-CGRectGetMaxX(self.questionImg.frame)-TEXT_PADDING*2;
     self.questionContentTextField.frame = (CGRect){CGRectGetMaxX(self.questionImg.frame),TEXT_HEIGHT,QUESTIONHEARD_VIEW_WIDTH,[Utility getTextSizeWithString:self.questionContentTextField.text withFont:self.questionContentTextField.font withWidth:QUESTIONHEARD_VIEW_WIDTH].height};

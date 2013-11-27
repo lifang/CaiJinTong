@@ -66,7 +66,17 @@
 }
 
 #pragma mark QuestionAndAnswerCellHeaderViewDelegate
+//赞问题
 -(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header flowerQuestionAtIndexPath:(NSIndexPath *)path{
+
+}
+//将要点击回答问题按钮
+-(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header willAnswerQuestionAtIndexPath:(NSIndexPath *)path{
+
+}
+
+//提交问题的答案
+-(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header didAnswerQuestionAtIndexPath:(NSIndexPath *)path withAnswer:(NSString *)text{
 
 }
 #pragma mark --
