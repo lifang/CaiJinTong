@@ -67,7 +67,7 @@
 
 #pragma mark --
 
--(void)setAnswerModel:(AnswerModel*)answer isQuestionID:(NSString*)questionID{
+-(void)setAnswerModel:(AnswerModel*)answer withQuestion:(QuestionModel*)question{
     self.answerTextField.delegate = self;
     self.qTitleNameLabel.text = answer.answerNick;
     self.qDateLabel.text = [NSString stringWithFormat:@"发表于%@",answer.answerTime];
@@ -76,7 +76,8 @@
     [self.questionBackgroundView setHidden:!answer.isEditing];
     self.answerTextField.font = [UIFont systemFontOfSize:TEXT_FONT_SIZE+6];
     [self.qflowerBt setUserInteractionEnabled:!answer.isPraised];
-    if (questionID) {
+    
+    if (question.isAcceptAnswer && [question.isAcceptAnswer intValue]==1) {
         if (answer.IsAnswerAccept && [answer.IsAnswerAccept intValue]==1) {
             [self.acceptAnswerBt setHidden:NO];
             [self.acceptAnswerBt setUserInteractionEnabled:NO];
@@ -92,18 +93,24 @@
         [self.acceptAnswerBt setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     }
 
+    if ([[CaiJinTongManager shared] userId] && [[[CaiJinTongManager shared] userId] isEqualToString:question.askerId]) {
+        [self.answerBt setHidden:NO];
+    }else{
+        [self.answerBt setHidden:YES];
+    }
+    
     [self setNeedsLayout];
     
-    self.qTitleNameLabel.backgroundColor = [UIColor clearColor];
-    self.qDateLabel.backgroundColor = [UIColor clearColor];
-    self.qflowerImageView.image = [UIImage imageNamed:@"Q&A-myq_19.png"];
-    self.qflowerLabel.backgroundColor = [UIColor clearColor];
-    self.answerTextField.backgroundColor = [UIColor clearColor];
-    self.acceptAnswerBt.backgroundColor = [UIColor clearColor];
-    [self.qflowerBt setTitle:@"" forState:UIControlStateNormal];
-    self.questionTextField.backgroundColor = [UIColor colorWithRed:238.0/255.0 green:238.0/255.0 blue:238.0/255.0 alpha:1.0];
-    self.questionBackgroundView.backgroundColor = [UIColor clearColor];
-    self.answerBackgroundView.backgroundColor = [UIColor clearColor];
+//    self.qTitleNameLabel.backgroundColor = [UIColor clearColor];
+//    self.qDateLabel.backgroundColor = [UIColor clearColor];
+//    self.qflowerImageView.image = [UIImage imageNamed:@"Q&A-myq_19.png"];
+//    self.qflowerLabel.backgroundColor = [UIColor clearColor];
+//    self.answerTextField.backgroundColor = [UIColor clearColor];
+//    self.acceptAnswerBt.backgroundColor = [UIColor clearColor];
+//    [self.qflowerBt setTitle:@"" forState:UIControlStateNormal];
+//    self.questionTextField.backgroundColor = [UIColor colorWithRed:238.0/255.0 green:238.0/255.0 blue:238.0/255.0 alpha:1.0];
+//    self.questionBackgroundView.backgroundColor = [UIColor clearColor];
+//    self.answerBackgroundView.backgroundColor = [UIColor clearColor];
     self.answerTextField.contentInset = UIEdgeInsetsMake(-10, -5, 0, 0);
 }
 

@@ -30,13 +30,14 @@
 @property (weak, nonatomic) IBOutlet UITextView *answerTextField;
 @property (weak, nonatomic) IBOutlet UITextView *questionTextField;
 @property (weak, nonatomic) IBOutlet UIButton *acceptAnswerBt;
+@property (weak, nonatomic) IBOutlet UIButton *answerBt;
 
 - (IBAction)qflowerBtClicked:(id)sender;
 - (IBAction)answerBtClicked:(id)sender;
 - (IBAction)questionOKBtClicked:(id)sender;
 - (IBAction)acceptAnswerBtClicked:(id)sender;
 
--(void)setAnswerModel:(AnswerModel*)answer isQuestionID:(NSString*)questionID;
+-(void)setAnswerModel:(AnswerModel*)answer withQuestion:(QuestionModel*)question;
 @end
 
 @protocol QuestionAndAnswerCellDelegate <NSObject>

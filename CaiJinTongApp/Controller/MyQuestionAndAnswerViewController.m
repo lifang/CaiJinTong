@@ -72,11 +72,37 @@
 }
 //将要点击回答问题按钮
 -(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header willAnswerQuestionAtIndexPath:(NSIndexPath *)path{
+    QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
+    question.isEditing = !question.isEditing;
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
+    if (question.isEditing) {
+        float sectionHeight = [self getTableViewHeaderHeightWithSection:path.section];
+        CGRect sectionRect = [self.tableView rectForHeaderInSection:path.section];
+        float sectionMinHeight = CGRectGetMinY(sectionRect) - self.tableView.contentOffset.y;
+        float keyheight = CGRectGetMaxY(self.tableView.frame) - sectionHeight-300;
+        if (sectionMinHeight > keyheight) {
+            [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (sectionMinHeight - keyheight)} animated:YES];
+        }
+    }
 
 }
 
 //提交问题的答案
 -(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header didAnswerQuestionAtIndexPath:(NSIndexPath *)path withAnswer:(NSString *)text{
+QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
+    question.isEditing = NO;
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+//开始编辑回答
+-(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header willBeginTypeAnswerQuestionAtIndexPath:(NSIndexPath *)path{
+    float sectionHeight = [self getTableViewHeaderHeightWithSection:path.section];
+    CGRect sectionRect = [self.tableView rectForHeaderInSection:path.section];
+    float sectionMinHeight = CGRectGetMinY(sectionRect) - self.tableView.contentOffset.y;
+    float keyheight = CGRectGetMaxY(self.tableView.frame) - sectionHeight-400;
+    if (sectionMinHeight > keyheight) {
+        [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (sectionMinHeight - keyheight)} animated:YES];
+    }
 
 }
 #pragma mark --
@@ -109,6 +135,15 @@
     AnswerModel *answer = [question.answerList objectAtIndex:path.row];
     answer.isEditing = isHiddle;
     [self.tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
+    if (answer.isEditing) {
+        float cellHeight = [self getTableViewRowHeightWithIndexPath:path];
+        CGRect cellRect = [self.tableView rectForRowAtIndexPath:path];
+        float cellmaxHeight = CGRectGetMaxY(cellRect) - self.tableView.contentOffset.y;
+        float keyheight = CGRectGetMaxY(self.tableView.frame) - cellHeight-20;
+        if (cellmaxHeight > keyheight) {
+            [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (cellmaxHeight - keyheight)} animated:YES];
+        }
+    }
     
 }
 #pragma mark -- 采纳答案
@@ -154,12 +189,12 @@ static NSIndexPath *indexPath = nil;
     QuestionAndAnswerCell *cell = (QuestionAndAnswerCell*)[tableView dequeueReusableCellWithIdentifier:@"questionAndAnswerCell"];
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:indexPath.section];
     AnswerModel *answer = [question.answerList objectAtIndex:indexPath.row];
-    if (question.isAcceptAnswer && [question.isAcceptAnswer intValue]==1) {
-        [cell setAnswerModel:answer isQuestionID:question.questionId];
-    } else {
-        [cell setAnswerModel:answer isQuestionID:nil];
+    if ([[CaiJinTongManager shared] userId] && [[[CaiJinTongManager shared] userId] isEqualToString:question.askerId]) {
+        answer.isEditing = YES;
+    }else{
+     answer.isEditing = NO;
     }
-    
+     [cell setAnswerModel:answer withQuestion:question];
     cell.delegate = self;
     cell.path = indexPath;
     cell.contentView.frame = (CGRect){cell.contentView.frame.origin,CGRectGetWidth(cell.contentView.frame),[self getTableViewRowHeightWithIndexPath:indexPath]};
@@ -195,7 +230,11 @@ static NSIndexPath *indexPath = nil;
 #pragma mark action
 -(float)getTableViewHeaderHeightWithSection:(NSInteger)section{
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:section];
+    if (question.isEditing) {
+        return  [Utility getTextSizeWithString:question.questionName withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:QUESTIONHEARD_VIEW_WIDTH].height + TEXT_HEIGHT + TEXT_PADDING + QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT;
+    }else{
     return  [Utility getTextSizeWithString:question.questionName withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:QUESTIONHEARD_VIEW_WIDTH].height + TEXT_HEIGHT + TEXT_PADDING;
+    }
 }
 
 -(float)getTableViewRowHeightWithIndexPath:(NSIndexPath*)path{
