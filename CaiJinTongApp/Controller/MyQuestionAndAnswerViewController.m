@@ -9,6 +9,8 @@
 #import "MyQuestionAndAnswerViewController.h"
 @interface MyQuestionAndAnswerViewController ()
 @property (nonatomic,strong) NSMutableArray *myQuestionArr;
+@property (nonatomic,strong) MJRefreshHeaderView *headerRefreshView;
+@property (nonatomic,strong) MJRefreshFooterView *footerRefreshView;
 @end
 
 @implementation MyQuestionAndAnswerViewController
@@ -37,6 +39,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self.headerRefreshView endRefreshing];//instance refresh view
+    [self.footerRefreshView endRefreshing];
+    
     [self.tableView registerClass:[QuestionAndAnswerCellHeaderView class] forHeaderFooterViewReuseIdentifier:@"header"];
     
     self.drnavigationBar.titleLabel.text = @"我的提问";
@@ -227,6 +233,17 @@ static NSIndexPath *indexPath = nil;
 
 #pragma mark --
 
+#pragma mark MJRefreshBaseViewDelegate 分页加载
+-(void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView{
+    if (self.headerRefreshView == refreshView) {
+        
+    }else{
+    
+    }
+}
+
+#pragma mark --
+
 #pragma mark action
 -(float)getTableViewHeaderHeightWithSection:(NSInteger)section{
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:section];
@@ -256,6 +273,25 @@ static NSIndexPath *indexPath = nil;
 #pragma mark --
 
 #pragma mark property
+
+-(MJRefreshHeaderView *)headerRefreshView{
+    if (!_headerRefreshView) {
+        _headerRefreshView = [[MJRefreshHeaderView alloc] init];
+        _headerRefreshView.scrollView = self.tableView;
+        _headerRefreshView.delegate = self;
+    }
+    return _headerRefreshView;
+}
+
+-(MJRefreshFooterView *)footerRefreshView{
+    if (!_footerRefreshView) {
+        _footerRefreshView = [[MJRefreshFooterView alloc] init];
+        _footerRefreshView.delegate = self;
+        _footerRefreshView.scrollView = self.tableView;
+        
+    }
+    return _footerRefreshView;
+}
 
 -(NSMutableArray *)myQuestionArr{
     if (!_myQuestionArr) {
@@ -287,4 +323,10 @@ static NSIndexPath *indexPath = nil;
     [SVProgressHUD dismiss];
     [Utility errorAlert:errorMsg];
 }
+
+-(void)dealloc{
+    [self.headerRefreshView free];
+    [self.footerRefreshView free];
+}
+
 @end

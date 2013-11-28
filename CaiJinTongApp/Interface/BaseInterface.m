@@ -29,6 +29,48 @@
     return postString;
 }
 
+-(void)connectMethod:(NSString*)method{
+    if (self.interfaceUrl) {
+        NSMutableString *urlStr = [NSMutableString stringWithFormat:@"%@",self.interfaceUrl];
+        //url含中文转化UTF8
+        urlStr = (NSMutableString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+                                                                            (CFStringRef)urlStr,
+                                                                            NULL,
+                                                                            NULL,
+                                                                            kCFStringEncodingUTF8);
+        NSURL *url = [[NSURL alloc]initWithString:urlStr];
+        if (url) {
+            self.request = [ASIHTTPRequest requestWithURL:url];
+        }
+        
+        [url release];
+        
+        //设置缓存机制
+        [[InterfaceCache sharedCache] setShouldRespectCacheControlHeaders:NO];
+        [self.request setDownloadCache:[InterfaceCache sharedCache]];
+        [self.request setCachePolicy:ASIAskServerIfModifiedWhenStaleCachePolicy | ASIFallbackToCacheIfLoadFailsCachePolicy];
+        [self.request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
+        
+        [self.request setTimeOutSeconds:60];
+//        NSString *postURL=[self createPostURL:self.headers];
+//        DLog(@"URL:%@?%@",self.interfaceUrl,postURL);
+//        NSMutableData *postData = [[NSMutableData alloc]initWithData:[postURL dataUsingEncoding:NSUTF8StringEncoding]];
+//        
+//        [self.request setPostBody:postData];
+        [self.request setRequestMethod:method];
+        [self.request addRequestHeader:@"Content-Type" value:@"application/x-www-form-urlencoded"];
+//        if (self.headers) {
+//            for (NSString *key in self.headers) {
+//                [self.request addRequestHeader:key value:[self.headers objectForKey:key]];
+//            }
+//        }
+        [self.request setDelegate:self];
+        [self.request startAsynchronous];
+        
+    }else{
+        //抛出异常
+    }
+}
 -(void)connect {
     if (self.interfaceUrl) {
         NSMutableString *urlStr = [NSMutableString stringWithFormat:@"%@",self.interfaceUrl];
