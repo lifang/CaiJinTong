@@ -19,6 +19,8 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong,nonatomic) UIScrollView *myScrollView;
 
+@property (nonatomic) BOOL isSearching;
+
 @property (strong,nonatomic) NSMutableArray *lessonList;
 @property (strong,nonatomic) NSMutableArray *chapterList;
 @property (strong,nonatomic) NSMutableArray *sectionList;

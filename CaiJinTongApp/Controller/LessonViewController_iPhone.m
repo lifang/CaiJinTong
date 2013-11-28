@@ -43,7 +43,7 @@
 
 //collectionView加载设置
 -(void)setCollectionView{
-    [self.collectionView setPagingEnabled:YES];
+    [self.collectionView setPagingEnabled:NO];
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
     [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER];
@@ -80,7 +80,7 @@
     [bar setFrame:CGRectMake(0, CGRectGetHeight(self.view.frame) - 63, 320, 63)];
     bar.layer.contents = (id)[UIImage imageNamed:@"barbg.png"].CGImage ;
     [bar setTintColor:[UIColor colorWithRed:10.0/255.0 green:35.0/255.0 blue:56.0/255.0 alpha:1.0]];
-    [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"play-table.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"play-table.png"]];
+    [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"play-table.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"play-table.png"]];//iOS 7 本语句失效
     
 }
 
@@ -138,6 +138,11 @@
         [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
         dispatch_async(dispatch_get_main_queue(), ^{
             if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
+                if(self.isSearching){//搜索过滤
+                    
+                    
+                }
+                
                 self.recentArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
                 self.sectionList = self.recentArray;
                 [self.collectionView reloadData];
@@ -165,10 +170,8 @@
 
 - (UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER forIndexPath:indexPath];
-    self.sectionCustomView = [[SectionCustomView_iPhone alloc] initWithFrame:CGRectMake(18, 0, 125, 125) andSection:(SectionModel *)self.sectionList[0] andItemLabel:20];
-//    self.sectionCustomView = [[SectionCustomView_iPhone alloc] initWithFrame:CGRectMake(18, 0, 125, 125) andSection:(SectionModel *)self.sectionList[indexPath.row] andItemLabel:20];
+    self.sectionCustomView = [[SectionCustomView_iPhone alloc] initWithFrame:CGRectMake(18, 0, 125, 145) andSection:(SectionModel *)self.sectionList[0] andItemLabel:20];
     [self.sectionCustomView addTarget:self action:@selector(cellClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [cell setBackgroundColor:[UIColor greenColor]];
     cell.clipsToBounds = YES;
     [cell.contentView addSubview:self.sectionCustomView];
     return cell;
@@ -311,37 +314,11 @@
 }
 
 
-#pragma -- 页面布局
+#pragma mark -- 页面布局
 
 -(void)displayNewView {
     [self.collectionView reloadData];
-//    [self.myScrollView removeFromSuperview];
-//    if (self.sectionList.count>0) {
-//        NSInteger count = ([self.sectionList count]-1)/6+1;
-//        self.myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 148, self.view.frame.size.width, self.view.frame.size.height-50)];
-//        
-//        self.myScrollView.delegate = self;
-//        self.myScrollView.contentSize = CGSizeMake(self.myScrollView.frame.size.width, self.myScrollView.frame.size.height*count);
-//        [self.myScrollView setPagingEnabled:YES];
-//        self.myScrollView.showsVerticalScrollIndicator = NO;
-//        self.myScrollView.showsHorizontalScrollIndicator = NO;
-//        self.myScrollView.backgroundColor = [UIColor clearColor];
-//        [self.view addSubview:self.myScrollView];
-//        
-//        for (int i=0; i<count; i++) {
-//            self.myTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0+self.myScrollView.frame.size.height*i, self.myScrollView.frame.size.width, self.myScrollView.frame.size.height)];
-//            self.myTable.tag = i;
-//            self.myTable.delegate = self;
-//            self.myTable.dataSource = self;
-//            self.myTable.scrollEnabled = NO;
-//            self.myTable.backgroundColor = [UIColor clearColor];
-//            [self.myScrollView addSubview:self.myTable];
-//        }
-//        CGRect frame = [self.view bounds];
-//        frame.origin.y = 0;
-//        frame.origin.x = 0;
-//        [self.myScrollView setContentOffset:CGPointMake(frame.origin.x, frame.origin.y)];
-//    }
+    [self.collectionView setContentOffset:CGPointMake(0, 0)];
 }
 
 - (void)didReceiveMemoryWarning
