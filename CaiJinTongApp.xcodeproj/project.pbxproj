@@ -42,12 +42,6 @@
 		0E9DA3C6183F568D000A5995 /* ASIS3Request.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9DA391183F568D000A5995 /* ASIS3Request.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0E9DA3C7183F568D000A5995 /* ASIS3ServiceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9DA393183F568D000A5995 /* ASIS3ServiceRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0EA264C71839BFEB0037489C /* InfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA264C61839BFEB0037489C /* InfoCell.m */; };
-		0EA264D01839D2A40037489C /* UIImage+Additional.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA264C91839D2A40037489C /* UIImage+Additional.m */; };
-		0EA264D11839D2A40037489C /* MZFormSheetBackgroundWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA264CA1839D2A40037489C /* MZFormSheetBackgroundWindow.m */; };
-		0EA264D21839D2A40037489C /* MZFormSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA264CD1839D2A40037489C /* MZFormSheetController.m */; };
-		0EA264D31839D2A40037489C /* MZFormSheetSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA264CF1839D2A40037489C /* MZFormSheetSegue.m */; };
-		0EA264D81839D2AA0037489C /* MZAppearance.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA264D51839D2AA0037489C /* MZAppearance.m */; };
-		0EA264D91839D2AA0037489C /* NSInvocation+Copy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA264D71839D2AA0037489C /* NSInvocation+Copy.m */; };
 		0EA2A91A18288275003D152E /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EA2A91918288275003D152E /* libc++.dylib */; };
 		0EA2A91D1828847E003D152E /* pinyin.c in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2A91B1828847E003D152E /* pinyin.c */; };
 		0EA2A9201828893D003D152E /* ChineseString.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2A91F1828893D003D152E /* ChineseString.m */; };
@@ -117,7 +111,6 @@
 		0EAD1F75182B24E100204FC3 /* BaseDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAD1F74182B24E100204FC3 /* BaseDao.m */; };
 		0EAD1F78182B276700204FC3 /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAD1F77182B276700204FC3 /* Section.m */; };
 		0EAD1F7B182B369600204FC3 /* frame.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EAD1F79182B369600204FC3 /* frame.png */; };
-		0EAD1F7C182B369600204FC3 /* frame@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EAD1F7A182B369600204FC3 /* frame@2x.png */; };
 		0EAD1F83182B7D8C00204FC3 /* Section_GradeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAD1F82182B7D8C00204FC3 /* Section_GradeCell.m */; };
 		0EAD1F8C182B872000204FC3 /* Section_NoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAD1F8B182B872000204FC3 /* Section_NoteCell.m */; };
 		0EAFA0EA1822167800D01D3E /* acceptAnswer.json in Resources */ = {isa = PBXBuildFile; fileRef = 0EAFA0D51822167800D01D3E /* acceptAnswer.json */; };
@@ -220,12 +213,17 @@
 		18E32E0A1831FDF900041B8A /* login_07@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E32E041831FDF900041B8A /* login_07@2x.png */; };
 		18E32E0B1831FDF900041B8A /* login_10@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E32E051831FDF900041B8A /* login_10@2x.png */; };
 		18E32E0C1831FDF900041B8A /* login_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E32E061831FDF900041B8A /* login_bg@2x.png */; };
+		18EA125318459A4500F12D8B /* TextFieldForSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EA125218459A4500F12D8B /* TextFieldForSearchBar.m */; };
+		18EA12551845BF7000F12D8B /* barbg.png in Resources */ = {isa = PBXBuildFile; fileRef = 18EA12541845BF7000F12D8B /* barbg.png */; };
 		18EBD11C1842FA0900F9BDA9 /* lhl1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18EBD11A1842FA0900F9BDA9 /* lhl1@2x.png */; };
 		18EBD11D1842FA0900F9BDA9 /* lhl2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18EBD11B1842FA0900F9BDA9 /* lhl2@2x.png */; };
 		18F477E9183D9BDA00021886 /* SuggestionFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F477E8183D9BDA00021886 /* SuggestionFeedbackViewController.m */; };
 		18F477EF183DB57000021886 /* progressBar-front.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F477ED183DB57000021886 /* progressBar-front.png */; };
 		18F477F0183DB57000021886 /* progressBar-background.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F477EE183DB57000021886 /* progressBar-background.png */; };
 		18F477F4183DC5CA00021886 /* nothing.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F477F3183DC5CA00021886 /* nothing.png */; };
+		18F87E611844741C00B0F7EC /* SectionCustomView_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F87E601844741C00B0F7EC /* SectionCustomView_iPhone.m */; };
+		18F87E6418448CA300B0F7EC /* ChapterSearchBar_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F87E6318448CA300B0F7EC /* ChapterSearchBar_iPhone.m */; };
+		18F87E671844AA2A00B0F7EC /* CJTMainToolbar_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F87E661844AA2A00B0F7EC /* CJTMainToolbar_iPhone.m */; };
 		18FBCF22183F22270025DAEA /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FBCF21183F22270025DAEA /* UserModel.m */; };
 		63091FFA1827435400C1AF07 /* LessonListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63091FF91827435400C1AF07 /* LessonListCell.m */; };
 		63091FFD1827473400C1AF07 /* LessonListHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63091FFC1827473300C1AF07 /* LessonListHeaderView.m */; };
@@ -354,18 +352,6 @@
 		0E9DA393183F568D000A5995 /* ASIS3ServiceRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIS3ServiceRequest.m; sourceTree = "<group>"; };
 		0EA264C51839BFEB0037489C /* InfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoCell.h; sourceTree = "<group>"; };
 		0EA264C61839BFEB0037489C /* InfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoCell.m; sourceTree = "<group>"; };
-		0EA264C81839D2A40037489C /* UIImage+Additional.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Additional.h"; sourceTree = "<group>"; };
-		0EA264C91839D2A40037489C /* UIImage+Additional.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Additional.m"; sourceTree = "<group>"; };
-		0EA264CA1839D2A40037489C /* MZFormSheetBackgroundWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZFormSheetBackgroundWindow.m; sourceTree = "<group>"; };
-		0EA264CB1839D2A40037489C /* MZFormSheetBackgroundWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZFormSheetBackgroundWindow.h; sourceTree = "<group>"; };
-		0EA264CC1839D2A40037489C /* MZFormSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZFormSheetController.h; sourceTree = "<group>"; };
-		0EA264CD1839D2A40037489C /* MZFormSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZFormSheetController.m; sourceTree = "<group>"; };
-		0EA264CE1839D2A40037489C /* MZFormSheetSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZFormSheetSegue.h; sourceTree = "<group>"; };
-		0EA264CF1839D2A40037489C /* MZFormSheetSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZFormSheetSegue.m; sourceTree = "<group>"; };
-		0EA264D41839D2AA0037489C /* MZAppearance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZAppearance.h; sourceTree = "<group>"; };
-		0EA264D51839D2AA0037489C /* MZAppearance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZAppearance.m; sourceTree = "<group>"; };
-		0EA264D61839D2AA0037489C /* NSInvocation+Copy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSInvocation+Copy.h"; sourceTree = "<group>"; };
-		0EA264D71839D2AA0037489C /* NSInvocation+Copy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSInvocation+Copy.m"; sourceTree = "<group>"; };
 		0EA2A91918288275003D152E /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		0EA2A91B1828847E003D152E /* pinyin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pinyin.c; sourceTree = "<group>"; };
 		0EA2A91C1828847E003D152E /* pinyin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pinyin.h; sourceTree = "<group>"; };
@@ -495,7 +481,6 @@
 		0EAD1F76182B276700204FC3 /* Section.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Section.h; sourceTree = "<group>"; };
 		0EAD1F77182B276700204FC3 /* Section.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section.m; sourceTree = "<group>"; };
 		0EAD1F79182B369600204FC3 /* frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame.png; sourceTree = "<group>"; };
-		0EAD1F7A182B369600204FC3 /* frame@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "frame@2x.png"; sourceTree = "<group>"; };
 		0EAD1F81182B7D8C00204FC3 /* Section_GradeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Section_GradeCell.h; sourceTree = "<group>"; };
 		0EAD1F82182B7D8C00204FC3 /* Section_GradeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section_GradeCell.m; sourceTree = "<group>"; };
 		0EAD1F8A182B872000204FC3 /* Section_NoteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Section_NoteCell.h; sourceTree = "<group>"; };
@@ -626,6 +611,9 @@
 		18E32E041831FDF900041B8A /* login_07@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "login_07@2x.png"; path = "login-images/login_07@2x.png"; sourceTree = "<group>"; };
 		18E32E051831FDF900041B8A /* login_10@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "login_10@2x.png"; path = "login-images/login_10@2x.png"; sourceTree = "<group>"; };
 		18E32E061831FDF900041B8A /* login_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "login_bg@2x.png"; path = "login-images/login_bg@2x.png"; sourceTree = "<group>"; };
+		18EA125118459A4500F12D8B /* TextFieldForSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextFieldForSearchBar.h; sourceTree = "<group>"; };
+		18EA125218459A4500F12D8B /* TextFieldForSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextFieldForSearchBar.m; sourceTree = "<group>"; };
+		18EA12541845BF7000F12D8B /* barbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = barbg.png; sourceTree = "<group>"; };
 		18EBD11A1842FA0900F9BDA9 /* lhl1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lhl1@2x.png"; sourceTree = "<group>"; };
 		18EBD11B1842FA0900F9BDA9 /* lhl2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lhl2@2x.png"; sourceTree = "<group>"; };
 		18F477E7183D9BDA00021886 /* SuggestionFeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuggestionFeedbackViewController.h; sourceTree = "<group>"; };
@@ -633,6 +621,12 @@
 		18F477ED183DB57000021886 /* progressBar-front.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progressBar-front.png"; sourceTree = "<group>"; };
 		18F477EE183DB57000021886 /* progressBar-background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progressBar-background.png"; sourceTree = "<group>"; };
 		18F477F3183DC5CA00021886 /* nothing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nothing.png; sourceTree = "<group>"; };
+		18F87E5F1844741C00B0F7EC /* SectionCustomView_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionCustomView_iPhone.h; sourceTree = "<group>"; };
+		18F87E601844741C00B0F7EC /* SectionCustomView_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionCustomView_iPhone.m; sourceTree = "<group>"; };
+		18F87E6218448CA300B0F7EC /* ChapterSearchBar_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChapterSearchBar_iPhone.h; sourceTree = "<group>"; };
+		18F87E6318448CA300B0F7EC /* ChapterSearchBar_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChapterSearchBar_iPhone.m; sourceTree = "<group>"; };
+		18F87E651844AA2A00B0F7EC /* CJTMainToolbar_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJTMainToolbar_iPhone.h; sourceTree = "<group>"; };
+		18F87E661844AA2A00B0F7EC /* CJTMainToolbar_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJTMainToolbar_iPhone.m; sourceTree = "<group>"; };
 		18FBCF20183F22270025DAEA /* UserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
 		18FBCF21183F22270025DAEA /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
 		63091FF81827435400C1AF07 /* LessonListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LessonListCell.h; path = lessonList/LessonListCell.h; sourceTree = "<group>"; };
@@ -948,6 +942,7 @@
 		0EAFA1011822200200D01D3E /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				18EA12541845BF7000F12D8B /* barbg.png */,
 				18EBD11A1842FA0900F9BDA9 /* lhl1@2x.png */,
 				18EBD11B1842FA0900F9BDA9 /* lhl2@2x.png */,
 				182314401840A35D00DE9422 /* delete_2.png */,
@@ -970,7 +965,6 @@
 				18C9312918363B2A00FBE1A8 /* play-M.png */,
 				18C9312A18363B2A00FBE1A8 /* play-table@2x.png */,
 				0EAD1F79182B369600204FC3 /* frame.png */,
-				0EAD1F7A182B369600204FC3 /* frame@2x.png */,
 				0EA717681829E2D800560885 /* backgroundStar.png */,
 				0EA717691829E2D800560885 /* backgroundStar@2x.png */,
 				0EA7176A1829E2D800560885 /* foregroundStar.png */,
@@ -1277,6 +1271,14 @@
 			children = (
 				184F8AAD18434A3200A2FEB4 /* LHLNavigationBar.h */,
 				184F8AAE18434A3200A2FEB4 /* LHLNavigationBar.m */,
+				18F87E5F1844741C00B0F7EC /* SectionCustomView_iPhone.h */,
+				18F87E601844741C00B0F7EC /* SectionCustomView_iPhone.m */,
+				18F87E6218448CA300B0F7EC /* ChapterSearchBar_iPhone.h */,
+				18F87E6318448CA300B0F7EC /* ChapterSearchBar_iPhone.m */,
+				18F87E651844AA2A00B0F7EC /* CJTMainToolbar_iPhone.h */,
+				18F87E661844AA2A00B0F7EC /* CJTMainToolbar_iPhone.m */,
+				18EA125118459A4500F12D8B /* TextFieldForSearchBar.h */,
+				18EA125218459A4500F12D8B /* TextFieldForSearchBar.m */,
 			);
 			name = View_iPhone;
 			sourceTree = "<group>";
@@ -1512,18 +1514,6 @@
 			isa = PBXGroup;
 			children = (
 				63098F34183CB992007A76AC /* MJPOPUPcontroller */,
-				0EA264D41839D2AA0037489C /* MZAppearance.h */,
-				0EA264D51839D2AA0037489C /* MZAppearance.m */,
-				0EA264D61839D2AA0037489C /* NSInvocation+Copy.h */,
-				0EA264D71839D2AA0037489C /* NSInvocation+Copy.m */,
-				0EA264C81839D2A40037489C /* UIImage+Additional.h */,
-				0EA264C91839D2A40037489C /* UIImage+Additional.m */,
-				0EA264CA1839D2A40037489C /* MZFormSheetBackgroundWindow.m */,
-				0EA264CB1839D2A40037489C /* MZFormSheetBackgroundWindow.h */,
-				0EA264CC1839D2A40037489C /* MZFormSheetController.h */,
-				0EA264CD1839D2A40037489C /* MZFormSheetController.m */,
-				0EA264CE1839D2A40037489C /* MZFormSheetSegue.h */,
-				0EA264CF1839D2A40037489C /* MZFormSheetSegue.m */,
 			);
 			name = popupView;
 			sourceTree = "<group>";
@@ -1622,6 +1612,7 @@
 				0EAFA0EC1822167800D01D3E /* askQuestion.json in Resources */,
 				0EA7176E1829E2D800560885 /* foregroundStar.png in Resources */,
 				18C9313318363B2A00FBE1A8 /* play_paused@2x.png in Resources */,
+				18EA12551845BF7000F12D8B /* barbg.png in Resources */,
 				18491C4D1834B166003C82E4 /* course-courses_03@2x.png in Resources */,
 				0EA7EF631823B1FC00C47F69 /* answerList.json in Resources */,
 				18491C4A1834AAE6003C82E4 /* 1@2x.png in Resources */,
@@ -1651,7 +1642,6 @@
 				1836AFE3183AF875009E65B5 /* settings_未选中.png in Resources */,
 				0EAFA0F11822167800D01D3E /* getUserQuestion.json in Resources */,
 				18C9313418363B2A00FBE1A8 /* play_play@2x.png in Resources */,
-				0EAD1F7C182B369600204FC3 /* frame@2x.png in Resources */,
 				18C9313118363B2A00FBE1A8 /* play_movieSlider@2x.png in Resources */,
 				18491C4F1834C7C3003C82E4 /* s@2x.png in Resources */,
 				1815324D1835FE9A0078A410 /* course-onecourse_03@2x.png in Resources */,
@@ -1737,7 +1727,6 @@
 				63841CF31838A60100E3FA9E /* DRNavigationController.m in Sources */,
 				0EA7EF521823A99700C47F69 /* PlayBackInterface.m in Sources */,
 				6323876018222A1500C71535 /* DRNaviGationBarController.m in Sources */,
-				0EA264D01839D2A40037489C /* UIImage+Additional.m in Sources */,
 				0EA717671829E2D100560885 /* TQStarRatingView.m in Sources */,
 				6323875D18220E7D00C71535 /* ForgotPwdViewController.m in Sources */,
 				0E9DA3B6183F568D000A5995 /* ASIFormDataRequest.m in Sources */,
@@ -1761,6 +1750,7 @@
 				0EAD1F70182B24B100204FC3 /* FMResultSet.m in Sources */,
 				0E9DA3C5183F568D000A5995 /* ASIS3ObjectRequest.m in Sources */,
 				0EAFA1231822485500D01D3E /* LessonInfoInterface.m in Sources */,
+				18F87E671844AA2A00B0F7EC /* CJTMainToolbar_iPhone.m in Sources */,
 				0E9DA3BC183F568D000A5995 /* ASICloudFilesContainer.m in Sources */,
 				18F477E9183D9BDA00021886 /* SuggestionFeedbackViewController.m in Sources */,
 				0E9DA3B5183F568D000A5995 /* ASIDownloadCache.m in Sources */,
@@ -1769,7 +1759,6 @@
 				0EA7EF4618238CC600C47F69 /* ChapterQuestionModel.m in Sources */,
 				0EA7EF7C182748BB00C47F69 /* SDWebImageDownloader.m in Sources */,
 				6323876318223E9500C71535 /* DRNavigationBar.m in Sources */,
-				0EA264D91839D2AA0037489C /* NSInvocation+Copy.m in Sources */,
 				63091FFA1827435400C1AF07 /* LessonListCell.m in Sources */,
 				18C9314118363B9C00FBE1A8 /* DRTakingMovieNoteViewController.m in Sources */,
 				0E9DA3C4183F568D000A5995 /* ASIS3BucketRequest.m in Sources */,
@@ -1794,12 +1783,12 @@
 				0EA7EF1918234A7500C47F69 /* CommentListInterface.m in Sources */,
 				0EA7EF2218234BA100C47F69 /* QuestionListInterface.m in Sources */,
 				0EA7EF4F1823A98600C47F69 /* PlayVideoInterface.m in Sources */,
+				18EA125318459A4500F12D8B /* TextFieldForSearchBar.m in Sources */,
 				18A19C85183CA60500C11310 /* iRate.m in Sources */,
 				0EA2A9311828D78F003D152E /* Section_NoteViewController.m in Sources */,
 				0EA36ED2182C8E4F0074D67B /* CustomLabel.m in Sources */,
 				0EA7EF8D1827805D00C47F69 /* SectionInfoInterface.m in Sources */,
 				0EA36ED7182CB5570074D67B /* CustomTextView.m in Sources */,
-				0EA264D11839D2A40037489C /* MZFormSheetBackgroundWindow.m in Sources */,
 				0EDF4DF518210241007161E0 /* NSString+URLEncoding.m in Sources */,
 				0EB849331835DE2700C97030 /* SettingViewController.m in Sources */,
 				0E9DA3C1183F568D000A5995 /* ASICloudFilesRequest.m in Sources */,
@@ -1807,7 +1796,9 @@
 				0E9DA3BB183F568D000A5995 /* ASICloudFilesCDNRequest.m in Sources */,
 				0EA7EF2518234BE900C47F69 /* AcceptAnswerInterface.m in Sources */,
 				0EA7EF7A182748BB00C47F69 /* SDImageCache.m in Sources */,
+				18F87E6418448CA300B0F7EC /* ChapterSearchBar_iPhone.m in Sources */,
 				0E5267291829EA450009E535 /* SectionSaveModel.m in Sources */,
+				18F87E611844741C00B0F7EC /* SectionCustomView_iPhone.m in Sources */,
 				0E9DA3C7183F568D000A5995 /* ASIS3ServiceRequest.m in Sources */,
 				0E9C9EF8184328CC00D48781 /* EditInfoInterface.m in Sources */,
 				0EA7EF7E182748BB00C47F69 /* SDWebImagePrefetcher.m in Sources */,
@@ -1843,7 +1834,6 @@
 				0EAFA1141822399100D01D3E /* LogInterface.m in Sources */,
 				630B03B71820F5BB00F72C4C /* main.m in Sources */,
 				18C9314018363B9C00FBE1A8 /* DRCommitQuestionViewController.m in Sources */,
-				0EA264D21839D2A40037489C /* MZFormSheetController.m in Sources */,
 				0EA717621829D02000560885 /* SVProgressHUD.m in Sources */,
 				0EA2A9341828E180003D152E /* Section_ChapterCell.m in Sources */,
 				0EA2A92B1828D758003D152E /* Section_ChapterViewController.m in Sources */,
@@ -1860,12 +1850,10 @@
 				0EAFA1121822399000D01D3E /* BaseInterface.m in Sources */,
 				0EA7EF3A1823581F00C47F69 /* SectionModel.m in Sources */,
 				18335B67183C982600DB8B7E /* DRAskQuestionViewController.m in Sources */,
-				0EA264D81839D2AA0037489C /* MZAppearance.m in Sources */,
 				630CB07F1828BCF9002FD462 /* CustomPlayerView.m in Sources */,
 				0EDF4DFE1821028F007161E0 /* NSDictionary+AllKeytoLowerCase.m in Sources */,
 				0EA7EF80182748BB00C47F69 /* UIImageView+WebCache.m in Sources */,
 				0EAD1F6E182B24B100204FC3 /* FMDatabaseAdditions.m in Sources */,
-				0EA264D31839D2A40037489C /* MZFormSheetSegue.m in Sources */,
 				0EAD1F6F182B24B100204FC3 /* FMDatabase.m in Sources */,
 				0EA7EF5E1823AE1800C47F69 /* AskQuestionInterface.m in Sources */,
 				0EAD1F83182B7D8C00204FC3 /* Section_GradeCell.m in Sources */,

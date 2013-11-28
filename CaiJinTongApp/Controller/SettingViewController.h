@@ -10,7 +10,7 @@
 #import "InfoCell.h"
 #import "SuggestionFeedbackViewController.h"
 
-@interface SettingViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,InfoCellDelegate,iVersionDelegate>
+@interface SettingViewController : DRNaviGationBarController<UITableViewDataSource,UITableViewDelegate,InfoCellDelegate,iVersionDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @end

@@ -60,7 +60,7 @@
             </objects>
             <point key="canvasLocation" x="784" y="638"/>
         </scene>
-        <!--Lesson View Controller i Phone - 课程-->
+        <!--Lesson View Controller i Phone - 视频-->
         <scene sceneID="ZYp-nL-25w">
             <objects>
                 <viewController storyboardIdentifier="LessonViewController_iPhone" id="Uvw-e1-jvp" customClass="LessonViewController_iPhone" sceneMemberID="viewController">
@@ -75,34 +75,30 @@
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Z0R-lt-RjJ">
                                 <rect key="frame" x="0.0" y="179" width="320" height="339"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="6R2-HK-lZb">
-                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="itemSize" width="160" height="153"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Lyk-cr-wc1">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <rect key="frame" x="80" y="0.0" width="160" height="153"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="160" height="153"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <color key="backgroundColor" red="0.19601271731645842" green="1" blue="0.068638298043107837" alpha="1" colorSpace="calibratedRGB"/>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VZJ-RX-996">
-                                <rect key="frame" x="0.0" y="179" width="320" height="339"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="课程" id="V0K-fp-f50"/>
+                    <tabBarItem key="tabBarItem" title="视频" image="play-table.png" id="V0K-fp-f50"/>
                     <connections>
                         <outlet property="collectionView" destination="Z0R-lt-RjJ" id="ePA-jQ-MUV"/>
                     </connections>
@@ -224,6 +220,9 @@
             <point key="canvasLocation" x="864" y="219"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="play-table.png" width="26" height="26"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

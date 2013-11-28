@@ -64,6 +64,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [CaiJinTongManager shared].isSettingView = NO;
     [self.tableView registerClass:[LessonListHeaderView class] forHeaderFooterViewReuseIdentifier:LESSON_HEADER_IDENTIFIER];
     self.listType = LESSON_LIST;
     [Utility setBackgroungWithView:self.LogoImageView.superview andImage6:@"login_bg_7" andImage7:@"login_bg_7"];
@@ -125,18 +126,22 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             app.isLocal = YES;
             Section *sectionDb = [[Section alloc]init];
             NSArray *local_array = [sectionDb getAllInfo];
-            UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-            ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
-            if(self.isSearching)chapterView.isSearch = YES;
-            chapterView.searchBar.searchTextField.text = self.searchText.text;
-            
-            [chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:local_array]];
-            self.isSearching = NO;
-            UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:chapterView];
-            navControl.view.frame = (CGRect){0,0,568,1004};
-            [navControl setNavigationBarHidden:YES];
-            [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
-            }];
+            if (local_array.count>0) {
+                UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+                ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
+                if(self.isSearching)chapterView.isSearch = YES;
+                chapterView.searchBar.searchTextField.text = self.searchText.text;
+                
+                [chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:local_array]];
+                self.isSearching = NO;
+                UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:chapterView];
+                navControl.view.frame = (CGRect){0,0,568,1024};
+                [navControl setNavigationBarHidden:YES];
+                [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
+                }];
+            }else {
+                [Utility errorAlert:@"暂无数据!"];
+            }
         }
     }else{
         BOOL isSelSection = NO;
@@ -350,7 +355,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             MyQuestionAndAnswerViewController *myQAVC = [story instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
             UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:myQAVC];
             [navControl setNavigationBarHidden:YES];
-            navControl.view.frame = (CGRect){0,0,568,1004};
+            navControl.view.frame = (CGRect){0,0,568,1024};
             [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
                 
             }];
@@ -390,6 +395,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 
 
 - (IBAction)lessonListBtClicked:(id)sender {
+    [CaiJinTongManager shared].isSettingView = NO;
     self.listType = LESSON_LIST;
     dispatch_async ( dispatch_get_main_queue (), ^{
         [self.tableView reloadData];
@@ -397,6 +403,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 }
 
 - (IBAction)questionListBtClicked:(id)sender {
+    [CaiJinTongManager shared].isSettingView = NO;
     self.listType = QUEATION_LIST;
     if ([CaiJinTongManager shared].question.count == 0) {
         [self getQuestionInfo];
@@ -429,28 +436,23 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 }
 
 -(IBAction)setBtnPressed:(id)sender {
+    [CaiJinTongManager shared].isSettingView = YES;
     self.editBtn.alpha = 1.0;
     self.lessonListBt.alpha = 0.3;
     self.questionListBt.alpha = 0.3;
     UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-    UIViewController *vc = [story instantiateViewControllerWithIdentifier:@"modal"];
+    SettingViewController *settingView = [story instantiateViewControllerWithIdentifier:@"SettingViewController"];
 
     [CaiJinTongManager shared].defaultLeftInset = 184;
     [CaiJinTongManager shared].defaultPortraitTopInset = 250;
     [CaiJinTongManager shared].defaultWidth = 400;
     [CaiJinTongManager shared].defaultHeight = 500;
-    MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:vc];
-    formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromRight;
-    formSheet.shadowRadius = 2.0;
-    formSheet.shadowOpacity = 0.3;
-    formSheet.shouldDismissOnBackgroundViewTap = YES;
-    formSheet.shouldCenterVerticallyWhenKeyboardAppears = NO;//lhl修改,取消界面在键盘出现时移动
-    formSheet.shouldMoveToTopWhenKeyboardAppears = NO;
     
-    [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
-        
+    DRNavigationController *navControl = [[DRNavigationController alloc]initWithRootViewController:settingView];
+    navControl.view.frame = (CGRect){184,250,400,500};
+    [navControl setNavigationBarHidden:YES];
+    [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
     }];
-    
 }
 #pragma mark property
 -(NSMutableArray *)questionArrSelSection{
@@ -483,11 +485,6 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 
         dispatch_async(dispatch_get_main_queue(), ^{
             UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-            [CaiJinTongManager shared].defaultLeftInset = 200;
-            [CaiJinTongManager shared].defaultPortraitTopInset = 20;
-            [CaiJinTongManager shared].defaultWidth = 568;
-            [CaiJinTongManager shared].defaultHeight = 1004;
-            
             ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
             if(self.isSearching){
                 chapterView.drnavigationBar.titleLabel.text = @"搜索";
@@ -518,23 +515,10 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                 chapterView.searchBar.searchTextField.text = self.searchText.text;
                 self.isSearching = NO;
                 DRNavigationController *navControl = [[DRNavigationController alloc]initWithRootViewController:chapterView];
-                navControl.view.frame = (CGRect){0,0,568,1004};
+                navControl.view.frame = (CGRect){0,0,568,1024};
                 [navControl setNavigationBarHidden:YES];
                 [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
                 }];
-//                MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:navControl];
-//                formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromRight;
-//                formSheet.shadowRadius = 2.0;
-//                formSheet.shadowOpacity = 0.3;
-//                formSheet.shouldDismissOnBackgroundViewTap = YES;
-//                formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
-//                [[MZFormSheetBackgroundWindow appearance] setBackgroundBlurEffect:NO];
-//                [[MZFormSheetBackgroundWindow appearance] setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5]];
-//                [[MZFormSheetBackgroundWindow appearance] setSupportedInterfaceOrientations:UIInterfaceOrientationMaskPortrait];
-//                
-//                [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
-//                   
-//                }];
             }
         });
     });
@@ -641,7 +625,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                 [chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:tempArray]];
                 self.isSearching = NO;
                 UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:chapterView];
-                navControl.view.frame = (CGRect){0,0,568,1004};
+                navControl.view.frame = (CGRect){0,0,568,1024};
                 [navControl setNavigationBarHidden:YES];
                 [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
                 }];

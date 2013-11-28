@@ -87,9 +87,14 @@
 {
     //下载中的点击弹窗
     DownLoadInformView *mDownLoadInformView = [[[NSBundle mainBundle]loadNibNamed:@"DownLoadInformView" owner:self options:nil]objectAtIndex:0];
-    mDownLoadInformView.frame = CGRectMake(0, 0, 568, 1024);
     mDownLoadInformView.nm1 = self.buttonModel;
-    [self.superview.superview.superview.superview.superview.superview.superview addSubview:mDownLoadInformView];
+    mDownLoadInformView.frame = CGRectMake(0, 0, 568, 691);
+    if (platform>=7.0) {
+        [self.superview.superview.superview.superview.superview.superview.superview addSubview:mDownLoadInformView];
+    }else {
+        [self.superview.superview.superview.superview.superview.superview addSubview:mDownLoadInformView];
+    }
+    
 }
 //继续下载
 -(void)reDownloadClicked

@@ -29,23 +29,22 @@ NSString *appleID = @"6224939";
     }
     return self;
 }
-
+-(void)drnavigationBarRightItemClicked:(id)sender{
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//	self.view.frame = CGRectMake(0, 0, 400, 500);
-//    self.drnavigationBar.titleLabel.text = @"设置";
-//    [self.drnavigationBar.navigationRightItem setImage:[UIImage imageNamed:@"course-mycourse_03.png"] forState:UIControlStateNormal];
-//    [self.drnavigationBar.navigationRightItem setTitle:@"关闭" forState:UIControlStateNormal];
     self.title = @"设置";
     
     [self.tableView registerClass:[InfoCell class] forHeaderFooterViewReuseIdentifier:Info_HEADER_IDENTIFIER];
     self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
+    
+    [self.drnavigationBar.navigationRightItem setTitle:@"返回" forState:UIControlStateNormal];
+    [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    self.drnavigationBar.titleLabel.text = @"设置";
 }
 
--(void)drnavigationBarRightItemClicked:(id)sender{
-//    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
-}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

@@ -305,10 +305,18 @@ static void * const keypath = (void*)&keypath;
                                   popupSize.width,
                                   popupSize.height);
     }else
-     popupEndRect = CGRectMake(sourceSize.width - popupSize.width,
-                                    popupView.frame.origin.y,
-                                     popupSize.width,
-                                     popupSize.height);
+        if ([CaiJinTongManager shared].isSettingView == YES) {
+            popupEndRect = CGRectMake((sourceSize.width - popupSize.width)/2,
+                                      popupView.frame.origin.y,
+                                      popupSize.width,
+                                      popupSize.height);
+        }else {
+            popupEndRect = CGRectMake(sourceSize.width - popupSize.width,
+                                      popupView.frame.origin.y,
+                                      popupSize.width,
+                                      popupSize.height);
+        }
+    
     
     // Set starting properties
     popupView.frame = popupStartRect;
