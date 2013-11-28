@@ -12,7 +12,7 @@
 @interface EditInfoInterface : BaseInterface <BaseInterfaceDelegate>
 @property (nonatomic, assign) id <EditInfoInterfaceDelegate> delegate;
 
--(void)getEditInfoInterfaceDelegateWithUserId:(NSString *)userId andBirthday:(NSString *)birthday andSex:(NSString *)sex andAddress:(NSString *)address andImage:(NSData *)Image withNickName:(NSString*)nickName;
+-(void)getEditInfoInterfaceDelegateWithUserId:(NSString *)userId andBirthday:(NSString *)birthday andSex:(NSString *)sex andAddress:(NSString *)address withNickName:(NSString*)nickName;
 @end
 
 @protocol EditInfoInterfaceDelegate <NSObject>

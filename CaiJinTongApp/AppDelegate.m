@@ -43,10 +43,6 @@
 }
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [[MZFormSheetBackgroundWindow appearance] setBackgroundBlurEffect:YES];
-    [[MZFormSheetBackgroundWindow appearance] setBlurRadius:5.0];
-    [[MZFormSheetBackgroundWindow appearance] setBackgroundColor:[UIColor clearColor]];
-    
     //设置是否加载图片
     BOOL isloadLargeImage = [[NSUserDefaults standardUserDefaults] boolForKey:ISLOADLARGEIMAGE_KEY];
     [[CaiJinTongManager shared] setIsLoadLargeImage:isloadLargeImage];
@@ -115,12 +111,6 @@
 
 -(NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window{
     NSUInteger orientations = UIInterfaceOrientationMaskAll;
-    
-    if ([MZFormSheetController formSheetControllersStack] > 0) {
-        MZFormSheetController *viewController = [[MZFormSheetController formSheetControllersStack] lastObject];
-        return [viewController.presentedFSViewController supportedInterfaceOrientations];
-    }
-    
     return orientations;
 }
 

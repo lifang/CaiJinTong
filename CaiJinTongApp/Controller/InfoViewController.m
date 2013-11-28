@@ -9,8 +9,6 @@
 #import "InfoViewController.h"
 #import "UIImageView+WebCache.h"
 #import "SDImageCache.h"
-#import <AssetsLibrary/ALAsset.h>
-#import <AssetsLibrary/AssetsLibrary.h>
 #import "SexRadioView.h"
 @interface InfoViewController ()
 @property (nonatomic,strong) SexRadioView *sexRadio;
@@ -27,11 +25,15 @@
     }
     return self;
 }
-
+-(void)drnavigationBarRightItemClicked:(id)sender{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	self.title = @"我的资料";
+    [self.drnavigationBar.navigationRightItem setTitle:@"返回" forState:UIControlStateNormal];
+    [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    self.drnavigationBar.titleLabel.text = @"我的资料";
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",[CaiJinTongManager shared].user.userImg]];
     [self.userImage setImageWithURL:url placeholderImage:Image(@"loginBgImage_v.png")];
@@ -63,18 +65,10 @@
     self.dateFormatter = [[NSDateFormatter alloc] init];
     [self.dateFormatter setDateFormat:@"yyyy-MM-dd"];
     
-    UIBarButtonItem *rightBar = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStyleBordered target:self action:@selector(textEdited:)];
-    self.editButton = rightBar;
-    
-    UIBarButtonItem *rightBar2 = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStyleBordered target:self action:@selector(saveinfo:)];
-    self.saveButton = rightBar2;
-    
-    self.navigationItem.rightBarButtonItem = self.editButton;
-    
-    imagePicker
-    = [[UIImagePickerController alloc] init];
-    imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    imagePicker.delegate = self;
+    self.drnavigationBar.hiddenBtn.hidden = NO;
+    [self.drnavigationBar.hiddenBtn setTitle:@"编辑" forState:UIControlStateNormal];
+    [self.drnavigationBar.hiddenBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    [self.drnavigationBar.hiddenBtn addTarget:self action:@selector(textEdited:) forControlEvents:UIControlEventTouchUpInside];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShowing:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHideing:) name: UIKeyboardWillHideNotification object:nil];
@@ -98,15 +92,7 @@
         EditInfoInterface *chapterInter = [[EditInfoInterface alloc]init];
         self.editInfoInterface = chapterInter;
         self.editInfoInterface.delegate = self;
-        
-        NSData *imgData = [NSData data];
-        if (UIImagePNGRepresentation(self.userImage.image) == nil) {
-            imgData = UIImageJPEGRepresentation(self.userImage.image, 1);
-        } else {
-            imgData = UIImagePNGRepresentation(self.userImage.image);
-        }
-    
-        [self.editInfoInterface getEditInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andBirthday:self.textField2.text andSex:self.sexStr andAddress:self.textField4.text andImage:imgData withNickName:self.textField1.text];
+        [self.editInfoInterface getEditInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andBirthday:self.textField2.text andSex:self.sexStr andAddress:self.textField4.text withNickName:self.textField1.text];
     }
 }
 
@@ -116,27 +102,13 @@
     self.textField4.userInteractionEnabled = YES;
     self.pickerBtn.hidden = NO;
 
-//    self.navigationItem.leftBarButtonItem = self.albumButton;
     self.pickView.hidden = NO;
-    self.navigationItem.rightBarButtonItem = self.saveButton;
+    
+    [self.drnavigationBar.hiddenBtn setTitle:@"保存" forState:UIControlStateNormal];
+    [self.drnavigationBar.hiddenBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    [self.drnavigationBar.hiddenBtn addTarget:self action:@selector(saveinfo:) forControlEvents:UIControlEventTouchUpInside];
 }
-- (IBAction)openAlbum:(id)sender {
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){
-        if(![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]){
-            [Utility errorAlert:@"PhotoLibrary is not supportted in this device."];
-            return;
-        }
-        [self presentViewController:imagePicker animated:YES completion:nil];
-    }else{
-        if(!popover){
-            popover = [[UIPopoverController alloc] initWithContentViewController:imagePicker];
-            [popover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-        }else{
-            [popover dismissPopoverAnimated:YES];
-             popover = nil;
-        }
-    }
-}
+
 -(IBAction)showPicker:(id)sender {
     [self.textField1 resignFirstResponder];
     [self.textField2 resignFirstResponder];
@@ -209,12 +181,14 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [SVProgressHUD dismissWithSuccess:@"资料更新成功!"];
         dispatch_async(dispatch_get_main_queue(), ^{
+
+            [self.navigationController popViewControllerAnimated:YES];
             UserModel *user = [[CaiJinTongManager shared] user];
             user.userName = self.textField1.text;
             user.birthday = self.textField2.text;
             user.sex = self.sexStr;
             user.address = self.textField4.text;
-            [Utility errorAlert:@"修改用户信息成功"];
+
         });
     });
 }
@@ -223,19 +197,5 @@
     [Utility errorAlert:errorMsg];
 }
 
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
-{
-    self.navigationItem.leftBarButtonItem = nil;
-    [picker dismissViewControllerAnimated:YES completion:nil];
-}
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
-    [picker dismissViewControllerAnimated:YES completion:nil];
-    [popover dismissPopoverAnimated:NO];
-    self.navigationItem.leftBarButtonItem = nil;
-    NSLog(@"imageview.image=image start");
-    UIImage *image = (UIImage*)[info objectForKey:UIImagePickerControllerOriginalImage];
-    self.userImage.image = image;
-}
 
 @end

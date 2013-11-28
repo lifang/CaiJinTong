@@ -91,7 +91,7 @@
     
     Section_chapterModel *section = (Section_chapterModel *)[self.dataArray objectAtIndex:indexPath.row];
     
-    cell.nameLab.text = section.sectionName;
+    cell.nameLab.text = [NSString stringWithFormat:@"【%@】",section.sectionName];
     cell.sid = section.sectionId;
         
     //查询数据库
@@ -105,11 +105,11 @@
         }else if (sectionSave.downloadState== 1) {
             cell.statusLab.text = @"已下载";
         }else if (sectionSave.downloadState == 2) {
-            cell.statusLab.text = @"暂停";
+            cell.statusLab.text = @"继续下载";
         }else {
             cell.statusLab.text = @"下载";
         }
-        cell.sliderFrontView.frame = CGRectMake(50, 102, 484 * sectionSave.downloadPercent, 33);
+        cell.sliderFrontView.frame = CGRectMake(47, 73, 484 * sectionSave.downloadPercent, 33);
         if (contentlength>0) {
             cell.lengthLab.text = [NSString stringWithFormat:@"%.2fM/%.2fM",contentlength*sectionSave.downloadPercent,contentlength];
         }
@@ -121,7 +121,7 @@
         sectionSave.downloadState = 4;
         sectionSave.downloadPercent = 0;
         cell.btn.buttonModel = sectionSave;
-        cell.sliderFrontView.frame = CGRectMake(50, 102, 484 * 0.4, 33);
+        cell.sliderFrontView.frame = CGRectMake(47, 73, 484 * 0, 33);
         cell.statusLab.text = @"未下载";
         cell.lengthLab.text = @"";
     }

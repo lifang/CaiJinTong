@@ -167,16 +167,6 @@ static NSIndexPath *indexPath = nil;
         self.acceptAnswerInterface.delegate = self;
         [self.acceptAnswerInterface getAcceptAnswerInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andQuestionId:question.questionId andResultId:answer.resultId];
     }
-//    
-// QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
-//    question.isAcceptAnswer = [NSString stringWithFormat:@"YES"];
-//    
-//    answer.IsAnswerAccept = [NSString stringWithFormat:@"YES"];
-//    answer.resultId = question.questionId;
-//    [question.answerList removeObjectAtIndex:path.row];
-//    [question.answerList insertObject:answer atIndex:0];
-//    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationTop];
-//    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:path.section] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 #pragma mark --
 

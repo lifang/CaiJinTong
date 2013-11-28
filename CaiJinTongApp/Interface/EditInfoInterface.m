@@ -11,7 +11,7 @@
 #import "NSString+URLEncoding.h"
 #import "NSString+HTML.h"
 @implementation EditInfoInterface
--(void)getEditInfoInterfaceDelegateWithUserId:(NSString *)userId andBirthday:(NSString *)birthday andSex:(NSString *)sex andAddress:(NSString *)address andImage:(NSData *)image  withNickName:(NSString*)nickName{
+-(void)getEditInfoInterfaceDelegateWithUserId:(NSString *)userId andBirthday:(NSString *)birthday andSex:(NSString *)sex andAddress:(NSString *)address withNickName:(NSString*)nickName{
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     
     NSString *timespan = [Utility getNowDateFromatAnDate];

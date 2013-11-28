@@ -118,7 +118,7 @@ static Section *defaultSection = nil;
 }
 
 -(NSArray *)getAllInfo {
-    FMResultSet * rs = [self.db executeQuery:@"select id , sid , name , fileUrl , downloadState ,contentLength,percentDown,sectionStudy,sectionLastTime,sectionImg,lessonInfo,sectionTeacher from Section "];
+    FMResultSet * rs = [self.db executeQuery:@"select id , sid , name , fileUrl , downloadState ,contentLength,percentDown,sectionStudy,sectionLastTime,sectionImg,lessonInfo,sectionTeacher from Section where downloadState ＝ 1"];
     
     NSMutableArray *array = [NSMutableArray array];
     while ([rs next]) {
