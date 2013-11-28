@@ -12,7 +12,7 @@
 #import "QuestionInfoInterface.h"
 @protocol DRCommitQuestionViewControllerDelegate;
 
-@interface DRCommitQuestionViewController : BaseViewController<QuestionInfoInterfaceDelegate,LessonListHeaderViewDelegate, UITableViewDataSource,UITableViewDelegate>
+@interface DRCommitQuestionViewController : BaseViewController<QuestionInfoInterfaceDelegate, UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UITextViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *commitTimeLabel;
 @property (weak, nonatomic) IBOutlet UITextField *titleField;  //标题框
 @property (weak, nonatomic) IBOutlet UITextView *contentField;  //主文本框

@@ -101,6 +101,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 
 #pragma mark LessonListHeaderViewDelegate
 -(void)lessonHeaderView:(LessonListHeaderView *)header selectedAtIndex:(NSIndexPath *)path{
+    [self.searchText resignFirstResponder];
     if (self.listType == LESSON_LIST) {
         if (path.section != self.lessonList.count-1) {
             BOOL isSelSection = NO;
@@ -289,6 +290,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self.searchText resignFirstResponder];
     if (self.listType == LESSON_LIST) {
         AppDelegate *app = [AppDelegate sharedInstance];
         app.isLocal = NO;
@@ -656,5 +658,9 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [self SearchBrClicked:nil];//点击键盘return键搜索
     return YES;
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self.searchText resignFirstResponder];
 }
 @end

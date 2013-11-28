@@ -195,8 +195,6 @@
 		18491C511834C92C003C82E4 /* ss@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18491C501834C92C003C82E4 /* ss@2x.png */; };
 		184F8AA818432D0000A2FEB4 /* LessonViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 184F8AA718432D0000A2FEB4 /* LessonViewController_iPhone.m */; };
 		184F8AAF18434A3200A2FEB4 /* LHLNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 184F8AAE18434A3200A2FEB4 /* LHLNavigationBar.m */; };
-		18A19C7C183C4A6A00C11310 /* UserInfoTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A19C7B183C4A6A00C11310 /* UserInfoTableViewController.m */; };
-		18A19C7F183C53AB00C11310 /* FixTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A19C7E183C53AB00C11310 /* FixTableViewController.m */; };
 		18A19C84183CA60500C11310 /* iRate.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18A19C81183CA60500C11310 /* iRate.bundle */; };
 		18A19C85183CA60500C11310 /* iRate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A19C83183CA60500C11310 /* iRate.m */; };
 		18C9312C18363B2A00FBE1A8 /* btn1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18C9311B18363B2A00FBE1A8 /* btn1@2x.png */; };
@@ -600,10 +598,6 @@
 		184F8AA718432D0000A2FEB4 /* LessonViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonViewController_iPhone.m; sourceTree = "<group>"; };
 		184F8AAD18434A3200A2FEB4 /* LHLNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LHLNavigationBar.h; sourceTree = "<group>"; };
 		184F8AAE18434A3200A2FEB4 /* LHLNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LHLNavigationBar.m; sourceTree = "<group>"; };
-		18A19C7A183C4A6A00C11310 /* UserInfoTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoTableViewController.h; sourceTree = "<group>"; };
-		18A19C7B183C4A6A00C11310 /* UserInfoTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoTableViewController.m; sourceTree = "<group>"; };
-		18A19C7D183C53AB00C11310 /* FixTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FixTableViewController.h; sourceTree = "<group>"; };
-		18A19C7E183C53AB00C11310 /* FixTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FixTableViewController.m; sourceTree = "<group>"; };
 		18A19C81183CA60500C11310 /* iRate.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = iRate.bundle; sourceTree = "<group>"; };
 		18A19C82183CA60500C11310 /* iRate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iRate.h; sourceTree = "<group>"; };
 		18A19C83183CA60500C11310 /* iRate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iRate.m; sourceTree = "<group>"; };
@@ -1005,10 +999,6 @@
 			isa = PBXGroup;
 			children = (
 				184F8AA518432C4100A2FEB4 /* Controller_iPhone */,
-				18A19C7A183C4A6A00C11310 /* UserInfoTableViewController.h */,
-				18A19C7B183C4A6A00C11310 /* UserInfoTableViewController.m */,
-				18A19C7D183C53AB00C11310 /* FixTableViewController.h */,
-				18A19C7E183C53AB00C11310 /* FixTableViewController.m */,
 				0E9DA2D6183F3788000A5995 /* BaseViewController.h */,
 				0E9DA2D7183F3788000A5995 /* BaseViewController.m */,
 				18C9313C18363B9C00FBE1A8 /* DRCommitQuestionViewController.h */,
@@ -1753,7 +1743,6 @@
 				0E9DA3B6183F568D000A5995 /* ASIFormDataRequest.m in Sources */,
 				0EAFA1261822488700D01D3E /* ChapterInfoInterface.m in Sources */,
 				0EA7EF3718234F9000C47F69 /* SearchQuestionInterface.m in Sources */,
-				18A19C7C183C4A6A00C11310 /* UserInfoTableViewController.m in Sources */,
 				0EA7EF09182336B600C47F69 /* chapterModel.m in Sources */,
 				630B03C41820F5BB00F72C4C /* ViewController.m in Sources */,
 				0EA7EF90182782C600C47F69 /* SuggestionInterface.m in Sources */,
@@ -1764,7 +1753,6 @@
 				0EA7EF611823B0EC00C47F69 /* AnswerListInterface.m in Sources */,
 				0E9C9EF0184309A200D48781 /* QuestionListCell.m in Sources */,
 				0E9DA3BF183F568D000A5995 /* ASICloudFilesObject.m in Sources */,
-				18A19C7F183C53AB00C11310 /* FixTableViewController.m in Sources */,
 				0E9DA3B2183F568D000A5995 /* ASIAuthenticationDialog.m in Sources */,
 				0E9DA3BE183F568D000A5995 /* ASICloudFilesContainerXMLParserDelegate.m in Sources */,
 				0EA7EF1C18234AC600C47F69 /* SearchLessonInterface.m in Sources */,
@@ -2026,6 +2014,8 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Sen Ye (FE46ZS29LM)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sen Ye (FE46ZS29LM)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_INPUT_FILETYPE = sourcecode.c.objc;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2049,7 +2039,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = NO;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Sen Ye (FE46ZS29LM)";
 				ENABLE_NS_ASSERTIONS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_INPUT_FILETYPE = sourcecode.c.objc;

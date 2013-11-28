@@ -7,7 +7,6 @@
 //
 
 #import "SettingViewController.h"
-#import "UserInfoTableViewController.h"
 #import "iRate.h"
 #import "InfoViewController.h"
 #import "UIImageView+WebCache.h"

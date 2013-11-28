@@ -7,7 +7,7 @@
 //
 
 #import "DRCommitQuestionViewController.h"
-#define LESSON_HEADER_IDENTIFIER @"lessonHeader"
+
 static CGRect frame;
 static CGRect tableFrame;
 static BOOL tableVisible;
@@ -65,9 +65,7 @@ static BOOL tableVisible;
     
     [self.selectTableBtn addTarget:self action:@selector(showSelectTable) forControlEvents:UIControlEventTouchUpInside];
     
-    
     //tableView of 问答分类
-    [self.selectTable registerClass:[LessonListHeaderView class] forHeaderFooterViewReuseIdentifier:LESSON_HEADER_IDENTIFIER];
     self.selectTable.backgroundColor = [UIColor lightGrayColor];
     [self.selectTable.layer setCornerRadius:8];
     [self.selectTable.layer setBorderColor:[UIColor blackColor].CGColor];
@@ -157,43 +155,7 @@ static BOOL tableVisible;
 }
 
 #pragma mark --TableView Delegate
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section  {
-        return 50;
-}
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-        LessonListHeaderView *header = (LessonListHeaderView*)[tableView dequeueReusableHeaderFooterViewWithIdentifier:LESSON_HEADER_IDENTIFIER];
-        header.delegate = self;
-        header.path = [NSIndexPath indexPathForRow:0 inSection:section];
-        if (section == 0) {
-            header.lessonTextLabel.text = @"所有问答";
-        }else {
-            header.lessonTextLabel.text = @"我的问答";
-        }
-        BOOL isSelSection = NO;
-        for (int i = 0; i < self.questionArrSelSection.count; i++) {
-            NSString *strSection = [NSString stringWithFormat:@"%@",[self.questionArrSelSection objectAtIndex:i]];
-            NSInteger selSection = strSection.integerValue;
-            if (section == selSection) {
-                isSelSection = YES;
-                break;
-            }
-        }
-        header.isSelected = isSelSection;
-        return header;
-}
-
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-        return  1;
-}
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    for (int i = 0; i < self.questionArrSelSection.count; i++) {
-        NSString *strSection = [NSString stringWithFormat:@"%@",[self.questionArrSelSection objectAtIndex:i]];
-        NSInteger selSection = strSection.integerValue;
-        if (section == selSection) {
-            return 0;
-        }
-    }
-    
     return self.questionList.count;
 }
 
@@ -202,49 +164,44 @@ static BOOL tableVisible;
     if(!cell){
         cell = [[UITableViewCell alloc] init];
     }
-        if (indexPath.section == 0) {
-            cell.textLabel.text=[NSString stringWithFormat:@"  %@",[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"questionName"]];
-            [cell setIndentationLevel:[[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"level"]intValue]];
-        }
-        
-        cell.textLabel.textColor = [UIColor blackColor];
-        cell.detailTextLabel.textColor = [UIColor blackColor];
-        cell.backgroundColor = [UIColor clearColor];
-        return cell;
+    cell.textLabel.text=[NSString stringWithFormat:@"%@",[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"questionName"]];
+    [cell setIndentationLevel:[[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"level"]intValue]];
+    cell.textLabel.textColor = [UIColor blackColor];
+    cell.detailTextLabel.textColor = [UIColor blackColor];
+    cell.backgroundColor = [UIColor clearColor];
+    return cell;
     
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-        if (indexPath.section==0) {
-            NSDictionary *d=[self.questionList objectAtIndex:indexPath.row];
-            if([d valueForKey:@"questionNode"]) {
-                NSArray *ar=[d valueForKey:@"questionNode"];
-                if (ar.count == 0) {
-                    self.selectedQuestionId = [d valueForKey:@"questionID"];
-                    self.selectedQuestionName.text = [d valueForKey:@"questionName"];
-                    [self showSelectTable];
-                }else {
-                    BOOL isAlreadyInserted=NO;
-                    
-                    for(NSDictionary *dInner in ar ){
-                        NSInteger index=[self.questionList indexOfObjectIdenticalTo:dInner];
-                        isAlreadyInserted=(index>0 && index!=NSIntegerMax);
-                        if(isAlreadyInserted) break;
-                    }
-                    
-                    if(isAlreadyInserted) {
-                        [self miniMizeThisRows:ar];
-                    } else {
-                        NSUInteger count=indexPath.row+1;
-                        NSMutableArray *arCells=[NSMutableArray array];
-                        for(NSDictionary *dInner in ar ) {
-                            [arCells addObject:[NSIndexPath indexPathForRow:count inSection:0]];
-                            [self.questionList insertObject:dInner atIndex:count++];
-                        }
-                        [tableView insertRowsAtIndexPaths:arCells withRowAnimation:UITableViewRowAnimationLeft];
-                    }
+    NSDictionary *d=[self.questionList objectAtIndex:indexPath.row];
+    if([d valueForKey:@"questionNode"]) {
+        NSArray *ar=[d valueForKey:@"questionNode"];
+        if (ar.count == 0) {
+            self.selectedQuestionId = [d valueForKey:@"questionID"];
+            self.selectedQuestionName.text = [d valueForKey:@"questionName"];
+            [self showSelectTable];
+        }else {
+            BOOL isAlreadyInserted=NO;
+            
+            for(NSDictionary *dInner in ar ){
+                NSInteger index=[self.questionList indexOfObjectIdenticalTo:dInner];
+                isAlreadyInserted=(index>0 && index!=NSIntegerMax);
+                if(isAlreadyInserted) break;
+            }
+            
+            if(isAlreadyInserted) {
+                [self miniMizeThisRows:ar];
+            } else {
+                NSUInteger count=indexPath.row+1;
+                NSMutableArray *arCells=[NSMutableArray array];
+                for(NSDictionary *dInner in ar ) {
+                    [arCells addObject:[NSIndexPath indexPathForRow:count inSection:0]];
+                    [self.questionList insertObject:dInner atIndex:count++];
                 }
+                [tableView insertRowsAtIndexPaths:arCells withRowAnimation:UITableViewRowAnimationLeft];
             }
         }
+    }
 }
 
 -(void)miniMizeThisRows:(NSArray*)ar{
@@ -273,25 +230,6 @@ static BOOL tableVisible;
         _questionArrSelSection = [NSMutableArray array];
     }
     return _questionArrSelSection;
-}
-
-#pragma mark LessonListHeaderViewDelegate
--(void)lessonHeaderView:(LessonListHeaderView *)header selectedAtIndex:(NSIndexPath *)path{
-        BOOL isSelSection = NO;
-        _questionTmpSection = path.section;
-        for (int i = 0; i < self.questionArrSelSection.count; i++) {
-            NSString *strSection = [NSString stringWithFormat:@"%@",[self.questionArrSelSection objectAtIndex:i]];
-            NSInteger selSection = strSection.integerValue;
-            if (_questionTmpSection == selSection) {
-                isSelSection = YES;
-                [self.questionArrSelSection removeObjectAtIndex:i];
-                break;
-            }
-        }
-        if (!isSelSection) {
-            [self.questionArrSelSection addObject:[NSString stringWithFormat:@"%i",_questionTmpSection]];
-        }
-        [self.selectTable reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 #pragma mark textView delegate

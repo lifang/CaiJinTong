@@ -9,7 +9,7 @@
 #import "DRNaviGationBarController.h"
 
 #import "AskQuestionInterface.h"
-@interface DRAskQuestionViewController : DRNaviGationBarController<QuestionInfoInterfaceDelegate,LessonListHeaderViewDelegate,UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,AskQuestionInterfaceDelegate>
+@interface DRAskQuestionViewController : DRNaviGationBarController<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,AskQuestionInterfaceDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *questionTitleTextField;
 @property (weak, nonatomic) IBOutlet UITextView *questionContentTextView;
