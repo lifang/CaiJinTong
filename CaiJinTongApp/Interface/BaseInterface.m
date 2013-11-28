@@ -53,6 +53,7 @@
         
         [self.request setTimeOutSeconds:60];
         NSString *postURL=[self createPostURL:self.headers];
+        DLog(@"URL:%@?%@",self.interfaceUrl,postURL);
         NSMutableData *postData = [[NSMutableData alloc]initWithData:[postURL dataUsingEncoding:NSUTF8StringEncoding]];
         
         [self.request setPostBody:postData];

@@ -12,7 +12,6 @@
 #import "SectionSaveModel.h"
 #import "AMProgressView.h"
 #import "Section.h"
-#import "Section_chapterModel.h"
 @interface Section_ChapterViewController ()
 
 @end
@@ -27,6 +26,13 @@
     return self;
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -50,7 +56,10 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(initBtn:) name:@"stopDownLoad" object:nil];
     
+
+    
 }
+
 
 -(void)initBtn:(NSNotification *)notification {
     dispatch_async ( dispatch_get_main_queue (), ^{

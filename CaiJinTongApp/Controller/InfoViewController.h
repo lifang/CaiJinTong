@@ -16,13 +16,13 @@
 @property (nonatomic, strong) IBOutlet UIImageView *userImage;
 @property (nonatomic, strong) IBOutlet UITextField *textField1;
 @property (nonatomic, strong) IBOutlet UITextField *textField2;
-@property (nonatomic, strong) IBOutlet UITextField *textField3;
 @property (nonatomic, strong) IBOutlet UITextView *textField4;
 
 @property (nonatomic, strong) IBOutlet UIDatePicker *pickerView;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (nonatomic, strong) IBOutlet UIView *pickView;
 @property (nonatomic, strong) IBOutlet UIButton *pickerBtn;
+@property (weak, nonatomic) IBOutlet UIView *sexSelectedView;
 
 
 @end

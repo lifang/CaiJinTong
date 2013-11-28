@@ -11,7 +11,7 @@
 #import "NSString+URLEncoding.h"
 #import "NSString+HTML.h"
 @implementation EditInfoInterface
--(void)getEditInfoInterfaceDelegateWithUserId:(NSString *)userId andBirthday:(NSString *)birthday andSex:(NSString *)sex andAddress:(NSString *)address andImage:(NSData *)image {
+-(void)getEditInfoInterfaceDelegateWithUserId:(NSString *)userId andBirthday:(NSString *)birthday andSex:(NSString *)sex andAddress:(NSString *)address withNickName:(NSString*)nickName{
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     
     NSString *timespan = [Utility getNowDateFromatAnDate];
@@ -24,9 +24,9 @@
     [reqheaders setValue:[NSString stringWithFormat:@"%@",birthday] forKey:@"birthday"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",sex] forKey:@"sex"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",address] forKey:@"address"];
+     [reqheaders setValue:[NSString stringWithFormat:@"%@",address] forKey:@"nickname"];
 //    [reqheaders setValue:image forKey:@"userImg"];
     
-    self.imageData = image;
     self.interfaceUrl = @"http://i.finance365.com/_3G/EditInfo";
     
     self.baseDelegate = self;
@@ -69,6 +69,7 @@
 -(void)requestIsFailed:(NSError *)error{
     [self.delegate getEditInfoDidFailed:@"登录失败!"];
 }
+
 
 
 @end

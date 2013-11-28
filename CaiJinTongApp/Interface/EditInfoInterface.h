@@ -7,12 +7,12 @@
 //
 
 #import "BaseImageInfo.h"
-
+#import "BaseInterface.h"
 @protocol EditInfoInterfaceDelegate;
-@interface EditInfoInterface : BaseImageInfo <BaseImageInfoDelegate>
+@interface EditInfoInterface : BaseInterface <BaseInterfaceDelegate>
 @property (nonatomic, assign) id <EditInfoInterfaceDelegate> delegate;
 
--(void)getEditInfoInterfaceDelegateWithUserId:(NSString *)userId andBirthday:(NSString *)birthday andSex:(NSString *)sex andAddress:(NSString *)address andImage:(NSData *)Image;
+-(void)getEditInfoInterfaceDelegateWithUserId:(NSString *)userId andBirthday:(NSString *)birthday andSex:(NSString *)sex andAddress:(NSString *)address withNickName:(NSString*)nickName;
 @end
 
 @protocol EditInfoInterfaceDelegate <NSObject>

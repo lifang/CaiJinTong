@@ -9,7 +9,14 @@
 #import "Section.h"
 
 @implementation Section
-
+static Section *defaultSection = nil;
++(Section*)defaultSection{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        defaultSection = [[Section alloc] init];
+    });
+    return defaultSection;
+}
 -(SectionSaveModel *)getDataWithSid:(NSString *) sid {
     FMResultSet * rs = [self.db executeQuery:@"select id , sid , name , fileUrl , downloadState ,contentLength,percentDown,sectionStudy,sectionLastTime,sectionImg,lessonInfo,sectionTeacher from Section where sid = ?",sid];
     

@@ -126,6 +126,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             app.isLocal = YES;
             Section *sectionDb = [[Section alloc]init];
             NSArray *local_array = [sectionDb getAllInfo];
+
             if (local_array.count>0) {
                 UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
                 ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
