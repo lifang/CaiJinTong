@@ -214,6 +214,7 @@
             user.birthday = self.textField2.text;
             user.sex = self.sexStr;
             user.address = self.textField4.text;
+            [Utility errorAlert:@"修改用户信息成功"];
         });
     });
 }

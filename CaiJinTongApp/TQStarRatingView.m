@@ -32,9 +32,7 @@
         self.scoreLabel.backgroundColor = [UIColor clearColor];
         self.scoreLabel.textColor = [UIColor lightGrayColor];
         self.scoreLabel.font = [UIFont systemFontOfSize:20];
-        if (self.score <= 0) {
-            [self setScore:0];
-        }
+        self.score = self.numberOfStar;
         [self addSubview:self.scoreLabel];
         
         self.starBackgroundView = [self buidlStarViewWithImageName:@"course-onecourse_03.png"];
@@ -110,9 +108,16 @@
     
     for (UIView *subView in self.starBackgroundView.subviews) {
         if ([subView isKindOfClass:[UIImageView class]]) {
-            if ( CGRectGetMinX(subView.frame) <= p.x) {
-                self.starForegroundView.frame = CGRectMake(0, 0, CGRectGetMaxX(subView.frame), self.frame.size.height);
-                [self setScore:subView.tag];
+            CGRect touchRect = (CGRect){CGRectGetMinX(subView.frame),0,START_HEIGHT+PADDING,CGRectGetHeight(self.frame)};
+            if (CGRectContainsPoint(touchRect, p)) {
+                if (self.score == subView.tag) {
+                    self.starForegroundView.frame = CGRectMake(0, 0, CGRectGetMinX(subView.frame), self.frame.size.height);
+                    [self setScore:subView.tag-1];
+                }else{
+                    self.starForegroundView.frame = CGRectMake(0, 0, CGRectGetMaxX(subView.frame), self.frame.size.height);
+                    [self setScore:subView.tag];
+                }
+                
                 if(self.delegate && [self.delegate respondsToSelector:@selector(starRatingView: score:)])
                 {
                     [self.delegate starRatingView:self score:self.score];
@@ -134,5 +139,6 @@
 -(void)setScore:(int)score{
     _score = score;
     self.scoreLabel.text = [NSString stringWithFormat:@"%d分",score];
+    
 }
 @end
