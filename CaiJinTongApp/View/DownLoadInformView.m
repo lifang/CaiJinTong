@@ -33,6 +33,7 @@
     [self.mview addGestureRecognizer:tapGr];
     tapGr = nil;
 }
+
 -(void)viewTapped:(UITapGestureRecognizer*)tapGr{
     [self removeFromSuperview];
 }

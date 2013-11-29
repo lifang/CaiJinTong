@@ -55,7 +55,7 @@
         if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
             [Utility errorAlert:@"暂无网络!"];
         }else {
-            [SVProgressHUD showWithStatus:@"玩命加载中..."];
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             FindPassWordInterface *fpw = [[FindPassWordInterface alloc]init];
             self.fpwInterface = fpw;
             self.fpwInterface.delegate = self;
@@ -69,14 +69,14 @@
 #pragma  -- delegate
 -(void)getFindPassWordInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [SVProgressHUD dismissWithSuccess:@"密码发送成功，请查收!"];
         dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
 //            [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
         });
     });
 }
 -(void)getFindPassWordInfoDidFailed:(NSString *)errorMsg {
-    [SVProgressHUD dismiss];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
 }
 

@@ -19,7 +19,8 @@
 #define ItemHeight 215
 #define ItemHeightSpace 4
 #define ItemLabel 30
-@interface ChapterViewController () 
+@interface ChapterViewController ()
+@property (nonatomic,strong) SearchLessonInterface *searchLessonInter;
 @end
 
 @implementation ChapterViewController
@@ -53,14 +54,13 @@
     mainBar = nil;
     
     self.searchBar = [[ChapterSearchBar alloc] initWithFrame:(CGRect){50, 64, (self.view.frame.size.width - 200 - 100), 74}];
-    self.searchBar.searchTextField.delegate = self;
+    self.searchBar.delegate = self;
     self.searchBar.searchTextField.returnKeyType = UIReturnKeySearch;
     [self.searchBar.searchTextField setClearButtonMode:UITextFieldViewModeWhileEditing];
     [self.view addSubview:self.searchBar];
 
     [self.searchBar setHidden:!self.isSearch];
     self.mainToolBar.backgroundColor = [UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:232.0/255.0 alpha:1.0]; 
-    [self.searchBar.searchBt addTarget:self action:@selector(searchBtClicked) forControlEvents:UIControlEventTouchUpInside];
     
     [self.drnavigationBar.navigationRightItem setTitle:@"返回" forState:UIControlStateNormal];
     [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
@@ -71,11 +71,26 @@
 
 -(void)reloadDataWithDataArray:(NSArray*)data{
     self.recentArray = data;
+    DLog(@"count = %d",data.count);
     if (self.recentArray.count>0) {
         self.dataArray = [NSMutableArray arrayWithArray:self.recentArray];
         [self displayNewView];
     }
 }
+
+#pragma mark ChapterSearchBarDelegate
+-(void)chapterSeachBar:(ChapterSearchBar *)searchBar beginningSearchString:(NSString *)searchText{
+    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+        [Utility errorAlert:@"暂无网络!"];
+    }else {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        SearchLessonInterface *searchLessonInter = [[SearchLessonInterface alloc]init];
+        self.searchLessonInter = searchLessonInter;
+        self.searchLessonInter.delegate = self;
+        [self.searchLessonInter getSearchLessonInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andText:searchText];
+    } 
+}
+#pragma mark --
 
 #pragma -- 页面布局
 
@@ -145,7 +160,7 @@
 }
 //绘制tableview的cell
 -(void)drawTableViewCell:(UITableViewCell *)cell index:(int)row category:(int)category{
-    int maxIndex = (row*2+3);
+    int maxIndex = (row*2+2);
     int number = [self.dataArray count]-6*category;
 	if(maxIndex < number) {
 		for (int i=0; i<2; i++) {
@@ -155,12 +170,6 @@
 	}
 	else if(maxIndex-1 < number) {
 		for (int i=0; i<1; i++) {
-			[self displayPhotoes:cell row:row col:i category:category];
-		}
-		return;
-	}
-	else if(maxIndex-2 < number) {
-		for (int i=0; i<2; i++) {
 			[self displayPhotoes:cell row:row col:i category:category];
 		}
 		return;
@@ -210,7 +219,7 @@
         if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
             [Utility errorAlert:@"暂无网络!"];
         }else {
-            [SVProgressHUD showWithStatus:@"玩命加载中..."];
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             SectionInfoInterface *sectionInter = [[SectionInfoInterface alloc]init];
             self.sectionInterface = sectionInter;
             self.sectionInterface.delegate = self;
@@ -353,9 +362,9 @@
 #pragma mark -- SectionInfoInterface
 -(void)getSectionInfoDidFinished:(SectionModel *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
         SectionModel *section = (SectionModel *)result;
         dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
             SectionViewController *sectionView = [story instantiateViewControllerWithIdentifier:@"SectionViewController"];
             sectionView.section = section;
@@ -364,7 +373,7 @@
     });
 }
 -(void)getSectionInfoDidFailed:(NSString *)errorMsg {
-    [SVProgressHUD dismiss];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
 }
 
@@ -384,27 +393,46 @@
         tempBarButtonItem.title = @"返回";
     }
 }
-#pragma mark -- search methods
--(void)searchBtClicked{
-    DLog(@"搜索按钮按下!");
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
-    }else {
-        [SVProgressHUD showWithStatus:@"玩命加载中..."];
-        ChapterInfoInterface *chapterInter = [[ChapterInfoInterface alloc]init];
-        self.chapterInfoInterface = chapterInter;
-        self.chapterInfoInterface.delegate = self;
-        [self.chapterInfoInterface getChapterInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andChapterId:nil];
-    }
 
+#pragma mark SearchLessonInterfaceDelegate
+-(void)getSearchLessonInfoDidFinished:(NSDictionary *)result{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
+                NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
+                if(self.searchBar.searchTextField.text != nil && ![self.searchBar.searchTextField.text isEqualToString:@""] && tempArray.count > 0){
+                    NSString *keyword = self.searchBar.searchTextField.text;
+                    NSMutableArray *ary = [NSMutableArray arrayWithCapacity:5];
+                    for(int i = 0 ; i < tempArray.count ; i++){
+                        SectionModel *section = [tempArray objectAtIndex:i];
+                        NSRange range = [section.sectionName rangeOfString:[NSString stringWithFormat:@"(%@)+",keyword] options:NSRegularExpressionSearch];
+                        if(range.location != NSNotFound){
+                            [ary addObject:section];
+                        }
+                    }
+                    tempArray = [NSMutableArray arrayWithArray:ary];
+                }
+                [self reloadDataWithDataArray:tempArray];
+                
+            }
+        });
+    });
 }
+
+-(void)getSearchLessonInfoDidFailed:(NSString *)errorMsg{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [Utility errorAlert:@"搜索失败"];
+}
+#pragma mark --
 
 #pragma mark -- ChapterInfoInterfaceDelegate
 
 -(void)getChapterInfoDidFinished:(NSDictionary *)result {  //章节信息查询完毕,显示章节界面
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
                 NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
                 if(self.searchBar.searchTextField.text != nil && ![self.searchBar.searchTextField.text isEqualToString:@""] && tempArray.count > 0){
@@ -426,13 +454,8 @@
     });
 }
 -(void)getChapterInfoDidFailed:(NSString *)errorMsg {
-    [SVProgressHUD dismiss];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
 }
 
-#pragma mark UITextField Delegate
--(BOOL)textFieldShouldReturn:(UITextField *)textField{
-    [self searchBtClicked];
-    return YES;
-}
 @end

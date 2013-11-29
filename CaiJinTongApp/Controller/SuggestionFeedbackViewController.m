@@ -26,7 +26,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setTitle:@"意见反馈"];
+    [self.drnavigationBar.navigationRightItem setTitle:@"返回" forState:UIControlStateNormal];
+    [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    self.drnavigationBar.titleLabel.text = @"意见反馈";
     
     self.backgroundForTextView.frame = CGRectMake(20, 55, 360, 181);
     self.backgroundForTextView.borderStyle = UITextBorderStyleRoundedRect;
@@ -65,7 +67,7 @@
         if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
             [Utility errorAlert:@"暂无网络!"];
         }else {
-            [SVProgressHUD showWithStatus:@"玩命加载中..."];
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             SuggestionInterface *suggestionInter = [[SuggestionInterface alloc]init];
             self.suggestionInterface = suggestionInter;
             self.suggestionInterface.delegate = self;
@@ -77,14 +79,14 @@
 #pragma mark --SuggestionInterfaceDelegate
 -(void)getSuggestionInfoDidFinished {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [SVProgressHUD dismissWithSuccess:@"您的意见使我们前进的动力!"];
         dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             [self.navigationController popViewControllerAnimated:YES];
         });
     });
 }
 -(void)getSuggestionInfoDidFailed:(NSString *)errorMsg {
-    [SVProgressHUD dismiss];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
 }
 @end

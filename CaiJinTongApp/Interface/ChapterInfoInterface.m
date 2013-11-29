@@ -23,7 +23,7 @@
         NSLog(@"参数为空,少添加一项");
     }
     
-    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=chapterInfo&userId=17079&sectionId=618";
+    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=chapterInfo&userId=17079&sectionId=2915";
     
     self.baseDelegate = self;
     self.headers = reqheaders;

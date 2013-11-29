@@ -27,4 +27,6 @@
 @property (nonatomic, assign) int pageIndex;//
 @property (nonatomic, assign) int pageCount;//
 
+@property (assign,nonatomic) BOOL isEditing;//是否可编辑
+
 @end

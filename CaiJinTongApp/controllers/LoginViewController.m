@@ -54,7 +54,7 @@
         if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
             [Utility errorAlert:@"暂无网络!"];
         }else {
-            [SVProgressHUD showWithStatus:@"玩命加载中..."];
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             LogInterface *log = [[LogInterface alloc]init];
             self.logInterface = log;
             self.logInterface.delegate = self;
@@ -75,7 +75,6 @@
 
 -(void)getLogInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [SVProgressHUD dismissWithSuccess:@"登录成功!"];
         [CaiJinTongManager shared].userId = [NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]];
         
         UserModel *user = [[UserModel alloc] init];
@@ -88,6 +87,7 @@
         [CaiJinTongManager shared].user = user;
         
         dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
             LessonViewController *lessonView = [story instantiateViewControllerWithIdentifier:@"LessonViewController"];
             [self.navigationController pushViewController:lessonView animated:YES];
@@ -98,8 +98,9 @@
     });
 }
 -(void)getLogInfoDidFailed:(NSString *)errorMsg {
-    [SVProgressHUD dismiss];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
 }
+
 
 @end

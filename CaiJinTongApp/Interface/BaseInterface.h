@@ -19,6 +19,7 @@
 @property (nonatomic, assign) id<BaseInterfaceDelegate> baseDelegate;
 
 -(void)connect;
+-(void)connectMethod:(NSString*)method;
 @end
 
 @protocol BaseInterfaceDelegate <NSObject>

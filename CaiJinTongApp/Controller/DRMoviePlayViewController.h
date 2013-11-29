@@ -21,6 +21,8 @@
 #import "DRMoviePlayerTopBar.h"
 #import "AskQuestionInterface.h"
 
+#import "Section_ChapterViewController.h"
+
 typedef enum {MOVIE_FILE,MOVIE_INTERNET}MovieLocateType;
 @protocol DRMoviePlayViewControllerDelegate;
 @interface DRMoviePlayViewController : UIViewController<MovieControllerItemDelegate,DRMoviePlayerPlaybackProgressBarDelegate,CustomPlayerViewDelegate,PlayBackInterfaceDelegate,SumitNoteInterfaceDelegate,DRMoviePlayerTopBarDelegate,AskQuestionInterfaceDelegate>
@@ -61,6 +63,7 @@ typedef enum {MOVIE_FILE,MOVIE_INTERNET}MovieLocateType;
 - (IBAction)volumeBtClicked:(id)sender;
 //开始播放入口，设置播放文件
 -(void)playMovieWithURL:(NSURL*)url withFileType:(MPMovieSourceType)fileType;
+-(void)playMovieWithURL:(NSURL*)url withFileType:(MPMovieSourceType)fileType withLessonName:(NSString*)lessonName;
 @end
 
 @protocol DRMoviePlayViewControllerDelegate <NSObject>

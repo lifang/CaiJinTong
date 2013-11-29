@@ -52,10 +52,10 @@
         [self.request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
         
         [self.request setTimeOutSeconds:60];
-        NSString *postURL=[self createPostURL:self.headers];
-        NSMutableData *postData = [[NSMutableData alloc]initWithData:[postURL dataUsingEncoding:NSUTF8StringEncoding]];
-        [self.request setPostBody:postData];
-        [self.request setData:self.imageData withFileName:@"header.png" andContentType:@"image/jpeg" forKey:@"img"];
+//        NSString *postURL=[self createPostURL:self.headers];
+//        NSMutableData *postData = [[NSMutableData alloc]initWithData:[postURL dataUsingEncoding:NSUTF8StringEncoding]];
+//        [self.request setPostBody:postData];
+//        [self.request setData:self.imageData withFileName:@"header.png" andContentType:@"image/jpeg" forKey:@"userImg"];
         [self.request setRequestMethod:@"POST"];
         if (self.headers) {
             for (NSString *key in self.headers) {

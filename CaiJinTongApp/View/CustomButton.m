@@ -80,16 +80,22 @@
 }
 //播放
 -(void)playVideo {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"gotoMoviePlay" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.buttonModel.sid, @"sectionID", nil]];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"gotoMoviePlay" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.buttonModel.sid, @"sectionID", self.buttonModel.name,@"sectionName",nil]];
 }
 //下载中
 -(void)downloadShowView
 {
     //下载中的点击弹窗
     DownLoadInformView *mDownLoadInformView = [[[NSBundle mainBundle]loadNibNamed:@"DownLoadInformView" owner:self options:nil]objectAtIndex:0];
-    mDownLoadInformView.frame = CGRectMake(0, 0, 568, 650);
     mDownLoadInformView.nm1 = self.buttonModel;
-    [self.superview.superview.superview.superview.superview.superview.superview addSubview:mDownLoadInformView];
+    mDownLoadInformView.frame = CGRectMake(0, 0, 568, 691);
+    if (platform>=7.0) {
+        [self.superview.superview.superview.superview.superview.superview.superview addSubview:mDownLoadInformView];
+    }else {
+        [self.superview.superview.superview.superview.superview.superview addSubview:mDownLoadInformView];
+    }
+    
 }
 //继续下载
 -(void)reDownloadClicked
@@ -110,7 +116,8 @@
         if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
             [Utility errorAlert:@"暂无网络!"];
         }else {
-            [SVProgressHUD showWithStatus:@"玩命加载中..."];
+            AppDelegate* appDelegate = [AppDelegate sharedInstance];
+            [MBProgressHUD showHUDAddedTo:appDelegate.window animated:YES];
             
             SectionInfoInterface *sectionInter = [[SectionInfoInterface alloc]init];
             self.sectionInterface = sectionInter;
@@ -123,8 +130,6 @@
 #pragma -- SectionInfoInterface
 -(void)getSectionInfoDidFinished:(SectionModel *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [SVProgressHUD dismissWithSuccess:@"连接成功!"];
-
         self.buttonModel.sectionImg = result.sectionImg;
         self.buttonModel.lessonInfo = result.lessonInfo;
         self.buttonModel.sectionTeacher = result.sectionTeacher;
@@ -151,6 +156,7 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             AppDelegate* appDelegate = [AppDelegate sharedInstance];
+            [MBProgressHUD hideHUDForView:appDelegate.window animated:YES];
             DownloadService *mDownloadService = appDelegate.mDownloadService;
             self.buttonModel.downloadState = 0;
             //下载
@@ -160,7 +166,8 @@
     
 }
 -(void)getSectionInfoDidFailed:(NSString *)errorMsg {
-    [SVProgressHUD dismiss];
+    AppDelegate* appDelegate = [AppDelegate sharedInstance];
+    [MBProgressHUD hideHUDForView:appDelegate.window animated:YES];
     [Utility errorAlert:errorMsg];
 }
 @end

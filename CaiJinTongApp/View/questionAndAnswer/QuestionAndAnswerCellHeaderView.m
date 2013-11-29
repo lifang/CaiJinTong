@@ -20,6 +20,8 @@
 @property (nonatomic,strong) UIView *lineView;
 @property (nonatomic,strong) UIButton *answerQuestionBt;//回答按钮
 @property (nonatomic,strong) UIView *summitQuestionAnswerBackView;
+@property (nonatomic,strong) UITextView *answerQuestionTextField;//回答输入框
+@property (nonatomic,strong) UIButton *submitAnswerBt;//提交回答
 @end
 
 @implementation QuestionAndAnswerCellHeaderView
@@ -83,8 +85,9 @@
         self.backgroundView.backgroundColor = [UIColor clearColor];
         
         self.answerQuestionBt = [[UIButton alloc] init];
-        self.answerQuestionBt.backgroundColor = [UIColor redColor];
+        self.answerQuestionBt.backgroundColor = [UIColor clearColor];
         [self.answerQuestionBt setTitle:@"回答" forState:UIControlStateNormal];
+        [self.answerQuestionBt setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
         [self.answerQuestionBt.titleLabel setFont:TEXT_FONT];
         [self.answerQuestionBt addTarget:self action:@selector(willAnswerQuestionBtClicked) forControlEvents:UIControlEventTouchUpInside];
         [self.backgroundView addSubview:self.answerQuestionBt];
@@ -92,6 +95,24 @@
         self.lineView = [[UIView alloc] init];
         self.lineView.backgroundColor = [UIColor darkGrayColor];
         [self.backgroundView addSubview:self.lineView];
+        
+        self.summitQuestionAnswerBackView = [[UIView alloc] init];
+        self.summitQuestionAnswerBackView.backgroundColor = [UIColor clearColor];
+//         [self.summitQuestionAnswerBackView setHidden:YES];
+        [self.backgroundView addSubview:self.summitQuestionAnswerBackView];
+        
+        self.answerQuestionTextField = [[UITextView alloc] init];
+        self.answerQuestionTextField.backgroundColor = [UIColor whiteColor];
+        self.answerQuestionTextField.layer.borderWidth = 1;
+        self.answerQuestionTextField.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        self.answerQuestionTextField.delegate = self;
+        [self.summitQuestionAnswerBackView addSubview:self.answerQuestionTextField];
+        
+        self.submitAnswerBt = [[UIButton alloc] init];
+        [self.submitAnswerBt setBackgroundImage:[UIImage imageNamed:@"btn0@2x.png"] forState:UIControlStateNormal];
+        [self.submitAnswerBt addTarget:self action:@selector(submitQuestionAnswetBtClicked) forControlEvents:UIControlEventTouchUpInside];
+        [self.submitAnswerBt setTitle:@"提交回答" forState:UIControlStateNormal];
+        [self.summitQuestionAnswerBackView addSubview:self.submitAnswerBt];
     }
     return self;
 }
@@ -113,9 +134,27 @@
 }
 */
 
+#pragma mark UITextViewDelegate
+-(void)textViewDidBeginEditing:(UITextView *)textView{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(questionAndAnswerCellHeaderView:willBeginTypeAnswerQuestionAtIndexPath:)]) {
+        [self.delegate questionAndAnswerCellHeaderView:self willBeginTypeAnswerQuestionAtIndexPath:self.path];
+    }
+}
+#pragma mark --
+
 -(void)willAnswerQuestionBtClicked{
     if (self.delegate && [self.delegate respondsToSelector:@selector(questionAndAnswerCellHeaderView:willAnswerQuestionAtIndexPath:)]) {
+        [self.answerQuestionBt setUserInteractionEnabled:NO];
+        [self.summitQuestionAnswerBackView setHidden:NO];
         [self.delegate questionAndAnswerCellHeaderView:self willAnswerQuestionAtIndexPath:self.path];
+    }
+}
+
+-(void)submitQuestionAnswetBtClicked{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(questionAndAnswerCellHeaderView:didAnswerQuestionAtIndexPath:withAnswer:)]) {
+        [self.answerQuestionBt setUserInteractionEnabled:YES];
+        [self.summitQuestionAnswerBackView setHidden:YES];
+        [self.delegate questionAndAnswerCellHeaderView:self didAnswerQuestionAtIndexPath:self.path withAnswer:self.answerQuestionTextField.text];
     }
 }
 
@@ -128,28 +167,40 @@
     self.questionFlowerLabel.text = question.praiseCount;
     self.questionContentTextField.text = question.questionName;
 //    [self.questionFlowerBt setUserInteractionEnabled:NO];
+    [self.summitQuestionAnswerBackView setHidden:!question.isEditing];
+    if ([[CaiJinTongManager shared] userId] && [[[CaiJinTongManager shared] userId] isEqualToString:question.askerId]) {
+        [self.submitAnswerBt setHidden:YES];
+    }else{
+        [self.submitAnswerBt setHidden:NO];
+    }
     [self setNeedsLayout];
 }
 
 -(void)layoutSubviews{
     self.backgroundView.frame = self.bounds;
     
-    self.lineView.frame = (CGRect){TEXT_PADDING*2,0,self.bounds.size.width-TEXT_PADDING*4,1};
+    self.lineView.frame = (CGRect){TEXT_PADDING*2,0,QUESTIONHEARD_VIEW_WIDTH,1};
     float topY = 10;
-    float textHeight = TEXT_HEIGHT-10;
+    float textHeight = HEADER_TEXT_HEIGHT-10;
     self.questionNameLabel.frame = (CGRect){TEXT_PADDING*2,topY,[Utility getTextSizeWithString:self.questionNameLabel.text withFont:self.questionNameLabel.font].width,textHeight};
     self.questionDateLabel.frame = (CGRect){CGRectGetMaxX(self.questionNameLabel.frame)+TEXT_PADDING,topY,[Utility getTextSizeWithString:self.questionDateLabel.text withFont:self.questionNameLabel.font].width,textHeight};
     
-    self.questionFlowerImageView.frame = (CGRect){CGRectGetMaxX(self.questionDateLabel.frame)+TEXT_PADDING,topY,TEXT_HEIGHT,textHeight};
+    self.questionFlowerImageView.frame = (CGRect){CGRectGetMaxX(self.questionDateLabel.frame)+TEXT_PADDING,topY,HEADER_TEXT_HEIGHT/2,HEADER_TEXT_HEIGHT/2};
     
     self.questionFlowerLabel.frame = (CGRect){CGRectGetMaxX(self.questionFlowerImageView.frame)+TEXT_PADDING,topY,[Utility getTextSizeWithString:self.questionFlowerLabel.text withFont:self.questionFlowerLabel.font].width,textHeight};
     
 //    self.questionFlowerBt.frame = (CGRect){CGRectGetMinX(self.questionFlowerImageView.frame)-TEXT_PADDING*5,topY,CGRectGetMaxX(self.questionFlowerLabel.frame) -CGRectGetMinX(self.questionFlowerImageView.frame) +50,textHeight};
 
-    self.answerQuestionBt.frame = (CGRect){CGRectGetMaxX(self.questionFlowerLabel.frame),5,100,TEXT_HEIGHT};
+    self.answerQuestionBt.frame = (CGRect){CGRectGetMaxX(self.questionFlowerLabel.frame),5,100,HEADER_TEXT_HEIGHT};
     
-    self.questionImg.frame = (CGRect){TEXT_PADDING*2+2,TEXT_HEIGHT+2,20,20};
+    self.questionImg.frame = (CGRect){TEXT_PADDING*2+2,HEADER_TEXT_HEIGHT+2,20,20};
 //    float contentWidth = CGRectGetWidth(self.frame)-CGRectGetMaxX(self.questionImg.frame)-TEXT_PADDING*2;
-    self.questionContentTextField.frame = (CGRect){CGRectGetMaxX(self.questionImg.frame),TEXT_HEIGHT,QUESTIONHEARD_VIEW_WIDTH,[Utility getTextSizeWithString:self.questionContentTextField.text withFont:self.questionContentTextField.font withWidth:QUESTIONHEARD_VIEW_WIDTH].height};
+    self.questionContentTextField.frame = (CGRect){CGRectGetMaxX(self.questionImg.frame),HEADER_TEXT_HEIGHT,QUESTIONHEARD_VIEW_WIDTH,[Utility getTextSizeWithString:self.questionContentTextField.text withFont:self.questionContentTextField.font withWidth:QUESTIONHEARD_VIEW_WIDTH].height};
+    
+    if (!self.summitQuestionAnswerBackView.isHidden) {
+        self.summitQuestionAnswerBackView.frame = (CGRect){TEXT_PADDING*2,CGRectGetMaxY(self.questionContentTextField.frame)+TEXT_PADDING,QUESTIONHEARD_VIEW_WIDTH,QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT-TEXT_PADDING};
+        self.answerQuestionTextField.frame = (CGRect){0,0,QUESTIONHEARD_VIEW_WIDTH,80};
+        self.submitAnswerBt.frame = (CGRect){QUESTIONHEARD_VIEW_WIDTH/2-50,90,100,30};
+    }
 }
 @end
