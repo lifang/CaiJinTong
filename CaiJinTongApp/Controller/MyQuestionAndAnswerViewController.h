@@ -13,18 +13,24 @@
 
 #import "AcceptAnswerInterface.h"
 #import "MJRefresh.h"
-@interface MyQuestionAndAnswerViewController : DRNaviGationBarController<UITableViewDataSource,UITableViewDelegate,QuestionAndAnswerCellDelegate,QuestionAndAnswerCellHeaderViewDelegate,AcceptAnswerInterfaceDelegate,MJRefreshBaseViewDelegate>
+
+typedef  enum  {
+    QuestionAndAnswerALL = 1,
+    QuestionAndAnswerMYQUESTION = 2,
+    QuestionAndAnswerMYANSWER = 3
+    } QuestionAndAnswerScope;
+
+@interface MyQuestionAndAnswerViewController : DRNaviGationBarController<UITableViewDataSource,UITableViewDelegate,QuestionAndAnswerCellDelegate,QuestionAndAnswerCellHeaderViewDelegate,AcceptAnswerInterfaceDelegate,MJRefreshBaseViewDelegate,QuestionListInterfaceDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *noticeBarView;
 @property (weak, nonatomic) IBOutlet UIImageView *noticeBarImageView;
 
 @property (nonatomic, strong) AcceptAnswerInterface *acceptAnswerInterface;
-
+@property (assign,nonatomic) QuestionAndAnswerScope questionAndAnswerScope;
 @property (assign, nonatomic) NSInteger question_pageIndex;
 @property (assign, nonatomic) NSInteger question_pageCount;
-@property (assign, nonatomic) NSInteger answer_pageIndex;
-@property (assign, nonatomic) NSInteger answer_pageCount;
-
+@property (strong,nonatomic) NSString *chapterID;
 - (IBAction)noticeHideBtnClick:(id)sender;
--(void)reloadDataWithDataArray:(NSArray*)data;
+//scope :设置问题的范围，我的回答，我的提问，所有回答
+-(void)reloadDataWithDataArray:(NSArray*)data  withQuestionChapterID:(NSString*)chapterID withScope:(QuestionAndAnswerScope)scope;
 @end

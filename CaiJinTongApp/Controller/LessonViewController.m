@@ -28,6 +28,8 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 
 @interface LessonViewController ()
 @property(nonatomic,assign) TableListType listType;
+@property (nonatomic,strong) NSString *questionAndSwerRequestID;//请求问题列表ID
+@property (nonatomic,assign) QuestionAndAnswerScope questionScope;
 @end
 
 @implementation LessonViewController
@@ -328,6 +330,8 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                         ChapterQuestionInterface *chapterInter = [[ChapterQuestionInterface alloc]init];
                         self.chapterQuestionInterface = chapterInter;
                         self.chapterQuestionInterface.delegate = self;
+                        self.questionAndSwerRequestID = [d valueForKey:@"questionID"];
+                        self.questionScope = QuestionAndAnswerALL;
                         [self.chapterQuestionInterface getChapterQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andChapterQuestionId:[d valueForKey:@"questionID"]];
                     }
                 }else {
@@ -363,17 +367,21 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             }];
             switch (indexPath.row) {
                 case 0:
+                {
                     //请求我的提问
+                    self.questionScope = QuestionAndAnswerMYQUESTION;
                     break;
+                }
                 case 1:
+                {
                     //请求我的回答
+                    self.questionScope = QuestionAndAnswerMYANSWER;
                     break;
-                    
+                }
                 default:
                     break;
             }
         }
-        
     }
 }
 
@@ -568,7 +576,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:myQAVC];
             [navControl setNavigationBarHidden:YES];
             navControl.view.frame = (CGRect){0,0,568,1024};
-            [myQAVC reloadDataWithDataArray:chapterQuestionList];
+            [myQAVC reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
             [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
                 
             }];
