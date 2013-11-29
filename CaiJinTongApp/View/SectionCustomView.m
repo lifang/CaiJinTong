@@ -7,7 +7,6 @@
 //
 
 #import "SectionCustomView.h"
-#import <QuartzCore/QuartzCore.h>
 #import "UIImageView+WebCache.h"
 #import "SDImageCache.h"
 
@@ -71,6 +70,7 @@
     }
     return self;
 }
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

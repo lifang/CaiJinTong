@@ -8,7 +8,7 @@
 
 #import "SectionViewController.h"
 
-#import <QuartzCore/QuartzCore.h>
+
 #import "Section.h"
 #import "CommentModel.h"
 @interface SectionViewController ()

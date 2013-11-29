@@ -602,27 +602,13 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
              [MBProgressHUD hideHUDForView:self.view animated:YES];
             UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
             ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
-            if(self.isSearching){
-                chapterView.drnavigationBar.titleLabel.text = @"搜索";
-                chapterView.isSearch = YES;
-            }
-            chapterView.searchBar.searchTextField.text = self.searchText.text;
             
             if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
                 NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
                 if(self.isSearching){
-                    if(self.searchText.text != nil && ![self.searchText.text isEqualToString:@""] && tempArray.count > 0){
-                        NSString *keyword = self.searchText.text;
-                        NSMutableArray *ary = [NSMutableArray arrayWithCapacity:5];
-                        for(int i = 0 ; i < tempArray.count ; i++){
-                            SectionModel *section = [tempArray objectAtIndex:i];
-                            NSRange range = [section.sectionName rangeOfString:[NSString stringWithFormat:@"(%@)+",keyword] options:NSRegularExpressionSearch];
-                            if(range.location != NSNotFound){
-                                [ary addObject:section];
-                            }
-                        }
-                        tempArray = [NSMutableArray arrayWithArray:ary];
-                    }
+                    chapterView.drnavigationBar.titleLabel.text = @"搜索";
+                    chapterView.isSearch = YES;
+                    chapterView.searchBar.searchTextField.text = self.searchText.text;
                 }
                 [chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:tempArray]];
                 self.isSearching = NO;

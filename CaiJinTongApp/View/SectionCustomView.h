@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AMProgressView.h"
+
 #import "SectionModel.h"
 #import "CJTSlider.h"
 @interface SectionCustomView : UIControl

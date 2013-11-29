@@ -30,6 +30,8 @@
 {
    
     [super viewDidLoad];
+    [Utility setBackgroungWithView:self.view andImage6:@"login_bg_7.png" andImage7:@"login_bg_7.png"];
+    
     [self.drnavigationBar.navigationRightItem setTitle:@"返回" forState:UIControlStateNormal];
     self.drnavigationBar.titleLabel.text = @"找回密码";
     [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
