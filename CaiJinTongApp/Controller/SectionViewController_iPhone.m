@@ -46,7 +46,7 @@
 
 //#pragma mark - 滑动tab视图代理方法
 //
-//- (NSUInteger)numberOfTab:(SUNSlideSwitchView *)view
+//- (NSUInteger)numberOfTab:(SUNSlideSwitchView_iPhone *)view
 //{
 //    AppDelegate *app = [AppDelegate sharedInstance];
 //    if (app.isLocal == YES) {
@@ -55,7 +55,7 @@
 //    return 3;
 //}
 //
-//- (UIViewController *)slideSwitchView:(SUNSlideSwitchView *)view viewOfTab:(NSUInteger)number
+//- (UIViewController *)slideSwitchView:(SUNSlideSwitchView_iPhone *)view viewOfTab:(NSUInteger)number
 //{
 //    AppDelegate *app = [AppDelegate sharedInstance];
 //    if (app.isLocal == YES) {
@@ -79,11 +79,11 @@
 //    }
 //}
 //
-//- (void)slideSwitchView:(SUNSlideSwitchView *)view panLeftEdge:(UIPanGestureRecognizer *)panParam
+//- (void)slideSwitchView:(SUNSlideSwitchView_iPhone *)view panLeftEdge:(UIPanGestureRecognizer *)panParam
 //{
 //}
 //
-//- (void)slideSwitchView:(SUNSlideSwitchView *)view didselectTab:(NSUInteger)number
+//- (void)slideSwitchView:(SUNSlideSwitchView_iPhone *)view didselectTab:(NSUInteger)number
 //{
 //    AppDelegate *app = [AppDelegate sharedInstance];
 //    if (app.isLocal == YES) {
@@ -242,35 +242,35 @@
 
 //界面下半部分
 - (void)initAppear_slide{
-//    self.slideSwitchView.backgroundColor = [UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:232.0/255.0 alpha:1.0];
-//    //3个选项卡
-//    self.slideSwitchView.tabItemNormalColor = [SUNSlideSwitchView colorFromHexRGB:@"868686"];
-//    self.slideSwitchView.tabItemSelectedColor = [UIColor darkGrayColor];
-//    self.slideSwitchView.shadowImage = [[UIImage imageNamed:@"play-courselist_0df3"]
-//                                        stretchableImageWithLeftCapWidth:59.0f topCapHeight:0.0f];
-//    
-//    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-//    
-//    self.section_ChapterView = [story instantiateViewControllerWithIdentifier:@"Section_ChapterViewController"];
-//    self.section_ChapterView.title = @"章节目录";
-//    self.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:self.section.sectionList];
-//    
-//    AppDelegate *app = [AppDelegate sharedInstance];
-//    if (app.isLocal == NO) {
-//        self.section_GradeView = [story instantiateViewControllerWithIdentifier:@"Section_GradeViewController"];
-//        self.section_GradeView.title = @"打分";
-//        self.section_GradeView.dataArray = [NSMutableArray arrayWithArray:self.section.commentList];
-//        self.section_GradeView.isGrade = [self.section.isGrade intValue];
-//        self.section_GradeView.sectionId = self.section.sectionId;
-//        CommentModel *comment = (CommentModel *)[self.section_GradeView.dataArray objectAtIndex:self.section_GradeView.dataArray.count-1];
-//        self.section_GradeView.pageCount = comment.pageCount;
-//        self.section_GradeView.nowPage = 1;
-//    }
-//    self.section_NoteView = [story instantiateViewControllerWithIdentifier:@"Section_NoteViewController"];
-//    self.section_NoteView.title = @"笔记";
-//    self.section_NoteView.dataArray = [NSMutableArray arrayWithArray:self.section.noteList];
-//    
-//    [self.slideSwitchView buildUI];
+    self.slideSwitchView.backgroundColor = [UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:232.0/255.0 alpha:1.0];
+    //3个选项卡
+    self.slideSwitchView.tabItemNormalColor = [SUNSlideSwitchView_iPhone colorFromHexRGB:@"868686"];
+    self.slideSwitchView.tabItemSelectedColor = [UIColor darkGrayColor];
+    self.slideSwitchView.shadowImage = [[UIImage imageNamed:@"play-courselist_0df3"]
+                                        stretchableImageWithLeftCapWidth:59.0f topCapHeight:0.0f];
+    
+    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+    
+    self.section_ChapterView = [story instantiateViewControllerWithIdentifier:@"Section_ChapterViewController"];
+    self.section_ChapterView.title = @"章节目录";
+    self.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:self.section.sectionList];
+    
+    AppDelegate *app = [AppDelegate sharedInstance];
+    if (app.isLocal == NO) {
+        self.section_GradeView = [story instantiateViewControllerWithIdentifier:@"Section_GradeViewController"];
+        self.section_GradeView.title = @"打分";
+        self.section_GradeView.dataArray = [NSMutableArray arrayWithArray:self.section.commentList];
+        self.section_GradeView.isGrade = [self.section.isGrade intValue];
+        self.section_GradeView.sectionId = self.section.sectionId;
+        CommentModel *comment = (CommentModel *)[self.section_GradeView.dataArray objectAtIndex:self.section_GradeView.dataArray.count-1];
+        self.section_GradeView.pageCount = comment.pageCount;
+        self.section_GradeView.nowPage = 1;
+    }
+    self.section_NoteView = [story instantiateViewControllerWithIdentifier:@"Section_NoteViewController"];
+    self.section_NoteView.title = @"笔记";
+    self.section_NoteView.dataArray = [NSMutableArray arrayWithArray:self.section.noteList];
+    
+    [self.slideSwitchView buildUI];
 }
 
 #pragma mark

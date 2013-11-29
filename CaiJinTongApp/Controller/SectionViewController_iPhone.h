@@ -10,8 +10,8 @@
 #import "SectionModel.h"
 #import "SectionCustomView_iPhone.h"
 #import "CustomLabel_iPhone.h"
-#import "SUNSlideSwitchView.h"
-@interface SectionViewController_iPhone : LHLNavigationBarViewController<SUNSlideSwitchViewDelegate,UIScrollViewDelegate>
+#import "SUNSlideSwitchView_iPhone.h"
+@interface SectionViewController_iPhone : LHLNavigationBarViewController<SUNSlideSwitchView_iPhoneDelegate,UIScrollViewDelegate>
 
 //界面
 @property (nonatomic,strong) SectionCustomView_iPhone *sectionView;
@@ -19,7 +19,7 @@
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (nonatomic, strong) CustomLabel_iPhone *scoreLab;
 @property (nonatomic,strong) UIButton *playBtn;
-@property (weak, nonatomic) IBOutlet SUNSlideSwitchView *slideSwitchView;
+@property (weak, nonatomic) IBOutlet SUNSlideSwitchView_iPhone *slideSwitchView;
 
 
 //数据

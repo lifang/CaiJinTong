@@ -169,6 +169,8 @@
 		0EDF4E11182102E7007161E0 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EDF4E10182102E7007161E0 /* libz.dylib */; };
 		0EEAC94F183CA96800B15830 /* Section_chapterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEAC94E183CA96800B15830 /* Section_chapterModel.m */; };
 		18046A881848315D00EB8BDA /* CustomLabel_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 18046A871848315D00EB8BDA /* CustomLabel_iPhone.m */; };
+		18046A8B18485FF300EB8BDA /* SUNSlideSwitchView_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 18046A8A18485FF300EB8BDA /* SUNSlideSwitchView_iPhone.m */; };
+		18046A8E1848637300EB8BDA /* Section_ChapterViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 18046A8D1848637300EB8BDA /* Section_ChapterViewController_iPhone.m */; };
 		181532431835BDAB0078A410 /* course-mycourse_03@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 181532421835BDAB0078A410 /* course-mycourse_03@2x.png */; };
 		181532451835CD3D0078A410 /* btn0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 181532441835CD3D0078A410 /* btn0@2x.png */; };
 		181532471835EA330078A410 /* play-courselist_06@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 181532461835EA330078A410 /* play-courselist_06@2x.png */; };
@@ -580,6 +582,10 @@
 		0EEAC94E183CA96800B15830 /* Section_chapterModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section_chapterModel.m; sourceTree = "<group>"; };
 		18046A861848315D00EB8BDA /* CustomLabel_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomLabel_iPhone.h; sourceTree = "<group>"; };
 		18046A871848315D00EB8BDA /* CustomLabel_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomLabel_iPhone.m; sourceTree = "<group>"; };
+		18046A8918485FF300EB8BDA /* SUNSlideSwitchView_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUNSlideSwitchView_iPhone.h; sourceTree = "<group>"; };
+		18046A8A18485FF300EB8BDA /* SUNSlideSwitchView_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUNSlideSwitchView_iPhone.m; sourceTree = "<group>"; };
+		18046A8C1848637300EB8BDA /* Section_ChapterViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Section_ChapterViewController_iPhone.h; sourceTree = "<group>"; };
+		18046A8D1848637300EB8BDA /* Section_ChapterViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section_ChapterViewController_iPhone.m; sourceTree = "<group>"; };
 		181532421835BDAB0078A410 /* course-mycourse_03@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "course-mycourse_03@2x.png"; sourceTree = "<group>"; };
 		181532441835CD3D0078A410 /* btn0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn0@2x.png"; sourceTree = "<group>"; };
 		181532461835EA330078A410 /* play-courselist_06@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play-courselist_06@2x.png"; sourceTree = "<group>"; };
@@ -1309,6 +1315,8 @@
 				18F28C111847249C00692F90 /* LHLNavigationBarViewController.m */,
 				18F28C13184738B300692F90 /* SectionViewController_iPhone.h */,
 				18F28C14184738B300692F90 /* SectionViewController_iPhone.m */,
+				18046A8C1848637300EB8BDA /* Section_ChapterViewController_iPhone.h */,
+				18046A8D1848637300EB8BDA /* Section_ChapterViewController_iPhone.m */,
 			);
 			name = Controller_iPhone;
 			sourceTree = "<group>";
@@ -1328,6 +1336,8 @@
 				18EA125218459A4500F12D8B /* TextFieldForSearchBar.m */,
 				18046A861848315D00EB8BDA /* CustomLabel_iPhone.h */,
 				18046A871848315D00EB8BDA /* CustomLabel_iPhone.m */,
+				18046A8918485FF300EB8BDA /* SUNSlideSwitchView_iPhone.h */,
+				18046A8A18485FF300EB8BDA /* SUNSlideSwitchView_iPhone.m */,
 			);
 			name = View_iPhone;
 			sourceTree = "<group>";
@@ -1855,6 +1865,7 @@
 				0EA7EF4F1823A98600C47F69 /* PlayVideoInterface.m in Sources */,
 				18EA125318459A4500F12D8B /* TextFieldForSearchBar.m in Sources */,
 				18A19C85183CA60500C11310 /* iRate.m in Sources */,
+				18046A8E1848637300EB8BDA /* Section_ChapterViewController_iPhone.m in Sources */,
 				0EA2A9311828D78F003D152E /* Section_NoteViewController.m in Sources */,
 				0EA36ED2182C8E4F0074D67B /* CustomLabel.m in Sources */,
 				0EA7EF8D1827805D00C47F69 /* SectionInfoInterface.m in Sources */,
@@ -1889,6 +1900,7 @@
 				631227E7182B40EB00530CC3 /* QuestionAndAnswerCellHeaderView.m in Sources */,
 				0E9DA3C2183F568D000A5995 /* ASIS3Bucket.m in Sources */,
 				0EDF4E011821029B007161E0 /* CaiJinTongManager.m in Sources */,
+				18046A8B18485FF300EB8BDA /* SUNSlideSwitchView_iPhone.m in Sources */,
 				630B95F9182A2909000ED31E /* DRMoviePlayerPlaybackProgressBar.m in Sources */,
 				0EA7EF3D182379E200C47F69 /* NoteModel.m in Sources */,
 				630CB0851828E8B0002FD462 /* MovieControllerItem.m in Sources */,
