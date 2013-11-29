@@ -32,6 +32,12 @@ NSString *appleID = @"6224939";
 -(void)drnavigationBarRightItemClicked:(id)sender{
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
 }
+
+-(void)willDismissPopoupController{
+    CGPoint offset = self.tableView.contentOffset;
+    [self.tableView setContentOffset:offset animated:NO];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
