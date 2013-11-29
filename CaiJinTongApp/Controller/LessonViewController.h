@@ -49,4 +49,6 @@
 
 @property (nonatomic, strong) ChapterQuestionInterface *chapterQuestionInterface;
 
+
+@property (nonatomic, strong) NSMutableArray *tempMutableArray;//暂时保存数据
 @end

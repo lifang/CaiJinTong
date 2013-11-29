@@ -89,10 +89,14 @@
 -(void)setIsSelected:(BOOL)isSelected{
     _isSelected = isSelected;
     self.flagImageView.backgroundColor = [UIColor clearColor];
-    if (isSelected) {
-        self.flagImageView.image = [UIImage imageNamed:@"course-courses_06_right.png"];
-    }else{
-        self.flagImageView.image = [UIImage imageNamed:@"course-courses_06.png"];
+    if ([self.lessonTextLabel.text isEqualToString:@"本地下载"]) {
+        self.flagImageView.image = Image(@"backgroundStar.png");
+    }else {
+        if (isSelected) {
+            self.flagImageView.image = [UIImage imageNamed:@"course-courses_06_right.png"];
+        }else{
+            self.flagImageView.image = [UIImage imageNamed:@"course-courses_06.png"];
+        }
     }
 }
 @end
