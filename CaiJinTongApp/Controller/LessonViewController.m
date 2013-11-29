@@ -28,6 +28,8 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 
 @interface LessonViewController ()
 @property(nonatomic,assign) TableListType listType;
+@property (nonatomic,strong) NSString *questionAndSwerRequestID;//请求问题列表ID
+@property (nonatomic,assign) QuestionAndAnswerScope questionScope;
 @end
 
 @implementation LessonViewController
@@ -328,6 +330,8 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                         ChapterQuestionInterface *chapterInter = [[ChapterQuestionInterface alloc]init];
                         self.chapterQuestionInterface = chapterInter;
                         self.chapterQuestionInterface.delegate = self;
+                        self.questionAndSwerRequestID = [d valueForKey:@"questionID"];
+                        self.questionScope = QuestionAndAnswerALL;
                         [self.chapterQuestionInterface getChapterQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andChapterQuestionId:[d valueForKey:@"questionID"]];
                     }
                 }else {
@@ -363,17 +367,21 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             }];
             switch (indexPath.row) {
                 case 0:
+                {
                     //请求我的提问
+                    self.questionScope = QuestionAndAnswerMYQUESTION;
                     break;
+                }
                 case 1:
+                {
                     //请求我的回答
+                    self.questionScope = QuestionAndAnswerMYANSWER;
                     break;
-                    
+                }
                 default:
                     break;
             }
         }
-        
     }
 }
 
@@ -487,34 +495,18 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
             ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
-            if(self.isSearching){
-                chapterView.drnavigationBar.titleLabel.text = @"搜索";
-                chapterView.isSearch = YES;
-            }else{
-                chapterView.drnavigationBar.titleLabel.text = chapterName;
-            }
+//            if(self.isSearching){   已失效
+//                chapterView.drnavigationBar.titleLabel.text = @"搜索";
+//                chapterView.isSearch = YES;
+//            }else{
+//                chapterView.drnavigationBar.titleLabel.text = chapterName;
+//            }
             if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
                 NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
-                if(self.isSearching){
-                    
-                    if(self.searchText.text != nil && ![self.searchText.text isEqualToString:@""] && tempArray.count > 0){
-                        NSString *keyword = self.searchText.text;
-                        NSMutableArray *ary = [NSMutableArray arrayWithCapacity:5];
-                        for(int i = 0 ; i < tempArray.count ; i++){
-                            SectionModel *section = [tempArray objectAtIndex:i];
-                            NSRange range = [section.sectionName rangeOfString:[NSString stringWithFormat:@"(%@)+",keyword] options:NSRegularExpressionSearch];
-                            if(range.location != NSNotFound){
-                                [ary addObject:section];
-                            }
-                        }
-                        tempArray = [NSMutableArray arrayWithArray:ary];
-                    }
-                    
-                }
                 [chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:tempArray]];
-                chapterView.searchBar.searchTipLabel.text = [NSString stringWithFormat:@"以下是根据内容\"%@\"搜索出的内容",self.searchText.text];
-                chapterView.searchBar.searchTextField.text = self.searchText.text;
-                self.isSearching = NO;
+//                chapterView.searchBar.searchTipLabel.text = [NSString stringWithFormat:@"以下是根据内容\"%@\"搜索出的内容",self.searchText.text];已失效
+//                chapterView.searchBar.searchTextField.text = self.searchText.text;
+//                self.isSearching = NO;
                 DRNavigationController *navControl = [[DRNavigationController alloc]initWithRootViewController:chapterView];
                 navControl.view.frame = (CGRect){0,0,568,1024};
                 [navControl setNavigationBarHidden:YES];
@@ -584,7 +576,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:myQAVC];
             [navControl setNavigationBarHidden:YES];
             navControl.view.frame = (CGRect){0,0,568,1024};
-            [myQAVC reloadDataWithDataArray:chapterQuestionList];
+            [myQAVC reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
             [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
                 
             }];
@@ -617,6 +609,8 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                 [navControl setNavigationBarHidden:YES];
                 [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
                 }];
+            }else{
+                [Utility errorAlert:@"无搜索结果"];
             }
         });
     });

@@ -79,7 +79,6 @@
     self.collectionView.frame = frame;
 }
 
-
 -(void)reloadDataWithDataArray:(NSArray*)data{
     self.recentArray = data;
     DLog(@"count = %d",data.count);
@@ -103,6 +102,143 @@
         self.searchLessonInter.delegate = self;
         [self.searchLessonInter getSearchLessonInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andText:searchText];
     } 
+}
+#pragma mark --
+
+#pragma -- 页面布局
+
+-(void)displayNewView {
+    [self.myScrollView removeFromSuperview];
+    if (self.dataArray.count>0) {
+        NSInteger count = ([self.dataArray count]-1)/6+1;  //有几页
+        if (self.isSearch) {
+            self.myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 148, self.view.frame.size.width, self.view.frame.size.height-50)];
+        }else {
+            self.myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 118, self.view.frame.size.width, self.view.frame.size.height-20)];
+        }
+        
+        self.myScrollView.delegate = self;
+        self.myScrollView.contentSize = CGSizeMake(self.myScrollView.frame.size.width, self.myScrollView.frame.size.height*count);
+        [self.myScrollView setPagingEnabled:YES];
+        self.myScrollView.showsVerticalScrollIndicator = NO;
+        self.myScrollView.showsHorizontalScrollIndicator = NO;
+        self.myScrollView.backgroundColor = [UIColor clearColor];
+        [self.view addSubview:self.myScrollView];
+        
+        for (int i=0; i<count; i++) {
+            self.myTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0+self.myScrollView.frame.size.height*i, self.myScrollView.frame.size.width, self.myScrollView.frame.size.height)];//创建每一页的tableview
+            self.myTable.tag = i;
+            self.myTable.delegate = self;
+            self.myTable.dataSource = self;
+            self.myTable.scrollEnabled = NO;
+            self.myTable.backgroundColor = [UIColor clearColor];
+            [self.myScrollView addSubview:self.myTable];
+        }
+        CGRect frame = [self.view bounds];
+        frame.origin.y = 0;
+        frame.origin.x = 0;
+        [self.myScrollView setContentOffset:CGPointMake(frame.origin.x, frame.origin.y)];
+    }
+}
+
+#pragma mark -- UITableViewDelegate
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+	return 3;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 300;
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSInteger count = ([self.dataArray count]-1)/6+1;//页数
+    
+    static NSString *CellIdentifier = @"Cell";
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+	if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        for (int i = 0; i<count; i++) {
+            if (tableView.tag==i) {
+                [self drawTableViewCell:cell index:[indexPath row] category:i];
+            }
+        }
+	}
+    
+    return cell;
+}
+//绘制tableview的cell
+-(void)drawTableViewCell:(UITableViewCell *)cell index:(int)row category:(int)category{
+    int maxIndex = (row*2+2);
+    int number = [self.dataArray count]-6*category;
+	if(maxIndex < number) {
+		for (int i=0; i<2; i++) {
+			[self displayPhotoes:cell row:row col:i category:category];
+		}
+		return;
+	}
+	else if(maxIndex-1 < number) {
+		for (int i=0; i<1; i++) {
+			[self displayPhotoes:cell row:row col:i category:category];
+		}
+		return;
+	}
+	else if(maxIndex-3 < number) {
+		[self displayPhotoes:cell row:row col:0 category:category];
+		return;
+	}
+}
+-(void)displayPhotoes:(UITableViewCell *)cell row:(int)row col:(int)col category:(int)category
+{
+    NSInteger currentTag = 2*row+col+category*6;
+    
+    SectionModel *section = (SectionModel *)[self.dataArray objectAtIndex:currentTag];
+    //自定义view
+    SectionCustomView *sv = [[SectionCustomView alloc]initWithFrame:CGRectMake(ItemWidthSpace+(ItemWidthSpace+ItemWidth)*col, ItemHeightSpace, ItemWidth, ItemHeight) andSection:section andItemLabel:ItemLabel];
+    sv.tag = currentTag;
+    self.sectionView = sv;
+
+    [self.sectionView addTarget:self  action:@selector(imageButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.contentView addSubview:self.sectionView];
+    NSLog(@"---contentView.subviews.count: %i----",cell.contentView.subviews.count);
+    sv = nil;
+}
+-(void)imageButtonClick:(id)sender {
+    UIControl *button = sender;
+    DLog(@"imageTag = %d",button.tag);
+    SectionModel *section = (SectionModel *)[self.dataArray objectAtIndex:button.tag];
+    DLog(@"sid = %@",section.sectionId);
+    AppDelegate *app = [AppDelegate sharedInstance];
+    if (app.isLocal == YES) {
+        Section *sectionDb = [[Section alloc]init];
+        //笔记
+        NSArray *noteArray = [sectionDb getNoteInfoWithSid:section.sectionId];
+        section.noteList = [[NSMutableArray alloc]initWithArray:noteArray];
+        //章节下载列表
+        NSArray *section_chapterArray = [sectionDb getChapterInfoWithSid:section.sectionId];
+        section.sectionList  =[[NSMutableArray alloc]initWithArray:section_chapterArray];
+        
+        UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+        SectionViewController *sectionView = [story instantiateViewControllerWithIdentifier:@"SectionViewController"];
+        sectionView.section = section;
+        [self.navigationController pushViewController:sectionView animated:YES];
+        
+    }else {
+        //根据sectionID获取单个视频的详细信息
+        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+            [Utility errorAlert:@"暂无网络!"];
+        }else {
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            SectionInfoInterface *sectionInter = [[SectionInfoInterface alloc]init];
+            self.sectionInterface = sectionInter;
+            self.sectionInterface.delegate = self;
+            [self.sectionInterface getSectionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:section.sectionId];
+        }
+    }
 }
 - (void)didReceiveMemoryWarning
 {
@@ -225,20 +361,10 @@
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
                 NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
-                if(self.searchBar.searchTextField.text != nil && ![self.searchBar.searchTextField.text isEqualToString:@""] && tempArray.count > 0){
-                    NSString *keyword = self.searchBar.searchTextField.text;
-                    NSMutableArray *ary = [NSMutableArray arrayWithCapacity:5];
-                    for(int i = 0 ; i < tempArray.count ; i++){
-                        SectionModel *section = [tempArray objectAtIndex:i];
-                        NSRange range = [section.sectionName rangeOfString:[NSString stringWithFormat:@"(%@)+",keyword] options:NSRegularExpressionSearch];
-                        if(range.location != NSNotFound){
-                            [ary addObject:section];
-                        }
-                    }
-                    tempArray = [NSMutableArray arrayWithArray:ary];
-                }
                 [self reloadDataWithDataArray:tempArray];
                 
+            }else{
+            self.searchBar.searchTipLabel.text = @"无搜索结果";
             }
         });
     });
@@ -259,20 +385,9 @@
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
                 NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
-                if(self.searchBar.searchTextField.text != nil && ![self.searchBar.searchTextField.text isEqualToString:@""] && tempArray.count > 0){
-                    NSString *keyword = self.searchBar.searchTextField.text;
-                    NSMutableArray *ary = [NSMutableArray arrayWithCapacity:5];
-                    for(int i = 0 ; i < tempArray.count ; i++){
-                        SectionModel *section = [tempArray objectAtIndex:i];
-                        NSRange range = [section.sectionName rangeOfString:[NSString stringWithFormat:@"(%@)+",keyword] options:NSRegularExpressionSearch];
-                        if(range.location != NSNotFound){
-                            [ary addObject:section];
-                        }
-                    }
-                    tempArray = [NSMutableArray arrayWithArray:ary];
-                }
                 [self reloadDataWithDataArray:tempArray];
-                
+            }else{
+                self.searchBar.searchTipLabel.text = @"无搜索结果";
             }
         });
     });

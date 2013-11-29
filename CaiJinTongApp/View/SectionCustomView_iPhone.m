@@ -19,34 +19,29 @@
 }
 - (id)initWithFrame:(CGRect)frame andSection:(SectionModel *)section andItemLabel:(float)itemLabel{
     self = [super initWithFrame:frame];
-    //itemLabel = 已学习百分比
     if (self) {
-        //视频名称
-        if (itemLabel>0) {
-            UIFont *font = [UIFont systemFontOfSize:14];
-            UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, itemLabel)];
-            nameLabel.text = [NSString stringWithFormat:@"%@",section.sectionName];
-            nameLabel.textColor = [UIColor blackColor];
-            nameLabel.numberOfLines = 0;
-            nameLabel.textAlignment = NSTextAlignmentLeft;
-            nameLabel.backgroundColor = [UIColor clearColor];
-            nameLabel.font = font;
-            self.nameLab = nameLabel;
-            [self addSubview:self.nameLab];
-            nameLabel = nil;
-        }
+        
+        //照片底板
+        UIImageView *photoBg = [[UIImageView alloc] initWithFrame:CGRectMake(-3, itemLabel - 3, 132, 132)];
+        [photoBg setBackgroundColor:[UIColor whiteColor]];
+        [photoBg.layer setCornerRadius:2.0];
+        photoBg.image = [UIImage imageNamed:@"photoBg.png"];
+        [self addSubview:photoBg];
         
         //视频封面
-        UIImageView *imageViewC = [[UIImageView alloc]initWithFrame:CGRectMake(0, itemLabel, self.frame.size.width, self.frame.size.height)];
+        CGRect imageViewFrame = CGRectMake(5, 6, photoBg.frame.size.width - 11, photoBg.frame.size.height - 11);
+        UIImageView *imageViewC = [[UIImageView alloc]initWithFrame:imageViewFrame];
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",section.sectionImg]];
         [imageViewC setImageWithURL:url placeholderImage:Image(@"loginBgImage_v.png")];
-        
         imageViewC.tag = [section.sectionId intValue];
+        [imageViewC setBackgroundColor:[UIColor grayColor]];//删
+        [imageViewC setClipsToBounds:YES];
         self.imageView = imageViewC;
-        [self addSubview:self.imageView];
+        [photoBg addSubview:self.imageView];
         imageViewC = nil;
         
-        self.pv = [[UISlider alloc] initWithFrame:CGRectMake(-2, self.frame.size.height+itemLabel-30, self.frame.size.width+4, 37)];
+        //视频进度条
+        self.pv = [[UISlider alloc] initWithFrame:CGRectMake(-2, imageViewFrame.size.height-16, imageViewFrame.size.width+4, 16)];
         UIImage *frontImage = [[UIImage imageNamed:@"progressBar-front.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0) resizingMode:UIImageResizingModeStretch];
         UIImage *backgroundImage = [[UIImage imageNamed:@"progressBar-background.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0) resizingMode:UIImageResizingModeStretch];
         [self.pv setMinimumTrackImage:frontImage forState:UIControlStateNormal];
@@ -55,7 +50,9 @@
         [self.pv setMaximumValue:100.0];
         [self.pv setMinimumValue:0.0];
         self.pv.value = [section.sectionProgress floatValue];
-        UILabel *progressLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, self.frame.size.height+itemLabel-28, self.frame.size.width, 30)];
+        //进度条label
+        self.progressLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, imageViewFrame.size.height - 18, imageViewFrame.size.width, 20)];
+        self.progressLabel.font = [UIFont systemFontOfSize:12.0];
         CGFloat xx = [section.sectionProgress floatValue];
         if ( xx-100 >0) {
             xx=100;
@@ -63,14 +60,49 @@
         if (!xx) {
             xx = 0;
         }
-        progressLabel.text = [NSString stringWithFormat:@"学习进度:%.2f%%",xx];
-        progressLabel.textAlignment = NSTextAlignmentLeft;
-        progressLabel.backgroundColor = [UIColor clearColor];
-        [self addSubview:self.pv];
-        [self addSubview:progressLabel];
+        self.progressLabel.text = [NSString stringWithFormat:@"学习进度:%.2f%%",xx];
+        self.progressLabel.textAlignment = NSTextAlignmentLeft;
+        self.progressLabel.backgroundColor = [UIColor clearColor];
+        [self.imageView addSubview:self.pv];
+        [self.imageView addSubview:self.progressLabel];
         
+        //视频名称
+        if (itemLabel>0) {  //label高度
+            UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, itemLabel)];
+            if(section.sectionName)nameLabel.text = [NSString stringWithFormat:@"%@",section.sectionName];
+            nameLabel.textColor = [UIColor blackColor];
+            nameLabel.numberOfLines = 0;
+            nameLabel.textAlignment = NSTextAlignmentLeft;
+            nameLabel.backgroundColor = [UIColor clearColor];
+            nameLabel.font = [UIFont systemFontOfSize:14];
+            self.nameLab = nameLabel;
+            [self addSubview:self.nameLab];
+            nameLabel = nil;
+        }
     }
     return self;
+}
+
+-(void)refreshDataWithSection:(SectionModel *)section{
+    if(!self.pv){
+        DLog(@"错误!应先初始化SectionCustomView!");
+        return;
+    }
+    
+    self.nameLab.text = section.sectionName;
+    
+    self.pv.value = [section.sectionProgress floatValue];
+    CGFloat xx = [section.sectionProgress floatValue];
+    if ( xx-100 >0) {
+        xx=100;
+    }
+    if (!xx) {
+        xx = 0;
+    }
+    self.progressLabel.text = [NSString stringWithFormat:@"学习进度:%.2f%%",xx];
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",section.sectionImg]];
+    [self.imageView setImageWithURL:url placeholderImage:Image(@"loginBgImage_v.png")];
 }
 
 @end

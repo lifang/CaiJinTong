@@ -11,6 +11,7 @@
 @property (nonatomic,strong) NSMutableArray *myQuestionArr;
 @property (nonatomic,strong) MJRefreshHeaderView *headerRefreshView;
 @property (nonatomic,strong) MJRefreshFooterView *footerRefreshView;
+@property (nonatomic,strong) QuestionListInterface *questionListInterface;
 @end
 
 @implementation MyQuestionAndAnswerViewController
@@ -31,7 +32,6 @@
     
 }
 
-
 -(void)willDismissPopoupController{
     CGPoint offset = self.tableView.contentOffset;
     [self.tableView setContentOffset:offset animated:NO];
@@ -43,6 +43,8 @@
     [self.headerRefreshView endRefreshing];//instance refresh view
     [self.footerRefreshView endRefreshing];
     
+    self.headerRefreshView.isForbidden = YES;
+    self.footerRefreshView.isForbidden = YES;
     [self.tableView registerClass:[QuestionAndAnswerCellHeaderView class] forHeaderFooterViewReuseIdentifier:@"header"];
     
     self.drnavigationBar.titleLabel.text = @"我的提问";
@@ -51,15 +53,14 @@
     [self.noticeBarImageView.layer setCornerRadius:4];
 }
 //数据源
--(void)reloadDataWithDataArray:(NSArray*)data{
+-(void)reloadDataWithDataArray:(NSArray*)data withQuestionChapterID:(NSString*)chapterID withScope:(QuestionAndAnswerScope)scope{
+    self.questionAndAnswerScope = scope;
+    self.chapterID = chapterID;
     self.myQuestionArr = [NSMutableArray arrayWithArray:data];
     if (self.myQuestionArr.count>0) {
         QuestionModel *question = [self.myQuestionArr  objectAtIndex:self.myQuestionArr.count-1];
         self.question_pageIndex = question.pageIndex;
         self.question_pageCount = question.pageCount;
-        AnswerModel *answer = [question.answerList objectAtIndex:question.answerList.count-1];
-        self.answer_pageIndex = answer.pageIndex;
-        self.answer_pageCount = answer.pageCount;
         dispatch_async ( dispatch_get_main_queue (), ^{
             [self.tableView reloadData];
         });
@@ -226,15 +227,30 @@ static NSIndexPath *indexPath = nil;
 #pragma mark MJRefreshBaseViewDelegate 分页加载
 -(void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView{
     if (self.headerRefreshView == refreshView) {
-        
+        self.footerRefreshView.isForbidden = YES;
+        [self requestNewPageDataWithPageIndex:0];
     }else{
-    
+        self.headerRefreshView.isForbidden = YES;
+        [self requestNewPageDataWithPageIndex:self.question_pageIndex+1];
     }
 }
 
 #pragma mark --
 
 #pragma mark action
+
+-(void)requestNewPageDataWithPageIndex:(int)currentIndex{
+    if (self.questionAndAnswerScope == QuestionAndAnswerALL) {
+        [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andChapterQuestionId:self.chapterID andPageIndex:currentIndex andIsMyself:nil];
+    }else
+        if (self.questionAndAnswerScope == QuestionAndAnswerMYANSWER) {
+            [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andChapterQuestionId:self.chapterID andPageIndex:currentIndex andIsMyself:@"0"];
+        }else
+            if (self.questionAndAnswerScope == QuestionAndAnswerMYQUESTION) {
+                [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andChapterQuestionId:nil andPageIndex:currentIndex andIsMyself:@"1"];
+            }
+}
+
 -(float)getTableViewHeaderHeightWithSection:(NSInteger)section{
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:section];
     if (question.isEditing) {
@@ -263,6 +279,14 @@ static NSIndexPath *indexPath = nil;
 #pragma mark --
 
 #pragma mark property
+
+-(QuestionListInterface *)questionListInterface{
+    if (!_questionListInterface) {
+        _questionListInterface = [[QuestionListInterface alloc] init];
+        _questionListInterface.delegate = self;
+    }
+    return _questionListInterface;
+}
 
 -(MJRefreshHeaderView *)headerRefreshView{
     if (!_headerRefreshView) {
@@ -295,6 +319,45 @@ static NSIndexPath *indexPath = nil;
     CGRect frame = self.tableView.frame;
     [self.tableView setFrame: CGRectMake(frame.origin.x,frame.origin.y - 35,frame.size.width,frame.size.height)];
 }
+
+
+#pragma mark QuestionListInterfaceDelegate 加载新数据
+-(void)getQuestionListInfoDidFinished:(NSDictionary *)result{
+    
+    if (result) {
+        NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
+        if (chapterQuestionList && [chapterQuestionList count] > 0) {
+            if (self.headerRefreshView.isForbidden) {//加载下一页
+                [self.myQuestionArr addObjectsFromArray:chapterQuestionList];
+            }else{//重新加载
+                self.myQuestionArr = [NSMutableArray arrayWithArray:chapterQuestionList];
+            }
+            QuestionModel *question = [self.myQuestionArr  lastObject];
+            self.question_pageIndex = question.pageIndex;
+            self.question_pageCount = question.pageCount;
+            [self.tableView reloadData];
+        }else{
+            [Utility errorAlert:@"数据为空"];
+        }
+    }else{
+        [Utility errorAlert:@"数据为空"];
+    }
+    [self.headerRefreshView endRefreshing];
+    self.headerRefreshView.isForbidden = NO;
+    [self.footerRefreshView endRefreshing];
+    self.footerRefreshView.isForbidden = NO;
+
+}
+
+-(void)getQuestionListInfoDidFailed:(NSString *)errorMsg{
+    [self.headerRefreshView endRefreshing];
+    self.headerRefreshView.isForbidden = NO;
+    [self.footerRefreshView endRefreshing];
+    self.footerRefreshView.isForbidden = NO;
+    [Utility errorAlert:errorMsg];
+}
+#pragma mark --
+
 
 #pragma mark -- AcceptAnswerInterfaceDelegate 
 -(void)getAcceptAnswerInfoDidFinished:(NSDictionary *)result {

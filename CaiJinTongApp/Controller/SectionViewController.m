@@ -21,7 +21,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -149,13 +148,14 @@
     [self.slideSwitchView buildUI];
 }
 
-#pragma mark DRMoviePlayViewControllerDelegate
+#pragma mark DRMoviePlayViewControllerDelegate 提交笔记成功
 -(void)drMoviePlayerViewController:(DRMoviePlayViewController *)playerController commitNotesSuccess:(NSString *)noteText andTime:(NSString *)noteTime{
     if (self.section_NoteView) {
         NoteModel *note = [[NoteModel alloc] init];
         note.noteTime = noteTime;
         note.noteText = noteText;
-        [self.section_NoteView.dataArray addObject:note];
+        [self.section_NoteView.dataArray insertObject:note atIndex:0];
+        [self.section_NoteView.tableViewList reloadData];
     }
 }
 
@@ -298,6 +298,8 @@
         
     }
 }
+
+#pragma mark -- appear
 
 - (void)initAppear {
     if (self.section) {

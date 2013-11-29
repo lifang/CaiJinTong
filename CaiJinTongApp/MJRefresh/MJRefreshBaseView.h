@@ -18,7 +18,8 @@
 typedef enum {
 	RefreshStatePulling = 1,
 	RefreshStateNormal = 2,
-	RefreshStateRefreshing = 3
+	RefreshStateRefreshing = 3,
+    RefreshStateNone = 4
 } RefreshState;
 
 typedef enum {
@@ -75,7 +76,7 @@ typedef void (^BeginRefreshingBlock)(MJRefreshBaseView *refreshView);
 @property (nonatomic, weak) id<MJRefreshBaseViewDelegate> delegate;
 // 设置要显示的父控件
 @property (nonatomic, weak) IBOutlet UIScrollView *scrollView;
-
+@property (nonatomic,assign) BOOL isForbidden;//禁止加载
 // 是否正在刷新
 @property (nonatomic, readonly, getter=isRefreshing) BOOL refreshing;
 // 开始刷新

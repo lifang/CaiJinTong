@@ -159,7 +159,7 @@
         CGFloat validY = self.validY;
         if (!self.userInteractionEnabled || self.alpha <= 0.01 || self.hidden
             || _state == RefreshStateRefreshing
-            || offsetY <= validY) return;
+            || offsetY <= validY || self.isForbidden) return;
         
         // 即将刷新 && 手松开
         if (_scrollView.isDragging) {

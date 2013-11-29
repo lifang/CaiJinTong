@@ -162,7 +162,9 @@ static NSString *timespan = nil;
     }
     model.time = [Utility getNowDateFromatAnDate];
     model.content = self.textView.text;
-    [self.dataArray addObject:model];
+    self.textView.text = @"";
+    [self.textView resignFirstResponder];
+    [self.dataArray insertObject:model atIndex:0];
     [self.tableViewList reloadData];
 }
 
@@ -220,11 +222,7 @@ static NSString *timespan = nil;
             //隐藏打分栏，只出现评论框
             self.isGrade = 1;
             [self displayView];
-            if (self.nowPage == self.pageCount) {
-                //更新tableview
-                [self insertCommitDataInToCommentTable];
-                
-            }
+            [self insertCommitDataInToCommentTable];
         });
     });
 }
