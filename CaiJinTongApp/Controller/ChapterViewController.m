@@ -19,7 +19,8 @@
 #define ItemHeight 215
 #define ItemHeightSpace 4
 #define ItemLabel 30
-@interface ChapterViewController () 
+@interface ChapterViewController ()
+@property (nonatomic,strong) SearchLessonInterface *searchLessonInter;
 @end
 
 @implementation ChapterViewController
@@ -53,14 +54,13 @@
     mainBar = nil;
     
     self.searchBar = [[ChapterSearchBar alloc] initWithFrame:(CGRect){50, 64, (self.view.frame.size.width - 200 - 100), 74}];
-    self.searchBar.searchTextField.delegate = self;
+    self.searchBar.delegate = self;
     self.searchBar.searchTextField.returnKeyType = UIReturnKeySearch;
     [self.searchBar.searchTextField setClearButtonMode:UITextFieldViewModeWhileEditing];
     [self.view addSubview:self.searchBar];
 
     [self.searchBar setHidden:!self.isSearch];
     self.mainToolBar.backgroundColor = [UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:232.0/255.0 alpha:1.0]; 
-    [self.searchBar.searchBt addTarget:self action:@selector(searchBtClicked) forControlEvents:UIControlEventTouchUpInside];
     
     [self.drnavigationBar.navigationRightItem setTitle:@"返回" forState:UIControlStateNormal];
     [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
@@ -77,6 +77,20 @@
         [self displayNewView];
     }
 }
+
+#pragma mark ChapterSearchBarDelegate
+-(void)chapterSeachBar:(ChapterSearchBar *)searchBar beginningSearchString:(NSString *)searchText{
+    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+        [Utility errorAlert:@"暂无网络!"];
+    }else {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        SearchLessonInterface *searchLessonInter = [[SearchLessonInterface alloc]init];
+        self.searchLessonInter = searchLessonInter;
+        self.searchLessonInter.delegate = self;
+        [self.searchLessonInter getSearchLessonInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andText:searchText];
+    } 
+}
+#pragma mark --
 
 #pragma -- 页面布局
 
@@ -379,20 +393,38 @@
         tempBarButtonItem.title = @"返回";
     }
 }
-#pragma mark -- search methods
--(void)searchBtClicked{
-    DLog(@"搜索按钮按下!");
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
-    }else {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        ChapterInfoInterface *chapterInter = [[ChapterInfoInterface alloc]init];
-        self.chapterInfoInterface = chapterInter;
-        self.chapterInfoInterface.delegate = self;
-        [self.chapterInfoInterface getChapterInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andChapterId:nil];
-    }
 
+#pragma mark SearchLessonInterfaceDelegate
+-(void)getSearchLessonInfoDidFinished:(NSDictionary *)result{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
+                NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
+                if(self.searchBar.searchTextField.text != nil && ![self.searchBar.searchTextField.text isEqualToString:@""] && tempArray.count > 0){
+                    NSString *keyword = self.searchBar.searchTextField.text;
+                    NSMutableArray *ary = [NSMutableArray arrayWithCapacity:5];
+                    for(int i = 0 ; i < tempArray.count ; i++){
+                        SectionModel *section = [tempArray objectAtIndex:i];
+                        NSRange range = [section.sectionName rangeOfString:[NSString stringWithFormat:@"(%@)+",keyword] options:NSRegularExpressionSearch];
+                        if(range.location != NSNotFound){
+                            [ary addObject:section];
+                        }
+                    }
+                    tempArray = [NSMutableArray arrayWithArray:ary];
+                }
+                [self reloadDataWithDataArray:tempArray];
+                
+            }
+        });
+    });
 }
+
+-(void)getSearchLessonInfoDidFailed:(NSString *)errorMsg{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [Utility errorAlert:@"搜索失败"];
+}
+#pragma mark --
 
 #pragma mark -- ChapterInfoInterfaceDelegate
 
@@ -426,9 +458,4 @@
     [Utility errorAlert:errorMsg];
 }
 
-#pragma mark UITextField Delegate
--(BOOL)textFieldShouldReturn:(UITextField *)textField{
-    [self searchBtClicked];
-    return YES;
-}
 @end

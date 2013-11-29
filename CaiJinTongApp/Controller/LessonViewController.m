@@ -47,7 +47,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         LessonInfoInterface *lessonInter = [[LessonInfoInterface alloc]init];
         self.lessonInterface = lessonInter;
         self.lessonInterface.delegate = self;
-        [self.lessonInterface getLessonInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId];
+        [self.lessonInterface getLessonInfoInterfaceDelegateWithUserId:@"18676"];
     }
 }
 -(void)getQuestionInfo  {
@@ -599,7 +599,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 -(void)getSearchLessonInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+             [MBProgressHUD hideHUDForView:self.view animated:YES];
             UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
             ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
             if(self.isSearching){
@@ -636,7 +636,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     });
 }
 -(void)getSearchLessonInfoDidFailed:(NSString *)errorMsg {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
+     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
 }
 

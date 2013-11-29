@@ -27,7 +27,7 @@
     self.baseDelegate = self;
     self.headers = reqheaders;
     
-    [self connectMethod:@"GET"];
+    [self connect];
 }
 #pragma mark - BaseInterfaceDelegate
 

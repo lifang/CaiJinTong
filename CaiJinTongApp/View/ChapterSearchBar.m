@@ -79,7 +79,9 @@
     if ([[self.searchTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
         self.searchTipLabel.text = @"";
         [Utility errorAlert:@"搜索文本不能为空"];
+        return;
     }
+    [self.searchTextField resignFirstResponder];
     self.searchTipLabel.text = [NSString stringWithFormat:@"以下是根据内容\"%@\"搜索出的内容",self.searchTextField.text];
     if (self.delegate && [self.delegate respondsToSelector:@selector(chapterSeachBar:beginningSearchString:)]) {
         [self.delegate chapterSeachBar:self beginningSearchString:self.searchTextField.text];
@@ -94,4 +96,9 @@
     return YES;
 }
 
+#pragma mark UITextField Delegate
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [self beginSearch];//点击键盘return键搜索
+    return YES;
+}
 @end
