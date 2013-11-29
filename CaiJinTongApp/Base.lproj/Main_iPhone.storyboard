@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="LqH-YZ-yPx">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="LqH-YZ-yPx">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
@@ -39,7 +39,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="367" y="251"/>
+            <point key="canvasLocation" x="-205" y="391"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="xIh-ZV-u0I">
@@ -58,7 +58,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Psk-Sf-2wB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="784" y="638"/>
+            <point key="canvasLocation" x="312" y="871"/>
         </scene>
         <!--Lesson View Controller i Phone - 视频-->
         <scene sceneID="ZYp-nL-25w">
@@ -105,7 +105,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ITC-F7-gOL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1635" y="-336"/>
+            <point key="canvasLocation" x="1643" y="604"/>
         </scene>
         <!--Section View Controller i Phone-->
         <scene sceneID="07b-pJ-KC0">
@@ -133,7 +133,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qd8-7p-yAG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2104" y="-336"/>
+            <point key="canvasLocation" x="1968" y="-356"/>
         </scene>
         <!--Section Chapter View Controller i Phone-->
         <scene sceneID="Ctz-5i-Lu9">
@@ -212,7 +212,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8tj-0G-djZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2495" y="-335"/>
+            <point key="canvasLocation" x="2419" y="-367"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="VPG-e1-z6z">
@@ -231,7 +231,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nar-AZ-2bq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1155" y="-336"/>
+            <point key="canvasLocation" x="835" y="1092"/>
         </scene>
         <!--View Controller - 问题-->
         <scene sceneID="DLP-4d-y4f">
@@ -250,7 +250,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zSu-ZR-Avd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1635" y="343"/>
+            <point key="canvasLocation" x="1643" y="1427"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="SdT-hz-rBt">
@@ -275,7 +275,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RnS-G3-pug" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1173" y="-750"/>
+            <point key="canvasLocation" x="1241" y="-618"/>
         </scene>
         <!--View Controller - nothing-->
         <scene sceneID="hGG-CM-2gP">
@@ -330,7 +330,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9qB-cl-eQT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="801" y="-36"/>
+            <point key="canvasLocation" x="765" y="52"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="d4C-Tz-uj8">
@@ -349,7 +349,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UdW-HL-Lg5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="864" y="219"/>
+            <point key="canvasLocation" x="368" y="351"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="xc0-OB-54z">
@@ -367,6 +367,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LTc-5o-SeK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="368" y="-441"/>
         </scene>
     </scenes>
     <resources>
