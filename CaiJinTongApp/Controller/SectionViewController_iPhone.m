@@ -44,74 +44,74 @@
     
 }
 
-//#pragma mark - 滑动tab视图代理方法
-//
-//- (NSUInteger)numberOfTab:(SUNSlideSwitchView_iPhone *)view
-//{
-//    AppDelegate *app = [AppDelegate sharedInstance];
-//    if (app.isLocal == YES) {
-//        return 2;
-//    }
-//    return 3;
-//}
-//
-//- (UIViewController *)slideSwitchView:(SUNSlideSwitchView_iPhone *)view viewOfTab:(NSUInteger)number
-//{
-//    AppDelegate *app = [AppDelegate sharedInstance];
-//    if (app.isLocal == YES) {
-//        if (number == 0) {
-//            return self.section_ChapterView;
-//        }  else if (number == 1) {
-//            return self.section_NoteView;
-//        } else {
-//            return nil;
-//        }
-//    }else {
-//        if (number == 0) {
-//            return self.section_ChapterView;
-//        } else if (number == 1) {
-//            return self.section_GradeView;
-//        } else if (number == 2) {
-//            return self.section_NoteView;
-//        } else {
-//            return nil;
-//        }
-//    }
-//}
-//
-//- (void)slideSwitchView:(SUNSlideSwitchView_iPhone *)view panLeftEdge:(UIPanGestureRecognizer *)panParam
-//{
-//}
-//
-//- (void)slideSwitchView:(SUNSlideSwitchView_iPhone *)view didselectTab:(NSUInteger)number
-//{
-//    AppDelegate *app = [AppDelegate sharedInstance];
-//    if (app.isLocal == YES) {
-//        Section_ChapterViewController *section_ChapterView = nil;
-//        Section_NoteViewController *section_NoteView = nil;
-//        if (number == 0) {
-//            section_ChapterView = self.section_ChapterView;
-//            [section_ChapterView viewDidCurrentView];
-//        } else if (number == 1) {
-//            section_NoteView = self.section_NoteView;
-//            [section_NoteView viewDidCurrentView];
-//        }
-//    }else {
-//        Section_ChapterViewController *section_ChapterView = nil;
-//        Section_GradeViewController *section_GradeView = nil;
-//        Section_NoteViewController *section_NoteView = nil;
-//        if (number == 0) {
-//            section_ChapterView = self.section_ChapterView;
-//            [section_ChapterView viewDidCurrentView];
-//        } else if (number == 1) {
-//            section_GradeView = self.section_GradeView;
-//            [section_GradeView viewDidCurrentView];
-//        } else if (number == 2) {
-//            section_NoteView = self.section_NoteView;
-//            [section_NoteView viewDidCurrentView];
-//        }
-//    }
-//}
+#pragma mark - 滑动tab视图代理方法
+
+- (NSUInteger)numberOfTab:(SUNSlideSwitchView_iPhone *)view
+{
+    AppDelegate *app = [AppDelegate sharedInstance];
+    if (app.isLocal == YES) {
+        return 2;
+    }
+    return 3;
+}
+
+- (UIViewController *)slideSwitchView:(SUNSlideSwitchView_iPhone *)view viewOfTab:(NSUInteger)number
+{
+    AppDelegate *app = [AppDelegate sharedInstance];
+    if (app.isLocal == YES) {
+        if (number == 0) {
+            return self.section_ChapterView;
+        }  else if (number == 1) {
+            return self.section_NoteView;
+        } else {
+            return nil;
+        }
+    }else {
+        if (number == 0) {
+            return self.section_ChapterView;
+        } else if (number == 1) {
+            return self.section_GradeView;
+        } else if (number == 2) {
+            return self.section_NoteView;
+        } else {
+            return nil;
+        }
+    }
+}
+
+- (void)slideSwitchView:(SUNSlideSwitchView_iPhone *)view panLeftEdge:(UIPanGestureRecognizer *)panParam
+{
+}
+
+- (void)slideSwitchView:(SUNSlideSwitchView_iPhone *)view didselectTab:(NSUInteger)number
+{
+    AppDelegate *app = [AppDelegate sharedInstance];
+    if (app.isLocal == YES) {
+        Section_ChapterViewController_iPhone *section_ChapterView = nil;
+        Section_NoteViewController_iPhone *section_NoteView = nil;
+        if (number == 0) {
+            section_ChapterView = self.section_ChapterView;
+            [section_ChapterView viewDidCurrentView];
+        } else if (number == 1) {
+            section_NoteView = self.section_NoteView;
+            [section_NoteView viewDidCurrentView];
+        }
+    }else {
+        Section_ChapterViewController_iPhone *section_ChapterView = nil;
+        Section_GradeViewController_iPhone *section_GradeView = nil;
+        Section_NoteViewController_iPhone *section_NoteView = nil;
+        if (number == 0) {
+            section_ChapterView = self.section_ChapterView;
+            [section_ChapterView viewDidCurrentView];
+        } else if (number == 1) {
+            section_GradeView = self.section_GradeView;
+            [section_GradeView viewDidCurrentView];
+        } else if (number == 2) {
+            section_NoteView = self.section_NoteView;
+            [section_NoteView viewDidCurrentView];
+        }
+    }
+}
 
 #pragma mark -- init
 
@@ -249,15 +249,17 @@
     self.slideSwitchView.shadowImage = [[UIImage imageNamed:@"play-courselist_0df3"]
                                         stretchableImageWithLeftCapWidth:59.0f topCapHeight:0.0f];
     
-//    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
-//    
-//    self.section_ChapterView = [story instantiateViewControllerWithIdentifier:@"Section_ChapterViewController"];
-//    self.section_ChapterView.title = @"章节目录";
-//    self.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:self.section.sectionList];
-//    
+    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+    
+    //章节页面
+    self.section_ChapterView = [story instantiateViewControllerWithIdentifier:@"Section_ChapterViewController_iPhone"];
+    self.section_ChapterView.title = @"章节目录";
+    self.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:self.section.sectionList];
+    
+    //评价页面
 //    AppDelegate *app = [AppDelegate sharedInstance];
 //    if (app.isLocal == NO) {
-//        self.section_GradeView = [story instantiateViewControllerWithIdentifier:@"Section_GradeViewController"];
+//        self.section_GradeView = [story instantiateViewControllerWithIdentifier:@"Section_GradeViewController_iPhone"];
 //        self.section_GradeView.title = @"打分";
 //        self.section_GradeView.dataArray = [NSMutableArray arrayWithArray:self.section.commentList];
 //        self.section_GradeView.isGrade = [self.section.isGrade intValue];
@@ -266,12 +268,16 @@
 //        self.section_GradeView.pageCount = comment.pageCount;
 //        self.section_GradeView.nowPage = 1;
 //    }
-//    self.section_NoteView = [story instantiateViewControllerWithIdentifier:@"Section_NoteViewController"];
+    
+    //笔记页面
+//    self.section_NoteView = [story instantiateViewControllerWithIdentifier:@"Section_NoteViewController_iPhone"];
 //    self.section_NoteView.title = @"笔记";
 //    self.section_NoteView.dataArray = [NSMutableArray arrayWithArray:self.section.noteList];
-//    
-//    [self.slideSwitchView buildUI];
+    
+    [self.slideSwitchView buildUI];
 }
+
+
 
 #pragma mark
 

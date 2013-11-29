@@ -236,6 +236,7 @@
         [cell.contentView addSubview:self.sectionCustomView];
     }else{
         [self.sectionCustomView refreshDataWithSection:self.sectionList[indexPath.row]];
+        DLog(@"sectionCustomview我被重用我光荣");
     }
     return cell;
 }
