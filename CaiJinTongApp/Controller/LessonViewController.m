@@ -47,7 +47,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         LessonInfoInterface *lessonInter = [[LessonInfoInterface alloc]init];
         self.lessonInterface = lessonInter;
         self.lessonInterface.delegate = self;
-        [self.lessonInterface getLessonInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId];
+        [self.lessonInterface getLessonInfoInterfaceDelegateWithUserId:@"18676"];
     }
 }
 -(void)getQuestionInfo  {
@@ -427,7 +427,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             [Utility errorAlert:@"暂无网络!"];
         }else {
             self.isSearching = YES;
-            [SVProgressHUD showWithStatus:@"玩命加载中..."];
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             SearchLessonInterface *searchLessonInter = [[SearchLessonInterface alloc]init];
             self.searchLessonInterface = searchLessonInter;
             self.searchLessonInterface.delegate = self;
@@ -597,8 +597,8 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 #pragma mark--SearchLessonInterfaceDelegate
 -(void)getSearchLessonInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
         dispatch_async(dispatch_get_main_queue(), ^{
+             [MBProgressHUD hideHUDForView:self.view animated:YES];
             UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
             ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
             if(self.isSearching){
@@ -635,7 +635,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     });
 }
 -(void)getSearchLessonInfoDidFailed:(NSString *)errorMsg {
-    [SVProgressHUD dismiss];
+     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
 }
 

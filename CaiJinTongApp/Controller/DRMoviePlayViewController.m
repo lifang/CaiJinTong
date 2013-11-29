@@ -34,6 +34,11 @@
     else if(self.sectionSaveModel){
         self.drMovieTopBar.titleLabel.text = self.sectionSaveModel.name;
     }
+   
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -51,11 +56,60 @@
     return self;
 }
 
+#pragma mark app notification
+- (void)appWillResignActive:(UIApplication *)application
+{
+    if (self.isPlaying) {
+        [self.moviePlayer pause];
+    }
+}
+
+- (void)appDidEnterBackground:(UIApplication *)application
+{
+    if (self.isPlaying) {
+        [self.moviePlayer pause];
+    }
+}
+
+- (void)appWillEnterForeground:(UIApplication *)application
+{
+    if (self.isPlaying) {
+        [self.moviePlayer play];
+    }
+}
+
+- (void)appDidBecomeActive:(UIApplication *)application
+{
+    if (self.isPlaying) {
+        [self.moviePlayer play];
+    }
+}
+//程序退出
+- (void)appWillTerminate:(UIApplication *)application
+{
+    [self saveCurrentStatus];
+    [self.moviePlayer stop];
+    self.moviePlayer = nil;
+}
+#pragma mark --
+
+-(void)addApplicationNotification{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
+}
 - (void)viewDidLoad
 {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(playVideo:) name:@"gotoMoviePlay" object:nil];
-    
+    [self addApplicationNotification];
     [super viewDidLoad];
     self.myNotesItem.delegate = self;
     self.myQuestionItem.delegate = self;
@@ -197,10 +251,6 @@
 
 -(void)TouchSingleTap{
     self.isHiddlePlayerControlView = !self.isHiddlePlayerControlView;
-    if (self.chapterListItem.isSelected) {
-        self.isPopupChapter = !self.isPopupChapter;
-    }
-    
 }
 
 -(void)TouchVolumeUP{
@@ -226,7 +276,10 @@
     Section *s = [[Section alloc] init];
     SectionSaveModel *ssm = [s getDataWithSid:sectionID];
     self.sectionSaveModel = ssm;
-    [self playMovieWithURL:[NSURL fileURLWithPath:path] withFileType:MPMovieSourceTypeFile withLessonName:[notification.userInfo objectForKey:@""]];
+    NSURL *url = [NSURL fileURLWithPath:path];
+    if (![self.movieUrl.absoluteString  isEqualToString:url.absoluteString]) {
+         [self playMovieWithURL:url withFileType:MPMovieSourceTypeFile withLessonName:[notification.userInfo objectForKey:@""]];
+    }
 }
 
 
@@ -370,23 +423,15 @@
         return;
     }
     
-    if (self.moviePlayer.isPreparedToPlay) {
-        if ([self.movieUrl.absoluteString isEqualToString:[self.moviePlayer.contentURL absoluteString]]) {
-            
-        }else{//切换视频 地址
+    if (self.drMovieSourceType == MPMovieSourceTypeFile) {
+        [self.moviePlayer setContentURL:self.movieUrl];
+        [self.moviePlayer play];
+    }else
+        if (self.drMovieSourceType == MPMovieSourceTypeStreaming) {
             [self.moviePlayer setContentURL:self.movieUrl];
-        }
-    }else{
-        if (self.drMovieSourceType == MPMovieSourceTypeFile) {
-            [self.moviePlayer setContentURL:self.movieUrl];
+            [self.moviePlayer prepareToPlay];
             [self.moviePlayer play];
-        }else
-            if (self.drMovieSourceType == MPMovieSourceTypeStreaming) {
-                [self.moviePlayer setContentURL:self.movieUrl];
-                [self.moviePlayer prepareToPlay];
-                [self.moviePlayer play];
-            }
-    }
+        }
     self.isPlaying = YES;
 }
 
@@ -497,9 +542,16 @@
     _isHiddlePlayerControlView = isHiddlePlayerControlView;
     [UIView animateWithDuration:0.5 animations:^{
         if (isHiddlePlayerControlView) {
+            if (self.chapterListItem.isSelected) {
+                self.isPopupChapter = NO;
+                self.chapterListItem.isSelected = YES;
+            }
             self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,768+50};
             self.drMovieTopBar.center = (CGPoint){self.movieplayerControlBackView.center.x,-20};
         }else{
+            if (self.chapterListItem.isSelected) {
+                self.isPopupChapter = YES;
+            }
             self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,768-50};
             self.drMovieTopBar.center = (CGPoint){self.movieplayerControlBackView.center.x,20};
             NSLog(@"%@",NSStringFromCGRect(self.movieplayerControlBackView.frame));
