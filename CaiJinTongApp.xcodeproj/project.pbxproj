@@ -11,6 +11,7 @@
 		0E5267291829EA450009E535 /* SectionSaveModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E5267281829EA450009E535 /* SectionSaveModel.m */; };
 		0E52672C1829EE990009E535 /* DownLoadInformView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E52672B1829EE990009E535 /* DownLoadInformView.m */; };
 		0E52672E1829F4EE0009E535 /* DownLoadInformView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E52672D1829F4EE0009E535 /* DownLoadInformView.xib */; };
+		0E8166E518484E450064DE98 /* CJTSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8166E418484E450064DE98 /* CJTSlider.m */; };
 		0E9C9EF0184309A200D48781 /* QuestionListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9C9EEF184309A200D48781 /* QuestionListCell.m */; };
 		0E9C9EF318431A5300D48781 /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9C9EF218431A5300D48781 /* InfoViewController.m */; };
 		0E9C9EF5184321E600D48781 /* down.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E9C9EF4184321E600D48781 /* down.png */; };
@@ -297,6 +298,8 @@
 		0E52672A1829EE990009E535 /* DownLoadInformView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownLoadInformView.h; sourceTree = "<group>"; };
 		0E52672B1829EE990009E535 /* DownLoadInformView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownLoadInformView.m; sourceTree = "<group>"; };
 		0E52672D1829F4EE0009E535 /* DownLoadInformView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DownLoadInformView.xib; sourceTree = "<group>"; };
+		0E8166E318484E450064DE98 /* CJTSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJTSlider.h; sourceTree = "<group>"; };
+		0E8166E418484E450064DE98 /* CJTSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJTSlider.m; sourceTree = "<group>"; };
 		0E9C9EEE184309A200D48781 /* QuestionListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionListCell.h; sourceTree = "<group>"; };
 		0E9C9EEF184309A200D48781 /* QuestionListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionListCell.m; sourceTree = "<group>"; };
 		0E9C9EF118431A5300D48781 /* InfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoViewController.h; sourceTree = "<group>"; };
@@ -1038,12 +1041,12 @@
 				0EB849321835DE2700C97030 /* SettingViewController.m */,
 				0E9C9EF118431A5300D48781 /* InfoViewController.h */,
 				0E9C9EF218431A5300D48781 /* InfoViewController.m */,
+				18F477E7183D9BDA00021886 /* SuggestionFeedbackViewController.h */,
+				18F477E8183D9BDA00021886 /* SuggestionFeedbackViewController.m */,
 				63841CF11838A60100E3FA9E /* DRNavigationController.h */,
 				63841CF21838A60100E3FA9E /* DRNavigationController.m */,
 				18335B65183C982600DB8B7E /* DRAskQuestionViewController.h */,
 				18335B66183C982600DB8B7E /* DRAskQuestionViewController.m */,
-				18F477E7183D9BDA00021886 /* SuggestionFeedbackViewController.h */,
-				18F477E8183D9BDA00021886 /* SuggestionFeedbackViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1181,6 +1184,8 @@
 				0EAFA11918223FC500D01D3E /* CJTMainToolbar.m */,
 				6323876118223E9500C71535 /* DRNavigationBar.h */,
 				6323876218223E9500C71535 /* DRNavigationBar.m */,
+				0E8166E318484E450064DE98 /* CJTSlider.h */,
+				0E8166E418484E450064DE98 /* CJTSlider.m */,
 				0EA7EF881827792A00C47F69 /* SectionCustomView.h */,
 				0EA7EF891827792A00C47F69 /* SectionCustomView.m */,
 				0EA2A9241828D667003D152E /* SUNSlideSwitchView.h */,
@@ -1775,6 +1780,7 @@
 				6323875A1822056000C71535 /* LoginViewController.m in Sources */,
 				630B9600182A4CF6000ED31E /* MoviePlayerHolderView.m in Sources */,
 				63841CF31838A60100E3FA9E /* DRNavigationController.m in Sources */,
+				0E8166E518484E450064DE98 /* CJTSlider.m in Sources */,
 				0EA7EF521823A99700C47F69 /* PlayBackInterface.m in Sources */,
 				6323876018222A1500C71535 /* DRNaviGationBarController.m in Sources */,
 				0EA717671829E2D100560885 /* TQStarRatingView.m in Sources */,

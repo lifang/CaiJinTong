@@ -45,16 +45,8 @@
         [self addSubview:self.imageView];
         imageViewC = nil;
         
-        self.pv = [[UISlider alloc] initWithFrame:CGRectMake(-2, self.frame.size.height+itemLabel-30, self.frame.size.width+4, 37)];
-        UIImage *frontImage = [[UIImage imageNamed:@"progressBar-front.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0) resizingMode:UIImageResizingModeStretch];
-        UIImage *backgroundImage = [[UIImage imageNamed:@"progressBar-background.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0) resizingMode:UIImageResizingModeStretch];
-        [self.pv setMinimumTrackImage:frontImage forState:UIControlStateNormal];
-        [self.pv setMaximumTrackImage:backgroundImage forState:UIControlStateNormal];
-        [self.pv setThumbImage:[UIImage imageNamed:@"nothing"] forState:UIControlStateNormal];
-        [self.pv setMaximumValue:100.0];
-        [self.pv setMinimumValue:0.0];
-        self.pv.value = [section.sectionProgress floatValue];
-        UILabel *progressLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, self.frame.size.height+itemLabel-28, self.frame.size.width, 30)];
+        //学习进度
+        CJTSlider *pVV = [[CJTSlider alloc] initWithFrame:CGRectMake(-2, self.frame.size.height+itemLabel-30, self.frame.size.width+4, 37)];
         CGFloat xx = [section.sectionProgress floatValue];
         if ( xx-100 >0) {
             xx=100;
@@ -62,11 +54,19 @@
         if (!xx) {
             xx = 0;
         }
+        
+        pVV.value = xx;
+        self.pv =pVV;
+        [self addSubview:self.pv];
+         pVV = nil;
+        
+        UILabel *progressLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, self.frame.size.height+itemLabel-28, self.frame.size.width, 30)];
         progressLabel.text = [NSString stringWithFormat:@"学习进度:%.2f%%",xx];
         progressLabel.textAlignment = NSTextAlignmentLeft;
         progressLabel.backgroundColor = [UIColor clearColor];
-        [self addSubview:self.pv];
         [self addSubview:progressLabel];
+        progressLabel = nil;
+       
         
     }
     return self;

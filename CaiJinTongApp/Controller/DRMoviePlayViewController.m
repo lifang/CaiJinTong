@@ -600,7 +600,7 @@
 //}
 #pragma mark -- PlayBackInterfaceDelegate
 
--(void)getPlayBackInfoDidFinished:(NSDictionary *)result {
+-(void)getPlayBackInfoDidFinished {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];

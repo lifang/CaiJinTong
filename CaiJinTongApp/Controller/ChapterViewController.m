@@ -71,6 +71,7 @@
 
 -(void)reloadDataWithDataArray:(NSArray*)data{
     self.recentArray = data;
+    DLog(@"count = %d",data.count);
     if (self.recentArray.count>0) {
         self.dataArray = [NSMutableArray arrayWithArray:self.recentArray];
         [self displayNewView];
@@ -159,7 +160,7 @@
 }
 //绘制tableview的cell
 -(void)drawTableViewCell:(UITableViewCell *)cell index:(int)row category:(int)category{
-    int maxIndex = (row*2+3);
+    int maxIndex = (row*2+2);
     int number = [self.dataArray count]-6*category;
 	if(maxIndex < number) {
 		for (int i=0; i<2; i++) {
@@ -169,12 +170,6 @@
 	}
 	else if(maxIndex-1 < number) {
 		for (int i=0; i<1; i++) {
-			[self displayPhotoes:cell row:row col:i category:category];
-		}
-		return;
-	}
-	else if(maxIndex-2 < number) {
-		for (int i=0; i<2; i++) {
 			[self displayPhotoes:cell row:row col:i category:category];
 		}
 		return;
