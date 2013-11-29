@@ -160,7 +160,7 @@ static NSIndexPath *indexPath = nil;
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
-        [SVProgressHUD showWithStatus:@"玩命加载中..."];
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         indexPath = path;
         AcceptAnswerInterface *acceptAnswerInter = [[AcceptAnswerInterface alloc]init];
         self.acceptAnswerInterface = acceptAnswerInter;
@@ -299,8 +299,8 @@ static NSIndexPath *indexPath = nil;
 #pragma mark -- AcceptAnswerInterfaceDelegate 
 -(void)getAcceptAnswerInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [SVProgressHUD dismissWithSuccess:@"成功!"];
         dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             QuestionModel *question = [self.myQuestionArr  objectAtIndex:indexPath.section];
             AnswerModel *answer = [question.answerList objectAtIndex:indexPath.row];
             question.isAcceptAnswer = @"1";
@@ -310,7 +310,7 @@ static NSIndexPath *indexPath = nil;
     });
 }
 -(void)getAcceptAnswerInfoDidFailed:(NSString *)errorMsg {
-    [SVProgressHUD dismiss];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
 }
 

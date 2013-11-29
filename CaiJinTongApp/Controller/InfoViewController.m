@@ -87,7 +87,7 @@
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
-        [SVProgressHUD showWithStatus:@"玩命加载中..."];
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
         EditInfoInterface *chapterInter = [[EditInfoInterface alloc]init];
         self.editInfoInterface = chapterInter;
@@ -179,9 +179,8 @@
 
 -(void)getEditInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [SVProgressHUD dismissWithSuccess:@"资料更新成功!"];
         dispatch_async(dispatch_get_main_queue(), ^{
-
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             [self.navigationController popViewControllerAnimated:YES];
             UserModel *user = [[CaiJinTongManager shared] user];
             user.userName = self.textField1.text;
@@ -193,7 +192,7 @@
     });
 }
 -(void)getEditInfoDidFailed:(NSString *)errorMsg {
-    [SVProgressHUD dismiss];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
 }
 

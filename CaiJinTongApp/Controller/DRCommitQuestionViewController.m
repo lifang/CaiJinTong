@@ -29,7 +29,7 @@ static BOOL tableVisible;
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
-        [SVProgressHUD showWithStatus:@"玩命加载中..."];
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         QuestionInfoInterface *questionInfoInter = [[QuestionInfoInterface alloc]init];
         self.questionInfoInterface = questionInfoInter;
         self.questionInfoInterface.delegate = self;
@@ -132,7 +132,6 @@ static BOOL tableVisible;
 #pragma mark--QuestionInfoInterfaceDelegate {
 -(void)getQuestionInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [SVProgressHUD dismiss];
         //分类的数据
         self.questionList = [NSMutableArray arrayWithArray:[result valueForKey:@"questionList"]];
         NSLog(@"%@ 斯蒂芬",self.questionList);
@@ -144,13 +143,14 @@ static BOOL tableVisible;
                 [self.questionArrSelSection addObject:[NSString stringWithFormat:@"%d",i]];
             }
             dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
                 [self.selectTable reloadData];
         });
     });
     });
 }
 -(void)getQuestionInfoDidFailed:(NSString *)errorMsg {
-    [SVProgressHUD dismiss];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
 }
 

@@ -36,10 +36,14 @@ NSString *appleID = @"6224939";
 {
     [super viewDidLoad];
     self.title = @"设置";
-    
+
     [self.tableView registerClass:[InfoCell class] forHeaderFooterViewReuseIdentifier:Info_HEADER_IDENTIFIER];
-    self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
-    
+    if (platform<7.0) {
+        self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
+    }else {
+        self.tableView.contentInset = UIEdgeInsetsMake(-10, 0, 0, 0);
+    }
+
     [self.drnavigationBar.navigationRightItem setTitle:@"返回" forState:UIControlStateNormal];
     [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     self.drnavigationBar.titleLabel.text = @"设置";
@@ -91,6 +95,7 @@ NSString *appleID = @"6224939";
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
+//    cell.backgroundColor = [UIColor clearColor];
     switch (indexPath.section) {
         case 0:
             cell.textLabel.text = @"我的资料";

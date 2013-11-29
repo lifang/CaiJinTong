@@ -357,7 +357,7 @@
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
-        [SVProgressHUD showWithStatus:@"玩命加载中..."];
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         AskQuestionInterface *askQuestionInter = [[AskQuestionInterface alloc]init];
         self.askQuestionInterface = askQuestionInter;
         self.askQuestionInterface.delegate = self;
@@ -378,7 +378,7 @@
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
-        [SVProgressHUD showWithStatus:@"玩命加载中..."];
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         SumitNoteInterface *sumitNoteInter = [[SumitNoteInterface alloc]init];
         self.sumitNoteInterface = sumitNoteInter;
         self.sumitNoteInterface.delegate = self;
@@ -445,7 +445,7 @@
             [Utility errorAlert:@"暂无网络!"];
         }else {
             //判断是否播放完毕
-            [SVProgressHUD showWithStatus:@"玩命加载中..."];
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             PlayBackInterface *playBackInter = [[PlayBackInterface alloc]init];
             self.playBackInterface = playBackInter;
             self.playBackInterface.delegate = self;
@@ -602,22 +602,21 @@
 
 -(void)getPlayBackInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
         dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             [[NSNotificationCenter defaultCenter] removeObserver:self];
         });
     });
 }
 -(void)getPlayBackDidFailed:(NSString *)errorMsg {
-    [SVProgressHUD dismiss];
-//    [Utility errorAlert:errorMsg];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [Utility errorAlert:errorMsg];
 }
 #pragma mark -- SumitNoteInterfaceDelegate
 -(void)getSumitNoteInfoDidFinished{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [SVProgressHUD dismissWithSuccess:@"提交笔记成功!"];
-        
         dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             //前一个view笔记里面加上刚提交的笔记
             if (self.delegate && [self.delegate respondsToSelector:@selector(drMoviePlayerViewController:commitNotesSuccess:andTime:)]) {
                 [self.delegate drMoviePlayerViewController:self commitNotesSuccess:self.commitNoteText andTime:self.commitNoteTime];
@@ -626,20 +625,19 @@
     });
 }
 -(void)getSumitNoteDidFailed:(NSString *)errorMsg {
-    [SVProgressHUD dismiss];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
 }
 #pragma mark -- AskQuestionInterfaceDelegate
 -(void)getAskQuestionInfoDidFinished {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [SVProgressHUD dismissWithSuccess:@"提问成功!"];
         dispatch_async(dispatch_get_main_queue(), ^{
-
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
         });
     });
 }
 -(void)getAskQuestionDidFailed:(NSString *)errorMsg {
-    [SVProgressHUD dismiss];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
 }
 @end

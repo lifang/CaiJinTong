@@ -55,8 +55,6 @@
 		0EA36ED2182C8E4F0074D67B /* CustomLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA36ED1182C8E4F0074D67B /* CustomLabel.m */; };
 		0EA36ED4182C8E930074D67B /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EA36ED3182C8E930074D67B /* CoreText.framework */; };
 		0EA36ED7182CB5570074D67B /* CustomTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA36ED6182CB5570074D67B /* CustomTextView.m */; };
-		0EA717621829D02000560885 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA717601829D02000560885 /* SVProgressHUD.m */; };
-		0EA717631829D02000560885 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0EA717611829D02000560885 /* SVProgressHUD.bundle */; };
 		0EA717671829E2D100560885 /* TQStarRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA717661829E2D100560885 /* TQStarRatingView.m */; };
 		0EA7176C1829E2D800560885 /* backgroundStar.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EA717681829E2D800560885 /* backgroundStar.png */; };
 		0EA7176D1829E2D800560885 /* backgroundStar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EA717691829E2D800560885 /* backgroundStar@2x.png */; };
@@ -386,9 +384,6 @@
 		0EA36ED3182C8E930074D67B /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		0EA36ED5182CB5570074D67B /* CustomTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTextView.h; sourceTree = "<group>"; };
 		0EA36ED6182CB5570074D67B /* CustomTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTextView.m; sourceTree = "<group>"; };
-		0EA7175F1829D02000560885 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
-		0EA717601829D02000560885 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
-		0EA717611829D02000560885 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
 		0EA717651829E2D100560885 /* TQStarRatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TQStarRatingView.h; sourceTree = "<group>"; };
 		0EA717661829E2D100560885 /* TQStarRatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TQStarRatingView.m; sourceTree = "<group>"; };
 		0EA717681829E2D800560885 /* backgroundStar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backgroundStar.png; sourceTree = "<group>"; };
@@ -854,16 +849,6 @@
 			path = S3;
 			sourceTree = "<group>";
 		};
-		0EA7175E1829D01400560885 /* SVProgressHUD */ = {
-			isa = PBXGroup;
-			children = (
-				0EA7175F1829D02000560885 /* SVProgressHUD.h */,
-				0EA717601829D02000560885 /* SVProgressHUD.m */,
-				0EA717611829D02000560885 /* SVProgressHUD.bundle */,
-			);
-			path = SVProgressHUD;
-			sourceTree = "<group>";
-		};
 		0EA717641829E2BD00560885 /* 打分 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1234,7 +1219,6 @@
 				0E9DA35F183F568D000A5995 /* Classes */,
 				0EAD1F62182B24A700204FC3 /* FMDB */,
 				0EA717641829E2BD00560885 /* 打分 */,
-				0EA7175E1829D01400560885 /* SVProgressHUD */,
 				0EA7EF8118276DC900C47F69 /* AMProgressView */,
 				0EA7EF67182748B000C47F69 /* SDWebImage */,
 				0E52B97E182104C6008A88C1 /* URLEncoding */,
@@ -1756,7 +1740,6 @@
 				630B03B51820F5BB00F72C4C /* InfoPlist.strings in Resources */,
 				18491C4718347A2A003C82E4 /* course-courses_06@2x.png in Resources */,
 				0EA7176C1829E2D800560885 /* backgroundStar.png in Resources */,
-				0EA717631829D02000560885 /* SVProgressHUD.bundle in Resources */,
 				1836AFE2183AF875009E65B5 /* settings_delete.png in Resources */,
 				0EAFA0FC1822167800D01D3E /* submitAnswer.json in Resources */,
 				0E9DA2C0183EF00D000A5995 /* questionInfo副本.json in Resources */,
@@ -1905,7 +1888,6 @@
 				0EAFA1141822399100D01D3E /* LogInterface.m in Sources */,
 				630B03B71820F5BB00F72C4C /* main.m in Sources */,
 				18C9314018363B9C00FBE1A8 /* DRCommitQuestionViewController.m in Sources */,
-				0EA717621829D02000560885 /* SVProgressHUD.m in Sources */,
 				0EA2A9341828E180003D152E /* Section_ChapterCell.m in Sources */,
 				0EA2A92B1828D758003D152E /* Section_ChapterViewController.m in Sources */,
 				0EAD1F6D182B24B100204FC3 /* FMDatabaseQueue.m in Sources */,
