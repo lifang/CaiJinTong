@@ -271,6 +271,10 @@
 		63841CF31838A60100E3FA9E /* DRNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63841CF21838A60100E3FA9E /* DRNavigationController.m */; };
 		63B710FB1844A16100A61B14 /* iVersion.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 63B710F81844A16100A61B14 /* iVersion.bundle */; };
 		63B710FC1844A16100A61B14 /* iVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B710FA1844A16100A61B14 /* iVersion.m */; };
+		63B794E81847477100B8276A /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 63B794E01847477100B8276A /* MJRefresh.bundle */; };
+		63B794E91847477100B8276A /* MJRefreshBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B794E31847477100B8276A /* MJRefreshBaseView.m */; };
+		63B794EA1847477100B8276A /* MJRefreshFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B794E51847477100B8276A /* MJRefreshFooterView.m */; };
+		63B794EB1847477100B8276A /* MJRefreshHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B794E71847477100B8276A /* MJRefreshHeaderView.m */; };
 		63C15C73183F54E600890086 /* DRMoviePlayerTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C15C72183F54E600890086 /* DRMoviePlayerTopBar.m */; };
 /* End PBXBuildFile section */
 
@@ -705,6 +709,14 @@
 		63B710F81844A16100A61B14 /* iVersion.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = iVersion.bundle; sourceTree = "<group>"; };
 		63B710F91844A16100A61B14 /* iVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iVersion.h; sourceTree = "<group>"; };
 		63B710FA1844A16100A61B14 /* iVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iVersion.m; sourceTree = "<group>"; };
+		63B794E01847477100B8276A /* MJRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MJRefresh.bundle; sourceTree = "<group>"; };
+		63B794E11847477100B8276A /* MJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefresh.h; sourceTree = "<group>"; };
+		63B794E21847477100B8276A /* MJRefreshBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshBaseView.h; sourceTree = "<group>"; };
+		63B794E31847477100B8276A /* MJRefreshBaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshBaseView.m; sourceTree = "<group>"; };
+		63B794E41847477100B8276A /* MJRefreshFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshFooterView.h; sourceTree = "<group>"; };
+		63B794E51847477100B8276A /* MJRefreshFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshFooterView.m; sourceTree = "<group>"; };
+		63B794E61847477100B8276A /* MJRefreshHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshHeaderView.h; sourceTree = "<group>"; };
+		63B794E71847477100B8276A /* MJRefreshHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshHeaderView.m; sourceTree = "<group>"; };
 		63C15C71183F54E600890086 /* DRMoviePlayerTopBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DRMoviePlayerTopBar.h; path = movieCotr/DRMoviePlayerTopBar.h; sourceTree = "<group>"; };
 		63C15C72183F54E600890086 /* DRMoviePlayerTopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DRMoviePlayerTopBar.m; path = movieCotr/DRMoviePlayerTopBar.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1516,6 +1528,7 @@
 		639A07A01823905900B60670 /* thirty */ = {
 			isa = PBXGroup;
 			children = (
+				63B794DF1847477100B8276A /* MJRefresh */,
 				6330032E1845ED6F00F7838D /* radioBtuuon */,
 				63B710F71844A16100A61B14 /* iVersion */,
 				630CB0791828BCCE002FD462 /* LGPlayer */,
@@ -1540,6 +1553,21 @@
 				63B710FA1844A16100A61B14 /* iVersion.m */,
 			);
 			path = iVersion;
+			sourceTree = "<group>";
+		};
+		63B794DF1847477100B8276A /* MJRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				63B794E01847477100B8276A /* MJRefresh.bundle */,
+				63B794E11847477100B8276A /* MJRefresh.h */,
+				63B794E21847477100B8276A /* MJRefreshBaseView.h */,
+				63B794E31847477100B8276A /* MJRefreshBaseView.m */,
+				63B794E41847477100B8276A /* MJRefreshFooterView.h */,
+				63B794E51847477100B8276A /* MJRefreshFooterView.m */,
+				63B794E61847477100B8276A /* MJRefreshHeaderView.h */,
+				63B794E71847477100B8276A /* MJRefreshHeaderView.m */,
+			);
+			path = MJRefresh;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1650,6 +1678,7 @@
 				6330033B1845F81200F7838D /* radio_unchecked.png in Resources */,
 				18C9313218363B2A00FBE1A8 /* play_note@2x.png in Resources */,
 				0EAFA0FE1822167800D01D3E /* suggestion.json in Resources */,
+				63B794E81847477100B8276A /* MJRefresh.bundle in Resources */,
 				181532431835BDAB0078A410 /* course-mycourse_03@2x.png in Resources */,
 				18491C4B1834AAE6003C82E4 /* 2@2x.png in Resources */,
 				0EAFA0F81822167800D01D3E /* questionList.json in Resources */,
@@ -1751,6 +1780,7 @@
 				0EA7EF3718234F9000C47F69 /* SearchQuestionInterface.m in Sources */,
 				0EA7EF09182336B600C47F69 /* chapterModel.m in Sources */,
 				630B03C41820F5BB00F72C4C /* ViewController.m in Sources */,
+				63B794E91847477100B8276A /* MJRefreshBaseView.m in Sources */,
 				0EA7EF90182782C600C47F69 /* SuggestionInterface.m in Sources */,
 				0EA7EF661827445500C47F69 /* ChapterViewController.m in Sources */,
 				633003911845FC2100F7838D /* QRadioButton.m in Sources */,
@@ -1849,6 +1879,7 @@
 				0EEAC94F183CA96800B15830 /* Section_chapterModel.m in Sources */,
 				0EDF4DF418210241007161E0 /* NSString+HTML.m in Sources */,
 				63841CF01838977000E3FA9E /* ChapterSearchBar.m in Sources */,
+				63B794EA1847477100B8276A /* MJRefreshFooterView.m in Sources */,
 				63098F3A183CBA0B007A76AC /* UIViewController+MJPopupViewController.m in Sources */,
 				0EAFA1141822399100D01D3E /* LogInterface.m in Sources */,
 				630B03B71820F5BB00F72C4C /* main.m in Sources */,
@@ -1872,6 +1903,8 @@
 				0EDF4DFE1821028F007161E0 /* NSDictionary+AllKeytoLowerCase.m in Sources */,
 				0EA7EF80182748BB00C47F69 /* UIImageView+WebCache.m in Sources */,
 				0EAD1F6E182B24B100204FC3 /* FMDatabaseAdditions.m in Sources */,
+				0EA264D31839D2A40037489C /* MZFormSheetSegue.m in Sources */,
+				63B794EB1847477100B8276A /* MJRefreshHeaderView.m in Sources */,
 				0EAD1F6F182B24B100204FC3 /* FMDatabase.m in Sources */,
 				0EA7EF5E1823AE1800C47F69 /* AskQuestionInterface.m in Sources */,
 				0EAD1F83182B7D8C00204FC3 /* Section_GradeCell.m in Sources */,
