@@ -31,6 +31,7 @@
         self.searchBar = [[ChapterSearchBar_iPhone alloc] init];
         self.searchBar.frame = CGRectMake(19, 78, 282, 34);
         [self.view addSubview:self.searchBar];
+        self.searchBar.delegate = self;
     }
     
     CJTMainToolbar_iPhone *mainBar = [[CJTMainToolbar_iPhone alloc]initWithFrame:CGRectMake (19, 125, 281, 40)];
@@ -49,7 +50,7 @@
     [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER];
     //定制布局
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-    flowLayout.itemSize = CGSizeMake(160, 153);
+    flowLayout.itemSize = CGSizeMake(160, 155);
     flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
     flowLayout.minimumInteritemSpacing = 0;
     flowLayout.minimumLineSpacing = 0;
@@ -138,11 +139,6 @@
         [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
         dispatch_async(dispatch_get_main_queue(), ^{
             if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
-                if(self.isSearching){//搜索过滤
-                    
-                    
-                }
-                
                 self.recentArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
                 self.sectionList = self.recentArray;
                 [self.collectionView reloadData];
@@ -155,6 +151,60 @@
     [Utility errorAlert:errorMsg];
 }
 
+#pragma mark -- Search Lesson InterfaceDelegate
+-(void)getSearchLessonInfoDidFinished:(NSDictionary *)result {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (([[result objectForKey:@"sectionList"] isKindOfClass:[NSNull class]]) || ([result objectForKey:@"sectionList"] == nil) || ([[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]].count < 1)) {
+                [SVProgressHUD dismissWithSuccess:@"搜索完毕,没有符合条件的结果!"];
+            }else{
+                NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
+                if(self.searchBar.searchTextField.text != nil && ![self.searchBar.searchTextField.text isEqualToString:@""] && tempArray.count > 0){
+                    NSString *keyword = [self.searchBar.searchTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                    NSMutableArray *ary = [NSMutableArray arrayWithCapacity:5];
+                    for(int i = 0 ; i < tempArray.count ; i++){
+                        SectionModel *section = [tempArray objectAtIndex:i];
+                        NSRange range = [section.sectionName rangeOfString:[NSString stringWithFormat:@"(%@)+",keyword] options:NSRegularExpressionSearch];
+                        if(range.location != NSNotFound){
+                            [ary addObject:section];
+                        }
+                    }
+                    tempArray = [NSMutableArray arrayWithArray:ary];
+                }
+                if(tempArray.count == 0){
+                    [SVProgressHUD dismissWithSuccess:@"搜索完毕,没有符合条件的结果!"];
+                }else{
+                    self.recentArray = tempArray;
+                    self.sectionList = self.recentArray;
+                    
+                    //搜索成功则清除旧的筛选记录
+                    self.progressArray = nil;
+                    self.nameArray = nil;
+                    
+                    //对搜索结果进行筛选排序
+                    switch (self.filterStatus) {
+                        case progress:{
+                            [self bubbleSort:self.sectionList];
+                        }
+                            break;
+                        case a_z:{
+                            [self letterSort:self.sectionList];
+                        }
+                            break;
+                        default:
+                            break;
+                    }
+                    [self displayNewView];
+                }
+            }
+        });
+    });
+}
+-(void)getSearchLessonInfoDidFailed:(NSString *)errorMsg {
+    [SVProgressHUD dismiss];
+    [Utility errorAlert:errorMsg];
+}
 
 
 #pragma mark --CollectionViewDelegate
@@ -164,16 +214,29 @@
 }
 
 - (NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-//    return self.sectionList.count;
-    return 8;
+    return self.sectionList.count;
+//    return 8;
 }
 
 - (UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER forIndexPath:indexPath];
-    self.sectionCustomView = [[SectionCustomView_iPhone alloc] initWithFrame:CGRectMake(18, 0, 125, 145) andSection:(SectionModel *)self.sectionList[0] andItemLabel:20];
-    [self.sectionCustomView addTarget:self action:@selector(cellClicked:) forControlEvents:UIControlEventTouchUpInside];
-    cell.clipsToBounds = YES;
-    [cell.contentView addSubview:self.sectionCustomView];
+    //如何实现subView的复用 (因为没有重写cell类)
+    BOOL flag = YES;//是否init新sectioncustomview
+    for(id son in cell.contentView.subviews){
+        if([son isKindOfClass:[SectionCustomView_iPhone class]]){
+            flag = NO;
+            self.sectionCustomView = (SectionCustomView_iPhone *)son;
+            break;
+        }
+    }
+    if(flag){
+        self.sectionCustomView = [[SectionCustomView_iPhone alloc] initWithFrame:CGRectMake(18, 10, 125, 145) andSection:(SectionModel *)self.sectionList[indexPath.row] andItemLabel:20];
+        [self.sectionCustomView addTarget:self action:@selector(cellClicked:) forControlEvents:UIControlEventTouchUpInside];
+        cell.clipsToBounds = NO;
+        [cell.contentView addSubview:self.sectionCustomView];
+    }else{
+        [self.sectionCustomView refreshDataWithSection:self.sectionList[indexPath.row]];
+    }
     return cell;
 }
 //绘制cell  (注:  160*153)
@@ -187,7 +250,7 @@
 
 
 #pragma mark -- CJTMainToolbar_iPhoneDelegate
-//按学习进度排序
+//正确显示排序按钮
 -(void)initButton:(UIButton *)button {
     [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     NSArray *subViews = [self.mainToolBar subviews];
@@ -208,10 +271,12 @@
     [self initButton:button];
     self.sectionList = nil;
     self.sectionList = [NSMutableArray arrayWithArray:self.recentArray];
+    self.filterStatus = recent;
     [self displayNewView];
 }
 //学习进度
 - (void)tappedInToolbar:(CJTMainToolbar_iPhone *)toolbar progressButton:(UIButton *)button {
+    self.filterStatus = progress;
     if (self.progressArray.count >0) {
         [self initButton:button];
         self.sectionList = [NSMutableArray arrayWithArray:self.progressArray];
@@ -227,6 +292,7 @@
 }
 //名称(A-Z)
 - (void)tappedInToolbar:(CJTMainToolbar_iPhone *)toolbar nameButton:(UIButton *)button {
+    self.filterStatus = a_z;
     if (self.nameArray.count>0) {
         [self initButton:button];
         self.sectionList = [NSMutableArray arrayWithArray:self.nameArray];
@@ -313,9 +379,26 @@
     }
 }
 
+#pragma mark -- search Bar delegate
+-(void)chapterSeachBar_iPhone:(ChapterSearchBar_iPhone *)searchBar beginningSearchString:(NSString *)searchText{
+    if (self.searchBar.searchTextField.text.length == 0) {
+        [Utility errorAlert:@"请输入搜索内容!"];
+    }else {
+        [self.searchBar resignFirstResponder];
+        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+            [Utility errorAlert:@"暂无网络!"];
+        }else {
+            [SVProgressHUD showWithStatus:@"玩命加载中..."];
+            SearchLessonInterface *searchLessonInter = [[SearchLessonInterface alloc]init];
+            self.searchInterface = searchLessonInter;
+            self.searchInterface.delegate = self;
+            [self.searchInterface getSearchLessonInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:[self.searchBar.searchTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+        }
+    }
+}
 
 #pragma mark -- 页面布局
-
+//collection重载数据
 -(void)displayNewView {
     [self.collectionView reloadData];
     [self.collectionView setContentOffset:CGPointMake(0, 0)];

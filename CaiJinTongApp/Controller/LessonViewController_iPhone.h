@@ -15,21 +15,29 @@
 #import "CJTMainToolbar_iPhone.h"
 #import "ChineseString.h"
 #import "pinyin.h"
-@interface LessonViewController_iPhone : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,ChapterInfoInterfaceDelegate,CJTMainToolbar_iPhoneDelegate>
+#import "SearchLessonInterface.h"
+#import "LHLNavigationBarViewController.h"
+typedef enum{
+    recent = 1,
+    progress,
+    a_z
+} FilterStatus;
+@interface LessonViewController_iPhone : LHLNavigationBarViewController<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,ChapterInfoInterfaceDelegate,CJTMainToolbar_iPhoneDelegate,SearchLessonInterfaceDelegate,ChapterSearchBarDelegate_iPhone>
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong,nonatomic) UIScrollView *myScrollView;
 
-@property (nonatomic) BOOL isSearching;
+@property (nonatomic) FilterStatus filterStatus;
 
 @property (strong,nonatomic) NSMutableArray *lessonList;
 @property (strong,nonatomic) NSMutableArray *chapterList;
-@property (strong,nonatomic) NSMutableArray *sectionList;
+@property (strong,nonatomic) NSMutableArray *sectionList;//collectionViewDataSource使用的数据源
 @property (strong,nonatomic) NSMutableArray *recentArray;//最近播放
 @property (strong,nonatomic) NSArray *progressArray;//进度排序
 @property (strong,nonatomic) NSArray *nameArray;//名称排序
 
 @property (strong,nonatomic) SectionCustomView_iPhone *sectionCustomView;
 @property (strong,nonatomic) ChapterInfoInterface *chapterInterface;
+@property (strong,nonatomic) SearchLessonInterface *searchInterface;
 @property (nonatomic, strong) ChapterSearchBar_iPhone *searchBar;
 @property (strong,nonatomic) CJTMainToolbar_iPhone *mainToolBar;
 @end

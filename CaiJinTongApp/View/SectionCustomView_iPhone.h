@@ -13,6 +13,10 @@
 @property (nonatomic, strong) UILabel *nameLab;//视频名称
 @property (nonatomic, strong) UIImageView *imageView;//视频封面
 @property (nonatomic,strong) UISlider *pv; //视频进度
+@property (nonatomic,strong) UILabel *progressLabel;
 
 - (id)initWithFrame:(CGRect)frame andSection:(SectionModel *)section andItemLabel:(float)itemLabel;
+
+//修改赋值
+- (void)refreshDataWithSection:(SectionModel *)section;
 @end

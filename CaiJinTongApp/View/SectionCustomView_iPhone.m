@@ -22,7 +22,7 @@
     if (self) {
         
         //照片底板
-        UIImageView *photoBg = [[UIImageView alloc] initWithFrame:CGRectMake(-3, 17, 132, 132)];
+        UIImageView *photoBg = [[UIImageView alloc] initWithFrame:CGRectMake(-3, itemLabel - 3, 132, 132)];
         [photoBg setBackgroundColor:[UIColor whiteColor]];
         [photoBg.layer setCornerRadius:2.0];
         photoBg.image = [UIImage imageNamed:@"photoBg.png"];
@@ -51,8 +51,8 @@
         [self.pv setMinimumValue:0.0];
         self.pv.value = [section.sectionProgress floatValue];
         //进度条label
-        UILabel *progressLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, imageViewFrame.size.height - 18, imageViewFrame.size.width, 20)];
-        progressLabel.font = [UIFont systemFontOfSize:12.0];
+        self.progressLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, imageViewFrame.size.height - 18, imageViewFrame.size.width, 20)];
+        self.progressLabel.font = [UIFont systemFontOfSize:12.0];
         CGFloat xx = [section.sectionProgress floatValue];
         if ( xx-100 >0) {
             xx=100;
@@ -60,11 +60,11 @@
         if (!xx) {
             xx = 0;
         }
-        progressLabel.text = [NSString stringWithFormat:@"学习进度:%.2f%%",xx];
-        progressLabel.textAlignment = NSTextAlignmentLeft;
-        progressLabel.backgroundColor = [UIColor clearColor];
+        self.progressLabel.text = [NSString stringWithFormat:@"学习进度:%.2f%%",xx];
+        self.progressLabel.textAlignment = NSTextAlignmentLeft;
+        self.progressLabel.backgroundColor = [UIColor clearColor];
         [self.imageView addSubview:self.pv];
-        [self.imageView addSubview:progressLabel];
+        [self.imageView addSubview:self.progressLabel];
         
         //视频名称
         if (itemLabel>0) {  //label高度
@@ -81,6 +81,28 @@
         }
     }
     return self;
+}
+
+-(void)refreshDataWithSection:(SectionModel *)section{
+    if(!self.pv){
+        DLog(@"错误!应先初始化SectionCustomView!");
+        return;
+    }
+    
+    self.nameLab.text = section.sectionName;
+    
+    self.pv.value = [section.sectionProgress floatValue];
+    CGFloat xx = [section.sectionProgress floatValue];
+    if ( xx-100 >0) {
+        xx=100;
+    }
+    if (!xx) {
+        xx = 0;
+    }
+    self.progressLabel.text = [NSString stringWithFormat:@"学习进度:%.2f%%",xx];
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",section.sectionImg]];
+    [self.imageView setImageWithURL:url placeholderImage:Image(@"loginBgImage_v.png")];
 }
 
 @end
