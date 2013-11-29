@@ -218,8 +218,9 @@
     NSLog(@"%f,%f",mpc.volume,self.currentMoviePlaterVolume);
     if (mpc.volume < 0.00000001) {
         mpc.volume = self.currentMoviePlaterVolume;
-        
+        [(UIButton*)sender setBackgroundImage:[UIImage imageNamed:@"play_volume.png"] forState:UIControlStateNormal];
     }else{
+        [(UIButton*)sender setBackgroundImage:[UIImage imageNamed:@"pause.png"] forState:UIControlStateNormal];
         self.currentMoviePlaterVolume = mpc.volume;
         mpc.volume = 0;
     }
