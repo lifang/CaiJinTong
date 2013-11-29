@@ -21,7 +21,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -298,6 +297,8 @@
         
     }
 }
+
+#pragma mark -- appear
 
 - (void)initAppear {
     if (self.section) {

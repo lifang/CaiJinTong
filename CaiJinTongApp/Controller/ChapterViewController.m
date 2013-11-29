@@ -94,7 +94,7 @@
 -(void)displayNewView {
     [self.myScrollView removeFromSuperview];
     if (self.dataArray.count>0) {
-        NSInteger count = ([self.dataArray count]-1)/6+1;
+        NSInteger count = ([self.dataArray count]-1)/6+1;  //有几页
         if (self.isSearch) {
             self.myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 148, self.view.frame.size.width, self.view.frame.size.height-50)];
         }else {
@@ -110,7 +110,7 @@
         [self.view addSubview:self.myScrollView];
         
         for (int i=0; i<count; i++) {
-            self.myTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0+self.myScrollView.frame.size.height*i, self.myScrollView.frame.size.width, self.myScrollView.frame.size.height)];
+            self.myTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0+self.myScrollView.frame.size.height*i, self.myScrollView.frame.size.width, self.myScrollView.frame.size.height)];//创建每一页的tableview
             self.myTable.tag = i;
             self.myTable.delegate = self;
             self.myTable.dataSource = self;
