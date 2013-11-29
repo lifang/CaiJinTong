@@ -420,6 +420,8 @@
                 }
                 [self reloadDataWithDataArray:tempArray];
                 
+            }else{
+            self.searchBar.searchTipLabel.text = @"无搜索结果";
             }
         });
     });

@@ -631,6 +631,8 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                 [navControl setNavigationBarHidden:YES];
                 [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
                 }];
+            }else{
+                [Utility errorAlert:@"无搜索结果"];
             }
         });
     });
