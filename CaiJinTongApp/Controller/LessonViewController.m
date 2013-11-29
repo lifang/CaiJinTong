@@ -495,22 +495,6 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             }
             if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
                 NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
-                if(self.isSearching){
-                    
-                    if(self.searchText.text != nil && ![self.searchText.text isEqualToString:@""] && tempArray.count > 0){
-                        NSString *keyword = self.searchText.text;
-                        NSMutableArray *ary = [NSMutableArray arrayWithCapacity:5];
-                        for(int i = 0 ; i < tempArray.count ; i++){
-                            SectionModel *section = [tempArray objectAtIndex:i];
-                            NSRange range = [section.sectionName rangeOfString:[NSString stringWithFormat:@"(%@)+",keyword] options:NSRegularExpressionSearch];
-                            if(range.location != NSNotFound){
-                                [ary addObject:section];
-                            }
-                        }
-                        tempArray = [NSMutableArray arrayWithArray:ary];
-                    }
-                    
-                }
                 [chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:tempArray]];
                 chapterView.searchBar.searchTipLabel.text = [NSString stringWithFormat:@"以下是根据内容\"%@\"搜索出的内容",self.searchText.text];
                 chapterView.searchBar.searchTextField.text = self.searchText.text;
@@ -610,20 +594,6 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             
             if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
                 NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
-                if(self.isSearching){
-                    if(self.searchText.text != nil && ![self.searchText.text isEqualToString:@""] && tempArray.count > 0){
-                        NSString *keyword = self.searchText.text;
-                        NSMutableArray *ary = [NSMutableArray arrayWithCapacity:5];
-                        for(int i = 0 ; i < tempArray.count ; i++){
-                            SectionModel *section = [tempArray objectAtIndex:i];
-                            NSRange range = [section.sectionName rangeOfString:[NSString stringWithFormat:@"(%@)+",keyword] options:NSRegularExpressionSearch];
-                            if(range.location != NSNotFound){
-                                [ary addObject:section];
-                            }
-                        }
-                        tempArray = [NSMutableArray arrayWithArray:ary];
-                    }
-                }
                 [chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:tempArray]];
                 self.isSearching = NO;
                 UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:chapterView];

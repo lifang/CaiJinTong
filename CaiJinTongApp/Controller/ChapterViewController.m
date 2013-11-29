@@ -66,9 +66,6 @@
     [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
 }
 
-
-
-
 -(void)reloadDataWithDataArray:(NSArray*)data{
     self.recentArray = data;
     DLog(@"count = %d",data.count);
@@ -401,18 +398,6 @@
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
                 NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
-                if(self.searchBar.searchTextField.text != nil && ![self.searchBar.searchTextField.text isEqualToString:@""] && tempArray.count > 0){
-                    NSString *keyword = self.searchBar.searchTextField.text;
-                    NSMutableArray *ary = [NSMutableArray arrayWithCapacity:5];
-                    for(int i = 0 ; i < tempArray.count ; i++){
-                        SectionModel *section = [tempArray objectAtIndex:i];
-                        NSRange range = [section.sectionName rangeOfString:[NSString stringWithFormat:@"(%@)+",keyword] options:NSRegularExpressionSearch];
-                        if(range.location != NSNotFound){
-                            [ary addObject:section];
-                        }
-                    }
-                    tempArray = [NSMutableArray arrayWithArray:ary];
-                }
                 [self reloadDataWithDataArray:tempArray];
                 
             }else{
@@ -437,20 +422,9 @@
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
                 NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
-                if(self.searchBar.searchTextField.text != nil && ![self.searchBar.searchTextField.text isEqualToString:@""] && tempArray.count > 0){
-                    NSString *keyword = self.searchBar.searchTextField.text;
-                    NSMutableArray *ary = [NSMutableArray arrayWithCapacity:5];
-                    for(int i = 0 ; i < tempArray.count ; i++){
-                        SectionModel *section = [tempArray objectAtIndex:i];
-                        NSRange range = [section.sectionName rangeOfString:[NSString stringWithFormat:@"(%@)+",keyword] options:NSRegularExpressionSearch];
-                        if(range.location != NSNotFound){
-                            [ary addObject:section];
-                        }
-                    }
-                    tempArray = [NSMutableArray arrayWithArray:ary];
-                }
                 [self reloadDataWithDataArray:tempArray];
-                
+            }else{
+                self.searchBar.searchTipLabel.text = @"无搜索结果";
             }
         });
     });
