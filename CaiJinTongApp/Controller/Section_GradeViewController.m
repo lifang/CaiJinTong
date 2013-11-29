@@ -106,7 +106,7 @@ static NSString *timespan = nil;
             [Utility errorAlert:@"暂无网络!"];
         }else {
             timespan = [Utility getNowDateFromatAnDate];//提交时间
-            [SVProgressHUD showWithStatus:@"玩命加载中..."];
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             GradeInterface *gradeInter = [[GradeInterface alloc]init];
             self.gradeInterface = gradeInter;
             self.gradeInterface.delegate = self;
@@ -179,7 +179,7 @@ static NSString *timespan = nil;
             [Utility errorAlert:@"暂无网络!"];
         }else {
             self.nowPage +=1;
-            [SVProgressHUD showWithStatus:@"玩命加载中..."];
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             CommentListInterface *commentList = [[CommentListInterface alloc]init];
             self.commentInterface = commentList;
             self.commentInterface.delegate = self;
@@ -197,25 +197,25 @@ static NSString *timespan = nil;
 #pragma  mark --CommentListInterfaceDelegate
 -(void)getCommentListInfoDidFinished:(SectionModel *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
         if (result.commentList.count>0) {
             [self.dataArray addObjectsFromArray:result.commentList];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             [self.tableViewList reloadData];
         });
     });
 }
 -(void)getCommentListInfoDidFailed:(NSString *)errorMsg {
-    [SVProgressHUD dismiss];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
 }
 
 #pragma  mark --GradeInterfaceDelegate
 -(void)getGradeInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
         dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"refeshScore" object:result userInfo:nil];
             //隐藏打分栏，只出现评论框
             self.isGrade = 1;
@@ -229,7 +229,7 @@ static NSString *timespan = nil;
     });
 }
 -(void)getGradeInfoDidFailed:(NSString *)errorMsg {
-    [SVProgressHUD dismiss];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
 }
 @end

@@ -116,7 +116,8 @@
         if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
             [Utility errorAlert:@"暂无网络!"];
         }else {
-            [SVProgressHUD showWithStatus:@"玩命加载中..."];
+            AppDelegate* appDelegate = [AppDelegate sharedInstance];
+            [MBProgressHUD showHUDAddedTo:appDelegate.window animated:YES];
             
             SectionInfoInterface *sectionInter = [[SectionInfoInterface alloc]init];
             self.sectionInterface = sectionInter;
@@ -129,8 +130,6 @@
 #pragma -- SectionInfoInterface
 -(void)getSectionInfoDidFinished:(SectionModel *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [SVProgressHUD dismissWithSuccess:@"连接成功!"];
-
         self.buttonModel.sectionImg = result.sectionImg;
         self.buttonModel.lessonInfo = result.lessonInfo;
         self.buttonModel.sectionTeacher = result.sectionTeacher;
@@ -157,6 +156,7 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             AppDelegate* appDelegate = [AppDelegate sharedInstance];
+            [MBProgressHUD hideHUDForView:appDelegate.window animated:YES];
             DownloadService *mDownloadService = appDelegate.mDownloadService;
             self.buttonModel.downloadState = 0;
             //下载
@@ -166,7 +166,8 @@
     
 }
 -(void)getSectionInfoDidFailed:(NSString *)errorMsg {
-    [SVProgressHUD dismiss];
+    AppDelegate* appDelegate = [AppDelegate sharedInstance];
+    [MBProgressHUD hideHUDForView:appDelegate.window animated:YES];
     [Utility errorAlert:errorMsg];
 }
 @end

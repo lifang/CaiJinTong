@@ -43,7 +43,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
-        [SVProgressHUD showWithStatus:@"玩命加载中..."];
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         LessonInfoInterface *lessonInter = [[LessonInfoInterface alloc]init];
         self.lessonInterface = lessonInter;
         self.lessonInterface.delegate = self;
@@ -54,7 +54,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
-        [SVProgressHUD showWithStatus:@"玩命加载中..."];
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         QuestionInfoInterface *questionInfoInter = [[QuestionInfoInterface alloc]init];
         self.questionInfoInterface = questionInfoInter;
         self.questionInfoInterface.delegate = self;
@@ -296,6 +296,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [CaiJinTongManager shared].isSettingView = NO;
     [self.searchText resignFirstResponder];
     if (self.listType == LESSON_LIST) {
         AppDelegate *app = [AppDelegate sharedInstance];
@@ -307,7 +308,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
             [Utility errorAlert:@"暂无网络!"];
         }else {
-            [SVProgressHUD showWithStatus:@"玩命加载中..."];
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             ChapterInfoInterface *chapterInter = [[ChapterInfoInterface alloc]init];
             self.chapterInterface = chapterInter;
             self.chapterInterface.delegate = self;
@@ -323,7 +324,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
                         [Utility errorAlert:@"暂无网络!"];
                     }else {
-                        [SVProgressHUD showWithStatus:@"玩命加载中..."];
+                        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                         ChapterQuestionInterface *chapterInter = [[ChapterQuestionInterface alloc]init];
                         self.chapterQuestionInterface = chapterInter;
                         self.chapterQuestionInterface.delegate = self;
@@ -427,7 +428,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             [Utility errorAlert:@"暂无网络!"];
         }else {
             self.isSearching = YES;
-            [SVProgressHUD showWithStatus:@"玩命加载中..."];
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             SearchLessonInterface *searchLessonInter = [[SearchLessonInterface alloc]init];
             self.searchLessonInterface = searchLessonInter;
             self.searchLessonInterface.delegate = self;
@@ -482,9 +483,8 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 #pragma mark -- ChapterInfoInterfaceDelegate
 -(void)getChapterInfoDidFinished:(NSDictionary *)result {  //章节信息查询完毕,显示章节界面
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
-
         dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
             ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
             if(self.isSearching){
@@ -526,14 +526,14 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 }
 
 -(void)getChapterInfoDidFailed:(NSString *)errorMsg {
-    [SVProgressHUD dismiss];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
 }
 
 #pragma mark-- LessonInfoInterfaceDelegate
 -(void)getLessonInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
+        
         self.lessonList = [NSMutableArray arrayWithArray:[result objectForKey:@"lessonList"]];
         [self.lessonList  addObject:@"本地下载"];
         
@@ -543,19 +543,19 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             [self.arrSelSection addObject:[NSString stringWithFormat:@"%d",i]];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             [self.tableView reloadData];
         });
     });
 }
 
 -(void)getLessonInfoDidFailed:(NSString *)errorMsg {
-    [SVProgressHUD dismiss];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
 }
 #pragma mark--QuestionInfoInterfaceDelegate {
 -(void)getQuestionInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
         self.questionList = [NSMutableArray arrayWithArray:[result valueForKey:@"questionList"]];
         [CaiJinTongManager shared].question = [NSMutableArray arrayWithArray:[result valueForKey:@"questionList"]];
         //标记是否选中了
@@ -564,25 +564,26 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             [self.questionArrSelSection addObject:[NSString stringWithFormat:@"%d",i]];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             [self.tableView reloadData];
         });
     });
 }
 -(void)getQuestionInfoDidFailed:(NSString *)errorMsg {
-    [SVProgressHUD dismiss];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
 }
 #pragma mark--ChapterQuestionInterfaceDelegate
 -(void)getChapterQuestionInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
         NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
         dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
             MyQuestionAndAnswerViewController *myQAVC = [story instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
             UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:myQAVC];
             [navControl setNavigationBarHidden:YES];
-            navControl.view.frame = (CGRect){0,0,568,1004};
+            navControl.view.frame = (CGRect){0,0,568,1024};
             [myQAVC reloadDataWithDataArray:chapterQuestionList];
             [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
                 
@@ -591,14 +592,14 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     });
 }
 -(void)getChapterQuestionInfoDidFailed:(NSString *)errorMsg {
-    [SVProgressHUD dismiss];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
 }
 #pragma mark--SearchLessonInterfaceDelegate
 -(void)getSearchLessonInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
         dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
             ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
             if(self.isSearching){
@@ -635,7 +636,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     });
 }
 -(void)getSearchLessonInfoDidFailed:(NSString *)errorMsg {
-    [SVProgressHUD dismiss];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
 }
 

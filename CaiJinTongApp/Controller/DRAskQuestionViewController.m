@@ -216,7 +216,7 @@ static BOOL tableVisible;
         if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
             [Utility errorAlert:@"暂无网络!"];
         }else {
-            [SVProgressHUD showWithStatus:@"玩命加载中..."];
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             AskQuestionInterface *askQuestionInter = [[AskQuestionInterface alloc]init];
             self.askQuestionInterface = askQuestionInter;
             self.askQuestionInterface.delegate = self;
@@ -229,14 +229,13 @@ static BOOL tableVisible;
 #pragma mark -- AskQuestionInterfaceDelegate
 -(void)getAskQuestionInfoDidFinished {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [SVProgressHUD dismissWithSuccess:@"提问成功!"];
         dispatch_async(dispatch_get_main_queue(), ^{
-            
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
         });
     });
 }
 -(void)getAskQuestionDidFailed:(NSString *)errorMsg {
-    [SVProgressHUD dismiss];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
 }
 @end
