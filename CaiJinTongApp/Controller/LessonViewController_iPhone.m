@@ -154,10 +154,12 @@
 #pragma mark -- Search Lesson InterfaceDelegate
 -(void)getSearchLessonInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        [SVProgressHUD dismissWithSuccess:@"获取数据成功!"];
+//        [MBProgressHUD dismissWithSuccess:@"获取数据成功!"];
+//        [MBProgressHUD showHUDAddedTo:self.view animated:NO];
         dispatch_async(dispatch_get_main_queue(), ^{
             if (([[result objectForKey:@"sectionList"] isKindOfClass:[NSNull class]]) || ([result objectForKey:@"sectionList"] == nil) || ([[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]].count < 1)) {
-//                [SVProgressHUD dismissWithSuccess:@"搜索完毕,没有符合条件的结果!"];
+//                [MBProgressHUD dismissWithSuccess:@"搜索完毕,没有符合条件的结果!"];
+                [MBProgressHUD showHUDAddedTo:self.view animated:YES].labelText = @"搜索完毕,没有符合条件的结果!";
             }else{
                 NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
                 if(self.searchBar.searchTextField.text != nil && ![self.searchBar.searchTextField.text isEqualToString:@""] && tempArray.count > 0){
@@ -173,7 +175,7 @@
                     tempArray = [NSMutableArray arrayWithArray:ary];
                 }
                 if(tempArray.count == 0){
-//                    [SVProgressHUD dismissWithSuccess:@"搜索完毕,没有符合条件的结果!"];
+//                    [MBProgressHUD dismissWithSuccess:@"搜索完毕,没有符合条件的结果!"];
                 }else{
                     self.recentArray = tempArray;
                     self.sectionList = self.recentArray;
@@ -202,7 +204,7 @@
     });
 }
 -(void)getSearchLessonInfoDidFailed:(NSString *)errorMsg {
-//    [SVProgressHUD dismiss];
+//    [MBProgressHUD dismiss];
     [Utility errorAlert:errorMsg];
 }
 
@@ -236,7 +238,6 @@
         [cell.contentView addSubview:self.sectionCustomView];
     }else{
         [self.sectionCustomView refreshDataWithSection:self.sectionList[indexPath.row]];
-        DLog(@"sectionCustomview我被重用我光荣");
     }
     return cell;
 }
@@ -389,7 +390,7 @@
         if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
             [Utility errorAlert:@"暂无网络!"];
         }else {
-//            [SVProgressHUD showWithStatus:@"玩命加载中..."];
+//            [MBProgressHUD showWithStatus:@"玩命加载中..."];
             SearchLessonInterface *searchLessonInter = [[SearchLessonInterface alloc]init];
             self.searchInterface = searchLessonInter;
             self.searchInterface.delegate = self;
