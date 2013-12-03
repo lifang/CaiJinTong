@@ -14,7 +14,9 @@
 #import "Section_ChapterViewController_iPhone.h"
 #import "Section_NoteViewController_iPhone.h"
 #import "Section_GradeViewController_iPhone.h"
-@interface SectionViewController_iPhone : LHLNavigationBarViewController<SUNSlideSwitchView_iPhoneDelegate,UIScrollViewDelegate>
+#import "CommentModel.h"
+
+@interface SectionViewController_iPhone : LHLNavigationBarViewController<SUNSlideSwitchView_iPhoneDelegate,UIScrollViewDelegate,SectionInfoInterfaceDelegate>
 
 //界面
 @property (nonatomic,strong) SectionCustomView_iPhone *sectionView;
@@ -29,4 +31,5 @@
 
 //数据
 @property (nonatomic,strong) SectionModel *section;
+@property (nonatomic,strong) SectionInfoInterface *sectionInterface;
 @end

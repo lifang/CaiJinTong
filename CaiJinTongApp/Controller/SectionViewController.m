@@ -8,7 +8,7 @@
 
 #import "SectionViewController.h"
 
-#import <QuartzCore/QuartzCore.h>
+
 #import "Section.h"
 #import "CommentModel.h"
 @interface SectionViewController ()
@@ -117,6 +117,7 @@
     }
 }
 -(void)displayView {
+    NSLog(@"self.section = %@",self.section);
     self.slideSwitchView.backgroundColor = [UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:232.0/255.0 alpha:1.0];
     //3个选项卡
     self.slideSwitchView.tabItemNormalColor = [SUNSlideSwitchView colorFromHexRGB:@"868686"];
@@ -148,13 +149,14 @@
     [self.slideSwitchView buildUI];
 }
 
-#pragma mark DRMoviePlayViewControllerDelegate
+#pragma mark DRMoviePlayViewControllerDelegate 提交笔记成功
 -(void)drMoviePlayerViewController:(DRMoviePlayViewController *)playerController commitNotesSuccess:(NSString *)noteText andTime:(NSString *)noteTime{
     if (self.section_NoteView) {
         NoteModel *note = [[NoteModel alloc] init];
         note.noteTime = noteTime;
         note.noteText = noteText;
-        [self.section_NoteView.dataArray addObject:note];
+        [self.section_NoteView.dataArray insertObject:note atIndex:0];
+        [self.section_NoteView.tableViewList reloadData];
     }
 }
 

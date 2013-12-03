@@ -40,9 +40,11 @@
 {
     [super viewDidLoad];
     
-//    [self.headerRefreshView endRefreshing];//instance refresh view
-//    [self.footerRefreshView endRefreshing];
+    [self.headerRefreshView endRefreshing];//instance refresh view
+    [self.footerRefreshView endRefreshing];
     
+    self.headerRefreshView.isForbidden = YES;
+    self.footerRefreshView.isForbidden = YES;
     [self.tableView registerClass:[QuestionAndAnswerCellHeaderView class] forHeaderFooterViewReuseIdentifier:@"header"];
     
     self.drnavigationBar.titleLabel.text = @"我的提问";

@@ -27,17 +27,26 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.section = [[SectionModel alloc] init]; //模拟数据
-    self.section.sectionProgress = @"30.0";
-    self.section.sectionScore = @"5";
-    self.section.sectionName = @"Session_8";
-    self.section.sectionTeacher = @"section";
-    self.section.lessonInfo = @"Section_8的简介内容在此,请注意阅读,简介内容在此,请注意阅读,简介内容在此,请注意阅读,简介内容在此,请注意阅读,简介内容在此,请注意阅读,简介内容在此,请注意阅读,简介内容在此,请注意阅读,简介内容在此,请注意阅读,简介内容在此,请注意阅读,简介内容在此,请注意阅读,简介内容在此,请注意阅读,简介内容在此,请注意阅读,简介内容在此,请注意阅读,简介内容在此,请注意阅读.";
-    self.section.sectionLastTime = @"24′59〞";
-    self.section.sectionStudy = @"20′59〞";
     
-    [self initAppear];
-    [self initAppear_slide];
+    [self initData];
+    
+}
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+}
+//装载数据,目标 :self.section
+-(void) initData{
+    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+        [Utility errorAlert:@"暂无网络!"];
+    }else {
+//        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        if(!self.sectionInterface){
+            self.sectionInterface = [[SectionInfoInterface alloc] init];
+            self.sectionInterface.delegate = self;
+        }
+        [self.sectionInterface getSectionInfoInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andSectionId:@"2928"];
+    }
 }
 
 - (void)playVideo:(id) sender{
@@ -48,11 +57,12 @@
 
 - (NSUInteger)numberOfTab:(SUNSlideSwitchView_iPhone *)view
 {
-    AppDelegate *app = [AppDelegate sharedInstance];
-    if (app.isLocal == YES) {
-        return 2;
-    }
-    return 3;
+//    AppDelegate *app = [AppDelegate sharedInstance];
+//    if (app.isLocal == YES) {
+//        return 2;
+//    }
+//    return 3;
+    return 1;
 }
 
 - (UIViewController *)slideSwitchView:(SUNSlideSwitchView_iPhone *)view viewOfTab:(NSUInteger)number
@@ -134,7 +144,8 @@
         self.scoreLab = scoreLabel;
         [self.view addSubview:self.scoreLab];
         scoreLabel = nil;
-        //
+        
+        //显示参数
         CGFloat labelTop = 145;
         CGFloat labelSpace = 3;
         //标题
@@ -148,7 +159,7 @@
         nameLabel = nil;
         labelTop +=self.nameLab.frame.size.height+labelSpace;
         //讲师
-        if (self.section.sectionTeacher.length >0) {
+//        if (self.section.sectionTeacher.length >0) {
             UILabel *teacherLabel = [[UILabel alloc]initWithFrame:CGRectMake(152, labelTop, 165, 30)];
             teacherLabel.backgroundColor = [UIColor clearColor];
             teacherLabel.textColor = [UIColor darkGrayColor];
@@ -158,9 +169,9 @@
             [self.view addSubview:self.teacherlab];
             teacherLabel = nil;
             labelTop +=self.teacherlab.frame.size.height+labelSpace;
-        }
+//        }
         //简介
-        if (self.section.lessonInfo.length >0) {
+//        if (self.section.lessonInfo.length >0) {
             UIFont *aFont = [UIFont systemFontOfSize:15];
             CGSize size = [self.section.lessonInfo sizeWithFont:aFont constrainedToSize:CGSizeMake(285, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
             CGFloat hh = 0;  //infoLabel的height
@@ -197,7 +208,7 @@
                 infoLabel = nil;
                 labelTop +=self.infoLab.frame.size.height+labelSpace;
             }
-        }
+//        }
         
         //时长
         UILabel *lastLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, labelTop, 150, 30)];
@@ -255,6 +266,7 @@
     self.section_ChapterView = [story instantiateViewControllerWithIdentifier:@"Section_ChapterViewController_iPhone"];
     self.section_ChapterView.title = @"章节目录";
     self.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:self.section.sectionList];
+    [self.section_ChapterView.tableViewList reloadData];
     
     //评价页面
 //    AppDelegate *app = [AppDelegate sharedInstance];
@@ -277,7 +289,25 @@
     [self.slideSwitchView buildUI];
 }
 
+#pragma mark -- SectionInfoInterface
+-(void)getSectionInfoDidFinished:(SectionModel *)result {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        SectionModel *section = (SectionModel *)result;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            self.section = section;
+            self.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:self.section.sectionList];
+            [self.section_ChapterView.tableViewList reloadData];
+            [self initAppear];          //界面上半部分
+            [self initAppear_slide];    //界面下半部分(滑动视图)
+        });
+    });
+}
 
+-(void)getSectionInfoDidFailed:(NSString *)errorMsg {
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [Utility errorAlert:errorMsg];
+}
 
 #pragma mark
 

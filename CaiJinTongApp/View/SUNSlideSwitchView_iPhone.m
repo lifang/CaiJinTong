@@ -8,7 +8,7 @@
 
 #import "SUNSlideSwitchView_iPhone.h"
 #define SHADOW_HEIGHT 4
-static const CGFloat kHeightOfTopScrollView = 44.0f;
+static const CGFloat kHeightOfTopScrollView = 63.0f;
 static const CGFloat kWidthOfButtonMargin = 16.0f;
 static const CGFloat kFontSizeOfTabButton = 17.0f;
 static const NSUInteger kTagOfRightSideButton = 999;
@@ -20,7 +20,7 @@ static const NSUInteger kTagOfRightSideButton = 999;
 - (void)initValues
 {
     //创建顶部可滑动的tab
-    _topScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(100, 0, self.bounds.size.width, kHeightOfTopScrollView)];
+    _topScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, self.bounds.size.height - kHeightOfTopScrollView, self.bounds.size.width, kHeightOfTopScrollView)];
     _topScrollView.delegate = self;
     _topScrollView.backgroundColor = [UIColor clearColor];
     _topScrollView.pagingEnabled = NO;
@@ -31,7 +31,7 @@ static const NSUInteger kTagOfRightSideButton = 999;
     _userSelectedChannelID = 100;
     
     //创建主滚动视图
-    _rootScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, kHeightOfTopScrollView, self.bounds.size.width, self.bounds.size.height - kHeightOfTopScrollView)];
+    _rootScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height - kHeightOfTopScrollView)];
     _rootScrollView.delegate = self;
     _rootScrollView.pagingEnabled = YES;
     _rootScrollView.userInteractionEnabled = YES;

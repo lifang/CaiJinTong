@@ -279,7 +279,7 @@
     self.sectionSaveModel = ssm;
     NSURL *url = [NSURL fileURLWithPath:path];
     if (![self.movieUrl.absoluteString  isEqualToString:url.absoluteString]) {
-         [self playMovieWithURL:url withFileType:MPMovieSourceTypeFile withLessonName:[notification.userInfo objectForKey:@""]];
+         [self playMovieWithURL:url withFileType:MPMovieSourceTypeFile withLessonName:[notification.userInfo objectForKey:@"sectionName"]];
     }
 }
 

@@ -29,7 +29,7 @@
     SectionSaveModel *sectionSave = (SectionSaveModel *)[info.userInfo objectForKey:@"SectionSaveModel"];
     if ([self.sid isEqualToString:sectionSave.sid]) {
         self.pv = sectionSave.downloadPercent;
-        self.sliderFrontView.frame = CGRectMake(0, 37, 277 * self.pv, 11);
+        self.sliderFrontView.frame = CGRectMake(0, 37, 277 * self.pv, 111);
         //查询数据库
         Section *sectionDb = [[Section alloc]init];
         float contentlength = [sectionDb getContentLengthBySid:sectionSave.sid];

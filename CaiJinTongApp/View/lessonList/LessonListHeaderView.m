@@ -90,7 +90,7 @@
     _isSelected = isSelected;
     self.flagImageView.backgroundColor = [UIColor clearColor];
     if ([self.lessonTextLabel.text isEqualToString:@"本地下载"]) {
-        self.flagImageView.image = Image(@"backgroundStar.png");
+        self.flagImageView.image = Image(@"backgroundStar");
     }else {
         if (isSelected) {
             self.flagImageView.image = [UIImage imageNamed:@"course-courses_06_right.png"];

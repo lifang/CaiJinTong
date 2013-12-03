@@ -89,6 +89,8 @@
     static NSString *CellIdentifier = @"Section_ChapterCell_iPhone";
     Section_ChapterCell_iPhone *cell = (Section_ChapterCell_iPhone *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
+//        UIStoryboard *story =[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+//        cell = [story instantiateViewControllerWithIdentifier:@""];
         cell = [[Section_ChapterCell_iPhone alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
