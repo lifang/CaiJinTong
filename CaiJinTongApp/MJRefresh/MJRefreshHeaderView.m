@@ -6,7 +6,7 @@
 //  Copyright (c) 2013年 itcast. All rights reserved.
 //  下拉刷新
 
-#define kPullToRefresh @"上拉可以刷新"
+#define kPullToRefresh @"下拉可以刷新"
 #define kReleaseToRefresh @"松开立即刷新"
 #define kRefreshing @"正在加载数据..."
 

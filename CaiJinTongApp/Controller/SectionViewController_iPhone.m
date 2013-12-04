@@ -57,12 +57,11 @@
 
 - (NSUInteger)numberOfTab:(SUNSlideSwitchView_iPhone *)view
 {
-//    AppDelegate *app = [AppDelegate sharedInstance];
-//    if (app.isLocal == YES) {
-//        return 2;
-//    }
-//    return 3;
-    return 1;
+    AppDelegate *app = [AppDelegate sharedInstance];
+    if (app.isLocal == YES) {
+        return 2;
+    }
+    return 3;
 }
 
 - (UIViewController *)slideSwitchView:(SUNSlideSwitchView_iPhone *)view viewOfTab:(NSUInteger)number
@@ -269,22 +268,22 @@
     [self.section_ChapterView.tableViewList reloadData];
     
     //评价页面
-//    AppDelegate *app = [AppDelegate sharedInstance];
-//    if (app.isLocal == NO) {
-//        self.section_GradeView = [story instantiateViewControllerWithIdentifier:@"Section_GradeViewController_iPhone"];
-//        self.section_GradeView.title = @"打分";
-//        self.section_GradeView.dataArray = [NSMutableArray arrayWithArray:self.section.commentList];
-//        self.section_GradeView.isGrade = [self.section.isGrade intValue];
-//        self.section_GradeView.sectionId = self.section.sectionId;
-//        CommentModel *comment = (CommentModel *)[self.section_GradeView.dataArray objectAtIndex:self.section_GradeView.dataArray.count-1];
-//        self.section_GradeView.pageCount = comment.pageCount;
-//        self.section_GradeView.nowPage = 1;
-//    }
+    AppDelegate *app = [AppDelegate sharedInstance];
+    if (app.isLocal == NO) {
+        self.section_GradeView = [story instantiateViewControllerWithIdentifier:@"Section_GradeViewController_iPhone"];
+        self.section_GradeView.title = @"打分";
+        self.section_GradeView.dataArray = [NSMutableArray arrayWithArray:self.section.commentList];
+        self.section_GradeView.isGrade = [self.section.isGrade intValue];
+        self.section_GradeView.sectionId = self.section.sectionId;
+        CommentModel *comment = (CommentModel *)[self.section_GradeView.dataArray objectAtIndex:self.section_GradeView.dataArray.count-1];
+        self.section_GradeView.pageCount = comment.pageCount;
+        self.section_GradeView.nowPage = 1;
+    }
     
     //笔记页面
-//    self.section_NoteView = [story instantiateViewControllerWithIdentifier:@"Section_NoteViewController_iPhone"];
-//    self.section_NoteView.title = @"笔记";
-//    self.section_NoteView.dataArray = [NSMutableArray arrayWithArray:self.section.noteList];
+    self.section_NoteView = [story instantiateViewControllerWithIdentifier:@"Section_NoteViewController_iPhone"];
+    self.section_NoteView.title = @"笔记";
+    self.section_NoteView.dataArray = [NSMutableArray arrayWithArray:self.section.noteList];
     
     [self.slideSwitchView buildUI];
 }

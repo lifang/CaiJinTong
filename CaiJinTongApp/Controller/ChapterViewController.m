@@ -44,6 +44,7 @@
 -(void)drnavigationBarRightItemClicked:(id)sender{
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
 }
+
 -(void)initCollectionView {
     [self.collectionView registerClass:[CollectionCell class] forCellWithReuseIdentifier:@"CollectionCell"];
     CollectionViewLayout *layout = [[CollectionViewLayout alloc] init];

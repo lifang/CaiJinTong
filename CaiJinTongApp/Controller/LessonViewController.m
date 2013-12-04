@@ -289,6 +289,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             }else{
                 cell.textLabel.text = @" 我的回答";
             }
+             [cell setIndentationLevel:2];
         }
         cell.textLabel.textColor = [UIColor whiteColor];
         cell.detailTextLabel.textColor = [UIColor whiteColor];

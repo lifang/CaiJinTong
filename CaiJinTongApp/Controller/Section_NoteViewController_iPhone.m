@@ -7,7 +7,7 @@
 //
 
 #import "Section_NoteViewController_iPhone.h"
-#import "Section_NoteCell.h"
+#import "Section_NoteCell_iPhone.h"
 #import "NoteModel.h"
 @interface Section_NoteViewController_iPhone ()
 
@@ -42,27 +42,24 @@
 #pragma  mark-- UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NoteModel *note = (NoteModel *)[self.dataArray objectAtIndex:indexPath.row];
-    UIFont *aFont = [UIFont fontWithName:@"Trebuchet MS" size:18];
-    CGSize size = [note.noteText sizeWithFont:aFont constrainedToSize:CGSizeMake(500, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
-    return size.height+35+20;
+//    NoteModel *note = (NoteModel *)[self.dataArray objectAtIndex:indexPath.row];
+//    UIFont *aFont = [UIFont fontWithName:@"Trebuchet MS" size:14];
+//    CGSize size = [note.noteText sizeWithFont:aFont constrainedToSize:CGSizeMake(276, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
+//    return size.height+21;
+    return 50;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.dataArray.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"Section_NoteCell";
-    Section_NoteCell *cell = (Section_NoteCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[Section_NoteCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
+    static NSString *CellIdentifier = @"Section_NoteCell_iPhone";
+    Section_NoteCell_iPhone *cell = (Section_NoteCell_iPhone *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     NoteModel *note = (NoteModel *)[self.dataArray objectAtIndex:indexPath.row];
-    UIFont *aFont = [UIFont fontWithName:@"Trebuchet MS" size:18];
-    CGSize size = [note.noteText sizeWithFont:aFont constrainedToSize:CGSizeMake(500, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
+    UIFont *aFont = [UIFont fontWithName:@"Trebuchet MS" size:14];
+    CGSize size = [note.noteText sizeWithFont:aFont constrainedToSize:CGSizeMake(276, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
     
     [cell.contentTextView setUserInteractionEnabled:NO];
-    cell.contentTextView.frame = CGRectMake(30, 35, 500, size.height+20);
+    cell.contentTextView.frame = CGRectMake(5, 5, 276, size.height+20);
     cell.contentTextView.text = note.noteText;
     cell.timeLab.text = note.noteTime;
     cell.contentTextView.layer.borderWidth = 2.0;
@@ -70,6 +67,7 @@
     cell.contentTextView.font = aFont;
     cell.contentTextView.contentInset = UIEdgeInsetsMake(0, 5.0f, 0, 5.0f);
     
+    [cell setBackgroundColor:[UIColor greenColor]];
     return cell;
 }
 @end

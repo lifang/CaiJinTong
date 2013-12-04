@@ -99,7 +99,7 @@
         NSMutableData *postData = [[NSMutableData alloc]initWithData:[postURL dataUsingEncoding:NSUTF8StringEncoding]];
         
         [self.request setPostBody:postData];
-        [self.request setRequestMethod:@"POST"];
+        [self.request setRequestMethod:@"GET"];
         [self.request addRequestHeader:@"Content-Type" value:@"application/x-www-form-urlencoded"];
         if (self.headers) {
             for (NSString *key in self.headers) {

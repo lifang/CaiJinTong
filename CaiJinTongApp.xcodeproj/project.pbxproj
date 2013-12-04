@@ -191,6 +191,9 @@
 		18491C511834C92C003C82E4 /* ss@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18491C501834C92C003C82E4 /* ss@2x.png */; };
 		184F8AA818432D0000A2FEB4 /* LessonViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 184F8AA718432D0000A2FEB4 /* LessonViewController_iPhone.m */; };
 		184F8AAF18434A3200A2FEB4 /* LHLNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 184F8AAE18434A3200A2FEB4 /* LHLNavigationBar.m */; };
+		189ED9D7184ED5D10029D8F1 /* TQStarRatingView_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 189ED9D6184ED5D10029D8F1 /* TQStarRatingView_iPhone.m */; };
+		189ED9DA184F17260029D8F1 /* Section_GradeCell_iPhoneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 189ED9D9184F17260029D8F1 /* Section_GradeCell_iPhoneCell.m */; };
+		189ED9DD184F196B0029D8F1 /* Section_NoteCell_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 189ED9DC184F196B0029D8F1 /* Section_NoteCell_iPhone.m */; };
 		18A19C84183CA60500C11310 /* iRate.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18A19C81183CA60500C11310 /* iRate.bundle */; };
 		18A19C85183CA60500C11310 /* iRate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A19C83183CA60500C11310 /* iRate.m */; };
 		18C9312C18363B2A00FBE1A8 /* btn1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18C9311B18363B2A00FBE1A8 /* btn1@2x.png */; };
@@ -613,6 +616,12 @@
 		184F8AA718432D0000A2FEB4 /* LessonViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonViewController_iPhone.m; sourceTree = "<group>"; };
 		184F8AAD18434A3200A2FEB4 /* LHLNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LHLNavigationBar.h; sourceTree = "<group>"; };
 		184F8AAE18434A3200A2FEB4 /* LHLNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LHLNavigationBar.m; sourceTree = "<group>"; };
+		189ED9D5184ED5D10029D8F1 /* TQStarRatingView_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TQStarRatingView_iPhone.h; sourceTree = "<group>"; };
+		189ED9D6184ED5D10029D8F1 /* TQStarRatingView_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TQStarRatingView_iPhone.m; sourceTree = "<group>"; };
+		189ED9D8184F17260029D8F1 /* Section_GradeCell_iPhoneCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Section_GradeCell_iPhoneCell.h; sourceTree = "<group>"; };
+		189ED9D9184F17260029D8F1 /* Section_GradeCell_iPhoneCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section_GradeCell_iPhoneCell.m; sourceTree = "<group>"; };
+		189ED9DB184F196B0029D8F1 /* Section_NoteCell_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Section_NoteCell_iPhone.h; sourceTree = "<group>"; };
+		189ED9DC184F196B0029D8F1 /* Section_NoteCell_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section_NoteCell_iPhone.m; sourceTree = "<group>"; };
 		18A19C81183CA60500C11310 /* iRate.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = iRate.bundle; sourceTree = "<group>"; };
 		18A19C82183CA60500C11310 /* iRate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iRate.h; sourceTree = "<group>"; };
 		18A19C83183CA60500C11310 /* iRate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iRate.m; sourceTree = "<group>"; };
@@ -984,11 +993,8 @@
 		0EAFA1011822200200D01D3E /* Images */ = {
 			isa = PBXGroup;
 			children = (
-
 				0E8166E618485BA30064DE98 /* backgroundStar@2x.png */,
-
 				18EA12561845E6B300F12D8B /* photoBg@2x.png */,
-
 				18EA12541845BF7000F12D8B /* barbg.png */,
 				18EBD11A1842FA0900F9BDA9 /* lhl1@2x.png */,
 				18EBD11B1842FA0900F9BDA9 /* lhl2@2x.png */,
@@ -1344,6 +1350,12 @@
 				18046A90184874F500EB8BDA /* Section_ChapterCell_iPhone.m */,
 				18046A981848880B00EB8BDA /* LHLCollectionViewCell.h */,
 				18046A991848880B00EB8BDA /* LHLCollectionViewCell.m */,
+				189ED9D5184ED5D10029D8F1 /* TQStarRatingView_iPhone.h */,
+				189ED9D6184ED5D10029D8F1 /* TQStarRatingView_iPhone.m */,
+				189ED9D8184F17260029D8F1 /* Section_GradeCell_iPhoneCell.h */,
+				189ED9D9184F17260029D8F1 /* Section_GradeCell_iPhoneCell.m */,
+				189ED9DB184F196B0029D8F1 /* Section_NoteCell_iPhone.h */,
+				189ED9DC184F196B0029D8F1 /* Section_NoteCell_iPhone.m */,
 			);
 			name = View_iPhone;
 			sourceTree = "<group>";
@@ -1889,6 +1901,7 @@
 				0EA7EF4C18238DF600C47F69 /* AnswerModel.m in Sources */,
 				0EA7EF1918234A7500C47F69 /* CommentListInterface.m in Sources */,
 				0EA7EF2218234BA100C47F69 /* QuestionListInterface.m in Sources */,
+				189ED9D7184ED5D10029D8F1 /* TQStarRatingView_iPhone.m in Sources */,
 				0EA7EF4F1823A98600C47F69 /* PlayVideoInterface.m in Sources */,
 				18EA125318459A4500F12D8B /* TextFieldForSearchBar.m in Sources */,
 				18A19C85183CA60500C11310 /* iRate.m in Sources */,
@@ -1911,6 +1924,7 @@
 				0E9C9EF8184328CC00D48781 /* EditInfoInterface.m in Sources */,
 				0EA7EF7E182748BB00C47F69 /* SDWebImagePrefetcher.m in Sources */,
 				0EA7EF5B1823ADF100C47F69 /* SubmitAnswerInterface.m in Sources */,
+				189ED9DD184F196B0029D8F1 /* Section_NoteCell_iPhone.m in Sources */,
 				0EDF4DF318210241007161E0 /* GTMNSString+HTML.m in Sources */,
 				0EAD1F75182B24E100204FC3 /* BaseDao.m in Sources */,
 				18046A9A1848880B00EB8BDA /* LHLCollectionViewCell.m in Sources */,
@@ -1944,6 +1958,7 @@
 				0EDF4DF418210241007161E0 /* NSString+HTML.m in Sources */,
 				63841CF01838977000E3FA9E /* ChapterSearchBar.m in Sources */,
 				18046A91184874F500EB8BDA /* Section_ChapterCell_iPhone.m in Sources */,
+				189ED9DA184F17260029D8F1 /* Section_GradeCell_iPhoneCell.m in Sources */,
 				63B794EA1847477100B8276A /* MJRefreshFooterView.m in Sources */,
 				63098F3A183CBA0B007A76AC /* UIViewController+MJPopupViewController.m in Sources */,
 				0EAFA1141822399100D01D3E /* LogInterface.m in Sources */,
