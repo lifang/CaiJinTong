@@ -231,6 +231,7 @@ static BOOL tableVisible;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [Utility errorAlert:@"数据提交成功"];
             [self.navigationController popViewControllerAnimated:YES];
         });
     });

@@ -48,20 +48,37 @@
 }
 
 - (IBAction)loginBtClicked:(id)sender {
-    NSString *regexCall = @"(\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*)|(1[0-9]{10})";
-    NSPredicate *predicateCall = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",regexCall];
-    if ([predicateCall evaluateWithObject:self.userNameTextField.text]) {
-        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-            [Utility errorAlert:@"暂无网络!"];
-        }else {
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            LogInterface *log = [[LogInterface alloc]init];
-            self.logInterface = log;
-            self.logInterface.delegate = self;
-            [self.logInterface getLogInterfaceDelegateWithName:self.userNameTextField.text andPassWord:self.pwdTextField.text];
+//    NSString *regexCall = @"(\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*)|(1[0-9]{10})";
+//    NSPredicate *predicateCall = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",regexCall];
+//    if ([predicateCall evaluateWithObject:self.userNameTextField.text]) {
+//        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+//            [Utility errorAlert:@"暂无网络!"];
+//        }else {
+//            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//            LogInterface *log = [[LogInterface alloc]init];
+//            self.logInterface = log;
+//            self.logInterface.delegate = self;
+//            [self.logInterface getLogInterfaceDelegateWithName:self.userNameTextField.text andPassWord:self.pwdTextField.text];
+//        }
+//    }else {
+//        [Utility errorAlert:@"请输入正确的手机号码或邮箱!"];
+//    }
+    if (self.userNameTextField.text && ![[self.userNameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
+        if (self.pwdTextField.text && ![[self.pwdTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
+            if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+                [Utility errorAlert:@"暂无网络!"];
+            }else {
+                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                LogInterface *log = [[LogInterface alloc]init];
+                self.logInterface = log;
+                self.logInterface.delegate = self;
+                [self.logInterface getLogInterfaceDelegateWithName:self.userNameTextField.text andPassWord:self.pwdTextField.text];
+            }
+        }else{
+            [Utility errorAlert:@"密码不能为空"];
         }
-    }else {
-        [Utility errorAlert:@"请输入正确的手机号码或邮箱!"];
+    }else{
+        [Utility errorAlert:@"用户名不能为空"];
     }
 }
 

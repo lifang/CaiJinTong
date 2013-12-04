@@ -22,11 +22,10 @@
 
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     
-    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=getQuestionCategory&userId=18676";
-    
+//    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=getQuestionCategory&userId=18676";
+    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=getQuestionCategory&userId=17082",kHost];
     self.baseDelegate = self;
     self.headers = reqheaders;
-    
     [self connect];
 }
 #pragma mark - BaseInterfaceDelegate

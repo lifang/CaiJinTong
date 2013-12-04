@@ -6,7 +6,8 @@
 //  Copyright (c) 2013年 LanTai. All rights reserved.
 //
 //
-#define kHost @"http://192.168.0.126:3000/api"
+#define kHost @"http://wmi.finance365.com/api/ios.ashx"
+#define kTEST 1
 #define kDomain @"http://116.255.135.175:3004"
 
 #define kLogin @"/chapters/user_round"

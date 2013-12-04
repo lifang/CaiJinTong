@@ -52,18 +52,18 @@
         [self.request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
         
         [self.request setTimeOutSeconds:60];
-//        NSString *postURL=[self createPostURL:self.headers];
-//        DLog(@"URL:%@?%@",self.interfaceUrl,postURL);
-//        NSMutableData *postData = [[NSMutableData alloc]initWithData:[postURL dataUsingEncoding:NSUTF8StringEncoding]];
-//        
-//        [self.request setPostBody:postData];
+        NSString *postURL=[self createPostURL:self.headers];
+        //        DLog(@"URL:%@?%@",self.interfaceUrl,postURL);
+        NSMutableData *postData = [[NSMutableData alloc]initWithData:[postURL dataUsingEncoding:NSUTF8StringEncoding]];
+        
+        [self.request setPostBody:postData];
         [self.request setRequestMethod:method];
         [self.request addRequestHeader:@"Content-Type" value:@"application/x-www-form-urlencoded"];
-//        if (self.headers) {
-//            for (NSString *key in self.headers) {
-//                [self.request addRequestHeader:key value:[self.headers objectForKey:key]];
-//            }
-//        }
+        if (self.headers) {
+            for (NSString *key in self.headers) {
+                [self.request addRequestHeader:key value:[self.headers objectForKey:key]];
+            }
+        }
         [self.request setDelegate:self];
         [self.request startAsynchronous];
         
@@ -99,7 +99,7 @@
         NSMutableData *postData = [[NSMutableData alloc]initWithData:[postURL dataUsingEncoding:NSUTF8StringEncoding]];
         
         [self.request setPostBody:postData];
-        [self.request setRequestMethod:@"GET"];
+        [self.request setRequestMethod:@"POST"];
         [self.request addRequestHeader:@"Content-Type" value:@"application/x-www-form-urlencoded"];
         if (self.headers) {
             for (NSString *key in self.headers) {

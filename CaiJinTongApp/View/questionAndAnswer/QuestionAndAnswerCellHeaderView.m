@@ -82,7 +82,6 @@
         self.questionImg.backgroundColor = [UIColor clearColor];
         [self.backgroundView addSubview:self.questionImg];
         
-        self.backgroundView.backgroundColor = [UIColor clearColor];
         
         self.answerQuestionBt = [[UIButton alloc] init];
         self.answerQuestionBt.backgroundColor = [UIColor clearColor];

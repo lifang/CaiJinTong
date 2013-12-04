@@ -52,7 +52,7 @@
         [self addSubview:self.searchTipLabel];
 //        self.searchTipLabel.backgroundColor = [UIColor greenColor];
 //        self.searchTextField.backgroundColor = [UIColor redColor];
-        
+//        self.backgroundColor = [UIColor yellowColor];
         
     }
     return self;
@@ -65,14 +65,7 @@
     self.searchTextField.frame = (CGRect){CGRectGetMaxX(self.searchBt.frame)+3,1,CGRectGetWidth(self.backImageView.frame) - CGRectGetMaxX(self.searchBt.frame)+25,CGRectGetHeight(self.backImageView.frame)};
     self.searchTipLabel.frame = (CGRect){0,CGRectGetHeight(self.frame) - 30,CGRectGetWidth(self.frame),30};
 }
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
+
 
 -(void)beginSearch{
     [self.searchTextField resignFirstResponder];
@@ -100,5 +93,10 @@
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [self beginSearch];//点击键盘return键搜索
     return YES;
+}
+
+-(void)addSearchText:(NSString*)searchText{
+    self.searchTextField.text = searchText;
+    self.searchTipLabel.text = [NSString stringWithFormat:@"以下是根据内容\"%@\"搜索出的内容",searchText];
 }
 @end

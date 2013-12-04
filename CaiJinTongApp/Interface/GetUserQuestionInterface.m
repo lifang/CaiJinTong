@@ -21,8 +21,11 @@
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",isMyselfQuestion] forKey:@"isMyselfQuestion"];
     
-    self.interfaceUrl = [NSString stringWithFormat:@"%@",kHost];
-    
+//    self.interfaceUrl = [NSString stringWithFormat:@"%@",kHost];
+    //isMyselfQuestion=0 表示我提的问题
+    //isMyselfQuestion=1 我回答过的问题
+//    self.interfaceUrl = [NSString stringWithFormat:@"http://lms.finance365.com/api/ios.ashx?active=getUserQuestion&userId=17079&isMyselfQuestion=%@",isMyselfQuestion];
+    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=getUserQuestion&userId=17082&isMyselfQuestion=%@",kHost,isMyselfQuestion];
     self.baseDelegate = self;
     self.headers = reqheaders;
     
@@ -53,7 +56,8 @@
                                         NSDictionary *question_dic = [array_chapterQuestionList objectAtIndex:i];
                                         QuestionModel *question = [[QuestionModel alloc]init];
                                         question.questionId = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"questionId"]];
-                                        question.questionName = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"questionName"]];
+                                        question.questionName = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"questionname"]];
+//                                        question.questionName = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"questiontitle"]];
                                         question.askerId = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"askerId"]];
                                         question.askImg = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"askImg"]];
                                         question.askerNick = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"askerNick"]];
@@ -90,10 +94,11 @@
                                         [tempDic setObject:chapterQuestionList forKey:@"chapterQuestionList"];
                                     }
                                 }
-                                if (tempDic.count>0) {
-                                    [self.delegate getUserQuestionInfoDidFinished:tempDic];
-                                    tempDic = nil;
-                                }
+                                 [self.delegate getUserQuestionInfoDidFinished:tempDic];
+//                                if (tempDic.count>0) {
+//                                    [self.delegate getUserQuestionInfoDidFinished:tempDic];
+//                                    tempDic = nil;
+//                                }
                             }
                         }
                         @catch (NSException *exception) {

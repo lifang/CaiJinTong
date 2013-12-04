@@ -30,6 +30,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 @property(nonatomic,assign) TableListType listType;
 @property (nonatomic,strong) NSString *questionAndSwerRequestID;//请求问题列表ID
 @property (nonatomic,assign) QuestionAndAnswerScope questionScope;
+@property (nonatomic,strong) GetUserQuestionInterface *getUserQuestionInterface;
 @end
 
 @implementation LessonViewController
@@ -49,7 +50,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         LessonInfoInterface *lessonInter = [[LessonInfoInterface alloc]init];
         self.lessonInterface = lessonInter;
         self.lessonInterface.delegate = self;
-        [self.lessonInterface getLessonInfoInterfaceDelegateWithUserId:@"18676"];
+        [self.lessonInterface getLessonInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId];
     }
 }
 -(void)getQuestionInfo  {
@@ -358,30 +359,38 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                 }
             }
         }else{
-            UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-            MyQuestionAndAnswerViewController *myQAVC = [story instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
-            UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:myQAVC];
-            [navControl setNavigationBarHidden:YES];
-            navControl.view.frame = (CGRect){0,0,568,1024};
-            [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
-                
-            }];
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            self.getUserQuestionInterface = [[GetUserQuestionInterface alloc] init];
+            self.getUserQuestionInterface.delegate = self;
             switch (indexPath.row) {
                 case 0:
                 {
                     //请求我的提问
                     self.questionScope = QuestionAndAnswerMYQUESTION;
+                     [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"0"];
                     break;
                 }
                 case 1:
                 {
                     //请求我的回答
                     self.questionScope = QuestionAndAnswerMYANSWER;
+                     [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"1"];
                     break;
                 }
                 default:
                     break;
             }
+            
+
+//            UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+//            MyQuestionAndAnswerViewController *myQAVC = [story instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
+//            UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:myQAVC];
+//            [navControl setNavigationBarHidden:YES];
+//            navControl.view.frame = (CGRect){0,0,568,1024};
+//            [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
+//                
+//            }];
+
         }
     }
 }
@@ -486,6 +495,36 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         self.editBtn.alpha = 0.3;
     }
     _listType = listType;
+}
+#pragma mark --
+
+#pragma mark GetUserQuestionInterfaceDelegate 获取我的回答和我的提问列表
+-(void)getUserQuestionInfoDidFailed:(NSString *)errorMsg{
+    if (self.questionScope == QuestionAndAnswerMYQUESTION) {
+        
+    }else
+        if (self.questionScope == QuestionAndAnswerMYANSWER) {
+            
+        }
+    [Utility errorAlert:errorMsg];
+}
+
+-(void)getUserQuestionInfoDidFinished:(NSDictionary *)result{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+            MyQuestionAndAnswerViewController *myQAVC = [story instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
+            UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:myQAVC];
+            [navControl setNavigationBarHidden:YES];
+            navControl.view.frame = (CGRect){0,0,568,1024};
+            [myQAVC reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
+            [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
+                
+            }];
+        });
+    });
 }
 #pragma mark --
 
@@ -601,7 +640,8 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                 if(self.isSearching){
                     chapterView.drnavigationBar.titleLabel.text = @"搜索";
                     chapterView.isSearch = YES;
-                    chapterView.searchBar.searchTextField.text = self.searchText.text;
+                    [chapterView.searchBar addSearchText:self.searchText.text];
+                    chapterView.oldSearchText = self.searchText.text;
                 }
                 [chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:tempArray]];
                 self.isSearching = NO;

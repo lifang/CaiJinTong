@@ -22,8 +22,8 @@
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",sectionId] forKey:@"sectionId"];
     
-    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=sectionInfo&userId=17082&sectionId=3748";
-    
+//    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=sectionInfo&userId=17082&sectionId=3748";
+    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=sectionInfo&userId=17082&sectionId=%@",kHost,sectionId?:@""];
     self.baseDelegate = self;
     self.headers = reqheaders;
     
@@ -113,6 +113,8 @@
                                     [self.delegate getSectionInfoDidFinished:section];
                                     section = nil;
                                 }
+                            }else {
+                                [self.delegate getSectionInfoDidFailed:@"获取视频详细信息失败!"];
                             }
                         }
                         @catch (NSException *exception) {
@@ -124,7 +126,11 @@
                 }else {
                     [self.delegate getSectionInfoDidFailed:@"获取视频详细信息失败!"];
                 }
+            }else {
+                [self.delegate getSectionInfoDidFailed:@"获取视频详细信息失败!"];
             }
+        }else {
+            [self.delegate getSectionInfoDidFailed:@"获取视频详细信息失败!"];
         }
     }else {
         [self.delegate getSectionInfoDidFailed:@"获取视频详细信息失败!"];

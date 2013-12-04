@@ -95,6 +95,7 @@
 #pragma  -- 打分
 -(void)starRatingView:(TQStarRatingView *)view score:(float)score
 {
+    
 }
 #pragma -- 提交
 static NSString *timespan = nil;
@@ -218,7 +219,8 @@ static NSString *timespan = nil;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"refeshScore" object:result userInfo:nil];
+            NSMutableDictionary *resultDic = [NSMutableDictionary dictionaryWithDictionary:result];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"refeshScore" object:resultDic userInfo:nil];
             //隐藏打分栏，只出现评论框
             self.isGrade = 1;
             [self displayView];

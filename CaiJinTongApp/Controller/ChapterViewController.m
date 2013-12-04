@@ -56,7 +56,7 @@
     [super viewDidLoad];
     [self initCollectionView];
     
-    self.searchBar = [[ChapterSearchBar alloc] initWithFrame:(CGRect){50, 54, (self.view.frame.size.width - 200 - 100), 30}];
+    self.searchBar = [[ChapterSearchBar alloc] initWithFrame:(CGRect){50, 54, (self.view.frame.size.width - 200 - 100), 70}];
     self.searchBar.delegate = self;
     self.searchBar.searchTextField.returnKeyType = UIReturnKeySearch;
     [self.searchBar.searchTextField setClearButtonMode:UITextFieldViewModeWhileEditing];
@@ -71,8 +71,8 @@
     [super viewDidAppear:animated];
     CGRect frame = self.collectionView.frame;
     if (self.isSearch) {
-        frame.origin.y = 104;
-        frame.size.height = 1024-104;
+        frame.origin.y = 144;
+        frame.size.height = 1024-144;
     }else {
         frame.origin.y = 54;
         frame.size.height = 1024-54;
@@ -97,6 +97,9 @@
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
+        if (!self.oldSearchText) {
+            self.oldSearchText = searchText;
+        }
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         SearchLessonInterface *searchLessonInter = [[SearchLessonInterface alloc]init];
         self.searchLessonInter = searchLessonInter;
@@ -365,7 +368,7 @@
                 [self reloadDataWithDataArray:tempArray];
                 
             }else{
-            self.searchBar.searchTipLabel.text = @"无搜索结果";
+             [self.searchBar addSearchText:self.oldSearchText];
             }
         });
     });
@@ -373,7 +376,8 @@
 
 -(void)getSearchLessonInfoDidFailed:(NSString *)errorMsg{
     [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Utility errorAlert:@"搜索失败"];
+    [self.searchBar addSearchText:self.oldSearchText];
+    [Utility errorAlert:errorMsg];
 }
 #pragma mark --
 
@@ -395,6 +399,7 @@
 }
 -(void)getChapterInfoDidFailed:(NSString *)errorMsg {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
+    self.searchBar.searchTipLabel.text = @"无搜索结果";
     [Utility errorAlert:errorMsg];
 }
 #pragma mark -- CollectionHeaderDelegate

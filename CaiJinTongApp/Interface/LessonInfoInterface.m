@@ -20,12 +20,12 @@
    
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     
-    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=lessonInfo";
-    
+//    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=lessonInfo";
+    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=lessonInfo&userId=17082",kHost];
     self.baseDelegate = self;
     self.headers = reqheaders;
     
-    [self connect];
+    [self connectMethod:@"GET"];
 }
 #pragma mark - BaseInterfaceDelegate
 
@@ -80,16 +80,24 @@
                                 
                                 [self.delegate getLessonInfoDidFinished:tempDic];
                                 tempDic = nil;
+                            }else {
+                                [self.delegate getLessonInfoDidFailed:@"获取课程列表失败!"];
                             }
                         }
                         @catch (NSException *exception) {
                             [self.delegate getLessonInfoDidFailed:@"获取课程列表失败!"];
                         }
+                    }else {
+                        [self.delegate getLessonInfoDidFailed:@"获取课程列表失败!"];
                     }
                 }else {
                     [self.delegate getLessonInfoDidFailed:@"获取课程列表失败!"];
                 }
+            }else {
+                [self.delegate getLessonInfoDidFailed:@"获取课程列表失败!"];
             }
+        }else {
+            [self.delegate getLessonInfoDidFailed:@"获取课程列表失败!"];
         }
     }else {
         [self.delegate getLessonInfoDidFailed:@"获取课程列表失败!"];
