@@ -213,6 +213,10 @@
 		18C9313B18363B2A00FBE1A8 /* play-table@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18C9312A18363B2A00FBE1A8 /* play-table@2x.png */; };
 		18C9314018363B9C00FBE1A8 /* DRCommitQuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C9313D18363B9C00FBE1A8 /* DRCommitQuestionViewController.m */; };
 		18C9314118363B9C00FBE1A8 /* DRTakingMovieNoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C9313F18363B9C00FBE1A8 /* DRTakingMovieNoteViewController.m */; };
+		18E0D75C185025AE001A6667 /* MenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E0D75B185025AE001A6667 /* MenuTableViewController.m */; };
+		18E0D75F1850296D001A6667 /* MenuTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E0D75E1850296D001A6667 /* MenuTableCell.m */; };
+		18E0D762185040BA001A6667 /* LessonListHeaderView_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E0D761185040BA001A6667 /* LessonListHeaderView_iPhone.m */; };
+		18E0D765185077D5001A6667 /* MenuQuestionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E0D764185077D5001A6667 /* MenuQuestionTableViewController.m */; };
 		18E32DFE1831FD7F00041B8A /* login_bg_7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E32DFD1831FD7F00041B8A /* login_bg_7@2x.png */; };
 		18E32E081831FDF900041B8A /* btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E32E021831FDF900041B8A /* btn@2x.png */; };
 		18E32E091831FDF900041B8A /* login_03@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E32E031831FDF900041B8A /* login_03@2x.png */; };
@@ -644,6 +648,14 @@
 		18C9313D18363B9C00FBE1A8 /* DRCommitQuestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRCommitQuestionViewController.m; sourceTree = "<group>"; };
 		18C9313E18363B9C00FBE1A8 /* DRTakingMovieNoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRTakingMovieNoteViewController.h; sourceTree = "<group>"; };
 		18C9313F18363B9C00FBE1A8 /* DRTakingMovieNoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRTakingMovieNoteViewController.m; sourceTree = "<group>"; };
+		18E0D75A185025AE001A6667 /* MenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableViewController.h; sourceTree = "<group>"; };
+		18E0D75B185025AE001A6667 /* MenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuTableViewController.m; sourceTree = "<group>"; };
+		18E0D75D1850296D001A6667 /* MenuTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableCell.h; sourceTree = "<group>"; };
+		18E0D75E1850296D001A6667 /* MenuTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuTableCell.m; sourceTree = "<group>"; };
+		18E0D760185040BA001A6667 /* LessonListHeaderView_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LessonListHeaderView_iPhone.h; sourceTree = "<group>"; };
+		18E0D761185040BA001A6667 /* LessonListHeaderView_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonListHeaderView_iPhone.m; sourceTree = "<group>"; };
+		18E0D763185077D5001A6667 /* MenuQuestionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuQuestionTableViewController.h; sourceTree = "<group>"; };
+		18E0D764185077D5001A6667 /* MenuQuestionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuQuestionTableViewController.m; sourceTree = "<group>"; };
 		18E32DFD1831FD7F00041B8A /* login_bg_7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "login_bg_7@2x.png"; path = "Interface/login_bg_7@2x.png"; sourceTree = "<group>"; };
 		18E32E021831FDF900041B8A /* btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "btn@2x.png"; path = "login-images/btn@2x.png"; sourceTree = "<group>"; };
 		18E32E031831FDF900041B8A /* login_03@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "login_03@2x.png"; path = "login-images/login_03@2x.png"; sourceTree = "<group>"; };
@@ -1325,6 +1337,10 @@
 				18046A93184884D300EB8BDA /* Section_GradeViewController_iPhone.m */,
 				18046A951848850700EB8BDA /* Section_NoteViewController_iPhone.h */,
 				18046A961848850700EB8BDA /* Section_NoteViewController_iPhone.m */,
+				18E0D75A185025AE001A6667 /* MenuTableViewController.h */,
+				18E0D75B185025AE001A6667 /* MenuTableViewController.m */,
+				18E0D763185077D5001A6667 /* MenuQuestionTableViewController.h */,
+				18E0D764185077D5001A6667 /* MenuQuestionTableViewController.m */,
 			);
 			name = Controller_iPhone;
 			sourceTree = "<group>";
@@ -1356,6 +1372,10 @@
 				189ED9D9184F17260029D8F1 /* Section_GradeCell_iPhoneCell.m */,
 				189ED9DB184F196B0029D8F1 /* Section_NoteCell_iPhone.h */,
 				189ED9DC184F196B0029D8F1 /* Section_NoteCell_iPhone.m */,
+				18E0D75D1850296D001A6667 /* MenuTableCell.h */,
+				18E0D75E1850296D001A6667 /* MenuTableCell.m */,
+				18E0D760185040BA001A6667 /* LessonListHeaderView_iPhone.h */,
+				18E0D761185040BA001A6667 /* LessonListHeaderView_iPhone.m */,
 			);
 			name = View_iPhone;
 			sourceTree = "<group>";
@@ -1835,6 +1855,7 @@
 				6323875A1822056000C71535 /* LoginViewController.m in Sources */,
 				630B9600182A4CF6000ED31E /* MoviePlayerHolderView.m in Sources */,
 				63841CF31838A60100E3FA9E /* DRNavigationController.m in Sources */,
+				18E0D762185040BA001A6667 /* LessonListHeaderView_iPhone.m in Sources */,
 				0E8166E518484E450064DE98 /* CJTSlider.m in Sources */,
 				0EA7EF521823A99700C47F69 /* PlayBackInterface.m in Sources */,
 				6323876018222A1500C71535 /* DRNaviGationBarController.m in Sources */,
@@ -1845,6 +1866,7 @@
 				0EA7EF3718234F9000C47F69 /* SearchQuestionInterface.m in Sources */,
 				0EA7EF09182336B600C47F69 /* chapterModel.m in Sources */,
 				630B03C41820F5BB00F72C4C /* ViewController.m in Sources */,
+				18E0D75F1850296D001A6667 /* MenuTableCell.m in Sources */,
 				63B794E91847477100B8276A /* MJRefreshBaseView.m in Sources */,
 				0EA7EF90182782C600C47F69 /* SuggestionInterface.m in Sources */,
 				0EA7EF661827445500C47F69 /* ChapterViewController.m in Sources */,
@@ -1898,6 +1920,7 @@
 				0E9DA3B9183F568D000A5995 /* ASINetworkQueue.m in Sources */,
 				18046A971848850800EB8BDA /* Section_NoteViewController_iPhone.m in Sources */,
 				630B03BB1820F5BB00F72C4C /* AppDelegate.m in Sources */,
+				18E0D765185077D5001A6667 /* MenuQuestionTableViewController.m in Sources */,
 				0EA7EF4C18238DF600C47F69 /* AnswerModel.m in Sources */,
 				0EA7EF1918234A7500C47F69 /* CommentListInterface.m in Sources */,
 				0EA7EF2218234BA100C47F69 /* QuestionListInterface.m in Sources */,
@@ -1937,6 +1960,7 @@
 				0EA7EF2818234CDC00C47F69 /* ChapterQuestionInterface.m in Sources */,
 				0EAFA11A18223FC500D01D3E /* CJTMainToolbar.m in Sources */,
 				631227E4182B409F00530CC3 /* QuestionAndAnswerCell.m in Sources */,
+				18E0D75C185025AE001A6667 /* MenuTableViewController.m in Sources */,
 				183F77AF1839B5E8004D0263 /* MBProgressHUD.m in Sources */,
 				631227E7182B40EB00530CC3 /* QuestionAndAnswerCellHeaderView.m in Sources */,
 				0E9DA3C2183F568D000A5995 /* ASIS3Bucket.m in Sources */,

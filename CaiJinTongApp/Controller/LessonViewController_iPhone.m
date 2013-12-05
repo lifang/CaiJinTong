@@ -405,6 +405,12 @@
     [self.collectionView setContentOffset:CGPointMake(0, 0)];
 }
 
+#pragma mark 侧边列表栏
+-(void)rightItemClicked:(id)sender{
+    
+}
+
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

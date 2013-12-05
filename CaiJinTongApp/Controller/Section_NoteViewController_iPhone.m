@@ -42,11 +42,13 @@
 #pragma  mark-- UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    NoteModel *note = (NoteModel *)[self.dataArray objectAtIndex:indexPath.row];
-//    UIFont *aFont = [UIFont fontWithName:@"Trebuchet MS" size:14];
-//    CGSize size = [note.noteText sizeWithFont:aFont constrainedToSize:CGSizeMake(276, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
-//    return size.height+21;
-    return 50;
+    NoteModel *note = (NoteModel *)[self.dataArray objectAtIndex:indexPath.row];
+    note.noteText = @"这一章的重点是,这一小节的重点是,这里的重点是这一章的重点是,这一小节的重点是,这里的重点是这一章的重点是,这一小节的重点是,这里的重点是这一章的重点是,这一小节的重点是,这里的重点是这一章的重点是,这一小节的重点是,这里的重点是这一章的重点是,这一小节的重点是,这里的重点是这一章的重点是,这一小节的重点是,这里的重点是这一章的重点是,这一小节的重点是,这里的重点是.";
+
+    UIFont *aFont = [UIFont fontWithName:@"Trebuchet MS" size:9];
+    CGSize size = [note.noteText sizeWithFont:aFont constrainedToSize:CGSizeMake(255, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
+    return size.height+51;
+//    return 50;UIScrollView
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.dataArray.count;
@@ -55,19 +57,19 @@
     static NSString *CellIdentifier = @"Section_NoteCell_iPhone";
     Section_NoteCell_iPhone *cell = (Section_NoteCell_iPhone *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     NoteModel *note = (NoteModel *)[self.dataArray objectAtIndex:indexPath.row];
-    UIFont *aFont = [UIFont fontWithName:@"Trebuchet MS" size:14];
-    CGSize size = [note.noteText sizeWithFont:aFont constrainedToSize:CGSizeMake(276, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
+    UIFont *aFont = [UIFont fontWithName:@"Trebuchet MS" size:9];
+    note.noteText = @"这一章的重点是,这一小节的重点是,这里的重点是这一章的重点是,这一小节的重点是,这里的重点是这一章的重点是,这一小节的重点是,这里的重点是这一章的重点是,这一小节的重点是,这里的重点是这一章的重点是,这一小节的重点是,这里的重点是这一章的重点是,这一小节的重点是,这里的重点是这一章的重点是,这一小节的重点是,这里的重点是这一章的重点是,这一小节的重点是,这里的重点是.";
+    CGSize size = [note.noteText sizeWithFont:aFont constrainedToSize:CGSizeMake(255, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
     
-    [cell.contentTextView setUserInteractionEnabled:NO];
-    cell.contentTextView.frame = CGRectMake(5, 5, 276, size.height+20);
+    cell.contentTextView.frame = CGRectMake(7, 18, 261, size.height + 15);
     cell.contentTextView.text = note.noteText;
     cell.timeLab.text = note.noteTime;
-    cell.contentTextView.layer.borderWidth = 2.0;
+    cell.contentTextView.layer.borderWidth = 1.0;
     cell.contentTextView.layer.borderColor = [[UIColor colorWithRed:244.0/255.0 green:243.0/255.0 blue:244.0/255.0 alpha:1.0] CGColor];
     cell.contentTextView.font = aFont;
-    cell.contentTextView.contentInset = UIEdgeInsetsMake(0, 5.0f, 0, 5.0f);
-    
-    [cell setBackgroundColor:[UIColor greenColor]];
+    cell.contentTextView.contentInset = UIEdgeInsetsMake(-4, 0, 0, 0);
+//    [cell.contentTextView zoomToRect:CGRectMake(10, 55, 255, size.height + 21) animated:NO];
+    [cell.contentTextView setUserInteractionEnabled:NO];
     return cell;
 }
 @end

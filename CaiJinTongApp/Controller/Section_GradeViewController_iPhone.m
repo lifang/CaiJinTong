@@ -19,7 +19,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -42,8 +41,9 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
+
+//界面布局
 -(void)displayView {
     if (self.isGrade == 0) {//有打分界面
         if (!self.starRatingView) {
@@ -80,8 +80,10 @@
                 [btn removeFromSuperview];
             }
         }
-        self.myComment.frame = CGRectMake(22, 0, 100, 30);
-        self.tableViewList.frame =  CGRectMake(22, self.myComment.frame.origin.y+35, 276, 141 - self.myComment.frame.size.height - 5);
+        self.myComment.frame = CGRectMake(22, 0, 100, 16);
+        self.tableViewList.frame =  CGRectMake(22, self.myComment.frame.origin.y+15, 276, 141 - self.myComment.frame.size.height);
+        [self.view layoutSubviews];
+        [self.tableViewList reloadData];
     }
     
 }
@@ -116,8 +118,8 @@ static NSString *timespan = nil;
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row<self.dataArray.count) {
         CommentModel *comment = (CommentModel *)[self.dataArray objectAtIndex:indexPath.row];
-        CGSize size = [Utility getTextSizeWithString:comment.content withFont:[UIFont systemFontOfSize:15] withWidth:500];
-        return size.height+20+35;
+        CGSize size = [Utility getTextSizeWithString:comment.content withFont:[UIFont systemFontOfSize:10] withWidth:261];
+        return size.height+30;
     }
     return 35;
 }
@@ -129,12 +131,13 @@ static NSString *timespan = nil;
     Section_GradeCell_iPhoneCell *cell = (Section_GradeCell_iPhoneCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (indexPath.row<self.dataArray.count) { // 正常的cell
         CommentModel *comment = (CommentModel *)[self.dataArray objectAtIndex:indexPath.row];
-        CGSize size = [Utility getTextSizeWithString:comment.content withFont:[UIFont systemFontOfSize:15] withWidth:500];
-        cell.contentLab.layer.borderWidth = 2.0;
+        CGSize size = [Utility getTextSizeWithString:comment.content withFont:[UIFont systemFontOfSize:10] withWidth:261];
+        cell.contentLab.layer.borderWidth = 1.0;
         cell.contentLab.layer.borderColor = [[UIColor colorWithRed:244.0/255.0 green:243.0/255.0 blue:244.0/255.0 alpha:1.0] CGColor];
         cell.contentLab.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-        cell.contentLab.frame = CGRectMake(25, 25, 500, size.height+10);
-        cell.contentLab.font = [UIFont systemFontOfSize:15];
+        cell.contentLab.frame = CGRectMake(7, 15, 261, size.height+10);
+        cell.contentLab.font = [UIFont systemFontOfSize:10];
+        cell.contentLab.contentInset = UIEdgeInsetsMake(-3, 0, 0, 0);
         cell.alpha = 0.5;
         cell.contentLab.text = [comment.content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         cell.titleLab.text = [NSString stringWithFormat:@"%@发表于%@",comment.nickName,comment.time];
@@ -237,7 +240,10 @@ static NSString *timespan = nil;
     while(view.tag != 33){  //33为SectionViewController_iPhone的view tag
         view = [view superview];
     }
-    [view setFrame:CGRectMake(0, -150, 320, 568)];
+    [UIView animateWithDuration:0.3 animations:^{
+        [view setFrame:CGRectMake(0, -150, 320, 568)];
+    }];
+    
     return YES;
 }
 
@@ -246,7 +252,9 @@ static NSString *timespan = nil;
     while(view.tag != 33){  //33为SectionViewController_iPhone的view tag
         view = [view superview];
     }
-    [view setFrame:CGRectMake(0, 0, 320, 568)];
+    [UIView animateWithDuration:0.3 animations:^{
+        [view setFrame:CGRectMake(0, 0, 320, 568)];
+    }];
     return YES;
 }
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
