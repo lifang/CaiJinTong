@@ -28,7 +28,7 @@
 {
     [super viewDidLoad];
     
-    [self initData];
+//    [self initData];
     
 }
 -(void)viewDidAppear:(BOOL)animated {
@@ -225,7 +225,9 @@
         studyLabel.backgroundColor = [UIColor clearColor];
         studyLabel.textColor = [UIColor darkGrayColor];
         studyLabel.font = [UIFont systemFontOfSize:15];
-        studyLabel.text =[NSString stringWithFormat:@"已学习：%@",self.section.sectionStudy];
+        NSString *studyProgress = [self.section.sectionStudy stringByReplacingOccurrencesOfString:@"分" withString:@"´"];
+        studyProgress = [studyProgress stringByReplacingOccurrencesOfString:@"秒" withString:@"〞"];
+        studyLabel.text =[NSString stringWithFormat:@"已学习：%@",studyProgress];
         self.studyLab = studyLabel;
         [self.view addSubview:self.studyLab];
         studyLabel = nil;

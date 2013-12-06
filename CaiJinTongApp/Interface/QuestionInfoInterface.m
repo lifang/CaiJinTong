@@ -18,16 +18,18 @@
 @implementation QuestionInfoInterface
 
 -(void)getQuestionInfoInterfaceDelegateWithUserId:(NSString *)userId {
-    NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
-
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
-    
-    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=getQuestionCategory&userId=18676";
-    
-    self.baseDelegate = self;
-    self.headers = reqheaders;
-    
-    [self connect];
+    //临时修改,李宏亮
+//    NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
+//
+//    [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
+//    
+//    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=getQuestionCategory&userId=18676";
+//    
+//    self.baseDelegate = self;
+//    self.headers = reqheaders;
+//    
+//    [self connect];
+    [self parseResult:nil];
 }
 #pragma mark - BaseInterfaceDelegate
 -(NSMutableDictionary *)setDictionary:(NSDictionary *)dic WithLevel:(int)level{
@@ -36,9 +38,11 @@
     return mutableDic;
 }
 -(void)parseResult:(ASIHTTPRequest *)request{
-    NSDictionary *resultHeaders = [[request responseHeaders] allKeytoLowerCase];
-    if (resultHeaders) {
-        NSData *data = [[NSData alloc]initWithData:[request responseData]];
+//    NSDictionary *resultHeaders = [[request responseHeaders] allKeytoLowerCase];
+//    if (resultHeaders) {
+//        NSData *data = [[NSData alloc]initWithData:[request responseData]];
+    if(YES){
+    NSData *data = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"questionInfo" ofType:@"json"]];
         id jsonObject=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
         if (jsonObject !=nil) {
             if ([jsonObject isKindOfClass:[NSDictionary class]]) {

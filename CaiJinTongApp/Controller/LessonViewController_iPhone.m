@@ -246,7 +246,17 @@
 //}
 
 - (void) cellClicked:(id)sender{
-    DLog(@"%@",sender);
+    [self.searchBar.searchTextField resignFirstResponder];
+    SectionCustomView_iPhone *sectionCustomView = (SectionCustomView_iPhone *)sender;
+    if([[Utility isExistenceNetwork] isEqualToString:@"NotReachable"]){
+        [Utility errorAlert:@"暂无网络!"];
+    }else{
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        SectionInfoInterface *sectionInfoInterface = [[SectionInfoInterface alloc] init];
+        self.sectionInfoInterface = sectionInfoInterface;
+        self.sectionInfoInterface.delegate = self;
+        [self.sectionInfoInterface getSectionInfoInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andSectionId:sectionCustomView.sectionId];
+    }
 }
 
 
@@ -380,6 +390,31 @@
     }
 }
 
+#pragma mark -- SectionInfoInterface
+-(void)getSectionInfoDidFinished:(SectionModel *)result {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        SectionModel *section = (SectionModel *)result;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+            SectionViewController_iPhone *sectionViewController = [story instantiateViewControllerWithIdentifier:@"SectionViewController_iPhone"];
+            
+            sectionViewController.section = section;
+            sectionViewController.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:sectionViewController.section.sectionList];
+            [sectionViewController.section_ChapterView.tableViewList reloadData];
+            [sectionViewController initAppear];          //界面上半部分
+            [sectionViewController initAppear_slide];    //界面下半部分(滑动视图)
+            [self.navigationController pushViewController:sectionViewController animated:YES];
+        });
+    });
+}
+
+-(void)getSectionInfoDidFailed:(NSString *)errorMsg {
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [Utility errorAlert:errorMsg];
+}
+
+
 #pragma mark -- search Bar delegate
 -(void)chapterSeachBar_iPhone:(ChapterSearchBar_iPhone *)searchBar beginningSearchString:(NSString *)searchText{
     if (self.searchBar.searchTextField.text.length == 0) {
@@ -406,6 +441,11 @@
 }
 
 #pragma mark 侧边列表栏
+
+-(void)leftItemClicked:(id)sender{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 -(void)rightItemClicked:(id)sender{
     
 }

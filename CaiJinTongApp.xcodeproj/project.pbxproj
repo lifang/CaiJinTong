@@ -164,6 +164,12 @@
 		18046A94184884D300EB8BDA /* Section_GradeViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 18046A93184884D300EB8BDA /* Section_GradeViewController_iPhone.m */; };
 		18046A971848850800EB8BDA /* Section_NoteViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 18046A961848850700EB8BDA /* Section_NoteViewController_iPhone.m */; };
 		18046A9A1848880B00EB8BDA /* LHLCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18046A991848880B00EB8BDA /* LHLCollectionViewCell.m */; };
+		1812A4D21851791F009B3D5D /* LoginViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 1812A4D11851791F009B3D5D /* LoginViewController_iPhone.m */; };
+		1812A4D518519203009B3D5D /* UIImage+Scale.m in Sources */ = {isa = PBXBuildFile; fileRef = 1812A4D418519203009B3D5D /* UIImage+Scale.m */; };
+		1812A4DB1851A1B7009B3D5D /* ForgotPwdViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 1812A4DA1851A1B7009B3D5D /* ForgotPwdViewController_iPhone.m */; };
+		1812A4DF1851B2F5009B3D5D /* 按钮背景@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1812A4DE1851B2F5009B3D5D /* 按钮背景@2x.png */; };
+		1812A4E11851B647009B3D5D /* leftItemBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1812A4E01851B647009B3D5D /* leftItemBg@2x.png */; };
+		1812A4E31851B80D009B3D5D /* rightItemBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1812A4E21851B80D009B3D5D /* rightItemBg@2x.png */; };
 		181532431835BDAB0078A410 /* course-mycourse_03@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 181532421835BDAB0078A410 /* course-mycourse_03@2x.png */; };
 		181532451835CD3D0078A410 /* btn0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 181532441835CD3D0078A410 /* btn0@2x.png */; };
 		181532471835EA330078A410 /* play-courselist_06@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 181532461835EA330078A410 /* play-courselist_06@2x.png */; };
@@ -589,6 +595,15 @@
 		18046A961848850700EB8BDA /* Section_NoteViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section_NoteViewController_iPhone.m; sourceTree = "<group>"; };
 		18046A981848880B00EB8BDA /* LHLCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LHLCollectionViewCell.h; sourceTree = "<group>"; };
 		18046A991848880B00EB8BDA /* LHLCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LHLCollectionViewCell.m; sourceTree = "<group>"; };
+		1812A4D01851791F009B3D5D /* LoginViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController_iPhone.h; sourceTree = "<group>"; };
+		1812A4D11851791F009B3D5D /* LoginViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController_iPhone.m; sourceTree = "<group>"; };
+		1812A4D318519203009B3D5D /* UIImage+Scale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Scale.h"; sourceTree = "<group>"; };
+		1812A4D418519203009B3D5D /* UIImage+Scale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Scale.m"; sourceTree = "<group>"; };
+		1812A4D91851A1B7009B3D5D /* ForgotPwdViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgotPwdViewController_iPhone.h; sourceTree = "<group>"; };
+		1812A4DA1851A1B7009B3D5D /* ForgotPwdViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgotPwdViewController_iPhone.m; sourceTree = "<group>"; };
+		1812A4DE1851B2F5009B3D5D /* 按钮背景@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "按钮背景@2x.png"; sourceTree = "<group>"; };
+		1812A4E01851B647009B3D5D /* leftItemBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "leftItemBg@2x.png"; sourceTree = "<group>"; };
+		1812A4E21851B80D009B3D5D /* rightItemBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rightItemBg@2x.png"; sourceTree = "<group>"; };
 		181532421835BDAB0078A410 /* course-mycourse_03@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "course-mycourse_03@2x.png"; sourceTree = "<group>"; };
 		181532441835CD3D0078A410 /* btn0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn0@2x.png"; sourceTree = "<group>"; };
 		181532461835EA330078A410 /* play-courselist_06@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play-courselist_06@2x.png"; sourceTree = "<group>"; };
@@ -1005,6 +1020,9 @@
 		0EAFA1011822200200D01D3E /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				1812A4E01851B647009B3D5D /* leftItemBg@2x.png */,
+				1812A4E21851B80D009B3D5D /* rightItemBg@2x.png */,
+				1812A4DE1851B2F5009B3D5D /* 按钮背景@2x.png */,
 				0E8166E618485BA30064DE98 /* backgroundStar@2x.png */,
 				18EA12561845E6B300F12D8B /* photoBg@2x.png */,
 				18EA12541845BF7000F12D8B /* barbg.png */,
@@ -1276,6 +1294,8 @@
 				0EA7EF67182748B000C47F69 /* SDWebImage */,
 				0E52B97E182104C6008A88C1 /* URLEncoding */,
 				0EDF4DD718210241007161E0 /* Reachability */,
+				1812A4D318519203009B3D5D /* UIImage+Scale.h */,
+				1812A4D418519203009B3D5D /* UIImage+Scale.m */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -1341,6 +1361,10 @@
 				18E0D75B185025AE001A6667 /* MenuTableViewController.m */,
 				18E0D763185077D5001A6667 /* MenuQuestionTableViewController.h */,
 				18E0D764185077D5001A6667 /* MenuQuestionTableViewController.m */,
+				1812A4D01851791F009B3D5D /* LoginViewController_iPhone.h */,
+				1812A4D11851791F009B3D5D /* LoginViewController_iPhone.m */,
+				1812A4D91851A1B7009B3D5D /* ForgotPwdViewController_iPhone.h */,
+				1812A4DA1851A1B7009B3D5D /* ForgotPwdViewController_iPhone.m */,
 			);
 			name = Controller_iPhone;
 			sourceTree = "<group>";
@@ -1740,10 +1764,12 @@
 				6330033C1845F81200F7838D /* radio_unchecked@2x.png in Resources */,
 				18E32E081831FDF900041B8A /* btn@2x.png in Resources */,
 				18491C3F18345E11003C82E4 /* play_0h5@2x.png in Resources */,
+				1812A4DF1851B2F5009B3D5D /* 按钮背景@2x.png in Resources */,
 				0EAFA0EC1822167800D01D3E /* askQuestion.json in Resources */,
 				18C9313318363B2A00FBE1A8 /* play_paused@2x.png in Resources */,
 				18EA12551845BF7000F12D8B /* barbg.png in Resources */,
 				18491C4D1834B166003C82E4 /* course-courses_03@2x.png in Resources */,
+				1812A4E11851B647009B3D5D /* leftItemBg@2x.png in Resources */,
 				0EA7EF631823B1FC00C47F69 /* answerList.json in Resources */,
 				18491C4A1834AAE6003C82E4 /* 1@2x.png in Resources */,
 				18491C511834C92C003C82E4 /* ss@2x.png in Resources */,
@@ -1802,6 +1828,7 @@
 				0EAFA0F61822167800D01D3E /* playVideo.json in Resources */,
 				18C9313A18363B2A00FBE1A8 /* play-M.png in Resources */,
 				0EAFA0EE1822167800D01D3E /* chapterQuestion.json in Resources */,
+				1812A4E31851B80D009B3D5D /* rightItemBg@2x.png in Resources */,
 				0EAFA0FB1822167800D01D3E /* sectionInfo.json in Resources */,
 				18C9312E18363B2A00FBE1A8 /* play_black@2x.png in Resources */,
 				18F477F4183DC5CA00021886 /* nothing.png in Resources */,
@@ -1858,12 +1885,14 @@
 				18E0D762185040BA001A6667 /* LessonListHeaderView_iPhone.m in Sources */,
 				0E8166E518484E450064DE98 /* CJTSlider.m in Sources */,
 				0EA7EF521823A99700C47F69 /* PlayBackInterface.m in Sources */,
+				1812A4DB1851A1B7009B3D5D /* ForgotPwdViewController_iPhone.m in Sources */,
 				6323876018222A1500C71535 /* DRNaviGationBarController.m in Sources */,
 				0EA717671829E2D100560885 /* TQStarRatingView.m in Sources */,
 				6323875D18220E7D00C71535 /* ForgotPwdViewController.m in Sources */,
 				0E9DA3B6183F568D000A5995 /* ASIFormDataRequest.m in Sources */,
 				0EAFA1261822488700D01D3E /* ChapterInfoInterface.m in Sources */,
 				0EA7EF3718234F9000C47F69 /* SearchQuestionInterface.m in Sources */,
+				1812A4D518519203009B3D5D /* UIImage+Scale.m in Sources */,
 				0EA7EF09182336B600C47F69 /* chapterModel.m in Sources */,
 				630B03C41820F5BB00F72C4C /* ViewController.m in Sources */,
 				18E0D75F1850296D001A6667 /* MenuTableCell.m in Sources */,
@@ -1902,6 +1931,7 @@
 				0E9DA3B7183F568D000A5995 /* ASIHTTPRequest.m in Sources */,
 				18F28C15184738B300692F90 /* SectionViewController_iPhone.m in Sources */,
 				0E9C9EF318431A5300D48781 /* InfoViewController.m in Sources */,
+				1812A4D21851791F009B3D5D /* LoginViewController_iPhone.m in Sources */,
 				631227E0182B384B00530CC3 /* MyQuestionAndAnswerViewController.m in Sources */,
 				0EA2A9261828D667003D152E /* SUNSlideSwitchView.m in Sources */,
 				0EA2A9201828893D003D152E /* ChineseString.m in Sources */,

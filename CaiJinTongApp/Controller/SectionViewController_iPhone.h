@@ -32,4 +32,8 @@
 //数据
 @property (nonatomic,strong) SectionModel *section;
 @property (nonatomic,strong) SectionInfoInterface *sectionInterface;
+
+- (void)initAppear;
+- (void)initAppear_slide;
+
 @end

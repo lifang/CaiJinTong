@@ -20,6 +20,7 @@
 - (id)initWithFrame:(CGRect)frame andSection:(SectionModel *)section andItemLabel:(float)itemLabel{
     self = [super initWithFrame:frame];
     if (self) {
+        self.sectionId = section.sectionId;
         
         //照片底板
         UIImageView *photoBg = [[UIImageView alloc] initWithFrame:CGRectMake(-3, itemLabel - 3, 132, 132)];

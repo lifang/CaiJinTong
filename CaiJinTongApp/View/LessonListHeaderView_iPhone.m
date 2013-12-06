@@ -58,6 +58,8 @@
         self.coverBt.backgroundColor = [UIColor clearColor];
         [self addSubview:self.coverBt];
         [self.coverBt addTarget:self action:@selector(cellSelected) forControlEvents:UIControlEventTouchUpInside];
+        
+        
         self.isSelected = NO;
     }
     return self;

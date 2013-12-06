@@ -15,6 +15,8 @@
 @property (nonatomic,strong) UISlider *pv; //视频进度
 @property (nonatomic,strong) UILabel *progressLabel;
 
+@property (strong,nonatomic) NSString *sectionId;//保存,用于点击时接口参数
+
 - (id)initWithFrame:(CGRect)frame andSection:(SectionModel *)section andItemLabel:(float)itemLabel;
 
 //修改赋值

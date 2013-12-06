@@ -17,12 +17,13 @@
 #import "pinyin.h"
 #import "SearchLessonInterface.h"
 #import "LHLNavigationBarViewController.h"
+#import "SectionViewController_iPhone.h"
 typedef enum{
     recent = 1,
     progress,
     a_z
 } FilterStatus;
-@interface LessonViewController_iPhone : LHLNavigationBarViewController<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,ChapterInfoInterfaceDelegate,CJTMainToolbar_iPhoneDelegate,SearchLessonInterfaceDelegate,ChapterSearchBarDelegate_iPhone>
+@interface LessonViewController_iPhone : LHLNavigationBarViewController<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,ChapterInfoInterfaceDelegate,CJTMainToolbar_iPhoneDelegate,SearchLessonInterfaceDelegate,ChapterSearchBarDelegate_iPhone,SectionInfoInterfaceDelegate>
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong,nonatomic) UIScrollView *myScrollView;
 
@@ -37,6 +38,7 @@ typedef enum{
 
 @property (strong,nonatomic) SectionCustomView_iPhone *sectionCustomView;
 @property (strong,nonatomic) ChapterInfoInterface *chapterInterface;
+@property (strong,nonatomic) SectionInfoInterface *sectionInfoInterface;
 @property (strong,nonatomic) SearchLessonInterface *searchInterface;
 @property (nonatomic, strong) ChapterSearchBar_iPhone *searchBar;
 @property (strong,nonatomic) CJTMainToolbar_iPhone *mainToolBar;

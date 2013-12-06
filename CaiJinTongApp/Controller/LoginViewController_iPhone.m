@@ -1,26 +1,18 @@
 //
-//  LoginViewController.m
+//  LoginViewController_iPhone.m
 //  CaiJinTongApp
 //
-//  Created by david on 13-10-31.
+//  Created by apple on 13-12-6.
 //  Copyright (c) 2013年 david. All rights reserved.
 //
 
-#import "LoginViewController.h"
-#import <QuartzCore/QuartzCore.h>
-#import "LessonViewController.h"
-#import "ForgotPwdViewController.h"
-#import "UserModel.h"
+#import "LoginViewController_iPhone.h"
 
-@interface LoginViewController ()
-@property (weak, nonatomic) IBOutlet UITextField *userNameTextField;
-@property (weak, nonatomic) IBOutlet UITextField *pwdTextField;
-- (IBAction)loginBtClicked:(id)sender;
-- (IBAction)forgotPwdBtClicked:(id)sender;
+@interface LoginViewController_iPhone ()
 
 @end
 
-@implementation LoginViewController
+@implementation LoginViewController_iPhone
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -34,12 +26,21 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [Utility setBackgroungWithView:self.view andImage6:@"login_bg_7.png" andImage7:@"login_bg_7.png"];
-    [Utility setBackgroungWithView:self.inputView andImage6:@"login_07" andImage7:@"login_07"];
-
+    //背景
+//    [Utility setBackgroungWithView:self.view andImage6:@"login_bg_7.png" andImage7:@"login_bg_7.png"];
+    //压缩图片
+    UIImage *bgImage = [[UIImage imageNamed:@"login_bg_7.png"] scaleToSize:CGSizeMake(320, 568)];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:bgImage];
+    
+    UIImage *loginBtnImage = [[UIImage imageNamed:@"btn.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 6)];
+    [self.loginBtn setBackgroundImage:loginBtnImage forState:UIControlStateNormal];
+    [self.loginBtn addTarget:self action:@selector(loginBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.findPasswordBtn addTarget:self action:@selector(findPasswordBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self.registerAccBtn addTarget:self action:@selector(registerAccBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+    
+    
 }
-
-
 
 - (void)didReceiveMemoryWarning
 {
@@ -47,10 +48,16 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)loginBtClicked:(id)sender {
+#pragma mark 动作方法
+- (IBAction)hideKeyboard:(id)sender {
+    [self.accountLabel resignFirstResponder];
+    [self.passwordTextField resignFirstResponder];
+}
+
+-(void)loginBtnClicked{
     NSString *regexCall = @"(\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*)|(1[0-9]{10})";
     NSPredicate *predicateCall = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",regexCall];
-    if ([predicateCall evaluateWithObject:self.userNameTextField.text]) {
+    if ([predicateCall evaluateWithObject:self.accountLabel.text]) {
         if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
             [Utility errorAlert:@"暂无网络!"];
         }else {
@@ -58,17 +65,21 @@
             LogInterface *log = [[LogInterface alloc]init];
             self.logInterface = log;
             self.logInterface.delegate = self;
-            [self.logInterface getLogInterfaceDelegateWithName:self.userNameTextField.text andPassWord:self.pwdTextField.text];
+            [self.logInterface getLogInterfaceDelegateWithName:self.accountLabel.text andPassWord:self.passwordTextField.text];
         }
     }else {
         [Utility errorAlert:@"请输入正确的手机号码或邮箱!"];
     }
 }
 
-- (IBAction)forgotPwdBtClicked:(id)sender {
-    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-    ForgotPwdViewController *fpwView = [story instantiateViewControllerWithIdentifier:@"TabBarController"];
-    [self.navigationController pushViewController:fpwView animated:YES];
+-(void)findPasswordBtnClicked{
+    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+    ForgotPwdViewController_iPhone *forgot = [story instantiateViewControllerWithIdentifier:@"ForgotPwdViewController_iPhone"];
+    [self.navigationController pushViewController:forgot animated:YES];
+}
+
+-(void)registerAccBtnClicked{
+    
 }
 
 #pragma mark - LogInterface
@@ -88,12 +99,12 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-            LessonViewController *lessonView = [story instantiateViewControllerWithIdentifier:@"LessonViewController"];
+            UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+            LessonViewController *lessonView = [story instantiateViewControllerWithIdentifier:@"TabBarController"];
             [self.navigationController pushViewController:lessonView animated:YES];
             AppDelegate* appDelegate = [AppDelegate sharedInstance];
             appDelegate.lessonViewCtrol = lessonView;
-
+            
         });
     });
 }
