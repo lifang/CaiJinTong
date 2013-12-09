@@ -100,7 +100,7 @@
 #pragma -- 提交
 static NSString *timespan = nil;
 -(IBAction)submitBtnPressed:(id)sender {
-    if (self.starRatingView.score==0 && self.textView.text.length==0) {
+    if (self.textView.text.length==0) {
         [Utility errorAlert:@"说点什么吧..."];
     }else {
         if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
@@ -159,7 +159,7 @@ static NSString *timespan = nil;
     CommentModel *model = [[CommentModel alloc] init];
     UserModel *user = [[CaiJinTongManager shared] user];
     if (user) {
-        model.nickName = user.userName;
+        model.nickName = user.nickName;
     }
     model.time = [Utility getNowDateFromatAnDate];
     model.content = self.textView.text;
@@ -167,6 +167,7 @@ static NSString *timespan = nil;
     [self.textView resignFirstResponder];
     [self.dataArray insertObject:model atIndex:0];
     [self.tableViewList reloadData];
+    [Utility errorAlert:@"提交评论成功"];
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {

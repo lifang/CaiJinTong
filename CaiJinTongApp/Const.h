@@ -6,8 +6,11 @@
 //  Copyright (c) 2013年 LanTai. All rights reserved.
 //
 //
-#define kHost @"http://wmi.finance365.com/api/ios.ashx"
-#define kTEST 1
+
+//#define kHost @"http://wmi.finance365.com/api/ios.ashx"
+#define kHost @"http://lms.finance365.com/api/ios.ashx"
+//#define kSummitQuestHost  @"http://lms.finance365.com/api/ios.ashx"
+//#define kQuestHost  kHost
 #define kDomain @"http://116.255.135.175:3004"
 
 #define kLogin @"/chapters/user_round"

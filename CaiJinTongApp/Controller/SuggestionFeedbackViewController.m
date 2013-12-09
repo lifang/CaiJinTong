@@ -23,6 +23,10 @@
     return self;
 }
 
+-(void)drnavigationBarRightItemClicked:(id)sender{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -76,12 +80,20 @@
     }
     
 }
+
+#pragma mark UIAlertViewDelegate
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+#pragma mark --
+
 #pragma mark --SuggestionInterfaceDelegate
 -(void)getSuggestionInfoDidFinished {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [self.navigationController popViewControllerAnimated:YES];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"提交成功" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            [alert show];
         });
     });
 }

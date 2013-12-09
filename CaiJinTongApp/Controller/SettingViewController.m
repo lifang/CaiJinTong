@@ -88,7 +88,7 @@ NSString *appleID = @"6224939";
             return 3;
             break;
         case 2:
-            return 3;
+            return 2;
             break;
         default:
             break;
@@ -105,6 +105,7 @@ NSString *appleID = @"6224939";
     switch (indexPath.section) {
         case 0:
             cell.textLabel.text = @"我的资料";
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             break;
         case 1:
             switch (indexPath.row) {
@@ -146,6 +147,7 @@ NSString *appleID = @"6224939";
                 default:
                     break;
             }
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             break;
         default:
             break;
@@ -246,6 +248,9 @@ NSString *appleID = @"6224939";
 
 #pragma mark -- cellDelegate
 -(void)infoCellView:(InfoCell*)header {
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
+    AppDelegate *app = [AppDelegate sharedInstance];
+    [app.lessonViewCtrol.navigationController popToRootViewControllerAnimated:NO];
 }
 
 #pragma mark -- suggestion feedback view

@@ -12,14 +12,15 @@
 #import "NSString+HTML.h"
 @implementation AcceptAnswerInterface
 
--(void)getAcceptAnswerInterfaceDelegateWithUserId:(NSString *)userId andQuestionId:(NSString *)questionId andResultId:(NSString *)resultId {
+-(void)getAcceptAnswerInterfaceDelegateWithUserId:(NSString *)userId andQuestionId:(NSString *)questionId andAnswerID:(NSString*)answerID andCorrectAnswerID:(NSString*)correctAnswerID{
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
 
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",questionId] forKey:@"questionId"];
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",resultId] forKey:@"resultId"];
-    
-    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=acceptAnswer&userId=17079&questionId=1263&answerId=20744&resultId=1647";
+    [reqheaders setValue:[NSString stringWithFormat:@"%@",answerID] forKey:@"answerId"];
+    [reqheaders setValue:[NSString stringWithFormat:@"%@",correctAnswerID] forKey:@"resultId"];
+//    http://wmi.finance365.com/api/ios.ashx?active=acceptAnswer&userId=17079&questionId=1263&answerId=20744&resultId=1647
+    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=acceptAnswer&userId=%@&questionId=%@&answerId=%@&resultId=%@",kHost,userId,questionId,answerID,correctAnswerID];
     
     self.baseDelegate = self;
     self.headers = reqheaders;
@@ -38,21 +39,18 @@
                 NSDictionary *jsonData=(NSDictionary *)jsonObject;
                 DLog(@"data = %@",jsonData);
                 if (jsonData) {
-                    if ([[jsonData objectForKey:@"Status"]intValue] == 1) {
-                        @try {
-                            
-                        }
-                        @catch (NSException *exception) {
-                            
-                        }
-                    }
+                    [self.delegate getAcceptAnswerInfoDidFinished:nil];
                 }else {
-                    
+                    [self.delegate getAcceptAnswerInfoDidFailed:@"采纳答案提交失败"];
                 }
+            }else {
+                [self.delegate getAcceptAnswerInfoDidFailed:@"采纳答案提交失败"];
             }
+        }else {
+            [self.delegate getAcceptAnswerInfoDidFailed:@"采纳答案提交失败"];
         }
     }else {
-        
+        [self.delegate getAcceptAnswerInfoDidFailed:@"采纳答案提交失败"];
     }
 }
 -(void)requestIsFailed:(NSError *)error{

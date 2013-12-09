@@ -37,8 +37,12 @@
 }
 
 -(void)willDismissPopoupController{
-    CGPoint offset = self.myScrollView.contentOffset;
-    [self.myScrollView setContentOffset:offset animated:NO];
+    if (platform >= 7.0) {
+        [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionBottom animated:NO];
+    }else{
+        CGPoint offset = self.collectionView.contentOffset;
+        [self.collectionView setContentOffset:offset animated:NO];
+    }
 }
 
 -(void)drnavigationBarRightItemClicked:(id)sender{

@@ -39,4 +39,6 @@
 
 /** running in background, call this funciton when application become background */
 - (void)run;
+
++(NSString*)getMovieLocalPathWithSectionID:(NSString*)sectionID;
 @end

@@ -26,7 +26,7 @@
     [reqheaders setValue:[NSString stringWithFormat:@"%@",thePassWord] forKey:@"passWord"];
 
     self.interfaceUrl = @"http://i.finance365.com/_3G/LogIn";
-
+//    self.interfaceUrl = [NSString stringWithFormat:@"http://i.finance365.com/_3G/LogIn?timespan=%@&token=%@&userName=%@&passWord=%@",timespan,md5Key,theName,thePassWord];
     self.baseDelegate = self;
     self.headers = reqheaders;
     

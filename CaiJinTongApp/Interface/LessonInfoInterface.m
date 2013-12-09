@@ -21,7 +21,8 @@
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     
 //    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=lessonInfo";
-    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=lessonInfo&userId=17082",kHost];
+    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=lessonInfo&userId=%@",kHost,userId];
+//        self.interfaceUrl = [NSString stringWithFormat:@"%@?active=lessonInfo&userId=%@",kHost,userId];
     self.baseDelegate = self;
     self.headers = reqheaders;
     

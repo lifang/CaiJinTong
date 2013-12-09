@@ -28,11 +28,11 @@
     if (resultId) {
         [reqheaders setValue:[NSString stringWithFormat:@"%@",resultId] forKey:@"resultId"];
     }
-    self.interfaceUrl = [NSString stringWithFormat:@"%@",kHost];
+//    http://lms.finance365.com/api/ios.ashx?active=submitAnswer&userId=17079&answerContent=%E5%9B%9E%E7%AD%94%E6%B5%8B%E8%AF%95&questionId=1592&resultId=0
+    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=submitAnswer&userId=%@&answerContent=%@&questionId=%@&resultId=%@",kHost,userId,answerContent,questionId,resultId];
     
     self.baseDelegate = self;
     self.headers = reqheaders;
-    
     [self connect];
 }
 #pragma mark - BaseInterfaceDelegate
@@ -48,23 +48,24 @@
                 DLog(@"data = %@",jsonData);
                 if (jsonData) {
                     if ([[jsonData objectForKey:@"Status"]intValue] == 1) {
-                        @try {
-                            //                            NSDictionary *dictionary =[jsonData objectForKey:@"ReturnObject"];
-                        }
-                        @catch (NSException *exception) {
-                            
-                        }
+                        [self.delegate getSubmitAnswerInfoDidFinished:nil];
+                    }else {
+                        [self.delegate getSubmitAnswerDidFailed:@"提交信息失败"];
                     }
                 }else {
-                    
+                    [self.delegate getSubmitAnswerDidFailed:@"提交信息失败"];
                 }
+            }else {
+                [self.delegate getSubmitAnswerDidFailed:@"提交信息失败"];
             }
+        }else {
+            [self.delegate getSubmitAnswerDidFailed:@"提交信息失败"];
         }
     }else {
-        
+        [self.delegate getSubmitAnswerDidFailed:@"提交信息失败"];
     }
 }
 -(void)requestIsFailed:(NSError *)error{
-    
+    [self.delegate getSubmitAnswerDidFailed:@"提交信息失败"];
 }
 @end

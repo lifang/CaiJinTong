@@ -92,15 +92,17 @@
 
 -(void)getLogInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [CaiJinTongManager shared].userId = [NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]];
-        
+//        [CaiJinTongManager shared].userId = [NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]];
+        [CaiJinTongManager shared].userId = @"17082";
         UserModel *user = [[UserModel alloc] init];
         user.userName = [NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]];
-        user.userId = [NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]];
+//        user.userId = [NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]];
+        user.userId = @"17082";
         user.birthday = [NSString stringWithFormat:@"%@",[result objectForKey:@"birthday"]];
         user.sex = [NSString stringWithFormat:@"%@",[result objectForKey:@"sex"]];
         user.address = [NSString stringWithFormat:@"%@",[result objectForKey:@"address"]];
         user.userImg = [NSString stringWithFormat:@"%@",[result objectForKey:@"userImg"]];
+        user.nickName = [NSString stringWithFormat:@"%@",[result objectForKey:@"nickname"]];
         [CaiJinTongManager shared].user = user;
         
         dispatch_async(dispatch_get_main_queue(), ^{

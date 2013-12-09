@@ -15,7 +15,7 @@
 #import "AnswerModel.h"
 @implementation GetUserQuestionInterface
 
--(void)getGetUserQuestionInterfaceDelegateWithUserId:(NSString *)userId andIsMyselfQuestion:(NSString *)isMyselfQuestion {
+-(void)getGetUserQuestionInterfaceDelegateWithUserId:(NSString *)userId andIsMyselfQuestion:(NSString *)isMyselfQuestion andLastQuestionID:(NSString*)lastQuestionID{
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
@@ -25,7 +25,7 @@
     //isMyselfQuestion=0 表示我提的问题
     //isMyselfQuestion=1 我回答过的问题
 //    self.interfaceUrl = [NSString stringWithFormat:@"http://lms.finance365.com/api/ios.ashx?active=getUserQuestion&userId=17079&isMyselfQuestion=%@",isMyselfQuestion];
-    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=getUserQuestion&userId=17082&isMyselfQuestion=%@",kHost,isMyselfQuestion];
+    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=getUserQuestion&userId=%@&isMyselfQuestion=%@",kHost,userId,isMyselfQuestion];
     self.baseDelegate = self;
     self.headers = reqheaders;
     
@@ -63,7 +63,7 @@
                                         question.askerNick = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"askerNick"]];
                                         question.askTime = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"askTime"]];
                                         question.praiseCount = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"praiseCount"]];
-                                        question.isAcceptAnswer = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"isAcceptAnswer"]];
+//                                        question.isAcceptAnswer = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"isAcceptAnswer"]];
                                         
                                         question.pageIndex =[[question_dic objectForKey:@"pageIndex"]intValue];
                                         question.pageCount =[[question_dic objectForKey:@"pageCount"]intValue];
@@ -81,6 +81,9 @@
                                                     answer.answerNick =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"answerNick"]];
                                                     answer.answerPraiseCount =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"answerPraiseCount"]];
                                                     answer.IsAnswerAccept =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"IsAnswerAccept"]];
+                                                    if (answer.IsAnswerAccept && [answer.IsAnswerAccept isEqualToString:@"1"]) {
+                                                        question.isAcceptAnswer = @"1";
+                                                    }
                                                     answer.answerContent =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"answerContent"]];
                                                     answer.pageIndex =[[answer_dic objectForKey:@"pageIndex"]intValue];
                                                     answer.pageCount =[[answer_dic objectForKey:@"pageCount"]intValue];
@@ -99,11 +102,15 @@
 //                                    [self.delegate getUserQuestionInfoDidFinished:tempDic];
 //                                    tempDic = nil;
 //                                }
+                            }else {
+                                [self.delegate getUserQuestionInfoDidFailed:@"加载失败!"];
                             }
                         }
                         @catch (NSException *exception) {
                             [self.delegate getUserQuestionInfoDidFailed:@"加载失败!"];
                         }
+                    }else{
+                        [self.delegate getUserQuestionInfoDidFailed:[jsonData objectForKey:@"Msg"]];
                     }
                 }else {
                     [self.delegate getUserQuestionInfoDidFailed:@"加载失败!"];

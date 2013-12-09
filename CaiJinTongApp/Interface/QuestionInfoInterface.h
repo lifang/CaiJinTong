@@ -7,7 +7,7 @@
 //
 
 #import "BaseInterface.h"
-
+//获取问题分类信息
 @protocol QuestionInfoInterfaceDelegate;
 
 @interface QuestionInfoInterface : BaseInterface<BaseInterfaceDelegate>

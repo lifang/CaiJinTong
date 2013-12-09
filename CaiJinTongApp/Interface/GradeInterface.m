@@ -25,7 +25,7 @@
     }
     
 //    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=grade&userId=17082&sectionId=2690&score=5&content=很好很强大";
-    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=grade&userId=17082&sectionId=%@&score=%@&content=%@",kHost,sectionId,score,content];
+    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=grade&userId=%@&sectionId=%@&score=%@&content=%@",kHost,userId,sectionId,score,content];
     self.baseDelegate = self;
     self.headers = reqheaders;
     

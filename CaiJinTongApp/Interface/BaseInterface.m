@@ -31,6 +31,7 @@
 
 -(void)connectMethod:(NSString*)method{
     if (self.interfaceUrl) {
+        DLog(@"url:%@",self.interfaceUrl);
         NSMutableString *urlStr = [NSMutableString stringWithFormat:@"%@",self.interfaceUrl];
         //url含中文转化UTF8
         urlStr = (NSMutableString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
@@ -73,6 +74,7 @@
 }
 -(void)connect {
     if (self.interfaceUrl) {
+        DLog(@"url:%@",self.interfaceUrl);
         NSMutableString *urlStr = [NSMutableString stringWithFormat:@"%@",self.interfaceUrl];
         //url含中文转化UTF8
         urlStr = (NSMutableString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,

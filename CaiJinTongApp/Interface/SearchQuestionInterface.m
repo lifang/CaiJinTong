@@ -28,8 +28,10 @@
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",text] forKey:@"text"];
     
-    self.interfaceUrl = [NSString stringWithFormat:@"%@",kHost];
-    
+//http://lms.finance365.com/api/ios.ashx?active=searchQuestion&userId=17079&content=
+//    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=searchQuestion&userId=17079&content=%@",kSummitQuestHost,text];
+//    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=searchQuestion&userId=17079&content";
+    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=searchQuestion&userId=%@&content=%@",kHost,userId,text];
     self.baseDelegate = self;
     self.headers = reqheaders;
     
@@ -60,14 +62,14 @@
                                         NSDictionary *question_dic = [array_chapterQuestionList objectAtIndex:i];
                                         QuestionModel *question = [[QuestionModel alloc]init];
                                         question.questionId = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"questionId"]];
-                                        question.questionName = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"questionName"]];
+                                        question.questionName = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"questionname"]];
                                         question.askerId = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"askerId"]];
                                         question.askImg = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"askImg"]];
                                         question.askerNick = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"askerNick"]];
                                         question.askTime = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"askTime"]];
                                         question.praiseCount = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"praiseCount"]];
                                         question.isAcceptAnswer = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"isAcceptAnswer"]];
-                                        
+                                        question.questiontitle = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"questiontitle"]];
                                         question.pageIndex =[[question_dic objectForKey:@"pageIndex"]intValue];
                                         question.pageCount =[[question_dic objectForKey:@"pageCount"]intValue];
                                         
@@ -100,24 +102,32 @@
                                 if (tempDic.count>0) {
                                     [self.delegate getSearchQuestionInfoDidFinished:tempDic];
                                     tempDic = nil;
+                                }else{
+                                    [self.delegate getSearchQuestionInfoDidFailed:@"没有相关数据!"];
                                 }
                             }
                         }
                         @catch (NSException *exception) {
-                            [self.delegate getSearchQuestionInfoDidFailed:@"加载失败!"];
+                            [self.delegate getSearchQuestionInfoDidFailed:@"搜索失败!"];
                         }
+                    }else {
+                        [self.delegate getSearchQuestionInfoDidFailed:[jsonData objectForKey:@"Msg"]];
                     }
                 }else {
-                    [self.delegate getSearchQuestionInfoDidFailed:@"加载失败!"];
+                    [self.delegate getSearchQuestionInfoDidFailed:@"搜索失败!"];
                 }
+            }else {
+                [self.delegate getSearchQuestionInfoDidFailed:@"搜索失败!"];
             }
+        }else {
+            [self.delegate getSearchQuestionInfoDidFailed:@"搜索失败!"];
         }
     }else {
-        [self.delegate getSearchQuestionInfoDidFailed:@"加载失败!"];
+        [self.delegate getSearchQuestionInfoDidFailed:@"搜索失败!"];
     }
 }
 -(void)requestIsFailed:(NSError *)error{
-    [self.delegate getSearchQuestionInfoDidFailed:@"加载失败!"];
+    [self.delegate getSearchQuestionInfoDidFailed:@"搜索失败!"];
 }
 
 @end

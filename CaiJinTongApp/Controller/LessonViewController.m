@@ -31,6 +31,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 @property (nonatomic,strong) NSString *questionAndSwerRequestID;//请求问题列表ID
 @property (nonatomic,assign) QuestionAndAnswerScope questionScope;
 @property (nonatomic,strong) GetUserQuestionInterface *getUserQuestionInterface;
+@property (nonatomic,strong) SearchQuestionInterface *searchQuestionInterface;//搜索问答接口
 @end
 
 @implementation LessonViewController
@@ -179,33 +180,51 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 }
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     if (self.listType == LESSON_LIST) {
-        if (section != self.lessonList.count-1) {
-            LessonListHeaderView *header = (LessonListHeaderView*)[tableView dequeueReusableHeaderFooterViewWithIdentifier:LESSON_HEADER_IDENTIFIER];
-            LessonModel *lesson = (LessonModel *)[self.lessonList objectAtIndex:section];
-            header.lessonTextLabel.font = [UIFont systemFontOfSize:18];
-            header.lessonTextLabel.text = lesson.lessonName;
-            header.lessonDetailLabel.text = [NSString stringWithFormat:@"%d",[lesson.chapterList count]];
-            header.path = [NSIndexPath indexPathForRow:0 inSection:section];
-            header.delegate = self;
-            BOOL isSelSection = NO;
-            for (int i = 0; i < self.arrSelSection.count; i++) {
-                NSString *strSection = [NSString stringWithFormat:@"%@",[self.arrSelSection objectAtIndex:i]];
-                NSInteger selSection = strSection.integerValue;
-                if (section == selSection) {
-                    isSelSection = YES;
-                    break;
-                }
+        LessonListHeaderView *header = (LessonListHeaderView*)[tableView dequeueReusableHeaderFooterViewWithIdentifier:LESSON_HEADER_IDENTIFIER];
+        LessonModel *lesson = (LessonModel *)[self.lessonList objectAtIndex:section];
+        header.lessonTextLabel.font = [UIFont systemFontOfSize:18];
+        header.lessonTextLabel.text = lesson.lessonName;
+        header.lessonDetailLabel.text = [NSString stringWithFormat:@"%d",[lesson.chapterList count]];
+        header.path = [NSIndexPath indexPathForRow:0 inSection:section];
+        header.delegate = self;
+        BOOL isSelSection = NO;
+        for (int i = 0; i < self.arrSelSection.count; i++) {
+            NSString *strSection = [NSString stringWithFormat:@"%@",[self.arrSelSection objectAtIndex:i]];
+            NSInteger selSection = strSection.integerValue;
+            if (section == selSection) {
+                isSelSection = YES;
+                break;
             }
-            header.isSelected = isSelSection;
-            return header;
-        }else {
-            LessonListHeaderView *header = (LessonListHeaderView*)[tableView dequeueReusableHeaderFooterViewWithIdentifier:LESSON_HEADER_IDENTIFIER];
-            header.flagImageView.image = Image(@"backgroundStar.png");
-            header.lessonTextLabel.text = @"本地下载";
-            header.path = [NSIndexPath indexPathForRow:0 inSection:section];
-            header.delegate = self;
-            return header;
         }
+        header.isSelected = isSelSection;
+        return header;
+//        if (section != self.lessonList.count-1) {
+//            LessonListHeaderView *header = (LessonListHeaderView*)[tableView dequeueReusableHeaderFooterViewWithIdentifier:LESSON_HEADER_IDENTIFIER];
+//            LessonModel *lesson = (LessonModel *)[self.lessonList objectAtIndex:section];
+//            header.lessonTextLabel.font = [UIFont systemFontOfSize:18];
+//            header.lessonTextLabel.text = lesson.lessonName;
+//            header.lessonDetailLabel.text = [NSString stringWithFormat:@"%d",[lesson.chapterList count]];
+//            header.path = [NSIndexPath indexPathForRow:0 inSection:section];
+//            header.delegate = self;
+//            BOOL isSelSection = NO;
+//            for (int i = 0; i < self.arrSelSection.count; i++) {
+//                NSString *strSection = [NSString stringWithFormat:@"%@",[self.arrSelSection objectAtIndex:i]];
+//                NSInteger selSection = strSection.integerValue;
+//                if (section == selSection) {
+//                    isSelSection = YES;
+//                    break;
+//                }
+//            }
+//            header.isSelected = isSelSection;
+//            return header;
+//        }else {
+//            LessonListHeaderView *header = (LessonListHeaderView*)[tableView dequeueReusableHeaderFooterViewWithIdentifier:LESSON_HEADER_IDENTIFIER];
+//            header.flagImageView.image = Image(@"backgroundStar.png");
+//            header.lessonTextLabel.text = @"本地下载";
+//            header.path = [NSIndexPath indexPathForRow:0 inSection:section];
+//            header.delegate = self;
+//            return header;
+//        }
     }else{
         LessonListHeaderView *header = (LessonListHeaderView*)[tableView dequeueReusableHeaderFooterViewWithIdentifier:LESSON_HEADER_IDENTIFIER];
         header.delegate = self;
@@ -367,14 +386,14 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                 {
                     //请求我的提问
                     self.questionScope = QuestionAndAnswerMYQUESTION;
-                     [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"0"];
+                     [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"0" andLastQuestionID:nil];
                     break;
                 }
                 case 1:
                 {
                     //请求我的回答
                     self.questionScope = QuestionAndAnswerMYANSWER;
-                     [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"1"];
+                     [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"1" andLastQuestionID:nil];
                     break;
                 }
                 default:
@@ -417,24 +436,24 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 - (IBAction)lessonListBtClicked:(id)sender {
     [CaiJinTongManager shared].isSettingView = NO;
     self.listType = LESSON_LIST;
-    dispatch_async ( dispatch_get_main_queue (), ^{
-        [self.tableView reloadData];
-    });
+    [self getLessonInfo];
 }
 
 - (IBAction)questionListBtClicked:(id)sender {
     [CaiJinTongManager shared].isSettingView = NO;
     self.listType = QUEATION_LIST;
-    if ([CaiJinTongManager shared].question.count == 0) {
-        [self getQuestionInfo];
-    }else {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            self.questionList = [NSMutableArray arrayWithArray:[CaiJinTongManager shared].question];
-            dispatch_async ( dispatch_get_main_queue (), ^{
-            [self.tableView reloadData];
-            });
-        });
-    }
+     [self getQuestionInfo];
+    
+//    if ([CaiJinTongManager shared].question.count == 0) {
+//        [self getQuestionInfo];
+//    }else {
+//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//            self.questionList = [NSMutableArray arrayWithArray:[CaiJinTongManager shared].question];
+//            dispatch_async ( dispatch_get_main_queue (), ^{
+//            [self.tableView reloadData];
+//            });
+//        });
+//    }
 }
 
 - (IBAction)SearchBrClicked:(id)sender {
@@ -447,10 +466,14 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         }else {
             self.isSearching = YES;
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            SearchLessonInterface *searchLessonInter = [[SearchLessonInterface alloc]init];
-            self.searchLessonInterface = searchLessonInter;
-            self.searchLessonInterface.delegate = self;
-            [self.searchLessonInterface getSearchLessonInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchText.text];
+            if (self.listType == LESSON_LIST) {
+                SearchLessonInterface *searchLessonInter = [[SearchLessonInterface alloc]init];
+                self.searchLessonInterface = searchLessonInter;
+                self.searchLessonInterface.delegate = self;
+                [self.searchLessonInterface getSearchLessonInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchText.text];
+            }else{
+                [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchText.text];
+            }
         }
     }
 }
@@ -467,7 +490,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     [CaiJinTongManager shared].defaultPortraitTopInset = 250;
     [CaiJinTongManager shared].defaultWidth = 400;
     [CaiJinTongManager shared].defaultHeight = 500;
-    
+    settingView.view.frame =  (CGRect){184,250,400,500};
     DRNavigationController *navControl = [[DRNavigationController alloc]initWithRootViewController:settingView];
     navControl.view.frame = (CGRect){184,250,400,500};
     [navControl setNavigationBarHidden:YES];
@@ -475,6 +498,14 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     }];
 }
 #pragma mark property
+-(SearchQuestionInterface *)searchQuestionInterface{
+    if (!_searchQuestionInterface) {
+        _searchQuestionInterface = [[SearchQuestionInterface alloc] init];
+        _searchQuestionInterface.delegate = self;
+    }
+    return _searchQuestionInterface;
+}
+
 -(NSMutableArray *)questionArrSelSection{
     if (!_questionArrSelSection) {
         _questionArrSelSection = [NSMutableArray array];
@@ -488,8 +519,14 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         self.lessonListBt.alpha = 1;
         self.questionListBt.alpha = 0.3;
         self.editBtn.alpha = 0.3;
+        NSMutableAttributedString *placeholder = [[NSMutableAttributedString alloc] initWithString:@"搜索课程"];
+        [placeholder addAttribute:NSForegroundColorAttributeName value:[UIColor grayColor] range:NSMakeRange(0, placeholder.length)];
+        self.searchText.attributedPlaceholder = placeholder;
     }else{
     self.lessonListTitleLabel.text = @"我的问答";
+        NSMutableAttributedString *placeholder = [[NSMutableAttributedString alloc] initWithString:@"搜索我的问答"];
+        [placeholder addAttribute:NSForegroundColorAttributeName value:[UIColor grayColor] range:NSMakeRange(0, placeholder.length)];
+        self.searchText.attributedPlaceholder = placeholder;
         self.lessonListBt.alpha = 0.3;
         self.questionListBt.alpha = 1;
         self.editBtn.alpha = 0.3;
@@ -506,7 +543,9 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         if (self.questionScope == QuestionAndAnswerMYANSWER) {
             
         }
+     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
+   
 }
 
 -(void)getUserQuestionInfoDidFinished:(NSDictionary *)result{
@@ -520,6 +559,31 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             [navControl setNavigationBarHidden:YES];
             navControl.view.frame = (CGRect){0,0,568,1024};
             [myQAVC reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
+            [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
+                
+            }];
+        });
+    });
+}
+#pragma mark --
+
+#pragma mark SearchQuestionInterfaceDelegate搜索问答回调
+-(void)getSearchQuestionInfoDidFailed:(NSString *)errorMsg{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [Utility errorAlert:errorMsg];
+}
+
+-(void)getSearchQuestionInfoDidFinished:(NSDictionary *)result{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+            MyQuestionAndAnswerViewController *myQAVC = [story instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
+            UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:myQAVC];
+            [navControl setNavigationBarHidden:YES];
+            navControl.view.frame = (CGRect){0,0,568,1024};
+            [myQAVC reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:self.questionAndSwerRequestID withScope:QuestionAndAnswerALL];
             [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
                 
             }];
@@ -567,7 +631,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
         self.lessonList = [NSMutableArray arrayWithArray:[result objectForKey:@"lessonList"]];
-        [self.lessonList  addObject:@"本地下载"];
+//        [self.lessonList  addObject:@"本地下载"];
         
         //标记是否选中了
         self.arrSelSection = [[NSMutableArray alloc] init];
@@ -603,6 +667,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 }
 -(void)getQuestionInfoDidFailed:(NSString *)errorMsg {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
+    self.listType = LESSON_LIST;
     [Utility errorAlert:errorMsg];
 }
 #pragma mark--ChapterQuestionInterfaceDelegate
