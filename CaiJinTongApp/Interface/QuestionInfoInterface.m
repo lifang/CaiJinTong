@@ -35,9 +35,11 @@
     return mutableDic;
 }
 -(void)parseResult:(ASIHTTPRequest *)request{
-    NSDictionary *resultHeaders = [[request responseHeaders] allKeytoLowerCase];
-    if (resultHeaders) {
-        NSData *data = [[NSData alloc]initWithData:[request responseData]];
+//    NSDictionary *resultHeaders = [[request responseHeaders] allKeytoLowerCase];
+//    if (resultHeaders) {
+//        NSData *data = [[NSData alloc]initWithData:[request responseData]];
+    if(YES){
+    NSData *data = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"questionInfo" ofType:@"json"]];
         id jsonObject=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
         if (jsonObject !=nil) {
             if ([jsonObject isKindOfClass:[NSDictionary class]]) {

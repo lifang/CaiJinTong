@@ -14,6 +14,7 @@
 
 @interface LoginViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *userNameTextField;
+@property (weak, nonatomic) IBOutlet UIButton *forgotPwdBt;
 @property (weak, nonatomic) IBOutlet UITextField *pwdTextField;
 - (IBAction)loginBtClicked:(id)sender;
 - (IBAction)forgotPwdBtClicked:(id)sender;
@@ -36,7 +37,13 @@
     [super viewDidLoad];
     [Utility setBackgroungWithView:self.view andImage6:@"login_bg_7.png" andImage7:@"login_bg_7.png"];
     [Utility setBackgroungWithView:self.inputView andImage6:@"login_07" andImage7:@"login_07"];
-
+    NSString *text = @"找回密码";
+    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:text];
+    [attri addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0, text.length)];
+    [attri addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:NSMakeRange(0, text.length)];
+    self.forgotPwdBt.titleLabel.attributedText = attri;
+    [self.forgotPwdBt setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    
 }
 
 

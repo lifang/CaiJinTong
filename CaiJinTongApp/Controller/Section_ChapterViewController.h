@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Section_chapterModel.h"
+#import "CommentModel.h"
 @interface Section_ChapterViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) IBOutlet UITableView *tableViewList;

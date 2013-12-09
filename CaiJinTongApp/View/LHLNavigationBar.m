@@ -24,14 +24,14 @@
         [self addSubview:self.title];
         
         self.rightItem = [[UIButton alloc]initWithFrame:CGRectMake(278, 29, 24, 24)];
-        [self.rightItem setBackgroundImage:[UIImage imageNamed:@"course-mycourse_03"] forState:UIControlStateNormal];
-        self.rightItem.backgroundColor = [UIColor greenColor];
+        [self.rightItem setBackgroundImage:[UIImage imageNamed:@"rightItemBg.png"] forState:UIControlStateNormal];
+        self.rightItem.backgroundColor = [UIColor clearColor];
         self.rightItem.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
         [self addSubview:self.rightItem];
         
         self.leftItem = [[UIButton alloc]initWithFrame:CGRectMake(18, 29, 24, 24)];
-        [self.leftItem setBackgroundImage:[UIImage imageNamed:@"course-mycourse_03"] forState:UIControlStateNormal];
-        self.leftItem.backgroundColor = [UIColor greenColor];
+        [self.leftItem setBackgroundImage:[UIImage imageNamed:@"leftItemBg.png"] forState:UIControlStateNormal];
+        self.leftItem.backgroundColor = [UIColor clearColor];
         self.leftItem.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
         [self addSubview:self.leftItem];
         

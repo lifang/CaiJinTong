@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface Section_ChapterViewController_iPhone : UIViewController
-
+@interface Section_ChapterViewController_iPhone : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@property (strong, nonatomic) IBOutlet UITableView *tableViewList;
+@property (nonatomic, strong) NSMutableArray *dataArray;
+- (void)viewDidCurrentView;
 @end

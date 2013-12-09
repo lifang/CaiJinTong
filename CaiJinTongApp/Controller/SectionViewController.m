@@ -101,6 +101,7 @@
     }
 }
 -(void)displayView {
+    NSLog(@"self.section = %@",self.section);
     self.slideSwitchView.backgroundColor = [UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:232.0/255.0 alpha:1.0];
     //3个选项卡
     self.slideSwitchView.tabItemNormalColor = [SUNSlideSwitchView colorFromHexRGB:@"868686"];
@@ -122,9 +123,11 @@
         self.section_GradeView.dataArray = [NSMutableArray arrayWithArray:self.section.commentList];
         self.section_GradeView.isGrade = [self.section.isGrade intValue];
         self.section_GradeView.sectionId = self.section.sectionId;
-        CommentModel *comment = (CommentModel *)[self.section_GradeView.dataArray objectAtIndex:self.section_GradeView.dataArray.count-1];
-        self.section_GradeView.pageCount = comment.pageCount;
-        self.section_GradeView.nowPage = 1;
+        if (self.section_GradeView.dataArray.count > 0) {
+            CommentModel *comment = (CommentModel *)[self.section_GradeView.dataArray objectAtIndex:self.section_GradeView.dataArray.count-1];
+            self.section_GradeView.pageCount = comment.pageCount;
+            self.section_GradeView.nowPage = 1;
+        }
     }
     self.section_NoteView = [story instantiateViewControllerWithIdentifier:@"Section_NoteViewController"];
     self.section_NoteView.title = @"笔记";
