@@ -170,6 +170,8 @@
 		1812A4DF1851B2F5009B3D5D /* 按钮背景@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1812A4DE1851B2F5009B3D5D /* 按钮背景@2x.png */; };
 		1812A4E11851B647009B3D5D /* leftItemBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1812A4E01851B647009B3D5D /* leftItemBg@2x.png */; };
 		1812A4E31851B80D009B3D5D /* rightItemBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1812A4E21851B80D009B3D5D /* rightItemBg@2x.png */; };
+		1812A4E61851CB89009B3D5D /* MyQuestionAndAnswerViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 1812A4E51851CB89009B3D5D /* MyQuestionAndAnswerViewController_iPhone.m */; };
+		1812A4E91851D1AA009B3D5D /* QuestionAndAnswerCell_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 1812A4E81851D1AA009B3D5D /* QuestionAndAnswerCell_iPhone.m */; };
 		181532431835BDAB0078A410 /* course-mycourse_03@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 181532421835BDAB0078A410 /* course-mycourse_03@2x.png */; };
 		181532451835CD3D0078A410 /* btn0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 181532441835CD3D0078A410 /* btn0@2x.png */; };
 		181532471835EA330078A410 /* play-courselist_06@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 181532461835EA330078A410 /* play-courselist_06@2x.png */; };
@@ -186,6 +188,7 @@
 		1836AFE3183AF875009E65B5 /* settings_未选中.png in Resources */ = {isa = PBXBuildFile; fileRef = 1836AFE0183AF875009E65B5 /* settings_未选中.png */; };
 		1836AFE4183AF875009E65B5 /* settings_选中.png in Resources */ = {isa = PBXBuildFile; fileRef = 1836AFE1183AF875009E65B5 /* settings_选中.png */; };
 		183F77AF1839B5E8004D0263 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F77AE1839B5E8004D0263 /* MBProgressHUD.m */; };
+		184317371855652200ABEFD3 /* LHLMoviePlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184317361855652200ABEFD3 /* LHLMoviePlayViewController.m */; };
 		18491C3F18345E11003C82E4 /* play_0h5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18491C3E18345E11003C82E4 /* play_0h5@2x.png */; };
 		18491C4118345FF8003C82E4 /* play_05@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18491C4018345FF8003C82E4 /* play_05@2x.png */; };
 		18491C4518347A13003C82E4 /* course-courses_06_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18491C4418347A13003C82E4 /* course-courses_06_right@2x.png */; };
@@ -195,6 +198,7 @@
 		18491C4D1834B166003C82E4 /* course-courses_03@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18491C4C1834B166003C82E4 /* course-courses_03@2x.png */; };
 		18491C4F1834C7C3003C82E4 /* s@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18491C4E1834C7C3003C82E4 /* s@2x.png */; };
 		18491C511834C92C003C82E4 /* ss@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18491C501834C92C003C82E4 /* ss@2x.png */; };
+		184E115A1855A81500A81E6E /* QuestionAndAnswerCell_iPhoneHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E11591855A81500A81E6E /* QuestionAndAnswerCell_iPhoneHeaderView.m */; };
 		184F8AA818432D0000A2FEB4 /* LessonViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 184F8AA718432D0000A2FEB4 /* LessonViewController_iPhone.m */; };
 		184F8AAF18434A3200A2FEB4 /* LHLNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 184F8AAE18434A3200A2FEB4 /* LHLNavigationBar.m */; };
 		189ED9D7184ED5D10029D8F1 /* TQStarRatingView_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 189ED9D6184ED5D10029D8F1 /* TQStarRatingView_iPhone.m */; };
@@ -604,6 +608,10 @@
 		1812A4DE1851B2F5009B3D5D /* 按钮背景@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "按钮背景@2x.png"; sourceTree = "<group>"; };
 		1812A4E01851B647009B3D5D /* leftItemBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "leftItemBg@2x.png"; sourceTree = "<group>"; };
 		1812A4E21851B80D009B3D5D /* rightItemBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rightItemBg@2x.png"; sourceTree = "<group>"; };
+		1812A4E41851CB89009B3D5D /* MyQuestionAndAnswerViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyQuestionAndAnswerViewController_iPhone.h; sourceTree = "<group>"; };
+		1812A4E51851CB89009B3D5D /* MyQuestionAndAnswerViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyQuestionAndAnswerViewController_iPhone.m; sourceTree = "<group>"; };
+		1812A4E71851D1AA009B3D5D /* QuestionAndAnswerCell_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionAndAnswerCell_iPhone.h; sourceTree = "<group>"; };
+		1812A4E81851D1AA009B3D5D /* QuestionAndAnswerCell_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionAndAnswerCell_iPhone.m; sourceTree = "<group>"; };
 		181532421835BDAB0078A410 /* course-mycourse_03@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "course-mycourse_03@2x.png"; sourceTree = "<group>"; };
 		181532441835CD3D0078A410 /* btn0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn0@2x.png"; sourceTree = "<group>"; };
 		181532461835EA330078A410 /* play-courselist_06@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play-courselist_06@2x.png"; sourceTree = "<group>"; };
@@ -622,6 +630,8 @@
 		1836AFE1183AF875009E65B5 /* settings_选中.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings_选中.png"; sourceTree = "<group>"; };
 		183F77AD1839B5E8004D0263 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		183F77AE1839B5E8004D0263 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		184317351855652200ABEFD3 /* LHLMoviePlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LHLMoviePlayViewController.h; sourceTree = "<group>"; };
+		184317361855652200ABEFD3 /* LHLMoviePlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LHLMoviePlayViewController.m; sourceTree = "<group>"; };
 		18491C3E18345E11003C82E4 /* play_0h5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play_0h5@2x.png"; sourceTree = "<group>"; };
 		18491C4018345FF8003C82E4 /* play_05@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play_05@2x.png"; sourceTree = "<group>"; };
 		18491C4418347A13003C82E4 /* course-courses_06_right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "course-courses_06_right@2x.png"; sourceTree = "<group>"; };
@@ -631,6 +641,8 @@
 		18491C4C1834B166003C82E4 /* course-courses_03@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "course-courses_03@2x.png"; sourceTree = "<group>"; };
 		18491C4E1834C7C3003C82E4 /* s@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "s@2x.png"; sourceTree = "<group>"; };
 		18491C501834C92C003C82E4 /* ss@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ss@2x.png"; sourceTree = "<group>"; };
+		184E11581855A81500A81E6E /* QuestionAndAnswerCell_iPhoneHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionAndAnswerCell_iPhoneHeaderView.h; sourceTree = "<group>"; };
+		184E11591855A81500A81E6E /* QuestionAndAnswerCell_iPhoneHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionAndAnswerCell_iPhoneHeaderView.m; sourceTree = "<group>"; };
 		184F8AA618432D0000A2FEB4 /* LessonViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LessonViewController_iPhone.h; sourceTree = "<group>"; };
 		184F8AA718432D0000A2FEB4 /* LessonViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonViewController_iPhone.m; sourceTree = "<group>"; };
 		184F8AAD18434A3200A2FEB4 /* LHLNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LHLNavigationBar.h; sourceTree = "<group>"; };
@@ -1365,6 +1377,10 @@
 				1812A4D11851791F009B3D5D /* LoginViewController_iPhone.m */,
 				1812A4D91851A1B7009B3D5D /* ForgotPwdViewController_iPhone.h */,
 				1812A4DA1851A1B7009B3D5D /* ForgotPwdViewController_iPhone.m */,
+				1812A4E41851CB89009B3D5D /* MyQuestionAndAnswerViewController_iPhone.h */,
+				1812A4E51851CB89009B3D5D /* MyQuestionAndAnswerViewController_iPhone.m */,
+				184317351855652200ABEFD3 /* LHLMoviePlayViewController.h */,
+				184317361855652200ABEFD3 /* LHLMoviePlayViewController.m */,
 			);
 			name = Controller_iPhone;
 			sourceTree = "<group>";
@@ -1400,6 +1416,10 @@
 				18E0D75E1850296D001A6667 /* MenuTableCell.m */,
 				18E0D760185040BA001A6667 /* LessonListHeaderView_iPhone.h */,
 				18E0D761185040BA001A6667 /* LessonListHeaderView_iPhone.m */,
+				1812A4E71851D1AA009B3D5D /* QuestionAndAnswerCell_iPhone.h */,
+				1812A4E81851D1AA009B3D5D /* QuestionAndAnswerCell_iPhone.m */,
+				184E11581855A81500A81E6E /* QuestionAndAnswerCell_iPhoneHeaderView.h */,
+				184E11591855A81500A81E6E /* QuestionAndAnswerCell_iPhoneHeaderView.m */,
 			);
 			name = View_iPhone;
 			sourceTree = "<group>";
@@ -1876,6 +1896,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0EA7EF551823ACCC00C47F69 /* SumitNoteInterface.m in Sources */,
+				184E115A1855A81500A81E6E /* QuestionAndAnswerCell_iPhoneHeaderView.m in Sources */,
 				184F8AA818432D0000A2FEB4 /* LessonViewController_iPhone.m in Sources */,
 				0EA7EF8A1827792A00C47F69 /* SectionCustomView.m in Sources */,
 				0EAFA12C18224C2700D01D3E /* LessonViewController.m in Sources */,
@@ -1947,9 +1968,11 @@
 				0EA7EF1F18234B5600C47F69 /* QuestionInfoInterface.m in Sources */,
 				0EA7EF4918238D4600C47F69 /* QuestionModel.m in Sources */,
 				18046A881848315D00EB8BDA /* CustomLabel_iPhone.m in Sources */,
+				184317371855652200ABEFD3 /* LHLMoviePlayViewController.m in Sources */,
 				0E9DA3B9183F568D000A5995 /* ASINetworkQueue.m in Sources */,
 				18046A971848850800EB8BDA /* Section_NoteViewController_iPhone.m in Sources */,
 				630B03BB1820F5BB00F72C4C /* AppDelegate.m in Sources */,
+				1812A4E61851CB89009B3D5D /* MyQuestionAndAnswerViewController_iPhone.m in Sources */,
 				18E0D765185077D5001A6667 /* MenuQuestionTableViewController.m in Sources */,
 				0EA7EF4C18238DF600C47F69 /* AnswerModel.m in Sources */,
 				0EA7EF1918234A7500C47F69 /* CommentListInterface.m in Sources */,
@@ -1963,6 +1986,7 @@
 				0EA36ED2182C8E4F0074D67B /* CustomLabel.m in Sources */,
 				0EA7EF8D1827805D00C47F69 /* SectionInfoInterface.m in Sources */,
 				0EA36ED7182CB5570074D67B /* CustomTextView.m in Sources */,
+				1812A4E91851D1AA009B3D5D /* QuestionAndAnswerCell_iPhone.m in Sources */,
 				0EDF4DF518210241007161E0 /* NSString+URLEncoding.m in Sources */,
 				0EB849331835DE2700C97030 /* SettingViewController.m in Sources */,
 				0E9DA3C1183F568D000A5995 /* ASICloudFilesRequest.m in Sources */,

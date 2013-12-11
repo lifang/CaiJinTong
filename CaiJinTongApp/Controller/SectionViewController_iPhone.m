@@ -50,7 +50,47 @@
 }
 
 - (void)playVideo:(id) sender{
-    
+    DLog(@"play");
+    self.path = nil;//视频路径
+    //先匹配本地,在数据库中查找纪录
+    Section *sectionDb = [[Section alloc]init];
+    SectionSaveModel *sectionSave = [sectionDb getDataWithSid:self.section.sectionId];
+    if (sectionSave != nil && sectionSave.downloadState == 1) {
+        NSString *documentDir;
+        if (platform>5.0) {
+            documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        }else{
+            documentDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        }
+        self.path = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@.mp4",self.section.sectionId]];
+        
+        self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
+        
+        [self.playerController playMovieWithURL:[NSURL fileURLWithPath:self.path] withFileType:MPMovieSourceTypeFile];
+        self.playerController.sectionId = self.section.sectionId;
+        self.playerController.sectionModel = self.section;
+        
+        self.playerController.delegate = self;
+        AppDelegate *app = [AppDelegate sharedInstance];
+        [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
+            
+        }];
+    }else {
+        //在线播放
+        self.path = self.section.sectionSD;
+        if (self.path) {
+            if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+                [Utility errorAlert:@"暂无网络!"];
+            }else {
+                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                PlayVideoInterface *playVideoInter = [[PlayVideoInterface alloc]init];
+                self.playVideoInterface = playVideoInter;
+                self.playVideoInterface.delegate = self;
+                NSString *timespan = [Utility getNowDateFromatAnDate];
+                [self.playVideoInterface getPlayVideoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.section.sectionId andTimeStart:timespan];
+            }
+        }
+    }
 }
 
 #pragma mark - 滑动tab视图代理方法
@@ -308,6 +348,42 @@
 -(void)getSectionInfoDidFailed:(NSString *)errorMsg {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
+}
+
+#pragma mark -- PlayVideoInterfaceDelegate
+-(void)getPlayVideoInfoDidFinished {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            //播放接口
+            DLog(@"self.storyboard = %@",self.storyboard);
+            self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
+            [self.playerController playMovieWithURL:[NSURL URLWithString:self.path] withFileType:MPMovieSourceTypeStreaming];
+            self.playerController.sectionId = self.section.sectionId;
+            self.playerController.sectionModel = self.section;
+            
+            self.playerController.delegate = self;
+            AppDelegate *app = [AppDelegate sharedInstance];
+            [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
+                
+            }];
+        });
+    });
+}
+-(void)getPlayVideoInfoDidFailed:(NSString *)errorMsg {
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [Utility errorAlert:errorMsg];
+}
+
+#pragma mark DRMoviePlayViewControllerDelegate 提交笔记成功
+-(void)lhlMoviePlayerViewController:(LHLMoviePlayViewController *)playerController commitNotesSuccess:(NSString *)noteText andTime:(NSString *)noteTime{
+    if (self.section_NoteView) {
+        NoteModel *note = [[NoteModel alloc] init];
+        note.noteTime = noteTime;
+        note.noteText = noteText;
+        [self.section_NoteView.dataArray insertObject:note atIndex:0];
+        [self.section_NoteView.tableViewList reloadData];
+    }
 }
 
 #pragma mark
