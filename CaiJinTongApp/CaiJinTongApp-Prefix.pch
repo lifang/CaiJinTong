@@ -29,6 +29,12 @@
 #define Image(x) [UIImage imageNamed:x]
 #define ISLOADLARGEIMAGE_KEY @"ISLOADLARGEIMAGE_KEY"
 
+//屏幕尺寸,iPhone专用
+#define IS_4_INCH ([UIScreen mainScreen].bounds.size.height == 568)
+#define SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
+#define IP5(yes,no) (IS_4_INCH ? yes : no)
+
+
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 #else

@@ -81,7 +81,7 @@
             }
         }
         self.myComment.frame = CGRectMake(22, 0, 100, 16);
-        self.tableViewList.frame =  CGRectMake(22, self.myComment.frame.origin.y+15, 276, 141 - self.myComment.frame.size.height);
+        self.tableViewList.frame =  CGRectMake(22, self.myComment.frame.origin.y+15, 276,self.view.frame.size.height - 15);
         [self.view layoutSubviews];
         [self.tableViewList reloadData];
     }

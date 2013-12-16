@@ -8,9 +8,6 @@
 
 #import "LoginViewController_iPhone.h"
 
-@interface LoginViewController_iPhone ()
-
-@end
 
 @implementation LoginViewController_iPhone
 
@@ -29,7 +26,7 @@
     //背景
 //    [Utility setBackgroungWithView:self.view andImage6:@"login_bg_7.png" andImage7:@"login_bg_7.png"];
     //压缩图片
-    UIImage *bgImage = [[UIImage imageNamed:@"login_bg_7.png"] scaleToSize:CGSizeMake(320, 568)];
+    UIImage *bgImage = [[UIImage imageNamed:@"login_bg_7.png"] scaleToSize:CGSizeMake(320, SCREEN_HEIGHT)];
     self.view.backgroundColor = [UIColor colorWithPatternImage:bgImage];
     
     UIImage *loginBtnImage = [[UIImage imageNamed:@"btn.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 6)];
@@ -38,7 +35,6 @@
     
     [self.findPasswordBtn addTarget:self action:@selector(findPasswordBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.registerAccBtn addTarget:self action:@selector(registerAccBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-    
     
 }
 
@@ -99,11 +95,15 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
-            LessonViewController *lessonView = [story instantiateViewControllerWithIdentifier:@"TabBarController"];
-            [self.navigationController pushViewController:lessonView animated:YES];
+            if(!self.lessonView){
+                UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+                LessonViewController *lessonView = [story instantiateViewControllerWithIdentifier:@"TabBarController"];
+                self.lessonView = lessonView;
+            }
+            
+            [self.navigationController pushViewController:self.lessonView animated:YES];
             AppDelegate* appDelegate = [AppDelegate sharedInstance];
-            appDelegate.lessonViewCtrol = lessonView;
+            appDelegate.lessonViewCtrol = self.lessonView;
             
         });
     });

@@ -240,6 +240,8 @@
 		18EBD11D1842FA0900F9BDA9 /* lhl2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18EBD11B1842FA0900F9BDA9 /* lhl2@2x.png */; };
 		18F28C121847249C00692F90 /* LHLNavigationBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F28C111847249C00692F90 /* LHLNavigationBarViewController.m */; };
 		18F28C15184738B300692F90 /* SectionViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F28C14184738B300692F90 /* SectionViewController_iPhone.m */; };
+		18F2FE97185846410006AF11 /* LHLCommitQuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F2FE96185846410006AF11 /* LHLCommitQuestionViewController.m */; };
+		18F2FE9A18584A990006AF11 /* LHLTakingMovieNoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F2FE9918584A990006AF11 /* LHLTakingMovieNoteViewController.m */; };
 		18F477E9183D9BDA00021886 /* SuggestionFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F477E8183D9BDA00021886 /* SuggestionFeedbackViewController.m */; };
 		18F477EF183DB57000021886 /* progressBar-front.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F477ED183DB57000021886 /* progressBar-front.png */; };
 		18F477F0183DB57000021886 /* progressBar-background.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F477EE183DB57000021886 /* progressBar-background.png */; };
@@ -699,6 +701,10 @@
 		18F28C111847249C00692F90 /* LHLNavigationBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LHLNavigationBarViewController.m; sourceTree = "<group>"; };
 		18F28C13184738B300692F90 /* SectionViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionViewController_iPhone.h; sourceTree = "<group>"; };
 		18F28C14184738B300692F90 /* SectionViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionViewController_iPhone.m; sourceTree = "<group>"; };
+		18F2FE95185846410006AF11 /* LHLCommitQuestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LHLCommitQuestionViewController.h; sourceTree = "<group>"; };
+		18F2FE96185846410006AF11 /* LHLCommitQuestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LHLCommitQuestionViewController.m; sourceTree = "<group>"; };
+		18F2FE9818584A990006AF11 /* LHLTakingMovieNoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LHLTakingMovieNoteViewController.h; sourceTree = "<group>"; };
+		18F2FE9918584A990006AF11 /* LHLTakingMovieNoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LHLTakingMovieNoteViewController.m; sourceTree = "<group>"; };
 		18F477E7183D9BDA00021886 /* SuggestionFeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuggestionFeedbackViewController.h; sourceTree = "<group>"; };
 		18F477E8183D9BDA00021886 /* SuggestionFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuggestionFeedbackViewController.m; sourceTree = "<group>"; };
 		18F477ED183DB57000021886 /* progressBar-front.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progressBar-front.png"; sourceTree = "<group>"; };
@@ -1381,6 +1387,10 @@
 				1812A4E51851CB89009B3D5D /* MyQuestionAndAnswerViewController_iPhone.m */,
 				184317351855652200ABEFD3 /* LHLMoviePlayViewController.h */,
 				184317361855652200ABEFD3 /* LHLMoviePlayViewController.m */,
+				18F2FE95185846410006AF11 /* LHLCommitQuestionViewController.h */,
+				18F2FE96185846410006AF11 /* LHLCommitQuestionViewController.m */,
+				18F2FE9818584A990006AF11 /* LHLTakingMovieNoteViewController.h */,
+				18F2FE9918584A990006AF11 /* LHLTakingMovieNoteViewController.m */,
 			);
 			name = Controller_iPhone;
 			sourceTree = "<group>";
@@ -1897,6 +1907,7 @@
 			files = (
 				0EA7EF551823ACCC00C47F69 /* SumitNoteInterface.m in Sources */,
 				184E115A1855A81500A81E6E /* QuestionAndAnswerCell_iPhoneHeaderView.m in Sources */,
+				18F2FE9A18584A990006AF11 /* LHLTakingMovieNoteViewController.m in Sources */,
 				184F8AA818432D0000A2FEB4 /* LessonViewController_iPhone.m in Sources */,
 				0EA7EF8A1827792A00C47F69 /* SectionCustomView.m in Sources */,
 				0EAFA12C18224C2700D01D3E /* LessonViewController.m in Sources */,
@@ -1931,6 +1942,7 @@
 				0E9DA3B2183F568D000A5995 /* ASIAuthenticationDialog.m in Sources */,
 				0E9DA3BE183F568D000A5995 /* ASICloudFilesContainerXMLParserDelegate.m in Sources */,
 				0EA7EF1C18234AC600C47F69 /* SearchLessonInterface.m in Sources */,
+				18F2FE97185846410006AF11 /* LHLCommitQuestionViewController.m in Sources */,
 				0EDF4DFD1821028F007161E0 /* Utility.m in Sources */,
 				0E9DA3C6183F568D000A5995 /* ASIS3Request.m in Sources */,
 				0EAD1F70182B24B100204FC3 /* FMResultSet.m in Sources */,

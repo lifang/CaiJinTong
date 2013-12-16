@@ -28,21 +28,22 @@
     [self setTabBar];
     if(!self.searchBar){
         self.searchBar = [[ChapterSearchBar_iPhone alloc] init];
-        self.searchBar.frame = CGRectMake(19, 78, 282, 34);
+        self.searchBar.frame = CGRectMake(19, IP5(78, 63), 282, 34);
         [self.view addSubview:self.searchBar];
         self.searchBar.delegate = self;
     }
     
-    CJTMainToolbar_iPhone *mainBar = [[CJTMainToolbar_iPhone alloc]initWithFrame:CGRectMake (19, 125, 281, 40)];
+    CJTMainToolbar_iPhone *mainBar = [[CJTMainToolbar_iPhone alloc]initWithFrame:CGRectMake (19, IP5(125, 105), 281, IP5(40, 35))];
 	self.mainToolBar = mainBar;
     self.mainToolBar.delegate = self;
     [self.view addSubview:self.mainToolBar];
     
-    
+    self.lhlNavigationBar.title.text = @"我的课程";
 }
 
 //collectionView加载设置
 -(void)setCollectionView{
+    self.collectionView.frame = CGRectMake(0,IP5(166, 144), 320,IP5(339, 286) ) ;
     [self.collectionView setPagingEnabled:NO];
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
@@ -77,60 +78,11 @@
 //设置tabBar
 -(void)setTabBar{
     UITabBar *bar = self.tabBarController.tabBar;
-    [bar setFrame:CGRectMake(0, CGRectGetHeight(self.view.frame) - 63, 320, 63)];
+    [bar setFrame:CGRectMake(0, CGRectGetHeight(self.view.frame) - IP5(63, 50), 320, IP5(63, 50))];
     bar.layer.contents = (id)[UIImage imageNamed:@"barbg.png"].CGImage ;
     [bar setTintColor:[UIColor colorWithRed:10.0/255.0 green:35.0/255.0 blue:56.0/255.0 alpha:1.0]];
     [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"play-table.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"play-table.png"]];//iOS 7 本语句失效
-    
 }
-
-//-(void) initData{
-//    //测试版 此方法从json中加载lessonList和chapterList
-//    self.lessonList = [NSMutableArray arrayWithCapacity:5];
-//    NSString *lessonJSONPath = [NSBundle pathForResource:@"lessonInfo" ofType:@"json" inDirectory:[[NSBundle mainBundle] bundlePath]];
-//    NSData *lessonData = [NSData dataWithContentsOfFile:lessonJSONPath];
-//    id lessonJsonData = [NSJSONSerialization JSONObjectWithData:lessonData options:NSJSONReadingAllowFragments error:nil];
-//    if(lessonData != nil && [lessonJsonData isKindOfClass:[NSDictionary class]]){
-//        NSDictionary *lessonDic = [NSDictionary dictionaryWithDictionary:(NSDictionary *)lessonJsonData];
-//        if (lessonDic) {
-//            if ([[lessonDic objectForKey:@"Status"]intValue] == 1) {
-//                NSDictionary *dictionary =[lessonDic objectForKey:@"ReturnObject"];
-//                    if (dictionary) {
-//                        //课程列表
-//                        if (![[dictionary objectForKey:@"lessonList"]isKindOfClass:[NSNull class]] && [dictionary objectForKey:@"lessonList"]!=nil) {
-//                            NSArray *array = [dictionary objectForKey:@"lessonList"];//lessonList
-//                            if (array.count>0) {
-//                                for (int i=0; i<array.count; i++) {
-//                                    NSDictionary *dic_lessoon = [array objectAtIndex:i];//lesson
-//                                    LessonModel *lesson = [[LessonModel alloc]init];
-//                                    lesson.lessonId = [NSString stringWithFormat:@"%@",[dic_lessoon objectForKey:@"lessonId"]];
-//                                    lesson.lessonName = [NSString stringWithFormat:@"%@",[dic_lessoon objectForKey:@"lessonName"]];
-//                                    NSArray *arr_chapter = [dic_lessoon objectForKey:@"chapterList"];//chapterList
-//                                    if (arr_chapter.count >0) {
-//                                        lesson.chapterList = [[NSMutableArray alloc]init];
-//                                        for (int k=0; k<arr_chapter.count; k++) {
-//                                            NSDictionary *dic_chapter = [arr_chapter objectAtIndex:k];
-//                                            chapterModel *chapter = [[chapterModel alloc]init];
-//                                            chapter.chapterId = [NSString stringWithFormat:@"%@",[dic_chapter objectForKey:@"chapterId"]];
-//                                            chapter.chapterName = [NSString stringWithFormat:@"%@",[dic_chapter objectForKey:@"chapterName"]];
-//                                            chapter.chapterImg =[NSString stringWithFormat:@"%@",@"pdlay-courselistd_07.png"];//json中无此数据 ,随意写一个
-//                                            [lesson.chapterList addObject:chapter];
-//                                        }
-//                                    }
-//                                    [self.lessonList  addObject:lesson];
-//                                }
-//                            }
-//                        }
-//                    }
-//            }
-//        }
-//    }
-//    LessonModel *temp = self.lessonList[1];
-//    self.chapterList = [NSMutableArray arrayWithArray:temp.chapterList];
-//    DLog(@"%@ self.chapterList",self.chapterList);
-//}
-
-
 
 #pragma mark --ChapterInfoDelegate
 -(void)getChapterInfoDidFinished:(NSDictionary *)result {  //章节信息查询完毕,显示章节界面
@@ -440,16 +392,34 @@
     [self.collectionView setContentOffset:CGPointMake(0, 0)];
 }
 
-#pragma mark 侧边列表栏
+#pragma mark lhlNavigationBar
 
 -(void)leftItemClicked:(id)sender{
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)rightItemClicked:(id)sender{
-    
+    if(!self.menu){
+        self.menu = [self.storyboard instantiateViewControllerWithIdentifier:@"MenuTableViewController"];
+        [self addChildViewController:self.menu];
+        self.menuVisible = YES;
+        [self.view addSubview:self.menu.view];
+    }else{
+        self.menuVisible = !self.menuVisible;
+    }
 }
 
+-(void)setMenuVisible:(BOOL)menuVisible{
+    _menuVisible = menuVisible;
+    [UIView animateWithDuration:0.3 animations:^{
+        if(menuVisible){
+            self.menu.view.frame = CGRectMake(120, 65, 200, SCREEN_HEIGHT - 63 - 65);
+        }else{
+            self.menu.view.frame = CGRectMake(320, 65, 200, SCREEN_HEIGHT - 63 - 65);
+        }
+    }];
+    
+}
 
 - (void)didReceiveMemoryWarning
 {

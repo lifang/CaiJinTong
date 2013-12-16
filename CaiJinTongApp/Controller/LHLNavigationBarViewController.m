@@ -7,6 +7,7 @@
 //
 
 #import "LHLNavigationBarViewController.h"
+#define BAR_HEIGHT (IS_4_INCH ? 65 : 55)
 
 @interface LHLNavigationBarViewController ()
 
@@ -29,7 +30,7 @@
     [self.navigationController setNavigationBarHidden:YES];
     
     if(!self.lhlNavigationBar){
-        self.lhlNavigationBar = [[LHLNavigationBar alloc] initWithFrame:CGRectMake(0, 0, 320, 65)];
+        self.lhlNavigationBar = [[LHLNavigationBar alloc] initWithFrame:CGRectMake(0, 0, 320, BAR_HEIGHT)];
         [self.lhlNavigationBar.leftItem addTarget:self action:@selector(leftItemClicked:) forControlEvents:UIControlEventTouchUpInside];
         [self.lhlNavigationBar.rightItem addTarget:self action:@selector(rightItemClicked:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:self.lhlNavigationBar];

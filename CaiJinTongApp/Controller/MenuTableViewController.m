@@ -25,7 +25,7 @@ static NSString *chapterName;
     [super viewDidLoad];
     [self.tableView registerClass:[MenuTableCell class] forCellReuseIdentifier:CellIdentifier];
     [self.tableView registerClass:[LessonListHeaderView_iPhone class] forHeaderFooterViewReuseIdentifier:LESSON_HEADER_IDENTIFIER];
-    [self.tableView setBackgroundColor:[UIColor colorWithRed:6.0/255.0 green:18.0/255.0 blue:27.0/255.0 alpha:1.0]];
+    [self.tableView setBackgroundColor:[UIColor colorWithRed:6.0/255.0 green:18.0/255.0 blue:27.0/255.0 alpha:1.0]];    
     [self initData];
 }
 

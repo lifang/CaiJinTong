@@ -198,8 +198,8 @@
         }
     }else
         if (item == self.myQuestionItem) {
-            DRCommitQuestionViewController *commitController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRCommitQuestionViewController"];
-            commitController.view.frame = (CGRect){0,0,515,255};
+            DRCommitQuestionViewController *commitController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLCommitQuestionViewController"];
+            commitController.view.frame = (CGRect){0,0,516,255};
             commitController.delegate = self;
             [self presentPopupViewController:commitController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
                 self.myQuestionItem.isSelected = NO;
@@ -207,8 +207,8 @@
             self.isPopupChapter = NO;
         }else
             if (item == self.myNotesItem) {
-                DRTakingMovieNoteViewController *takingController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRTakingMovieNoteViewController"];
-                takingController.view.frame = (CGRect){0,0,515,255};
+                DRTakingMovieNoteViewController *takingController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLTakingMovieNoteViewController"];
+                takingController.view.frame = (CGRect){0,0,516,255};
                 takingController.delegate = self;
                 [self presentPopupViewController:takingController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
                     self.myNotesItem.isSelected = NO;

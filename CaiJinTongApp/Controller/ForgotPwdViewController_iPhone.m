@@ -8,10 +8,6 @@
 
 #import "ForgotPwdViewController_iPhone.h"
 
-@interface ForgotPwdViewController_iPhone ()
-
-@end
-
 @implementation ForgotPwdViewController_iPhone
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

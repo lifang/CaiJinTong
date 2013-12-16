@@ -35,6 +35,7 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
     self.tableViewList.center = (CGPoint){self.tableViewList.center.x-233,self.tableViewList.center.y};
 }
 
