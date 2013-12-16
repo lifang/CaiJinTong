@@ -32,6 +32,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 @property (nonatomic,assign) QuestionAndAnswerScope questionScope;
 @property (nonatomic,strong) GetUserQuestionInterface *getUserQuestionInterface;
 @property (nonatomic,strong) SearchQuestionInterface *searchQuestionInterface;//搜索问答接口
+@property (nonatomic, strong) NSMutableArray *searchTempLessonList;
 @end
 
 @implementation LessonViewController
@@ -65,9 +66,13 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         [self.questionInfoInterface getQuestionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId];
     }
 }
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingViewControllerDismis) name:@"SettingViewControllerDismiss" object:nil];
     [CaiJinTongManager shared].isSettingView = NO;
     [self.tableView registerClass:[LessonListHeaderView class] forHeaderFooterViewReuseIdentifier:LESSON_HEADER_IDENTIFIER];
     self.listType = LESSON_LIST;
@@ -108,46 +113,61 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 -(void)lessonHeaderView:(LessonListHeaderView *)header selectedAtIndex:(NSIndexPath *)path{
     [self.searchText resignFirstResponder];
     if (self.listType == LESSON_LIST) {
-        if (path.section != self.lessonList.count-1) {
-            BOOL isSelSection = NO;
-            _tmpSection = path.section;
-            for (int i = 0; i < self.arrSelSection.count; i++) {
-                NSString *strSection = [NSString stringWithFormat:@"%@",[self.arrSelSection objectAtIndex:i]];
-                NSInteger selSection = strSection.integerValue;
-                if (_tmpSection == selSection) {
-                    isSelSection = YES;
-                    [self.arrSelSection removeObjectAtIndex:i];
-                    break;
-                }
-            }
-            if (!isSelSection) {
-                [self.arrSelSection addObject:[NSString stringWithFormat:@"%i",_tmpSection]];
-            }
-            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
-        }else {//本地课程
-            //本地数据的获取
-            AppDelegate *app = [AppDelegate sharedInstance];
-            app.isLocal = YES;
-            Section *sectionDb = [[Section alloc]init];
-            NSArray *local_array = [sectionDb getAllInfo];
-
-            if (local_array.count>0) {
-                UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-                ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
-                if(self.isSearching)chapterView.isSearch = YES;
-                chapterView.searchBar.searchTextField.text = self.searchText.text;
-                
-                [chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:local_array]];
-                self.isSearching = NO;
-                UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:chapterView];
-                navControl.view.frame = (CGRect){0,0,568,1024};
-                [navControl setNavigationBarHidden:YES];
-                [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
-                }];
-            }else {
-                [Utility errorAlert:@"暂无数据!"];
+        BOOL isSelSection = NO;
+        _tmpSection = path.section;
+        for (int i = 0; i < self.arrSelSection.count; i++) {
+            NSString *strSection = [NSString stringWithFormat:@"%@",[self.arrSelSection objectAtIndex:i]];
+            NSInteger selSection = strSection.integerValue;
+            if (_tmpSection == selSection) {
+                isSelSection = YES;
+                [self.arrSelSection removeObjectAtIndex:i];
+                break;
             }
         }
+        if (!isSelSection) {
+            [self.arrSelSection addObject:[NSString stringWithFormat:@"%i",_tmpSection]];
+        }
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
+//        if (path.section != self.lessonList.count-1) {
+//            BOOL isSelSection = NO;
+//            _tmpSection = path.section;
+//            for (int i = 0; i < self.arrSelSection.count; i++) {
+//                NSString *strSection = [NSString stringWithFormat:@"%@",[self.arrSelSection objectAtIndex:i]];
+//                NSInteger selSection = strSection.integerValue;
+//                if (_tmpSection == selSection) {
+//                    isSelSection = YES;
+//                    [self.arrSelSection removeObjectAtIndex:i];
+//                    break;
+//                }
+//            }
+//            if (!isSelSection) {
+//                [self.arrSelSection addObject:[NSString stringWithFormat:@"%i",_tmpSection]];
+//            }
+//            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
+//        }else {//本地课程
+//            //本地数据的获取
+//            AppDelegate *app = [AppDelegate sharedInstance];
+//            app.isLocal = YES;
+//            Section *sectionDb = [[Section alloc]init];
+//            NSArray *local_array = [sectionDb getAllInfo];
+//            
+//            if (local_array.count>0) {
+//                UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+//                ChapterViewController *chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
+//                if(self.isSearching)chapterView.isSearch = YES;
+//                chapterView.searchBar.searchTextField.text = self.searchText.text;
+//                
+//                [chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:local_array]];
+//                self.isSearching = NO;
+//                UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:chapterView];
+//                navControl.view.frame = (CGRect){0,0,568,1024};
+//                [navControl setNavigationBarHidden:YES];
+//                [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
+//                }];
+//            }else {
+//                [Utility errorAlert:@"暂无数据!"];
+//            }
+//        }
     }else{
         BOOL isSelSection = NO;
         _questionTmpSection = path.section;
@@ -165,6 +185,12 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         }
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
+}
+#pragma mark --
+
+#pragma mark SettingViewController dismiss notification
+-(void)settingViewControllerDismis{
+    self.listType = self.listType;
 }
 #pragma mark --
 
@@ -456,26 +482,44 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 //    }
 }
 
+//- (IBAction)SearchBrClicked:(id)sender {
+//    if (self.searchText.text.length == 0) {
+//        [Utility errorAlert:@"请输入搜索内容!"];
+//    }else {
+//        [self.searchText resignFirstResponder];
+//        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+//            [Utility errorAlert:@"暂无网络!"];
+//        }else {
+//            self.isSearching = YES;
+//            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//            if (self.listType == LESSON_LIST) {
+//                SearchLessonInterface *searchLessonInter = [[SearchLessonInterface alloc]init];
+//                self.searchLessonInterface = searchLessonInter;
+//                self.searchLessonInterface.delegate = self;
+//                [self.searchLessonInterface getSearchLessonInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchText.text];
+//            }else{
+//                [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchText.text];
+//            }
+//        }
+//    }
+//}
+
 - (IBAction)SearchBrClicked:(id)sender {
-    if (self.searchText.text.length == 0) {
-        [Utility errorAlert:@"请输入搜索内容!"];
-    }else {
-        [self.searchText resignFirstResponder];
-        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-            [Utility errorAlert:@"暂无网络!"];
-        }else {
-            self.isSearching = YES;
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            if (self.listType == LESSON_LIST) {
-                SearchLessonInterface *searchLessonInter = [[SearchLessonInterface alloc]init];
-                self.searchLessonInterface = searchLessonInter;
-                self.searchLessonInterface.delegate = self;
-                [self.searchLessonInterface getSearchLessonInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchText.text];
-            }else{
-                [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchText.text];
-            }
+    if (self.searchText.text && ![[self.searchText.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
+        NSString *match = [self.searchText.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.lessonName contains[cd] %@",match];
+        NSArray *lessonArr =  [self.searchTempLessonList filteredArrayUsingPredicate:predicate];
+        if (!lessonArr || lessonArr.count <= 0) {
+            [Utility errorAlert:@"没有搜索到结果"];
+        }else{
+            self.lessonList = [NSMutableArray arrayWithArray:lessonArr];
+            [self.tableView reloadData];
         }
+        
+    }else{
+        [Utility errorAlert:@"请输入搜索内容!"];
     }
+    [self.searchText resignFirstResponder];
 }
 
 -(IBAction)setBtnPressed:(id)sender {
@@ -497,6 +541,16 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
     }];
 }
+#pragma mark UITextFieldDelegate
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    return YES;
+}
+
+-(BOOL)textFieldShouldClear:(UITextField *)textField{
+    return YES;
+}
+#pragma mark --
+
 #pragma mark property
 -(SearchQuestionInterface *)searchQuestionInterface{
     if (!_searchQuestionInterface) {
@@ -631,6 +685,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
         self.lessonList = [NSMutableArray arrayWithArray:[result objectForKey:@"lessonList"]];
+        self.searchTempLessonList = [NSMutableArray arrayWithArray:[result objectForKey:@"lessonList"]];
 //        [self.lessonList  addObject:@"本地下载"];
         
         //标记是否选中了

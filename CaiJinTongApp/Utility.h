@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-
+#import "AnswerModel.h"
 @interface Utility : NSObject
 
 + (NSString *)isExistenceNetwork;
@@ -16,8 +16,9 @@
 + (NSDictionary *)initWithJSONFile:(NSString *)jsonPath;
 + (NSString *)getNowDateFromatAnDate;
 + (void)errorAlert:(NSString *)message;
-
 +(CGSize)getTextSizeWithString:(NSString*)text withFont:(UIFont*)font withWidth:(float)width;
++(NSAttributedString*)getTextSizeWithAnswerModel:(AnswerModel*)answer withFont:(UIFont*)font withWidth:(float)width;
++(CGSize)getAttributeStringSizeWithWidth:(float)width withAttributeString:(NSAttributedString*)attriString;
 + (void)setBackgroungWithView:(UIView *)view andImage6:(NSString *)str6 andImage7:(NSString *)str7;
 +(CGSize)getTextSizeWithString:(NSString*)text withFont:(UIFont*)font;
 @end

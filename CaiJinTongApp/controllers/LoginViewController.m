@@ -38,12 +38,13 @@
     [Utility setBackgroungWithView:self.view andImage6:@"login_bg_7.png" andImage7:@"login_bg_7.png"];
     [Utility setBackgroungWithView:self.inputView andImage6:@"login_07" andImage7:@"login_07"];
     NSString *text = @"找回密码";
-    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:text];
-    [attri addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0, text.length)];
-    [attri addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:NSMakeRange(0, text.length)];
-    self.forgotPwdBt.titleLabel.attributedText = attri;
-    [self.forgotPwdBt setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    
+     [self.forgotPwdBt setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [self.forgotPwdBt setTitle:text forState:UIControlStateNormal];
+//    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:text];
+//    [attri addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0, text.length)];
+//    [attri addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:NSMakeRange(0, text.length)];
+//    self.forgotPwdBt.titleLabel.attributedText = attri;
+
 }
 
 
@@ -100,11 +101,18 @@
 -(void)getLogInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 //        [CaiJinTongManager shared].userId = [NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]];
-        [CaiJinTongManager shared].userId = @"17082";
+        
         UserModel *user = [[UserModel alloc] init];
         user.userName = [NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]];
 //        user.userId = [NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]];
-        user.userId = @"17082";
+        
+        if ([self.userNameTextField.text isEqualToString:@"18621607181"]) {
+            user.userId = @"17082";
+            [CaiJinTongManager shared].userId = @"17082";
+        }else{
+            user.userId = @"18676";
+            [CaiJinTongManager shared].userId = @"18676";
+        }
         user.birthday = [NSString stringWithFormat:@"%@",[result objectForKey:@"birthday"]];
         user.sex = [NSString stringWithFormat:@"%@",[result objectForKey:@"sex"]];
         user.address = [NSString stringWithFormat:@"%@",[result objectForKey:@"address"]];

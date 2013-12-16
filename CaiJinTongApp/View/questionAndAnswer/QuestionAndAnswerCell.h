@@ -14,7 +14,6 @@
 #define TEXT_HEIGHT 30
 #define  QUESTIONANDANSWER_CELL_WIDTH 460
 @protocol QuestionAndAnswerCellDelegate;
-
 @interface QuestionAndAnswerCell : UITableViewCell<UITextViewDelegate>
 @property (weak,nonatomic) IBOutlet id<QuestionAndAnswerCellDelegate> delegate;
 @property (strong,nonatomic) NSIndexPath *path;
@@ -31,7 +30,8 @@
 @property (weak, nonatomic) IBOutlet UITextView *questionTextField;
 @property (weak, nonatomic) IBOutlet UIButton *acceptAnswerBt;
 @property (weak, nonatomic) IBOutlet UIButton *answerBt;
-
+@property (weak, nonatomic) IBOutlet UIButton *reaskBt;//追问
+@property (assign,nonatomic) ReaskType reaskType;
 - (IBAction)qflowerBtClicked:(id)sender;
 - (IBAction)answerBtClicked:(id)sender;
 - (IBAction)questionOKBtClicked:(id)sender;
@@ -41,8 +41,8 @@
 @end
 
 @protocol QuestionAndAnswerCellDelegate <NSObject>
-
--(void)questionAndAnswerCell:(QuestionAndAnswerCell*)cell summitQuestion:(NSString*)questionStr atIndexPath:(NSIndexPath*)path;
+//提交追问
+-(void)questionAndAnswerCell:(QuestionAndAnswerCell*)cell summitQuestion:(NSString*)questionStr atIndexPath:(NSIndexPath*)path withReaskType:(ReaskType)reaskType;
 
 -(void)questionAndAnswerCell:(QuestionAndAnswerCell*)cell flowerAnswerAtIndexPath:(NSIndexPath*)path;
 
@@ -51,4 +51,6 @@
 -(void)questionAndAnswerCell:(QuestionAndAnswerCell*)cell  isHiddleQuestionView:(BOOL)isHiddle atIndexPath:(NSIndexPath*)path;
 
 -(void)questionAndAnswerCell:(QuestionAndAnswerCell*)cell  willBeginTypeQuestionTextFieldAtIndexPath:(NSIndexPath*)path;
+
+-(float)questionAndAnswerCell:(QuestionAndAnswerCell*)cell  getCellheightAtIndexPath:(NSIndexPath*)path;
 @end

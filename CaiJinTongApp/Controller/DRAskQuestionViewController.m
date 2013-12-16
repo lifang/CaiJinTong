@@ -268,12 +268,20 @@ static BOOL tableVisible;
     }
 }
 
+#pragma mark UIAlertViewDelegate
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(askQuestionViewControllerDidAskingSuccess:)]) {
+        [self.delegate askQuestionViewControllerDidAskingSuccess:self];
+    }
+     [self.navigationController popViewControllerAnimated:YES];
+}
+#pragma mark --
+
 #pragma mark QuestionInfoInterfaceDelegate
 -(void)getQuestionInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         //分类的数据
         self.questionList = [NSMutableArray arrayWithArray:[result valueForKey:@"questionList"]];
-        NSLog(@"%@ 斯蒂芬",self.questionList);
         [CaiJinTongManager shared].question = [NSMutableArray arrayWithArray:[result valueForKey:@"questionList"]];
         dispatch_async(dispatch_get_main_queue(), ^{
             //标记是否选中了
@@ -299,8 +307,8 @@ static BOOL tableVisible;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [Utility errorAlert:@"数据提交成功"];
-            [self.navigationController popViewControllerAnimated:YES];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"数据提交成功" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            [alert show];
         });
     });
 }

@@ -18,7 +18,8 @@
 @interface QuestionAndAnswerCellHeaderView : UITableViewHeaderFooterView<UITextViewDelegate>
 @property (strong,nonatomic) NSIndexPath *path;
 @property (weak,nonatomic) id <QuestionAndAnswerCellHeaderViewDelegate> delegate;
--(void)setQuestionModel:(QuestionModel*)question;
+@property (assign,nonatomic) QuestionAndAnswerScope *scope;//判断是回答还是追问
+-(void)setQuestionModel:(QuestionModel*)question withQuestionAndAnswerScope:(QuestionAndAnswerScope)scope;
 @end
 
 @protocol QuestionAndAnswerCellHeaderViewDelegate <NSObject>

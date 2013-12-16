@@ -13,6 +13,8 @@
 #import "CommentModel.h"
 @interface SectionViewController ()
 @property (nonatomic,strong) DRMoviePlayViewController *playerController;
+@property (nonatomic, strong) SectionInfoInterface *sectionInterface;
+@property (nonatomic,assign) BOOL isPlaying;
 @end
 
 @implementation SectionViewController
@@ -33,6 +35,22 @@
     
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if (self.isPlaying) {
+        //根据sectionID获取单个视频的详细信息
+        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+//            [Utility errorAlert:@"暂无网络!"];
+        }else {
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            SectionInfoInterface *sectionInter = [[SectionInfoInterface alloc]init];
+            self.sectionInterface = sectionInter;
+            self.sectionInterface.delegate = self;
+            [self.sectionInterface getSectionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.section.sectionId];
+        }
+    }
+    self.isPlaying = NO;
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -53,27 +71,16 @@
 -(void)refeshScore:(NSNotification *)notification {
     NSDictionary *dic = notification.object;
     NSString *score = [dic objectForKey:@"sectionScore"];
-    
-    for (UIView *vv in self.view.subviews) {
-        if ([vv isKindOfClass:[CustomLabel class]]) {
-            CustomLabel *vLabel = (CustomLabel *)vv;
-            CGRect frame = vLabel.frame;
-            [vv removeFromSuperview];
-            CustomLabel *scoreLabel = [[CustomLabel alloc]initWithFrame:frame];
-            scoreLabel.backgroundColor = [UIColor colorWithRed:0.10f green:0.84f blue:0.99f alpha:1.0f];
-            scoreLabel.text = [NSString stringWithFormat:@"%.1f",[score floatValue]];
-            scoreLabel.layer.cornerRadius = 7;
-            [scoreLabel setColor:[UIColor whiteColor] fromIndex:0 length:scoreLabel.text.length];
-            [scoreLabel setFont:[UIFont boldSystemFontOfSize:50] fromIndex:0 length:1];
-            [scoreLabel setFont:[UIFont boldSystemFontOfSize:30] fromIndex:1 length:2];
-            self.scoreLab = scoreLabel;
-            [self.view addSubview:self.scoreLab];
-            scoreLabel = nil;
-        }
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.section.sectionScore = score;
+        self.section.isGrade = @"1";
+        [self reloadSectionData:self.section];
+    });
+
 }
 
 -(void)playVideo:(id)sender {
+    self.isPlaying = YES;
     DLog(@"play");
     //先匹配本地,在数据库中查找纪录
     Section *sectionDb = [[Section alloc]init];
@@ -135,6 +142,26 @@
     
     [self.slideSwitchView buildUI];
 }
+
+#pragma mark SectionInfoInterfaceDelegate 播放完成后回调
+
+-(void)getSectionInfoDidFinished:(SectionModel *)result {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            SectionModel *section = (SectionModel *)result;
+            if (section) {
+                self.section = section;
+                [self reloadSectionData:section];
+            }
+        });
+    });
+}
+-(void)getSectionInfoDidFailed:(NSString *)errorMsg {
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [Utility errorAlert:errorMsg];
+}
+#pragma mark --
 
 #pragma mark DRMoviePlayViewControllerDelegate 提交笔记成功
 -(void)drMoviePlayerViewController:(DRMoviePlayViewController *)playerController commitNotesSuccess:(NSString *)noteText andTime:(NSString *)noteTime{
@@ -244,6 +271,7 @@
 }
 
 - (void)gotoMoviePlayWithSid:(NSNotification *)info {
+    self.isPlaying = YES;
     NSString *sectionID = [info.userInfo objectForKey:@"sectionID"];
     NSString *path = [CaiJinTongManager getMovieLocalPathWithSectionID:sectionID];
     if (path) {
@@ -261,7 +289,85 @@
     }
 }
 
+#pragma mark property
+-(SectionInfoInterface *)sectionInterface{
+    if (!_sectionInterface) {
+        _sectionInterface = [[SectionInfoInterface alloc] init];
+        _sectionInterface.delegate = self;
+    }
+    return _sectionInterface;
+}
+#pragma mark --
+
 #pragma mark -- appear
+
+-(void)reloadSectionData:(SectionModel*)section{
+    //封面
+    [self.sectionView changeSectionModel:section];
+    
+    //显示分数
+    if ([self.section.isGrade isEqualToString:@"1"]) {
+        self.scoreLab.backgroundColor = [UIColor colorWithRed:0.10f green:0.84f blue:0.99f alpha:1.0f];
+        self.scoreLab.text = [NSString stringWithFormat:@"%.1f",[section.sectionScore floatValue]];
+        self.scoreLab.layer.cornerRadius = 7;
+        [self.scoreLab setColor:[UIColor whiteColor] fromIndex:0 length:self.scoreLab.text.length];
+        [self.scoreLab setFont:[UIFont boldSystemFontOfSize:50] fromIndex:0 length:1];
+        [self.scoreLab setFont:[UIFont boldSystemFontOfSize:30] fromIndex:1 length:2];
+    }else{
+        self.scoreLab.backgroundColor = [UIColor colorWithRed:12.0/255.0 green:58.0/255.0 blue:94.0/255.0 alpha:1.0f];
+        self.scoreLab.text =[NSString stringWithFormat:@"%.1f",[section.sectionScore floatValue]];
+        self.scoreLab.layer.cornerRadius = 7;
+        [self.scoreLab setColor:[UIColor whiteColor] fromIndex:0 length:self.scoreLab.text.length];
+        [self.scoreLab setFont:[UIFont boldSystemFontOfSize:50] fromIndex:0 length:1];
+        [self.scoreLab setFont:[UIFont boldSystemFontOfSize:30] fromIndex:1 length:2];
+    }
+    
+    CGFloat labelTop = 64;
+    CGFloat labelSpace = 6;
+    
+     //标题
+    self.nameLab.text =[NSString stringWithFormat:@"名称:%@",section.sectionName];
+//    self.nameLab.frame = (CGRect){275, labelTop, 200, 30};
+    labelTop +=self.nameLab.frame.size.height+labelSpace;
+    
+    //简介
+    self.detailInfoTextView.text = [NSString stringWithFormat:@"简介:%@",section.lessonInfo?:@""];
+    self.detailInfoTextView.frame = (CGRect){270, labelTop - 10, 170, 100};
+    //         CGSize size = [Utility getTextSizeWithString:self.section.lessonInfo withFont:[UIFont boldSystemFontOfSize:16] withWidth:170];
+    CGSize size = self.detailInfoTextView.contentSize;
+    if (size.height > 100) {
+        labelTop += 100 +labelSpace;
+    }else{
+        labelTop += size.height +labelSpace;
+    }
+    
+     //讲师
+     self.teacherlab.text =[NSString stringWithFormat:@"讲师:%@",section.sectionTeacher];
+    self.teacherlab.frame = CGRectMake(275, labelTop, 150, 30);
+     labelTop +=self.teacherlab.frame.size.height+labelSpace;
+    
+    //时长
+     self.lastLab.text =[NSString stringWithFormat:@"时长:%@",section.sectionLastTime];
+    self.lastLab.frame = CGRectMake(275, labelTop, 150, 30);
+    labelTop +=self.lastLab.frame.size.height+labelSpace;
+    
+    
+    //已学习
+    self.studyLab.text =[NSString stringWithFormat:@"已学习:%@",section.sectionStudy];
+    self.studyLab.frame = CGRectMake(275, labelTop, 150, 30);
+    
+    //播放按钮
+    DLog(@"labtop = %f",labelTop);
+    if (labelTop <150) {
+        labelTop = 200;
+    }
+    self.playBtn.frame = CGRectMake(430, labelTop, 100, 35);
+    if (!section.sectionStudy || [section.sectionStudy isEqualToString:@"0"]) {
+        [self.playBtn setTitle:NSLocalizedString(@"开始学习", @"button") forState:UIControlStateNormal];
+    }else{
+        [self.playBtn setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
+    }
+}
 
 - (void)initAppear {
     if (self.section) {
@@ -272,12 +378,21 @@
         [self.view addSubview:self.sectionView];
         //显示分数
         CustomLabel *scoreLabel = [[CustomLabel alloc]initWithFrame:CGRectMake(480, 64, 60, 60)];
-        scoreLabel.backgroundColor = [UIColor colorWithRed:12.0/255.0 green:58.0/255.0 blue:94.0/255.0 alpha:1.0f];
-        scoreLabel.text =[NSString stringWithFormat:@"%.1f",[self.section.sectionScore floatValue]];
-        scoreLabel.layer.cornerRadius = 7;
-        [scoreLabel setColor:[UIColor whiteColor] fromIndex:0 length:scoreLabel.text.length];
-        [scoreLabel setFont:[UIFont boldSystemFontOfSize:50] fromIndex:0 length:1];
-        [scoreLabel setFont:[UIFont boldSystemFontOfSize:30] fromIndex:1 length:2];
+        if ([self.section.isGrade isEqualToString:@"1"]) {
+            scoreLabel.backgroundColor = [UIColor colorWithRed:0.10f green:0.84f blue:0.99f alpha:1.0f];
+            scoreLabel.text = [NSString stringWithFormat:@"%.1f",[self.section.sectionScore floatValue]];
+            scoreLabel.layer.cornerRadius = 7;
+            [scoreLabel setColor:[UIColor whiteColor] fromIndex:0 length:scoreLabel.text.length];
+            [scoreLabel setFont:[UIFont boldSystemFontOfSize:50] fromIndex:0 length:1];
+            [scoreLabel setFont:[UIFont boldSystemFontOfSize:30] fromIndex:1 length:2];
+        }else{
+            scoreLabel.backgroundColor = [UIColor colorWithRed:12.0/255.0 green:58.0/255.0 blue:94.0/255.0 alpha:1.0f];
+            scoreLabel.text =[NSString stringWithFormat:@"%.1f",[self.section.sectionScore floatValue]];
+            scoreLabel.layer.cornerRadius = 7;
+            [scoreLabel setColor:[UIColor whiteColor] fromIndex:0 length:scoreLabel.text.length];
+            [scoreLabel setFont:[UIFont boldSystemFontOfSize:50] fromIndex:0 length:1];
+            [scoreLabel setFont:[UIFont boldSystemFontOfSize:30] fromIndex:1 length:2];
+        }
         self.scoreLab = scoreLabel;
         [self.view addSubview:self.scoreLab];
         scoreLabel = nil;
@@ -293,58 +408,32 @@
         self.nameLab = nameLabel;
         [self.view addSubview:self.nameLab];
         nameLabel = nil;
-        labelTop +=self.nameLab.frame.size.height+labelSpace;
+        labelTop +=self.nameLab.frame.size.height+labelSpace ;
         //简介
-        if (self.section.lessonInfo.length >0) {
-            UIFont *aFont = [UIFont boldSystemFontOfSize:16];
-            CGSize size = [self.section.lessonInfo sizeWithFont:aFont constrainedToSize:CGSizeMake(170, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
-            CGFloat hh = 0;
-            if (size.height-100>0){
-                hh = 100;
-                self.scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(275, labelTop, 170, hh)];
-                self.scrollView.delegate = self;
-                UILabel *infoLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 170, size.height)];
-                infoLabel.backgroundColor = [UIColor clearColor];
-                infoLabel.textColor = [UIColor grayColor];
-                infoLabel.numberOfLines = 0;
-                infoLabel.font = aFont;
-                infoLabel.text =[NSString stringWithFormat:@"简介:%@",self.section.lessonInfo];
-                self.infoLab = infoLabel;
-                [self.scrollView addSubview:self.infoLab];
-                self.scrollView.contentSize = CGSizeMake(170,self.infoLab.frame.size.height);
-                [self.view addSubview:self.scrollView];
-                infoLabel = nil;
-                labelTop +=self.scrollView.frame.size.height+labelSpace;
-            }else {
-                if (size.height-100<0 && size.height-30>0) {
-                    hh = size.height;
-                }else if (size.height-30<0) {
-                    hh = 30;
-                }
-                UILabel *infoLabel = [[UILabel alloc]initWithFrame:CGRectMake(275, labelTop, 170, hh)];
-                infoLabel.backgroundColor = [UIColor clearColor];
-                infoLabel.textColor = [UIColor grayColor];
-                infoLabel.numberOfLines = 0;
-                infoLabel.font = aFont;
-                infoLabel.text =[NSString stringWithFormat:@"简介:%@",self.section.lessonInfo];
-                self.infoLab = infoLabel;
-                [self.view addSubview:self.infoLab];
-                infoLabel = nil;
-                labelTop +=self.infoLab.frame.size.height+labelSpace;
-            }
+        self.detailInfoTextView = [[UITextView alloc] initWithFrame:(CGRect){270, labelTop - 10, 170, 100}];
+        [self.detailInfoTextView setEditable:NO];
+        [self.detailInfoTextView setFont:[UIFont boldSystemFontOfSize:16]];
+        [self.detailInfoTextView setTextColor:[UIColor grayColor]];
+        self.detailInfoTextView.text = [NSString stringWithFormat:@"简介:%@",self.section.lessonInfo?:@""];
+        [self.view addSubview:self.detailInfoTextView];
+         CGSize size = [Utility getTextSizeWithString:self.section.lessonInfo withFont:[UIFont boldSystemFontOfSize:16] withWidth:170];
+        if (size.height > 100) {
+            labelTop += 100 +labelSpace;
+        }else{
+            labelTop += size.height +labelSpace;
         }
+        
         //讲师
-        if (self.section.sectionTeacher.length >0) {
-            UILabel *teacherLabel = [[UILabel alloc]initWithFrame:CGRectMake(275, labelTop, 150, 30)];
-            teacherLabel.backgroundColor = [UIColor clearColor];
-            teacherLabel.textColor = [UIColor grayColor];
-            teacherLabel.font = [UIFont boldSystemFontOfSize:16];
-            teacherLabel.text =[NSString stringWithFormat:@"讲师:%@",self.section.sectionTeacher];
-            self.teacherlab = teacherLabel;
-            [self.view addSubview:self.teacherlab];
-            teacherLabel = nil;
-            labelTop +=self.teacherlab.frame.size.height+labelSpace;
-        }
+        UILabel *teacherLabel = [[UILabel alloc]initWithFrame:CGRectMake(275, labelTop, 150, 30)];
+        teacherLabel.backgroundColor = [UIColor clearColor];
+        teacherLabel.textColor = [UIColor grayColor];
+        teacherLabel.font = [UIFont boldSystemFontOfSize:16];
+        teacherLabel.text =[NSString stringWithFormat:@"讲师:%@",self.section.sectionTeacher];
+        self.teacherlab = teacherLabel;
+        [self.view addSubview:self.teacherlab];
+        teacherLabel = nil;
+        labelTop +=self.teacherlab.frame.size.height+labelSpace;
+
         //时长
         UILabel *lastLabel = [[UILabel alloc]initWithFrame:CGRectMake(275, labelTop, 150, 30)];
         lastLabel.backgroundColor = [UIColor clearColor];
@@ -372,7 +461,11 @@
         }
         UIButton *palyButton = [UIButton buttonWithType:UIButtonTypeCustom];
         palyButton.frame = CGRectMake(430, labelTop, 100, 35);
-        [palyButton setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
+        if (!self.section.sectionStudy || [self.section.sectionStudy isEqualToString:@"0"]) {
+            [palyButton setTitle:NSLocalizedString(@"开始学习", @"button") forState:UIControlStateNormal];
+        }else{
+            [palyButton setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
+        }
         [palyButton setBackgroundColor:[UIColor clearColor]];
 		[palyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [palyButton addTarget:self action:@selector(playVideo:) forControlEvents:UIControlEventTouchUpInside];

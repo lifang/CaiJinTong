@@ -843,9 +843,6 @@
     </scenes>
     <resources>
         <image name="btn.png" width="141" height="45"/>
-        <image name="btn.png" width="141" height="45"/>
-        <image name="btn.png" width="141" height="45"/>
-        <image name="btn.png" width="141" height="45"/>
         <image name="btn0.png" width="118" height="33"/>
         <image name="leftItemBg.png" width="24" height="24"/>
         <image name="login_03.png" width="150" height="50"/>
@@ -855,7 +852,6 @@
         <image name="play-M.png" width="24" height="24"/>
         <image name="play-courselist_06.png" width="436" height="20"/>
         <image name="play-table.png" width="26" height="26"/>
-        <image name="按钮背景.png" width="220" height="50"/>
         <image name="按钮背景.png" width="220" height="50"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

@@ -36,7 +36,7 @@
             NSString *dbPath = [newDir stringByAppendingPathComponent:@"caijingtong.db"];
             //创建数据库实例 db  这里说明下:如果路径中不存在"AiMeiYue.db"的文件,sqlite会自动创建"AiMeiYue.db"
             self.db = [FMDatabase databaseWithPath:dbPath] ;
-            
+            self.dbPath = dbPath;
         }else{
             
             //如果系统是5.0及其以上这么干
@@ -53,6 +53,7 @@
             NSString *dbPath = [newDir stringByAppendingPathComponent:@"caijingtong.db"];
             //创建数据库实例 db  这里说明下:如果路径中不存在"AiMeiYue.db"的文件,sqlite会自动创建"AiMeiYue.db"
             self.db = [FMDatabase databaseWithPath:dbPath] ;
+            self.dbPath = dbPath;
         }
         
         if (![self.db open]) {

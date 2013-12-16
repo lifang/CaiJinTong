@@ -21,6 +21,7 @@
 @property (nonatomic,assign) BOOL isHiddlePlayerControlView;
 @property (nonatomic,assign) BOOL isPlaying;
 @property (nonatomic,assign) BOOL isPopupChapter;
+@property (nonatomic,assign) BOOL isBack;//是否退出播放
 @property (nonatomic,assign) __block float currentMoviePlaterVolume;
 @property (nonatomic, strong) SectionModel *sectionModel;
 @property (nonatomic, strong) SectionSaveModel *sectionSaveModel;
@@ -95,6 +96,7 @@
 //程序退出
 - (void)appWillTerminate:(UIApplication *)application
 {
+    self.isBack = NO;
     [self saveCurrentStatus];
     [self.moviePlayer stop];
     self.moviePlayer = nil;
@@ -273,6 +275,7 @@
 
 #pragma mark notification//切换视频
 -(void)playVideo:(NSNotification*)notification{
+    self.isBack = NO;
     [self saveCurrentStatus];
     NSString *sectionID = [notification.userInfo objectForKey:@"sectionID"];
     NSString *path = [CaiJinTongManager getMovieLocalPathWithSectionID:sectionID];
@@ -282,6 +285,8 @@
     NSURL *url = [NSURL fileURLWithPath:path];
     if (![self.movieUrl.absoluteString  isEqualToString:url.absoluteString]) {
         [self playMovieWithSectionModel:nil orLocalSectionModel:ssm withFileType:MPMovieSourceTypeFile];
+    }else{
+        [Utility errorAlert:@"当前文件正在播放"];
     }
 }
 
@@ -402,16 +407,21 @@
 }
 #pragma mark --
 
-#pragma mark DRMoviePlayerTopBarDelegate
--(void)drMoviePlayerTopBarbackItemClicked:(DRMoviePlayerTopBar *)topBar{
-     [self saveCurrentStatus];
+#pragma mark DRMoviePlayerTopBarDelegate播放完成推出界面
+
+-(void)exitPlayMovie{
     [self.section_chapterController willMoveToParentViewController:nil];
     [self.section_chapterController removeFromParentViewController];
     [self.section_chapterController.view removeFromSuperview];
-[self dismissViewControllerAnimated:YES completion:^{
-    [self.moviePlayer stop];
-    self.moviePlayer = nil;
-}];
+    [self dismissViewControllerAnimated:YES completion:^{
+        [self.moviePlayer stop];
+        self.moviePlayer = nil;
+    }];
+}
+
+-(void)drMoviePlayerTopBarbackItemClicked:(DRMoviePlayerTopBar *)topBar{
+    self.isBack = YES;
+     [self saveCurrentStatus];
 }
 #pragma mark --
 
@@ -446,22 +456,50 @@
     self.isPlaying = YES;
 }
 
+
+
+//-(void)saveCurrentStatus{
+//    //保存之前的状态
+//    if (self.drMovieSourceType == MPMovieSourceTypeFile) {
+//        [[Section defaultSection] updateStudyTime:[NSString stringWithFormat:@"%0.2f",self.moviePlayer.currentPlaybackTime] BySid:self.sectionSaveModel.sid];
+//    }else{
+//        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+//            [Utility errorAlert:@"暂无网络!"];
+//            if (self.isBack) {
+//                [self exitPlayMovie];
+//            }
+//        }else {
+//            //判断是否播放完毕
+//            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//            PlayBackInterface *playBackInter = [[PlayBackInterface alloc]init];
+//            self.playBackInterface = playBackInter;
+//            self.playBackInterface.delegate = self;
+//            NSString *timespan = [Utility getNowDateFromatAnDate];
+//            NSString *status = self.seekSlider.value >= 1?@"completed": @"incomplete";
+//            [self.playBackInterface getPlayBackInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionModel.sectionId andTimeEnd:timespan andStatus:status];
+//        }
+//    }
+//}
+
 -(void)saveCurrentStatus{
-    //保存之前的状态
-    if (self.drMovieSourceType == MPMovieSourceTypeFile) {
+    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [[Section defaultSection] updateStudyTime:[NSString stringWithFormat:@"%0.2f",self.moviePlayer.currentPlaybackTime] BySid:self.sectionSaveModel.sid];
-    }else{
-        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-            [Utility errorAlert:@"暂无网络!"];
-        }else {
-            //判断是否播放完毕
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            PlayBackInterface *playBackInter = [[PlayBackInterface alloc]init];
-            self.playBackInterface = playBackInter;
-            self.playBackInterface.delegate = self;
-            NSString *timespan = [Utility getNowDateFromatAnDate];
-            NSString *status = self.seekSlider.value >= 1?@"completed": @"incomplete";
-            [self.playBackInterface getPlayBackInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionModel.sectionId andTimeEnd:timespan andStatus:status];
+        if (self.isBack) {
+             [self exitPlayMovie];
+        }
+       
+    }else {
+        //判断是否播放完毕
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        PlayBackInterface *playBackInter = [[PlayBackInterface alloc]init];
+        self.playBackInterface = playBackInter;
+        self.playBackInterface.delegate = self;
+        NSString *timespan = [Utility getNowDateFromatAnDate];
+        NSString *status = self.seekSlider.value >= 1?@"completed": @"incomplete";
+        if (self.drMovieSourceType == MPMovieSourceTypeFile) {
+             [self.playBackInterface getPlayBackInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionSaveModel.sid andTimeEnd:timespan andStatus:status];
+        }else{
+             [self.playBackInterface getPlayBackInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionModel.sectionId andTimeEnd:timespan andStatus:status];
         }
     }
 }
@@ -480,7 +518,7 @@
     if (fileType == MPMovieSourceTypeFile) {
         self.sectionSaveModel = saveSectionModel;
         self.drMovieTopBar.titleLabel.text = saveSectionModel.name;
-        self.movieUrl = [NSURL fileURLWithPath:[CaiJinTongManager getMovieLocalPathWithSectionID:sectionModel.sectionId]];
+        self.movieUrl = [NSURL fileURLWithPath:[CaiJinTongManager getMovieLocalPathWithSectionID:saveSectionModel.sid]];
     }else
     if (fileType == MPMovieSourceTypeStreaming) {
         self.sectionModel = sectionModel;
@@ -643,11 +681,17 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
+            if (self.isBack) {
+                [self exitPlayMovie];
+            }
         });
     });
 }
 -(void)getPlayBackDidFailed:(NSString *)errorMsg {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
+    if (self.isBack) {
+        [self exitPlayMovie];
+    }else
     [Utility errorAlert:errorMsg];
 }
 #pragma mark -- SumitNoteInterfaceDelegate

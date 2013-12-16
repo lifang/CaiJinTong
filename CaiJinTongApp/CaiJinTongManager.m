@@ -10,6 +10,17 @@
 
 @implementation CaiJinTongManager
 
++(NSString*)getMovieLocalTempPathWithSectionID:(NSString*)sectionID{
+    NSString *documentDir = nil;
+    if (platform>5.0) {
+        documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    }else{
+        documentDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    }
+    NSString *path = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@.temp",sectionID]];
+    DLog(@"path = %@",path);//本地保存路径
+    return path;
+}
 
 +(NSString*)getMovieLocalPathWithSectionID:(NSString*)sectionID{
     NSString *documentDir = nil;

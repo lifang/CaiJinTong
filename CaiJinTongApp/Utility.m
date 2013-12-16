@@ -32,6 +32,84 @@
     return str;
 }
 
++(NSAttributedString*)getTextSizeWithAnswerModel:(AnswerModel*)answer withFont:(UIFont*)font withWidth:(float)width{
+    if (answer.answerContent && font) {
+        NSMutableString *content = [NSMutableString stringWithFormat:@"     %@",answer.answerContent?:@""];
+        for (Reaskmodel *reask in answer.reaskModelArray) {
+            NSString *reaskTitle = [NSString stringWithFormat:@"\n\n%@ 追问 发表于%@\n",reask.reaskNickName?:@"",reask.reaskDate?:@""];
+            NSString *isTeacher = @"";
+            if (reask.reAnswerIsTeacher && [reask.reAnswerIsTeacher isEqualToString:@"1"]) {
+                isTeacher = @"老师";
+            }
+            NSString *reAnswerTitle = [NSString stringWithFormat:@"\n\n%@%@ 回复 发表于%@\n",reask.reAnswerNickName?:@"",isTeacher,reask.reaskDate?:@""];
+            [content appendString:reaskTitle];
+            [content appendString:[NSString stringWithFormat:@"     %@",reask.reaskContent?:@""]];
+            [content appendString:reAnswerTitle];
+            [content appendString:[NSString stringWithFormat:@"     %@",reask.reAnswerContent?:@""]];
+        }
+        
+        
+        NSMutableAttributedString *attriString = [[NSMutableAttributedString alloc] initWithString:content];
+        int contentLenght =[[NSString stringWithFormat:@"     %@",answer.answerContent?:@""] length];
+        [attriString addAttribute:NSParagraphStyleAttributeName value:[NSMutableParagraphStyle defaultParagraphStyle] range:NSMakeRange(0, contentLenght)];
+        [attriString addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, attriString.length)];
+        [attriString addAttribute:NSForegroundColorAttributeName value:[UIColor grayColor] range:NSMakeRange(contentLenght, attriString.length-contentLenght)];
+        for (Reaskmodel *reask in answer.reaskModelArray) {
+            NSString *reaskTitle = [NSString stringWithFormat:@"\n\n%@ 追问 发表于%@\n",reask.reaskNickName?:@"",reask.reaskDate?:@""];
+            for (NSDictionary *subRange in [self getAllSubStringRanges:content withSubString:reaskTitle]) {
+                NSRange range = (NSRange){[[subRange objectForKey:@"startIndex"] integerValue],[[subRange objectForKey:@"lenght"] integerValue]};
+                [attriString addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor] range:range];
+                [attriString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:15] range:range];
+            }
+            
+            NSString *isTeacher = @"";
+            if (reask.reAnswerIsTeacher && [reask.reAnswerIsTeacher isEqualToString:@"1"]) {
+                isTeacher = @"老师";
+            }
+            NSString *reAnswerTitle = [NSString stringWithFormat:@"\n\n%@%@ 回复 发表于%@\n",reask.reAnswerNickName?:@"",isTeacher,reask.reaskDate?:@""];
+            for (NSDictionary *subRange in [self getAllSubStringRanges:content withSubString:reAnswerTitle]) {
+                NSRange range = (NSRange){[[subRange objectForKey:@"startIndex"] integerValue],[[subRange objectForKey:@"lenght"] integerValue]};
+                [attriString addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor] range:range];
+                [attriString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:15] range:range];
+            }
+        }
+        NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+        style.headIndent = 40;
+        style.tailIndent = width;
+        [attriString addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0,attriString.length)];
+        return attriString;
+    }
+    
+    return nil;
+}
+
+
++(CGSize)getAttributeStringSizeWithWidth:(float)width withAttributeString:(NSAttributedString*)attriString{
+ CGRect rect = [attriString boundingRectWithSize:(CGSize){width,MAXFLOAT} options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading context:nil];
+    return (CGSize){rect.size.width,rect.size.height+30};
+}
+
++(NSArray*)getAllSubStringRanges:(NSString*)string withSubString:(NSString *)subString{
+    if (!string || !subString) {
+        return nil;
+    }
+    NSMutableString *tempString = [[NSMutableString alloc] initWithString:string];
+    NSMutableArray *subRangeArr = [NSMutableArray array];
+    NSMutableString *replaceString = [[NSMutableString alloc] init];
+    for (int index = 0; index < subString.length; index++) {
+        [replaceString appendFormat:@"￡"];
+    }
+    
+    while (YES) {
+        NSRange range = [tempString rangeOfString:subString];
+        if (range.length <= 0) {
+            break;
+        }
+        [subRangeArr addObject:@{@"startIndex": [NSNumber numberWithInt:range.location],@"lenght":[NSNumber numberWithInt:range.length]}];
+        [tempString replaceCharactersInRange:range withString:replaceString];
+    }
+    return subRangeArr;
+}
 +(CGSize)getTextSizeWithString:(NSString*)text withFont:(UIFont*)font withWidth:(float)width{
     if (text && font) {
         if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {

@@ -16,6 +16,8 @@
 @property (nonatomic,strong) SubmitAnswerInterface *submitAnswerInterface;//提交回答或者是提交追问
 @property (nonatomic,strong)  AnswerPraiseInterface *answerPraiseinterface;//提交赞接口
 @property (nonatomic,strong) NSIndexPath *activeIndexPath;//正在处理中的cell
+@property (nonatomic,assign) BOOL isReaskRefreshing;//判断是追问刷新还是上拉下拉刷新
+@property (nonatomic,strong) DRAskQuestionViewController *askQuestionController;
 @end
 
 @implementation MyQuestionAndAnswerViewController
@@ -30,9 +32,13 @@
 }
 
 -(void)drnavigationBarRightItemClicked:(id)sender{
-    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-    DRAskQuestionViewController *ask = [story instantiateViewControllerWithIdentifier:@"DRAskQuestionViewController"];
-    [self.navigationController pushViewController:ask animated:YES];
+    if (!self.askQuestionController) {
+        UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+        self.askQuestionController  = [story instantiateViewControllerWithIdentifier:@"DRAskQuestionViewController"];
+        self.askQuestionController.delegate = self;
+    }
+    
+    [self.navigationController pushViewController:self.askQuestionController animated:YES];
     
 }
 
@@ -43,17 +49,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    if (self.questionAndAnswerScope == QuestionAndAnswerALL) {
-        [self.headerRefreshView endRefreshing];//instance refresh view
-        [self.footerRefreshView endRefreshing];
-//        
-//        self.headerRefreshView.isForbidden = YES;
-//        self.footerRefreshView.isForbidden = YES;
-    }
-
+    [self.headerRefreshView endRefreshing];//instance refresh view
+    [self.footerRefreshView endRefreshing];
     [self.tableView registerClass:[QuestionAndAnswerCellHeaderView class] forHeaderFooterViewReuseIdentifier:@"header"];
-    
-    self.drnavigationBar.titleLabel.text = @"我的提问";
     [self.drnavigationBar.navigationRightItem setTitle:@"提问" forState:UIControlStateNormal];
     [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [self.noticeBarImageView.layer setCornerRadius:4];
@@ -110,9 +108,9 @@
         question.isEditing = NO;
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
         
-        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andAnswerContent:text andQuestionId:question.questionId andResultId:@"0"];
+        AnswerModel *answer = [question.answerList objectAtIndex:path.row];
+        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:ReaskType_None andAnswerContent:text andQuestionId:question.questionId andAnswerID:answer.resultId  andResultId:@"0"];
     }
-
 }
 
 //开始编辑回答
@@ -129,6 +127,16 @@
 #pragma mark --
 
 #pragma mark QuestionAndAnswerCellDelegate
+
+
+-(float)questionAndAnswerCell:(QuestionAndAnswerCell *)cell getCellheightAtIndexPath:(NSIndexPath *)path{
+    QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
+    AnswerModel *answer = [question.answerList objectAtIndex:path.row];
+    
+    NSAttributedString *attriString =  [Utility getTextSizeWithAnswerModel:answer withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:QUESTIONANDANSWER_CELL_WIDTH];
+    CGSize size = [Utility getAttributeStringSizeWithWidth:QUESTIONANDANSWER_CELL_WIDTH withAttributeString:attriString];
+    return size.height;
+}
 
 -(void)questionAndAnswerCell:(QuestionAndAnswerCell *)cell willBeginTypeQuestionTextFieldAtIndexPath:(NSIndexPath *)path{
     CGRect cellRect = [self.tableView rectForRowAtIndexPath:path];
@@ -153,14 +161,14 @@
 }
 
 //追问
--(void)questionAndAnswerCell:(QuestionAndAnswerCell *)cell summitQuestion:(NSString *)questionStr atIndexPath:(NSIndexPath *)path{
+-(void)questionAndAnswerCell:(QuestionAndAnswerCell *)cell summitQuestion:(NSString *)questionStr atIndexPath:(NSIndexPath *)path withReaskType:(ReaskType)reaskType{
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else{
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
         AnswerModel *answer = [question.answerList objectAtIndex:path.row];
-        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andAnswerContent:questionStr andQuestionId:question.questionId andResultId:@"1"];
+        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:reaskType andAnswerContent:questionStr andQuestionId:question.questionId andAnswerID:answer.resultId  andResultId:@"1"];
     }
 }
 
@@ -241,17 +249,19 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     QuestionAndAnswerCellHeaderView *header = (QuestionAndAnswerCellHeaderView*)[tableView dequeueReusableHeaderFooterViewWithIdentifier:@"header"];
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:section];
-    [header setQuestionModel:question];
+    [header setQuestionModel:question withQuestionAndAnswerScope:self.questionAndAnswerScope];
     header.backgroundColor = [UIColor whiteColor];
     header.delegate = self;
     header.path = [NSIndexPath indexPathForRow:0 inSection:section];
     return header;
 }
 
+
 #pragma mark --
 
 #pragma mark MJRefreshBaseViewDelegate 分页加载
 -(void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView{
+    self.isReaskRefreshing = NO;
     if (self.headerRefreshView == refreshView) {
         self.footerRefreshView.isForbidden = YES;
         [self requestNewPageDataWithLastQuestionID:nil];
@@ -287,6 +297,23 @@
     }
 }
 
+//-(float)getTableViewRowHeightWithIndexPath:(NSIndexPath*)path{
+//    NSLog(@"%d,%d",path.section,path.row);
+//    QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
+//    if (question.answerList == nil || [question.answerList count] <= 0) {
+//        return 0;
+//    }
+//    AnswerModel *answer = [question.answerList objectAtIndex:path.row];
+//    float questionTextFieldHeight = answer.isEditing?141:0;
+//
+//    if (platform >= 7.0) {
+//        return [Utility getTextSizeWithString:answer.answerContent withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:QUESTIONANDANSWER_CELL_WIDTH].height+ TEXT_HEIGHT + TEXT_PADDING*3+ questionTextFieldHeight;
+//    }else{
+//        float height = [Utility getTextSizeWithString:answer.answerContent withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:QUESTIONANDANSWER_CELL_WIDTH].height+ TEXT_HEIGHT + TEXT_PADDING+ questionTextFieldHeight;
+//        return height;
+//    }
+//}
+
 -(float)getTableViewRowHeightWithIndexPath:(NSIndexPath*)path{
     NSLog(@"%d,%d",path.section,path.row);
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
@@ -295,17 +322,34 @@
     }
     AnswerModel *answer = [question.answerList objectAtIndex:path.row];
     float questionTextFieldHeight = answer.isEditing?141:0;
-
+    NSAttributedString *attriString =  [Utility getTextSizeWithAnswerModel:answer withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:QUESTIONANDANSWER_CELL_WIDTH];
+    CGSize size = [Utility getAttributeStringSizeWithWidth:QUESTIONANDANSWER_CELL_WIDTH withAttributeString:attriString];
     if (platform >= 7.0) {
-        return [Utility getTextSizeWithString:answer.answerContent withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:QUESTIONANDANSWER_CELL_WIDTH].height+ TEXT_HEIGHT + TEXT_PADDING*3+ questionTextFieldHeight;
+        return size.height+ TEXT_HEIGHT + TEXT_PADDING*3+ questionTextFieldHeight;
     }else{
-        float height = [Utility getTextSizeWithString:answer.answerContent withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:QUESTIONANDANSWER_CELL_WIDTH].height+ TEXT_HEIGHT + TEXT_PADDING+ questionTextFieldHeight;
+        float height = size.height+ TEXT_HEIGHT + TEXT_PADDING+ questionTextFieldHeight;
         return height;
     }
 }
+
 #pragma mark --
 
 #pragma mark property
+-(void)setQuestionAndAnswerScope:(QuestionAndAnswerScope)questionAndAnswerScope{
+    _questionAndAnswerScope = questionAndAnswerScope;
+    switch (questionAndAnswerScope) {
+        case QuestionAndAnswerALL:
+            self.drnavigationBar.titleLabel.text = @"所有问答";
+            break;
+        case QuestionAndAnswerMYQUESTION:
+            self.drnavigationBar.titleLabel.text = @"我的提问";
+            break;
+        default:
+            self.drnavigationBar.titleLabel.text = @"我的回答";
+            break;
+    }
+}
+
 -(AnswerPraiseInterface *)answerPraiseinterface{
     if (!_answerPraiseinterface) {
         _answerPraiseinterface = [[AnswerPraiseInterface alloc] init];
@@ -373,6 +417,13 @@
     [self.tableView setFrame: CGRectMake(frame.origin.x,frame.origin.y - 35,frame.size.width,frame.size.height)];
 }
 
+#pragma mark DRAskQuestionViewControllerDelegate 提问问题成功时回调
+-(void)askQuestionViewControllerDidAskingSuccess:(DRAskQuestionViewController *)controller{
+    self.isReaskRefreshing = YES;
+     [self requestNewPageDataWithLastQuestionID:nil];
+}
+#pragma mark --
+
 #pragma mark AnswerPraiseInterfaceDelegate 赞回调
 -(void)getAnswerPraiseInfoDidFinished:(NSDictionary *)result{
     [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -391,12 +442,12 @@
 #pragma mark --
 
 #pragma mark SubmitAnswerInterfaceDelegate 提交回答或者提交追问的代理
--(void)getSubmitAnswerInfoDidFinished:(NSDictionary *)result{
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Utility errorAlert:@"提交成功"];
+-(void)getSubmitAnswerInfoDidFinished:(NSDictionary *)result withReaskType:(ReaskType)reask{
+    self.isReaskRefreshing = YES;
+     [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andChapterQuestionId:self.chapterID andLastQuestionID:nil];
 }
 
--(void)getSubmitAnswerDidFailed:(NSString *)errorMsg{
+-(void)getSubmitAnswerDidFailed:(NSString *)errorMsg withReaskType:(ReaskType)reask{
 
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:@"提交失败"];
@@ -405,39 +456,80 @@
 #pragma mark --
 #pragma mark GetUserQuestionInterfaceDelegate 加载我的回答或者我的提问新数据
 -(void)getUserQuestionInfoDidFinished:(NSDictionary *)result{
-   
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (self.isReaskRefreshing) {
+                self.myQuestionArr = [NSMutableArray arrayWithArray:chapterQuestionList];
+                 [self.tableView reloadData];
+            }else{
+                if (self.headerRefreshView.isForbidden) {//加载下一页
+                    [self.myQuestionArr addObjectsFromArray:chapterQuestionList];
+                }else{//重新加载
+                    self.myQuestionArr = [NSMutableArray arrayWithArray:chapterQuestionList];
+                }
+                 [self.tableView reloadData];
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [self.headerRefreshView endRefreshing];
+                self.headerRefreshView.isForbidden = NO;
+                [self.footerRefreshView endRefreshing];
+                self.footerRefreshView.isForbidden = NO;
+            }
+        });
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    });
 }
 
 -(void)getUserQuestionInfoDidFailed:(NSString *)errorMsg{
-    
+     [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [Utility errorAlert:errorMsg];
 }
 #pragma mark --
 
 #pragma mark QuestionListInterfaceDelegate 加载所有问题新数据
 -(void)getQuestionListInfoDidFinished:(NSDictionary *)result{
-    
-    if (result) {
-        NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
-        if (chapterQuestionList && [chapterQuestionList count] > 0) {
-            if (self.headerRefreshView.isForbidden) {//加载下一页
-                [self.myQuestionArr addObjectsFromArray:chapterQuestionList];
-            }else{//重新加载
-                self.myQuestionArr = [NSMutableArray arrayWithArray:chapterQuestionList];
+    if (!self.isReaskRefreshing) {
+        if (result) {
+            NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
+            if (chapterQuestionList && [chapterQuestionList count] > 0) {
+                if (self.headerRefreshView.isForbidden) {//加载下一页
+                    [self.myQuestionArr addObjectsFromArray:chapterQuestionList];
+                }else{//重新加载
+                    self.myQuestionArr = [NSMutableArray arrayWithArray:chapterQuestionList];
+                }
+                QuestionModel *question = [self.myQuestionArr  lastObject];
+                self.question_pageIndex = question.pageIndex;
+                self.question_pageCount = question.pageCount;
+                [self.tableView reloadData];
+            }else{
+                [Utility errorAlert:@"数据为空"];
             }
-            QuestionModel *question = [self.myQuestionArr  lastObject];
-            self.question_pageIndex = question.pageIndex;
-            self.question_pageCount = question.pageCount;
-            [self.tableView reloadData];
         }else{
             [Utility errorAlert:@"数据为空"];
         }
+        [self.headerRefreshView endRefreshing];
+        self.headerRefreshView.isForbidden = NO;
+        [self.footerRefreshView endRefreshing];
+        self.footerRefreshView.isForbidden = NO;
     }else{
-        [Utility errorAlert:@"数据为空"];
+        if (result) {
+            NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
+            if (chapterQuestionList && [chapterQuestionList count] > 0) {
+                self.myQuestionArr = [NSMutableArray arrayWithArray:chapterQuestionList];
+                QuestionModel *question = [self.myQuestionArr  lastObject];
+                self.question_pageIndex = question.pageIndex;
+                self.question_pageCount = question.pageCount;
+                [self.tableView reloadData];
+            }else{
+                [Utility errorAlert:@"数据为空"];
+            }
+        }else{
+            [Utility errorAlert:@"数据为空"];
+        }
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
     }
-    [self.headerRefreshView endRefreshing];
-    self.headerRefreshView.isForbidden = NO;
-    [self.footerRefreshView endRefreshing];
-    self.footerRefreshView.isForbidden = NO;
+
+
 
 }
 

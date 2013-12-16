@@ -111,6 +111,9 @@
             CGRect touchRect = (CGRect){CGRectGetMinX(subView.frame),0,START_HEIGHT+PADDING,CGRectGetHeight(self.frame)};
             if (CGRectContainsPoint(touchRect, p)) {
                 if (self.score == subView.tag) {
+                    if (subView.tag <= 1) {
+                        return;
+                    }
                     self.starForegroundView.frame = CGRectMake(0, 0, CGRectGetMinX(subView.frame), self.frame.size.height);
                     [self setScore:subView.tag-1];
                 }else{

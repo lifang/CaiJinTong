@@ -161,9 +161,21 @@
     }
 }
 
--(void)setQuestionModel:(QuestionModel*)question{
+-(void)setQuestionModel:(QuestionModel*)question withQuestionAndAnswerScope:(QuestionAndAnswerScope)scope{
     if (!question) {
         return;
+    }
+    UserModel *user = [[CaiJinTongManager shared]user];
+    if (question.askerId && [question.askerId isEqualToString:user.userId]) {
+        [self.answerQuestionBt setHidden:YES];
+    }else{
+        [self.answerQuestionBt setHidden:NO];
+    }
+    for (AnswerModel *answer in question.answerList) {
+        if ([answer.answerId isEqualToString:user.userId]) {
+            [self.answerQuestionBt setHidden:YES];
+            break;
+        }
     }
     self.questionNameLabel.text = question.askerNick;
     self.questionDateLabel.text = [NSString stringWithFormat:@"发表于%@",question.askTime];
@@ -171,11 +183,6 @@
     self.questionContentTextField.text = question.questionName;
 //    [self.questionFlowerBt setUserInteractionEnabled:NO];
     [self.summitQuestionAnswerBackView setHidden:!question.isEditing];
-    if ([[CaiJinTongManager shared] userId] && [[[CaiJinTongManager shared] userId] isEqualToString:question.askerId]) {
-        [self.answerQuestionBt setHidden:YES];
-    }else{
-        [self.answerQuestionBt setHidden:NO];
-    }
     [self setNeedsLayout];
 }
 

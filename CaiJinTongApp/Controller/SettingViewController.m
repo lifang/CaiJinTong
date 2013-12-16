@@ -36,6 +36,7 @@ NSString *appleID = @"6224939";
 -(void)willDismissPopoupController{
     CGPoint offset = self.tableView.contentOffset;
     [self.tableView setContentOffset:offset animated:NO];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"SettingViewControllerDismiss" object:nil];
 }
 
 - (void)viewDidLoad
@@ -176,8 +177,12 @@ NSString *appleID = @"6224939";
                 }
                     break;
                 case 1:
+                {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"清除缓存，会删除所有已经下载的视频文件。" delegate:self cancelButtonTitle:@"确认删除" otherButtonTitles:@"取消", nil];
+                    [alert show];
                     [[SDImageCache sharedImageCache]clearMemory];
                     [[SDImageCache sharedImageCache]clearDisk];
+                }
                     break;
                 case 2:
                 {
@@ -246,6 +251,18 @@ NSString *appleID = @"6224939";
 }
 #pragma mark --
 
+
+#pragma mark UIAlertViewDelegate
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 0) {
+        [Section clearAllDownloadedSectionWithSuccess:^{
+            [Utility errorAlert:@"清除缓存成功"];
+        } withFailure:^(NSString *errorString) {
+            [Utility errorAlert:@"清除缓存过程出现错误"];
+        }];
+    }
+}
+#pragma mark --
 #pragma mark -- cellDelegate
 -(void)infoCellView:(InfoCell*)header {
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];

@@ -28,7 +28,7 @@
 -(BOOL)updateContentLength:(double)length BySid:(NSString *)sid;//更新文章的长度大小
 
 -(NSArray *)getAllInfo;
-
+-(NSArray *)getAllSection;
 //笔记
 -(BOOL)addDataWithNoteModel:(NoteModel *)model andSid:(NSString *)sid;
 -(void)deleteDataFromNoteWithSid:(NSString *)sid;
@@ -37,4 +37,6 @@
 -(BOOL)addDataWithSectionModel:(Section_chapterModel *)model andSid:(NSString *)sid;
 -(void)deleteDataFromChapterWithSid:(NSString *)sid;
 -(NSArray *)getChapterInfoWithSid:(NSString *)sid;
+//清除缓存
++(void)clearAllDownloadedSectionWithSuccess:(void(^)())success withFailure:(void(^)(NSString*errorString))failure;
 @end

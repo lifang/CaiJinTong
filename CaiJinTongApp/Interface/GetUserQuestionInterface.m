@@ -25,7 +25,12 @@
     //isMyselfQuestion=0 表示我提的问题
     //isMyselfQuestion=1 我回答过的问题
 //    self.interfaceUrl = [NSString stringWithFormat:@"http://lms.finance365.com/api/ios.ashx?active=getUserQuestion&userId=17079&isMyselfQuestion=%@",isMyselfQuestion];
+    if (lastQuestionID) {
+        self.interfaceUrl = [NSString stringWithFormat:@"%@?active=getUserQuestion&userId=%@&isMyselfQuestion=%@&feedbackId=%@",kHost,userId,isMyselfQuestion,lastQuestionID];
+    }else{
     self.interfaceUrl = [NSString stringWithFormat:@"%@?active=getUserQuestion&userId=%@&isMyselfQuestion=%@",kHost,userId,isMyselfQuestion];
+    }
+    
     self.baseDelegate = self;
     self.headers = reqheaders;
     
@@ -79,6 +84,7 @@
                                                     answer.answerTime =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"answerTime"]];
                                                     answer.answerId =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"answerId"]];
                                                     answer.answerNick =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"answerNick"]];
+                                                    answer.isPraised = [NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"isParise"]];
                                                     answer.answerPraiseCount =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"answerPraiseCount"]];
                                                     answer.IsAnswerAccept =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"IsAnswerAccept"]];
                                                     if (answer.IsAnswerAccept && [answer.IsAnswerAccept isEqualToString:@"1"]) {
@@ -87,6 +93,43 @@
                                                     answer.answerContent =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"answerContent"]];
                                                     answer.pageIndex =[[answer_dic objectForKey:@"pageIndex"]intValue];
                                                     answer.pageCount =[[answer_dic objectForKey:@"pageCount"]intValue];
+                                                    
+                                                    //添加追问
+                                                    NSArray *reaskArray = [answer_dic objectForKey:@"addList"];
+                                                    NSMutableArray *reaskModelArr = [NSMutableArray array];
+                                                    for (NSDictionary *reaskDic in reaskArray) {
+                                                        Reaskmodel *reask = [[Reaskmodel alloc] init];
+                                                        reask.reaskID = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"ZID"]];
+                                                        reask.reaskContent = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"addQuestion"]];
+                                                        reask.reaskDate = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"CreateDate"]];
+                                                        reask.reaskingAnswerID = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"addMemberID"]];
+                                                        //对追问的回复
+                                                        reask.reAnswerID = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"AID"]];
+                                                        reask.reAnswerContent = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"Answer"]];
+                                                        reask.reAnswerIsAgree = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"AgreeStatus"]];
+                                                        reask.reAnswerIsTeacher = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"IsTeacher"]];
+                                                        reask.reAnswerNickName = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"TeacherName"]];
+                                                        [reaskModelArr addObject:reask];
+                                                    }
+                                                    
+//                                                    for (int index = 0;index < 4;index++) {
+//                                                        Reaskmodel *reask = [[Reaskmodel alloc] init];
+//                                                        reask.reaskID = [NSString stringWithFormat:@"%d",index];
+//                                                        reask.reaskContent = @"今天去哪儿？";
+//                                                        reask.reaskDate = @"2013-12-20";
+//                                                        reask.reaskingAnswerID = @"123";
+//                                                        //对追问的回复
+//                                                        reask.reAnswerID = @"132";
+//                                                        reask.reAnswerContent = @"去上海外滩观光吧";
+//                                                        reask.reAnswerIsAgree = @"1";
+//                                                        reask.reAnswerIsTeacher = @"1";
+//                                                        reask.reAnswerNickName = @"王大头";
+//                                                        [reaskModelArr addObject:reask];
+//                                                    }
+//                                                    
+                                                    
+                                                    answer.reaskModelArray = reaskModelArr;
+                                                    
                                                     [question.answerList addObject:answer];
                                                 }
                                             }
@@ -115,7 +158,11 @@
                 }else {
                     [self.delegate getUserQuestionInfoDidFailed:@"加载失败!"];
                 }
+            }else {
+                [self.delegate getUserQuestionInfoDidFailed:@"加载失败!"];
             }
+        }else {
+            [self.delegate getUserQuestionInfoDidFailed:@"加载失败!"];
         }
     }else {
         [self.delegate getUserQuestionInfoDidFailed:@"加载失败!"];
