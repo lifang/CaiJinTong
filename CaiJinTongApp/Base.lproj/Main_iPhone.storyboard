@@ -741,6 +741,27 @@
             </objects>
             <point key="canvasLocation" x="-329" y="1096"/>
         </scene>
+        <!--Commit Question View Controller-->
+        <scene sceneID="H8O-nq-HzG">
+            <objects>
+                <viewController storyboardIdentifier="LHLCommitQuestionViewController" id="sos-KO-9xw" customClass="LHLCommitQuestionViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="m9r-cI-anc"/>
+                        <viewControllerLayoutGuide type="bottom" id="81D-Uq-qYG"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="IX8-O0-J16">
+                        <rect key="frame" x="0.0" y="0.0" width="516" height="255"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    </view>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gt9-5m-g1b" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-337" y="1522"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="VPG-e1-z6z">
             <objects>
