@@ -8,14 +8,14 @@
 
 #import "BaseInterface.h"
 #import "QuestionModel.h"
-
+//分页显示问题
 @protocol QuestionListInterfaceDelegate;
 
 @interface QuestionListInterface : BaseInterface<BaseInterfaceDelegate>
 
 @property (nonatomic, assign) id<QuestionListInterfaceDelegate>delegate;
 
--(void)getQuestionListInterfaceDelegateWithUserId:(NSString *)userId andChapterQuestionId:(NSString *)chapterQuestionId andPageIndex:(int)pageIndex andIsMyself:(NSString *)isMyself;
+-(void)getQuestionListInterfaceDelegateWithUserId:(NSString *)userId andChapterQuestionId:(NSString *)chapterQuestionId andLastQuestionID:(NSString*)lastQuestionID;
 @end
 
 @protocol QuestionListInterfaceDelegate <NSObject>

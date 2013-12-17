@@ -29,9 +29,6 @@
 }
 
 - (IBAction)qflowerBtClicked:(id)sender {
-    int flower = [self.qflowerLabel.text intValue];
-    self.qflowerLabel.text  = [NSString stringWithFormat:@"%d",flower+1];
-    [self setNeedsLayout];
     if (self.delegate && [self.delegate respondsToSelector:@selector(questionAndAnswerCell:flowerAnswerAtIndexPath:)]) {
         [self.delegate questionAndAnswerCell:self flowerAnswerAtIndexPath:self.path];
     }
@@ -45,6 +42,10 @@
 }
 
 - (IBAction)questionOKBtClicked:(id)sender {
+    if (!self.questionTextField.text || [[self.questionTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
+        [Utility errorAlert:@"追问内容不能为空"];
+        return;
+    }
     if (self.delegate && [self.delegate respondsToSelector:@selector(questionAndAnswerCell:summitQuestion:atIndexPath:)]) {
         [self.delegate questionAndAnswerCell:self summitQuestion:self.questionTextField.text atIndexPath:self.path];
     }
@@ -76,6 +77,14 @@
     [self.questionBackgroundView setHidden:!answer.isEditing];
     self.answerTextField.font = [UIFont systemFontOfSize:TEXT_FONT_SIZE+6];
     [self.qflowerBt setUserInteractionEnabled:!answer.isPraised];
+    if ([answer.isPraised isEqualToString:@"1"]) {
+        self.qflowerImageView.alpha = 0.5;
+    }else{
+        self.qflowerImageView.alpha = 1;
+    }
+    
+    self.questionTextField.backgroundColor = [UIColor colorWithRed:241/255.0 green:241/255.0 blue:241/255.0 alpha:1];
+    self.questionTextField.backgroundColor = [UIColor colorWithRed:241/255.0 green:241/255.0 blue:241/255.0 alpha:1];
     
     if (question.isAcceptAnswer && [question.isAcceptAnswer intValue]==1) {
         if (answer.IsAnswerAccept && [answer.IsAnswerAccept intValue]==1) {
@@ -87,15 +96,19 @@
             [self.acceptAnswerBt setHidden:YES];
         }
     }else{
-        [self.acceptAnswerBt setHidden:NO];
-        [self.acceptAnswerBt setUserInteractionEnabled:YES];
-        [self.acceptAnswerBt setTitle:@"采纳回答" forState:UIControlStateNormal];
-        [self.acceptAnswerBt setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+        if ([[CaiJinTongManager shared] userId] && [[[CaiJinTongManager shared] userId] isEqualToString:question.askerId]) {
+            [self.acceptAnswerBt setHidden:NO];
+            [self.acceptAnswerBt setUserInteractionEnabled:YES];
+            [self.acceptAnswerBt setTitle:@"采纳回答" forState:UIControlStateNormal];
+            [self.acceptAnswerBt setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+        }
     }
 
     if ([[CaiJinTongManager shared] userId] && [[[CaiJinTongManager shared] userId] isEqualToString:question.askerId]) {
+        [self.acceptAnswerBt setHidden:NO];
         [self.answerBt setHidden:NO];
     }else{
+        [self.acceptAnswerBt setHidden:YES];
         [self.answerBt setHidden:YES];
     }
     

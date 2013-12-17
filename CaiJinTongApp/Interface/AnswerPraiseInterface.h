@@ -9,7 +9,9 @@
 #import "BaseInterface.h"
 
 @protocol AnswerPraiseInterfaceDelegate;
-
+/*
+ 赞接口
+ */
 @interface AnswerPraiseInterface : BaseInterface<BaseInterfaceDelegate>
 
 @property (nonatomic, assign) id<AnswerPraiseInterfaceDelegate>delegate;

@@ -163,7 +163,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view autoresizesSubviews="NO" clipsSubviews="YES" contentMode="scaleToFill" id="USC-aE-Lad" customClass="SUNSlideSwitchView_iPhone">
-                                <rect key="frame" x="0.0" y="341" width="320" height="227"/>
+                                <rect key="frame" x="0.0" y="362" width="320" height="206"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <inset key="insetFor6xAndEarlier" minX="0.0" minY="-22" maxX="0.0" maxY="22"/>
@@ -515,7 +515,7 @@
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="AuS-cT-EMI" userLabel="playBt">
                                                         <rect key="frame" x="0.0" y="0.0" width="39" height="37"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <state key="normal">
                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -525,8 +525,8 @@
                                                         </connections>
                                                     </button>
                                                     <view contentMode="scaleToFill" id="Q0K-c9-6Qy" userLabel="volumeView">
-                                                        <rect key="frame" x="39" y="0.0" width="308" height="37"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                        <rect key="frame" x="39" y="0.0" width="309" height="37"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <subviews>
                                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="anW-2H-37v">
                                                                 <rect key="frame" x="0.0" y="0.0" width="1" height="37"/>
@@ -545,7 +545,7 @@
                                                                 </connections>
                                                             </button>
                                                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" id="qPa-Cy-NbR">
-                                                                <rect key="frame" x="50" y="4" width="233" height="34"/>
+                                                                <rect key="frame" x="50" y="4" width="234" height="34"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                                 <connections>
                                                                     <action selector="volumeSliderTouchChangeValue:" destination="BBo-3Z-FcV" eventType="valueChanged" id="8Vd-81-37e"/>
@@ -596,11 +596,11 @@
                                                         </connections>
                                                     </view>
                                                     <view contentMode="scaleToFill" id="d6a-p9-zmO" userLabel="itemBt" customClass="MovieControllerItem">
-                                                        <rect key="frame" x="495" y="0.0" width="73" height="37"/>
+                                                        <rect key="frame" x="494" y="0.0" width="74" height="37"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <subviews>
                                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="play_note.png" id="KEi-8S-Pjs">
-                                                                <rect key="frame" x="26" y="8" width="20" height="22"/>
+                                                                <rect key="frame" x="25" y="8" width="20" height="22"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                             </imageView>
                                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="VnP-ef-QJX">
@@ -996,7 +996,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zfE-Gd-bas" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="765" y="-592"/>
+            <point key="canvasLocation" x="1629" y="-324"/>
         </scene>
         <!--View Controller - nothing-->
         <scene sceneID="hGG-CM-2gP">
@@ -1047,7 +1047,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9qB-cl-eQT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="765" y="52"/>
+            <point key="canvasLocation" x="1333" y="440"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="DJv-CF-HNk">
@@ -1062,7 +1062,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OWt-ly-k5V" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-141" y="-564"/>
+            <point key="canvasLocation" x="-105" y="-316"/>
         </scene>
         <!--Login View Controller i Phone-->
         <scene sceneID="F7x-za-ZFc">
@@ -1096,14 +1096,14 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="123456" minimumFontSize="17" id="Qbv-ec-FnR">
+                            <textField clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="12345678" minimumFontSize="17" id="Qbv-ec-FnR">
                                 <rect key="frame" x="77" y="259" width="218" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
-                            <textField clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="18915410342" minimumFontSize="17" id="IVb-gP-6YT">
+                            <textField clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="18621607181" minimumFontSize="17" id="IVb-gP-6YT">
                                 <rect key="frame" x="77" y="219" width="218" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1152,7 +1152,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KrC-dD-ymW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="337" y="-668"/>
+            <point key="canvasLocation" x="342" y="-316"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="d4C-Tz-uj8">
@@ -1334,7 +1334,7 @@
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="YUn-Cv-G9l">
                                 <rect key="frame" x="49" y="22" width="454" height="155"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.9599609375" green="0.9599609375" blue="0.9599609375" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>

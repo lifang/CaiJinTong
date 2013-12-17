@@ -29,6 +29,7 @@
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) SectionCustomView *sectionView;
 @property (nonatomic, strong) ChapterSearchBar *searchBar;
+@property (nonatomic,strong) NSString *oldSearchText;//搜索之前字符串
 
 @property (nonatomic,strong) ChapterInfoInterface *chapterInfoInterface;
 @property (nonatomic,strong) NSMutableArray *searchResultArray;//搜索结果

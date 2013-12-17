@@ -9,7 +9,9 @@
 #import "BaseInterface.h"
 
 @protocol SearchQuestionInterfaceDelegate;
-
+/*
+ 问答搜索接口
+ */
 @interface SearchQuestionInterface : BaseInterface<BaseInterfaceDelegate>
 
 @property (nonatomic, assign) id<SearchQuestionInterfaceDelegate>delegate;

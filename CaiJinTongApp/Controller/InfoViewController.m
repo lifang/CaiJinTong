@@ -65,7 +65,7 @@
     self.dateFormatter = [[NSDateFormatter alloc] init];
     [self.dateFormatter setDateFormat:@"yyyy-MM-dd"];
     
-    self.drnavigationBar.hiddenBtn.hidden = NO;
+    self.drnavigationBar.hiddenBtn.hidden = YES;
     [self.drnavigationBar.hiddenBtn setTitle:@"编辑" forState:UIControlStateNormal];
     [self.drnavigationBar.hiddenBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self.drnavigationBar.hiddenBtn addTarget:self action:@selector(textEdited:) forControlEvents:UIControlEventTouchUpInside];
@@ -107,6 +107,7 @@
     [self.drnavigationBar.hiddenBtn setTitle:@"保存" forState:UIControlStateNormal];
     [self.drnavigationBar.hiddenBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self.drnavigationBar.hiddenBtn addTarget:self action:@selector(saveinfo:) forControlEvents:UIControlEventTouchUpInside];
+    [self.drnavigationBar.hiddenBtn setHidden:YES];
 }
 
 -(IBAction)showPicker:(id)sender {

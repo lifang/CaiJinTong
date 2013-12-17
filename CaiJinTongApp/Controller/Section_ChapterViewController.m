@@ -125,6 +125,7 @@
         cell.statusLab.text = @"未下载";
         cell.lengthLab.text = @"";
     }
+    cell.btn.isMovieView = self.isMovieView;
     cell.sectionS = sectionSave;
     cell.timeLab.text = section.sectionLastTime;
     return cell;

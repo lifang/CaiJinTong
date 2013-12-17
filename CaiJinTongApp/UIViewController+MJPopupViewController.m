@@ -108,7 +108,6 @@ static void * const keypath = (void*)&keypath;
             
         }
     }
-    
     UIView *sourceView = [presentedController topView];
 //    DLog(@"%@>>>>%@",[sourceView subviews],sourceView);
     UIView *popupView = [sourceView viewWithTag:kMJPopupViewTag];

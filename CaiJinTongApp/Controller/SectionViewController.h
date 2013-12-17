@@ -20,7 +20,6 @@
 
 @property (nonatomic, strong) SectionCustomView *sectionView;
 @property (nonatomic, strong) SectionModel *section;
-@property (nonatomic, strong) NSString *path;
 @property (nonatomic, strong) IBOutlet SUNSlideSwitchView *slideSwitchView;
 @property (nonatomic, strong) Section_ChapterViewController *section_ChapterView;
 @property (nonatomic, strong) Section_GradeViewController *section_GradeView;

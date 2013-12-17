@@ -18,8 +18,8 @@
     [reqheaders setValue:[NSString stringWithFormat:@"%@",sectionId] forKey:@"sectionId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",questionName] forKey:@"title"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",content] forKey:@"content"];
-    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=askQuestion&userId=17079&sectionId=42&title=ios提问测试标题&content=ios提问内容";
-    
+//    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=askQuestion&userId=17079&sectionId=42&title=ios接口测试&content=IOS接口测试测试";
+    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=askQuestion&userId=%@&sectionId=%@&title=%@&content=%@",kHost,userId,sectionId,questionName,content];
     self.baseDelegate = self;
     self.headers = reqheaders;
     

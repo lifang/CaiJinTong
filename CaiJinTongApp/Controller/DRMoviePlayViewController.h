@@ -43,27 +43,19 @@ typedef enum {MOVIE_FILE,MOVIE_INTERNET}MovieLocateType;
 @property (weak, nonatomic) IBOutlet MovieControllerItem *myNotesItem;
 @property (weak, nonatomic) IBOutlet UIView *moviePlayerControlBackDownView;
 @property (strong,nonatomic) NSURL *movieUrl;
-@property (assign,nonatomic) MovieLocateType movieLacateType;
 @property (nonatomic,weak) id<DRMoviePlayViewControllerDelegate> delegate;
 @property (nonatomic, strong) PlayBackInterface *playBackInterface;
-@property (strong, nonatomic) NSString *sectionId;
-
-@property (nonatomic, strong) SectionModel *sectionModel;
-@property (nonatomic, strong) SectionSaveModel *sectionSaveModel;
-
 @property (strong, nonatomic) NSString *commitNoteText;
 @property (strong, nonatomic) NSString *commitNoteTime;
-@property (assign,nonatomic) MPMovieSourceType drMovieSourceType;
-
-
 
 - (IBAction)playBtClicked:(id)sender;
 - (IBAction)seekSliderTouchChangeValue:(id)sender;
 - (IBAction)volumeSliderTouchChangeValue:(id)sender;
 - (IBAction)volumeBtClicked:(id)sender;
 //开始播放入口，设置播放文件
--(void)playMovieWithURL:(NSURL*)url withFileType:(MPMovieSourceType)fileType;
--(void)playMovieWithURL:(NSURL*)url withFileType:(MPMovieSourceType)fileType withLessonName:(NSString*)lessonName;
+//-(void)playMovieWithURL:(NSURL*)url withFileType:(MPMovieSourceType)fileType;
+//-(void)playMovieWithURL:(NSURL*)url withFileType:(MPMovieSourceType)fileType withLessonName:(NSString*)lessonName;
+-(void)playMovieWithSectionModel:(SectionModel*)sectionModel orLocalSectionModel:(SectionSaveModel*)saveSectionModel withFileType:(MPMovieSourceType)fileType;
 @end
 
 @protocol DRMoviePlayViewControllerDelegate <NSObject>

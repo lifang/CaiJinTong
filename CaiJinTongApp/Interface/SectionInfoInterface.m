@@ -22,8 +22,8 @@
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",sectionId] forKey:@"sectionId"];
     
-    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=sectionInfo&userId=17082&sectionId=3748";
-    
+//    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=sectionInfo&userId=17082&sectionId=3748";
+    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=sectionInfo&userId=%@&sectionId=%@",kHost,userId,sectionId?:@""];
     self.baseDelegate = self;
     self.headers = reqheaders;
     
@@ -53,7 +53,8 @@
                                 section.sectionSD = [NSString stringWithFormat:@"%@",[dictionary objectForKey:@"sectionSD"]];
                                 section.sectionHD = [NSString stringWithFormat:@"%@",[dictionary objectForKey:@"sectionHD"]];
                                 section.sectionScore = [NSString stringWithFormat:@"%@",[dictionary objectForKey:@"sectionScore"]];
-                                section.isGrade = [NSString stringWithFormat:@"%@",[dictionary objectForKey:@"isGrade"]];
+//                                section.isGrade = [NSString stringWithFormat:@"%@",[dictionary objectForKey:@"isGrade"]];
+                                section.isGrade = [NSString stringWithFormat:@"%@",[dictionary objectForKey:@"IsComment"]];
                                 section.lessonInfo = [NSString stringWithFormat:@"%@",[dictionary objectForKey:@"lessonInfo"]];
                                 section.sectionTeacher = [NSString stringWithFormat:@"%@",[dictionary objectForKey:@"sectionTeacher"]];
                                 section.sectionDownload = [NSString stringWithFormat:@"%@",[dictionary objectForKey:@"sectionDownload"]];
@@ -64,6 +65,7 @@
                                 if (![[dictionary objectForKey:@"noteList"]isKindOfClass:[NSNull class]] && [dictionary objectForKey:@"noteList"]!=nil) {
                                     NSArray *array_note = [dictionary objectForKey:@"noteList"];
                                     if (array_note.count>0) {
+                                        array_note = [[array_note reverseObjectEnumerator] allObjects];
                                         section.noteList = [[NSMutableArray alloc]init];
                                         for (int i=0; i<array_note.count; i++) {
                                             NSDictionary *dic_note = [array_note objectAtIndex:i];
@@ -113,6 +115,8 @@
                                     [self.delegate getSectionInfoDidFinished:section];
                                     section = nil;
                                 }
+                            }else {
+                                [self.delegate getSectionInfoDidFailed:@"获取视频详细信息失败!"];
                             }
                         }
                         @catch (NSException *exception) {
@@ -124,7 +128,11 @@
                 }else {
                     [self.delegate getSectionInfoDidFailed:@"获取视频详细信息失败!"];
                 }
+            }else {
+                [self.delegate getSectionInfoDidFailed:@"获取视频详细信息失败!"];
             }
+        }else {
+            [self.delegate getSectionInfoDidFailed:@"获取视频详细信息失败!"];
         }
     }else {
         [self.delegate getSectionInfoDidFailed:@"获取视频详细信息失败!"];

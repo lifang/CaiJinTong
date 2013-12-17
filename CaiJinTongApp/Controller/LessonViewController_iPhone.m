@@ -23,6 +23,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[CaiJinTongManager shared] setUserId:@"17082"];
+    NSLog(@"%@",NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory, NSUserDomainMask, YES)[0]);
+    
     [self setCollectionView];
     [self initData];
     [self setTabBar];
@@ -62,7 +65,7 @@
 
 -(void) initData{
     chapterModel *chapter = [[chapterModel alloc] init];
-    chapter.chapterId = @"3323";
+    chapter.chapterId = @"708";
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {

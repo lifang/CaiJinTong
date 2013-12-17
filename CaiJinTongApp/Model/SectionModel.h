@@ -18,7 +18,7 @@
 @property (nonatomic, strong) NSString *sectionSD;//标清
 @property (nonatomic, strong) NSString *sectionHD;//高清
 @property (nonatomic, strong) NSString *sectionScore;//视频分数
-@property (nonatomic, strong) NSString *isGrade;//判断“我”是否打过分
+@property (nonatomic, strong) NSString *isGrade;//判断“我”是否打过分,//是否已经评论1:表示已经评论，0:表示没有评论
 @property (nonatomic, strong) NSString *lessonInfo;//视频简介
 @property (nonatomic, strong) NSString *sectionTeacher;//讲师
 @property (nonatomic, strong) NSString *sectionDownload;//下载地址

@@ -15,11 +15,11 @@
 #import "AcceptAnswerInterface.h"
 #import "MJRefresh.h"
 
-typedef  enum  {
-    QuestionAndAnswerALL = 1,
-    QuestionAndAnswerMYQUESTION = 2,
-    QuestionAndAnswerMYANSWER = 3
-} QuestionAndAnswerScope;
+//typedef  enum  {
+//    QuestionAndAnswerALL = 1,
+//    QuestionAndAnswerMYQUESTION = 2,
+//    QuestionAndAnswerMYANSWER = 3
+//} QuestionAndAnswerScope;
 
 @interface MyQuestionAndAnswerViewController_iPhone : LHLNavigationBarViewController<UITableViewDataSource,UITableViewDelegate,QuestionAndAnswerCell_iPhoneDelegate,QuestionAndAnswerCell_iPhoneHeaderViewDelegate,AcceptAnswerInterfaceDelegate,MJRefreshBaseViewDelegate,QuestionListInterfaceDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

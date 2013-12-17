@@ -120,7 +120,7 @@
     [self addMoviePlayBackNotification];
     
     //    [self.moviePlayer play];
-    self.moviePlayer.view.frame = (CGRect){0,0,560,320};
+    self.moviePlayer.view.frame = (CGRect){0,0,IP5(568, 480),320};
     [self.moviePlayer setFullscreen:YES];
     [self playMovie];
     [self hiddleMovieHolderView];
@@ -180,7 +180,6 @@
                         break;
                     }
                 }
-
             }
             Section *sectionDB = [[Section alloc] init];
             if (self.sectionModel) {
@@ -199,7 +198,7 @@
     }else
         if (item == self.myQuestionItem) {
             DRCommitQuestionViewController *commitController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLCommitQuestionViewController"];
-            commitController.view.frame = (CGRect){0,0,516,255};
+            commitController.view.frame = (CGRect){0,0,IP5(516, 435),255};
             commitController.delegate = self;
             [self presentPopupViewController:commitController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
                 self.myQuestionItem.isSelected = NO;
@@ -208,7 +207,7 @@
         }else
             if (item == self.myNotesItem) {
                 DRTakingMovieNoteViewController *takingController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLTakingMovieNoteViewController"];
-                takingController.view.frame = (CGRect){0,0,516,255};
+                takingController.view.frame = (CGRect){0,0,IP5(516, 435),255};
                 takingController.delegate = self;
                 [self presentPopupViewController:takingController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
                     self.myNotesItem.isSelected = NO;
@@ -564,7 +563,7 @@
         if (!isPopupChapter) {
             [self.section_chapterController willMoveToParentViewController:nil];
             [UIView animateWithDuration:0.5 animations:^{
-                self.section_ChapterView.frame = (CGRect){568,0,247,274};
+                self.section_ChapterView.frame = (CGRect){IP5(568, 480),0,247,274};
             } completion:^(BOOL finished) {
                 [self.movieplayerControlBackView setUserInteractionEnabled:YES];
             }];
@@ -572,7 +571,7 @@
         }else{
             [self.section_chapterController willMoveToParentViewController:self];
             [UIView animateWithDuration:0.5 animations:^{
-                self.section_ChapterView.frame = (CGRect){321,0,247,274};
+                self.section_ChapterView.frame = (CGRect){IP5(321, 233),0,247,274};
             } completion:^(BOOL finished) {
                 [self.movieplayerControlBackView setUserInteractionEnabled:YES];
             }];
@@ -582,6 +581,7 @@
 }
 
 -(void)setIsHiddlePlayerControlView:(BOOL)isHiddlePlayerControlView{
+    NSLog(@"%fplayer宽度:%f",self.moviePlayerView.frame.size.width,self.moviePlayer.view.frame.size.width);
     _isHiddlePlayerControlView = isHiddlePlayerControlView;
     [UIView animateWithDuration:0.5 animations:^{
         if (isHiddlePlayerControlView) {
@@ -594,9 +594,11 @@
         }else{
             if (self.chapterListItem.isSelected) {
                 self.isPopupChapter = YES;
+            }else{
+                self.drMovieTopBar.center = (CGPoint){self.movieplayerControlBackView.center.x,15};
             }
             self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,320-22.5};
-            self.drMovieTopBar.center = (CGPoint){self.movieplayerControlBackView.center.x,15};
+            
             NSLog(@"%@",NSStringFromCGRect(self.movieplayerControlBackView.frame));
         }
     }];
@@ -607,10 +609,11 @@
         _moviePlayer = [[MPMoviePlayerController alloc] init];
         [_moviePlayer setShouldAutoplay:YES];
         _moviePlayer.controlStyle = MPMovieControlStyleNone;
+        [_moviePlayer setScalingMode:MPMovieScalingModeAspectFill];
         [self.moviePlayerView addSubview:_moviePlayer.view];
         [self.moviePlayerView sendSubviewToBack:_moviePlayer.view];
         
-        [_moviePlayer setScalingMode:MPMovieScalingModeAspectFill];
+        
     }
     return _moviePlayer;
 }

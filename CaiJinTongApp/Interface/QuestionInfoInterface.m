@@ -18,18 +18,15 @@
 @implementation QuestionInfoInterface
 
 -(void)getQuestionInfoInterfaceDelegateWithUserId:(NSString *)userId {
-    //临时修改,李宏亮
-//    NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
-//
-//    [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
-//    
+    NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
+
+    [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
+    
 //    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=getQuestionCategory&userId=18676";
-//    
-//    self.baseDelegate = self;
-//    self.headers = reqheaders;
-//    
-//    [self connect];
-    [self parseResult:nil];
+    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=getQuestionCategory&userId=%@",kHost,userId];
+    self.baseDelegate = self;
+    self.headers = reqheaders;
+    [self connect];
 }
 #pragma mark - BaseInterfaceDelegate
 -(NSMutableDictionary *)setDictionary:(NSDictionary *)dic WithLevel:(int)level{

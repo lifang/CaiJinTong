@@ -22,8 +22,8 @@
     [reqheaders setValue:[NSString stringWithFormat:@"%@",sectionId] forKey:@"sectionId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%d",pageIndex] forKey:@"pageIndex"];
     
-    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=commentList&userId=17082&sectionId=2690&pageIndex=1";
-    
+//    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=commentList&userId=17082&sectionId=2690&pageIndex=1";
+    self.interfaceUrl= [NSString stringWithFormat:@"%@?active=commentList&userId=%@&sectionId=%@&pageIndex=%d",kHost,userId,sectionId,pageIndex];
     self.baseDelegate = self;
     self.headers = reqheaders;
     

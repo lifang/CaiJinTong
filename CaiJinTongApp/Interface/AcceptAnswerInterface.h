@@ -13,8 +13,14 @@
 @interface AcceptAnswerInterface : BaseInterface<BaseInterfaceDelegate>
 
 @property (nonatomic, assign) id<AcceptAnswerInterfaceDelegate>delegate;
-
--(void)getAcceptAnswerInterfaceDelegateWithUserId:(NSString *)userId andQuestionId:(NSString *)questionId andResultId:(NSString *)resultId;
+/*
+ *
+ *userId:提交采纳正确答案的用户
+  questionId：问题id
+  answerID：答案回答者ID
+  correctAnswerID：答案的ID
+ */
+-(void)getAcceptAnswerInterfaceDelegateWithUserId:(NSString *)userId andQuestionId:(NSString *)questionId andAnswerID:(NSString*)answerID andCorrectAnswerID:(NSString*)correctAnswerID;
 @end
 
 @protocol AcceptAnswerInterfaceDelegate <NSObject>

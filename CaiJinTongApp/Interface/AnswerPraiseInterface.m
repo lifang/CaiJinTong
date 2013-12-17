@@ -25,7 +25,8 @@
     [reqheaders setValue:[NSString stringWithFormat:@"%@",questionId] forKey:@"questionId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",resultId] forKey:@"resultId"];
     
-    self.interfaceUrl = [NSString stringWithFormat:@"%@",kHost];
+//    http://wmi.finance365.com/api/ios.ashx?active=answerPraise&userId=18676&questionId=2165&resultId=2029
+    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=answerPraise&userId=%@&questionId=%@&resultId=%@",kHost,userId,questionId,resultId];
     
     self.baseDelegate = self;
     self.headers = reqheaders;
@@ -45,23 +46,22 @@
                 DLog(@"data = %@",jsonData);
                 if (jsonData) {
                     if ([[jsonData objectForKey:@"Status"]intValue] == 1) {
-                        @try {
-//                            NSDictionary *dictionary =[jsonData objectForKey:@"ReturnObject"];
-                        }
-                        @catch (NSException *exception) {
-                            
-                        }
-                    }
-                }else {
-                    
+                        [self.delegate getAnswerPraiseInfoDidFinished:nil];
+                    }else {
+                        [self.delegate getAnswerPraiseInfoDidFailed:@"提交失败"];
                 }
+            }else {
+                [self.delegate getAnswerPraiseInfoDidFailed:@"提交失败"];
             }
+        }else {
+            [self.delegate getAnswerPraiseInfoDidFailed:@"提交失败"];
         }
     }else {
-        
+        [self.delegate getAnswerPraiseInfoDidFailed:@"提交失败"];
     }
 }
+}
 -(void)requestIsFailed:(NSError *)error{
-    
+    [self.delegate getAnswerPraiseInfoDidFailed:@"提交失败"];
 }
 @end

@@ -28,15 +28,13 @@
 
 -(void)changeTableFrame:(CGRect)frame{
     self.tableViewList.frame = frame;
-    self.tableViewList.center = (CGPoint){self.tableViewList.center.x-233,self.tableViewList.center.y};
-    DLog(@"%f,%f的首付款了;圣诞节发的是快乐;封建时代 ",self.tableViewList.center.x,self.tableViewList.center.y);
+//    self.tableViewList.center = (CGPoint){self.tableViewList.center.x-233,self.tableViewList.center.y};
     [self.tableViewList reloadData];
-    self.tableViewList.backgroundColor = [UIColor redColor];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-    self.tableViewList.center = (CGPoint){self.tableViewList.center.x-233,self.tableViewList.center.y};
+//    self.tableViewList.center = (CGPoint){self.tableViewList.center.x-233,self.tableViewList.center.y};
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

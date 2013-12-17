@@ -82,7 +82,6 @@
         self.questionImg.backgroundColor = [UIColor clearColor];
         [self.backgroundView addSubview:self.questionImg];
         
-        self.backgroundView.backgroundColor = [UIColor clearColor];
         
         self.answerQuestionBt = [[UIButton alloc] init];
         self.answerQuestionBt.backgroundColor = [UIColor clearColor];
@@ -118,9 +117,9 @@
 }
 
 -(void)flowerBtClicked{
-    int flower = [self.questionFlowerLabel.text intValue];
-    self.questionFlowerLabel.text = [NSString stringWithFormat:@"%d",flower+1];
-     [self setNeedsLayout];
+//    int flower = [self.questionFlowerLabel.text intValue];
+//    self.questionFlowerLabel.text = [NSString stringWithFormat:@"%d",flower+1];
+//     [self setNeedsLayout];
     if (self.delegate && [self.delegate respondsToSelector:@selector(questionAndAnswerCellHeaderView:flowerQuestionAtIndexPath:)]) {
         [self.delegate questionAndAnswerCellHeaderView:self flowerQuestionAtIndexPath:self.path];
     }
@@ -151,6 +150,10 @@
 }
 
 -(void)submitQuestionAnswetBtClicked{
+    if (!self.answerQuestionTextField.text || [[self.answerQuestionTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
+        [Utility errorAlert:@"回答内容不能为空"];
+        return;
+    }
     if (self.delegate && [self.delegate respondsToSelector:@selector(questionAndAnswerCellHeaderView:didAnswerQuestionAtIndexPath:withAnswer:)]) {
         [self.answerQuestionBt setUserInteractionEnabled:YES];
         [self.summitQuestionAnswerBackView setHidden:YES];
@@ -169,9 +172,9 @@
 //    [self.questionFlowerBt setUserInteractionEnabled:NO];
     [self.summitQuestionAnswerBackView setHidden:!question.isEditing];
     if ([[CaiJinTongManager shared] userId] && [[[CaiJinTongManager shared] userId] isEqualToString:question.askerId]) {
-        [self.submitAnswerBt setHidden:YES];
+        [self.answerQuestionBt setHidden:YES];
     }else{
-        [self.submitAnswerBt setHidden:NO];
+        [self.answerQuestionBt setHidden:NO];
     }
     [self setNeedsLayout];
 }

@@ -20,8 +20,9 @@
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",text] forKey:@"text"];
     
-    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=searchLesson&userId=17082&text=";
-    
+//    self.interfaceUrl =  [NSString stringWithFormat:@"%@?active=searchLesson&userId=%@&text=%@",kHost,userId?:@"",text?:@""];
+    self.interfaceUrl =  [NSString stringWithFormat:@"%@?active=searchLesson&userId=%@&text=%@",kHost,userId,text?:@""];
+//    @"http://lms.finance365.com/api/ios.ashx?active=searchLesson&userId=17082&text=";
     self.baseDelegate = self;
     self.headers = reqheaders;
     
@@ -67,6 +68,8 @@
                                     [self.delegate getSearchLessonInfoDidFinished:tempDic];
                                     tempDic = nil;
                                 }
+                            }else {
+                                [self.delegate getSearchLessonInfoDidFailed:@"搜索失败!"];
                             }
                         }
                         @catch (NSException *exception) {
@@ -78,7 +81,11 @@
                 }else {
                     [self.delegate getSearchLessonInfoDidFailed:@"搜索失败!"];
                 }
+            }else {
+                [self.delegate getSearchLessonInfoDidFailed:@"搜索失败!"];
             }
+        }else {
+            [self.delegate getSearchLessonInfoDidFailed:@"搜索失败!"];
         }
     }else {
         [self.delegate getSearchLessonInfoDidFailed:@"搜索失败!"];

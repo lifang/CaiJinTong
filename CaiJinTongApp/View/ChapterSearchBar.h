@@ -13,6 +13,7 @@
 @property (nonatomic,strong) UITextField *searchTextField;
 @property (nonatomic,strong) UIButton *searchBt;
 @property (nonatomic,strong) UILabel *searchTipLabel;
+-(void)addSearchText:(NSString*)searchText;
 @end
 
 

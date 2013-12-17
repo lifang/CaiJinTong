@@ -43,7 +43,12 @@
     [super layoutSubviews];
     self.backImageView.frame = (CGRect){0,0,self.frame.size.width,self.frame.size.height};
     self.searchBt.frame = (CGRect){CGRectGetMinX(self.backImageView.frame)+6,6,CGRectGetHeight(self.backImageView.frame)-10,CGRectGetHeight(self.backImageView.frame)-10};
-    self.searchTextField.frame = (CGRect){CGRectGetMaxX(self.searchBt.frame)+11,8,CGRectGetWidth(self.backImageView.frame) - CGRectGetMaxX(self.searchBt.frame) - 13,CGRectGetHeight(self.backImageView.frame)};
+    if([[UIDevice currentDevice] systemVersion].floatValue >= 7.0){
+        self.searchTextField.frame = (CGRect){CGRectGetMaxX(self.searchBt.frame)+11,8 ,CGRectGetWidth(self.backImageView.frame) - CGRectGetMaxX(self.searchBt.frame) - 13,CGRectGetHeight(self.backImageView.frame) - 8};
+    }else{
+        self.searchTextField.frame = (CGRect){CGRectGetMaxX(self.searchBt.frame)+11,8 ,CGRectGetWidth(self.backImageView.frame) - CGRectGetMaxX(self.searchBt.frame) - 13,CGRectGetHeight(self.backImageView.frame)};
+    }
+    
 
 }
 

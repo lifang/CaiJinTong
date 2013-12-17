@@ -81,7 +81,7 @@
 //播放
 -(void)playVideo {
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"gotoMoviePlay" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.buttonModel.sid, @"sectionID", self.buttonModel.name,@"sectionName",nil]];
+    [[NSNotificationCenter defaultCenter] postNotificationName:self.isMovieView?@"gotoMoviePlayMovie": @"gotoMoviePlay" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.buttonModel.sid, @"sectionID", self.buttonModel.name,@"sectionName",nil]];
 }
 //下载中
 -(void)downloadShowView

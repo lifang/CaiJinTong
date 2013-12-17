@@ -10,11 +10,14 @@
 #import "QuestionModel.h"
 
 @protocol AnswerListInterfaceDelegate;
+/*
+ 问题的分页加载
+ */
 @interface AnswerListInterface : BaseInterface<BaseInterfaceDelegate>
 
 @property (nonatomic, assign) id<AnswerListInterfaceDelegate>delegate;
 
--(void)getAnswerListInterfaceDelegateWithUserId:(NSString *)userId andQuestionId:(NSString *)questionId andPageIndex:(int)pageIndex;
+-(void)getAnswerListInterfaceDelegateWithUserId:(NSString *)userId andQuestionId:(NSString *)questionId andLastAnswerID:(NSString*)lastAnswerID;
 @end
 
 @protocol AnswerListInterfaceDelegate <NSObject>

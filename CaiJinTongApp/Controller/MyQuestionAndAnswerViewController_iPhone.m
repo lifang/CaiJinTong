@@ -166,7 +166,7 @@ static NSIndexPath *indexPath = nil;
         AcceptAnswerInterface *acceptAnswerInter = [[AcceptAnswerInterface alloc]init];
         self.acceptAnswerInterface = acceptAnswerInter;
         self.acceptAnswerInterface.delegate = self;
-        [self.acceptAnswerInterface getAcceptAnswerInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andQuestionId:question.questionId andResultId:answer.resultId];
+//        [self.acceptAnswerInterface getAcceptAnswerInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andQuestionId:question.questionId andResultId:answer.resultId];
     }
 }
 #pragma mark --
@@ -240,15 +240,15 @@ static NSIndexPath *indexPath = nil;
 #pragma mark action
 
 -(void)requestNewPageDataWithPageIndex:(int)currentIndex{
-    if (self.questionAndAnswerScope == QuestionAndAnswerALL) {
-        [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andChapterQuestionId:self.chapterID andPageIndex:currentIndex andIsMyself:nil];
-    }else
-        if (self.questionAndAnswerScope == QuestionAndAnswerMYANSWER) {
-            [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andChapterQuestionId:self.chapterID andPageIndex:currentIndex andIsMyself:@"0"];
-        }else
-            if (self.questionAndAnswerScope == QuestionAndAnswerMYQUESTION) {
-                [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andChapterQuestionId:nil andPageIndex:currentIndex andIsMyself:@"1"];
-            }
+//    if (self.questionAndAnswerScope == QuestionAndAnswerALL) {
+//        [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andChapterQuestionId:self.chapterID andPageIndex:currentIndex andIsMyself:nil];
+//    }else
+//        if (self.questionAndAnswerScope == QuestionAndAnswerMYANSWER) {
+//            [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andChapterQuestionId:self.chapterID andPageIndex:currentIndex andIsMyself:@"0"];
+//        }else
+//            if (self.questionAndAnswerScope == QuestionAndAnswerMYQUESTION) {
+//                [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andChapterQuestionId:nil andPageIndex:currentIndex andIsMyself:@"1"];
+//            }
 }
 
 -(float)getTableViewHeaderHeightWithSection:(NSInteger)section{

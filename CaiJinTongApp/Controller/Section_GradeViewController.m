@@ -95,11 +95,12 @@
 #pragma  -- 打分
 -(void)starRatingView:(TQStarRatingView *)view score:(float)score
 {
+    
 }
 #pragma -- 提交
 static NSString *timespan = nil;
 -(IBAction)submitBtnPressed:(id)sender {
-    if (self.starRatingView.score==0 && self.textView.text.length==0) {
+    if (self.textView.text.length==0) {
         [Utility errorAlert:@"说点什么吧..."];
     }else {
         if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
@@ -158,7 +159,7 @@ static NSString *timespan = nil;
     CommentModel *model = [[CommentModel alloc] init];
     UserModel *user = [[CaiJinTongManager shared] user];
     if (user) {
-        model.nickName = user.userName;
+        model.nickName = user.nickName;
     }
     model.time = [Utility getNowDateFromatAnDate];
     model.content = self.textView.text;
@@ -166,6 +167,7 @@ static NSString *timespan = nil;
     [self.textView resignFirstResponder];
     [self.dataArray insertObject:model atIndex:0];
     [self.tableViewList reloadData];
+    [Utility errorAlert:@"提交评论成功"];
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -218,7 +220,8 @@ static NSString *timespan = nil;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"refeshScore" object:result userInfo:nil];
+            NSMutableDictionary *resultDic = [NSMutableDictionary dictionaryWithDictionary:result];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"refeshScore" object:resultDic userInfo:nil];
             //隐藏打分栏，只出现评论框
             self.isGrade = 1;
             [self displayView];

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SuggestionInterface.h"
-@interface SuggestionFeedbackViewController : DRNaviGationBarController<SuggestionInterfaceDelegate>
+@interface SuggestionFeedbackViewController : DRNaviGationBarController<SuggestionInterfaceDelegate,UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *backgroundForTextView;
 @property (weak, nonatomic) IBOutlet UITextView *contentTextView;//文本输入框
 

@@ -13,7 +13,8 @@
 #import "QuestionInfoInterface.h"
 #import "GetUserQuestionInterface.h"
 #import "ChapterQuestionInterface.h"
-@interface LessonViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,LessonListHeaderViewDelegate,ChapterInfoInterfaceDelegate,LessonInfoInterfaceDelegate,UITextFieldDelegate,SearchLessonInterfaceDelegate,QuestionInfoInterfaceDelegate,ChapterQuestionInterfaceDelegate,UIScrollViewDelegate>
+#import "GetUserQuestionInterface.h"
+@interface LessonViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,LessonListHeaderViewDelegate,ChapterInfoInterfaceDelegate,LessonInfoInterfaceDelegate,UITextFieldDelegate,SearchLessonInterfaceDelegate,QuestionInfoInterfaceDelegate,ChapterQuestionInterfaceDelegate,UIScrollViewDelegate,GetUserQuestionInterfaceDelegate,SearchQuestionInterfaceDelegate>
 
 @property (nonatomic, strong) SearchLessonInterface *searchLessonInterface;
 @property (weak, nonatomic) IBOutlet UIButton *editBtn;

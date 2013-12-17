@@ -23,11 +23,11 @@
         NSLog(@"参数为空,少添加一项");
     }
     
-    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=chapterInfo&userId=17079&sectionId=2915";
+//    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=chapterInfo&userId=17079&sectionId=2915";
+    self.interfaceUrl =[NSString stringWithFormat:@"%@?active=chapterInfo&userId=%@&sectionId=%@",kHost,userId,chapterId];
     
     self.baseDelegate = self;
     self.headers = reqheaders;
-    
     [self connect];
 }
 #pragma mark - BaseInterfaceDelegate

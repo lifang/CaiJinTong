@@ -14,7 +14,7 @@
 #import "AnswerModel.h"
 
 @implementation AnswerListInterface
--(void)getAnswerListInterfaceDelegateWithUserId:(NSString *)userId andQuestionId:(NSString *)questionId andPageIndex:(int)pageIndex {
+-(void)getAnswerListInterfaceDelegateWithUserId:(NSString *)userId andQuestionId:(NSString *)questionId andLastAnswerID:(NSString*)lastAnswerID{
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     
     NSString *timespan = [Utility getNowDateFromatAnDate];
@@ -25,10 +25,12 @@
     [reqheaders setValue:[NSString stringWithFormat:@"%@",md5Key] forKey:@"token"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",questionId] forKey:@"questionId"];
-    [reqheaders setValue:[NSString stringWithFormat:@"%d",pageIndex] forKey:@"pageIndex"];
-    
-    self.interfaceUrl = [NSString stringWithFormat:@"%@",kHost];
-    
+//    http://wmi.finance365.com/api/ios.ashx?active=answerList&userId=17079&questionId=1263&pageIndex=1
+    if (lastAnswerID) {
+        self.interfaceUrl = [NSString stringWithFormat:@"%@active=answerList&userId=%@&questionId=%@&pageIndex=%@",kHost,userId,questionId,lastAnswerID];
+    }else{
+        self.interfaceUrl = [NSString stringWithFormat:@"%@active=answerList&userId=%@&questionId=%@",kHost,userId,questionId];
+    }
     self.baseDelegate = self;
     self.headers = reqheaders;
     

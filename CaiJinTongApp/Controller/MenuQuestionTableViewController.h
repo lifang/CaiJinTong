@@ -9,12 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "LessonListHeaderView_iPhone.h"
 #import "LessonListCell.h"
-typedef  enum  {
-    QuestionAndAnswerALL = 1,
-    QuestionAndAnswerMYQUESTION = 2,
-    QuestionAndAnswerMYANSWER = 3
-} QuestionAndAnswerScope;
-
 @interface MenuQuestionTableViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,LessonListHeaderView_iPhoneDelegate,ChapterQuestionInterfaceDelegate,QuestionInfoInterfaceDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 

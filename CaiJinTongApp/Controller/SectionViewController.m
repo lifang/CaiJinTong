@@ -75,25 +75,12 @@
 
 -(void)playVideo:(id)sender {
     DLog(@"play");
-    self.path = nil;//视频路径
     //先匹配本地,在数据库中查找纪录
     Section *sectionDb = [[Section alloc]init];
     SectionSaveModel *sectionSave = [sectionDb getDataWithSid:self.section.sectionId];
     if (sectionSave != nil && sectionSave.downloadState == 1) {
-        NSString *documentDir;
-        if (platform>5.0) {
-            documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        }else{
-            documentDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        }
-        self.path = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@.mp4",self.section.sectionId]];
-        
         self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
-
-        [self.playerController playMovieWithURL:[NSURL fileURLWithPath:self.path] withFileType:MPMovieSourceTypeFile];
-        self.playerController.sectionId = self.section.sectionId;
-        self.playerController.sectionModel = self.section;
-        
+        [self.playerController playMovieWithSectionModel:nil orLocalSectionModel:sectionSave withFileType:MPMovieSourceTypeFile];
         self.playerController.delegate = self;
         AppDelegate *app = [AppDelegate sharedInstance];
         [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
@@ -101,18 +88,15 @@
         }];
     }else {
         //在线播放
-        self.path = self.section.sectionSD;
-        if (self.path) {
-            if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-                [Utility errorAlert:@"暂无网络!"];
-            }else {
-                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                PlayVideoInterface *playVideoInter = [[PlayVideoInterface alloc]init];
-                self.playVideoInterface = playVideoInter;
-                self.playVideoInterface.delegate = self;
-                NSString *timespan = [Utility getNowDateFromatAnDate];
-                [self.playVideoInterface getPlayVideoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.section.sectionId andTimeStart:timespan];
-            }
+        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+            [Utility errorAlert:@"暂无网络!"];
+        }else {
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            PlayVideoInterface *playVideoInter = [[PlayVideoInterface alloc]init];
+            self.playVideoInterface = playVideoInter;
+            self.playVideoInterface.delegate = self;
+            NSString *timespan = [Utility getNowDateFromatAnDate];
+            [self.playVideoInterface getPlayVideoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.section.sectionId andTimeStart:timespan];
         }
     }
 }
@@ -129,6 +113,7 @@
     
     self.section_ChapterView = [story instantiateViewControllerWithIdentifier:@"Section_ChapterViewController"];
     self.section_ChapterView.title = @"章节目录";
+    self.section_ChapterView.isMovieView = NO;
     self.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:self.section.sectionList];
 
     AppDelegate *app = [AppDelegate sharedInstance];
@@ -138,9 +123,11 @@
         self.section_GradeView.dataArray = [NSMutableArray arrayWithArray:self.section.commentList];
         self.section_GradeView.isGrade = [self.section.isGrade intValue];
         self.section_GradeView.sectionId = self.section.sectionId;
-        CommentModel *comment = (CommentModel *)[self.section_GradeView.dataArray objectAtIndex:self.section_GradeView.dataArray.count-1];
-        self.section_GradeView.pageCount = comment.pageCount;
-        self.section_GradeView.nowPage = 1;
+        if (self.section_GradeView.dataArray.count > 0) {
+            CommentModel *comment = (CommentModel *)[self.section_GradeView.dataArray objectAtIndex:self.section_GradeView.dataArray.count-1];
+            self.section_GradeView.pageCount = comment.pageCount;
+            self.section_GradeView.nowPage = 1;
+        }
     }
     self.section_NoteView = [story instantiateViewControllerWithIdentifier:@"Section_NoteViewController"];
     self.section_NoteView.title = @"笔记";
@@ -242,10 +229,7 @@
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             //播放接口
             self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
-            [self.playerController playMovieWithURL:[NSURL URLWithString:self.path] withFileType:MPMovieSourceTypeStreaming];
-            self.playerController.sectionId = self.section.sectionId;
-            self.playerController.sectionModel = self.section;
-            
+            [self.playerController playMovieWithSectionModel:self.section orLocalSectionModel:nil withFileType:MPMovieSourceTypeStreaming];
             self.playerController.delegate = self;
             AppDelegate *app = [AppDelegate sharedInstance];
             [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
@@ -261,39 +245,16 @@
 
 - (void)gotoMoviePlayWithSid:(NSNotification *)info {
     NSString *sectionID = [info.userInfo objectForKey:@"sectionID"];
-    NSString *path = nil;
-    NSString *documentDir;
-    if (platform>5.0) {
-        documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    }else{
-        documentDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    }
-    path = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@.mp4",sectionID]];
-    DLog(@"path = %@",path);//本地保存路径
+    NSString *path = [CaiJinTongManager getMovieLocalPathWithSectionID:sectionID];
     if (path) {
         //播放接口
-        //        UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-        //        DRMoviePlayViewController *playerController = [story instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
-        //        playerController.movieUrlString = path;
-        //        AppDelegate *app = [AppDelegate sharedInstance];
-        //        [self presentViewController:playerController animated:YES completion:^{
-        //
-        //        }];
-        DRMoviePlayViewController *playerController = [[DRMoviePlayViewController alloc] init];
         UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-        playerController = [story instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
-        [playerController playMovieWithURL:[NSURL fileURLWithPath:path] withFileType:MPMovieSourceTypeFile];
-        playerController.sectionId =sectionID;
-        
-        //------------------------------------
+        self.playerController = [story instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];        
         Section *s = [[Section alloc] init];
         SectionSaveModel *ssm = [s getDataWithSid:sectionID];
-        playerController.sectionSaveModel = ssm;
-//        NSLog(@"----buttonModel.sid: %@----",ssm.sid);
-//        NSLog(@"----buttonModel.sectionList: %@----",ssm.sectionList);
-        
+        [self.playerController playMovieWithSectionModel:nil orLocalSectionModel:ssm withFileType:MPMovieSourceTypeFile];
         AppDelegate *app = [AppDelegate sharedInstance];
-        [app.lessonViewCtrol presentViewController:playerController animated:YES completion:^{
+        [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
             
         }];
         
@@ -410,7 +371,7 @@
             labelTop = 200;
         }
         UIButton *palyButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        palyButton.frame = CGRectMake(400, labelTop-20, 150, 50);
+        palyButton.frame = CGRectMake(430, labelTop, 100, 35);
         [palyButton setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
         [palyButton setBackgroundColor:[UIColor clearColor]];
 		[palyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];

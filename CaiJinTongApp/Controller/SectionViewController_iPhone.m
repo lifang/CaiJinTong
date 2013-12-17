@@ -201,17 +201,15 @@
         nameLabel = nil;
         labelTop +=self.nameLab.frame.size.height+labelSpace;
         //讲师
-//        if (self.section.sectionTeacher.length >0) {
-            UILabel *teacherLabel = [[UILabel alloc]initWithFrame:CGRectMake(152, labelTop, 165, 30)];
-            teacherLabel.backgroundColor = [UIColor clearColor];
-            teacherLabel.textColor = [UIColor darkGrayColor];
-            teacherLabel.font = [UIFont systemFontOfSize:15];
-            teacherLabel.text =[NSString stringWithFormat:@"讲师：%@",self.section.sectionTeacher];
-            self.teacherlab = teacherLabel;
-            [self.view addSubview:self.teacherlab];
-            teacherLabel = nil;
-            labelTop +=self.teacherlab.frame.size.height+labelSpace;
-//        }
+        UILabel *teacherLabel = [[UILabel alloc]initWithFrame:CGRectMake(152, labelTop, 165, 30)];
+        teacherLabel.backgroundColor = [UIColor clearColor];
+        teacherLabel.textColor = [UIColor darkGrayColor];
+        teacherLabel.font = [UIFont systemFontOfSize:15];
+        teacherLabel.text =[NSString stringWithFormat:@"讲师：%@",self.section.sectionTeacher];
+        self.teacherlab = teacherLabel;
+        [self.view addSubview:self.teacherlab];
+        teacherLabel = nil;
+        labelTop +=self.teacherlab.frame.size.height+labelSpace;
         //简介
 //        if (self.section.lessonInfo.length >0) {
             UIFont *aFont = [UIFont systemFontOfSize:15];
@@ -298,8 +296,8 @@
 //界面下半部分
 - (void)initAppear_slide{
     if(!(IS_4_INCH)){
-        //43为上半部分减少的高度 , 88 - 43 = 45
-        self.slideSwitchView.frame = CGRectMake(0, 341 - 43 -5, 320, 227 - 40);
+        //43为上半部分减少的高度 , 88 - 43 = 5 + 40
+        self.slideSwitchView.frame = CGRectMake(0, 362 - 43 -5, 320, 206 - 40);
     }
     self.slideSwitchView.backgroundColor = [UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:232.0/255.0 alpha:1.0];
     //3个选项卡

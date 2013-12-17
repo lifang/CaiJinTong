@@ -21,12 +21,12 @@
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",chapterQuestionId] forKey:@"chapterQuestionId"];
     
-    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=chapterQuestion&userId=17079&categoryId=42";
-    
+//    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=chapterQuestion&userId=17079&categoryId=42";
+    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=chapterQuestion&userId=%@&categoryId=%@",kHost,userId,chapterQuestionId];
     self.baseDelegate = self;
     self.headers = reqheaders;
     
-    [self connect];
+    [self connectMethod:@"GET"];
 }
 #pragma mark - BaseInterfaceDelegate
 
@@ -97,6 +97,8 @@
                                 if (tempDic.count>0) {
                                     [self.delegate getChapterQuestionInfoDidFinished:tempDic];
                                     tempDic = nil;
+                                }else{
+                                    [self.delegate getChapterQuestionInfoDidFailed:@"没有相关数据!"];
                                 }
                             }
                         }
@@ -110,6 +112,8 @@
                     [self.delegate getChapterQuestionInfoDidFailed:@"加载失败!"];
                 }
             }
+        }else {
+            [self.delegate getChapterQuestionInfoDidFailed:@"加载失败!"];
         }
     }else {
         [self.delegate getChapterQuestionInfoDidFailed:@"加载失败!"];

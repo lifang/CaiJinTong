@@ -14,13 +14,7 @@
 #import "AcceptAnswerInterface.h"
 #import "MJRefresh.h"
 
-typedef  enum  {
-    QuestionAndAnswerALL = 1,
-    QuestionAndAnswerMYQUESTION = 2,
-    QuestionAndAnswerMYANSWER = 3
-    } QuestionAndAnswerScope;
-
-@interface MyQuestionAndAnswerViewController : DRNaviGationBarController<UITableViewDataSource,UITableViewDelegate,QuestionAndAnswerCellDelegate,QuestionAndAnswerCellHeaderViewDelegate,AcceptAnswerInterfaceDelegate,MJRefreshBaseViewDelegate,QuestionListInterfaceDelegate>
+@interface MyQuestionAndAnswerViewController : DRNaviGationBarController<UITableViewDataSource,UITableViewDelegate,QuestionAndAnswerCellDelegate,QuestionAndAnswerCellHeaderViewDelegate,AcceptAnswerInterfaceDelegate,MJRefreshBaseViewDelegate,QuestionListInterfaceDelegate,GetUserQuestionInterfaceDelegate,SubmitAnswerInterfaceDelegate,AnswerPraiseInterfaceDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *noticeBarView;
 @property (weak, nonatomic) IBOutlet UIImageView *noticeBarImageView;
