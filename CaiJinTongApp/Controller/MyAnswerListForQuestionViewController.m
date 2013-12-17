@@ -100,7 +100,10 @@
         self.questionModel.isEditing = NO;
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
         
-        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andAnswerContent:text andQuestionId:self.questionModel.questionId andResultId:@"0"];
+//        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:ReaskType_None  andAnswerContent:text andQuestionId:self.questionModel.questionId andResultId:@"0"];
+        
+        AnswerModel *answer = [self.questionModel.answerList objectAtIndex:path.row];
+        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:ReaskType_None andAnswerContent:text andQuestionId:self.questionModel.questionId andAnswerID:answer.resultId  andResultId:@"0"];
     }
     
 }
@@ -142,12 +145,15 @@
 }
 
 //追问
--(void)questionAndAnswerCell:(QuestionAndAnswerCell *)cell summitQuestion:(NSString *)questionStr atIndexPath:(NSIndexPath *)path{
+-(void)questionAndAnswerCell:(QuestionAndAnswerCell *)cell summitQuestion:(NSString *)questionStr atIndexPath:(NSIndexPath *)path withReaskType:(ReaskType)reaskType{
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else{
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andAnswerContent:questionStr andQuestionId:self.questionModel.questionId andResultId:@"1"];
+//        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:reaskType andAnswerContent:questionStr andQuestionId:self.questionModel.questionId andResultId:@"1"];
+        
+        AnswerModel *answer = [self.questionModel.answerList objectAtIndex:path.row];
+        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:reaskType andAnswerContent:questionStr andQuestionId:self.questionModel.questionId andAnswerID:answer.resultId  andResultId:@"1"];
     }
 }
 
@@ -218,7 +224,7 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     QuestionAndAnswerCellHeaderView *header = (QuestionAndAnswerCellHeaderView*)[tableView dequeueReusableHeaderFooterViewWithIdentifier:@"header"];
-    [header setQuestionModel:self.questionModel];
+    [header setQuestionModel:self.questionModel withQuestionAndAnswerScope:self.questionAndAnswerScope];
     header.backgroundColor = [UIColor whiteColor];
     header.delegate = self;
     header.path = [NSIndexPath indexPathForRow:0 inSection:section];
@@ -358,12 +364,12 @@
 #pragma mark --
 
 #pragma mark SubmitAnswerInterfaceDelegate 提交回答或者提交追问的代理
--(void)getSubmitAnswerInfoDidFinished:(NSDictionary *)result{
+-(void)getSubmitAnswerInfoDidFinished:(NSDictionary *)result withReaskType:(ReaskType)reask{
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:@"提交成功"];
 }
 
--(void)getSubmitAnswerDidFailed:(NSString *)errorMsg{
+-(void)getSubmitAnswerDidFailed:(NSString *)errorMsg withReaskType:(ReaskType)reask{
     
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:@"提交失败"];

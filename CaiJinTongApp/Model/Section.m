@@ -117,8 +117,55 @@ static Section *defaultSection = nil;
     return [self.db executeUpdate:@"update Section set contentLength = ? where sid= ?",[NSString stringWithFormat:@"%f", length],sid];
 }
 
+//清理所有缓存
++(void)clearAllDownloadedSectionWithSuccess:(void(^)())success withFailure:(void(^)(NSString*errorString))failure{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSError *error = nil;
+    AppDelegate* appDelegate = [AppDelegate sharedInstance];
+    DownloadService *mDownloadService = appDelegate.mDownloadService;
+    ASINetworkQueue *queue = mDownloadService.networkQueue;
+    [(NSOperationQueue*)queue cancelAllOperations];
+    for (SectionModel *sectionModel in [[Section defaultSection] getAllSection]) {
+        NSString *path = [CaiJinTongManager getMovieLocalPathWithSectionID:sectionModel.sectionId];
+        if ([fileManager isExecutableFileAtPath:path] && [fileManager fileExistsAtPath:path]) {
+            if (error) {
+                [fileManager removeItemAtPath:path error:nil];
+            }else{
+                [fileManager removeItemAtPath:path error:&error];
+            }
+        }
+        [[Section defaultSection] deleteDataWithSid:sectionModel.sectionId];
+    }
+    if (error) {
+        failure(@"清除缓存时发生错误");
+    }else{
+        success();
+    }
+}
+
+
 -(NSArray *)getAllInfo {
     FMResultSet * rs = [self.db executeQuery:@"select id , sid , name , fileUrl , downloadState ,contentLength,percentDown,sectionStudy,sectionLastTime,sectionImg,lessonInfo,sectionTeacher from Section where downloadState ＝ 1"];
+    
+    NSMutableArray *array = [NSMutableArray array];
+    while ([rs next]) {
+        SectionModel *nm = [[SectionModel alloc] init];
+        nm.sectionId = [rs stringForColumn:@"sid"];
+        nm.sectionName = [rs stringForColumn:@"name"];
+        nm.sectionDownload = [rs stringForColumn:@"fileUrl"];
+        nm.sectionStudy = [rs stringForColumn:@"sectionStudy"];
+        nm.sectionLastTime = [rs stringForColumn:@"sectionLastTime"];
+        nm.sectionImg = [rs stringForColumn:@"sectionImg"];
+        nm.lessonInfo = [rs stringForColumn:@"lessonInfo"];
+        nm.sectionTeacher = [rs stringForColumn:@"sectionTeacher"];
+        [array addObject:nm];
+    }
+    [rs close];
+    return array;
+}
+
+-(NSArray *)getAllSection {
+    FMResultSet * rs = [self.db executeQuery:@"select sid from Section"];
     
     NSMutableArray *array = [NSMutableArray array];
     while ([rs next]) {

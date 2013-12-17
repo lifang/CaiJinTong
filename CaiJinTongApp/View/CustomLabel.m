@@ -20,8 +20,15 @@
 }
 
 - (void)drawRect:(CGRect)rect{
+    for (CATextLayer *textLayer in [self.layer sublayers]) {
+        if ([textLayer.name isEqualToString:@"textLayer"]) {
+             [textLayer removeFromSuperlayer];
+        }
+       
+    }
     CATextLayer *textLayer = [CATextLayer layer];
     textLayer.string = _attString;
+    textLayer.name = @"textLayer";
     textLayer.frame = CGRectMake(3, 0, self.frame.size.width, self.frame.size.height);
     [self.layer addSublayer:textLayer];
 }

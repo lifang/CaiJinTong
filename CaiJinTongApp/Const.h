@@ -7,6 +7,21 @@
 //
 //
 
+
+typedef  enum  {//问答类型
+    QuestionAndAnswerALL = 1,
+    QuestionAndAnswerMYQUESTION = 2,
+    QuestionAndAnswerMYANSWER = 3
+} QuestionAndAnswerScope;
+
+typedef enum {//追问类型
+    ReaskType_Reask=100,//追问
+    ReaskType_AnswerForReasking,//对追问进行回复
+    ReaskType_ModifyReask,//修改追问
+    ReaskType_ModifyAnswer,//对回复进行修改,
+    ReaskType_None,
+}ReaskType;
+
 //#define kHost @"http://wmi.finance365.com/api/ios.ashx"
 #define kHost @"http://lms.finance365.com/api/ios.ashx"
 //#define kSummitQuestHost  @"http://lms.finance365.com/api/ios.ashx"
@@ -33,7 +48,8 @@
 
 #define MDKey @"c9302245-0cbe-475d-a009-a0d22aa06fbb"
 
-
+//允许最长的字符
+#define MAX_CONTENT_LENGTH  5000
 
 #import "LogInterface.h"//登录
 #import "FindPassWordInterface.h"//找回密码

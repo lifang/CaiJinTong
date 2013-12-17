@@ -16,6 +16,32 @@
 {
     return [self initWithFrame:frame andSection:nil andItemLabel:0];
 }
+
+-(void)changeSectionModel:(SectionModel*)section{
+//设置视频名称
+    self.nameLab.text = [NSString stringWithFormat:@"%@",section.sectionName];
+    self.nameLab.textColor = [UIColor blackColor];
+    self.nameLab.numberOfLines = 0;
+    
+    //视频封面
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",section.sectionImg]];
+    [self.imageView setImageWithURL:url placeholderImage:Image(@"loginBgImage_v.png")];
+    self.imageView.tag = [section.sectionId intValue];
+    
+     //学习进度
+    CGFloat xx = [section.sectionProgress floatValue];
+    if ( xx-100 >0) {
+        xx=100;
+    }
+    if (!xx) {
+        xx = 0;
+    }
+    self.pv.value = xx;
+    self.progressLabel.text = [NSString stringWithFormat:@"学习进度:%.2f%%",xx];
+    
+    
+}
+
 - (id)initWithFrame:(CGRect)frame andSection:(SectionModel *)section andItemLabel:(float)itemLabel{
     self = [super initWithFrame:frame];
     if (self) {
@@ -63,6 +89,7 @@
         progressLabel.text = [NSString stringWithFormat:@"学习进度:%.2f%%",xx];
         progressLabel.textAlignment = NSTextAlignmentLeft;
         progressLabel.backgroundColor = [UIColor clearColor];
+        self.progressLabel = progressLabel;
         [self addSubview:progressLabel];
         progressLabel = nil;
        

@@ -13,7 +13,7 @@
 #import "AMProgressView.h"
 #import "Section.h"
 @interface Section_ChapterViewController ()
-
+@property (nonatomic,strong) UILabel *tipLabel;
 @end
 @implementation Section_ChapterViewController
 
@@ -78,6 +78,11 @@
 }
 #pragma mark -- tableViewDelegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (!self.dataArray || self.dataArray.count <= 0) {
+        [self.tipLabel removeFromSuperview];
+        [self.tableViewList addSubview:self.tipLabel];
+        
+    }
     return self.dataArray.count;
 }
 
@@ -130,4 +135,17 @@
     cell.timeLab.text = section.sectionLastTime;
     return cell;
 }
+
+#pragma mark property
+-(UILabel *)tipLabel{
+    if (!_tipLabel) {
+        _tipLabel = [[UILabel alloc] initWithFrame:(CGRect){0,0,self.tableViewList.frame.size}];
+        _tipLabel.textAlignment = NSTextAlignmentCenter;
+        _tipLabel.textColor = [UIColor grayColor];
+        _tipLabel.font = [UIFont systemFontOfSize:30];
+        [_tipLabel setText:@"没有数据"];
+    }
+    return _tipLabel;
+}
+#pragma mark --
 @end

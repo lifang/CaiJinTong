@@ -68,11 +68,32 @@
                                             answer.answerTime =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"answerTime"]];
                                             answer.answerId =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"answerId"]];
                                             answer.answerNick =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"answerNick"]];
+                                            answer.isPraised = [NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"isParise"]];
                                             answer.answerPraiseCount =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"answerPraiseCount"]];
                                             answer.IsAnswerAccept =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"IsAnswerAccept"]];
                                             answer.answerContent =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"answerContent"]];
                                             answer.pageIndex =[[answer_dic objectForKey:@"pageIndex"]intValue];
                                             answer.pageCount =[[answer_dic objectForKey:@"pageCount"]intValue];
+                                            
+                                            //添加追问
+                                            NSArray *reaskArray = [answer_dic objectForKey:@"addList"];
+                                            NSMutableArray *reaskModelArr = [NSMutableArray array];
+                                            for (NSDictionary *reaskDic in reaskArray) {
+                                                Reaskmodel *reask = [[Reaskmodel alloc] init];
+                                                reask.reaskID = [reaskDic objectForKey:@"ZID"];
+                                                reask.reaskContent = [reaskDic objectForKey:@"addQuestion"];
+                                                reask.reaskDate = [reaskDic objectForKey:@"CreateDate"];
+                                                reask.reaskingAnswerID = [reaskDic objectForKey:@"addMemberID"];
+                                                //对追问的回复
+                                                reask.reAnswerID = [reaskDic objectForKey:@"AID"];
+                                                reask.reAnswerContent = [reaskDic objectForKey:@"Answer"];
+                                                reask.reAnswerIsAgree = [reaskDic objectForKey:@"AgreeStatus"];
+                                                reask.reAnswerIsTeacher = [reaskDic objectForKey:@"IsTeacher"];
+                                                reask.reAnswerNickName = [reaskDic objectForKey:@"TeacherName"];
+                                                [reaskModelArr addObject:reask];
+                                            }
+                                            answer.reaskModelArray = reaskModelArr;
+                                            
                                             [question.answerList addObject:answer];
                                         }
                                     }

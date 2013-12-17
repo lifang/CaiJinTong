@@ -13,7 +13,7 @@
 
 @interface SectionInfoInterface : BaseInterface<BaseInterfaceDelegate>
 
-@property (nonatomic, assign) id<SectionInfoInterfaceDelegate>delegate;
+@property (nonatomic, weak) id<SectionInfoInterfaceDelegate>delegate;
 
 -(void)getSectionInfoInterfaceDelegateWithUserId:(NSString *)userId andSectionId:(NSString *)sectionId;
 @end

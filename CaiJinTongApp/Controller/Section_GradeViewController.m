@@ -10,7 +10,7 @@
 #import "Section_GradeCell.h"
 #import "CommentModel.h"
 @interface Section_GradeViewController ()
-
+@property (nonatomic,strong) UILabel *tipLabel;
 @end
 
 @implementation Section_GradeViewController
@@ -126,6 +126,11 @@ static NSString *timespan = nil;
     return 35;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (!self.dataArray || self.dataArray.count <= 0) {
+        [self.tipLabel removeFromSuperview];
+        [self.tableViewList addSubview:self.tipLabel];
+        
+    }
     return self.dataArray.count+1;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -233,4 +238,17 @@ static NSString *timespan = nil;
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
 }
+
+#pragma mark property
+-(UILabel *)tipLabel{
+    if (!_tipLabel) {
+        _tipLabel = [[UILabel alloc] initWithFrame:(CGRect){0,0,self.tableViewList.frame.size}];
+        _tipLabel.textAlignment = NSTextAlignmentCenter;
+        _tipLabel.textColor = [UIColor grayColor];
+        _tipLabel.font = [UIFont systemFontOfSize:30];
+        [_tipLabel setText:@"没有数据"];
+    }
+    return _tipLabel;
+}
+#pragma mark --
 @end

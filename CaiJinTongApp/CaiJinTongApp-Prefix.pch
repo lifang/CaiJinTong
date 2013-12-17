@@ -24,11 +24,6 @@
 #import "Section.h"
 #endif
 
-typedef  enum  {
-    QuestionAndAnswerALL = 1,
-    QuestionAndAnswerMYQUESTION = 2,
-    QuestionAndAnswerMYANSWER = 3
-} QuestionAndAnswerScope;
 
 
 //系统版本

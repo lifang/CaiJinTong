@@ -41,4 +41,5 @@
 - (void)run;
 
 +(NSString*)getMovieLocalPathWithSectionID:(NSString*)sectionID;
++(NSString*)getMovieLocalTempPathWithSectionID:(NSString*)sectionID;
 @end

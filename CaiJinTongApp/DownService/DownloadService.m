@@ -84,17 +84,8 @@
             request.delegate = self;
             NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:sectionSave , @"SectionSaveModel", nil];
             request.userInfo = userInfo;
-            
-            NSString *path;
-            if (platform>5.0) {
-                path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-            }else{
-                path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-            }
-            
-            NSString *downloadPath = [path stringByAppendingPathComponent: [NSString stringWithFormat:@"/Application/%@.mp4",sectionSave.sid]];
-            NSString *tempPath = [path stringByAppendingPathComponent:
-                                  [NSString stringWithFormat:@"/Application/%@.temp",sectionSave.sid]];
+            NSString *downloadPath = [CaiJinTongManager getMovieLocalPathWithSectionID:sectionSave.sid];
+            NSString *tempPath = [CaiJinTongManager getMovieLocalTempPathWithSectionID:sectionSave.sid];
             [request setDownloadDestinationPath:downloadPath];//下载路径
             [request setDownloadProgressDelegate:sectionSave];//下载进度代理
             [request setTemporaryFileDownloadPath:tempPath];//缓存路径

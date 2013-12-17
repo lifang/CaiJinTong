@@ -114,10 +114,22 @@ static BOOL tableVisible;
 }
 
 - (IBAction)commitBtnClicked:(UIButton *)sender {
-    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopTop];
+   
     if (self.contentField.text == nil || [[self.contentField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
         [Utility errorAlert:@"内容不能为空"];
+        return;
     }
+    
+    if (!self.titleField.text || [[self.titleField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
+        [Utility errorAlert:@"标题不能为空"];
+        return;
+    }
+    
+    if ([self.selectedQuestionName.text isEqualToString:@"请选择问题分类!"]) {
+        [Utility errorAlert:@"点击左边按钮选择一个问题分类"];
+        return;
+    }
+     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopTop];
     if (self.delegate && [self.delegate respondsToSelector:@selector(commitQuestionController:didCommitQuestionWithTitle:andText:andQuestionId:)]) {
         [self.delegate commitQuestionController:self didCommitQuestionWithTitle:self.titleField.text andText:self.contentField.text andQuestionId:self.selectedQuestionId];
     }

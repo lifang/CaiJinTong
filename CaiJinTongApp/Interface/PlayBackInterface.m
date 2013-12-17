@@ -51,7 +51,11 @@
                 }else {
                     [self.delegate getPlayBackDidFailed:@""];
                 }
+            }else {
+                [self.delegate getPlayBackDidFailed:@""];
             }
+        }else {
+            [self.delegate getPlayBackDidFailed:@""];
         }
     }else {
         [self.delegate getPlayBackDidFailed:@""];
