@@ -8,17 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "QuestionModel.h"
-#define TEXT_FONT_SIZE 14
+#define TEXT_FONT_SIZE 12
 #define TEXT_FONT [UIFont systemFontOfSize:TEXT_FONT_SIZE]
-#define TEXT_PADDING 10
-#define HEADER_TEXT_HEIGHT 40
-#define QUESTIONHEARD_VIEW_WIDTH  506
-#define QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT 141
+#define TEXT_PADDING 5
+#define HEADER_TEXT_HEIGHT 28
+#define QUESTIONHEARD_VIEW_WIDTH 271
+#define QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT 97
 @protocol QuestionAndAnswerCell_iPhoneHeaderViewDelegate;
 @interface QuestionAndAnswerCell_iPhoneHeaderView : UITableViewHeaderFooterView<UITextViewDelegate>
 @property (strong,nonatomic) NSIndexPath *path;
 @property (weak,nonatomic) id <QuestionAndAnswerCell_iPhoneHeaderViewDelegate> delegate;
--(void)setQuestionModel:(QuestionModel*)question;
+@property (assign,nonatomic) QuestionAndAnswerScope *scope;//判断是回答还是追问
+-(void)setQuestionModel:(QuestionModel*)question withQuestionAndAnswerScope:(QuestionAndAnswerScope)scope;
 @end
 
 @protocol QuestionAndAnswerCell_iPhoneHeaderViewDelegate <NSObject>

@@ -416,12 +416,11 @@
     _menuVisible = menuVisible;
     [UIView animateWithDuration:0.3 animations:^{
         if(menuVisible){
-            self.menu.view.frame = CGRectMake(120, 65, 200, SCREEN_HEIGHT - 63 - 65);
+            self.menu.view.frame = CGRectMake(120,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55));
         }else{
-            self.menu.view.frame = CGRectMake(320, 65, 200, SCREEN_HEIGHT - 63 - 65);
+            self.menu.view.frame = CGRectMake(320,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55));
         }
     }];
-    
 }
 
 - (void)didReceiveMemoryWarning

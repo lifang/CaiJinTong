@@ -15,13 +15,7 @@
 #import "AcceptAnswerInterface.h"
 #import "MJRefresh.h"
 
-//typedef  enum  {
-//    QuestionAndAnswerALL = 1,
-//    QuestionAndAnswerMYQUESTION = 2,
-//    QuestionAndAnswerMYANSWER = 3
-//} QuestionAndAnswerScope;
-
-@interface MyQuestionAndAnswerViewController_iPhone : LHLNavigationBarViewController<UITableViewDataSource,UITableViewDelegate,QuestionAndAnswerCell_iPhoneDelegate,QuestionAndAnswerCell_iPhoneHeaderViewDelegate,AcceptAnswerInterfaceDelegate,MJRefreshBaseViewDelegate,QuestionListInterfaceDelegate>
+@interface MyQuestionAndAnswerViewController_iPhone : LHLNavigationBarViewController<UITableViewDataSource,UITableViewDelegate,QuestionAndAnswerCell_iPhoneDelegate,QuestionAndAnswerCell_iPhoneHeaderViewDelegate,AcceptAnswerInterfaceDelegate,MJRefreshBaseViewDelegate,QuestionListInterfaceDelegate,DRAskQuestionViewControllerDelegate,GetUserQuestionInterfaceDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *noticeBarView;
 @property (weak, nonatomic) IBOutlet UIImageView *noticeBarImageView;
@@ -31,6 +25,7 @@
 @property (assign, nonatomic) NSInteger question_pageIndex;
 @property (assign, nonatomic) NSInteger question_pageCount;
 @property (strong,nonatomic) NSString *chapterID;
+@property (strong,nonatomic) GetUserQuestionInterface *getUserQuestionInterface;
 - (IBAction)noticeHideBtnClick:(id)sender;
 //scope :设置问题的范围，我的回答，我的提问，所有回答
 -(void)reloadDataWithDataArray:(NSArray*)data  withQuestionChapterID:(NSString*)chapterID withScope:(QuestionAndAnswerScope)scope;
