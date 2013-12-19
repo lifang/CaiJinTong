@@ -69,7 +69,8 @@
     self.getUserQuestionInterface = [[GetUserQuestionInterface alloc] init];
     self.getUserQuestionInterface.delegate = self;
     //请求我的回答
-    [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"1" andLastQuestionID:nil];
+    [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"0" andLastQuestionID:nil];
+//    [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"1" andLastQuestionID:nil];
 }
 
 -(void)getUserQuestionInfoDidFailed:(NSString *)errorMsg{
@@ -120,15 +121,16 @@
     question.isEditing = !question.isEditing;
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
     if (question.isEditing) {
-        float sectionHeight = [self getTableViewHeaderHeightWithSection:path.section];
-        CGRect sectionRect = [self.tableView rectForHeaderInSection:path.section];
-        float sectionMinHeight = CGRectGetMinY(sectionRect) - self.tableView.contentOffset.y;
-        float keyheight = CGRectGetMaxY(self.tableView.frame) - sectionHeight-300;
-        if (sectionMinHeight > keyheight) {
-            [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (sectionMinHeight - keyheight)} animated:YES];
+        [self.tableView reloadData];
+        CGRect sectionFrame = [self.tableView rectForSection:path.section];
+        CGRect lastSectionFrame = [self.tableView rectForSection:self.myQuestionArr.count - 1];
+        if(CGRectGetMaxY(lastSectionFrame) - CGRectGetMinY(sectionFrame) < self.tableView.frame.size.height){//如果剩余内容不足一屏,则滑动到屏幕最下方
+            [self.tableView setContentOffset:CGPointMake(self.tableView.contentOffset.x, (self.tableView.contentSize.height - self.tableView.frame.size.height) > 0 ? (self.tableView.contentSize.height - self.tableView.frame.size.height) : 0)];
+        }else{
+            //如果内容高度足够,则将本问题置最高处
+            [self.tableView setContentOffset:sectionFrame.origin];
         }
     }
-    
 }
 
 //提交问题的答案
@@ -151,7 +153,7 @@
     float sectionHeight = [self getTableViewHeaderHeightWithSection:path.section];
     CGRect sectionRect = [self.tableView rectForHeaderInSection:path.section];
     float sectionMinHeight = CGRectGetMinY(sectionRect) - self.tableView.contentOffset.y;
-    float keyheight = CGRectGetMaxY(self.tableView.frame) - sectionHeight-400;
+    float keyheight = CGRectGetHeight(self.tableView.frame) - sectionHeight-155;
     if (sectionMinHeight > keyheight) {
         [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (sectionMinHeight - keyheight)} animated:YES];
     }
@@ -174,7 +176,7 @@
 -(void)QuestionAndAnswerCell_iPhone:(QuestionAndAnswerCell_iPhone *)cell willBeginTypeQuestionTextFieldAtIndexPath:(NSIndexPath *)path{
     CGRect cellRect = [self.tableView rectForRowAtIndexPath:path];
     float cellmaxHeight = CGRectGetMaxY(cellRect) - self.tableView.contentOffset.y;
-    float keyheight = CGRectGetMaxY(self.tableView.frame) - 400;
+    float keyheight = CGRectGetMaxY(self.tableView.frame) - 200;
     if (cellmaxHeight > keyheight) {
         [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (cellmaxHeight - keyheight)} animated:YES];
     }

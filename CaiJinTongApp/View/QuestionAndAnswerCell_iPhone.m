@@ -105,7 +105,6 @@
         //自己提的问题
         if (answer.reaskModelArray.count > 0) {
             Reaskmodel *reask = [answer.reaskModelArray lastObject];
-            //            if (reask.reAnswerID && ![reask.reAnswerID isEqualToString:@""] && ![reask.reAnswerID isEqualToString:@"<null>"] ) {
             if (reask.reAnswerID && ![reask.reAnswerID isEqualToString:@""]) {
                 //追问
                 [self.reaskBt setTitle:@"追问" forState:UIControlStateNormal];
@@ -150,12 +149,10 @@
     }
 }
 -(void)setAnswerModel:(AnswerModel*)answer withQuestion:(QuestionModel*)question{
-    //    self.answerTextField.delegate = self;
     self.qTitleNameLabel.text = answer.answerNick;
     self.qDateLabel.text = [NSString stringWithFormat:@"发表于%@",answer.answerTime];
     self.qflowerLabel.text = answer.answerPraiseCount;
-    //    self.answerTextField.text = answer.answerContent;
-    [self.questionBackgroundView setHidden:!answer.isEditing];
+    [self.questionBackgroundView setHidden:!answer.isEditing]; //此处决定是否显示追问界面
     self.answerTextField.font = [UIFont systemFontOfSize:TEXT_FONT_SIZE+4];
     
     //赞
@@ -176,6 +173,7 @@
     [self.answerTextField setEditable:NO];
     [self.answerTextField setScrollEnabled:NO];
     [self.answerTextField setPagingEnabled:YES];
+    
     //    self.answerBackgroundView.backgroundColor = [UIColor greenColor];
 }
 
@@ -203,8 +201,13 @@
     
     //追问部分
     self.questionBackgroundView.frame = (CGRect){CGRectGetMinX(self.questionBackgroundView.frame),CGRectGetMaxY(self.answerBackgroundView.frame)+5,self.questionBackgroundView.frame.size};
+    self.reaskBt.frame = (CGRect){self.questionTextField.center.x + 10,CGRectGetMaxY(self.questionTextField.frame) + 5,110,30};
     
     [self.questionTextField.layer setCornerRadius:4.0];
+    [self.questionTextField.layer setBorderWidth:0.6];
+    [self.questionTextField.layer setBorderColor:[UIColor lightGrayColor].CGColor];
+    [self.reaskBt setBackgroundImage:[UIImage imageNamed:@"btn0@2x.png"] forState:UIControlStateNormal];
+    [self.reaskBt.titleLabel setFont:[UIFont boldSystemFontOfSize:14.0]];
 }
 
 @end

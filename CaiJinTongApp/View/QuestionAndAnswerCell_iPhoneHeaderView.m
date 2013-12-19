@@ -108,7 +108,7 @@
         self.submitAnswerBt = [[UIButton alloc] init];
         [self.submitAnswerBt setBackgroundImage:[UIImage imageNamed:@"btn0@2x.png"] forState:UIControlStateNormal];
         [self.submitAnswerBt addTarget:self action:@selector(submitQuestionAnswetBtClicked) forControlEvents:UIControlEventTouchUpInside];
-        [self.submitAnswerBt.titleLabel setFont:[UIFont systemFontOfSize:12.0]];
+        [self.submitAnswerBt.titleLabel setFont:[UIFont boldSystemFontOfSize:12.0]];
         [self.submitAnswerBt setTitle:@"确认回答" forState:UIControlStateNormal];
         [self.summitQuestionAnswerBackView addSubview:self.submitAnswerBt];
     }
@@ -213,7 +213,7 @@
     if (!self.summitQuestionAnswerBackView.isHidden) {
         self.summitQuestionAnswerBackView.frame = (CGRect){TEXT_PADDING*2,CGRectGetMaxY(self.questionContentTextField.frame)+TEXT_PADDING,QUESTIONHEARD_VIEW_WIDTH,QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT - TEXT_PADDING};
         self.answerQuestionTextField.frame = (CGRect){0,0,QUESTIONHEARD_VIEW_WIDTH,60};
-        self.submitAnswerBt.frame = (CGRect){(QUESTIONHEARD_VIEW_WIDTH)/2-47.5,65,95,27};
+        self.submitAnswerBt.frame = (CGRect){QUESTIONHEARD_VIEW_WIDTH-105,65,95,27};
     }
 }
 @end
