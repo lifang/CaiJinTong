@@ -92,12 +92,28 @@
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
+    return 4;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UITableViewHeaderFooterView *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"header"];
-    header.textLabel.text = @"第一节";
+    switch (section) {
+        case 0:
+            header.textLabel.text = @"第一节";
+            break;
+        case 1:
+            header.textLabel.text = @"第二节";
+            break;
+        case 2:
+            header.textLabel.text = @"第三节";
+            break;
+        case 3:
+            header.textLabel.text = @"第四节";
+            break;
+        default:
+            break;
+    }
+    
     header.textLabel.font = [UIFont systemFontOfSize:18];
     return header;
 }
@@ -112,7 +128,24 @@
     
     Section_chapterModel *section = (Section_chapterModel *)[self.dataArray objectAtIndex:indexPath.row];
     
-    cell.nameLab.text = [NSString stringWithFormat:@"【%@】",section.sectionName];
+    switch (indexPath.section) {
+        case 0:
+            cell.nameLab.text = [NSString stringWithFormat:@"【第一节视频%d】",indexPath.row];
+            break;
+        case 1:
+            cell.nameLab.text = [NSString stringWithFormat:@"【第二节视频%d】",indexPath.row];
+            break;
+        case 2:
+            cell.nameLab.text = [NSString stringWithFormat:@"【第三节视频%d】",indexPath.row];
+            break;
+        case 3:
+            cell.nameLab.text = [NSString stringWithFormat:@"【第四节视频%d】",indexPath.row];
+            break;
+        default:
+            break;
+    }
+    
+    
     cell.sid = section.sectionId;
         
     //查询数据库

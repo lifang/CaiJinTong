@@ -51,7 +51,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         LessonInfoInterface *lessonInter = [[LessonInfoInterface alloc]init];
         self.lessonInterface = lessonInter;
         self.lessonInterface.delegate = self;
@@ -62,7 +62,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         QuestionInfoInterface *questionInfoInter = [[QuestionInfoInterface alloc]init];
         self.questionInfoInterface = questionInfoInter;
         self.questionInfoInterface.delegate = self;
@@ -402,7 +402,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
             [Utility errorAlert:@"暂无网络!"];
         }else {
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             ChapterInfoInterface *chapterInter = [[ChapterInfoInterface alloc]init];
             self.chapterInterface = chapterInter;
             self.chapterInterface.delegate = self;
@@ -430,7 +430,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                     [self.myQAVC reloadDataWithDataArray:array withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
 //                    [self.chapterQuestionInterface getChapterQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andChapterQuestionId:[d valueForKey:@"questionID"]];
                 }else{
-                    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//                    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                     self.getUserQuestionInterface = [[GetUserQuestionInterface alloc] init];
                     self.getUserQuestionInterface.delegate = self;
                     switch (indexPath.row) {
@@ -536,7 +536,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             [Utility errorAlert:@"暂无网络!"];
         }else {
             self.isSearching = YES;
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             if (self.listType == LESSON_LIST) {
                 SearchLessonInterface *searchLessonInter = [[SearchLessonInterface alloc]init];
                 self.searchLessonInterface = searchLessonInter;

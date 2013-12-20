@@ -18,7 +18,7 @@
 +(NSArray*)getSectionArr;
 +(LessonModel*)getLesson;
 +(chapterModel*)getChapter;
-+(SectionModel*)getSection;
+//+(SectionModel*)getSection;
 +(CategoryModel*)getCategory;
 +(CategoryModel*)getCategoryTree;
 +(SectionModel*)getSectionOld;//课程
@@ -26,4 +26,6 @@
 +(NSMutableArray*)getTreeNodeArrayFromDictionary:(NSDictionary*)dic;
 +(NSMutableArray*)getTreeNodeArrayFromArray:(NSArray*)arr;
 +(NSMutableArray *)getQuestion;
+
++(SectionModel *)getSectionInfo;
 @end
