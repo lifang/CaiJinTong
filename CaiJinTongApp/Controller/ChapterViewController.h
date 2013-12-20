@@ -14,11 +14,8 @@
 
 #import "CollectionCell.h"
 #import "CollectionHeader.h"
-#import "CollectionViewLayout.h"
-
-@interface ChapterViewController : DRNaviGationBarController <UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource,CJTMainToolbarDelegate, SectionInfoInterfaceDelegate,ChapterInfoInterfaceDelegate,ChapterSearchBarDelegate,SearchLessonInterfaceDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,CollectionHeaderDelegate>
+@interface ChapterViewController : DRNaviGationBarController <UIScrollViewDelegate,CJTMainToolbarDelegate, SectionInfoInterfaceDelegate,ChapterInfoInterfaceDelegate,ChapterSearchBarDelegate,SearchLessonInterfaceDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,CollectionHeaderDelegate>
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-@property (nonatomic, strong) CollectionHeader *headerView;
 @property (nonatomic, strong) SectionInfoInterface *sectionInterface;
 @property (nonatomic, strong) CJTMainToolbar *mainToolBar;
 @property (nonatomic, strong) UIScrollView *myScrollView;

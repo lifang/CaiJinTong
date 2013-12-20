@@ -37,10 +37,8 @@
      }
     [self.view addSubview:self.drnavigationBar];
      [self.view bringSubviewToFront:self.drnavigationBar];
+     [self.drnavigationBar.navigationRightItem addTarget:self action:@selector(drnavigationBarRightItemClicked:) forControlEvents:UIControlEventTouchUpInside];
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
-    [self.drnavigationBar.navigationRightItem addTarget:self action:@selector(drnavigationBarRightItemClicked:) forControlEvents:UIControlEventTouchUpInside];
-//    self.drnavigationBar.button = [UIButton buttonWithType:UIButtonTypeCustom];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];

@@ -14,7 +14,8 @@
 #import "GetUserQuestionInterface.h"
 #import "ChapterQuestionInterface.h"
 #import "GetUserQuestionInterface.h"
-@interface LessonViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,LessonListHeaderViewDelegate,ChapterInfoInterfaceDelegate,LessonInfoInterfaceDelegate,UITextFieldDelegate,SearchLessonInterfaceDelegate,QuestionInfoInterfaceDelegate,ChapterQuestionInterfaceDelegate,UIScrollViewDelegate,GetUserQuestionInterfaceDelegate,SearchQuestionInterfaceDelegate,UITextFieldDelegate>
+#import "DRTreeTableView.h"
+@interface LessonViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,LessonListHeaderViewDelegate,ChapterInfoInterfaceDelegate,LessonInfoInterfaceDelegate,UITextFieldDelegate,SearchLessonInterfaceDelegate,QuestionInfoInterfaceDelegate,ChapterQuestionInterfaceDelegate,UIScrollViewDelegate,GetUserQuestionInterfaceDelegate,SearchQuestionInterfaceDelegate,UITextFieldDelegate,DRTreeTableViewDelegate>
 
 @property (nonatomic, strong) SearchLessonInterface *searchLessonInterface;
 @property (weak, nonatomic) IBOutlet UIButton *editBtn;
@@ -42,10 +43,12 @@
 @property (nonatomic, assign) NSInteger tmpSection;
 
 @property (nonatomic, strong) NSDictionary *questionDictionary;
-@property (nonatomic, strong) NSMutableArray *questionList;
+@property (nonatomic, strong) NSMutableArray *questionList;//所有问答
+@property (nonatomic, strong) NSMutableArray *myQuestionList;//我的问答
 @property (nonatomic, strong) NSMutableArray *questionArrSelSection;
+@property (nonatomic, strong) NSMutableArray *myQuestionArrSelSection;
 @property (nonatomic, assign) NSInteger questionTmpSection;
-
+@property (nonatomic, assign) NSInteger myQuestionTmpSection;
 @property (nonatomic, strong) NSMutableArray *temp_saveArray;//根据
 
 @property (nonatomic, strong) ChapterQuestionInterface *chapterQuestionInterface;

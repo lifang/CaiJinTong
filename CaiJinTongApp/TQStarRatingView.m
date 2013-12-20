@@ -43,6 +43,16 @@
     return self;
 }
 
+
+-(void)changeScore:(int)score{
+    _numberOfStar = score;
+    [self.starBackgroundView removeFromSuperview];
+    [self.starForegroundView removeFromSuperview];
+    self.starBackgroundView = [self buidlStarViewWithImageName:@"course-onecourse_03.png"];
+    self.starForegroundView = [self buidlStarViewWithImageName:@"x.png"];
+    [self addSubview:self.starBackgroundView];
+    [self addSubview:self.starForegroundView];
+}
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [touches anyObject];

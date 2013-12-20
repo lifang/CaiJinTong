@@ -61,13 +61,16 @@
     self.questionAndAnswerScope = scope;
     self.chapterID = chapterID;
     self.myQuestionArr = [NSMutableArray arrayWithArray:data];
+    [self.headerRefreshView endRefreshing];
+    self.headerRefreshView.isForbidden = NO;
+    [self.footerRefreshView endRefreshing];
+    self.footerRefreshView.isForbidden = NO;
+    
     if (self.myQuestionArr.count>0) {
         QuestionModel *question = [self.myQuestionArr  objectAtIndex:self.myQuestionArr.count-1];
         self.question_pageIndex = question.pageIndex;
         self.question_pageCount = question.pageCount;
-        dispatch_async ( dispatch_get_main_queue (), ^{
-            [self.tableView reloadData];
-        });
+        [self.tableView reloadData];
     }
 }
 - (void)didReceiveMemoryWarning
@@ -213,7 +216,8 @@
 
 #pragma mark UITableViewDataSource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return [self.myQuestionArr count];
+    int count = [self.myQuestionArr count];
+    return count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{

@@ -7,8 +7,6 @@
 //
 
 #import "Section_NoteViewController.h"
-#import "Section_NoteCell.h"
-#import "NoteModel.h"
 @interface Section_NoteViewController ()
 @property (nonatomic,strong) UILabel *tipLabel;
 @end
@@ -45,7 +43,7 @@
     NoteModel *note = (NoteModel *)[self.dataArray objectAtIndex:indexPath.row];
     UIFont *aFont = [UIFont fontWithName:@"Trebuchet MS" size:18];
     CGSize size = [note.noteText sizeWithFont:aFont constrainedToSize:CGSizeMake(500, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
-    return size.height+35+20;
+    return size.height+50+20;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (!self.dataArray || self.dataArray.count <= 0) {
@@ -67,7 +65,7 @@
     CGSize size = [note.noteText sizeWithFont:aFont constrainedToSize:CGSizeMake(500, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
     
     [cell.contentTextView setUserInteractionEnabled:NO];
-    cell.contentTextView.frame = CGRectMake(30, 35, 500, size.height+20);
+    cell.contentTextView.frame = CGRectMake(30, 50, 500, size.height+20);
     cell.timeLab.text = note.noteTime;
     cell.contentTextView.layer.borderWidth = 2.0;
     cell.contentTextView.layer.borderColor = [[UIColor colorWithRed:244.0/255.0 green:243.0/255.0 blue:244.0/255.0 alpha:1.0] CGColor];
@@ -76,9 +74,21 @@
     [cell.contentTextView setScrollEnabled:NO];
     [cell.contentTextView setEditable:NO];
     cell.contentTextView.text = note.noteText;
+    cell.sectionNameLab.text = @"财金基础知识第一章 > 第一节 > 财金基础知识第一章视频";
+    cell.path = indexPath;
+    cell.delegate = self;
     return cell;
 }
 
+
+#pragma mark Section_NoteCellDelegate
+-(void)section_NoteCell:(Section_NoteCell *)cell didSelectedAtIndexPath:(NSIndexPath *)path{
+    NoteModel *note = [self.dataArray objectAtIndex:path.row];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(section_NoteViewController:didClickedNoteCellWithObj:)]) {
+        [self.delegate section_NoteViewController:self didClickedNoteCellWithObj:note];
+    }
+}
+#pragma mark --
 #pragma mark property
 -(UILabel *)tipLabel{
     if (!_tipLabel) {

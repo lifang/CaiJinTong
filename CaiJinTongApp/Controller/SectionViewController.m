@@ -139,7 +139,7 @@
     self.section_NoteView = [story instantiateViewControllerWithIdentifier:@"Section_NoteViewController"];
     self.section_NoteView.title = @"笔记";
     self.section_NoteView.dataArray = [NSMutableArray arrayWithArray:self.section.noteList];
-    
+    self.section_NoteView.delegate = self;
     [self.slideSwitchView buildUI];
 }
 
@@ -288,6 +288,12 @@
         
     }
 }
+
+#pragma mark Section_NoteViewControllerDelegate选中一条笔记
+-(void)section_NoteViewController:(Section_NoteViewController *)controller didClickedNoteCellWithObj:(NoteModel *)noteModel{
+    [self playVideo:Nil];
+}
+#pragma mark --
 
 #pragma mark property
 -(SectionInfoInterface *)sectionInterface{

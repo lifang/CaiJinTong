@@ -51,6 +51,8 @@ typedef enum {//追问类型
 //允许最长的字符
 #define MAX_CONTENT_LENGTH  5000
 
+#import "DRTreeTableView.h"
+#import "TestModelData.h"
 #import "LogInterface.h"//登录
 #import "FindPassWordInterface.h"//找回密码
 #import "LessonInfoInterface.h"//课程信息

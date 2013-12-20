@@ -30,6 +30,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    if (!self.starRatingView) {
+        self.starRatingView = [[TQStarRatingView alloc] initWithFrame:(CGRect){24,6,521,51} numberOfStar:5];
+        self.starRatingView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+        [self.commentBackView addSubview:self.starRatingView];
+    }
+    [self.submitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.submitBtn setBackgroundImage:[UIImage imageNamed:@"btn0.png"] forState:UIControlStateNormal];
+    self.textView.backgroundColor = [UIColor colorWithRed:238.0/255.0 green:238.0/255.0 blue:238.0/255.0 alpha:1.0];
+    self.starRatingView.backgroundColor = [UIColor colorWithRed:246.0/255.0 green:246.0/255.0 blue:246.0/255.0 alpha:1.0];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sunsliderScrollWillBeginDragging) name:@"SUNSlideScrollWillDraggingNotification" object:nil];
 }
 - (void)viewDidCurrentView
@@ -44,48 +54,13 @@
     // Dispose of any resources that can be recreated.
 }
 -(void)displayView {
+    CGRect listRect = self.commentListBackView.frame;
     if (self.isGrade == 0) {//有打分界面
-        if (!self.starRatingView) {
-            TQStarRatingView *starRating = [[TQStarRatingView alloc] initWithFrame:CGRectMake(25, 7, 520, 50) numberOfStar:5];
-            starRating.delegate = self;
-            starRating.backgroundColor = [UIColor colorWithRed:246.0/255.0 green:246.0/255.0 blue:246.0/255.0 alpha:1.0];
-            [self.view addSubview:starRating];
-            self.starRatingView = starRating;
-        }
-        
-        self.textView.frame = CGRectMake(25, self.starRatingView.frame.origin.y+55, 520, 70);
-        self.submitBtn.frame =CGRectMake(240, self.textView.frame.origin.y+80, 90, 30);
-
-        self.myComment.frame = CGRectMake(25, self.submitBtn.frame.origin.y+40, 100, 30);
-        self.tableViewList.frame =  CGRectMake(0, self.myComment.frame.origin.y+40, 768, self.view.frame.size.height-self.submitBtn.frame.origin.y-60);
-        [self.submitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [self.submitBtn setBackgroundImage:[UIImage imageNamed:@"btn0.png"] forState:UIControlStateNormal];
-        
-        self.textView.backgroundColor = [UIColor colorWithRed:238.0/255.0 green:238.0/255.0 blue:238.0/255.0 alpha:1.0];
-        
+        [self.commentBackView setHidden:NO];
+        self.commentListBackView.frame = (CGRect){listRect.origin.x,CGRectGetMaxY(self.commentBackView.frame),listRect.size};
     }else {//隐藏打分界面
-        NSArray *subViews = [self.view subviews];
-        for (UIView *vv in subViews) {
-            if ([vv isKindOfClass:[TQStarRatingView class]]) {
-                TQStarRatingView *vview = (TQStarRatingView *)vv;
-                [vview removeFromSuperview];
-            }else if ([vv isKindOfClass:[UILabel class]]) {
-                UILabel *lab = (UILabel *)vv;
-                if (lab.tag == 9999) {
-                    [lab removeFromSuperview];
-                }
-            }
-        }
-        self.textView.frame = CGRectMake(25, 3, 520, 70);
-        self.submitBtn.frame =CGRectMake(240, self.textView.frame.origin.y+80, 90, 30);
- 
-        self.myComment.frame = CGRectMake(25, self.submitBtn.frame.origin.y+40, 100, 30);
-        self.tableViewList.frame =  CGRectMake(0, self.myComment.frame.origin.y+40, 768, self.view.frame.size.height-self.submitBtn.frame.origin.y-60);
-        [self.submitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [self.submitBtn setBackgroundImage:[UIImage imageNamed:@"btn0.png"] forState:UIControlStateNormal];
-        
-        self.textView.backgroundColor = [UIColor colorWithRed:238.0/255.0 green:238.0/255.0 blue:238.0/255.0 alpha:1.0];
-
+        [self.commentBackView setHidden:YES];
+        self.commentListBackView.frame = (CGRect){listRect.origin.x,CGRectGetMinY(self.commentBackView.frame),listRect.size};
     }
 }
 -(void)viewDidAppear:(BOOL)animated {

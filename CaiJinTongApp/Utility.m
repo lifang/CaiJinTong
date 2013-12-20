@@ -8,7 +8,7 @@
 
 #import "Utility.h"
 #import <objc/runtime.h>
-
+#import <CommonCrypto/CommonDigest.h>
 @implementation Utility
 
 + (void)errorAlert:(NSString *)message {
@@ -85,7 +85,7 @@
 
 
 +(CGSize)getAttributeStringSizeWithWidth:(float)width withAttributeString:(NSAttributedString*)attriString{
- CGRect rect = [attriString boundingRectWithSize:(CGSize){width,MAXFLOAT} options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading context:nil];
+ CGRect rect = [attriString boundingRectWithSize:(CGSize){width,MAXFLOAT} options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading|NSStringDrawingUsesDeviceMetrics context:nil];
     return (CGSize){rect.size.width,rect.size.height+30};
 }
 

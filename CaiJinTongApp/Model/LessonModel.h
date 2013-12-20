@@ -12,6 +12,8 @@
 
 @property (nonatomic, strong) NSString *lessonId;
 @property (nonatomic, strong) NSString *lessonName;
+@property (nonatomic, strong) NSString *lessonImageURL;
+@property (nonatomic, strong) NSString *lessonStudyProgress;
 @property (nonatomic, strong) NSMutableArray *chapterList;
 
 @end
