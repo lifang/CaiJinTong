@@ -440,11 +440,16 @@
         if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
             [Utility errorAlert:@"暂无网络!"];
         }else {
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             SectionInfoInterface *sectionInter = [[SectionInfoInterface alloc]init];
             self.sectionInterface = sectionInter;
             self.sectionInterface.delegate = self;
-            [self.sectionInterface getSectionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:lesson.lessonId];
+            SectionModel *section = [TestModelData getSectionInfo];
+            UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+            SectionViewController *sectionView = [story instantiateViewControllerWithIdentifier:@"SectionViewController"];
+            sectionView.section = section;
+            [self.navigationController pushViewController:sectionView animated:YES];
+//            [self.sectionInterface getSectionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:lesson.lessonId];
         }
     }
 }
