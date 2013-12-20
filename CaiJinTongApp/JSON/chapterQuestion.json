@@ -9,34 +9,62 @@
     "ReturnObject": {
                         "chapterQuestionList":[
                                                {
-                                      "questionId":"111",
-                                      "questionName":"how to use it ?",
-                                      "askImg":"http://116.255.135.175:3004/service_pics/1/20/2img20_154.jpg",
-                                      "askerId":"1011",
-                                      "askerNick":"刘德华",
+                                      "questionId":"100000",
+                                      "questionName":"公共基础考试哪几章占的分值大？",
+                                      "askImg":"http://lms.finance365.com/data/pic/face/20131202042643828.jpg",
+                                      "askerId":"200000",
+                                      "askerNick":"袁强",
                                       "isPraised":"0",
                                       "askTime":"2012-01-12 16:33",
                                       "praiseCount":"32",
                                       "isAcceptAnswer":"0",
                                       "pageIndex":"0",
-                                      "pageCount":"4",
+                                      "pageCount":"2",
+                                      "questiontitle":"公共基础考试",
                                       "answerList":[
                                                     {
                                                 "answerTime":"2012-01-12 16:35",
                                                 "answerId":"1022",
-                                                "answerNick":"吴彦祖",
+                                                "answerNick":"小龙",
                                                 "answerPraiseCount":"10",
                                                 "IsAnswerAccept":"0",
                                                 "pageIndex":"0",
                                                 "isPraised":"0",
                                                 "pageCount":"2",
-                                                "answerContent":"卡高技术改革阿凯高低杠，Asda决定书，阿克苏家的卡大红色的的法理上海东方基地附近被问 可w额分卡斯贝多芬阿凯w恶法东方卡和佛啊我和佛i了发挥我阿阿好分第十六分我iu过分可基本上挖坟看博城市噢我饿伐wklsdficwekbfk.吴邦国发表饿阿福w额及薄u不到十分卡外部分另外不符合阿旺乐部发咯贝多芬卡王杯否北方咖喱我把佛拉宾为恢复把j啊w额分考虑b额佛包括基本法！",
+                                                "answerContent":"大概35%吧",
                                                 "resultId":"1",
                                                 "askPeopleId":"1011",
                                                 "askPeopleNick":"刘德华"
+                                                "pageIndex":"0",
+                                                "pageCount":"1",
+                                                    "addList":[
+                                                               {
+                                                               "ZID":"102",
+                                                               "addQuestion":"你确定?",
+                                                               "CreateDate":"2012-01-12 16:50",
+                                                               "addMemberID":"200000",
+                                                               "AID":"1022",
+                                                               "Answer":"YES",
+                                                               "AgreeStatus":"0",
+                                                               "IsTeacher":"0",
+                                                               "TeacherName":"小龙"
+                                                               },
+                                                               {
+                                                               "ZID":"102",
+                                                               "addQuestion":"你确定?",
+                                                               "CreateDate":"2012-01-12 16:50",
+                                                               "addMemberID":"200000",
+                                                               "AID":"1023",
+                                                               "Answer":"楼上有误吧，我记得25%",
+                                                               "AgreeStatus":"0",
+                                                               "IsTeacher":"0",
+                                                               "TeacherName":"黄华"
+                                                               }
+                                                    ]
                                                     }
                                                  ]
                                                }
+                                               
 
                                      ]
 

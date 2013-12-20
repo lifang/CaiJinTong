@@ -62,14 +62,12 @@
                                         QuestionModel *question = [[QuestionModel alloc]init];
                                         question.questionId = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"questionId"]];
                                         question.questionName = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"questionname"]];
-//                                        question.questionName = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"questiontitle"]];
                                         question.askerId = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"askerId"]];
                                         question.askImg = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"askImg"]];
                                         question.askerNick = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"askerNick"]];
                                         question.askTime = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"askTime"]];
                                         question.praiseCount = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"praiseCount"]];
-//                                        question.isAcceptAnswer = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"isAcceptAnswer"]];
-                                        
+
                                         question.pageIndex =[[question_dic objectForKey:@"pageIndex"]intValue];
                                         question.pageCount =[[question_dic objectForKey:@"pageCount"]intValue];
                                         
