@@ -25,4 +25,5 @@
 +(DRTreeNode*)getTreeNodeFromCategoryModel:(CategoryModel*)categoryModel;
 +(NSMutableArray*)getTreeNodeArrayFromDictionary:(NSDictionary*)dic;
 +(NSMutableArray*)getTreeNodeArrayFromArray:(NSArray*)arr;
++(NSMutableArray *)getQuestion;
 @end

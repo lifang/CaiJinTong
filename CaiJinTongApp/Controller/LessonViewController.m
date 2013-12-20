@@ -420,13 +420,15 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                 [Utility errorAlert:@"暂无网络!"];
             }else {
                 if (indexPath.section==0){
-                    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//                    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                     ChapterQuestionInterface *chapterInter = [[ChapterQuestionInterface alloc]init];
                     self.chapterQuestionInterface = chapterInter;
                     self.chapterQuestionInterface.delegate = self;
                     self.questionAndSwerRequestID = [d valueForKey:@"questionID"];
                     self.questionScope = QuestionAndAnswerALL;
-                    [self.chapterQuestionInterface getChapterQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andChapterQuestionId:[d valueForKey:@"questionID"]];
+                    NSMutableArray *array = [TestModelData getQuestion];
+                    [self.myQAVC reloadDataWithDataArray:array withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
+//                    [self.chapterQuestionInterface getChapterQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andChapterQuestionId:[d valueForKey:@"questionID"]];
                 }else{
                     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                     self.getUserQuestionInterface = [[GetUserQuestionInterface alloc] init];
@@ -581,7 +583,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
             [Utility errorAlert:@"暂无网络!"];
         }else {
-             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             switch (scope) {
                 case QuestionAndAnswerALL:
                 {
@@ -590,7 +592,9 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                     self.chapterQuestionInterface.delegate = self;
                     self.questionAndSwerRequestID = node.noteContentID;
                     self.questionScope = QuestionAndAnswerALL;
-                    [self.chapterQuestionInterface getChapterQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andChapterQuestionId:node.noteContentID];
+                    NSMutableArray *array = [TestModelData getQuestion];
+                    [self.myQAVC reloadDataWithDataArray:array withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
+//                    [self.chapterQuestionInterface getChapterQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andChapterQuestionId:node.noteContentID];
                 }
                     break;
                 case QuestionAndAnswerMYQUESTION:
@@ -599,7 +603,9 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                     self.getUserQuestionInterface = [[GetUserQuestionInterface alloc] init];
                     self.getUserQuestionInterface.delegate = self;
                     self.questionScope = QuestionAndAnswerMYQUESTION;
-                    [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"0" andLastQuestionID:nil];
+                    NSMutableArray *array = [TestModelData getQuestion];
+                    [self.myQAVC reloadDataWithDataArray:array withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
+//                    [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"0" andLastQuestionID:nil];
                 }
                     break;
                 case QuestionAndAnswerMYANSWER:
@@ -608,6 +614,8 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                     self.getUserQuestionInterface.delegate = self;
                     //请求我的回答
                     self.questionScope = QuestionAndAnswerMYANSWER;
+                    NSMutableArray *array = [TestModelData getQuestion];
+                    [self.myQAVC reloadDataWithDataArray:array withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
                     [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"1" andLastQuestionID:nil];
                 }
                     break;

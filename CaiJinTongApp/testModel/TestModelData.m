@@ -9,6 +9,76 @@
 #import "TestModelData.h"
 
 @implementation TestModelData
++(NSMutableArray *)getQuestion {
+    NSMutableArray *chapterQuestionList = [[NSMutableArray alloc]init];
+    NSString *questionJSONPath = [NSBundle pathForResource:@"tempQuestion" ofType:@"json" inDirectory:[[NSBundle mainBundle] bundlePath]];
+    NSData *questionData = [NSData dataWithContentsOfFile:questionJSONPath];
+    id questionJsonData = [NSJSONSerialization JSONObjectWithData:questionData options:NSJSONReadingAllowFragments error:nil];
+    if(questionData != nil && [questionJsonData isKindOfClass:[NSDictionary class]]){
+        NSDictionary *dic = [NSDictionary dictionaryWithDictionary:(NSDictionary *)questionJsonData];
+        NSDictionary *dictionary = [dic objectForKey:@"ReturnObject"];
+        NSArray *array_chapterQuestionList =[dictionary objectForKey:@"chapterQuestionList"];
+        if (array_chapterQuestionList.count>0){
+            for (int i= 0; i<array_chapterQuestionList.count; i++) {
+                NSDictionary *question_dic = [array_chapterQuestionList objectAtIndex:i];
+                QuestionModel *question = [[QuestionModel alloc]init];
+                question.questionId = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"questionId"]];
+                question.questionName = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"questionName"]];
+                question.askerId = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"askerId"]];
+                question.askImg = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"askImg"]];
+                question.askerNick = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"askerNick"]];
+                question.askTime = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"askTime"]];
+                question.praiseCount = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"praiseCount"]];
+                question.isAcceptAnswer = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"isAcceptAnswer"]];
+                question.questiontitle = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"questiontitle"]];
+                question.isPraised =[NSString stringWithFormat:@"%@",[question_dic objectForKey:@"isPraised"]];
+                
+                if (![[question_dic objectForKey:@"answerList"]isKindOfClass:[NSNull class]] && [question_dic objectForKey:@"answerList"]!=nil) {
+                    NSArray *array_answer = [question_dic objectForKey:@"answerList"];
+                    if (array_answer.count>0) {
+                        question.answerList = [[NSMutableArray alloc]init];
+                        for (int k=0; k<array_answer.count; k++) {
+                            NSDictionary *answer_dic = [array_answer objectAtIndex:k];
+                            AnswerModel *answer = [[AnswerModel alloc]init];
+                            answer.resultId =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"resultId"]];
+                            answer.answerTime =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"answerTime"]];
+                            answer.answerId =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"answerId"]];
+                            answer.answerNick =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"answerNick"]];
+                            answer.isPraised = [NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"isParise"]];
+                            answer.answerPraiseCount =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"answerPraiseCount"]];
+                            answer.IsAnswerAccept =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"IsAnswerAccept"]];
+                            answer.answerContent =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"answerContent"]];
+                            answer.isPraised=[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"isPraised"]];
+                            
+                            //添加追问
+                            NSArray *reaskArray = [answer_dic objectForKey:@"addList"];
+                            NSMutableArray *reaskModelArr = [NSMutableArray array];
+                            for (NSDictionary *reaskDic in reaskArray) {
+                                Reaskmodel *reask = [[Reaskmodel alloc] init];
+                                reask.reaskID = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"ZID"]];
+                                reask.reaskContent = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"addQuestion"]];
+                                reask.reaskDate = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"CreateDate"]];
+                                reask.reaskingAnswerID = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"addMemberID"]];
+                                //对追问的回复
+                                reask.reAnswerID = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"AID"]];
+                                reask.reAnswerContent = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"Answer"]];
+                                reask.reAnswerIsAgree = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"AgreeStatus"]];
+                                reask.reAnswerIsTeacher = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"IsTeacher"]];
+                                reask.reAnswerNickName = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"TeacherName"]];
+                                [reaskModelArr addObject:reask];
+                            }
+                            answer.reaskModelArray = reaskModelArr;
+                            
+                            [question.answerList addObject:answer];
+                        }
+                    }
+                }
+                [chapterQuestionList addObject:question];
+            }
+        }
+    }
+    return chapterQuestionList;
+}
 +(NSArray*)getLessonArr{
     NSMutableArray *arr = [NSMutableArray array];
     LessonModel *lesson1 = [TestModelData getLesson];
