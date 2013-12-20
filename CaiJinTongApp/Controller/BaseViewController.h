@@ -11,4 +11,5 @@
 @interface BaseViewController : UIViewController
 - (void)keyBoardWillShow:(id)sender;
 - (void)keyBoardWillHide:(id)sender;
+-(void)popouViewFinishedFrameRect:(id)sender;
 @end

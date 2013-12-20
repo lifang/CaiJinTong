@@ -39,14 +39,17 @@ static BOOL tableVisible;
 
 -(void)keyBoardWillHide:(id)sender{
     CGRect selfRect = self.view.frame;
-    self.view.frame = (CGRect){selfRect.origin.x,50,selfRect.size};
+    self.view.frame = (CGRect){selfRect.origin.x,100,selfRect.size};
 }
 
 -(void)keyBoardWillShow:(id)sender{
     CGRect selfRect = self.view.frame;
-    self.view.frame = (CGRect){selfRect.origin.x,50,selfRect.size};
+    self.view.frame = (CGRect){selfRect.origin.x,10,selfRect.size};
 }
 
+-(void)popouViewFinishedFrameRect:(id)sender{
+    [self.titleField becomeFirstResponder];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -82,8 +85,8 @@ static BOOL tableVisible;
     [self.selectTable.layer setBorderWidth:2];
     self.selectTable.separatorStyle = NO;
     
-    frame = CGRectMake(6, 151, 41, 123);//按钮坐标
-    tableFrame = CGRectMake(-229, 30, 235, 370);//table坐标
+    frame = CGRectMake(6, 151, 41, 80);//按钮坐标
+    tableFrame = CGRectMake(-229, 30, 235, 300);//table坐标
     
     //问答分类
     if ([CaiJinTongManager shared].question.count == 0) {
@@ -103,7 +106,6 @@ static BOOL tableVisible;
     
     NSLog(@"%@第三方斯蒂芬斯蒂芬苏打",self.questionList);
     
-    [self.titleField becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning

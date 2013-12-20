@@ -265,6 +265,9 @@
 
 #pragma mark MJRefreshBaseViewDelegate 分页加载
 -(void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView{
+    [self.headerRefreshView endRefreshing];
+    [self.footerRefreshView endRefreshing];
+    return;
     self.isReaskRefreshing = NO;
     if (self.headerRefreshView == refreshView) {
         self.footerRefreshView.isForbidden = YES;

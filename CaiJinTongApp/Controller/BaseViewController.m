@@ -29,6 +29,7 @@
 	//监听键盘
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name: UIKeyboardWillHideNotification object:nil];
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(popouViewFinishedFrameRect:) name: POPOUCHANGEVIEWFRAME object:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -40,5 +41,9 @@
 }
 
 - (void)keyBoardWillHide:(id)sender{
+}
+
+-(void)popouViewFinishedFrameRect:(id)sender{
+
 }
 @end

@@ -28,6 +28,9 @@
     
 }
 
+-(void)popouViewFinishedFrameRect:(id)sender{
+     [self.contentField becomeFirstResponder];
+}
 
 - (void)viewDidLoad
 {
@@ -45,7 +48,6 @@
     self.contentField.layer.borderColor = [UIColor grayColor].CGColor;
     self.contentField.layer.borderWidth =1.0;
     self.contentField.layer.cornerRadius =5.0;
-    [self.contentField becomeFirstResponder];
     [self.view.layer setCornerRadius:6];
     [self.view.layer setMasksToBounds:YES];
     
