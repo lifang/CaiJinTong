@@ -327,6 +327,8 @@ static void * const keypath = (void*)&keypath;
     } completion:^(BOOL finished) {
 //        [self.mj_popupViewController viewDidAppear:NO];
     }];
+    
+     [[NSNotificationCenter defaultCenter] postNotificationName:POPOUCHANGEVIEWFRAME object:nil];
 }
 
 - (void)slideViewOut:(UIView*)popupView sourceView:(UIView*)sourceView overlayView:(UIView*)overlayView withAnimationType:(MJPopupViewAnimation)animationType
@@ -415,6 +417,7 @@ static void * const keypath = (void*)&keypath;
     } completion:^(BOOL finished) {
 //        [self.mj_popupViewController viewDidAppear:NO];
     }];
+    [[NSNotificationCenter defaultCenter] postNotificationName:POPOUCHANGEVIEWFRAME object:nil];
 }
 
 - (void)fadeViewOut:(UIView*)popupView sourceView:(UIView*)sourceView overlayView:(UIView*)overlayView

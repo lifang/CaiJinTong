@@ -37,23 +37,8 @@
     // Dispose of any resources that can be recreated.
 }
 - (void)keyBoardWillShow:(id)sender{
-    [UIView beginAnimations:nil context:nil];
-    CGRect frame = self.view.frame;
-    if (frame.origin.y==171) {
-        frame.origin.y = 10;
-    }
-    self.view.frame = frame;
-    
-    [UIView commitAnimations];
 }
 
 - (void)keyBoardWillHide:(id)sender{
-    [UIView beginAnimations:nil context:nil];
-    CGRect frame = self.view.frame;
-    if (frame.origin.y==10) {
-        frame.origin.y = 171;
-    }
-    self.view.frame = frame;
-    [UIView commitAnimations];
 }
 @end

@@ -136,7 +136,7 @@
     self.moviePlayerHolderView.layer.cornerRadius = 10;
     
     //视频加载提示框
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     [self.moviePlayerControlBackDownView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"play_barBG.png"]]];
     [self.seekSlider setMaximumTrackImage:[UIImage imageNamed:@"play_black.png"] forState:UIControlStateNormal];
@@ -313,7 +313,7 @@
             
         case MPMoviePlaybackStateInterrupted:
         {
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
             break;
         }
         
@@ -355,7 +355,7 @@
     if (self.moviePlayer.loadState == MPMovieLoadStatePlayable) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     } else if (self.moviePlayer.loadState == MPMovieLoadStateStalled) {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
     }
 }
 
@@ -369,7 +369,7 @@
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
         AskQuestionInterface *askQuestionInter = [[AskQuestionInterface alloc]init];
         self.askQuestionInterface = askQuestionInter;
         self.askQuestionInterface.delegate = self;
@@ -390,7 +390,7 @@
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
         SumitNoteInterface *sumitNoteInter = [[SumitNoteInterface alloc]init];
         self.sumitNoteInterface = sumitNoteInter;
         self.sumitNoteInterface.delegate = self;
@@ -470,7 +470,7 @@
 //            }
 //        }else {
 //            //判断是否播放完毕
-//            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//            //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
 //            PlayBackInterface *playBackInter = [[PlayBackInterface alloc]init];
 //            self.playBackInterface = playBackInter;
 //            self.playBackInterface.delegate = self;
@@ -490,7 +490,7 @@
        
     }else {
         //判断是否播放完毕
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
         PlayBackInterface *playBackInter = [[PlayBackInterface alloc]init];
         self.playBackInterface = playBackInter;
         self.playBackInterface.delegate = self;

@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface BaseViewController : UIViewController
-
+- (void)keyBoardWillShow:(id)sender;
+- (void)keyBoardWillHide:(id)sender;
 @end

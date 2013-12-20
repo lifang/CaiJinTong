@@ -37,6 +37,16 @@ static BOOL tableVisible;
     }
 }
 
+-(void)keyBoardWillHide:(id)sender{
+    CGRect selfRect = self.view.frame;
+    self.view.frame = (CGRect){selfRect.origin.x,50,selfRect.size};
+}
+
+-(void)keyBoardWillShow:(id)sender{
+    CGRect selfRect = self.view.frame;
+    self.view.frame = (CGRect){selfRect.origin.x,50,selfRect.size};
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -92,6 +102,8 @@ static BOOL tableVisible;
     }
     
     NSLog(@"%@第三方斯蒂芬斯蒂芬苏打",self.questionList);
+    
+    [self.titleField becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning
@@ -103,7 +115,6 @@ static BOOL tableVisible;
 - (IBAction)spaceAreaClicked:(id)sender {
     [self.titleField resignFirstResponder];
     [self.contentField resignFirstResponder];
-    [self inputBegin:nil];
 }
 
 - (IBAction)cancelBtnClicked:(UIButton *)sender {
@@ -246,7 +257,6 @@ static BOOL tableVisible;
 
 #pragma mark textView delegate
 -(BOOL)textViewShouldBeginEditing:(UITextView *)textView{
-    [self inputBegin:nil];
     return YES;
 }
 

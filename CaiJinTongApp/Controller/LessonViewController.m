@@ -499,6 +499,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 - (IBAction)lessonListBtClicked:(id)sender {
     [CaiJinTongManager shared].isSettingView = NO;
     self.listType = LESSON_LIST;
+    self.drTreeTableView.noteArr = [NSMutableArray arrayWithArray:@[[TestModelData getTreeNodeFromCategoryModel:[TestModelData getCategoryTree]]]];
 //    [self getLessonInfo];
     DRNavigationController *navi = [self.childViewControllers lastObject];
     if (navi.childViewControllers.count > 2) {
