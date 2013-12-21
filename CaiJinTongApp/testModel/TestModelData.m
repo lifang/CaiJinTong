@@ -283,6 +283,14 @@
     return nil;
 }
 
++(NSMutableArray *)loadJSON{
+    NSString *questionJSONPath = [NSBundle pathForResource:@"LHLTestJSON" ofType:@"json" inDirectory:[[NSBundle mainBundle] bundlePath]];
+    NSData *questionData = [NSData dataWithContentsOfFile:questionJSONPath];
+    NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:questionData options:NSJSONReadingAllowFragments error:nil];
+    
+    return [NSMutableArray arrayWithArray:jsonArray];
+}
+
 +(NSMutableArray*)getTreeNodeArrayFromArray:(NSArray*)arr{
     return [TestModelData getTreeNodeArrayFromArray:arr withLevel:0 withRootContentID:nil];
 }

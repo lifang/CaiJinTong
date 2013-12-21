@@ -20,6 +20,7 @@
 +(chapterModel*)getChapter;
 //+(SectionModel*)getSection;
 +(CategoryModel*)getCategory;
++(NSMutableArray *)loadJSON;
 +(CategoryModel*)getCategoryTree;
 +(SectionModel*)getSectionOld;//课程
 +(DRTreeNode*)getTreeNodeFromCategoryModel:(CategoryModel*)categoryModel;

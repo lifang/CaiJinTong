@@ -255,8 +255,6 @@
 		630B03B51820F5BB00F72C4C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 630B03B31820F5BB00F72C4C /* InfoPlist.strings */; };
 		630B03B71820F5BB00F72C4C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 630B03B61820F5BB00F72C4C /* main.m */; };
 		630B03BB1820F5BB00F72C4C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 630B03BA1820F5BB00F72C4C /* AppDelegate.m */; };
-		630B03BE1820F5BB00F72C4C /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 630B03BC1820F5BB00F72C4C /* Main_iPhone.storyboard */; };
-		630B03C11820F5BB00F72C4C /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 630B03BF1820F5BB00F72C4C /* Main_iPad.storyboard */; };
 		630B03C41820F5BB00F72C4C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 630B03C31820F5BB00F72C4C /* ViewController.m */; };
 		630B03C61820F5BB00F72C4C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 630B03C51820F5BB00F72C4C /* Images.xcassets */; };
 		630B03CD1820F5BC00F72C4C /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630B03CC1820F5BC00F72C4C /* XCTest.framework */; };
@@ -287,9 +285,12 @@
 		6330033C1845F81200F7838D /* radio_unchecked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 633003381845F81200F7838D /* radio_unchecked@2x.png */; };
 		633003911845FC2100F7838D /* QRadioButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6330038E1845FC2100F7838D /* QRadioButton.m */; };
 		633003981846022500F7838D /* SexRadioView.m in Sources */ = {isa = PBXBuildFile; fileRef = 633003971846022500F7838D /* SexRadioView.m */; };
+		633F6C901865802A00E322C9 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 633F6C8F1865802A00E322C9 /* CoreData.framework */; };
 		6376B3061839E62F0015C537 /* line2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6376B3051839E62F0015C537 /* line2@2x.png */; };
 		63841CF01838977000E3FA9E /* ChapterSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 63841CEF1838977000E3FA9E /* ChapterSearchBar.m */; };
 		63841CF31838A60100E3FA9E /* DRNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63841CF21838A60100E3FA9E /* DRNavigationController.m */; };
+		63921AE418644221006627B2 /* LHLTestJSON.json in Resources */ = {isa = PBXBuildFile; fileRef = 63921AE318644221006627B2 /* LHLTestJSON.json */; };
+		63921AE9186442FC006627B2 /* 财金通logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 63921AE8186442FC006627B2 /* 财金通logo.png */; };
 		6392BFEE1852CA2F00F68671 /* MyAnswerListForQuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6392BFED1852CA2F00F68671 /* MyAnswerListForQuestionViewController.m */; };
 		639F43191862FAA1006FBE26 /* TestModelData.m in Sources */ = {isa = PBXBuildFile; fileRef = 639F43181862FAA1006FBE26 /* TestModelData.m */; };
 		639F431C1862FC0E006FBE26 /* CategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 639F431B1862FC0E006FBE26 /* CategoryModel.m */; };
@@ -776,11 +777,14 @@
 		6330038E1845FC2100F7838D /* QRadioButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRadioButton.m; sourceTree = "<group>"; };
 		633003961846022500F7838D /* SexRadioView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SexRadioView.h; sourceTree = "<group>"; };
 		633003971846022500F7838D /* SexRadioView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SexRadioView.m; sourceTree = "<group>"; };
+		633F6C8F1865802A00E322C9 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		6376B3051839E62F0015C537 /* line2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "line2@2x.png"; sourceTree = "<group>"; };
 		63841CEE1838977000E3FA9E /* ChapterSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChapterSearchBar.h; sourceTree = "<group>"; };
 		63841CEF1838977000E3FA9E /* ChapterSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChapterSearchBar.m; sourceTree = "<group>"; };
 		63841CF11838A60100E3FA9E /* DRNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRNavigationController.h; sourceTree = "<group>"; };
 		63841CF21838A60100E3FA9E /* DRNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRNavigationController.m; sourceTree = "<group>"; };
+		63921AE318644221006627B2 /* LHLTestJSON.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LHLTestJSON.json; sourceTree = "<group>"; };
+		63921AE8186442FC006627B2 /* 财金通logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "财金通logo.png"; sourceTree = "<group>"; };
 		6392BFEC1852CA2F00F68671 /* MyAnswerListForQuestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAnswerListForQuestionViewController.h; sourceTree = "<group>"; };
 		6392BFED1852CA2F00F68671 /* MyAnswerListForQuestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAnswerListForQuestionViewController.m; sourceTree = "<group>"; };
 		639F43171862FAA1006FBE26 /* TestModelData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestModelData.h; path = testModel/TestModelData.h; sourceTree = "<group>"; };
@@ -818,6 +822,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				633F6C901865802A00E322C9 /* CoreData.framework in Frameworks */,
 				0EDF4E03182102AB007161E0 /* Security.framework in Frameworks */,
 				63E6A911185B348700D809A6 /* AudioToolbox.framework in Frameworks */,
 				63E6A90F185B341800D809A6 /* CoreMedia.framework in Frameworks */,
@@ -1017,6 +1022,7 @@
 		0EAFA0D41822166700D01D3E /* JSON */ = {
 			isa = PBXGroup;
 			children = (
+				63921AE318644221006627B2 /* LHLTestJSON.json */,
 				0E9DA2BF183EF00D000A5995 /* questionInfo副本.json */,
 				0EAFA0DF1822167800D01D3E /* logIn.json */,
 				0EAFA0DB1822167800D01D3E /* findPassWord.json */,
@@ -1526,6 +1532,7 @@
 		630B03A91820F5BB00F72C4C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				633F6C8F1865802A00E322C9 /* CoreData.framework */,
 				63E6A910185B348700D809A6 /* AudioToolbox.framework */,
 				63E6A90E185B341800D809A6 /* CoreMedia.framework */,
 				0E9C9EFC184343F700D48781 /* AssetsLibrary.framework */,
@@ -1673,6 +1680,7 @@
 		639A07A01823905900B60670 /* thirty */ = {
 			isa = PBXGroup;
 			children = (
+				63921AE8186442FC006627B2 /* 财金通logo.png */,
 				639F434518631804006FBE26 /* DRTree */,
 				63B794DF1847477100B8276A /* MJRefresh */,
 				6330032E1845ED6F00F7838D /* radioBtuuon */,
@@ -1839,7 +1847,6 @@
 				18C9312C18363B2A00FBE1A8 /* btn1@2x.png in Resources */,
 				18E32E0B1831FDF900041B8A /* login_10@2x.png in Resources */,
 				18C9313018363B2A00FBE1A8 /* play_chat@2x.png in Resources */,
-				630B03C11820F5BB00F72C4C /* Main_iPad.storyboard in Resources */,
 				1815325418360DE60078A410 /* Q&A-myq_19@2x.png in Resources */,
 				18EBD11C1842FA0900F9BDA9 /* lhl1@2x.png in Resources */,
 				18E32E0C1831FDF900041B8A /* login_bg@2x.png in Resources */,
@@ -1872,6 +1879,7 @@
 				1815324F1835FEA10078A410 /* x@2x.png in Resources */,
 				18E32DFE1831FD7F00041B8A /* login_bg_7@2x.png in Resources */,
 				0EAFA0FA1822167800D01D3E /* searchQuestion.json in Resources */,
+				63921AE418644221006627B2 /* LHLTestJSON.json in Resources */,
 				0EBA03AB1864198B00041933 /* tempQuestion.json in Resources */,
 				0EAFA0EF1822167800D01D3E /* commentList.json in Resources */,
 				18491C4118345FF8003C82E4 /* play_05@2x.png in Resources */,
@@ -1879,7 +1887,6 @@
 				6376B3061839E62F0015C537 /* line2@2x.png in Resources */,
 				18C9313718363B2A00FBE1A8 /* play-courselist_0d3@2x.png in Resources */,
 				18A19C84183CA60500C11310 /* iRate.bundle in Resources */,
-				630B03BE1820F5BB00F72C4C /* Main_iPhone.storyboard in Resources */,
 				18E32E0A1831FDF900041B8A /* login_07@2x.png in Resources */,
 				633003391845F81200F7838D /* radio_checked.png in Resources */,
 				0EAD1F7B182B369600204FC3 /* frame.png in Resources */,
@@ -1902,6 +1909,7 @@
 				0E8166E718485BA30064DE98 /* backgroundStar@2x.png in Resources */,
 				182314411840A35D00DE9422 /* delete_2.png in Resources */,
 				181532451835CD3D0078A410 /* btn0@2x.png in Resources */,
+				63921AE9186442FC006627B2 /* 财金通logo.png in Resources */,
 				0EAFA0F71822167800D01D3E /* questionInfo.json in Resources */,
 				0EAFA107182223BD00D01D3E /* loginBgImage_v.png in Resources */,
 				18EA12571845E6B300F12D8B /* photoBg@2x.png in Resources */,

@@ -79,34 +79,51 @@
 
 }
 
+/////////////
+//播放接口
+
 -(void)playVideo:(id)sender {
     self.isPlaying = YES;
-    DLog(@"play");
-    //先匹配本地,在数据库中查找纪录
-    Section *sectionDb = [[Section alloc]init];
-    SectionSaveModel *sectionSave = [sectionDb getDataWithSid:self.section.sectionId];
-    if (sectionSave != nil && sectionSave.downloadState == 1) {
-        self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
-        [self.playerController playMovieWithSectionModel:nil orLocalSectionModel:sectionSave withFileType:MPMovieSourceTypeFile];
-        self.playerController.delegate = self;
-        AppDelegate *app = [AppDelegate sharedInstance];
-        [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
-            
-        }];
-    }else {
-        //在线播放
-        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-            [Utility errorAlert:@"暂无网络!"];
-        }else {
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            PlayVideoInterface *playVideoInter = [[PlayVideoInterface alloc]init];
-            self.playVideoInterface = playVideoInter;
-            self.playVideoInterface.delegate = self;
-            NSString *timespan = [Utility getNowDateFromatAnDate];
-            [self.playVideoInterface getPlayVideoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.section.sectionId andTimeStart:timespan];
-        }
-    }
+    self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
+    [self.playerController playMovieWithSectionModel:self.section orLocalSectionModel:nil withFileType:MPMovieSourceTypeStreaming];
+    self.playerController.delegate = self;
+    AppDelegate *app = [AppDelegate sharedInstance];
+    [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
+        
+    }];
 }
+/////////
+
+
+
+//-(void)playVideo:(id)sender {
+//    self.isPlaying = YES;
+//    DLog(@"play");
+//    //先匹配本地,在数据库中查找纪录
+//    Section *sectionDb = [[Section alloc]init];
+//    SectionSaveModel *sectionSave = [sectionDb getDataWithSid:self.section.sectionId];
+//    if (sectionSave != nil && sectionSave.downloadState == 1) {
+//        self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
+//        [self.playerController playMovieWithSectionModel:nil orLocalSectionModel:sectionSave withFileType:MPMovieSourceTypeFile];
+//        self.playerController.delegate = self;
+//        AppDelegate *app = [AppDelegate sharedInstance];
+//        [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
+//            
+//        }];
+//    }else {
+//        //在线播放
+//        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+//            [Utility errorAlert:@"暂无网络!"];
+//        }else {
+//            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//            PlayVideoInterface *playVideoInter = [[PlayVideoInterface alloc]init];
+//            self.playVideoInterface = playVideoInter;
+//            self.playVideoInterface.delegate = self;
+//            NSString *timespan = [Utility getNowDateFromatAnDate];
+//            [self.playVideoInterface getPlayVideoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.section.sectionId andTimeStart:timespan];
+//        }
+//    }
+//}
 -(void)displayView {
     NSLog(@"self.section = %@",self.section);
     self.slideSwitchView.backgroundColor = [UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:232.0/255.0 alpha:1.0];

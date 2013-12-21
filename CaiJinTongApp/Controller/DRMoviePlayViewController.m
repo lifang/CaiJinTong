@@ -504,15 +504,16 @@
     }
 }
 
+
 -(void)playMovieWithSectionModel:(SectionModel*)sectionModel orLocalSectionModel:(SectionSaveModel*)saveSectionModel withFileType:(MPMovieSourceType)fileType{
     if (!saveSectionModel && fileType == MPMovieSourceTypeFile) {
         [Utility errorAlert:@"没有发现要播放的文件"];
         return;
     }else
-    if (!sectionModel && fileType == MPMovieSourceTypeStreaming) {
-        [Utility errorAlert:@"没有发现要播放的文件"];
-        return;
-    }
+        if (!sectionModel && fileType == MPMovieSourceTypeStreaming) {
+            [Utility errorAlert:@"没有发现要播放的文件"];
+            return;
+        }
     [self addMoviePlayBackNotification];
     self.drMovieSourceType = fileType;
     if (fileType == MPMovieSourceTypeFile) {
@@ -520,15 +521,41 @@
         self.drMovieTopBar.titleLabel.text = saveSectionModel.name;
         self.movieUrl = [NSURL fileURLWithPath:[CaiJinTongManager getMovieLocalPathWithSectionID:saveSectionModel.sid]];
     }else
-    if (fileType == MPMovieSourceTypeStreaming) {
-        self.sectionModel = sectionModel;
-        self.drMovieTopBar.titleLabel.text = sectionModel.sectionName;
-        self.movieUrl = [NSURL URLWithString:sectionModel.sectionSD];
-    }
+        if (fileType == MPMovieSourceTypeStreaming) {
+            self.sectionModel = sectionModel;
+            self.drMovieTopBar.titleLabel.text = sectionModel.sectionName;
+            self.movieUrl = [NSURL URLWithString:@"http://nginx.finance365.com/6/184/966/20130506143924184.mp4"];
+        }
     if (self.isViewLoaded) {
         [self playMovie];
     }
 }
+
+//-(void)playMovieWithSectionModel:(SectionModel*)sectionModel orLocalSectionModel:(SectionSaveModel*)saveSectionModel withFileType:(MPMovieSourceType)fileType{
+//    if (!saveSectionModel && fileType == MPMovieSourceTypeFile) {
+//        [Utility errorAlert:@"没有发现要播放的文件"];
+//        return;
+//    }else
+//    if (!sectionModel && fileType == MPMovieSourceTypeStreaming) {
+//        [Utility errorAlert:@"没有发现要播放的文件"];
+//        return;
+//    }
+//    [self addMoviePlayBackNotification];
+//    self.drMovieSourceType = fileType;
+//    if (fileType == MPMovieSourceTypeFile) {
+//        self.sectionSaveModel = saveSectionModel;
+//        self.drMovieTopBar.titleLabel.text = saveSectionModel.name;
+//        self.movieUrl = [NSURL fileURLWithPath:[CaiJinTongManager getMovieLocalPathWithSectionID:saveSectionModel.sid]];
+//    }else
+//    if (fileType == MPMovieSourceTypeStreaming) {
+//        self.sectionModel = sectionModel;
+//        self.drMovieTopBar.titleLabel.text = sectionModel.sectionName;
+//        self.movieUrl = [NSURL URLWithString:sectionModel.sectionSD];
+//    }
+//    if (self.isViewLoaded) {
+//        [self playMovie];
+//    }
+//}
 
 //-(void)playMovieWithURL:(NSURL*)url withFileType:(MPMovieSourceType)fileType{
 //    self.movieUrl = url;

@@ -501,7 +501,8 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 - (IBAction)lessonListBtClicked:(id)sender {
     [CaiJinTongManager shared].isSettingView = NO;
     self.listType = LESSON_LIST;
-    self.drTreeTableView.noteArr = [NSMutableArray arrayWithArray:@[[TestModelData getTreeNodeFromCategoryModel:[TestModelData getCategoryTree]]]];
+//    self.drTreeTableView.noteArr = [NSMutableArray arrayWithArray:@[[TestModelData getTreeNodeFromCategoryModel:[TestModelData getCategoryTree]]]];
+    self.drTreeTableView.noteArr = [NSMutableArray arrayWithArray:[TestModelData getTreeNodeArrayFromArray:[TestModelData loadJSON]]];
 //    [self getLessonInfo];
     DRNavigationController *navi = [self.childViewControllers lastObject];
     if (navi.childViewControllers.count > 2) {
@@ -513,17 +514,23 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 - (IBAction)questionListBtClicked:(id)sender {
     [CaiJinTongManager shared].isSettingView = NO;
     self.listType = QUEATION_LIST;
-    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-    self.myQAVC = [story instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
     DRNavigationController *navi = [self.childViewControllers lastObject];
-    if (navi) {
-        if ([[navi.childViewControllers lastObject] isKindOfClass:[MyQuestionAndAnswerViewController class]] || ([[navi.childViewControllers lastObject] isKindOfClass:[DRAskQuestionViewController class]])) {
+    if (!self.myQAVC) {
+        self.myQAVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
+        NSMutableArray *array = [TestModelData getQuestion];
+        [self.myQAVC reloadDataWithDataArray:array withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
+         [navi pushViewController:self.myQAVC animated:YES];
+    }else{
+        if (navi) {
+            if ([[navi.childViewControllers lastObject] isKindOfClass:[MyQuestionAndAnswerViewController class]] || ([[navi.childViewControllers lastObject] isKindOfClass:[DRAskQuestionViewController class]])) {
+                
+            }else{
+                [navi pushViewController:self.myQAVC animated:YES];
+            }
             
-        }else{
-            [navi pushViewController:self.myQAVC animated:YES];
         }
-        
     }
+
      [self getQuestionInfo];
 }
 

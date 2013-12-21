@@ -55,7 +55,7 @@
     [self.hostReach startNotifier];  //开始监听，会启动一个run loop
     
     self.mDownloadService = [[DownloadService alloc]init];
-    
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:2]];
     return YES;
 }
 //连接改变
