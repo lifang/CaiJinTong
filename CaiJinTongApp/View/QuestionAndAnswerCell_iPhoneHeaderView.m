@@ -26,8 +26,8 @@
 
 @implementation QuestionAndAnswerCell_iPhoneHeaderView
 
--(id)initWithReuseIdentifier:(NSString *)reuseIdentifier{
-    self =[super initWithReuseIdentifier:reuseIdentifier];
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
+    self =[super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.backgroundView = [[UIView alloc] init];
         self.backgroundView.backgroundColor = [UIColor whiteColor];
@@ -123,14 +123,6 @@
         [self.delegate questionAndAnswerCell_iPhoneHeaderView:self flowerQuestionAtIndexPath:self.path];
     }
 }
-/*
- // Only override drawRect: if you perform custom drawing.
- // An empty implementation adversely affects performance during animation.
- - (void)drawRect:(CGRect)rect
- {
- // Drawing code
- }
- */
 
 #pragma mark UITextViewDelegate
 -(void)textViewDidBeginEditing:(UITextView *)textView{

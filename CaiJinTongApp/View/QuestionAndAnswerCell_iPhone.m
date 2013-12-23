@@ -197,6 +197,7 @@
     self.answerBackgroundView.frame = (CGRect){self.answerBackgroundView.frame.origin,QUESTIONANDANSWER_CELL_WIDTH,cellHeight};
     
     self.answerTextField.frame = (CGRect){0,0,self.answerBackgroundView.frame.size.width + 27,self.answerBackgroundView.frame.size.height};  //调整文字位置27
+    [self.answerTextField setBackgroundColor:[UIColor blueColor]];
     self.answerBt.frame = (CGRect){0,0,self.answerBackgroundView.frame.size};
     
     //追问部分

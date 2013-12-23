@@ -15,7 +15,7 @@
 #define QUESTIONHEARD_VIEW_WIDTH 271
 #define QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT 97
 @protocol QuestionAndAnswerCell_iPhoneHeaderViewDelegate;
-@interface QuestionAndAnswerCell_iPhoneHeaderView : UITableViewHeaderFooterView<UITextViewDelegate>
+@interface QuestionAndAnswerCell_iPhoneHeaderView : UITableViewCell<UITextViewDelegate>
 @property (strong,nonatomic) NSIndexPath *path;
 @property (weak,nonatomic) id <QuestionAndAnswerCell_iPhoneHeaderViewDelegate> delegate;
 @property (assign,nonatomic) QuestionAndAnswerScope *scope;//判断是回答还是追问
