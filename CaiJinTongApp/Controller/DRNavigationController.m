@@ -37,31 +37,24 @@
 
 
 
-//- (BOOL)shouldAutorotate {
-//    UIInterfaceOrientation interface = [[UIApplication sharedApplication] statusBarOrientation];
-//    UIViewController *subViewController = [[self childViewControllers] lastObject];
-//    if (subViewController && [subViewController isKindOfClass:[DRMoviePlayViewController class]]) {
-//        return [subViewController shouldAutorotate];
-//    }
-//    if (UIInterfaceOrientationIsLandscape(interface)) {
-//        return YES;
-//    }
-//    return NO;
-//}
-//
-//- (NSUInteger)supportedInterfaceOrientations {
-//    UIViewController *subViewController = [[self childViewControllers] lastObject];
-//    if (subViewController && [subViewController isKindOfClass:[DRMoviePlayViewController class]]) {
-//        return [subViewController supportedInterfaceOrientations];
-//    }
-//    return UIInterfaceOrientationMaskPortrait;
-//}
-//// pre-iOS 6 support
-//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
-//    UIViewController *subViewController = [[self childViewControllers] lastObject];
-//    if (subViewController && [subViewController isKindOfClass:[DRMoviePlayViewController class]]) {
-//        return [subViewController shouldAutorotateToInterfaceOrientation:toInterfaceOrientation];
-//    }
-//    return (toInterfaceOrientation == UIInterfaceOrientationPortrait);
-//}
+- (BOOL)shouldAutorotate {
+    return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+    UIViewController *subViewController = [[self childViewControllers] lastObject];
+    if (subViewController && [subViewController isKindOfClass:[DRMoviePlayViewController class]]) {
+        return [subViewController supportedInterfaceOrientations];
+    }
+    return UIInterfaceOrientationMaskLandscape;
+}
+// pre-iOS 6 support
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+    UIViewController *subViewController = [[self childViewControllers] lastObject];
+    if (subViewController && [subViewController isKindOfClass:[DRMoviePlayViewController class]]) {
+        return [subViewController shouldAutorotateToInterfaceOrientation:toInterfaceOrientation];
+    }
+    return  UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
+}
+
 @end

@@ -18,11 +18,15 @@
 +(NSArray*)getSectionArr;
 +(LessonModel*)getLesson;
 +(chapterModel*)getChapter;
-+(SectionModel*)getSection;
+//+(SectionModel*)getSection;
 +(CategoryModel*)getCategory;
++(NSMutableArray *)loadJSON;
 +(CategoryModel*)getCategoryTree;
 +(SectionModel*)getSectionOld;//课程
 +(DRTreeNode*)getTreeNodeFromCategoryModel:(CategoryModel*)categoryModel;
 +(NSMutableArray*)getTreeNodeArrayFromDictionary:(NSDictionary*)dic;
 +(NSMutableArray*)getTreeNodeArrayFromArray:(NSArray*)arr;
++(NSMutableArray *)getQuestion;
+
++(SectionModel *)getSectionInfo;
 @end

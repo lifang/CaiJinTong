@@ -11,5 +11,5 @@
 @interface CategoryModel : NSObject
 @property (strong,nonatomic) NSString *categoryID;
 @property (strong,nonatomic) NSString *categoryName;
-@property (strong,nonatomic) NSArray *catogoryChildArr;
+@property (strong,nonatomic) NSMutableArray *catogoryChildArr;
 @end

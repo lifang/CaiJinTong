@@ -53,8 +53,8 @@
     flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
     flowLayout.minimumLineSpacing = 30;
     flowLayout.minimumInteritemSpacing = 10;
-    flowLayout.itemSize = (CGSize){250, 215};
-    flowLayout.sectionInset = UIEdgeInsetsMake(20, 17, 35, 17);
+    flowLayout.itemSize = (CGSize){300, 270};
+    flowLayout.sectionInset = UIEdgeInsetsMake(20, 50, 50, 17);
     [self.collectionView setCollectionViewLayout:flowLayout];
 }
 
@@ -402,6 +402,7 @@
     cell.pv.value = xx;
     //
     cell.progressLabel.text = [NSString stringWithFormat:@"学习进度:%.2f%%",xx];
+    cell.backgroundColor = [UIColor clearColor];
     return cell;
     
 }
@@ -440,11 +441,16 @@
         if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
             [Utility errorAlert:@"暂无网络!"];
         }else {
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             SectionInfoInterface *sectionInter = [[SectionInfoInterface alloc]init];
             self.sectionInterface = sectionInter;
             self.sectionInterface.delegate = self;
-            [self.sectionInterface getSectionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:lesson.lessonId];
+            SectionModel *section = [TestModelData getSectionInfo];
+            UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+            SectionViewController *sectionView = [story instantiateViewControllerWithIdentifier:@"SectionViewController"];
+            sectionView.section = section;
+            [self.navigationController pushViewController:sectionView animated:YES];
+//            [self.sectionInterface getSectionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:lesson.lessonId];
         }
     }
 }

@@ -19,7 +19,6 @@ typedef enum {
 	RefreshStatePulling = 1,
 	RefreshStateNormal = 2,
 	RefreshStateRefreshing = 3,
-    RefreshStateNone = 4
 } RefreshState;
 
 typedef enum {

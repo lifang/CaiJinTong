@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LessonListHeaderView.h"
 #import "ChapterInfoInterface.h"
 #import "SearchLessonInterface.h"
 #import "QuestionInfoInterface.h"
@@ -15,7 +14,7 @@
 #import "ChapterQuestionInterface.h"
 #import "GetUserQuestionInterface.h"
 #import "DRTreeTableView.h"
-@interface LessonViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,LessonListHeaderViewDelegate,ChapterInfoInterfaceDelegate,LessonInfoInterfaceDelegate,UITextFieldDelegate,SearchLessonInterfaceDelegate,QuestionInfoInterfaceDelegate,ChapterQuestionInterfaceDelegate,UIScrollViewDelegate,GetUserQuestionInterfaceDelegate,SearchQuestionInterfaceDelegate,UITextFieldDelegate,DRTreeTableViewDelegate>
+@interface LessonViewController : UIViewController<UISearchBarDelegate,ChapterInfoInterfaceDelegate,LessonInfoInterfaceDelegate,UITextFieldDelegate,SearchLessonInterfaceDelegate,QuestionInfoInterfaceDelegate,ChapterQuestionInterfaceDelegate,UIScrollViewDelegate,GetUserQuestionInterfaceDelegate,SearchQuestionInterfaceDelegate,UITextFieldDelegate,DRTreeTableViewDelegate>
 
 @property (nonatomic, strong) SearchLessonInterface *searchLessonInterface;
 @property (weak, nonatomic) IBOutlet UIButton *editBtn;
@@ -31,25 +30,16 @@
 @property (weak, nonatomic) IBOutlet UIButton *lessonListBt;
 @property (weak, nonatomic) IBOutlet UIButton *questionListBt;
 @property (weak, nonatomic) IBOutlet UILabel *lessonListTitleLabel;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
 - (IBAction)lessonListBtClicked:(id)sender;
 - (IBAction)questionListBtClicked:(id)sender;
 - (IBAction)SearchBrClicked:(id)sender;
 @property (weak, nonatomic) IBOutlet UIImageView *LogoImageView;
 @property (weak, nonatomic) IBOutlet UILabel *rightNameLabel;
-@property (nonatomic, strong) NSDictionary *lessonDictionary;
 @property (nonatomic, strong) NSMutableArray *lessonList;  //课程数据
-@property (nonatomic, strong) NSMutableArray *arrSelSection;
-@property (nonatomic, assign) NSInteger tmpSection;
 
 @property (nonatomic, strong) NSDictionary *questionDictionary;
 @property (nonatomic, strong) NSMutableArray *questionList;//所有问答
 @property (nonatomic, strong) NSMutableArray *myQuestionList;//我的问答
-@property (nonatomic, strong) NSMutableArray *questionArrSelSection;
-@property (nonatomic, strong) NSMutableArray *myQuestionArrSelSection;
-@property (nonatomic, assign) NSInteger questionTmpSection;
-@property (nonatomic, assign) NSInteger myQuestionTmpSection;
-@property (nonatomic, strong) NSMutableArray *temp_saveArray;//根据
 
 @property (nonatomic, strong) ChapterQuestionInterface *chapterQuestionInterface;
 

@@ -7,6 +7,7 @@
 //
 
 #import "Section_NoteViewController.h"
+#define NOTE_CELL_WIDTH 650
 @interface Section_NoteViewController ()
 @property (nonatomic,strong) UILabel *tipLabel;
 @end
@@ -42,7 +43,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     NoteModel *note = (NoteModel *)[self.dataArray objectAtIndex:indexPath.row];
     UIFont *aFont = [UIFont fontWithName:@"Trebuchet MS" size:18];
-    CGSize size = [note.noteText sizeWithFont:aFont constrainedToSize:CGSizeMake(500, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
+    CGSize size = [note.noteText sizeWithFont:aFont constrainedToSize:CGSizeMake(NOTE_CELL_WIDTH, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
     return size.height+50+20;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -62,10 +63,10 @@
     }
     NoteModel *note = (NoteModel *)[self.dataArray objectAtIndex:indexPath.row];
     UIFont *aFont = [UIFont fontWithName:@"Trebuchet MS" size:18];
-    CGSize size = [note.noteText sizeWithFont:aFont constrainedToSize:CGSizeMake(500, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
+    CGSize size = [note.noteText sizeWithFont:aFont constrainedToSize:CGSizeMake(NOTE_CELL_WIDTH, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
     
     [cell.contentTextView setUserInteractionEnabled:NO];
-    cell.contentTextView.frame = CGRectMake(30, 50, 500, size.height+20);
+    cell.contentTextView.frame = CGRectMake(30, 50, NOTE_CELL_WIDTH, size.height+20);
     cell.timeLab.text = note.noteTime;
     cell.contentTextView.layer.borderWidth = 2.0;
     cell.contentTextView.layer.borderColor = [[UIColor colorWithRed:244.0/255.0 green:243.0/255.0 blue:244.0/255.0 alpha:1.0] CGColor];
@@ -92,7 +93,7 @@
 #pragma mark property
 -(UILabel *)tipLabel{
     if (!_tipLabel) {
-        _tipLabel = [[UILabel alloc] initWithFrame:(CGRect){0,0,self.tableViewList.frame.size}];
+        _tipLabel = [[UILabel alloc] initWithFrame:(CGRect){0,0,NOTE_CELL_WIDTH,self.tableViewList.frame.size.height}];
         _tipLabel.textAlignment = NSTextAlignmentCenter;
         _tipLabel.textColor = [UIColor grayColor];
         _tipLabel.font = [UIFont systemFontOfSize:30];

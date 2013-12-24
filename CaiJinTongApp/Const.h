@@ -22,6 +22,7 @@ typedef enum {//追问类型
     ReaskType_None,
 }ReaskType;
 
+#define POPOUCHANGEVIEWFRAME @"popouChangeViewFrame"
 //#define kHost @"http://wmi.finance365.com/api/ios.ashx"
 #define kHost @"http://lms.finance365.com/api/ios.ashx"
 //#define kSummitQuestHost  @"http://lms.finance365.com/api/ios.ashx"

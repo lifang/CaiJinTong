@@ -9,6 +9,7 @@
 #import "Section_GradeViewController.h"
 #import "Section_GradeCell.h"
 #import "CommentModel.h"
+#define COMMENT_CELL_WIDTH 650
 @interface Section_GradeViewController ()
 @property (nonatomic,strong) UILabel *tipLabel;
 @end
@@ -31,7 +32,7 @@
 {
     [super viewDidLoad];
     if (!self.starRatingView) {
-        self.starRatingView = [[TQStarRatingView alloc] initWithFrame:(CGRect){24,6,521,51} numberOfStar:5];
+        self.starRatingView = [[TQStarRatingView alloc] initWithFrame:(CGRect){29,6,COMMENT_CELL_WIDTH+5,51} numberOfStar:5];
         self.starRatingView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         [self.commentBackView addSubview:self.starRatingView];
     }
@@ -95,7 +96,7 @@ static NSString *timespan = nil;
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row<self.dataArray.count) {
         CommentModel *comment = (CommentModel *)[self.dataArray objectAtIndex:indexPath.row];
-        CGSize size = [Utility getTextSizeWithString:comment.content withFont:[UIFont systemFontOfSize:15] withWidth:500];
+        CGSize size = [Utility getTextSizeWithString:comment.content withFont:[UIFont systemFontOfSize:15] withWidth:COMMENT_CELL_WIDTH];
         return size.height+20+35;
     }
     return 35;
@@ -113,11 +114,11 @@ static NSString *timespan = nil;
     Section_GradeCell *cell = (Section_GradeCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (indexPath.row<self.dataArray.count) { // 正常的cell
         CommentModel *comment = (CommentModel *)[self.dataArray objectAtIndex:indexPath.row];
-        CGSize size = [Utility getTextSizeWithString:comment.content withFont:[UIFont systemFontOfSize:15] withWidth:500];
+        CGSize size = [Utility getTextSizeWithString:comment.content withFont:[UIFont systemFontOfSize:15] withWidth:COMMENT_CELL_WIDTH];
         cell.contentLab.layer.borderWidth = 2.0;
         cell.contentLab.layer.borderColor = [[UIColor colorWithRed:244.0/255.0 green:243.0/255.0 blue:244.0/255.0 alpha:1.0] CGColor];
         cell.contentLab.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-        cell.contentLab.frame = CGRectMake(25, 25, 500, size.height+10);
+        cell.contentLab.frame = CGRectMake(25, 25, COMMENT_CELL_WIDTH, size.height+10);
         cell.contentLab.font = [UIFont systemFontOfSize:15];
         cell.alpha = 0.5;
         cell.contentLab.text = [comment.content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -217,7 +218,7 @@ static NSString *timespan = nil;
 #pragma mark property
 -(UILabel *)tipLabel{
     if (!_tipLabel) {
-        _tipLabel = [[UILabel alloc] initWithFrame:(CGRect){0,0,self.tableViewList.frame.size}];
+        _tipLabel = [[UILabel alloc] initWithFrame:(CGRect){0,0,COMMENT_CELL_WIDTH,self.tableViewList.frame.size.height}];
         _tipLabel.textAlignment = NSTextAlignmentCenter;
         _tipLabel.textColor = [UIColor grayColor];
         _tipLabel.font = [UIFont systemFontOfSize:30];

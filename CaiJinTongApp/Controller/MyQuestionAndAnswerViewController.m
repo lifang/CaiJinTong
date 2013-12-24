@@ -61,10 +61,11 @@
     self.questionAndAnswerScope = scope;
     self.chapterID = chapterID;
     self.myQuestionArr = [NSMutableArray arrayWithArray:data];
-    [self.headerRefreshView endRefreshing];
-    self.headerRefreshView.isForbidden = NO;
-    [self.footerRefreshView endRefreshing];
-    self.footerRefreshView.isForbidden = NO;
+//    self.headerRefreshView.isForbidden = NO;
+//    self.footerRefreshView.isForbidden = NO;
+//    [self.headerRefreshView endRefreshing];
+//    [self.footerRefreshView endRefreshing];
+    
     
     if (self.myQuestionArr.count>0) {
         QuestionModel *question = [self.myQuestionArr  objectAtIndex:self.myQuestionArr.count-1];
@@ -386,24 +387,24 @@
     return _questionListInterface;
 }
 
--(MJRefreshHeaderView *)headerRefreshView{
-    if (!_headerRefreshView) {
-        _headerRefreshView = [[MJRefreshHeaderView alloc] init];
-        _headerRefreshView.scrollView = self.tableView;
-        _headerRefreshView.delegate = self;
-    }
-    return _headerRefreshView;
-}
-
--(MJRefreshFooterView *)footerRefreshView{
-    if (!_footerRefreshView) {
-        _footerRefreshView = [[MJRefreshFooterView alloc] init];
-        _footerRefreshView.delegate = self;
-        _footerRefreshView.scrollView = self.tableView;
-        
-    }
-    return _footerRefreshView;
-}
+//-(MJRefreshHeaderView *)headerRefreshView{
+//    if (!_headerRefreshView) {
+//        _headerRefreshView = [[MJRefreshHeaderView alloc] init];
+//        _headerRefreshView.scrollView = self.tableView;
+//        _headerRefreshView.delegate = self;
+//    }
+//    return _headerRefreshView;
+//}
+//
+//-(MJRefreshFooterView *)footerRefreshView{
+//    if (!_footerRefreshView) {
+//        _footerRefreshView = [[MJRefreshFooterView alloc] init];
+//        _footerRefreshView.delegate = self;
+//        _footerRefreshView.scrollView = self.tableView;
+//        
+//    }
+//    return _footerRefreshView;
+//}
 
 -(NSMutableArray *)myQuestionArr{
     if (!_myQuestionArr) {

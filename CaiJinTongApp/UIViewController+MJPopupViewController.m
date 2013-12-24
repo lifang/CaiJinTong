@@ -304,17 +304,10 @@ static void * const keypath = (void*)&keypath;
                                   popupSize.width,
                                   popupSize.height);
     }else
-        if ([CaiJinTongManager shared].isSettingView == YES) {
-            popupEndRect = CGRectMake((sourceSize.width - popupSize.width)/2,
-                                      popupView.frame.origin.y,
-                                      popupSize.width,
-                                      popupSize.height);
-        }else {
-            popupEndRect = CGRectMake(sourceSize.width - popupSize.width,
-                                      popupView.frame.origin.y,
-                                      popupSize.width,
-                                      popupSize.height);
-        }
+        popupEndRect = CGRectMake(sourceSize.width - popupSize.width,
+                                  popupView.frame.origin.y,
+                                  popupSize.width,
+                                  popupSize.height);
     
     
     // Set starting properties
@@ -327,6 +320,8 @@ static void * const keypath = (void*)&keypath;
     } completion:^(BOOL finished) {
 //        [self.mj_popupViewController viewDidAppear:NO];
     }];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:POPOUCHANGEVIEWFRAME object:nil userInfo:@{@"x": [NSNumber numberWithInt:popupView.frame.origin.x],@"Y":[NSNumber numberWithInt:popupView.frame.origin.y]}];
 }
 
 - (void)slideViewOut:(UIView*)popupView sourceView:(UIView*)sourceView overlayView:(UIView*)overlayView withAnimationType:(MJPopupViewAnimation)animationType
@@ -415,6 +410,7 @@ static void * const keypath = (void*)&keypath;
     } completion:^(BOOL finished) {
 //        [self.mj_popupViewController viewDidAppear:NO];
     }];
+   [[NSNotificationCenter defaultCenter] postNotificationName:POPOUCHANGEVIEWFRAME object:nil userInfo:@{@"x": [NSNumber numberWithInt:popupView.frame.origin.x],@"Y":[NSNumber numberWithInt:popupView.frame.origin.y]}];
 }
 
 - (void)fadeViewOut:(UIView*)popupView sourceView:(UIView*)sourceView overlayView:(UIView*)overlayView
