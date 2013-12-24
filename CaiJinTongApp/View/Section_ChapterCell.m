@@ -38,6 +38,10 @@
         }
     }
 }
+
+-(IBAction)playBtClicked:(id)sender{
+
+}
 -(void)layoutSubviews{
     [super layoutSubviews];
     //下载进度条更新

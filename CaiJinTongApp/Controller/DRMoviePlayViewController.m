@@ -179,6 +179,7 @@
         }
     }else
     if (item == self.myQuestionItem) {
+        [self.moviePlayer pause];
         DRCommitQuestionViewController *commitController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRCommitQuestionViewController"];
         commitController.view.frame = (CGRect){0,0,804,426};
         commitController.delegate = self;
@@ -188,6 +189,7 @@
         self.isPopupChapter = NO;
     }else
     if (item == self.myNotesItem) {
+        [self.moviePlayer pause];
         DRTakingMovieNoteViewController *takingController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRTakingMovieNoteViewController"];
         takingController.view.frame = (CGRect){0,0,804,426};
         takingController.delegate = self;
@@ -365,7 +367,7 @@
 #pragma mark -- 提交问题
 -(void)commitQuestionController:(DRCommitQuestionViewController *)controller didCommitQuestionWithTitle:(NSString *)title andText:(NSString *)text andQuestionId:(NSString *)questionId{
     self.myQuestionItem.isSelected = NO;
-    
+    [self.moviePlayer play];
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
@@ -379,6 +381,7 @@
 
 -(void)commitQuestionControllerCancel{
     self.myQuestionItem.isSelected = NO;
+    [self.moviePlayer play];
 }
 #pragma mark --
 
@@ -387,6 +390,7 @@
     self.commitNoteText = text;
     self.commitNoteTime = noteTime;
     self.myNotesItem.isSelected = NO;
+    [self.moviePlayer play];
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
@@ -404,6 +408,7 @@
 
 -(void)takingMovieNoteControllerCancel{
     self.myNotesItem.isSelected = NO;
+    [self.moviePlayer play];
 }
 #pragma mark --
 
@@ -680,19 +685,15 @@
 #pragma mark --
 
 - (BOOL)shouldAutorotate {
-    UIInterfaceOrientation interface = [[UIApplication sharedApplication] statusBarOrientation];
-    if (!UIInterfaceOrientationIsLandscape(interface)) {
-        return YES;
-    }
     return YES;
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskLandscapeLeft;
+    return UIInterfaceOrientationMaskLandscape;
 }
 // pre-iOS 6 support
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
-    return (toInterfaceOrientation == UIInterfaceOrientationMaskLandscapeLeft);
+    return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
 }
 
 #pragma mark TOUCH

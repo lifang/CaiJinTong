@@ -20,9 +20,6 @@
 @property (nonatomic, strong) UserModel *user;
 @property (nonatomic, strong) NSMutableArray *question;
 @property (nonatomic, assign) int tagOfBtn;
-
-@property (nonatomic, assign) BOOL isSettingView;
-
 @property (nonatomic, assign) CGFloat defaultPortraitTopInset;
 @property (nonatomic, assign) CGFloat defaultWidth;
 @property (nonatomic, assign) CGFloat defaultHeight;

@@ -221,6 +221,22 @@
     lesson24.lessonId = @"969222";
     lesson24.lessonName = @"证券投资基金－第十一章";
     [arr addObject:lesson24];
+    
+    LessonModel *lesson25 = [TestModelData getLesson];
+    lesson25.lessonId = @"969222";
+    lesson25.lessonName = @"证券投资基金－第十二章";
+    [arr addObject:lesson25];
+    
+    LessonModel *lesson26 = [TestModelData getLesson];
+    lesson26.lessonId = @"969222";
+    lesson26.lessonName = @"证券投资基金－第十三章";
+    [arr addObject:lesson26];
+    
+    LessonModel *lesson27 = [TestModelData getLesson];
+    lesson27.lessonId = @"969222";
+    lesson27.lessonName = @"证券投资基金－第十四章";
+    [arr addObject:lesson27];
+    
     return arr;
 }
 +(NSArray*)getChapterArr{
@@ -263,7 +279,7 @@
     CategoryModel *category12 = [TestModelData getCategory];
     category12.categoryID = @"12";
     category12.categoryName = @"证券投资基金";
-    category.catogoryChildArr = @[category11,category12];
+    category.catogoryChildArr = [NSMutableArray arrayWithArray:@[category11,category12]];
     return category;
 }
 

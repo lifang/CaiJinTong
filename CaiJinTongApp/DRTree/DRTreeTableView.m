@@ -7,8 +7,22 @@
 //
 
 #import "DRTreeTableView.h"
+
+@interface TreeTableView : UITableView
+
+@end
+@implementation TreeTableView
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    [super touchesBegan:touches withEvent:event];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"hiddleSearchKeyboardNotification" object:nil];
+}
+
+@end
+
+
 @interface DRTreeTableView()
-@property (nonatomic,strong) UITableView *tableView;
+@property (nonatomic,strong) TreeTableView *tableView;
 @property (nonatomic,strong) NSMutableArray *tableDataArr;//用于显示的note数据
 @end
 @implementation DRTreeTableView
@@ -32,7 +46,7 @@
 }
 
 -(void)initTreeViewWithFrame:(CGRect)frame{
-    self.tableView = [[UITableView alloc] initWithFrame:(CGRect){0,0,frame.size}];
+    self.tableView = [[TreeTableView alloc] initWithFrame:(CGRect){0,0,frame.size}];
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleWidth;
 //    [self.tableView setSectionIndexBackgroundColor:[UIColor clearColor]];
 //    [self.tableView setSectionIndexTrackingBackgroundColor:[UIColor clearColor]];
@@ -61,7 +75,7 @@
     if (self.isExtendChildNode) {
         [self selectedNoteAtIndexPath:indexPath withAnimation:YES];
     }
-    if (note.noteIsExtend && self.delegate && [self.delegate respondsToSelector:@selector(drTreeTableView:didSelectedTreeNode:)]) {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(drTreeTableView:didSelectedTreeNode:)]) {
         [self.delegate drTreeTableView:self didSelectedTreeNode:note];
     }
 }

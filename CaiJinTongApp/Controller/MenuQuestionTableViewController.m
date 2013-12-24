@@ -132,7 +132,6 @@
         return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [CaiJinTongManager shared].isSettingView = NO;
         if (indexPath.section==0) {
             NSDictionary *d=[self.questionList objectAtIndex:indexPath.row];
             if([d valueForKey:@"questionNode"]) {

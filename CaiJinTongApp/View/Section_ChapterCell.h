@@ -23,5 +23,8 @@
 
 @property (nonatomic, strong) IBOutlet CustomButton *btn;//下载按钮
 
+@property (nonatomic, strong) IBOutlet UIButton *playBt;
 @property (nonatomic, strong) SectionSaveModel *sectionS;
+
+-(IBAction)playBtClicked:(id)sender;
 @end

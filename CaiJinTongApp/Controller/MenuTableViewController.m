@@ -111,7 +111,6 @@ static NSString *chapterName;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [CaiJinTongManager shared].isSettingView = NO;
         AppDelegate *app = [AppDelegate sharedInstance];
         app.isLocal = NO;
         //根据chapterId获取章下面视频信息
@@ -166,41 +165,6 @@ static NSString *chapterName;
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
 }
-
-
-#pragma mark LessonListHeaderViewDelegate
--(void)lessonHeaderView:(LessonListHeaderView *)header selectedAtIndex:(NSIndexPath *)path{
-        if (path.section != self.lessonList.count-1) {
-            BOOL isSelSection = NO;
-            _tmpSection = path.section;//本格编号
-            for (int i = 0; i < self.arrSelSection.count; i++) {
-                NSString *strSection = [NSString stringWithFormat:@"%@",[self.arrSelSection objectAtIndex:i]];
-                NSInteger selSection = strSection.integerValue;
-                if (_tmpSection == selSection) {
-                    isSelSection = YES;
-                    [self.arrSelSection removeObjectAtIndex:i];
-                    break;
-                }
-            }
-            if (!isSelSection) {
-                [self.arrSelSection addObject:[NSString stringWithFormat:@"%i",_tmpSection]];
-            }
-            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
-        }else {//本地课程
-            //本地数据的获取
-            AppDelegate *app = [AppDelegate sharedInstance];
-            app.isLocal = YES;
-            Section *sectionDb = [[Section alloc]init];
-            NSArray *local_array = [sectionDb getAllInfo];
-            
-            if (local_array.count>0) {
-                
-            }else {
-                [Utility errorAlert:@"暂无数据!"];
-            }
-        }
-}
-
 
 - (void)didReceiveMemoryWarning
 {

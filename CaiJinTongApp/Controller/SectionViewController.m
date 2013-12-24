@@ -356,8 +356,7 @@
     //简介
     self.detailInfoTextView.text = [NSString stringWithFormat:@"简介:%@",section.lessonInfo?:@""];
     self.detailInfoTextView.frame = (CGRect){270, labelTop - 10, 170, 100};
-    //         CGSize size = [Utility getTextSizeWithString:self.section.lessonInfo withFont:[UIFont boldSystemFontOfSize:16] withWidth:170];
-    CGSize size = self.detailInfoTextView.contentSize;
+    CGSize size = [Utility getTextSizeWithString:self.section.lessonInfo withFont:[UIFont boldSystemFontOfSize:16] withWidth:350];
     if (size.height > 100) {
         labelTop += 100 +labelSpace;
     }else{
@@ -384,7 +383,7 @@
     if (labelTop <150) {
         labelTop = 200;
     }
-    self.playBtn.frame = CGRectMake(430, labelTop, 100, 35);
+    self.playBtn.frame = CGRectMake(585, labelTop, 100, 35);
     if (!section.sectionStudy || [section.sectionStudy isEqualToString:@"0"]) {
         [self.playBtn setTitle:NSLocalizedString(@"开始学习", @"button") forState:UIControlStateNormal];
     }else{
@@ -400,7 +399,7 @@
         
         [self.view addSubview:self.sectionView];
         //显示分数
-        CustomLabel *scoreLabel = [[CustomLabel alloc]initWithFrame:CGRectMake(480, 64, 60, 60)];
+        CustomLabel *scoreLabel = [[CustomLabel alloc]initWithFrame:CGRectMake(630, 64, 60, 60)];
         if ([self.section.isGrade isEqualToString:@"1"]) {
             scoreLabel.backgroundColor = [UIColor colorWithRed:0.10f green:0.84f blue:0.99f alpha:1.0f];
             scoreLabel.text = [NSString stringWithFormat:@"%.1f",[self.section.sectionScore floatValue]];
@@ -422,8 +421,9 @@
         //
         CGFloat labelTop = 64;
         CGFloat labelSpace = 6;
+        float width = 350.0;
         //标题
-        UILabel *nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(275, labelTop, 200, 30)];
+        UILabel *nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(275, labelTop, width, 30)];
         nameLabel.backgroundColor = [UIColor clearColor];
         nameLabel.textColor = [UIColor grayColor];
         nameLabel.font = [UIFont boldSystemFontOfSize:16];
@@ -433,13 +433,14 @@
         nameLabel = nil;
         labelTop +=self.nameLab.frame.size.height+labelSpace ;
         //简介
-        self.detailInfoTextView = [[UITextView alloc] initWithFrame:(CGRect){270, labelTop - 10, 170, 100}];
+        self.detailInfoTextView = [[UITextView alloc] initWithFrame:(CGRect){270, labelTop - 10, width, 100}];
         [self.detailInfoTextView setEditable:NO];
         [self.detailInfoTextView setFont:[UIFont boldSystemFontOfSize:16]];
         [self.detailInfoTextView setTextColor:[UIColor grayColor]];
+        self.detailInfoTextView.backgroundColor = [UIColor clearColor];
         self.detailInfoTextView.text = [NSString stringWithFormat:@"简介:%@",self.section.lessonInfo?:@""];
         [self.view addSubview:self.detailInfoTextView];
-         CGSize size = [Utility getTextSizeWithString:self.section.lessonInfo withFont:[UIFont boldSystemFontOfSize:16] withWidth:170];
+         CGSize size = [Utility getTextSizeWithString:self.section.lessonInfo withFont:[UIFont boldSystemFontOfSize:16] withWidth:width];
         if (size.height > 100) {
             labelTop += 100 +labelSpace;
         }else{
@@ -447,7 +448,7 @@
         }
         
         //讲师
-        UILabel *teacherLabel = [[UILabel alloc]initWithFrame:CGRectMake(275, labelTop, 150, 30)];
+        UILabel *teacherLabel = [[UILabel alloc]initWithFrame:CGRectMake(275, labelTop, width, 30)];
         teacherLabel.backgroundColor = [UIColor clearColor];
         teacherLabel.textColor = [UIColor grayColor];
         teacherLabel.font = [UIFont boldSystemFontOfSize:16];
@@ -458,7 +459,7 @@
         labelTop +=self.teacherlab.frame.size.height+labelSpace;
 
         //时长
-        UILabel *lastLabel = [[UILabel alloc]initWithFrame:CGRectMake(275, labelTop, 150, 30)];
+        UILabel *lastLabel = [[UILabel alloc]initWithFrame:CGRectMake(275, labelTop, width, 30)];
         lastLabel.backgroundColor = [UIColor clearColor];
         lastLabel.textColor = [UIColor grayColor];
         lastLabel.font = [UIFont boldSystemFontOfSize:16];
@@ -469,7 +470,7 @@
         labelTop +=self.lastLab.frame.size.height+labelSpace;
         //已学习
         DLog(@"labtop = %f",labelTop);
-        UILabel *studyLabel = [[UILabel alloc]initWithFrame:CGRectMake(275, labelTop, 150, 30)];
+        UILabel *studyLabel = [[UILabel alloc]initWithFrame:CGRectMake(275, labelTop, width-50, 30)];
         studyLabel.backgroundColor = [UIColor clearColor];
         studyLabel.textColor = [UIColor grayColor];
         studyLabel.font = [UIFont boldSystemFontOfSize:16];
@@ -483,7 +484,7 @@
             labelTop = 200;
         }
         UIButton *palyButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        palyButton.frame = CGRectMake(430, labelTop, 100, 35);
+        palyButton.frame = CGRectMake(585, labelTop, 100, 35);
         if (!self.section.sectionStudy || [self.section.sectionStudy isEqualToString:@"0"]) {
             [palyButton setTitle:NSLocalizedString(@"开始学习", @"button") forState:UIControlStateNormal];
         }else{

@@ -12,6 +12,8 @@
 #import "SectionSaveModel.h"
 #import "AMProgressView.h"
 #import "Section.h"
+
+#define CAPTER_CELL_WIDTH 650
 @interface Section_ChapterViewController ()
 @property (nonatomic,strong) UILabel *tipLabel;
 @end
@@ -36,6 +38,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     [self.tableViewList registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"header"];
 	[[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(initBtn:)
@@ -163,7 +166,7 @@
         }else {
             cell.statusLab.text = @"下载";
         }
-        cell.sliderFrontView.frame = CGRectMake(47, 73, 484 * sectionSave.downloadPercent, 33);
+        cell.sliderFrontView.frame = CGRectMake(47, 73, CAPTER_CELL_WIDTH * sectionSave.downloadPercent, 33);
         if (contentlength>0) {
             cell.lengthLab.text = [NSString stringWithFormat:@"%.2fM/%.2fM",contentlength*sectionSave.downloadPercent,contentlength];
         }
@@ -175,7 +178,7 @@
         sectionSave.downloadState = 4;
         sectionSave.downloadPercent = 0;
         cell.btn.buttonModel = sectionSave;
-        cell.sliderFrontView.frame = CGRectMake(47, 73, 484 * 0, 33);
+        cell.sliderFrontView.frame = CGRectMake(47, 73, CAPTER_CELL_WIDTH * 0, 33);
         cell.statusLab.text = @"未下载";
         cell.lengthLab.text = @"";
     }
@@ -188,7 +191,7 @@
 #pragma mark property
 -(UILabel *)tipLabel{
     if (!_tipLabel) {
-        _tipLabel = [[UILabel alloc] initWithFrame:(CGRect){0,0,self.tableViewList.frame.size}];
+        _tipLabel = [[UILabel alloc] initWithFrame:(CGRect){0,0,CAPTER_CELL_WIDTH,self.tableViewList.frame.size.height}];
         _tipLabel.textAlignment = NSTextAlignmentCenter;
         _tipLabel.textColor = [UIColor grayColor];
         _tipLabel.font = [UIFont systemFontOfSize:30];

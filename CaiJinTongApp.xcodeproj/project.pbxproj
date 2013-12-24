@@ -245,7 +245,6 @@
 		18F87E671844AA2A00B0F7EC /* CJTMainToolbar_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F87E661844AA2A00B0F7EC /* CJTMainToolbar_iPhone.m */; };
 		18FBCF22183F22270025DAEA /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FBCF21183F22270025DAEA /* UserModel.m */; };
 		63091FFA1827435400C1AF07 /* LessonListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63091FF91827435400C1AF07 /* LessonListCell.m */; };
-		63091FFD1827473400C1AF07 /* LessonListHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63091FFC1827473300C1AF07 /* LessonListHeaderView.m */; };
 		63098F39183CBA0B007A76AC /* MJPopupBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63098F36183CBA0B007A76AC /* MJPopupBackgroundView.m */; };
 		63098F3A183CBA0B007A76AC /* UIViewController+MJPopupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63098F38183CBA0B007A76AC /* UIViewController+MJPopupViewController.m */; };
 		6309F8F9183AFAF6001397C0 /* play-M2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6309F8F8183AFAF6001397C0 /* play-M2@2x.png */; };
@@ -307,6 +306,8 @@
 		63B794EA1847477100B8276A /* MJRefreshFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B794E51847477100B8276A /* MJRefreshFooterView.m */; };
 		63B794EB1847477100B8276A /* MJRefreshHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B794E71847477100B8276A /* MJRefreshHeaderView.m */; };
 		63C15C73183F54E600890086 /* DRMoviePlayerTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C15C72183F54E600890086 /* DRMoviePlayerTopBar.m */; };
+		63D1B5E01867F02D00506D03 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 630B03BF1820F5BB00F72C4C /* Main_iPad.storyboard */; };
+		63D1B5E11867F02D00506D03 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 630B03BC1820F5BB00F72C4C /* Main_iPhone.storyboard */; };
 		63E6A90F185B341800D809A6 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E6A90E185B341800D809A6 /* CoreMedia.framework */; };
 		63E6A911185B348700D809A6 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E6A910185B348700D809A6 /* AudioToolbox.framework */; };
 /* End PBXBuildFile section */
@@ -712,8 +713,6 @@
 		18FBCF21183F22270025DAEA /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
 		63091FF81827435400C1AF07 /* LessonListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LessonListCell.h; path = lessonList/LessonListCell.h; sourceTree = "<group>"; };
 		63091FF91827435400C1AF07 /* LessonListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LessonListCell.m; path = lessonList/LessonListCell.m; sourceTree = "<group>"; };
-		63091FFB1827473300C1AF07 /* LessonListHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LessonListHeaderView.h; path = lessonList/LessonListHeaderView.h; sourceTree = "<group>"; };
-		63091FFC1827473300C1AF07 /* LessonListHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LessonListHeaderView.m; path = lessonList/LessonListHeaderView.m; sourceTree = "<group>"; };
 		630920011827873400C1AF07 /* SectionInfoInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionInfoInterface.h; sourceTree = "<group>"; };
 		63098F35183CBA0B007A76AC /* MJPopupBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPopupBackgroundView.h; sourceTree = "<group>"; };
 		63098F36183CBA0B007A76AC /* MJPopupBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPopupBackgroundView.m; sourceTree = "<group>"; };
@@ -1482,8 +1481,6 @@
 				63091FF91827435400C1AF07 /* LessonListCell.m */,
 				0E9C9EEE184309A200D48781 /* QuestionListCell.h */,
 				0E9C9EEF184309A200D48781 /* QuestionListCell.m */,
-				63091FFB1827473300C1AF07 /* LessonListHeaderView.h */,
-				63091FFC1827473300C1AF07 /* LessonListHeaderView.m */,
 				0EA264C51839BFEB0037489C /* InfoCell.h */,
 				0EA264C61839BFEB0037489C /* InfoCell.m */,
 			);
@@ -1795,9 +1792,6 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = david;
 				TargetAttributes = {
-					630B03A61820F5BB00F72C4C = {
-						DevelopmentTeam = 63FVWL9TD6;
-					};
 					630B03CA1820F5BC00F72C4C = {
 						TestTargetID = 630B03A61820F5BB00F72C4C;
 					};
@@ -1827,6 +1821,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63D1B5E01867F02D00506D03 /* Main_iPad.storyboard in Resources */,
+				63D1B5E11867F02D00506D03 /* Main_iPhone.storyboard in Resources */,
 				18F477F0183DB57000021886 /* progressBar-background.png in Resources */,
 				18C9312D18363B2A00FBE1A8 /* play_barBG@2x.png in Resources */,
 				18F477EF183DB57000021886 /* progressBar-front.png in Resources */,
@@ -1974,7 +1970,6 @@
 				0EA7EF661827445500C47F69 /* ChapterViewController.m in Sources */,
 				0E8166F41848755B0064DE98 /* CollectionHeader.m in Sources */,
 				633003911845FC2100F7838D /* QRadioButton.m in Sources */,
-				63091FFD1827473400C1AF07 /* LessonListHeaderView.m in Sources */,
 				0EAD1F78182B276700204FC3 /* Section.m in Sources */,
 				0EAD1F8C182B872000204FC3 /* Section_NoteCell.m in Sources */,
 				0EA7EF611823B0EC00C47F69 /* AnswerListInterface.m in Sources */,
@@ -2263,7 +2258,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Sen Ye (FE46ZS29LM)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sen Ye (FE46ZS29LM)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_INPUT_FILETYPE = sourcecode.c.objc;
@@ -2289,7 +2284,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = NO;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Sen Ye (63FVWL9TD6)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Sen Ye (63FVWL9TD6)";
 				ENABLE_NS_ASSERTIONS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
