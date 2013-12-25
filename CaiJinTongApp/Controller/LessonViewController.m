@@ -224,33 +224,6 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         }
         header.isSelected = isSelSection;
         return header;
-//        if (section != self.lessonList.count-1) {
-//            LessonListHeaderView *header = (LessonListHeaderView*)[tableView dequeueReusableHeaderFooterViewWithIdentifier:LESSON_HEADER_IDENTIFIER];
-//            LessonModel *lesson = (LessonModel *)[self.lessonList objectAtIndex:section];
-//            header.lessonTextLabel.font = [UIFont systemFontOfSize:18];
-//            header.lessonTextLabel.text = lesson.lessonName;
-//            header.lessonDetailLabel.text = [NSString stringWithFormat:@"%d",[lesson.chapterList count]];
-//            header.path = [NSIndexPath indexPathForRow:0 inSection:section];
-//            header.delegate = self;
-//            BOOL isSelSection = NO;
-//            for (int i = 0; i < self.arrSelSection.count; i++) {
-//                NSString *strSection = [NSString stringWithFormat:@"%@",[self.arrSelSection objectAtIndex:i]];
-//                NSInteger selSection = strSection.integerValue;
-//                if (section == selSection) {
-//                    isSelSection = YES;
-//                    break;
-//                }
-//            }
-//            header.isSelected = isSelSection;
-//            return header;
-//        }else {
-//            LessonListHeaderView *header = (LessonListHeaderView*)[tableView dequeueReusableHeaderFooterViewWithIdentifier:LESSON_HEADER_IDENTIFIER];
-//            header.flagImageView.image = Image(@"backgroundStar.png");
-//            header.lessonTextLabel.text = @"本地下载";
-//            header.path = [NSIndexPath indexPathForRow:0 inSection:section];
-//            header.delegate = self;
-//            return header;
-//        }
     }else{
         LessonListHeaderView *header = (LessonListHeaderView*)[tableView dequeueReusableHeaderFooterViewWithIdentifier:LESSON_HEADER_IDENTIFIER];
         header.delegate = self;
@@ -328,6 +301,9 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"questionCell"];
         if (indexPath.section == 0) {
             cell.textLabel.text=[NSString stringWithFormat:@"%@",[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"questionName"]];
+            NSDictionary *dic = [self.questionList objectAtIndex:indexPath.row];
+            NSNumber *num = [[self.questionList objectAtIndex:indexPath.row] valueForKey:@"questionID"];
+            NSLog(@"%@1244444444444444444444444444444444444%@",[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"questionName"],[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"questionID"]);
             [cell setIndentationLevel:[[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"level"]intValue]];
         }else{
             if (indexPath.row == 0) {

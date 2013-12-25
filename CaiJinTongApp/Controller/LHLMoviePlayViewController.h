@@ -25,9 +25,9 @@
 
 #import <MediaPlayer/MPMoviePlayerController.h>
 #import <QuartzCore/QuartzCore.h>
-#import "DRTakingMovieNoteViewController.h"
+#import "LHLTakingMovieNoteViewController.h"
 #import "MBProgressHUD.h"
-#import "DRCommitQuestionViewController.h"
+#import "LHLCommitQuestionViewController.h"
 #import "Section.h"
 #import "UIImage+Scale.h"
 

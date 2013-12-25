@@ -8,7 +8,7 @@
 
 #import "LHLMoviePlayViewController.h"
 #define MOVIE_CURRENT_PLAY_TIME_OBSERVE @"movieCurrentPlayTimeObserve"
-@interface LHLMoviePlayViewController ()<DRTakingMovieNoteViewControllerDelegate,DRCommitQuestionViewControllerDelegate>
+@interface LHLMoviePlayViewController ()<LHLTakingMovieNoteViewControllerDelegate,LHLCommitQuestionViewControllerDelegate>
 @property (nonatomic,strong) MPMoviePlayerController *moviePlayer;
 @property (nonatomic,strong) NSTimer *timer;
 @property (nonatomic,strong) Section_ChapterViewController_iPhone *section_chapterController;
@@ -16,6 +16,8 @@
 @property (nonatomic,assign) BOOL isPlaying;
 @property (nonatomic,assign) BOOL isPopupChapter;
 @property (nonatomic,assign) __block float currentMoviePlaterVolume;
+@property (nonatomic,strong) LHLCommitQuestionViewController *commitQuestionVC;
+@property (nonatomic,strong) LHLTakingMovieNoteViewController *takingMovieNotesVC;
 @end
 
 @implementation LHLMoviePlayViewController
@@ -49,14 +51,6 @@
     }
     return self;
 }
-
-//重写此方法以获得子VC
-//-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-//    if ([segue.identifier isEqualToString:@"Section_ChapterViewController_iPhone_embed"])
-//    {
-//        self.section_chapterController = segue.destinationViewController;
-//    }
-//}
 
 #pragma mark app notification
 - (void)appWillResignActive:(UIApplication *)application
@@ -153,7 +147,6 @@
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
-//        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             self.sectionInterface = [[SectionInfoInterface alloc] init];
             self.sectionInterface.delegate = self;
         [self.sectionInterface getSectionInfoInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andSectionId:@"2928"];
@@ -197,24 +190,22 @@
         }
     }else
         if (item == self.myQuestionItem) {
-            DRCommitQuestionViewController *commitController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLCommitQuestionViewController"];
-            commitController.view.frame = (CGRect){0,0,IP5(516, 435),255};
-            commitController.delegate = self;
-            [self presentPopupViewController:commitController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
+            self.commitQuestionVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLCommitQuestionViewController"];
+            self.commitQuestionVC.view.frame = (CGRect){0,0,IP5(516, 435),255};
+            self.commitQuestionVC.delegate = self;
+            [self presentPopupViewController:self.commitQuestionVC animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
                 self.myQuestionItem.isSelected = NO;
             }];
             self.isPopupChapter = NO;
         }else
             if (item == self.myNotesItem) {
-                DRTakingMovieNoteViewController *takingController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLTakingMovieNoteViewController"];
-                takingController.view.frame = (CGRect){0,0,IP5(516, 435),255};
-                takingController.delegate = self;
-                [self presentPopupViewController:takingController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
+                self.takingMovieNotesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLTakingMovieNoteViewController"];
+                self.takingMovieNotesVC.view.frame = (CGRect){0,0,IP5(516, 435),255};
+                self.takingMovieNotesVC.delegate = self;
+                [self presentPopupViewController:self.takingMovieNotesVC animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
                     self.myNotesItem.isSelected = NO;
                 }];
                 self.isPopupChapter = NO;
-                
-                
             }
 }
 #pragma mark --
@@ -378,11 +369,8 @@
     }
 }
 
-#pragma mark --
-
-
 #pragma mark -- 提交问题
--(void)commitQuestionController:(DRCommitQuestionViewController *)controller didCommitQuestionWithTitle:(NSString *)title andText:(NSString *)text andQuestionId:(NSString *)questionId{
+-(void)commitQuestionController:(LHLCommitQuestionViewController *)controller didCommitQuestionWithTitle:(NSString *)title andText:(NSString *)text andQuestionId:(NSString *)questionId{
     self.myQuestionItem.isSelected = NO;
     
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
@@ -399,10 +387,9 @@
 -(void)commitQuestionControllerCancel{
     self.myQuestionItem.isSelected = NO;
 }
-#pragma mark --
 
 #pragma mark -- 提交笔记
--(void)takingMovieNoteController:(DRTakingMovieNoteViewController *)controller commitNote:(NSString *)text andTime:(NSString *)noteTime{
+-(void)takingMovieNoteController:(LHLTakingMovieNoteViewController *)controller commitNote:(NSString *)text andTime:(NSString *)noteTime{
     self.commitNoteText = text;
     self.commitNoteTime = noteTime;
     self.myNotesItem.isSelected = NO;

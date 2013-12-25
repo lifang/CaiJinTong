@@ -41,7 +41,7 @@
     [self.view.layer setMasksToBounds:YES];
     
     //添加键盘消失键
-    UIToolbar * topView = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, 568, 25)];
+    UIToolbar * topView = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, IP5(568, 480), 25)];
     [topView setBarStyle:UIBarStyleBlack];
     
     UIBarButtonItem * btnSpace = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
