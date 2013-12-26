@@ -7,10 +7,12 @@
 //
 
 #import "MenuQuestionTableViewController.h"
+#import "MyQuestionAndAnswerViewController_iPhone.h"
+#import "GetUserQuestionInterface.h"
 #define LESSON_HEADER_IDENTIFIER @"lessonHeader"
 #define QUESTION_CELL_IDENTIFIER @"questionCell"
 @interface MenuQuestionTableViewController ()
-
+@property (nonatomic,strong) GetUserQuestionInterface *getUserQuestionInterface;
 @end
 
 @implementation MenuQuestionTableViewController
@@ -42,7 +44,7 @@
         QuestionInfoInterface *questionInfoInter = [[QuestionInfoInterface alloc]init];
         self.questionInfoInterface = questionInfoInter;
         self.questionInfoInterface.delegate = self;
-        [self.questionInfoInterface getQuestionInfoInterfaceDelegateWithUserId:@"18676"];
+        [self.questionInfoInterface getQuestionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId];
     }
 }
 
@@ -173,32 +175,35 @@
                 }
             }
         }
-//      else{
-//            UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-//            MyQuestionAndAnswerViewController *myQAVC = [story instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
-//            UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:myQAVC];
-//            [navControl setNavigationBarHidden:YES];
-//            navControl.view.frame = (CGRect){0,0,568,1024};
-//            [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
-//                
-//            }];
-//            switch (indexPath.row) {
-//                case 0:
-//                {
-//                    //请求我的提问
-//                    self.questionScope = QuestionAndAnswerMYQUESTION;
-//                    break;
-//                }
-//                case 1:
-//                {
-//                    //请求我的回答
-//                    self.questionScope = QuestionAndAnswerMYANSWER;
-//                    break;
-//                }
-//                default:
-//                    break;
-//            }
-//        }
+      else{
+            switch (indexPath.row) {
+                case 0:
+                {
+                    //请求我的提问
+                    self.questionScope = QuestionAndAnswerMYQUESTION;
+                    break;
+                }
+                case 1:
+                {
+                    //请求我的回答
+                    self.questionScope = QuestionAndAnswerMYANSWER;
+                    break;
+                }
+                default:
+                    break;
+            }
+          if([[Utility isExistenceNetwork] isEqualToString:@"NotReachable"]){
+              [Utility errorAlert:@"暂无网络!"];
+          }else{
+              [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+              //请求我的问答
+              if (self.questionScope == QuestionAndAnswerMYANSWER) {
+                  [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andIsMyselfQuestion:@"1" andLastQuestionID:nil];
+              }else if (self.questionScope == QuestionAndAnswerMYQUESTION) {
+                  [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andIsMyselfQuestion:@"0" andLastQuestionID:nil];
+              }
+          }
+        }
 }
 
 -(void)miniMizeThisRows:(NSArray*)ar{
@@ -247,18 +252,14 @@
         
         //按问题类型显示问题列表
         
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [MBProgressHUD hideHUDForView:self.view animated:YES];
-//            UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-//            MyQuestionAndAnswerViewController *myQAVC = [story instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
-//            UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:myQAVC];
-//            [navControl setNavigationBarHidden:YES];
-//            navControl.view.frame = (CGRect){0,0,568,1024};
-//            [myQAVC reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
-//            [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
+        dispatch_async(dispatch_get_main_queue(),^{
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            [self.myQAVC rightItemClicked:nil];
+            [self.myQAVC reloadDataWithDataArray:chapterQuestionList
+                           withQuestionChapterID:self.questionAndSwerRequestID
+                                       withScope:self.questionScope];
             
-//            }];
-//        });
+        });
     });
 }
 -(void)getChapterQuestionInfoDidFailed:(NSString *)errorMsg {
@@ -266,6 +267,35 @@
     [Utility errorAlert:errorMsg];
 }
 
+#pragma mark GetUser QuestionInterface Delegate
+
+-(void)getUserQuestionInfoDidFailed:(NSString *)errorMsg{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [Utility errorAlert:errorMsg];
+}
+
+-(void)getUserQuestionInfoDidFinished:(NSDictionary *)result{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [self.myQAVC reloadDataWithDataArray:chapterQuestionList
+                           withQuestionChapterID:nil
+                                       withScope:self.questionScope];
+            [self.myQAVC rightItemClicked:nil];
+        });
+    });
+}
+
+#pragma mark property
+
+-(GetUserQuestionInterface *)getUserQuestionInterface{
+    if(!_getUserQuestionInterface){
+        _getUserQuestionInterface = [[GetUserQuestionInterface alloc] init];
+        _getUserQuestionInterface.delegate = self;
+    }
+    return _getUserQuestionInterface;
+}
 
 - (void)didReceiveMemoryWarning
 {

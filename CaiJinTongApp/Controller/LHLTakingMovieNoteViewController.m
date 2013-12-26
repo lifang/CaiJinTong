@@ -30,8 +30,10 @@
     UIImage *btnImageNormal = [[UIImage imageNamed:@"btn1.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 6) resizingMode:UIImageResizingModeStretch];
     [self.cancelBtn setBackgroundImage:btnImageNormal forState:UIControlStateNormal];
     [self.cancelBtn setBackgroundImage:btnImageHighlighted forState:UIControlStateHighlighted];
+    [self.cancelBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     [self.commitBtn setBackgroundImage:btnImageNormal forState:UIControlStateNormal];
     [self.commitBtn setBackgroundImage:btnImageHighlighted forState:UIControlStateHighlighted];
+    [self.commitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     
     self.contentField.layer.borderColor = [UIColor grayColor].CGColor;
     self.contentField.layer.borderWidth =1.0;

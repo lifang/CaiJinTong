@@ -108,11 +108,9 @@
 #pragma mark -- Search Lesson InterfaceDelegate
 -(void)getSearchLessonInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        [MBProgressHUD dismissWithSuccess:@"获取数据成功!"];
-//        [MBProgressHUD showHUDAddedTo:self.view animated:NO];
         dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             if (([[result objectForKey:@"sectionList"] isKindOfClass:[NSNull class]]) || ([result objectForKey:@"sectionList"] == nil) || ([[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]].count < 1)) {
-//                [MBProgressHUD dismissWithSuccess:@"搜索完毕,没有符合条件的结果!"];
                 [MBProgressHUD showHUDAddedTo:self.view animated:YES].labelText = @"搜索完毕,没有符合条件的结果!";
             }else{
                 NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
@@ -379,7 +377,7 @@
         if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
             [Utility errorAlert:@"暂无网络!"];
         }else {
-//            [MBProgressHUD showWithStatus:@"玩命加载中..."];
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             SearchLessonInterface *searchLessonInter = [[SearchLessonInterface alloc]init];
             self.searchInterface = searchLessonInter;
             self.searchInterface.delegate = self;

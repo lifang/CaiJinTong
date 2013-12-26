@@ -282,10 +282,9 @@
     }else
         if (self.questionAndAnswerScope == QuestionAndAnswerMYANSWER) {
             [self.userQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andIsMyselfQuestion:@"1" andLastQuestionID:lastQuestionID];
-        }else
-            if (self.questionAndAnswerScope == QuestionAndAnswerMYQUESTION) {
+        }else if (self.questionAndAnswerScope == QuestionAndAnswerMYQUESTION) {
                 [self.userQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andIsMyselfQuestion:@"0" andLastQuestionID:lastQuestionID];
-            }
+        }
 }
 
 -(float)getTableViewHeaderHeightWithSection:(NSInteger)section{

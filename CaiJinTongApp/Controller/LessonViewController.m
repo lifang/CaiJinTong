@@ -301,9 +301,6 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"questionCell"];
         if (indexPath.section == 0) {
             cell.textLabel.text=[NSString stringWithFormat:@"%@",[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"questionName"]];
-            NSDictionary *dic = [self.questionList objectAtIndex:indexPath.row];
-            NSNumber *num = [[self.questionList objectAtIndex:indexPath.row] valueForKey:@"questionID"];
-            NSLog(@"%@1244444444444444444444444444444444444%@",[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"questionName"],[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"questionID"]);
             [cell setIndentationLevel:[[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"level"]intValue]];
         }else{
             if (indexPath.row == 0) {
@@ -434,6 +431,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 	}
 }
 
+#pragma mark action method
 
 - (IBAction)lessonListBtClicked:(id)sender {
     [CaiJinTongManager shared].isSettingView = NO;

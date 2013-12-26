@@ -15,7 +15,6 @@
 @property (nonatomic,strong) QuestionListInterface *questionListInterface;//所有问题的分页加载
 @property (nonatomic,strong) GetUserQuestionInterface *userQuestionInterface;//我的回答或者我的提问分页加载
 @property (nonatomic,strong) SubmitAnswerInterface *submitAnswerInterface;//提交回答或者是提交追问
-@property (nonatomic,strong)  AnswerPraiseInterface *answerPraiseinterface;//提交赞接口
 @property (nonatomic,strong) NSIndexPath *activeIndexPath;//正在处理中的cell
 @property (nonatomic,assign) BOOL isReaskRefreshing;//判断是追问刷新还是上拉下拉刷新
 @property (nonatomic,strong) DRAskQuestionViewController *askQuestionController;
@@ -287,7 +286,6 @@
         [cell setQuestionModel:question withQuestionAndAnswerScope:self.questionAndAnswerScope];
         cell.backgroundColor = [UIColor whiteColor];
         cell.delegate = self;
-//        cell.path = [NSIndexPath indexPathForRow:0 inSection:indexPath.section];
         cell.path = indexPath;
         return cell;
     }else{
@@ -322,7 +320,75 @@
 
 #pragma mark action
 
+-(void)rightItemClicked:(id)sender{
+    if(!self.menu){
+        self.menu = [self.storyboard instantiateViewControllerWithIdentifier:@"MenuQuestionTableViewController"];
+        [self addChildViewController:self.menu];
+        self.menu.myQAVC = self;
+        self.menuVisible = YES;
+        [self.view addSubview:self.menu.view];
+    }else{
+        self.menuVisible = !self.menuVisible;
+    }
+}
 
+-(void)setMenuVisible:(BOOL)menuVisible{
+    _menuVisible = menuVisible;
+    [UIView animateWithDuration:0.3 animations:^{
+        if(menuVisible){
+            [self keyboardDismiss];
+            self.menu.view.frame = CGRectMake(120,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55));
+        }else{
+            self.menu.view.frame = CGRectMake(320,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55));
+        }
+    }];
+}
+
+-(void)keyboardDismiss{
+    //暴力遍历所有cell
+    for(int i = 0; i < self.tableView.visibleCells.count;i ++ ){
+        if([self.tableView.visibleCells[i] isKindOfClass:[QuestionAndAnswerCell_iPhone class]]){
+            QuestionAndAnswerCell_iPhone *cell = self.tableView.visibleCells[i];
+            for(UIView *view in cell.contentView.subviews){
+                if(view.isFirstResponder){
+                    [view resignFirstResponder];return;
+                }
+                for(UIView *view2 in view.subviews){
+                    if(view2.isFirstResponder){
+                        [view2 resignFirstResponder];return;
+                    }
+                    for(UIView *view3 in view2.subviews){
+                        if(view3.isFirstResponder){
+                            [view3 resignFirstResponder];return;
+                        }
+                    }
+                }
+            }
+        }else if([self.tableView.visibleCells[i] isKindOfClass:[QuestionAndAnswerCell_iPhoneHeaderView class]]){
+            QuestionAndAnswerCell_iPhoneHeaderView *cell = self.tableView.visibleCells[i];
+            for(UIView *view in cell.subviews){
+                if(view.isFirstResponder){
+                    [view resignFirstResponder];return;
+                }
+                for(UIView *view2 in view.subviews){
+                    if(view2.isFirstResponder){
+                        [view2 resignFirstResponder];return;
+                    }
+                    for(UIView *view3 in view2.subviews){
+                        if(view3.isFirstResponder){
+                            [view3 resignFirstResponder];return;
+                        }
+                        for(UIView *view4 in view3.subviews){
+                            if(view4.isFirstResponder){
+                                [view4 resignFirstResponder];return;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
 -(void)requestNewPageDataWithLastQuestionID:(NSString*)lastQuestionID{
     if (self.questionAndAnswerScope == QuestionAndAnswerALL) {
