@@ -144,13 +144,15 @@
                     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
                         [Utility errorAlert:@"暂无网络!"];
                     }else {
-                        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                        ChapterQuestionInterface *chapterInter = [[ChapterQuestionInterface alloc]init];
-                        self.chapterQuestionInterface = chapterInter;
-                        self.chapterQuestionInterface.delegate = self;
+                        [MBProgressHUD showHUDAddedTo:[self.myQAVC view] animated:YES];
                         self.questionAndSwerRequestID = [d valueForKey:@"questionID"];
                         self.questionScope = QuestionAndAnswerALL;
-                        [self.chapterQuestionInterface getChapterQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andChapterQuestionId:[d valueForKey:@"questionID"]];
+                        
+                        //调用问答界面的方法请求问答内容
+                        [self.myQAVC setQuestionAndAnswerScope:self.questionScope];
+                        [self.myQAVC setChapterID:self.questionAndSwerRequestID];
+                        [self.myQAVC requestNewPageDataWithLastQuestionID:nil];
+                        [self.myQAVC rightItemClicked:nil];
                     }
                 }else {
                     BOOL isAlreadyInserted=NO;
@@ -296,6 +298,7 @@
     }
     return _getUserQuestionInterface;
 }
+
 
 - (void)didReceiveMemoryWarning
 {

@@ -70,26 +70,12 @@
     //此接口property及其代理+回调方法也删掉
     self.getUserQuestionInterface = [[GetUserQuestionInterface alloc] init];
     self.getUserQuestionInterface.delegate = self;
+    self.questionAndAnswerScope = QuestionAndAnswerMYQUESTION;
     //请求我的回答
     [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"0" andLastQuestionID:nil];
-//    [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"1" andLastQuestionID:nil];
 }
 
--(void)getUserQuestionInfoDidFailed:(NSString *)errorMsg{
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Utility errorAlert:errorMsg];
-    
-}
 
--(void)getUserQuestionInfoDidFinished:(NSDictionary *)result{
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [self reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:nil withScope:QuestionAndAnswerMYANSWER];
-        });
-    });
-}
 
 #pragma mark --
 
@@ -99,7 +85,7 @@
     self.chapterID = chapterID;
     self.myQuestionArr = [NSMutableArray arrayWithArray:data];
     if (self.myQuestionArr.count>0) {
-        QuestionModel *question = [self.myQuestionArr  objectAtIndex:self.myQuestionArr.count-1];
+        QuestionModel *question = [self.myQuestionArr  lastObject];
         self.question_pageIndex = question.pageIndex;
         self.question_pageCount = question.pageCount;
         dispatch_async ( dispatch_get_main_queue (), ^{
@@ -124,18 +110,24 @@
     question.isEditing = !question.isEditing;
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
     if (question.isEditing) {
+        //把输入框textView移动到合适的位置
         [self.tableView reloadData];
-        CGRect sectionFrame = [self.tableView rectForRowAtIndexPath:path];
+        CGPoint offset = self.tableView.contentOffset;//当前窗口的偏移值
+        CGRect rowFrame = [self.tableView rectForRowAtIndexPath:path];//当前row的位置
+        CGFloat rowHeight = rowFrame.size.height;//row高度,其中回答模块高度87
+        CGFloat aY = CGRectGetMaxY(rowFrame) - QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT;//回答模块的上沿坐标
+        CGFloat aHeight = QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT + 246.0 - IP5(63, 50);//上沿坐标的理想高度(相对tableView下沿)
+        CGFloat bHeight = self.tableView.frame.size.height - (rowFrame.origin.y - offset.y + rowHeight - QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT);//当前上沿的高度(相对tableView下沿)
+        CGFloat toOffsetY = offset.y + (aHeight - bHeight);//理想高度时的窗口Y偏移值
         [UIView animateWithDuration:0.5 animations:^{
-        if(self.tableView.contentSize.height - CGRectGetMinY(sectionFrame) < self.tableView.frame.size.height){//如果剩余内容不足一屏,则滑动到屏幕最下方
-            [self.tableView setContentOffset:(CGPoint){ sectionFrame.origin.x,CGRectGetMaxY(sectionFrame) - [[UIScreen mainScreen] bounds].size.height}];
-        }else{
-            //如果内容高度足够,则将本问题置最高处
-            CGPoint offset = (CGPoint){ sectionFrame.origin.x,CGRectGetMaxY(sectionFrame) - (self.tableView.frame.size.height - (216.0 - IP5(63, 50)))};
-            if(offset.y > self.tableView.contentOffset.y){
-                [self.tableView setContentOffset:offset];
+            if(self.tableView.contentSize.height > self.tableView.frame.size.height){
+                if(aHeight > self.tableView.contentSize.height - aY){//如果aY以下内容不足呈现理想位置,则滑动到内容最下方
+                    [self.tableView setContentOffset:(CGPoint){rowFrame.origin.x, self.tableView.contentSize.height - self.tableView.frame.size.height}];
+                }else if(aHeight > bHeight){
+                    //如果剩余内容高度足够,且ay比理想位置低,则移动到理想位置
+                    [self.tableView setContentOffset:(CGPoint){offset.x,toOffsetY}];
+                }
             }
-        }
         }];
     }
 }
@@ -160,7 +152,7 @@
     float sectionHeight = [self getTableViewRowHeightWithIndexPath:path];
     CGRect sectionRect = [self.tableView rectForRowAtIndexPath:path];
     float sectionMinHeight = CGRectGetMinY(sectionRect) - self.tableView.contentOffset.y;
-    float keyheight = CGRectGetHeight(self.tableView.frame) - sectionHeight-155;
+    float keyheight = CGRectGetHeight(self.tableView.frame) - sectionHeight-185;
     if (sectionMinHeight > keyheight) {
         [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (sectionMinHeight - keyheight)} animated:YES];
     }
@@ -180,12 +172,14 @@
     return size.height;
 }
 
+//键盘弹出
 -(void)QuestionAndAnswerCell_iPhone:(QuestionAndAnswerCell_iPhone *)cell willBeginTypeQuestionTextFieldAtIndexPath:(NSIndexPath *)path{
-    CGRect cellRect = [self.tableView rectForRowAtIndexPath:path];
-    float cellmaxHeight = CGRectGetMaxY(cellRect) - self.tableView.contentOffset.y;
-    float keyheight = CGRectGetMaxY(self.tableView.frame) - 200;
-    if (cellmaxHeight > keyheight) {
-        [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (cellmaxHeight - keyheight)} animated:YES];
+    float sectionHeight = [self getTableViewRowHeightWithIndexPath:path];
+    CGRect sectionRect = [self.tableView rectForRowAtIndexPath:path];
+    float sectionMinHeight = CGRectGetMinY(sectionRect) - self.tableView.contentOffset.y;
+    float keyheight = CGRectGetHeight(self.tableView.frame) - sectionHeight-185;
+    if (sectionMinHeight > keyheight) {
+        [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (sectionMinHeight - keyheight)} animated:YES];
     }
 }
 
@@ -214,23 +208,36 @@
     }
 }
 
+//点击cell触发
 -(void)QuestionAndAnswerCell_iPhone:(QuestionAndAnswerCell_iPhone *)cell isHiddleQuestionView:(BOOL)isHiddle atIndexPath:(NSIndexPath *)path{
     QuestionModel *question = [self questionForIndexPath:path];
     AnswerModel *answer = [question.answerList objectAtIndex:[self answerForCellIndexPath:path]];
     answer.isEditing = isHiddle;
     [self.tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
     if (answer.isEditing) {
-        float cellHeight = [self getTableViewRowHeightWithIndexPath:path];
-        CGRect cellRect = [self.tableView rectForRowAtIndexPath:path];
-        float cellmaxHeight = CGRectGetMaxY(cellRect) - self.tableView.contentOffset.y;
-        float keyheight = CGRectGetMaxY(self.tableView.frame) - cellHeight-20;
-        if (cellmaxHeight > keyheight) {
-            [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (cellmaxHeight - keyheight)} animated:YES];
-        }
+        //把输入框textView移动到合适的位置
+        [self.tableView reloadData];
+        CGPoint offset = self.tableView.contentOffset;//当前窗口的偏移值
+        CGRect rowFrame = [self.tableView rectForRowAtIndexPath:path];//当前row的位置
+        CGFloat rowHeight = rowFrame.size.height;//row高度,其中回答模块高度87
+        CGFloat aY = CGRectGetMaxY(rowFrame) - 87;//回答模块的上沿坐标
+        CGFloat aHeight = 87 + 246.0 - IP5(63, 50);//上沿坐标的理想高度(相对tableView下沿)
+        CGFloat bHeight = self.tableView.frame.size.height - (rowFrame.origin.y - offset.y + rowHeight -87);//当前上沿的高度(相对tableView下沿)
+        CGFloat toOffsetY = offset.y + (aHeight - bHeight);//理想高度时的窗口Y偏移值
+        [UIView animateWithDuration:0.5 animations:^{
+            if(self.tableView.contentSize.height > self.tableView.frame.size.height){
+                if(aHeight > self.tableView.contentSize.height - aY){//如果aY以下内容不足呈现理想位置,则滑动到内容最下方
+                    [self.tableView setContentOffset:(CGPoint){rowFrame.origin.x, self.tableView.contentSize.height - self.tableView.frame.size.height}];
+                }else if(aHeight > bHeight){
+                    //如果剩余内容高度足够,且ay比理想位置低,则移动到理想位置
+                    [self.tableView setContentOffset:(CGPoint){offset.x,toOffsetY}];
+                }
+            }
+        }];
     }
     
 }
-#pragma mark -- 采纳答案
+//采纳答案
 -(void)QuestionAndAnswerCell_iPhone:(QuestionAndAnswerCell_iPhone *)cell acceptAnswerAtIndexPath:(NSIndexPath *)path{
     QuestionModel *question = [self questionForIndexPath:path];
     AnswerModel *answer = [question.answerList objectAtIndex:[self answerForCellIndexPath:path]];
@@ -419,9 +426,9 @@
     NSAttributedString *attriString =  [Utility getTextSizeWithAnswerModel:answer withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+4] withWidth:QUESTIONANDANSWER_CELL_WIDTH];
     CGSize size = [Utility getAttributeStringSizeWithWidth:QUESTIONANDANSWER_CELL_WIDTH withAttributeString:attriString];
     if (platform >= 7.0) {
-        return size.height + TEXT_PADDING*3+ questionTextFieldHeight;
+        return size.height + TEXT_PADDING*4+ questionTextFieldHeight;
     }else{
-        return size.height + TEXT_PADDING+ questionTextFieldHeight;
+        return size.height + TEXT_PADDING*4+ questionTextFieldHeight;
     }
 }
 
@@ -587,37 +594,37 @@
     [Utility errorAlert:@"提交失败"];
 }
 
-//#pragma mark --
-//#pragma mark GetUserQuestionInterfaceDelegate 加载我的回答或者我的提问新数据
-//-(void)getUserQuestionInfoDidFinished:(NSDictionary *)result{
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            if (self.isReaskRefreshing) {
-//                self.myQuestionArr = [NSMutableArray arrayWithArray:chapterQuestionList];
-//                [self.tableView reloadData];
-//            }else{
-//                if (self.headerRefreshView.isForbidden) {//加载下一页
-//                    [self.myQuestionArr addObjectsFromArray:chapterQuestionList];
-//                }else{//重新加载
-//                    self.myQuestionArr = [NSMutableArray arrayWithArray:chapterQuestionList];
-//                }
-//                [self.tableView reloadData];
-//                [MBProgressHUD hideHUDForView:self.view animated:YES];
-//                [self.headerRefreshView endRefreshing];
-//                self.headerRefreshView.isForbidden = NO;
-//                [self.footerRefreshView endRefreshing];
-//                self.footerRefreshView.isForbidden = NO;
-//            }
-//        });
-//        [MBProgressHUD hideHUDForView:self.view animated:YES];
-//    });
-//}
-//
-//-(void)getUserQuestionInfoDidFailed:(NSString *)errorMsg{
-//    [MBProgressHUD hideHUDForView:self.view animated:YES];
-//    [Utility errorAlert:errorMsg];
-//}
+#pragma mark --
+#pragma mark GetUserQuestionInterfaceDelegate 加载我的回答或者我的提问新数据
+-(void)getUserQuestionInfoDidFinished:(NSDictionary *)result{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (self.isReaskRefreshing) {
+                self.myQuestionArr = [NSMutableArray arrayWithArray:chapterQuestionList];
+                [self.tableView reloadData];
+            }else{
+                if (self.headerRefreshView.isForbidden) {//加载下一页
+                    [self.myQuestionArr addObjectsFromArray:chapterQuestionList];
+                }else{//重新加载
+                    self.myQuestionArr = [NSMutableArray arrayWithArray:chapterQuestionList];
+                }
+                [self.tableView reloadData];
+                [self.headerRefreshView endRefreshing];
+                self.headerRefreshView.isForbidden = NO;
+                [self.footerRefreshView endRefreshing];
+                self.footerRefreshView.isForbidden = NO;
+            }
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        });
+    });
+}
+
+-(void)getUserQuestionInfoDidFailed:(NSString *)errorMsg{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [Utility errorAlert:errorMsg];
+}
+
 #pragma mark --
 
 #pragma mark QuestionListInterfaceDelegate 加载所有问题新数据
@@ -645,6 +652,7 @@
         self.headerRefreshView.isForbidden = NO;
         [self.footerRefreshView endRefreshing];
         self.footerRefreshView.isForbidden = NO;
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
     }else{
         if (result) {
             NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];

@@ -33,4 +33,5 @@
 //scope :设置问题的范围，我的回答，我的提问，所有回答
 -(void)reloadDataWithDataArray:(NSArray*)data  withQuestionChapterID:(NSString*)chapterID withScope:(QuestionAndAnswerScope)scope;
 -(void)keyboardDismiss;
+-(void)requestNewPageDataWithLastQuestionID:(NSString*)lastQuestionID;
 @end
