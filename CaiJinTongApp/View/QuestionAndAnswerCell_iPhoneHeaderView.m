@@ -72,11 +72,6 @@
         //        self.questionContentTextField.textColor = [UIColor darkGrayColor];
         [self.backgroundView addSubview:self.questionContentTextField];
         
-        //        self.questionFlowerBt = [[UIButton alloc] init];
-        //        self.questionFlowerBt.backgroundColor = [UIColor clearColor];
-        //        [self.questionFlowerBt addTarget:self action:@selector(flowerBtClicked) forControlEvents:UIControlEventTouchUpInside];
-        //        [self.backgroundView addSubview:self.questionFlowerBt];
-        
         self.questionImg = [[UIImageView alloc] init];
         self.questionImg.image = [UIImage imageNamed:@"Q&A-myq_15.png"];
         self.questionImg.backgroundColor = [UIColor clearColor];

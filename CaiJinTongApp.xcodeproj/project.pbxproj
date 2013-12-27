@@ -164,6 +164,8 @@
 		18046A94184884D300EB8BDA /* Section_GradeViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 18046A93184884D300EB8BDA /* Section_GradeViewController_iPhone.m */; };
 		18046A971848850800EB8BDA /* Section_NoteViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 18046A961848850700EB8BDA /* Section_NoteViewController_iPhone.m */; };
 		18046A9A1848880B00EB8BDA /* LHLCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18046A991848880B00EB8BDA /* LHLCollectionViewCell.m */; };
+		180D88B6186D0F41008FC145 /* LHLAskQuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D88B5186D0F41008FC145 /* LHLAskQuestionViewController.m */; };
+		180D88B8186D1C18008FC145 /* question1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 180D88B7186D1C18008FC145 /* question1@2x.png */; };
 		1812A4D21851791F009B3D5D /* LoginViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 1812A4D11851791F009B3D5D /* LoginViewController_iPhone.m */; };
 		1812A4D518519203009B3D5D /* UIImage+Scale.m in Sources */ = {isa = PBXBuildFile; fileRef = 1812A4D418519203009B3D5D /* UIImage+Scale.m */; };
 		1812A4DB1851A1B7009B3D5D /* ForgotPwdViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 1812A4DA1851A1B7009B3D5D /* ForgotPwdViewController_iPhone.m */; };
@@ -604,6 +606,9 @@
 		18046A961848850700EB8BDA /* Section_NoteViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section_NoteViewController_iPhone.m; sourceTree = "<group>"; };
 		18046A981848880B00EB8BDA /* LHLCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LHLCollectionViewCell.h; sourceTree = "<group>"; };
 		18046A991848880B00EB8BDA /* LHLCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LHLCollectionViewCell.m; sourceTree = "<group>"; };
+		180D88B4186D0F41008FC145 /* LHLAskQuestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LHLAskQuestionViewController.h; sourceTree = "<group>"; };
+		180D88B5186D0F41008FC145 /* LHLAskQuestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LHLAskQuestionViewController.m; sourceTree = "<group>"; };
+		180D88B7186D1C18008FC145 /* question1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "question1@2x.png"; sourceTree = "<group>"; };
 		1812A4D01851791F009B3D5D /* LoginViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController_iPhone.h; sourceTree = "<group>"; };
 		1812A4D11851791F009B3D5D /* LoginViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController_iPhone.m; sourceTree = "<group>"; };
 		1812A4D318519203009B3D5D /* UIImage+Scale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Scale.h"; sourceTree = "<group>"; };
@@ -1047,6 +1052,7 @@
 		0EAFA1011822200200D01D3E /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				180D88B7186D1C18008FC145 /* question1@2x.png */,
 				1812A4E01851B647009B3D5D /* leftItemBg@2x.png */,
 				1812A4E21851B80D009B3D5D /* rightItemBg@2x.png */,
 				1812A4DE1851B2F5009B3D5D /* 按钮背景@2x.png */,
@@ -1402,6 +1408,8 @@
 				18F2FE96185846410006AF11 /* LHLCommitQuestionViewController.m */,
 				18F2FE9818584A990006AF11 /* LHLTakingMovieNoteViewController.h */,
 				18F2FE9918584A990006AF11 /* LHLTakingMovieNoteViewController.m */,
+				180D88B4186D0F41008FC145 /* LHLAskQuestionViewController.h */,
+				180D88B5186D0F41008FC145 /* LHLAskQuestionViewController.m */,
 			);
 			name = Controller_iPhone;
 			sourceTree = "<group>";
@@ -1842,6 +1850,7 @@
 				0EAFA0F81822167800D01D3E /* questionList.json in Resources */,
 				630B03C61820F5BB00F72C4C /* Images.xcassets in Resources */,
 				18491C4518347A13003C82E4 /* course-courses_06_right@2x.png in Resources */,
+				180D88B8186D1C18008FC145 /* question1@2x.png in Resources */,
 				1836AFE3183AF875009E65B5 /* settings_未选中.png in Resources */,
 				0EAFA0F11822167800D01D3E /* getUserQuestion.json in Resources */,
 				18C9313418363B2A00FBE1A8 /* play_play@2x.png in Resources */,
@@ -2082,6 +2091,7 @@
 				184F8AAF18434A3200A2FEB4 /* LHLNavigationBar.m in Sources */,
 				0EA7EF8718276DD300C47F69 /* AMProgressViewGradient.m in Sources */,
 				0EDF4DF618210241007161E0 /* Reachability.m in Sources */,
+				180D88B6186D0F41008FC145 /* LHLAskQuestionViewController.m in Sources */,
 				0EA7EF7D182748BB00C47F69 /* SDWebImageManager.m in Sources */,
 				0EAFA1121822399000D01D3E /* BaseInterface.m in Sources */,
 				0EA7EF3A1823581F00C47F69 /* SectionModel.m in Sources */,

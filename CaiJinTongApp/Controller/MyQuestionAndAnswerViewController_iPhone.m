@@ -17,7 +17,8 @@
 @property (nonatomic,strong) SubmitAnswerInterface *submitAnswerInterface;//提交回答或者是提交追问
 @property (nonatomic,strong) NSIndexPath *activeIndexPath;//正在处理中的cell
 @property (nonatomic,assign) BOOL isReaskRefreshing;//判断是追问刷新还是上拉下拉刷新
-@property (nonatomic,strong) DRAskQuestionViewController *askQuestionController;
+@property (nonatomic,strong) LHLAskQuestionViewController *askQuestionController;
+@property (nonatomic,strong) UIButton *askQuestionBtn;  //我要提问button
 @end
 
 @implementation MyQuestionAndAnswerViewController_iPhone
@@ -31,16 +32,7 @@
     return self;
 }
 
--(void)drnavigationBarRightItemClicked:(id)sender{
-    if (!self.askQuestionController) {
-        UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-        self.askQuestionController  = [story instantiateViewControllerWithIdentifier:@"DRAskQuestionViewController"];
-        self.askQuestionController.delegate = self;
-    }
-    
-    [self.navigationController pushViewController:self.askQuestionController animated:YES];
-    
-}
+
 
 -(void)willDismissPopoupController{
     CGPoint offset = self.tableView.contentOffset;
@@ -55,6 +47,15 @@
     [self.tableView setFrame: CGRectMake(20,CGRectGetMaxY(self.noticeBarView.frame) + 5,281,IP5(568, 480) - CGRectGetMaxY(self.noticeBarView.frame) - 5 - self.tabBarController.tabBar.frame.size.height)];
     [self.lhlNavigationBar.rightItem setTitle:@"提问" forState:UIControlStateNormal];
     [self.lhlNavigationBar.rightItem setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    if(!self.askQuestionBtn){
+        self.askQuestionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        CGRect frame = self.lhlNavigationBar.rightItem.frame;
+        [self.askQuestionBtn setFrame:(CGRect){frame.origin.x - 30,frame.origin.y,frame.size}];
+        [self.askQuestionBtn setBackgroundColor:[UIColor clearColor]];
+        [self.askQuestionBtn setBackgroundImage:[UIImage imageNamed:@"question1.png"] forState:UIControlStateNormal];
+        [self.askQuestionBtn addTarget:self action:@selector(askQuestionBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [self.lhlNavigationBar addSubview:self.askQuestionBtn];
+    }
     [self.noticeBarImageView.layer setCornerRadius:4];
     
     self.questionIndexesArray = [NSMutableArray arrayWithCapacity:5];
@@ -111,7 +112,7 @@
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
     if (question.isEditing) {
         //把输入框textView移动到合适的位置
-        [self.tableView reloadData];
+        [self closeOtherTextFieldsExcepteThisOne:path withType:YES];
         CGPoint offset = self.tableView.contentOffset;//当前窗口的偏移值
         CGRect rowFrame = [self.tableView rectForRowAtIndexPath:path];//当前row的位置
         CGFloat rowHeight = rowFrame.size.height;//row高度,其中回答模块高度87
@@ -152,11 +153,10 @@
     float sectionHeight = [self getTableViewRowHeightWithIndexPath:path];
     CGRect sectionRect = [self.tableView rectForRowAtIndexPath:path];
     float sectionMinHeight = CGRectGetMinY(sectionRect) - self.tableView.contentOffset.y;
-    float keyheight = CGRectGetHeight(self.tableView.frame) - sectionHeight-185;
+    float keyheight = CGRectGetHeight(self.tableView.frame) - sectionHeight-IP5(188, 200);
     if (sectionMinHeight > keyheight) {
         [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (sectionMinHeight - keyheight)} animated:YES];
     }
-    
 }
 #pragma mark --
 
@@ -177,7 +177,7 @@
     float sectionHeight = [self getTableViewRowHeightWithIndexPath:path];
     CGRect sectionRect = [self.tableView rectForRowAtIndexPath:path];
     float sectionMinHeight = CGRectGetMinY(sectionRect) - self.tableView.contentOffset.y;
-    float keyheight = CGRectGetHeight(self.tableView.frame) - sectionHeight-185;
+    float keyheight = CGRectGetHeight(self.tableView.frame) - sectionHeight-IP5(188, 200);
     if (sectionMinHeight > keyheight) {
         [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (sectionMinHeight - keyheight)} animated:YES];
     }
@@ -216,7 +216,7 @@
     [self.tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
     if (answer.isEditing) {
         //把输入框textView移动到合适的位置
-        [self.tableView reloadData];
+        [self closeOtherTextFieldsExcepteThisOne:path withType:NO];
         CGPoint offset = self.tableView.contentOffset;//当前窗口的偏移值
         CGRect rowFrame = [self.tableView rectForRowAtIndexPath:path];//当前row的位置
         CGFloat rowHeight = rowFrame.size.height;//row高度,其中回答模块高度87
@@ -258,6 +258,11 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
 }
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    [self keyboardDismiss];
+}
+
 #pragma mark --
 
 #pragma mark UITableViewDataSource
@@ -303,7 +308,6 @@
         cell.delegate = self;
         cell.path = indexPath;
         cell.contentView.frame = (CGRect){cell.contentView.frame.origin,CGRectGetWidth(cell.contentView.frame),[self getTableViewRowHeightWithIndexPath:indexPath]};
-        cell.backgroundColor = [UIColor grayColor];//删除
         return cell;
     }
 }
@@ -339,6 +343,16 @@
     }
 }
 
+-(void)askQuestionBtnClicked:(id)sender{
+    if (!self.askQuestionController) {
+        self.askQuestionController  = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLAskQuestionViewController"];
+        self.askQuestionController.delegate = self;
+    }
+    
+    [self.navigationController pushViewController:self.askQuestionController animated:YES];
+    
+}
+
 -(void)setMenuVisible:(BOOL)menuVisible{
     _menuVisible = menuVisible;
     [UIView animateWithDuration:0.3 animations:^{
@@ -368,6 +382,11 @@
                         if(view3.isFirstResponder){
                             [view3 resignFirstResponder];return;
                         }
+                        for(UIView *view4 in view3.subviews){
+                            if(view4.isFirstResponder){
+                                [view4 resignFirstResponder];return;
+                            }
+                        }
                     }
                 }
             }
@@ -395,6 +414,33 @@
             }
         }
     }
+}
+
+-(void)closeOtherTextFieldsExcepteThisOne:(NSIndexPath *)path withType:(BOOL) isQuestion{
+    //关闭除指定path之外所有可输入的textView,改变其cell状态
+    if(isQuestion){
+        QuestionModel *currentQuestion = [self questionForIndexPath:path];
+        for(QuestionModel *q in self.myQuestionArr){
+            if(q.questionId != currentQuestion.questionId){
+                q.isEditing = NO;
+            }
+            for(AnswerModel *a in q.answerList){
+                a.isEditing = NO;
+            }
+        }
+    }else{
+        NSInteger answerIndex = [self answerForCellIndexPath:path];
+        AnswerModel *currentAnswer = [self questionForIndexPath:path].answerList[answerIndex];
+        for(QuestionModel *q in self.myQuestionArr){
+            q.isEditing = NO;
+            for(AnswerModel *a in q.answerList){
+                if(a.answerId != currentAnswer.answerId){
+                    a.isEditing = NO;
+                }
+            }
+        }
+    }
+    [self.tableView reloadData];
 }
 
 -(void)requestNewPageDataWithLastQuestionID:(NSString*)lastQuestionID{
@@ -559,7 +605,7 @@
 }
 
 #pragma mark DRAskQuestionViewControllerDelegate 提问问题成功时回调
--(void)askQuestionViewControllerDidAskingSuccess:(DRAskQuestionViewController *)controller{
+-(void)askQuestionViewControllerDidAskingSuccess:(LHLAskQuestionViewController *)controller{
     self.isReaskRefreshing = YES;
     [self requestNewPageDataWithLastQuestionID:nil];
 }
@@ -670,9 +716,6 @@
         }
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     }
-    
-    
-    
 }
 
 -(void)getQuestionListInfoDidFailed:(NSString *)errorMsg{
@@ -680,6 +723,7 @@
     self.headerRefreshView.isForbidden = NO;
     [self.footerRefreshView endRefreshing];
     self.footerRefreshView.isForbidden = NO;
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
 }
 #pragma mark --

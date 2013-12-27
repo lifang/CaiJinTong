@@ -9,13 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "QuestionAndAnswerCell_iPhone.h"
 #import "QuestionAndAnswerCell_iPhoneHeaderView.h"
-#import "DRAskQuestionViewController.h"
+#import "LHLAskQuestionViewController.h"
 #import "LHLNavigationBarViewController.h"
 #import "MenuQuestionTableViewController.h"
 #import "AcceptAnswerInterface.h"
 #import "MJRefresh.h"
 
-@interface MyQuestionAndAnswerViewController_iPhone : LHLNavigationBarViewController<UITableViewDataSource,UITableViewDelegate,QuestionAndAnswerCell_iPhoneDelegate,QuestionAndAnswerCell_iPhoneHeaderViewDelegate,AcceptAnswerInterfaceDelegate,MJRefreshBaseViewDelegate,QuestionListInterfaceDelegate,DRAskQuestionViewControllerDelegate,GetUserQuestionInterfaceDelegate,LHLNavigationBarDelegate>
+@interface MyQuestionAndAnswerViewController_iPhone : LHLNavigationBarViewController<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,QuestionAndAnswerCell_iPhoneDelegate,QuestionAndAnswerCell_iPhoneHeaderViewDelegate,AcceptAnswerInterfaceDelegate,LHLAskQuestionViewControllerDelegate,MJRefreshBaseViewDelegate,QuestionListInterfaceDelegate,GetUserQuestionInterfaceDelegate,LHLNavigationBarDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *noticeBarView;
 @property (weak, nonatomic) IBOutlet UIImageView *noticeBarImageView;

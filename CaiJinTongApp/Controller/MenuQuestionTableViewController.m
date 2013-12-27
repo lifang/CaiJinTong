@@ -37,14 +37,24 @@
 }
 
 - (void)initData{
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
-    }else {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        QuestionInfoInterface *questionInfoInter = [[QuestionInfoInterface alloc]init];
-        self.questionInfoInterface = questionInfoInter;
-        self.questionInfoInterface.delegate = self;
-        [self.questionInfoInterface getQuestionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId];
+    if([CaiJinTongManager shared].question.count > 0){
+        self.questionList = [NSMutableArray arrayWithArray:[CaiJinTongManager shared].question];
+        //标记是否选中了
+        self.questionArrSelSection = [[NSMutableArray alloc] init];
+        for (int i =0; i<self.questionList.count; i++) {
+            [self.questionArrSelSection addObject:[NSString stringWithFormat:@"%d",i]];
+        }
+        [self.tableView reloadData];
+    }else{
+        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+            [Utility errorAlert:@"暂无网络!"];
+        }else {
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            QuestionInfoInterface *questionInfoInter = [[QuestionInfoInterface alloc]init];
+            self.questionInfoInterface = questionInfoInter;
+            self.questionInfoInterface.delegate = self;
+            [self.questionInfoInterface getQuestionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId];
+        }
     }
 }
 
