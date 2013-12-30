@@ -215,7 +215,7 @@ static BOOL tableVisible;
 //显示/隐藏提问类型table
 -(void)showSelectTable{
     if(!tableVisible){
-        [self.questionContentTextView resignFirstResponder];//便于触发点击事件
+        [self keyboardFuckOff:nil];//便于触发点击事件
         [self.selectTable reloadData];
         self.selectTable.hidden = NO;
         [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationOptionBeginFromCurrentState animations:^{
