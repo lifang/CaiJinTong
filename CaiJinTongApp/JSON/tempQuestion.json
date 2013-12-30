@@ -1,0 +1,243 @@
+{
+	"Status":"1",
+	"Msg": "",
+    "ReturnObject": {
+        "chapterQuestionList":[
+                               {
+                               "questionId":"100000",
+                               "questionName":"公共基础考试哪几章占的分值大？",
+                               "askImg":"http://lms.finance365.com/data/pic/face/20131202042643828.jpg",
+                               "askerId":"200000",
+                               "askerNick":"袁强",
+                               "isPraised":"0",
+                               "askTime":"2012-01-12 16:33",
+                               "praiseCount":"32",
+                               "isAcceptAnswer":"1",
+                               "questiontitle":"公共基础考试",
+                               "answerList":[
+                                             {
+                                             "answerTime":"2012-01-12 16:35",
+                                             "answerId":"1022",
+                                             "answerNick":"小龙",
+                                             "answerPraiseCount":"10",
+                                             "IsAnswerAccept":"0",
+                                             "isPraised":"1",
+                                             "answerContent":"大概35%吧",
+                                             "resultId":"1",
+                                             "askPeopleId":"1011",
+                                             "askPeopleNick":"刘德华",
+                                             "addList":[
+                                                        {
+                                                        "ZID":"102",
+                                                        "addQuestion":"你确定?",
+                                                        "CreateDate":"2012-01-12 16:50",
+                                                        "addMemberID":"200000",
+                                                        "AID":"1022",
+                                                        "Answer":"YES",
+                                                        "AgreeStatus":"0",
+                                                        "IsTeacher":"0",
+                                                        "TeacherName":"小龙"
+                                                        },
+                                                        {
+                                                        "ZID":"102",
+                                                        "addQuestion":"你确定?",
+                                                        "CreateDate":"2012-01-12 16:50",
+                                                        "addMemberID":"200000",
+                                                        "AID":"1023",
+                                                        "Answer":"楼上有误吧，我记得25%",
+                                                        "AgreeStatus":"0",
+                                                        "IsTeacher":"0",
+                                                        "TeacherName":"黄华"
+                                                        }
+                                                        ]
+                                             },
+                                             {
+                                             "answerTime":"2012-01-12 17:35",
+                                             "answerId":"102333",
+                                             "answerNick":"黄海波",
+                                             "answerPraiseCount":"2",
+                                             "IsAnswerAccept":"0",
+                                             "isPraised":"0",
+                                             "answerContent":"35%",
+                                             "resultId":"1",
+                                             "askPeopleId":"1011",
+                                             "askPeopleNick":"刘德华",
+                                             "addList":[]
+                                             }
+                                             ]
+                               },
+                               {
+                               "questionId":"100000",
+                               "questionName":"关于不同理财价值观的客户所对应的不同的营销策略，下列描述正确的是（）。 A.对于后享受型，应建议其购买养老保险 B.对于先享受型，应建议去购买单一指数型基金 C.对于购房型，应建议其购买中短期比较看好的基金 D.对于子女中心型，建议其购买短期稳定基金 E.对于后享受型，应建议其购买投资保单",
+                               "askImg":"http://lms.finance365.com/data/pic/face/20131202042643828.jpg",
+                               "askerId":"200000",
+                               "askerNick":"袁强",
+                               "isPraised":"0",
+                               "askTime":"2012-01-12 16:33",
+                               "praiseCount":"32",
+                               "isAcceptAnswer":"1",
+                               "questiontitle":"选择题",
+                               "answerList":[
+                                             {
+                                             "answerTime":"2012-01-12 16:35",
+                                             "answerId":"1022",
+                                             "answerNick":"小龙",
+                                             "answerPraiseCount":"10",
+                                             "IsAnswerAccept":"0",
+                                             "isPraised":"1",
+                                             "answerContent":"A",
+                                             "resultId":"1",
+                                             "askPeopleId":"1011",
+                                             "askPeopleNick":"刘德华",
+                                             "addList":[
+                                                        ]
+                                             },
+                                             {
+                                             "answerTime":"2012-01-12 17:35",
+                                             "answerId":"102333",
+                                             "answerNick":"黄海波",
+                                             "answerPraiseCount":"2",
+                                             "IsAnswerAccept":"0",
+                                             "isPraised":"0",
+                                             "answerContent":"B",
+                                             "resultId":"1",
+                                             "askPeopleId":"1011",
+                                             "askPeopleNick":"刘德华",
+                                             "addList":[]
+                                             },
+                                             {
+                                             "answerTime":"2012-01-12 17:35",
+                                             "answerId":"102333",
+                                             "answerNick":"黄海波",
+                                             "answerPraiseCount":"2",
+                                             "IsAnswerAccept":"0",
+                                             "isPraised":"0",
+                                             "answerContent":"A",
+                                             "resultId":"1",
+                                             "askPeopleId":"1011",
+                                             "askPeopleNick":"刘德华",
+                                             "addList":[]
+                                             },
+                                             {
+                                             "answerTime":"2012-01-12 17:35",
+                                             "answerId":"102333",
+                                             "answerNick":"黄海波",
+                                             "answerPraiseCount":"2",
+                                             "IsAnswerAccept":"0",
+                                             "isPraised":"0",
+                                             "answerContent":"A",
+                                             "resultId":"1",
+                                             "askPeopleId":"1011",
+                                             "askPeopleNick":"刘德华",
+                                             "addList":[]
+                                             },
+                                             {
+                                             "answerTime":"2012-01-12 17:35",
+                                             "answerId":"102333",
+                                             "answerNick":"黄海波",
+                                             "answerPraiseCount":"2",
+                                             "IsAnswerAccept":"0",
+                                             "isPraised":"0",
+                                             "answerContent":"C",
+                                             "resultId":"1",
+                                             "askPeopleId":"1011",
+                                             "askPeopleNick":"刘德华",
+                                             "addList":[]
+                                             }
+                                             ]
+                               },
+                               {
+                               "questionId":"100000",
+                               "questionName":"建设银行没有在上交所上市吗？",
+                               "askImg":"http://lms.finance365.com/data/pic/face/20131202042643828.jpg",
+                               "askerId":"200000",
+                               "askerNick":"袁强",
+                               "isPraised":"0",
+                               "askTime":"2012-01-12 16:33",
+                               "praiseCount":"32",
+                               "isAcceptAnswer":"1",
+                               "questiontitle":"建设银行没有在上交所上市吗？",
+                               "answerList":[
+                                             {
+                                             "answerTime":"2012-01-12 16:35",
+                                             "answerId":"1022",
+                                             "answerNick":"吴晓华",
+                                             "answerPraiseCount":"10",
+                                             "IsAnswerAccept":"0",
+                                             "isPraised":"1",
+                                             "answerContent":"建行2005年10月27日在香港上市（H股）,2007年9月25日在上海证券交易所上市（A股）。",
+                                             "resultId":"1",
+                                             "askPeopleId":"1011",
+                                             "askPeopleNick":"刘德华",
+                                             "addList":[
+                                                        {
+                                                        "ZID":"102",
+                                                        "addQuestion":"为什么测试题中有关国有五大行上市的题目都是建行仅在香港上市？",
+                                                        "CreateDate":"2012-01-12 16:50",
+                                                        "addMemberID":"200000",
+                                                        "AID":"1022",
+                                                        "Answer":"具体哪题，题目中有明确说仅在香港上市吗？还是说只提到了在香港上市？",
+                                                        "AgreeStatus":"0",
+                                                        "IsTeacher":"1",
+                                                        "TeacherName":"吴晓华"
+                                                        },
+                                                        {
+                                                        "ZID":"102",
+                                                        "addQuestion":"为什么测试题中有关国有五大行上市的题目都是建行仅在香港上市？",
+                                                        "CreateDate":"2012-01-12 16:50",
+                                                        "addMemberID":"200000",
+                                                        "AID":"1023",
+                                                        "Answer":"不可能吧",
+                                                        "AgreeStatus":"0",
+                                                        "IsTeacher":"1",
+                                                        "TeacherName":"吴晓华"
+                                                        }
+                                                        ]
+                                             },
+                                             {
+                                             "answerTime":"2012-01-12 17:35",
+                                             "answerId":"102333",
+                                             "answerNick":"黄海波",
+                                             "answerPraiseCount":"2",
+                                             "IsAnswerAccept":"0",
+                                             "isPraised":"0",
+                                             "answerContent":"建行2005年10月27日在香港上市（H股）,2007年9月25日在上海证券交易所上市（A股）。",
+                                             "resultId":"1",
+                                             "askPeopleId":"1011",
+                                             "askPeopleNick":"刘德华",
+                                             "addList":[]
+                                             }
+                                             ]
+                               },
+                               {
+                               "questionId":"100000",
+                               "questionName":"consolidate statement,请问dec.10 第一题中available for sale 为何有个consideration800呢？是什么来的？谢谢",
+                               "askImg":"http://lms.finance365.com/data/pic/face/20131202042643828.jpg",
+                               "askerId":"200000",
+                               "askerNick":"袁强",
+                               "isPraised":"0",
+                               "askTime":"2012-01-12 16:33",
+                               "praiseCount":"32",
+                               "isAcceptAnswer":"1",
+                               "questiontitle":"公共基础考试",
+                               "answerList":[
+                                             {
+                                             "answerTime":"2012-01-12 16:35",
+                                             "answerId":"1022",
+                                             "answerNick":"小龙",
+                                             "answerPraiseCount":"10",
+                                             "IsAnswerAccept":"0",
+                                             "isPraised":"1",
+                                             "answerContent":"这是因为题目当中说，收购子公司的对价有一部分是发行债券支付的，发行债券购买子公司股权的分录已经记入母公司单独报表，那么它的DOUBLE ENTRY 会是怎么做的呢？DR INVESTMENT   800CR LOAN     800这个INVESTMENT IN SUBSIDIARY 的800，在做合并的时候，是要CANCEL掉的，所以这里要扣减掉800",
+                                             "resultId":"1",
+                                             "askPeopleId":"1011",
+                                             "askPeopleNick":"刘德华",
+                                             "addList":[]
+                                             }
+                                             ]
+                               }
+
+                               ]
+        
+    }
+}

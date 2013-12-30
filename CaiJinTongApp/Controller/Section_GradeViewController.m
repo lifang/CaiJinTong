@@ -9,8 +9,10 @@
 #import "Section_GradeViewController.h"
 #import "Section_GradeCell.h"
 #import "CommentModel.h"
+#define COMMENT_CELL_WIDTH 650
 @interface Section_GradeViewController ()
 @property (nonatomic,strong) UILabel *tipLabel;
+@property (nonatomic,strong) MJRefreshFooterView *footerRefreshView;
 @end
 
 @implementation Section_GradeViewController
@@ -30,6 +32,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.footerRefreshView endRefreshing];
+    if (!self.starRatingView) {
+        self.starRatingView = [[TQStarRatingView alloc] initWithFrame:(CGRect){29,6,COMMENT_CELL_WIDTH+5,51} numberOfStar:5];
+        self.starRatingView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+        [self.commentBackView addSubview:self.starRatingView];
+    }
+    [self.submitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.submitBtn setBackgroundImage:[UIImage imageNamed:@"btn0.png"] forState:UIControlStateNormal];
+    self.textView.backgroundColor = [UIColor colorWithRed:238.0/255.0 green:238.0/255.0 blue:238.0/255.0 alpha:1.0];
+    self.starRatingView.backgroundColor = [UIColor colorWithRed:246.0/255.0 green:246.0/255.0 blue:246.0/255.0 alpha:1.0];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sunsliderScrollWillBeginDragging) name:@"SUNSlideScrollWillDraggingNotification" object:nil];
 }
 - (void)viewDidCurrentView
@@ -44,53 +57,18 @@
     // Dispose of any resources that can be recreated.
 }
 -(void)displayView {
+    CGRect listRect = self.commentListBackView.frame;
     if (self.isGrade == 0) {//有打分界面
-        if (!self.starRatingView) {
-            TQStarRatingView *starRating = [[TQStarRatingView alloc] initWithFrame:CGRectMake(25, 7, 520, 50) numberOfStar:5];
-            starRating.delegate = self;
-            starRating.backgroundColor = [UIColor colorWithRed:246.0/255.0 green:246.0/255.0 blue:246.0/255.0 alpha:1.0];
-            [self.view addSubview:starRating];
-            self.starRatingView = starRating;
-        }
-        
-        self.textView.frame = CGRectMake(25, self.starRatingView.frame.origin.y+55, 520, 70);
-        self.submitBtn.frame =CGRectMake(240, self.textView.frame.origin.y+80, 90, 30);
-
-        self.myComment.frame = CGRectMake(25, self.submitBtn.frame.origin.y+40, 100, 30);
-        self.tableViewList.frame =  CGRectMake(0, self.myComment.frame.origin.y+40, 768, self.view.frame.size.height-self.submitBtn.frame.origin.y-60);
-        [self.submitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [self.submitBtn setBackgroundImage:[UIImage imageNamed:@"btn0.png"] forState:UIControlStateNormal];
-        
-        self.textView.backgroundColor = [UIColor colorWithRed:238.0/255.0 green:238.0/255.0 blue:238.0/255.0 alpha:1.0];
-        
+        [self.commentBackView setHidden:NO];
+        self.commentListBackView.frame = (CGRect){listRect.origin.x,CGRectGetMaxY(self.commentBackView.frame),listRect.size};
     }else {//隐藏打分界面
-        NSArray *subViews = [self.view subviews];
-        for (UIView *vv in subViews) {
-            if ([vv isKindOfClass:[TQStarRatingView class]]) {
-                TQStarRatingView *vview = (TQStarRatingView *)vv;
-                [vview removeFromSuperview];
-            }else if ([vv isKindOfClass:[UILabel class]]) {
-                UILabel *lab = (UILabel *)vv;
-                if (lab.tag == 9999) {
-                    [lab removeFromSuperview];
-                }
-            }
-        }
-        self.textView.frame = CGRectMake(25, 3, 520, 70);
-        self.submitBtn.frame =CGRectMake(240, self.textView.frame.origin.y+80, 90, 30);
- 
-        self.myComment.frame = CGRectMake(25, self.submitBtn.frame.origin.y+40, 100, 30);
-        self.tableViewList.frame =  CGRectMake(0, self.myComment.frame.origin.y+40, 768, self.view.frame.size.height-self.submitBtn.frame.origin.y-60);
-        [self.submitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [self.submitBtn setBackgroundImage:[UIImage imageNamed:@"btn0.png"] forState:UIControlStateNormal];
-        
-        self.textView.backgroundColor = [UIColor colorWithRed:238.0/255.0 green:238.0/255.0 blue:238.0/255.0 alpha:1.0];
-
+        [self.commentBackView setHidden:YES];
+        self.commentListBackView.frame = (CGRect){listRect.origin.x,CGRectGetMinY(self.commentBackView.frame),listRect.size.width,380};
     }
 }
--(void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self displayView];
 }
 #pragma  -- 打分
 -(void)starRatingView:(TQStarRatingView *)view score:(float)score
@@ -111,7 +89,7 @@ static NSString *timespan = nil;
             GradeInterface *gradeInter = [[GradeInterface alloc]init];
             self.gradeInterface = gradeInter;
             self.gradeInterface.delegate = self;
-            [self.gradeInterface getGradeInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionId andScore:[NSString stringWithFormat:@"%d",self.starRatingView.score]andContent:self.textView.text];
+            [self.gradeInterface getGradeInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.lessonId andScore:[NSString stringWithFormat:@"%d",self.starRatingView.score]andContent:self.textView.text];
         }
     }
 }
@@ -120,7 +98,7 @@ static NSString *timespan = nil;
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row<self.dataArray.count) {
         CommentModel *comment = (CommentModel *)[self.dataArray objectAtIndex:indexPath.row];
-        CGSize size = [Utility getTextSizeWithString:comment.content withFont:[UIFont systemFontOfSize:15] withWidth:500];
+        CGSize size = [Utility getTextSizeWithString:comment.commentContent withFont:[UIFont systemFontOfSize:15] withWidth:COMMENT_CELL_WIDTH];
         return size.height+20+35;
     }
     return 35;
@@ -128,35 +106,24 @@ static NSString *timespan = nil;
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (!self.dataArray || self.dataArray.count <= 0) {
         [self.tipLabel removeFromSuperview];
-        [self.tableViewList addSubview:self.tipLabel];
-        
+        [tableView addSubview:self.tipLabel];
     }
-    return self.dataArray.count+1;
+    return self.dataArray.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Section_GradeCell";
     Section_GradeCell *cell = (Section_GradeCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (indexPath.row<self.dataArray.count) { // 正常的cell
-        CommentModel *comment = (CommentModel *)[self.dataArray objectAtIndex:indexPath.row];
-        CGSize size = [Utility getTextSizeWithString:comment.content withFont:[UIFont systemFontOfSize:15] withWidth:500];
-        cell.contentLab.layer.borderWidth = 2.0;
-        cell.contentLab.layer.borderColor = [[UIColor colorWithRed:244.0/255.0 green:243.0/255.0 blue:244.0/255.0 alpha:1.0] CGColor];
-        cell.contentLab.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-        cell.contentLab.frame = CGRectMake(25, 25, 500, size.height+10);
-        cell.contentLab.font = [UIFont systemFontOfSize:15];
-        cell.alpha = 0.5;
-        cell.contentLab.text = [comment.content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        cell.titleLab.text = [NSString stringWithFormat:@"%@发表于%@",comment.nickName,comment.time];
-    }else {
-        if (self.nowPage < self.pageCount) {
-            cell.titleLab.text = @"正在加载..."; //最后一行 触发下载更新代码
-            [self performSelector:@selector(loadMore) withObject:nil afterDelay:3];
-        }else {
-            cell.titleLab.text = @"已全部加载完毕";
-        }
-        cell.contentLab.text = @"";
-    }
-
+    CommentModel *comment = (CommentModel *)[self.dataArray objectAtIndex:indexPath.row];
+    CGSize size = [Utility getTextSizeWithString:comment.commentContent withFont:[UIFont systemFontOfSize:15] withWidth:COMMENT_CELL_WIDTH];
+    cell.contentLab.layer.borderWidth = 2.0;
+    cell.contentLab.layer.borderColor = [[UIColor colorWithRed:244.0/255.0 green:243.0/255.0 blue:244.0/255.0 alpha:1.0] CGColor];
+    cell.contentLab.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    cell.contentLab.frame = CGRectMake(25, 25, COMMENT_CELL_WIDTH, size.height+10);
+    cell.contentLab.font = [UIFont systemFontOfSize:15];
+    cell.alpha = 0.5;
+    cell.contentLab.text = [comment.commentContent stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    cell.titleLab.text = [NSString stringWithFormat:@"%@发表于%@",comment.commentAuthorName,comment.commentCreateDate];
+    
     return cell;
 }
 //提交评论成功后加入到评论列表
@@ -181,19 +148,23 @@ static NSString *timespan = nil;
     }
 }
 
+#pragma mark MJRefreshBaseViewDelegate 分页加载
+-(void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView{
+    [self loadMore];
+}
+
+
 //评论的分页加载
 -(void)loadMore {
-    if (self.nowPage < self.pageCount) {//还有评论
-        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-            [Utility errorAlert:@"暂无网络!"];
-        }else {
-            self.nowPage +=1;
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            CommentListInterface *commentList = [[CommentListInterface alloc]init];
-            self.commentInterface = commentList;
-            self.commentInterface.delegate = self;
-            [self.commentInterface getGradeInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionId andPageIndex:self.nowPage];
-        }
+    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+        [Utility errorAlert:@"暂无网络!"];
+    }else {
+        self.nowPage +=1;
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        CommentListInterface *commentList = [[CommentListInterface alloc]init];
+        self.commentInterface = commentList;
+        self.commentInterface.delegate = self;
+        [self.commentInterface getGradeInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.lessonId andPageIndex:self.nowPage];
     }
 }
 
@@ -212,12 +183,17 @@ static NSString *timespan = nil;
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             [self.tableViewList reloadData];
+            [self.footerRefreshView endRefreshing];
         });
     });
 }
 -(void)getCommentListInfoDidFailed:(NSString *)errorMsg {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Utility errorAlert:errorMsg];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [Utility errorAlert:errorMsg];
+        [self.footerRefreshView endRefreshing];
+    });
+
 }
 
 #pragma  mark --GradeInterfaceDelegate
@@ -235,14 +211,29 @@ static NSString *timespan = nil;
     });
 }
 -(void)getGradeInfoDidFailed:(NSString *)errorMsg {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Utility errorAlert:errorMsg];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [Utility errorAlert:errorMsg];
+    });
+
 }
 
 #pragma mark property
+
+-(MJRefreshFooterView *)footerRefreshView{
+    if (!_footerRefreshView) {
+        _footerRefreshView = [[MJRefreshFooterView alloc] init];
+        _footerRefreshView.delegate = self;
+        _footerRefreshView.scrollView = self.tableViewList;
+        
+    }
+    return _footerRefreshView;
+}
+
 -(UILabel *)tipLabel{
     if (!_tipLabel) {
-        _tipLabel = [[UILabel alloc] initWithFrame:(CGRect){0,0,self.tableViewList.frame.size}];
+        _tipLabel = [[UILabel alloc] initWithFrame:(CGRect){0,0,COMMENT_CELL_WIDTH,self.tableViewList.frame.size.height}];
         _tipLabel.textAlignment = NSTextAlignmentCenter;
         _tipLabel.textColor = [UIColor grayColor];
         _tipLabel.font = [UIFont systemFontOfSize:30];

@@ -7,14 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LessonListHeaderView.h"
 #import "ChapterInfoInterface.h"
 #import "SearchLessonInterface.h"
 #import "QuestionInfoInterface.h"
 #import "GetUserQuestionInterface.h"
 #import "ChapterQuestionInterface.h"
 #import "GetUserQuestionInterface.h"
-@interface LessonViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,LessonListHeaderViewDelegate,ChapterInfoInterfaceDelegate,LessonInfoInterfaceDelegate,UITextFieldDelegate,SearchLessonInterfaceDelegate,QuestionInfoInterfaceDelegate,ChapterQuestionInterfaceDelegate,UIScrollViewDelegate,GetUserQuestionInterfaceDelegate,SearchQuestionInterfaceDelegate,UITextFieldDelegate>
+#import "DRTreeTableView.h"
+#import "LessonCategoryInterface.h"
+#import "LessonListForCategory.h"
+#import "MyQuestionCategatoryInterface.h"
+@interface LessonViewController : UIViewController<UISearchBarDelegate,ChapterInfoInterfaceDelegate,UITextFieldDelegate,SearchLessonInterfaceDelegate,QuestionInfoInterfaceDelegate,ChapterQuestionInterfaceDelegate,UIScrollViewDelegate,GetUserQuestionInterfaceDelegate,SearchQuestionInterfaceDelegate,UITextFieldDelegate,DRTreeTableViewDelegate,LessonCategoryInterfaceDelegate,LessonListForCategoryDelegate,MyQuestionCategatoryInterfaceDelegate>
 
 @property (nonatomic, strong) SearchLessonInterface *searchLessonInterface;
 @property (weak, nonatomic) IBOutlet UIButton *editBtn;
@@ -23,30 +26,26 @@
 @property (weak, nonatomic) IBOutlet UIButton *searchBtn;
 @property (nonatomic) BOOL isSearching; //标志某次动作是否为搜索动作
 @property (weak, nonatomic) IBOutlet UIView *lessonListBackgroundView;
-@property (nonatomic, strong) LessonInfoInterface *lessonInterface;
-@property (nonatomic, strong) QuestionInfoInterface *questionInfoInterface;
+@property (nonatomic, strong) QuestionInfoInterface *questionInfoInterface;//获取所有问答分类
+@property (nonatomic, strong) MyQuestionCategatoryInterface *myQuestionCategatoryInterface;//获取我的提问分类
+@property (nonatomic, strong) MyQuestionCategatoryInterface *myAnswerCategatoryInterface;//获取我的回答分类
 @property (nonatomic, strong) ChapterInfoInterface *chapterInterface;
+@property (strong,nonatomic) LessonCategoryInterface *lessonCategoryInterface;//获取课程分类
+@property (strong,nonatomic) LessonListForCategory *lessonListForCategory;//根据分类获取课程列表
 @property (weak, nonatomic) IBOutlet UIView *leftBackGroundview;
 @property (weak, nonatomic) IBOutlet UIButton *lessonListBt;
 @property (weak, nonatomic) IBOutlet UIButton *questionListBt;
 @property (weak, nonatomic) IBOutlet UILabel *lessonListTitleLabel;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
 - (IBAction)lessonListBtClicked:(id)sender;
 - (IBAction)questionListBtClicked:(id)sender;
 - (IBAction)SearchBrClicked:(id)sender;
 @property (weak, nonatomic) IBOutlet UIImageView *LogoImageView;
 @property (weak, nonatomic) IBOutlet UILabel *rightNameLabel;
-@property (nonatomic, strong) NSDictionary *lessonDictionary;
 @property (nonatomic, strong) NSMutableArray *lessonList;  //课程数据
-@property (nonatomic, strong) NSMutableArray *arrSelSection;
-@property (nonatomic, assign) NSInteger tmpSection;
 
 @property (nonatomic, strong) NSDictionary *questionDictionary;
-@property (nonatomic, strong) NSMutableArray *questionList;
-@property (nonatomic, strong) NSMutableArray *questionArrSelSection;
-@property (nonatomic, assign) NSInteger questionTmpSection;
-
-@property (nonatomic, strong) NSMutableArray *temp_saveArray;//根据
+@property (nonatomic, strong) NSMutableArray *questionList;//所有问答
+@property (nonatomic, strong) NSMutableArray *myQuestionList;//我的问答
 
 @property (nonatomic, strong) ChapterQuestionInterface *chapterQuestionInterface;
 

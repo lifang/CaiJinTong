@@ -8,7 +8,10 @@
 
 #import "LessonViewController_iPhone.h"
 #define CELL_REUSE_IDENTIFIER @"CollectionCell"
-
+@interface LessonViewController_iPhone ()
+@property (nonatomic,strong) LessonCategoryInterface *lessonCategoryInterface;
+@property (nonatomic,strong) DRTreeTableView *drTreeTableView;
+@end
 @implementation LessonViewController_iPhone
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -20,6 +23,13 @@
 }
 
 #pragma mark -- init settings
+
+//获取课程分类信息
+-(void)downloadLessonCategoryInfo{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self.lessonCategoryInterface downloadLessonCategoryDataWithUserId:[CaiJinTongManager shared].userId];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -381,7 +391,7 @@
             SearchLessonInterface *searchLessonInter = [[SearchLessonInterface alloc]init];
             self.searchInterface = searchLessonInter;
             self.searchInterface.delegate = self;
-            [self.searchInterface getSearchLessonInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:[self.searchBar.searchTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+            [self.searchInterface getSearchLessonInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:[self.searchBar.searchTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] withPageIndex:0 withSortType:LESSONSORTTYPE_CurrentStudy];
         }
     }
 }
@@ -400,11 +410,12 @@
 }
 
 -(void)rightItemClicked:(id)sender{
-    if(!self.menu){
-        self.menu = [self.storyboard instantiateViewControllerWithIdentifier:@"MenuTableViewController"];
-        [self addChildViewController:self.menu];
+    if(!_drTreeTableView){
+        [self downloadLessonCategoryInfo];
+        [self drTreeTableView];
         self.menuVisible = YES;
-        [self.view addSubview:self.menu.view];
+        [self.view addSubview:self.drTreeTableView];
+        [self.drTreeTableView setBackgroundColor:[UIColor colorWithRed:6.0/255.0 green:18.0/255.0 blue:27.0/255.0 alpha:1.0]];
     }else{
         self.menuVisible = !self.menuVisible;
     }
@@ -414,11 +425,47 @@
     _menuVisible = menuVisible;
     [UIView animateWithDuration:0.3 animations:^{
         if(menuVisible){
-            self.menu.view.frame = CGRectMake(120,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55));
+            self.drTreeTableView.frame = CGRectMake(120,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55));
         }else{
-            self.menu.view.frame = CGRectMake(320,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55));
+            self.drTreeTableView.frame = CGRectMake(320,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55));
         }
     }];
+}
+
+#pragma mark --
+
+#pragma mark LessonCategoryInterfaceDelegate获取课程分类信息
+-(void)getLessonCategoryDataDidFinished:(NSArray *)categoryNotes{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        self.drTreeTableView.noteArr = [NSMutableArray arrayWithArray:categoryNotes];
+        [[CaiJinTongManager shared] setLessonCategoryArr:[NSMutableArray arrayWithArray:categoryNotes]];
+    });
+}
+
+-(void)getLessonCategoryDataFailure:(NSString *)errorMsg{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [Utility errorAlert:errorMsg];
+    });
+}
+
+#pragma  mark property
+
+-(DRTreeTableView *)drTreeTableView{
+    if (!_drTreeTableView) {
+        _drTreeTableView = [[DRTreeTableView alloc] initWithFrame:CGRectMake(320,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55)) withTreeNodeArr:nil];
+        _drTreeTableView.delegate = self;
+    }
+    return _drTreeTableView;
+}
+
+-(LessonCategoryInterface *)lessonCategoryInterface{
+    if (!_lessonCategoryInterface) {
+        _lessonCategoryInterface = [[LessonCategoryInterface alloc] init];
+        _lessonCategoryInterface.delegate = self;
+    }
+    return _lessonCategoryInterface;
 }
 
 - (void)didReceiveMemoryWarning

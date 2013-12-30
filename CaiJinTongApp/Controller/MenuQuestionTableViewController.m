@@ -144,7 +144,6 @@
         return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [CaiJinTongManager shared].isSettingView = NO;
         if (indexPath.section==0) {
             NSDictionary *d=[self.questionList objectAtIndex:indexPath.row];
             if([d valueForKey:@"questionNode"]) {
@@ -210,9 +209,9 @@
               [MBProgressHUD showHUDAddedTo:self.view animated:YES];
               //请求我的问答
               if (self.questionScope == QuestionAndAnswerMYANSWER) {
-                  [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andIsMyselfQuestion:@"1" andLastQuestionID:nil];
+                  [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andIsMyselfQuestion:@"1" andLastQuestionID:nil withCategoryId:nil];
               }else if (self.questionScope == QuestionAndAnswerMYQUESTION) {
-                  [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andIsMyselfQuestion:@"0" andLastQuestionID:nil];
+                  [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andIsMyselfQuestion:@"0" andLastQuestionID:nil withCategoryId:nil];
               }
           }
         }
@@ -237,10 +236,10 @@
 }
 
 #pragma mark--QuestionInfoInterfaceDelegate {
--(void)getQuestionInfoDidFinished:(NSDictionary *)result {
+-(void)getQuestionInfoDidFinished:(NSArray *)questionCategoryArr {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        self.questionList = [NSMutableArray arrayWithArray:[result valueForKey:@"questionList"]];
-        [CaiJinTongManager shared].question = [NSMutableArray arrayWithArray:[result valueForKey:@"questionList"]];
+//        self.questionList = [NSMutableArray arrayWithArray:[result valueForKey:@"questionList"]];
+//        [CaiJinTongManager shared].question = [NSMutableArray arrayWithArray:[result valueForKey:@"questionList"]];
         //标记是否选中了
         self.questionArrSelSection = [[NSMutableArray alloc] init];
         for (int i =0; i<self.questionList.count; i++) {

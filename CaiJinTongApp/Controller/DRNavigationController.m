@@ -38,15 +38,7 @@
 
 
 - (BOOL)shouldAutorotate {
-    UIInterfaceOrientation interface = [[UIApplication sharedApplication] statusBarOrientation];
-    UIViewController *subViewController = [[self childViewControllers] lastObject];
-    if (subViewController && [subViewController isKindOfClass:[DRMoviePlayViewController class]]) {
-        return [subViewController shouldAutorotate];
-    }
-    if (UIInterfaceOrientationIsLandscape(interface)) {
-        return YES;
-    }
-    return NO;
+    return YES;
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
@@ -54,7 +46,7 @@
     if (subViewController && [subViewController isKindOfClass:[DRMoviePlayViewController class]]) {
         return [subViewController supportedInterfaceOrientations];
     }
-    return UIInterfaceOrientationMaskPortrait;
+    return UIInterfaceOrientationMaskLandscape;
 }
 // pre-iOS 6 support
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
@@ -62,6 +54,7 @@
     if (subViewController && [subViewController isKindOfClass:[DRMoviePlayViewController class]]) {
         return [subViewController shouldAutorotateToInterfaceOrientation:toInterfaceOrientation];
     }
-    return (toInterfaceOrientation == UIInterfaceOrientationPortrait);
+    return  UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
 }
+
 @end

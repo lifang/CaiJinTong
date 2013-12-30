@@ -20,7 +20,7 @@
 
 @protocol QuestionInfoInterfaceDelegate <NSObject>
 
--(void)getQuestionInfoDidFinished:(NSDictionary *)result;
+-(void)getQuestionInfoDidFinished:(NSArray *)questionCategoryArr;
 -(void)getQuestionInfoDidFailed:(NSString *)errorMsg;
 
 @end

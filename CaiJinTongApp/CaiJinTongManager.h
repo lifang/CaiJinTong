@@ -18,11 +18,9 @@
 
 @property (nonatomic, strong) NSString * userId;
 @property (nonatomic, strong) UserModel *user;
-@property (nonatomic, strong) NSMutableArray *question;
+@property (nonatomic, strong) NSMutableArray *question;//过时
+@property (nonatomic, strong) NSMutableArray *lessonCategoryArr;//课程分类信息
 @property (nonatomic, assign) int tagOfBtn;
-
-@property (nonatomic, assign) BOOL isSettingView;
-
 @property (nonatomic, assign) CGFloat defaultPortraitTopInset;
 @property (nonatomic, assign) CGFloat defaultWidth;
 @property (nonatomic, assign) CGFloat defaultHeight;

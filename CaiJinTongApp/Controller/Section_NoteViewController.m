@@ -7,8 +7,7 @@
 //
 
 #import "Section_NoteViewController.h"
-#import "Section_NoteCell.h"
-#import "NoteModel.h"
+#define NOTE_CELL_WIDTH 650
 @interface Section_NoteViewController ()
 @property (nonatomic,strong) UILabel *tipLabel;
 @end
@@ -44,14 +43,13 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     NoteModel *note = (NoteModel *)[self.dataArray objectAtIndex:indexPath.row];
     UIFont *aFont = [UIFont fontWithName:@"Trebuchet MS" size:18];
-    CGSize size = [note.noteText sizeWithFont:aFont constrainedToSize:CGSizeMake(500, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
-    return size.height+35+20;
+    CGSize size = [note.noteText sizeWithFont:aFont constrainedToSize:CGSizeMake(NOTE_CELL_WIDTH, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
+    return size.height+50+20;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (!self.dataArray || self.dataArray.count <= 0) {
         [self.tipLabel removeFromSuperview];
-        [self.tableViewList addSubview:self.tipLabel];
-        
+        [tableView addSubview:self.tipLabel];
     }
     return self.dataArray.count;
 }
@@ -64,10 +62,10 @@
     }
     NoteModel *note = (NoteModel *)[self.dataArray objectAtIndex:indexPath.row];
     UIFont *aFont = [UIFont fontWithName:@"Trebuchet MS" size:18];
-    CGSize size = [note.noteText sizeWithFont:aFont constrainedToSize:CGSizeMake(500, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
+    CGSize size = [note.noteText sizeWithFont:aFont constrainedToSize:CGSizeMake(NOTE_CELL_WIDTH, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
     
     [cell.contentTextView setUserInteractionEnabled:NO];
-    cell.contentTextView.frame = CGRectMake(30, 35, 500, size.height+20);
+    cell.contentTextView.frame = CGRectMake(30, 50, NOTE_CELL_WIDTH, size.height+20);
     cell.timeLab.text = note.noteTime;
     cell.contentTextView.layer.borderWidth = 2.0;
     cell.contentTextView.layer.borderColor = [[UIColor colorWithRed:244.0/255.0 green:243.0/255.0 blue:244.0/255.0 alpha:1.0] CGColor];
@@ -76,13 +74,35 @@
     [cell.contentTextView setScrollEnabled:NO];
     [cell.contentTextView setEditable:NO];
     cell.contentTextView.text = note.noteText;
+    cell.sectionNameLab.text = @"财金基础知识第一章 > 第一节 > 财金基础知识第一章视频";
+    cell.path = indexPath;
+    cell.delegate = self;
     return cell;
 }
 
+
+#pragma mark Section_NoteCellDelegate
+-(void)section_NoteCell:(Section_NoteCell *)cell didSelectedAtIndexPath:(NSIndexPath *)path{
+    NoteModel *note = [self.dataArray objectAtIndex:path.row];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(section_NoteViewController:didClickedNoteCellWithObj:)]) {
+        [self.delegate section_NoteViewController:self didClickedNoteCellWithObj:note];
+    }
+}
+#pragma mark --
 #pragma mark property
+
+-(void)setDataArray:(NSMutableArray *)dataArray{
+    NSMutableArray *data = [NSMutableArray array];
+    for (chapterModel *chapter in dataArray) {
+        for (NoteModel *note in chapter.chapterNoteList) {
+            [data addObject:note];
+        }
+    }
+    _dataArray = data;
+}
 -(UILabel *)tipLabel{
     if (!_tipLabel) {
-        _tipLabel = [[UILabel alloc] initWithFrame:(CGRect){0,0,self.tableViewList.frame.size}];
+        _tipLabel = [[UILabel alloc] initWithFrame:(CGRect){0,0,NOTE_CELL_WIDTH,self.tableViewList.frame.size.height}];
         _tipLabel.textAlignment = NSTextAlignmentCenter;
         _tipLabel.textColor = [UIColor grayColor];
         _tipLabel.font = [UIFont systemFontOfSize:30];

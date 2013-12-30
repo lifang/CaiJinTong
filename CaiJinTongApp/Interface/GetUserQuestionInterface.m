@@ -15,7 +15,7 @@
 #import "AnswerModel.h"
 @implementation GetUserQuestionInterface
 
--(void)getGetUserQuestionInterfaceDelegateWithUserId:(NSString *)userId andIsMyselfQuestion:(NSString *)isMyselfQuestion andLastQuestionID:(NSString*)lastQuestionID{
+-(void)getGetUserQuestionInterfaceDelegateWithUserId:(NSString *)userId andIsMyselfQuestion:(NSString *)isMyselfQuestion andLastQuestionID:(NSString*)lastQuestionID withCategoryId:(NSString*)categoryId{
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
@@ -26,9 +26,9 @@
     //isMyselfQuestion=1 我回答过的问题
 //    self.interfaceUrl = [NSString stringWithFormat:@"http://lms.finance365.com/api/ios.ashx?active=getUserQuestion&userId=17079&isMyselfQuestion=%@",isMyselfQuestion];
     if (lastQuestionID) {
-        self.interfaceUrl = [NSString stringWithFormat:@"%@?active=getUserQuestion&userId=%@&isMyselfQuestion=%@&feedbackId=%@",kHost,userId,isMyselfQuestion,lastQuestionID];
+        self.interfaceUrl = [NSString stringWithFormat:@"%@?active=getUserQuestion&userId=%@&isMyselfQuestion=%@&feedbackId=%@&categoryId=%@",kHost,userId,isMyselfQuestion,lastQuestionID,categoryId];
     }else{
-    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=getUserQuestion&userId=%@&isMyselfQuestion=%@",kHost,userId,isMyselfQuestion];
+    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=getUserQuestion&userId=%@&isMyselfQuestion=%@&categoryId=%@",kHost,userId,isMyselfQuestion,categoryId];
     }
     
     self.baseDelegate = self;
@@ -62,14 +62,12 @@
                                         QuestionModel *question = [[QuestionModel alloc]init];
                                         question.questionId = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"questionId"]];
                                         question.questionName = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"questionname"]];
-//                                        question.questionName = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"questiontitle"]];
                                         question.askerId = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"askerId"]];
                                         question.askImg = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"askImg"]];
                                         question.askerNick = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"askerNick"]];
                                         question.askTime = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"askTime"]];
                                         question.praiseCount = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"praiseCount"]];
-//                                        question.isAcceptAnswer = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"isAcceptAnswer"]];
-                                        
+
                                         question.pageIndex =[[question_dic objectForKey:@"pageIndex"]intValue];
                                         question.pageCount =[[question_dic objectForKey:@"pageCount"]intValue];
                                         

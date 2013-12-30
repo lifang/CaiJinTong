@@ -11,6 +11,9 @@
 
 @protocol CollectionHeaderDelegate;
 @interface CollectionHeader : UICollectionReusableView
+@property (weak, nonatomic) IBOutlet UIButton *nameItem;
+@property (weak, nonatomic) IBOutlet UIButton *defaultItem;
+@property (weak, nonatomic) IBOutlet UIButton *progressItem;
 @property (nonatomic,assign) id<CollectionHeaderDelegate> delegate;
 @end
 

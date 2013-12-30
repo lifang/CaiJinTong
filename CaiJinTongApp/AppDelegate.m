@@ -51,11 +51,9 @@
     //开启网络状况的监听
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
     
-    self.hostReach = [Reachability reachabilityWithHostName:@"www.baidu.com"] ;
-    [self.hostReach startNotifier];  //开始监听，会启动一个run loop
+    [[Reachability reachabilityWithHostName:@"www.baidu.com"] startNotifier];  //开始监听，会启动一个run loop
     
     self.mDownloadService = [[DownloadService alloc]init];
-    
     return YES;
 }
 //连接改变
@@ -109,10 +107,10 @@
 }
 
 
--(NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window{
-    NSUInteger orientations = UIInterfaceOrientationMaskAll;
-    return orientations;
-}
+//-(NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window{
+//    NSUInteger orientations = UIInterfaceOrientationMaskAll;
+//    return orientations;
+//}
 
 #pragma mark property
 -(NSMutableArray *)popupedControllerArr{

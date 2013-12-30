@@ -24,7 +24,7 @@ typedef enum{
     progress,
     a_z
 } FilterStatus;
-@interface LessonViewController_iPhone : LHLNavigationBarViewController<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,ChapterInfoInterfaceDelegate,CJTMainToolbar_iPhoneDelegate,SearchLessonInterfaceDelegate,ChapterSearchBarDelegate_iPhone,SectionInfoInterfaceDelegate>
+@interface LessonViewController_iPhone : LHLNavigationBarViewController<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,ChapterInfoInterfaceDelegate,CJTMainToolbar_iPhoneDelegate,SearchLessonInterfaceDelegate,ChapterSearchBarDelegate_iPhone,SectionInfoInterfaceDelegate,LessonCategoryInterfaceDelegate,DRTreeTableViewDelegate>
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong,nonatomic) UIScrollView *myScrollView;
 

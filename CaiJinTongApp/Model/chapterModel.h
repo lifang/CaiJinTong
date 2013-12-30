@@ -10,7 +10,9 @@
 
 @interface chapterModel : NSObject
 
-@property (nonatomic, strong) NSString *chapterId;
-@property (nonatomic, strong) NSString *chapterName;
-@property (nonatomic, strong) NSString *chapterImg;
+@property (nonatomic, strong) NSString *chapterId;//章id
+@property (nonatomic, strong) NSString *chapterName;//章名称
+@property (nonatomic, strong) NSString *chapterImg;//过时
+@property (strong,nonatomic)  NSMutableArray *sectionList;//小节列表
+@property (strong,nonatomic)  NSMutableArray *chapterNoteList;//章下的笔记，其实是小节下的笔记，后台返回数据问题
 @end

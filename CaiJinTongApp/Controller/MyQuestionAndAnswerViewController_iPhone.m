@@ -73,7 +73,7 @@
     self.getUserQuestionInterface.delegate = self;
     self.questionAndAnswerScope = QuestionAndAnswerMYQUESTION;
     //请求我的回答
-    [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"0" andLastQuestionID:nil];
+    [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"0" andLastQuestionID:nil withCategoryId:nil];
 }
 
 
@@ -448,10 +448,10 @@
         [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andChapterQuestionId:self.chapterID andLastQuestionID:lastQuestionID];
     }else
         if (self.questionAndAnswerScope == QuestionAndAnswerMYANSWER) {
-            [self.userQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andIsMyselfQuestion:@"1" andLastQuestionID:lastQuestionID];
+//            [self.userQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andIsMyselfQuestion:@"1" andLastQuestionID:lastQuestionID];
         }else
             if (self.questionAndAnswerScope == QuestionAndAnswerMYQUESTION) {
-                [self.userQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andIsMyselfQuestion:@"0" andLastQuestionID:lastQuestionID];
+//                [self.userQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andIsMyselfQuestion:@"0" andLastQuestionID:lastQuestionID];
             }
 }
 

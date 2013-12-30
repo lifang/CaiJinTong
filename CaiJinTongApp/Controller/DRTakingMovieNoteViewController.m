@@ -19,6 +19,21 @@
     return self;
 }
 
+
+-(void)keyBoardWillHide:(id)sender{
+    CGRect selfRect = self.view.frame;
+    self.view.frame = (CGRect){selfRect.origin.x,100,selfRect.size};
+}
+
+-(void)keyBoardWillShow:(id)sender{
+    CGRect selfRect = self.view.frame;
+    self.view.frame = (CGRect){selfRect.origin.x,10,selfRect.size};
+}
+
+-(void)popouViewFinishedFrameRect:(id)sender{
+    [self.contentField becomeFirstResponder];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -35,7 +50,6 @@
     self.contentField.layer.borderColor = [UIColor grayColor].CGColor;
     self.contentField.layer.borderWidth =1.0;
     self.contentField.layer.cornerRadius =5.0;
-    
     [self.view.layer setCornerRadius:6];
     [self.view.layer setMasksToBounds:YES];
     

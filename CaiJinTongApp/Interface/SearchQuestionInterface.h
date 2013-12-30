@@ -16,7 +16,7 @@
 
 @property (nonatomic, assign) id<SearchQuestionInterfaceDelegate>delegate;
 
--(void)getSearchQuestionInterfaceDelegateWithUserId:(NSString *)userId andText:(NSString *)text;
+-(void)getSearchQuestionInterfaceDelegateWithUserId:(NSString *)userId andText:(NSString *)text withPageIndex:(int)pageIndex;
 @end
 
 @protocol SearchQuestionInterfaceDelegate <NSObject>

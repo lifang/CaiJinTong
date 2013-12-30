@@ -28,6 +28,72 @@
     self.headers = reqheaders;
     [self connect];
 }
+
+-(void)parseResult:(ASIHTTPRequest *)request{
+    NSDictionary *resultHeaders = [request responseHeaders];
+    if (resultHeaders) {
+        NSData *data = [[NSData alloc]initWithData:[request responseData]];
+        id jsonObject=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+        if (jsonObject !=nil) {
+            if ([jsonObject isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *jsonData=(NSDictionary *)jsonObject;
+                DLog(@"data = %@",jsonData);
+                if (jsonData) {
+                    if ([[jsonData objectForKey:@"Status"]intValue] == 1) {
+                        @try {
+                            NSDictionary *dictionary =[jsonData objectForKey:@"ReturnObject"];
+                            if (dictionary) {
+                                //课程分类
+                                [self.delegate getQuestionInfoDidFinished:[QuestionInfoInterface getTreeNodeArrayFromArray:[dictionary objectForKey:@"questionList"]]];
+                            }else {
+                                [self.delegate getQuestionInfoDidFailed:@"加载所有问答失败"];
+                            }
+                        }
+                        @catch (NSException *exception) {
+                            [self.delegate getQuestionInfoDidFailed:@"加载所有问答失败"];
+                        }
+                    }else
+                        if ([[jsonData objectForKey:@"Status"]intValue] == 0){
+                            [self.delegate getQuestionInfoDidFailed:[jsonData objectForKey:@"Msg"]];
+                        } else {
+                            [self.delegate getQuestionInfoDidFailed:@"加载所有问答失败"];
+                        }
+                }else {
+                    [self.delegate getQuestionInfoDidFailed:@"加载所有问答失败"];
+                }
+            }else {
+                [self.delegate getQuestionInfoDidFailed:@"加载所有问答失败"];
+            }
+        }else {
+            [self.delegate getQuestionInfoDidFailed:@"加载所有问答失败"];
+        }
+    }else {
+        [self.delegate getQuestionInfoDidFailed:@"加载所有问答失败"];
+    }
+}
+-(void)requestIsFailed:(NSError *)error{
+    [self.delegate getQuestionInfoDidFailed:@"加载所有问答失败"];
+}
+
++(NSMutableArray*)getTreeNodeArrayFromArray:(NSArray*)arr{
+    return [QuestionInfoInterface getTreeNodeArrayFromArray:arr withLevel:0 withRootContentID:@"-2"];
+}
+
++(NSMutableArray*)getTreeNodeArrayFromArray:(NSArray*)arr withLevel:(int)level withRootContentID:(NSString*)rootContentID{
+    NSMutableArray *notes = [NSMutableArray array];
+    for (NSDictionary *dic in arr) {
+        DRTreeNode *note = [[DRTreeNode alloc] init];
+        note.noteContentID = [NSString stringWithFormat:@"%@",[dic objectForKey:@"questionID"]];
+        note.noteContentName = [NSString stringWithFormat:@"%@",[dic objectForKey:@"questionName"]];
+        note.noteLevel = level;
+        note.noteRootContentID = rootContentID;
+        note.childnotes = [QuestionInfoInterface getTreeNodeArrayFromArray:[dic objectForKey:@"questionNode"] withLevel:level+1 withRootContentID:note.noteRootContentID];
+        [notes addObject:note];
+    }
+    return notes;
+}
+
+/*
 #pragma mark - BaseInterfaceDelegate
 -(NSMutableDictionary *)setDictionary:(NSDictionary *)dic WithLevel:(int)level{
     NSMutableDictionary *mutableDic = [NSMutableDictionary dictionaryWithDictionary:dic];
@@ -138,4 +204,5 @@
 -(void)requestIsFailed:(NSError *)error{
     [self.delegate getQuestionInfoDidFailed:@"获取问题失败!"];
 }
+ */
 @end

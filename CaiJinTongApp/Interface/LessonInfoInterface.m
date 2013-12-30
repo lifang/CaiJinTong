@@ -13,16 +13,15 @@
 #import "LessonModel.h"
 #import "chapterModel.h"
 #import "SectionModel.h"
+#import "CommentModel.h"
 //我这边统一做了一个status 的定义 ， status=-1;表示漏了参数，msg返回的是"查询超时"   status=0 表示没有查询出数据,msg: 返回的是"未搜索到任何数据"  status=1 表示数据查询成功
 @implementation LessonInfoInterface
--(void)getLessonInfoInterfaceDelegateWithUserId:(NSString *)userId {
+-(void)downloadLessonInfoWithLessonId:(NSString*)lessonId withUserId:(NSString*)userId{
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
    
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
-    
-//    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=lessonInfo";
-    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=lessonInfo&userId=%@",kHost,userId];
-//        self.interfaceUrl = [NSString stringWithFormat:@"%@?active=lessonInfo&userId=%@",kHost,userId];
+//    http://lms.finance365.com/api/ios.ashx?active=lessonInfo&userId=17082&lessonId=181
+    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=lessonInfo&userId=%@&lessonId=%@",kHost,userId,lessonId];
     self.baseDelegate = self;
     self.headers = reqheaders;
     
@@ -45,42 +44,83 @@
                         @try {
                             NSDictionary *dictionary =[jsonData objectForKey:@"ReturnObject"];
                             if (dictionary) {
-                                NSMutableDictionary *tempDic = [[NSMutableDictionary alloc]init];
-                                //课程列表
+                                LessonModel *lessonModel = [[LessonModel alloc] init];
+                                
+                                //加载评论列表
+                                NSMutableArray *commentArr = [NSMutableArray array];
+                                for (NSDictionary *commentDic in [dictionary objectForKey:@"lessonCommentList"]) {
+                                    CommentModel *comment = [[CommentModel alloc] init];
+                                    comment.commentId= [NSString stringWithFormat:@"%@",[commentDic objectForKey:@"commentId"]];
+                                    comment.commentAuthorId = [NSString stringWithFormat:@"%@",[commentDic objectForKey:@"commentAuthorId"]];
+                                    comment.commentAuthorName = [NSString stringWithFormat:@"%@",[commentDic objectForKey:@"commentAuthorName"]];
+                                    comment.commentCreateDate = [NSString stringWithFormat:@"%@",[commentDic objectForKey:@"CreateDate"]];
+                                    comment.commentContent = [NSString stringWithFormat:@"%@",[commentDic objectForKey:@"commentContent"]];
+                                    [commentArr addObject:comment];
+                                }
+                                lessonModel.lessonCommentList = commentArr;
+                                
+                                //加载课程详细信息
                                 if (![[dictionary objectForKey:@"lessonList"]isKindOfClass:[NSNull class]] && [dictionary objectForKey:@"lessonList"]!=nil) {
                                     NSArray *array = [dictionary objectForKey:@"lessonList"];
-                                    if (array.count>0) {
-                                        NSMutableArray *lessonList = [[NSMutableArray alloc]init];
-                                        for (int i=0; i<array.count; i++) {
-                                            NSDictionary *dic_lessoon = [array objectAtIndex:i];
-                                            LessonModel *lesson = [[LessonModel alloc]init];
-                                            lesson.lessonId = [NSString stringWithFormat:@"%@",[dic_lessoon objectForKey:@"lessonId"]];
-                                            lesson.lessonName = [NSString stringWithFormat:@"%@",[dic_lessoon objectForKey:@"lessonName"]];
-                                            
-                                            NSArray *arr_chapter = [dic_lessoon objectForKey:@"chapterList"];
-                                            if (arr_chapter.count >0) {
-                                                lesson.chapterList = [[NSMutableArray alloc]init];
-                                                for (int k=0; k<arr_chapter.count; k++) {
-                                                    NSDictionary *dic_chapter = [arr_chapter objectAtIndex:k];
-                                                    chapterModel *chapter = [[chapterModel alloc]init];
-                                                    chapter.chapterId = [NSString stringWithFormat:@"%@",[dic_chapter objectForKey:@"chapterId"]];
-                                                    chapter.chapterName = [NSString stringWithFormat:@"%@",[dic_chapter objectForKey:@"chapterName"]];
-                                                    chapter.chapterImg =[NSString stringWithFormat:@"%@",[dic_lessoon objectForKey:@"sectionImg"]];
-                                                    [lesson.chapterList addObject:chapter];
+                                    if (array && array.count > 0) {
+                                        NSDictionary *lessonDic = [array lastObject];
+                                        lessonModel.lessonId = [NSString stringWithFormat:@"%@",[lessonDic objectForKey:@"lessonId"]];
+                                        
+                                        lessonModel.lessonName = [NSString stringWithFormat:@"%@",[lessonDic objectForKey:@"lessonName"]];
+                                        lessonModel.lessonImageURL = [NSString stringWithFormat:@"%@",[lessonDic objectForKey:@"sectionImg"]];
+                                        lessonModel.lessonStudyProgress = [NSString stringWithFormat:@"%@",[lessonDic objectForKey:@"studyProgress"]];
+                                        lessonModel.lessonDetailInfo = [NSString stringWithFormat:@"%@",[lessonDic objectForKey:@"lessonDetailInfo"]];
+                                        lessonModel.lessonTeacherName = [NSString stringWithFormat:@"%@",[lessonDic objectForKey:@"lessonTeacherName"]];
+                                        lessonModel.lessonDuration = [NSString stringWithFormat:@"%@",[lessonDic objectForKey:@"lessonDuration"]];
+                                        lessonModel.lessonStudyTime = [NSString stringWithFormat:@"%@",[lessonDic objectForKey:@"lessonStudyTime"]];
+                                        lessonModel.lessonScore = [NSString stringWithFormat:@"%@",[lessonDic objectForKey:@"lessonScore"]];
+                                        lessonModel.lessonIsScored = [NSString stringWithFormat:@"%@",[lessonDic objectForKey:@"lessonIsScored"]];
+                                        
+                                        //设置章节
+                                        NSArray *chapterList = [lessonDic objectForKey:@"chapterList"];
+                                        NSMutableArray *chapterArr = [NSMutableArray array];
+                                        for (NSDictionary *chapterDic in chapterList) {
+                                            chapterModel *chapter = [[chapterModel alloc] init];
+                                            chapter.chapterId = [NSString stringWithFormat:@"%@",[chapterDic objectForKey:@"chapterId"]];
+                                            chapter.chapterName = [NSString stringWithFormat:@"%@",[chapterDic objectForKey:@"chapterName"]];
+                                            //设置小节
+                                            NSArray *sectionList = [chapterDic objectForKey:@"sectionList"];
+                                            NSMutableArray *sectionArr = [NSMutableArray array];
+                                            for (NSDictionary *sectionDic in sectionList) {
+                                                SectionModel *section = [[SectionModel alloc] init];
+                                                section.sectionId = [NSString stringWithFormat:@"%@",[sectionDic objectForKey:@"sectionId"]];
+                                                section.sectionName = [NSString stringWithFormat:@"%@",[sectionDic objectForKey:@"sectionName"]];
+                                                section.sectionMoviePlayURL = [NSString stringWithFormat:@"%@",[sectionDic objectForKey:@"sectionMoviePlayURL"]];
+                                                section.sectionMovieDownloadURL = [NSString stringWithFormat:@"%@",[sectionDic objectForKey:@"sectionMovieDownloadURL"]];
+                                                //设置小节笔记
+                                                NSArray *noteList = [sectionDic objectForKey:@"sectionNoteList"];
+                                                NSMutableArray *noteArr = [NSMutableArray array];
+                                                for (NSDictionary *noteDic in noteList) {
+                                                    NoteModel *note = [[NoteModel alloc] init];
+                                                    
+                                                    [noteArr addObject:note];
                                                 }
-//                                                DLog(@"chapterList = %@",lesson.chapterList);
+                                                section.sectionNoteList = noteArr;
+                                                [sectionArr addObject:section];
                                             }
-                                            [lessonList  addObject:lesson];
+                                            chapter.sectionList = sectionArr;
+                                            
+                                            //设置小节笔记,应该是小节下面笔记
+                                            NSArray *noteList = [chapterDic objectForKey:@"lessonNoteList"];
+                                            NSMutableArray *noteArr = [NSMutableArray array];
+                                            for (NSDictionary *noteDic in noteList) {
+                                                NoteModel *note = [[NoteModel alloc] init];
+                                                
+                                                [noteArr addObject:note];
+                                            }
+                                            chapter.chapterNoteList = noteArr;
+                                            [chapterArr addObject:chapter];
                                         }
-//                                        DLog(@"lessonList = %@",lessonList);
-                                        if (lessonList.count>0) {
-                                            [tempDic setObject:lessonList forKey:@"lessonList"];
-                                        }
+                                        lessonModel.chapterList = chapterArr;
                                     }
                                 }
                                 
-                                [self.delegate getLessonInfoDidFinished:tempDic];
-                                tempDic = nil;
+                                [self.delegate getLessonInfoDidFinished:lessonModel];
                             }else {
                                 [self.delegate getLessonInfoDidFailed:@"获取课程列表失败!"];
                             }

@@ -15,6 +15,7 @@
 @property (nonatomic,strong) GetUserQuestionInterface *userQuestionInterface;//我的回答或者我的提问分页加载
 @property (nonatomic,strong) SubmitAnswerInterface *submitAnswerInterface;//提交回答或者是提交追问
 @property (nonatomic,strong)  AnswerPraiseInterface *answerPraiseinterface;//提交赞接口
+@property (nonatomic,strong) SearchQuestionInterface *searchQuestionInterface;//搜索问答接口
 @property (nonatomic,strong) NSIndexPath *activeIndexPath;//正在处理中的cell
 @property (nonatomic,assign) BOOL isReaskRefreshing;//判断是追问刷新还是上拉下拉刷新
 @property (nonatomic,strong) DRAskQuestionViewController *askQuestionController;
@@ -61,13 +62,15 @@
     self.questionAndAnswerScope = scope;
     self.chapterID = chapterID;
     self.myQuestionArr = [NSMutableArray arrayWithArray:data];
+    self.headerRefreshView.isForbidden = NO;
+    self.footerRefreshView.isForbidden = NO;
+    [self.headerRefreshView endRefreshing];
+    [self.footerRefreshView endRefreshing];
+    
+    
     if (self.myQuestionArr.count>0) {
         QuestionModel *question = [self.myQuestionArr  objectAtIndex:self.myQuestionArr.count-1];
-        self.question_pageIndex = question.pageIndex;
-        self.question_pageCount = question.pageCount;
-        dispatch_async ( dispatch_get_main_queue (), ^{
-            [self.tableView reloadData];
-        });
+        [self.tableView reloadData];
     }
 }
 - (void)didReceiveMemoryWarning
@@ -213,7 +216,8 @@
 
 #pragma mark UITableViewDataSource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return [self.myQuestionArr count];
+    int count = [self.myQuestionArr count];
+    return count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -277,14 +281,18 @@
 #pragma mark action
 
 -(void)requestNewPageDataWithLastQuestionID:(NSString*)lastQuestionID{
+    UserModel *user = [[CaiJinTongManager shared] user];
     if (self.questionAndAnswerScope == QuestionAndAnswerALL) {
-        [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andChapterQuestionId:self.chapterID andLastQuestionID:lastQuestionID];
+        [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:user.userId andChapterQuestionId:self.chapterID andLastQuestionID:lastQuestionID];
     }else
         if (self.questionAndAnswerScope == QuestionAndAnswerMYANSWER) {
-            [self.userQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andIsMyselfQuestion:@"1" andLastQuestionID:lastQuestionID];
-        }else if (self.questionAndAnswerScope == QuestionAndAnswerMYQUESTION) {
-                [self.userQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andIsMyselfQuestion:@"0" andLastQuestionID:lastQuestionID];
-        }
+            [self.userQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:user.userId andIsMyselfQuestion:@"1" andLastQuestionID:lastQuestionID withCategoryId:self.chapterID];
+        }else
+            if (self.questionAndAnswerScope == QuestionAndAnswerMYQUESTION) {
+                [self.userQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:user.userId andIsMyselfQuestion:@"0" andLastQuestionID:lastQuestionID withCategoryId:self.chapterID];
+            }else if (self.questionAndAnswerScope == QuestionAndAnswerSearchQuestion){
+                [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:user.userId andText:self.searchQuestionText withPageIndex:self.question_pageIndex+1];
+            }
 }
 
 -(float)getTableViewHeaderHeightWithSection:(NSInteger)section{
@@ -334,6 +342,15 @@
 #pragma mark --
 
 #pragma mark property
+
+-(SearchQuestionInterface *)searchQuestionInterface{
+    if (!_searchQuestionInterface) {
+        _searchQuestionInterface = [[SearchQuestionInterface alloc] init];
+        _searchQuestionInterface.delegate = self;
+    }
+    return _searchQuestionInterface;
+}
+
 -(void)setQuestionAndAnswerScope:(QuestionAndAnswerScope)questionAndAnswerScope{
     _questionAndAnswerScope = questionAndAnswerScope;
     switch (questionAndAnswerScope) {
@@ -423,6 +440,26 @@
 }
 #pragma mark --
 
+
+#pragma mark SearchQuestionInterfaceDelegate搜索问答回调
+-(void)getSearchQuestionInfoDidFailed:(NSString *)errorMsg{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [Utility errorAlert:errorMsg];
+}
+
+-(void)getSearchQuestionInfoDidFinished:(NSDictionary *)result{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            self.question_pageIndex = self.question_pageIndex+1;
+            [self reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:self.chapterID withScope:QuestionAndAnswerSearchQuestion];
+        });
+    });
+}
+#pragma mark --
+
+
 #pragma mark AnswerPraiseInterfaceDelegate 赞回调
 -(void)getAnswerPraiseInfoDidFinished:(NSDictionary *)result{
     [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -497,8 +534,6 @@
                     self.myQuestionArr = [NSMutableArray arrayWithArray:chapterQuestionList];
                 }
                 QuestionModel *question = [self.myQuestionArr  lastObject];
-                self.question_pageIndex = question.pageIndex;
-                self.question_pageCount = question.pageCount;
                 [self.tableView reloadData];
             }else{
                 [Utility errorAlert:@"数据为空"];
@@ -516,8 +551,6 @@
             if (chapterQuestionList && [chapterQuestionList count] > 0) {
                 self.myQuestionArr = [NSMutableArray arrayWithArray:chapterQuestionList];
                 QuestionModel *question = [self.myQuestionArr  lastObject];
-                self.question_pageIndex = question.pageIndex;
-                self.question_pageCount = question.pageCount;
                 [self.tableView reloadData];
             }else{
                 [Utility errorAlert:@"数据为空"];

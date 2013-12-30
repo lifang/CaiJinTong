@@ -177,18 +177,17 @@ static NSString *timespan = nil;
 
 //评论的分页加载
 -(void)loadMore {
-    if (self.nowPage < self.pageCount) {//还有评论
-        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-            [Utility errorAlert:@"暂无网络!"];
-        }else {
-            self.nowPage +=1;
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            CommentListInterface *commentList = [[CommentListInterface alloc]init];
-            self.commentInterface = commentList;
-            self.commentInterface.delegate = self;
-            [self.commentInterface getGradeInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionId andPageIndex:self.nowPage];
-        }
+    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+        [Utility errorAlert:@"暂无网络!"];
+    }else {
+        self.nowPage +=1;
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        CommentListInterface *commentList = [[CommentListInterface alloc]init];
+        self.commentInterface = commentList;
+        self.commentInterface.delegate = self;
+        [self.commentInterface getGradeInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionId andPageIndex:self.nowPage];
     }
+
 }
 
 #pragma mark Notification

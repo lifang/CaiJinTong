@@ -14,22 +14,22 @@
 
 - (id)initWithFrame:(CGRect)frame
 {
-    return [self initWithFrame:frame andSection:nil andItemLabel:0];
+    return [self initWithFrame:frame andLessonModel:nil andItemLabel:0];
 }
 
--(void)changeSectionModel:(SectionModel*)section{
+-(void)changeLessonModel:(LessonModel *)lesson{
 //设置视频名称
-    self.nameLab.text = [NSString stringWithFormat:@"%@",section.sectionName];
+    self.nameLab.text = [NSString stringWithFormat:@"%@",lesson.lessonName];
     self.nameLab.textColor = [UIColor blackColor];
     self.nameLab.numberOfLines = 0;
     
     //视频封面
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",section.sectionImg]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",lesson.lessonImageURL]];
     [self.imageView setImageWithURL:url placeholderImage:Image(@"loginBgImage_v.png")];
-    self.imageView.tag = [section.sectionId intValue];
+    self.imageView.tag = [lesson.lessonId intValue];
     
      //学习进度
-    CGFloat xx = [section.sectionProgress floatValue];
+    CGFloat xx = [lesson.lessonStudyProgress floatValue]*100;
     if ( xx-100 >0) {
         xx=100;
     }
@@ -42,14 +42,14 @@
     
 }
 
-- (id)initWithFrame:(CGRect)frame andSection:(SectionModel *)section andItemLabel:(float)itemLabel{
+- (id)initWithFrame:(CGRect)frame andLessonModel:(LessonModel *)lesson andItemLabel:(float)itemLabel{
     self = [super initWithFrame:frame];
     if (self) {
         //视频名称
         if (itemLabel>0) {
             UIFont *font = [UIFont systemFontOfSize:20];
             UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, itemLabel)];
-            nameLabel.text = [NSString stringWithFormat:@"%@",section.sectionName];
+            nameLabel.text = [NSString stringWithFormat:@"%@",lesson.lessonName];
             nameLabel.textColor = [UIColor blackColor];
             nameLabel.numberOfLines = 0;
             nameLabel.textAlignment = NSTextAlignmentLeft;
@@ -62,17 +62,17 @@
         
         //视频封面
         UIImageView *imageViewC = [[UIImageView alloc]initWithFrame:CGRectMake(0, itemLabel, self.frame.size.width, self.frame.size.height)];
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",section.sectionImg]];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",lesson.lessonImageURL]];
         [imageViewC setImageWithURL:url placeholderImage:Image(@"loginBgImage_v.png")];
         
-        imageViewC.tag = [section.sectionId intValue];
+        imageViewC.tag = [lesson.lessonId intValue];
         self.imageView = imageViewC;
         [self addSubview:self.imageView];
         imageViewC = nil;
         
         //学习进度
         CJTSlider *pVV = [[CJTSlider alloc] initWithFrame:CGRectMake(-2, self.frame.size.height+itemLabel-30, self.frame.size.width+4, 37)];
-        CGFloat xx = [section.sectionProgress floatValue];
+        CGFloat xx = [lesson.lessonStudyProgress floatValue]*100;
         if ( xx-100 >0) {
             xx=100;
         }

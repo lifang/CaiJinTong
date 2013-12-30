@@ -28,8 +28,10 @@
 -(void)changeState:(NSNotification *)info {
     SectionSaveModel *sectionSave = (SectionSaveModel *)[info.userInfo objectForKey:@"SectionSaveModel"];
     if ([self.sid isEqualToString:sectionSave.sid]) {
+        [self.playBt setHidden:sectionSave.downloadState == 1];
         self.pv = sectionSave.downloadPercent;
-        self.sliderFrontView.frame = CGRectMake(47, 73, 484 * self.pv, 33);
+//        NSLog(@"%@,%@,%f",NSStringFromCGRect(self.sliderBackView.frame),NSStringFromCGRect(self.sliderFrontView.frame),self.pv);
+        self.sliderFrontView.frame = CGRectMake(47, 73, self.sliderBackView.frame.size.width * self.pv, 33);
         //查询数据库
         Section *sectionDb = [[Section alloc]init];
         float contentlength = [sectionDb getContentLengthBySid:sectionSave.sid];
@@ -38,9 +40,21 @@
         }
     }
 }
+
+-(IBAction)playBtClicked:(id)sender{
+ [[NSNotificationCenter defaultCenter] postNotificationName:self.isMoviePlayView?@"changePlaySectionMovieOnLine": @"startPlaySectionMovieOnLine" object:nil userInfo:@{@"sectionModel": self.sectionModel}];
+}
 -(void)layoutSubviews{
     [super layoutSubviews];
     //下载进度条更新
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeState:) name:@"DownloadProcessing" object:nil];
+}
+-(void)setSectionS:(SectionSaveModel *)sectionS{
+    _sectionS = sectionS;
+    if (sectionS && sectionS.downloadState == 1) {
+        [self.playBt setHidden:YES];
+    }else{
+        [self.playBt setHidden:NO];
+    }
 }
 @end
