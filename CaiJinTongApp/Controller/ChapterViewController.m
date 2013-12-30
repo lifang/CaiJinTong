@@ -15,6 +15,8 @@
 #import "Section.h"
 #import "UIImageView+WebCache.h"
 #import "SDImageCache.h"
+#import "CollectionHeader.h"
+
 #define ItemWidth 250
 #define ItemWidthSpace 23
 #define ItemHeight 215
@@ -22,6 +24,8 @@
 #define ItemLabel 30
 @interface ChapterViewController ()
 @property (nonatomic,strong) SearchLessonInterface *searchLessonInter;
+@property (nonatomic,strong) MJRefreshHeaderView *headerRefreshView;
+@property (nonatomic,strong) MJRefreshFooterView *footerRefreshView;
 @end
 
 @implementation ChapterViewController
@@ -56,13 +60,17 @@
     flowLayout.itemSize = (CGSize){300, 270};
     flowLayout.sectionInset = UIEdgeInsetsMake(20, 50, 50, 17);
     [self.collectionView setCollectionViewLayout:flowLayout];
+    [self.headerRefreshView endRefreshing];
+    self.headerRefreshView.isForbidden = NO;
+    [self.footerRefreshView endRefreshing];
+    self.footerRefreshView.isForbidden = NO;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self.collectionView registerClass:[CollectionCell class] forCellWithReuseIdentifier:@"cell"];
-    self.dataArray = [NSMutableArray arrayWithArray:[TestModelData getLessonArr]];//测试数据
+//    self.dataArray = [NSMutableArray arrayWithArray:[TestModelData getLessonArr]];//测试数据
     [self initCollectionView];
     
     self.searchBar = [[ChapterSearchBar alloc] initWithFrame:(CGRect){50, 54, (self.view.frame.size.width - 200 - 100), 70}];
@@ -76,29 +84,35 @@
     self.drnavigationBar.titleLabel.text = @"课程";
 }
 
--(void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    CGRect frame = self.collectionView.frame;
-    if (self.isSearch) {
-        frame.origin.y = 144;
-        frame.size.height = 1024-144;
-    }else {
-        frame.origin.y = 54;
-        frame.size.height = 1024-54;
-    }
-    self.collectionView.frame = frame;
+//-(void)viewDidAppear:(BOOL)animated {
+//    [super viewDidAppear:animated];
+//    CGRect frame = self.collectionView.frame;
+//    if (self.isSearch) {
+//        frame.origin.y = 144;
+//        frame.size.height = 1024-144;
+//    }else {
+//        frame.origin.y = 54;
+//        frame.size.height = 1024-54;
+//    }
+//    self.collectionView.frame = frame;
+//}
+
+-(void)reloadDataWithDataArray:(NSArray*)data withCategoryId:(NSString*)lessonCategoryId{
+    self.lessonCategoryId = lessonCategoryId;
+    DLog(@"count = %d",data.count);
+    self.dataArray = [NSMutableArray arrayWithArray:data];
+    dispatch_async(dispatch_get_main_queue(),  ^{
+        [self.collectionView reloadData];
+    });
 }
 
--(void)reloadDataWithDataArray:(NSArray*)data{
-    self.recentArray = data;
+//加载下一页数据
+-(void)loadNextPageDataWithDataArray:(NSArray*)data withCategoryId:(NSString*)lessonCategoryId{
     DLog(@"count = %d",data.count);
-    if (self.recentArray.count>0) {
-        self.dataArray = [NSMutableArray arrayWithArray:self.recentArray];
-        dispatch_async(dispatch_get_main_queue(),  ^{
-            [self.collectionView reloadData];
-        });
-        
-    }
+    [self.dataArray addObjectsFromArray:data];
+    dispatch_async(dispatch_get_main_queue(),  ^{
+        [self.collectionView reloadData];
+    });
 }
 
 #pragma mark ChapterSearchBarDelegate
@@ -110,55 +124,30 @@
             self.oldSearchText = searchText;
         }
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        SearchLessonInterface *searchLessonInter = [[SearchLessonInterface alloc]init];
-        self.searchLessonInter = searchLessonInter;
-        self.searchLessonInter.delegate = self;
-        [self.searchLessonInter getSearchLessonInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andText:searchText];
+        [self.searchLessonInter getSearchLessonInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andText:searchText withPageIndex:0 withSortType:self.sortType];
     } 
 }
 #pragma mark --
 
 #pragma -- 页面布局
-
--(void)displayNewView {
-    [self.myScrollView removeFromSuperview];
-    if (self.dataArray.count>0) {
-        NSInteger count = ([self.dataArray count]-1)/6+1;  //有几页
-        if (self.isSearch) {
-            self.myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 148, self.view.frame.size.width, self.view.frame.size.height-50)];
-        }else {
-            self.myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 118, self.view.frame.size.width, self.view.frame.size.height-20)];
-        }
-        
-        self.myScrollView.delegate = self;
-        self.myScrollView.contentSize = CGSizeMake(self.myScrollView.frame.size.width, self.myScrollView.frame.size.height*count);
-        [self.myScrollView setPagingEnabled:YES];
-        self.myScrollView.showsVerticalScrollIndicator = NO;
-        self.myScrollView.showsHorizontalScrollIndicator = NO;
-        self.myScrollView.backgroundColor = [UIColor clearColor];
-        [self.view addSubview:self.myScrollView];
-        
-        for (int i=0; i<count; i++) {
-            self.myTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0+self.myScrollView.frame.size.height*i, self.myScrollView.frame.size.width, self.myScrollView.frame.size.height)];//创建每一页的tableview
-            self.myTable.tag = i;
-            self.myTable.delegate = self;
-            self.myTable.dataSource = self;
-            self.myTable.scrollEnabled = NO;
-            self.myTable.backgroundColor = [UIColor clearColor];
-            [self.myScrollView addSubview:self.myTable];
-        }
-        CGRect frame = [self.view bounds];
-        frame.origin.y = 0;
-        frame.origin.x = 0;
-        [self.myScrollView setContentOffset:CGPointMake(frame.origin.x, frame.origin.y)];
-    }
-}
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark action
+//加载课程详细信息
+-(void)getLessonInfoWithLessonId:(NSString*)lessonId{
+    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+        [Utility errorAlert:@"暂无网络!"];
+    }else{
+        UserModel *user = [[CaiJinTongManager shared] user];
+        [self.lessonInterface downloadLessonInfoWithLessonId:lessonId withUserId:user.userId];
+    }
+}
+#pragma mark --
+
 
 #pragma mark-- 筛选
 //学习进度
@@ -236,12 +225,12 @@
 #pragma mark -- SectionInfoInterface
 -(void)getSectionInfoDidFinished:(LessonModel *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        LessonModel *section = (LessonModel *)result;
+        LessonModel *lesson = (LessonModel *)result;
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
             SectionViewController *sectionView = [story instantiateViewControllerWithIdentifier:@"SectionViewController"];
-            sectionView.section = section;
+            sectionView.lessonModel = lesson;
             [self.navigationController pushViewController:sectionView animated:YES];
         });
     });
@@ -253,42 +242,160 @@
 
 
 #pragma mark property
--(void)setIsSearch:(BOOL)isSearch{
-    _isSearch = isSearch;
-    [self.searchBar setHidden:!isSearch];
-    [self.mainToolBar setHidden:isSearch];
-    
-    UIBarButtonItem *tempBarButtonItem = (UIBarButtonItem *)self.navigationItem.backBarButtonItem;
-    tempBarButtonItem.target = self;
 
-    if(self.isSearch){
-        tempBarButtonItem.title = @"搜索";
+-(MJRefreshHeaderView *)headerRefreshView{
+    if (!_headerRefreshView) {
+        _headerRefreshView = [[MJRefreshHeaderView alloc] init];
+        _headerRefreshView.scrollView = self.collectionView;
+        _headerRefreshView.delegate = self;
+    }
+    return _headerRefreshView;
+}
+
+-(MJRefreshFooterView *)footerRefreshView{
+    if (!_footerRefreshView) {
+        _footerRefreshView = [[MJRefreshFooterView alloc] init];
+        _footerRefreshView.delegate = self;
+        _footerRefreshView.scrollView = self.collectionView;
+        
+    }
+    return _footerRefreshView;
+}
+
+
+//-(void)setIsSearch:(BOOL)isSearch{
+//    _isSearch = isSearch;
+//    [self.searchBar setHidden:!isSearch];
+//    [self.mainToolBar setHidden:isSearch];
+//    
+//    UIBarButtonItem *tempBarButtonItem = (UIBarButtonItem *)self.navigationItem.backBarButtonItem;
+//    tempBarButtonItem.target = self;
+//
+//    if(self.isSearch){
+//        tempBarButtonItem.title = @"搜索";
+//    }else{
+//        tempBarButtonItem.title = @"返回";
+//    }
+//}
+
+-(LessonInfoInterface *)lessonInterface{
+    if (!_lessonInterface) {
+        _lessonInterface = [[LessonInfoInterface alloc] init];
+        _lessonInterface.delegate = self;
+    }
+    return _lessonInterface;
+}
+
+-(LessonListForCategory *)lessonListForCategory{
+    if (!_lessonListForCategory) {
+        _lessonListForCategory = [[LessonListForCategory alloc] init];
+        _lessonListForCategory.delegate = self;
+    }
+    return _lessonListForCategory;
+}
+
+-(SearchLessonInterface *)searchLessonInter{
+    if (!_searchLessonInter) {
+        _searchLessonInter = [[SearchLessonInterface alloc]init];
+        _searchLessonInter.delegate = self;
+    }
+    return _searchLessonInter;
+}
+
+#pragma mark MJRefreshBaseViewDelegate 分页加载
+-(void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView{
+    if (self.isSearch) {
+                [self.searchLessonInter getSearchLessonInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andText:self.oldSearchText withPageIndex:self.searchLessonInter.currentPageIndex+1 withSortType:self.sortType];
     }else{
-        tempBarButtonItem.title = @"返回";
+        if (self.headerRefreshView == refreshView) {
+            self.footerRefreshView.isForbidden = YES;
+            UserModel *user = [[CaiJinTongManager shared] user];
+            [self.lessonListForCategory downloadLessonListForCategoryId:nil withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
+        }else{
+            self.headerRefreshView.isForbidden = YES;
+            UserModel *user = [[CaiJinTongManager shared] user];
+            [self.lessonListForCategory downloadLessonListForCategoryId:self.lessonCategoryId withUserId:user.userId withPageIndex:self.lessonListForCategory.currentPageIndex+1 withSortType:self.sortType];;
+        }
     }
 }
 
-#pragma mark SearchLessonInterfaceDelegate
--(void)getSearchLessonInfoDidFinished:(NSDictionary *)result{
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        dispatch_async(dispatch_get_main_queue(),  ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
-                NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
-                [self reloadDataWithDataArray:[TestModelData getLessonArr]];
-                
-            }else{
-             [self.searchBar addSearchText:self.oldSearchText];
-            }
-        });
+#pragma mark --
+
+
+#pragma mark-- LessonInfoInterfaceDelegate加载课程详细信息
+-(void)getLessonInfoDidFinished:(LessonModel*)lesson{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+        SectionViewController *sectionView = [story instantiateViewControllerWithIdentifier:@"SectionViewController"];
+        sectionView.lessonModel = lesson;
+        [self.navigationController pushViewController:sectionView animated:YES];
+    });
+}
+-(void)getLessonInfoDidFailed:(NSString *)errorMsg{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [Utility errorAlert:errorMsg];
+}
+
+#pragma mark --
+
+#pragma mark LessonListForCategoryDelegate 根据分类获取课程信息
+-(void)getLessonListDataForCategoryDidFinished:(NSArray *)lessonList withCurrentPageIndex:(int)pageIndex withTotalCount:(int)allDataCount{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (pageIndex > 0) {
+            [self loadNextPageDataWithDataArray:lessonList withCategoryId:self.lessonCategoryId];
+        }else{
+            [self  reloadDataWithDataArray:lessonList withCategoryId:self.lessonCategoryId];
+        }
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [self.headerRefreshView endRefreshing];
+        self.headerRefreshView.isForbidden = NO;
+        [self.footerRefreshView endRefreshing];
+        self.footerRefreshView.isForbidden = NO;
     });
 }
 
--(void)getSearchLessonInfoDidFailed:(NSString *)errorMsg{
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [self.searchBar addSearchText:self.oldSearchText];
-    [Utility errorAlert:errorMsg];
+-(void)getLessonListDataForCategoryFailure:(NSString *)errorMsg{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [self.headerRefreshView endRefreshing];
+        self.headerRefreshView.isForbidden = NO;
+        [self.footerRefreshView endRefreshing];
+        self.footerRefreshView.isForbidden = NO;
+        [Utility errorAlert:errorMsg];
+    });
 }
+
+#pragma mark --
+
+#pragma mark SearchLessonInterfaceDelegate
+-(void)getSearchLessonListDataForCategoryDidFinished:(NSArray *)lessonList withCurrentPageIndex:(int)pageIndex withTotalCount:(int)allDataCount{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (pageIndex > 0) {
+            [self loadNextPageDataWithDataArray:lessonList withCategoryId:self.lessonCategoryId];
+        }else{
+            [self  reloadDataWithDataArray:lessonList withCategoryId:self.lessonCategoryId];
+        }
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [self.headerRefreshView endRefreshing];
+        self.headerRefreshView.isForbidden = NO;
+        [self.footerRefreshView endRefreshing];
+        self.footerRefreshView.isForbidden = NO;
+    });
+}
+
+-(void)getSearchLessonListDataForCategoryFailure:(NSString *)errorMsg{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+         [self.searchBar addSearchText:self.oldSearchText];
+        [self.headerRefreshView endRefreshing];
+        self.headerRefreshView.isForbidden = NO;
+        [self.footerRefreshView endRefreshing];
+        self.footerRefreshView.isForbidden = NO;
+        [Utility errorAlert:errorMsg];
+    });
+}
+
 #pragma mark --
 
 #pragma mark -- ChapterInfoInterfaceDelegate
@@ -300,7 +407,7 @@
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
                 NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
-                [self reloadDataWithDataArray:[TestModelData getLessonArr]];
+                [self reloadDataWithDataArray:[TestModelData getLessonArr] withCategoryId:self.lessonCategoryId];
             }else{
                 self.searchBar.searchTipLabel.text = @"无搜索结果";
             }
@@ -331,40 +438,36 @@
 
 //默认(最近播放)
 - (void)tappedInToolbar:(CollectionHeader *)toolbar recentButton:(UIButton *)button {
+    if (self.headerRefreshView.isForbidden || self.headerRefreshView.isForbidden) {
+        return;
+    }
     [self initButton:button withCollectionHeaderView:toolbar];
-    self.dataArray = nil;
-    self.dataArray = [NSMutableArray arrayWithArray:self.recentArray];
-    [self.collectionView reloadData];
+    self.sortType = LESSONSORTTYPE_CurrentStudy;
+    UserModel *user = [[CaiJinTongManager shared] user];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self.lessonListForCategory downloadLessonListForCategoryId:nil withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
 }
 //学习进度
 - (void)tappedInToolbar:(CollectionHeader *)toolbar progressButton:(UIButton *)button {
-    if (self.progressArray.count >0) {
-        [self initButton:button withCollectionHeaderView:toolbar];
-        self.dataArray = [NSMutableArray arrayWithArray:self.progressArray];
-        [self.collectionView reloadData];
-    }else {
-        if (self.dataArray.count>0) {
-            [self bubbleSort:self.dataArray];
-            [self initButton:button withCollectionHeaderView:toolbar];
-            self.progressArray = [NSArray arrayWithArray:self.dataArray];
-            [self.collectionView reloadData];
-        }
+    if (self.headerRefreshView.isForbidden || self.headerRefreshView.isForbidden) {
+        return;
     }
+    [self initButton:button withCollectionHeaderView:toolbar];
+    self.sortType = LESSONSORTTYPE_ProgressStudy;
+    UserModel *user = [[CaiJinTongManager shared] user];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self.lessonListForCategory downloadLessonListForCategoryId:nil withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
 }
 //名称(A-Z)
 - (void)tappedInToolbar:(CollectionHeader *)toolbar nameButton:(UIButton *)button {
-    if (self.nameArray.count>0) {
-        [self initButton:button withCollectionHeaderView:toolbar];
-        self.dataArray = [NSMutableArray arrayWithArray:self.nameArray];
-        [self.collectionView reloadData];
-    }else {
-        if (self.dataArray.count>0) {
-            [self letterSort:self.dataArray];
-            [self initButton:button withCollectionHeaderView:toolbar];
-            self.nameArray = [NSArray arrayWithArray:self.dataArray];
-            [self.collectionView reloadData];
-        }
+    if (self.headerRefreshView.isForbidden || self.headerRefreshView.isForbidden) {
+        return;
     }
+    [self initButton:button withCollectionHeaderView:toolbar];
+    self.sortType = LESSONSORTTYPE_LessonName;
+    UserModel *user = [[CaiJinTongManager shared] user];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self.lessonListForCategory downloadLessonListForCategoryId:nil withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
 }
 
 #pragma mark -- UICollectionViewDelegate
@@ -372,11 +475,10 @@
     return 1;
 }
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    if ([kind isEqual:UICollectionElementKindSectionHeader]) {
-        UICollectionReusableView *headerView  = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"CollectionHeader" forIndexPath:indexPath];
-        return headerView;
-    }
-    return nil;
+    CollectionHeader *header = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"CollectionHeader" forIndexPath:indexPath];
+    
+    header.delegate = self;
+    return header;
 }
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return self.dataArray.count;
@@ -416,43 +518,8 @@
     return TRUE;
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-//    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-//    SectionViewController *sectionView = [story instantiateViewControllerWithIdentifier:@"SectionViewController"];
-//    [self.navigationController pushViewController:sectionView animated:YES];
-//    return;
     LessonModel *lesson = (LessonModel *)[self.dataArray objectAtIndex:indexPath.row];
-    AppDelegate *app = [AppDelegate sharedInstance];
-    if (app.isLocal == YES) {
-//        Section *sectionDb = [[Section alloc]init];
-//        //笔记
-//        NSArray *noteArray = [sectionDb getNoteInfoWithSid:section.sectionId];
-//        section.noteList = [[NSMutableArray alloc]initWithArray:noteArray];
-//        //章节下载列表
-//        NSArray *section_chapterArray = [sectionDb getChapterInfoWithSid:section.sectionId];
-//        section.sectionList  =[[NSMutableArray alloc]initWithArray:section_chapterArray];
-//        
-//        UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-//        SectionViewController *sectionView = [story instantiateViewControllerWithIdentifier:@"SectionViewController"];
-//        sectionView.section = section;
-//        [self.navigationController pushViewController:sectionView animated:YES];
-        
-    }else {
-        //根据sectionID获取单个视频的详细信息
-        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-            [Utility errorAlert:@"暂无网络!"];
-        }else {
-//            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            SectionInfoInterface *sectionInter = [[SectionInfoInterface alloc]init];
-            self.sectionInterface = sectionInter;
-            self.sectionInterface.delegate = self;
-            SectionModel *section = [TestModelData getSectionInfo];
-            UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-            SectionViewController *sectionView = [story instantiateViewControllerWithIdentifier:@"SectionViewController"];
-            sectionView.section = section;
-            [self.navigationController pushViewController:sectionView animated:YES];
-//            [self.sectionInterface getSectionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:lesson.lessonId];
-        }
-    }
+    [self getLessonInfoWithLessonId:lesson.lessonId];
 }
 
 @end

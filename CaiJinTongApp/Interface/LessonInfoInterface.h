@@ -7,19 +7,21 @@
 //
 
 #import "BaseInterface.h"
-
+#import "LessonModel.h"
+/*
+ 根据课程id返回课程信息
+ */
 @protocol LessonInfoInterfaceDelegate;
 
 @interface LessonInfoInterface : BaseInterface<BaseInterfaceDelegate>
 
 @property (nonatomic, assign) id<LessonInfoInterfaceDelegate>delegate;
-
--(void)getLessonInfoInterfaceDelegateWithUserId:(NSString *)userId;
+-(void)downloadLessonInfoWithLessonId:(NSString*)lessonId withUserId:(NSString*)userId;
 @end
 
 @protocol LessonInfoInterfaceDelegate <NSObject>
 
--(void)getLessonInfoDidFinished:(NSDictionary *)result;
+-(void)getLessonInfoDidFinished:(LessonModel*)lesson;
 -(void)getLessonInfoDidFailed:(NSString *)errorMsg;
 
 @end

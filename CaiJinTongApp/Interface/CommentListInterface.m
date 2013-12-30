@@ -73,11 +73,18 @@
                         @catch (NSException *exception) {
                             [self.delegate getCommentListInfoDidFailed:@"加载失败!"];
                         }
-                    }
+                    }else
+                        if ([[jsonData objectForKey:@"Status"]intValue] == 0){
+                            [self.delegate getCommentListInfoDidFailed:[jsonData objectForKey:@"Msg"]];
+                        }
                 }else {
                     [self.delegate getCommentListInfoDidFailed:@"加载失败!"];
                 }
+            }else {
+                [self.delegate getCommentListInfoDidFailed:@"加载失败!"];
             }
+        }else {
+            [self.delegate getCommentListInfoDidFailed:@"加载失败!"];
         }
     }else {
         [self.delegate getCommentListInfoDidFailed:@"加载失败!"];

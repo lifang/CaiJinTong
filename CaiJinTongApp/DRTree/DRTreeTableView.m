@@ -75,6 +75,9 @@
     if (self.isExtendChildNode) {
         [self selectedNoteAtIndexPath:indexPath withAnimation:YES];
     }
+    if (!note.noteIsExtend && [note.childnotes count] > 0) {
+        return;
+    }
     if (self.delegate && [self.delegate respondsToSelector:@selector(drTreeTableView:didSelectedTreeNode:)]) {
         [self.delegate drTreeTableView:self didSelectedTreeNode:note];
     }

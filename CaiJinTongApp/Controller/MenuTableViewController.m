@@ -31,15 +31,7 @@ static NSString *chapterName;
 
 //获取数据
 -(void)initData{
-    if([[Utility isExistenceNetwork] isEqualToString:@"NotReachable"]){
-        [Utility errorAlert:@"暂无网络!"];
-    }else {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        LessonInfoInterface *lessonInfoInterface = [[LessonInfoInterface alloc] init];
-        self.lessonInterface = lessonInfoInterface;
-        self.lessonInterface.delegate = self;
-        [self.lessonInterface getLessonInfoInterfaceDelegateWithUserId:@"18676"];
-    }
+
 }
 
 #pragma mark - TableViewDelegate

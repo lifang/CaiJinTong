@@ -35,6 +35,12 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 @property (nonatomic, strong) DRTreeTableView *drTreeTableView;
 @property (nonatomic, strong) MyQuestionAndAnswerViewController *myQAVC ;
 @property (nonatomic, strong) ChapterViewController *chapterView;
+@property (nonatomic, strong) NSArray *allQuestionCategoryArr;//所有问答分类信息
+@property (nonatomic, strong) NSArray *myQuestionCategoryArr;//我的提问分类信息
+@property (nonatomic, strong) NSArray *myAnswerCategoryArr;//我的回答分类信息
+
+//组合所有问答分类，我的提问问答分类，我的回答分类
+-(NSMutableArray*)togetherAllQuestionCategorys;
 @end
 
 @implementation LessonViewController
@@ -46,22 +52,41 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     }
     return self;
 }
--(void)getLessonInfo {
+
+//获取课程分类信息
+-(void)downloadLessonCategoryInfo{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self.lessonCategoryInterface downloadLessonCategoryDataWithUserId:[[[CaiJinTongManager shared] user] userId]];
+}
+
+-(void)downloadLessonListForCatogory{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    UserModel *user = [[CaiJinTongManager shared] user];
+    [self.lessonListForCategory downloadLessonListForCategoryId:nil withUserId:user.userId withPageIndex:0 withSortType:self.chapterView.sortType];
+}
+
+//获取我的问答分类信息
+-(void)getMyQuestionCategoryListWithQuestionScope:(QuestionAndAnswerScope)scope{
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
-//        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        LessonInfoInterface *lessonInter = [[LessonInfoInterface alloc]init];
-        self.lessonInterface = lessonInter;
-        self.lessonInterface.delegate = self;
-        [self.lessonInterface getLessonInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId];
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        UserModel *user = [[CaiJinTongManager shared] user];
+        if (scope == QuestionAndAnswerMYANSWER) {
+            [self.myAnswerCategatoryInterface downloadMyQuestionCategoryDataWithUserId:user.userId withQuestionType:scope];
+        }else if (scope == QuestionAndAnswerMYQUESTION){
+            [self.myQuestionCategatoryInterface downloadMyQuestionCategoryDataWithUserId:user.userId withQuestionType:scope];
+        }
+        
     }
 }
+
+//获取所有问答分类信息
 -(void)getQuestionInfo  {
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
-//        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         QuestionInfoInterface *questionInfoInter = [[QuestionInfoInterface alloc]init];
         self.questionInfoInterface = questionInfoInter;
         self.questionInfoInterface.delegate = self;
@@ -104,7 +129,10 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     
     self.drTreeTableView.backgroundColor = [UIColor colorWithRed:12/255.0 green:43/255.0 blue:75/255.0 alpha:1];
     [self.lessonListBackgroundView addSubview:self.drTreeTableView];
-    [self getLessonInfo];
+    [self downloadLessonCategoryInfo];
+    //按默认顺序加载
+    [self downloadLessonListForCatogory];
+    
 }
 
 #pragma mark UISearchBarDelegate
@@ -129,14 +157,13 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 
 - (IBAction)lessonListBtClicked:(id)sender {
     self.listType = LESSON_LIST;
-//    self.drTreeTableView.noteArr = [NSMutableArray arrayWithArray:@[[TestModelData getTreeNodeFromCategoryModel:[TestModelData getCategoryTree]]]];
-    self.drTreeTableView.noteArr = [NSMutableArray arrayWithArray:[TestModelData getTreeNodeArrayFromArray:[TestModelData loadJSON]]];
-//    [self getLessonInfo];
+//    self.drTreeTableView.noteArr = [NSMutableArray arrayWithArray:[TestModelData getTreeNodeArrayFromArray:[TestModelData loadJSON]]];
     DRNavigationController *navi = [self.childViewControllers lastObject];
     if (navi.childViewControllers.count > 2) {
         UIViewController *childController = [navi.childViewControllers objectAtIndex:1];
         [navi popToViewController:childController animated:YES];
     }
+    [self downloadLessonCategoryInfo];
 }
 
 - (IBAction)questionListBtClicked:(id)sender {
@@ -145,8 +172,8 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     DRNavigationController *navi = [self.childViewControllers lastObject];
     if (!self.myQAVC) {
         self.myQAVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
-        NSMutableArray *array = [TestModelData getQuestion];
-        [self.myQAVC reloadDataWithDataArray:array withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
+//        NSMutableArray *array = [TestModelData getQuestion];
+//        [self.myQAVC reloadDataWithDataArray:array withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
          [navi pushViewController:self.myQAVC animated:YES];
     }else{
         if (navi) {
@@ -160,6 +187,8 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     }
 
      [self getQuestionInfo];
+     [self getMyQuestionCategoryListWithQuestionScope:QuestionAndAnswerMYANSWER];
+     [self getMyQuestionCategoryListWithQuestionScope:QuestionAndAnswerMYQUESTION];
 }
 
 - (IBAction)SearchBrClicked:(id)sender {
@@ -176,9 +205,9 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                 SearchLessonInterface *searchLessonInter = [[SearchLessonInterface alloc]init];
                 self.searchLessonInterface = searchLessonInter;
                 self.searchLessonInterface.delegate = self;
-                [self.searchLessonInterface getSearchLessonInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchText.text];
+                [self.searchLessonInterface getSearchLessonInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchText.text withPageIndex:0 withSortType:LESSONSORTTYPE_CurrentStudy];
             }else{
-                [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchText.text];
+                [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchText.text withPageIndex:0];
             }
         }
     }
@@ -218,6 +247,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             [Utility errorAlert:@"暂无网络!"];
         }else {
 //             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            self.questionAndSwerRequestID = node.noteContentID;
             switch (scope) {
                 case QuestionAndAnswerALL:
                 {
@@ -226,9 +256,10 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                     self.chapterQuestionInterface.delegate = self;
                     self.questionAndSwerRequestID = node.noteContentID;
                     self.questionScope = QuestionAndAnswerALL;
-                    NSMutableArray *array = [TestModelData getQuestion];
-                    [self.myQAVC reloadDataWithDataArray:array withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
-//                    [self.chapterQuestionInterface getChapterQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andChapterQuestionId:node.noteContentID];
+//                    NSMutableArray *array = [TestModelData getQuestion];
+//                    [self.myQAVC reloadDataWithDataArray:array withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
+                    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                    [self.chapterQuestionInterface getChapterQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andChapterQuestionId:node.noteContentID];
                 }
                     break;
                 case QuestionAndAnswerMYQUESTION:
@@ -237,9 +268,10 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                     self.getUserQuestionInterface = [[GetUserQuestionInterface alloc] init];
                     self.getUserQuestionInterface.delegate = self;
                     self.questionScope = QuestionAndAnswerMYQUESTION;
-                    NSMutableArray *array = [TestModelData getQuestion];
-                    [self.myQAVC reloadDataWithDataArray:array withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
-//                    [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"0" andLastQuestionID:nil];
+//                    NSMutableArray *array = [TestModelData getQuestion];
+//                    [self.myQAVC reloadDataWithDataArray:array withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
+                    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                    [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"0" andLastQuestionID:nil withCategoryId:node.noteContentID];
                 }
                     break;
                 case QuestionAndAnswerMYANSWER:
@@ -248,9 +280,10 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
                     self.getUserQuestionInterface.delegate = self;
                     //请求我的回答
                     self.questionScope = QuestionAndAnswerMYANSWER;
-                    NSMutableArray *array = [TestModelData getQuestion];
-                    [self.myQAVC reloadDataWithDataArray:array withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
-                    [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"1" andLastQuestionID:nil];
+//                    NSMutableArray *array = [TestModelData getQuestion];
+//                    [self.myQAVC reloadDataWithDataArray:array withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
+                    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                    [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"1" andLastQuestionID:nil withCategoryId:node.noteContentID];
                 }
                     break;
                 default:
@@ -258,10 +291,40 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             }
     }
 }
-#pragma mark DRTreeTableViewDelegate
+
+//组合所有问答分类，我的提问问答分类，我的回答分类
+-(NSMutableArray*)togetherAllQuestionCategorys{
+    //我的提问列表
+    DRTreeNode *myQuestion = [[DRTreeNode alloc] init];
+    myQuestion.noteContentID = @"-1";
+    myQuestion.noteContentName = @"我的提问";
+    myQuestion.childnotes = self.myQuestionCategoryArr;
+    //所有问答列表
+    DRTreeNode *question = [[DRTreeNode alloc] init];
+    question.noteContentID = @"-2";
+    question.noteContentName = @"所有问答";
+    question.childnotes = self.allQuestionCategoryArr;
+    
+    //我的回答列表
+    DRTreeNode *myAnswer = [[DRTreeNode alloc] init];
+    myAnswer.noteContentID = @"-3";
+    myAnswer.noteContentName = @"我的回答";
+    myAnswer.childnotes = self.myAnswerCategoryArr;
+    //我的问答
+    DRTreeNode *my = [[DRTreeNode alloc] init];
+    my.noteContentID = @"-4";
+    my.noteContentName = @"我的问答";
+    my.childnotes = @[myQuestion,myAnswer];
+    
+    return [NSMutableArray arrayWithArray:@[question,my]];
+}
+
+#pragma mark DRTreeTableViewDelegate //选择一个分类
 -(void)drTreeTableView:(DRTreeTableView *)treeView didSelectedTreeNode:(DRTreeNode *)selectedNote{
     if (self.listType == LESSON_LIST) {
-        
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        UserModel *user = [[CaiJinTongManager shared] user];
+        [self.lessonListForCategory downloadLessonListForCategoryId:selectedNote.noteContentID withUserId:user.userId withPageIndex:0 withSortType:self.chapterView.sortType];
     }else{
         switch ([selectedNote.noteRootContentID integerValue]) {
             case -2://所有问答
@@ -300,13 +363,45 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 #pragma mark --
 
 #pragma mark property
+-(MyQuestionCategatoryInterface *)myAnswerCategatoryInterface{
+    if (!_myAnswerCategatoryInterface) {
+        _myAnswerCategatoryInterface = [[MyQuestionCategatoryInterface alloc] init];
+        _myAnswerCategatoryInterface.delegate = self;
+    }
+    return _myAnswerCategatoryInterface;
+}
+
+-(MyQuestionCategatoryInterface *)myQuestionCategatoryInterface{
+    if (!_myQuestionCategatoryInterface) {
+        _myQuestionCategatoryInterface = [[MyQuestionCategatoryInterface alloc] init];
+        _myQuestionCategatoryInterface.delegate = self;
+    }
+    return _myQuestionCategatoryInterface;
+}
+-(LessonListForCategory *)lessonListForCategory{
+    if (!_lessonListForCategory) {
+        _lessonListForCategory = [[LessonListForCategory alloc] init];
+        _lessonListForCategory.delegate = self;
+    }
+    return _lessonListForCategory;
+}
+
 -(DRTreeTableView *)drTreeTableView{
     if (!_drTreeTableView) {
-        _drTreeTableView = [[DRTreeTableView alloc] initWithFrame:(CGRect){0,90,222,670} withTreeNodeArr:[TestModelData getTreeNodeArrayFromArray:[TestModelData loadJSON]]];
+//        _drTreeTableView = [[DRTreeTableView alloc] initWithFrame:(CGRect){0,90,222,670} withTreeNodeArr:[TestModelData getTreeNodeArrayFromArray:[TestModelData loadJSON]]];
+         _drTreeTableView = [[DRTreeTableView alloc] initWithFrame:(CGRect){0,90,222,670} withTreeNodeArr:nil];
 //        _drTreeTableView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleHeight;
         _drTreeTableView.delegate = self;
     }
     return _drTreeTableView;
+}
+
+-(LessonCategoryInterface *)lessonCategoryInterface{
+    if (!_lessonCategoryInterface) {
+        _lessonCategoryInterface = [[LessonCategoryInterface alloc] init];
+        _lessonCategoryInterface.delegate = self;
+    }
+    return _lessonCategoryInterface;
 }
 
 -(SearchQuestionInterface *)searchQuestionInterface{
@@ -337,6 +432,46 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     }
     _listType = listType;
 }
+#pragma mark --
+
+#pragma mark MyQuestionCategatoryInterfaceDelegate 获取我的问答分类接口
+-(void)getMyQuestionCategoryDataDidFinished:(NSArray *)categoryNotes withQuestionType:(QuestionAndAnswerScope)scope{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        if (scope == QuestionAndAnswerMYANSWER) {
+            self.myAnswerCategoryArr = categoryNotes;
+        }else{
+            self.myQuestionCategoryArr = categoryNotes;
+        }
+        self.drTreeTableView.noteArr = [self togetherAllQuestionCategorys];
+    });
+}
+
+-(void)getMyQuestionCategoryDataFailure:(NSString *)errorMsg{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [Utility errorAlert:errorMsg];
+    });
+}
+#pragma mark --
+
+#pragma mark LessonListForCategoryDelegate 根据分类获取课程信息
+-(void)getLessonListDataForCategoryDidFinished:(NSArray *)lessonList withCurrentPageIndex:(int)pageIndex withTotalCount:(int)allDataCount{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        self.chapterView.lessonListForCategory.currentPageIndex = 0;
+        self.chapterView.isSearch = NO;
+        [self.chapterView reloadDataWithDataArray:lessonList withCategoryId:self.lessonListForCategory.lessonCategoryId];
+    });
+}
+
+-(void)getLessonListDataForCategoryFailure:(NSString *)errorMsg{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [Utility errorAlert:errorMsg];
+    });
+}
+
 #pragma mark --
 
 #pragma mark GetUserQuestionInterfaceDelegate 获取我的回答和我的提问列表
@@ -377,7 +512,8 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
- [self.myQAVC reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
+            self.myQAVC.searchQuestionText = self.searchText.text;
+ [self.myQAVC reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:self.questionAndSwerRequestID withScope:QuestionAndAnswerSearchQuestion];
 //            [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
 //                
 //            }];
@@ -393,7 +529,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
                 NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
-                [self.chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:tempArray]];
+//                [self.chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:tempArray]];
             }else{
                 [Utility errorAlert:@"没有加载到数据"];
             }
@@ -406,70 +542,20 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     [Utility errorAlert:errorMsg];
 }
 
-#pragma mark-- LessonInfoInterfaceDelegate
--(void)getLessonInfoDidFinished:(NSDictionary *)result {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        
-        self.lessonList = [NSMutableArray arrayWithArray:[result objectForKey:@"lessonList"]];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-        });
-    });
-}
-
--(void)getLessonInfoDidFailed:(NSString *)errorMsg {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Utility errorAlert:errorMsg];
-}
-
-#pragma mark--QuestionInfoInterfaceDelegate {
--(void)getQuestionInfoDidFinished:(NSDictionary *)result {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        self.questionList = [NSMutableArray arrayWithArray:[result valueForKey:@"questionList"]];
-        [CaiJinTongManager shared].question = [NSMutableArray arrayWithArray:[result valueForKey:@"questionList"]];
-        
-        //我的提问列表
-        NSMutableDictionary *myQuestion = [NSMutableDictionary dictionary];
-        [myQuestion setValue:self.questionList forKey:@"questionNode"];
-        [myQuestion setValue:@"-1" forKey:@"questionID"];
-        [myQuestion setValue:@"我的提问" forKey:@"questionName"];
-        [myQuestion setValue:@"1" forKey:@"level"];
-        
-        //所有问答列表
-        NSMutableDictionary *question = [NSMutableDictionary dictionary];
-        [question setValue:self.questionList forKey:@"questionNode"];
-        [question setValue:@"-2" forKey:@"questionID"];
-        [question setValue:@"所有问答" forKey:@"questionName"];
-        [question setValue:@"1" forKey:@"level"];
-        
-        //我的回答列表
-        NSMutableDictionary *myAnswer = [NSMutableDictionary dictionary];
-        [myAnswer setValue:self.questionList forKey:@"questionNode"];
-        [myAnswer setValue:@"-3" forKey:@"questionID"];
-        [myAnswer setValue:@"我的回答" forKey:@"questionName"];
-        [myAnswer setValue:@"-1" forKey:@"level"];
-        
-        //我的问答
-        NSMutableDictionary *my = [NSMutableDictionary dictionary];
-        [my setValue:@[myQuestion,myAnswer] forKey:@"questionNode"];
-        [my setValue:@"-4" forKey:@"questionID"];
-        [my setValue:@"我的问答" forKey:@"questionName"];
-        [my setValue:@"1" forKey:@"level"];
-        
-        
-        self.myQuestionList = [NSMutableArray arrayWithObjects:myQuestion,myAnswer, nil];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            self.drTreeTableView.noteArr = [TestModelData getTreeNodeArrayFromArray:@[question,my]];
-        });
+#pragma mark--QuestionInfoInterfaceDelegate 获取所有问答分类信息
+-(void)getQuestionInfoDidFinished:(NSArray *)questionCategoryArr {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        self.allQuestionCategoryArr = questionCategoryArr;
+        self.drTreeTableView.noteArr = [self togetherAllQuestionCategorys];
     });
 }
 -(void)getQuestionInfoDidFailed:(NSString *)errorMsg {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     self.listType = LESSON_LIST;
     [Utility errorAlert:errorMsg];
 }
-#pragma mark--ChapterQuestionInterfaceDelegate
+#pragma mark--ChapterQuestionInterfaceDelegate所有问答数据
 -(void)getChapterQuestionInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
@@ -486,24 +572,44 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
 }
+
+
 #pragma mark--SearchLessonInterfaceDelegate
--(void)getSearchLessonInfoDidFinished:(NSDictionary *)result {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
-                NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
-                [self.chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:tempArray]];
-            }else{
-                [Utility errorAlert:@"没有加载到数据"];
-            }
-        });
+
+-(void)getSearchLessonListDataForCategoryDidFinished:(NSArray *)lessonList withCurrentPageIndex:(int)pageIndex withTotalCount:(int)allDataCount{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.chapterView.isSearch = YES;
+        self.chapterView.oldSearchText = self.searchText.text;
+        [self.chapterView reloadDataWithDataArray:lessonList withCategoryId:nil];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     });
 }
--(void)getSearchLessonInfoDidFailed:(NSString *)errorMsg {
-     [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Utility errorAlert:errorMsg];
+
+-(void)getSearchLessonListDataForCategoryFailure:(NSString *)errorMsg{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [Utility errorAlert:errorMsg];
+    });
 }
+
+#pragma mark --
+
+#pragma mark LessonCategoryInterfaceDelegate获取课程分类信息
+-(void)getLessonCategoryDataDidFinished:(NSArray *)categoryNotes{
+dispatch_async(dispatch_get_main_queue(), ^{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    self.drTreeTableView.noteArr = [NSMutableArray arrayWithArray:categoryNotes];
+    [[CaiJinTongManager shared] setLessonCategoryArr:[NSMutableArray arrayWithArray:categoryNotes]];
+});
+}
+
+-(void)getLessonCategoryDataFailure:(NSString *)errorMsg{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [Utility errorAlert:errorMsg];
+    });
+}
+#pragma mark --
 
 #pragma mark UITextField Delegate
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{

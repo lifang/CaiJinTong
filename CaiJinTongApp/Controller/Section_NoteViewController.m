@@ -49,8 +49,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (!self.dataArray || self.dataArray.count <= 0) {
         [self.tipLabel removeFromSuperview];
-        [self.tableViewList addSubview:self.tipLabel];
-        
+        [tableView addSubview:self.tipLabel];
     }
     return self.dataArray.count;
 }
@@ -91,6 +90,16 @@
 }
 #pragma mark --
 #pragma mark property
+
+-(void)setDataArray:(NSMutableArray *)dataArray{
+    NSMutableArray *data = [NSMutableArray array];
+    for (chapterModel *chapter in dataArray) {
+        for (NoteModel *note in chapter.chapterNoteList) {
+            [data addObject:note];
+        }
+    }
+    _dataArray = data;
+}
 -(UILabel *)tipLabel{
     if (!_tipLabel) {
         _tipLabel = [[UILabel alloc] initWithFrame:(CGRect){0,0,NOTE_CELL_WIDTH,self.tableViewList.frame.size.height}];

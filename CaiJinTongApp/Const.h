@@ -10,8 +10,9 @@
 
 typedef  enum  {//问答类型
     QuestionAndAnswerALL = 1,
-    QuestionAndAnswerMYQUESTION = 2,
-    QuestionAndAnswerMYANSWER = 3
+    QuestionAndAnswerMYQUESTION,
+    QuestionAndAnswerMYANSWER,
+    QuestionAndAnswerSearchQuestion
 } QuestionAndAnswerScope;
 
 typedef enum {//追问类型
@@ -22,6 +23,10 @@ typedef enum {//追问类型
     ReaskType_None,
 }ReaskType;
 
+
+typedef enum {LESSONSORTTYPE_CurrentStudy,
+    LESSONSORTTYPE_ProgressStudy,
+    LESSONSORTTYPE_LessonName}LESSONSORTTYPE;//课程排序类型
 #define POPOUCHANGEVIEWFRAME @"popouChangeViewFrame"
 //#define kHost @"http://wmi.finance365.com/api/ios.ashx"
 #define kHost @"http://lms.finance365.com/api/ios.ashx"

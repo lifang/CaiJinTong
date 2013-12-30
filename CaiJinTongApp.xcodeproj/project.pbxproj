@@ -308,8 +308,11 @@
 		63C15C73183F54E600890086 /* DRMoviePlayerTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C15C72183F54E600890086 /* DRMoviePlayerTopBar.m */; };
 		63D1B5E01867F02D00506D03 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 630B03BF1820F5BB00F72C4C /* Main_iPad.storyboard */; };
 		63D1B5E11867F02D00506D03 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 630B03BC1820F5BB00F72C4C /* Main_iPhone.storyboard */; };
+		63D43108186A7C78004A786A /* LessonListForCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D43107186A7C78004A786A /* LessonListForCategory.m */; };
+		63D4310C186AC8E5004A786A /* MyQuestionCategatoryInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D4310B186AC8E5004A786A /* MyQuestionCategatoryInterface.m */; };
 		63E6A90F185B341800D809A6 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E6A90E185B341800D809A6 /* CoreMedia.framework */; };
 		63E6A911185B348700D809A6 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E6A910185B348700D809A6 /* AudioToolbox.framework */; };
+		63FD2E071869730B004218EF /* LessonCategoryInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FD2E061869730B004218EF /* LessonCategoryInterface.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -812,8 +815,14 @@
 		63B794E71847477100B8276A /* MJRefreshHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshHeaderView.m; sourceTree = "<group>"; };
 		63C15C71183F54E600890086 /* DRMoviePlayerTopBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DRMoviePlayerTopBar.h; path = movieCotr/DRMoviePlayerTopBar.h; sourceTree = "<group>"; };
 		63C15C72183F54E600890086 /* DRMoviePlayerTopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DRMoviePlayerTopBar.m; path = movieCotr/DRMoviePlayerTopBar.m; sourceTree = "<group>"; };
+		63D43106186A7C78004A786A /* LessonListForCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LessonListForCategory.h; sourceTree = "<group>"; };
+		63D43107186A7C78004A786A /* LessonListForCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonListForCategory.m; sourceTree = "<group>"; };
+		63D4310A186AC8E5004A786A /* MyQuestionCategatoryInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyQuestionCategatoryInterface.h; sourceTree = "<group>"; };
+		63D4310B186AC8E5004A786A /* MyQuestionCategatoryInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyQuestionCategatoryInterface.m; sourceTree = "<group>"; };
 		63E6A90E185B341800D809A6 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		63E6A910185B348700D809A6 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		63FD2E051869730B004218EF /* LessonCategoryInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LessonCategoryInterface.h; sourceTree = "<group>"; };
+		63FD2E061869730B004218EF /* LessonCategoryInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonCategoryInterface.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1210,6 +1219,12 @@
 				0EA7EF8F182782C600C47F69 /* SuggestionInterface.m */,
 				0EAFA10E1822399000D01D3E /* InterfaceCache.h */,
 				0EAFA10F1822399000D01D3E /* InterfaceCache.m */,
+				63FD2E051869730B004218EF /* LessonCategoryInterface.h */,
+				63FD2E061869730B004218EF /* LessonCategoryInterface.m */,
+				63D43106186A7C78004A786A /* LessonListForCategory.h */,
+				63D43107186A7C78004A786A /* LessonListForCategory.m */,
+				63D4310A186AC8E5004A786A /* MyQuestionCategatoryInterface.h */,
+				63D4310B186AC8E5004A786A /* MyQuestionCategatoryInterface.m */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -1976,6 +1991,7 @@
 				0E9C9EF0184309A200D48781 /* QuestionListCell.m in Sources */,
 				0E9DA3BF183F568D000A5995 /* ASICloudFilesObject.m in Sources */,
 				0E9DA3B2183F568D000A5995 /* ASIAuthenticationDialog.m in Sources */,
+				63D43108186A7C78004A786A /* LessonListForCategory.m in Sources */,
 				0E9DA3BE183F568D000A5995 /* ASICloudFilesContainerXMLParserDelegate.m in Sources */,
 				0EA7EF1C18234AC600C47F69 /* SearchLessonInterface.m in Sources */,
 				0EDF4DFD1821028F007161E0 /* Utility.m in Sources */,
@@ -2004,6 +2020,7 @@
 				0EA2A9261828D667003D152E /* SUNSlideSwitchView.m in Sources */,
 				0EA2A9201828893D003D152E /* ChineseString.m in Sources */,
 				0EDF4D9118210202007161E0 /* DownloadService.m in Sources */,
+				63D4310C186AC8E5004A786A /* MyQuestionCategatoryInterface.m in Sources */,
 				0EAFA1131822399100D01D3E /* InterfaceCache.m in Sources */,
 				0EA7EF3118234D8D00C47F69 /* GetUserQuestionInterface.m in Sources */,
 				0E9DA3BD183F568D000A5995 /* ASICloudFilesContainerRequest.m in Sources */,
@@ -2030,6 +2047,7 @@
 				18EA125318459A4500F12D8B /* TextFieldForSearchBar.m in Sources */,
 				18A19C85183CA60500C11310 /* iRate.m in Sources */,
 				18046A8E1848637300EB8BDA /* Section_ChapterViewController_iPhone.m in Sources */,
+				63FD2E071869730B004218EF /* LessonCategoryInterface.m in Sources */,
 				0EA2A9311828D78F003D152E /* Section_NoteViewController.m in Sources */,
 				0EA36ED2182C8E4F0074D67B /* CustomLabel.m in Sources */,
 				0EA7EF8D1827805D00C47F69 /* SectionInfoInterface.m in Sources */,

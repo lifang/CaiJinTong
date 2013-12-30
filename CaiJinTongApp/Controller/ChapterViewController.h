@@ -14,24 +14,29 @@
 
 #import "CollectionCell.h"
 #import "CollectionHeader.h"
-@interface ChapterViewController : DRNaviGationBarController <UIScrollViewDelegate,CJTMainToolbarDelegate, SectionInfoInterfaceDelegate,ChapterInfoInterfaceDelegate,ChapterSearchBarDelegate,SearchLessonInterfaceDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,CollectionHeaderDelegate>
+#import "LessonListForCategory.h"
+#import "MJRefresh.h"
+/*
+ 课程列表
+ */
+@interface ChapterViewController : DRNaviGationBarController <UIScrollViewDelegate,CJTMainToolbarDelegate, SectionInfoInterfaceDelegate,ChapterInfoInterfaceDelegate,ChapterSearchBarDelegate,SearchLessonInterfaceDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,CollectionHeaderDelegate,LessonListForCategoryDelegate,MJRefreshBaseViewDelegate,LessonInfoInterfaceDelegate>
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-@property (nonatomic, strong) SectionInfoInterface *sectionInterface;
 @property (nonatomic, strong) CJTMainToolbar *mainToolBar;
 @property (nonatomic, strong) UIScrollView *myScrollView;
 @property (nonatomic, strong) UITableView *myTable;
-@property (nonatomic, strong) NSArray *recentArray;//默认(最近播放)
-@property (nonatomic, strong) NSArray *progressArray;//学习进度
-@property (nonatomic, strong) NSArray *nameArray;//名称(A-Z)
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) SectionCustomView *sectionView;
 @property (nonatomic, strong) ChapterSearchBar *searchBar;
 @property (nonatomic,strong) NSString *oldSearchText;//搜索之前字符串
-
+@property (nonatomic,strong) NSString *lessonCategoryId;
 @property (nonatomic,strong) ChapterInfoInterface *chapterInfoInterface;
-@property (nonatomic,strong) NSMutableArray *searchResultArray;//搜索结果
+@property (nonatomic, strong) LessonInfoInterface *lessonInterface;//获取课程详细信息
 
+@property (nonatomic,strong) NSMutableArray *searchResultArray;//搜索结果
+@property (assign,nonatomic) LESSONSORTTYPE sortType;
 @property (assign,nonatomic) BOOL isSearch;
 
--(void)reloadDataWithDataArray:(NSArray*)data;
+@property (strong,nonatomic) LessonListForCategory *lessonListForCategory;//根据分类获取课程列表
+
+-(void)reloadDataWithDataArray:(NSArray*)data withCategoryId:(NSString*)lessonCategoryId;
 @end

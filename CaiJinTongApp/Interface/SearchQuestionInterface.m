@@ -16,7 +16,7 @@
 
 @implementation SearchQuestionInterface
 
--(void)getSearchQuestionInterfaceDelegateWithUserId:(NSString *)userId andText:(NSString *)text {
+-(void)getSearchQuestionInterfaceDelegateWithUserId:(NSString *)userId andText:(NSString *)text withPageIndex:(int)pageIndex{
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     
     NSString *timespan = [Utility getNowDateFromatAnDate];
@@ -31,7 +31,7 @@
 //http://lms.finance365.com/api/ios.ashx?active=searchQuestion&userId=17079&content=
 //    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=searchQuestion&userId=17079&content=%@",kSummitQuestHost,text];
 //    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=searchQuestion&userId=17079&content";
-    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=searchQuestion&userId=%@&content=%@",kHost,userId,text];
+    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=searchQuestion&userId=%@&content=%@&pageIndex=%d",kHost,userId,text,pageIndex+1];
     self.baseDelegate = self;
     self.headers = reqheaders;
     

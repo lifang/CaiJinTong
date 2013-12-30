@@ -61,5 +61,5 @@ typedef enum {MOVIE_FILE,MOVIE_INTERNET}MovieLocateType;
 @protocol DRMoviePlayViewControllerDelegate <NSObject>
 
 -(void)drMoviePlayerViewController:(DRMoviePlayViewController*)playerController commitNotesSuccess:(NSString*)noteText andTime:(NSString *)noteTime;
-
+-(LessonModel*)lessonModelForDrMoviePlayerViewController;
 @end

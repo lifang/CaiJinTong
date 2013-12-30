@@ -219,10 +219,10 @@
 }
 
 #pragma mark--QuestionInfoInterfaceDelegate {
--(void)getQuestionInfoDidFinished:(NSDictionary *)result {
+-(void)getQuestionInfoDidFinished:(NSArray *)questionCategoryArr {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        self.questionList = [NSMutableArray arrayWithArray:[result valueForKey:@"questionList"]];
-        [CaiJinTongManager shared].question = [NSMutableArray arrayWithArray:[result valueForKey:@"questionList"]];
+//        self.questionList = [NSMutableArray arrayWithArray:[result valueForKey:@"questionList"]];
+//        [CaiJinTongManager shared].question = [NSMutableArray arrayWithArray:[result valueForKey:@"questionList"]];
         //标记是否选中了
         self.questionArrSelSection = [[NSMutableArray alloc] init];
         for (int i =0; i<self.questionList.count; i++) {

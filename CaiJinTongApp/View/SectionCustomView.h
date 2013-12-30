@@ -17,6 +17,6 @@
 @property (nonatomic,strong) CJTSlider *pv; //视频进度
 @property (nonatomic,strong) UILabel *progressLabel;
 
-- (id)initWithFrame:(CGRect)frame andSection:(SectionModel *)section andItemLabel:(float)itemLabel;
--(void)changeSectionModel:(SectionModel*)section;
+- (id)initWithFrame:(CGRect)frame andLessonModel:(LessonModel *)lesson andItemLabel:(float)itemLabel;
+-(void)changeLessonModel:(LessonModel *)lesson;
 @end

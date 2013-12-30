@@ -10,7 +10,9 @@
 #import "SectionModel.h"
 
 @protocol SectionInfoInterfaceDelegate;
-
+/*
+ 获取课程详细信息
+ */
 @interface SectionInfoInterface : BaseInterface<BaseInterfaceDelegate>
 
 @property (nonatomic, weak) id<SectionInfoInterfaceDelegate>delegate;

@@ -14,7 +14,7 @@
 #import "AcceptAnswerInterface.h"
 #import "MJRefresh.h"
 
-@interface MyQuestionAndAnswerViewController : DRNaviGationBarController<UITableViewDataSource,UITableViewDelegate,QuestionAndAnswerCellDelegate,QuestionAndAnswerCellHeaderViewDelegate,AcceptAnswerInterfaceDelegate,MJRefreshBaseViewDelegate,QuestionListInterfaceDelegate,GetUserQuestionInterfaceDelegate,SubmitAnswerInterfaceDelegate,AnswerPraiseInterfaceDelegate,DRAskQuestionViewControllerDelegate>
+@interface MyQuestionAndAnswerViewController : DRNaviGationBarController<UITableViewDataSource,UITableViewDelegate,QuestionAndAnswerCellDelegate,QuestionAndAnswerCellHeaderViewDelegate,AcceptAnswerInterfaceDelegate,MJRefreshBaseViewDelegate,QuestionListInterfaceDelegate,GetUserQuestionInterfaceDelegate,SubmitAnswerInterfaceDelegate,AnswerPraiseInterfaceDelegate,DRAskQuestionViewControllerDelegate,SearchQuestionInterfaceDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *noticeBarView;
 @property (weak, nonatomic) IBOutlet UIImageView *noticeBarImageView;
@@ -24,6 +24,7 @@
 @property (assign, nonatomic) NSInteger question_pageIndex;
 @property (assign, nonatomic) NSInteger question_pageCount;
 @property (strong,nonatomic) NSString *chapterID;
+@property (strong,nonatomic) NSString *searchQuestionText;
 - (IBAction)noticeHideBtnClick:(id)sender;
 //scope :设置问题的范围，我的回答，我的提问，所有回答
 -(void)reloadDataWithDataArray:(NSArray*)data  withQuestionChapterID:(NSString*)chapterID withScope:(QuestionAndAnswerScope)scope;

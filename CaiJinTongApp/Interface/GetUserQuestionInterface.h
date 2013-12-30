@@ -13,7 +13,8 @@
 @interface GetUserQuestionInterface : BaseInterface<BaseInterfaceDelegate>
 
 @property (nonatomic, assign) id<GetUserQuestionInterfaceDelegate>delegate;
--(void)getGetUserQuestionInterfaceDelegateWithUserId:(NSString *)userId andIsMyselfQuestion:(NSString *)isMyselfQuestion andLastQuestionID:(NSString*)lastQuestionID;
+//categoryId=0为默认加载
+-(void)getGetUserQuestionInterfaceDelegateWithUserId:(NSString *)userId andIsMyselfQuestion:(NSString *)isMyselfQuestion andLastQuestionID:(NSString*)lastQuestionID withCategoryId:(NSString*)categoryId;
 @end
 
 @protocol GetUserQuestionInterfaceDelegate <NSObject>

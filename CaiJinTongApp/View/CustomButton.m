@@ -89,14 +89,20 @@
     //下载中的点击弹窗
     DownLoadInformView *mDownLoadInformView = [[[NSBundle mainBundle]loadNibNamed:@"DownLoadInformView" owner:self options:nil]objectAtIndex:0];
     mDownLoadInformView.nm1 = self.buttonModel;
-    mDownLoadInformView.frame = CGRectMake(0, 0, 568, 691);
-    if (platform>=7.0) {
-        [self.superview.superview.superview.superview.superview.superview.superview addSubview:mDownLoadInformView];
-    }else {
-        [self.superview.superview.superview.superview.superview.superview addSubview:mDownLoadInformView];
-    }
-    
+    mDownLoadInformView.frame = CGRectMake(0, 0, 1024, 768);
+    UIView *parentView = [self findSuperViewWithSupView:self];
+    [parentView addSubview:mDownLoadInformView];
+    mDownLoadInformView.center = (CGPoint){parentView.frame.size.width/2,parentView.frame.size.height/2};
 }
+
+-(UIView*)findSuperViewWithSupView:(UIView*)supView{
+    if (supView && supView.superview) {
+        return [self findSuperViewWithSupView:supView.superview];
+    }
+    return supView;
+}
+
+
 //继续下载
 -(void)reDownloadClicked
 {
@@ -104,27 +110,40 @@
     DownloadService *mDownloadService = appDelegate.mDownloadService;
     [mDownloadService addDownloadTask:self.buttonModel];
 }
+////下载按钮 点击弹出框
+//-(void)downloadClicked
+//{
+//    //先判断是否存在然后添加到数据库
+//    Section *sectionDb = [[Section alloc]init];
+//    if ([sectionDb getDataWithSid:self.buttonModel.sid]) {
+//        
+//    }else {
+//        //请求视频详细信息
+//        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+//            [Utility errorAlert:@"暂无网络!"];
+//        }else {
+//            AppDelegate* appDelegate = [AppDelegate sharedInstance];
+//            [MBProgressHUD showHUDAddedTo:appDelegate.window animated:YES];
+//            
+//            SectionInfoInterface *sectionInter = [[SectionInfoInterface alloc]init];
+//            self.sectionInterface = sectionInter;
+//            self.sectionInterface.delegate = self;
+//            [self.sectionInterface getSectionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.buttonModel.sid];
+//        }
+//    }
+//}
+
 //下载按钮 点击弹出框
 -(void)downloadClicked
 {
-    //先判断是否存在然后添加到数据库
+    //添加数据库
     Section *sectionDb = [[Section alloc]init];
-    if ([sectionDb getDataWithSid:self.buttonModel.sid]) {
-        
-    }else {
-        //请求视频详细信息
-        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-            [Utility errorAlert:@"暂无网络!"];
-        }else {
-            AppDelegate* appDelegate = [AppDelegate sharedInstance];
-            [MBProgressHUD showHUDAddedTo:appDelegate.window animated:YES];
-            
-            SectionInfoInterface *sectionInter = [[SectionInfoInterface alloc]init];
-            self.sectionInterface = sectionInter;
-            self.sectionInterface.delegate = self;
-            [self.sectionInterface getSectionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.buttonModel.sid];
-        }
-    }
+     [sectionDb addDataWithSectionSaveModel:self.buttonModel];//基本信息
+    AppDelegate* appDelegate = [AppDelegate sharedInstance];
+    DownloadService *mDownloadService = appDelegate.mDownloadService;
+    self.buttonModel.downloadState = 0;
+    //下载
+    [mDownloadService addDownloadTask:self.buttonModel];
 }
 
 #pragma -- SectionInfoInterface

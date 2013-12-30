@@ -118,6 +118,8 @@
 - (void)viewDidLoad
 {
     [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(changePlayVideoOnLine:) name:@"changePlaySectionMovieOnLine" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(playVideo:) name:@"gotoMoviePlayMovie" object:nil];
     [self addApplicationNotification];
     [super viewDidLoad];
@@ -162,17 +164,21 @@
         if (!self.isPopupChapter) {
             if (!self.section_chapterController) {
                 self.section_chapterController = [self.storyboard instantiateViewControllerWithIdentifier:@"Section_ChapterViewController"];
-                self.section_chapterController.view.frame = (CGRect){1024,0,1024-500,685};
+                self.section_chapterController.view.frame = (CGRect){1024,0,1024-700,685};
                 self.section_chapterController.isMovieView = YES;
                  [self.view addSubview:self.section_chapterController.view];
             }
-            
-            if (self.drMovieSourceType == MPMovieSourceTypeStreaming) {
-                self.section_chapterController.dataArray =  [NSMutableArray arrayWithArray:self.sectionModel.sectionList];
-            } else if (self.drMovieSourceType == MPMovieSourceTypeFile) {
-                Section *sectionDB = [[Section alloc] init];
-                self.section_chapterController.dataArray = [NSMutableArray arrayWithArray:[sectionDB getChapterInfoWithSid:self.sectionSaveModel.sid]];
+            LessonModel *lessonModel = [self.delegate lessonModelForDrMoviePlayerViewController];
+            if (lessonModel) {
+                self.section_chapterController.dataArray = lessonModel.chapterList;
             }
+            
+//            if (self.drMovieSourceType == MPMovieSourceTypeStreaming) {
+//                self.section_chapterController.dataArray =  [NSMutableArray arrayWithArray:self.sectionModel.sectionList];
+//            } else if (self.drMovieSourceType == MPMovieSourceTypeFile) {
+//                Section *sectionDB = [[Section alloc] init];
+//                self.section_chapterController.dataArray = [NSMutableArray arrayWithArray:[sectionDB getChapterInfoWithSid:self.sectionSaveModel.sid]];
+//            }
             self.isPopupChapter = YES;
         }else {
             self.isPopupChapter = NO;
@@ -276,6 +282,19 @@
 #pragma mark --
 
 #pragma mark notification//切换视频
+-(void)changePlayVideoOnLine:(NSNotification*)notification{
+    self.isBack = NO;
+    [self saveCurrentStatus];
+     SectionModel *section = [notification.userInfo objectForKey:@"sectionModel"];
+    self.drMovieSourceType = MPMovieSourceTypeStreaming;
+    NSURL *url = [NSURL URLWithString:section.sectionMoviePlayURL];
+    if (![self.movieUrl.absoluteString  isEqualToString:url.absoluteString]) {
+        [self playMovieWithSectionModel:section orLocalSectionModel:nil withFileType:MPMovieSourceTypeStreaming];
+    }else{
+        [Utility errorAlert:@"当前文件正在播放"];
+    }
+}
+
 -(void)playVideo:(NSNotification*)notification{
     self.isBack = NO;
     [self saveCurrentStatus];
@@ -529,51 +548,13 @@
         if (fileType == MPMovieSourceTypeStreaming) {
             self.sectionModel = sectionModel;
             self.drMovieTopBar.titleLabel.text = sectionModel.sectionName;
-            self.movieUrl = [NSURL URLWithString:@"http://nginx.finance365.com/6/184/966/20130506143924184.mp4"];
+//            self.movieUrl = [NSURL URLWithString:@"http://nginx.finance365.com/6/184/966/20130506143924184.mp4"];
+            self.movieUrl = [NSURL URLWithString:sectionModel.sectionMoviePlayURL];
         }
     if (self.isViewLoaded) {
         [self playMovie];
     }
 }
-
-//-(void)playMovieWithSectionModel:(SectionModel*)sectionModel orLocalSectionModel:(SectionSaveModel*)saveSectionModel withFileType:(MPMovieSourceType)fileType{
-//    if (!saveSectionModel && fileType == MPMovieSourceTypeFile) {
-//        [Utility errorAlert:@"没有发现要播放的文件"];
-//        return;
-//    }else
-//    if (!sectionModel && fileType == MPMovieSourceTypeStreaming) {
-//        [Utility errorAlert:@"没有发现要播放的文件"];
-//        return;
-//    }
-//    [self addMoviePlayBackNotification];
-//    self.drMovieSourceType = fileType;
-//    if (fileType == MPMovieSourceTypeFile) {
-//        self.sectionSaveModel = saveSectionModel;
-//        self.drMovieTopBar.titleLabel.text = saveSectionModel.name;
-//        self.movieUrl = [NSURL fileURLWithPath:[CaiJinTongManager getMovieLocalPathWithSectionID:saveSectionModel.sid]];
-//    }else
-//    if (fileType == MPMovieSourceTypeStreaming) {
-//        self.sectionModel = sectionModel;
-//        self.drMovieTopBar.titleLabel.text = sectionModel.sectionName;
-//        self.movieUrl = [NSURL URLWithString:sectionModel.sectionSD];
-//    }
-//    if (self.isViewLoaded) {
-//        [self playMovie];
-//    }
-//}
-
-//-(void)playMovieWithURL:(NSURL*)url withFileType:(MPMovieSourceType)fileType{
-//    self.movieUrl = url;
-//    self.drMovieSourceType = fileType;
-//    if (self.isViewLoaded) {
-//        [self playMovie];
-//    }
-//}
-//
-//-(void)playMovieWithURL:(NSURL*)url withFileType:(MPMovieSourceType)fileType withLessonName:(NSString*)lessonName{
-//    [self playMovieWithURL:url withFileType:fileType];
-//    self.drMovieTopBar.titleLabel.text = lessonName;
-//}
 
 -(void)addMoviePlayBackNotification{
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeMoviePlayerLoadStateNotification) name:MPMoviePlayerLoadStateDidChangeNotification object:nil];
@@ -631,7 +612,7 @@
         if (!isPopupChapter) {
             [self.section_chapterController willMoveToParentViewController:nil];
             [UIView animateWithDuration:0.5 animations:^{
-                self.section_chapterController.view.frame = (CGRect){1024,0,1024-500,685};
+                self.section_chapterController.view.frame = (CGRect){1024,0,1024-700,685};
             } completion:^(BOOL finished) {
                 [self.movieplayerControlBackView setUserInteractionEnabled:YES];
             }];
@@ -639,7 +620,7 @@
         }else{
             [self.section_chapterController willMoveToParentViewController:self];
             [UIView animateWithDuration:0.5 animations:^{
-                self.section_chapterController.view.frame = (CGRect){450,0,1024-450,685};
+                self.section_chapterController.view.frame = (CGRect){324,0,1024-324,685};
             } completion:^(BOOL finished) {
                 [self.movieplayerControlBackView setUserInteractionEnabled:YES];
             }];
