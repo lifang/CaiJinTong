@@ -10,7 +10,11 @@
 #define CELL_REUSE_IDENTIFIER @"CollectionCell"
 @interface LessonViewController_iPhone ()
 @property (nonatomic,strong) LessonCategoryInterface *lessonCategoryInterface;
+@property (strong,nonatomic) LessonListForCategory *lessonListForCategory;//根据分类获取课程列表
 @property (nonatomic,strong) DRTreeTableView *drTreeTableView;
+@property (nonatomic,strong) MJRefreshHeaderView *headerRefreshView;
+@property (nonatomic,strong) MJRefreshFooterView *footerRefreshView;
+@property (assign,nonatomic) BOOL isSearch;
 @end
 @implementation LessonViewController_iPhone
 
@@ -30,6 +34,12 @@
     [self.lessonCategoryInterface downloadLessonCategoryDataWithUserId:[CaiJinTongManager shared].userId];
 }
 
+-(void)downloadLessonListForCatogory{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    UserModel *user = [[CaiJinTongManager shared] user];
+    [self.lessonListForCategory downloadLessonListForCategoryId:nil withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -37,6 +47,7 @@
     NSLog(@"%@",NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory, NSUserDomainMask, YES)[0]);
     
     [self setCollectionView];
+    self.sortType = LESSONSORTTYPE_CurrentStudy;
     [self initData];
     [self setTabBar];
     if(!self.searchBar){
@@ -69,6 +80,11 @@
     flowLayout.minimumLineSpacing = 0;
     
     self.collectionView.collectionViewLayout = flowLayout;
+    
+    [self.headerRefreshView endRefreshing];
+    self.headerRefreshView.isForbidden = NO;
+    [self.footerRefreshView endRefreshing];
+    self.footerRefreshView.isForbidden = NO;
 }
 
 //加载数据
@@ -115,60 +131,87 @@
     [Utility errorAlert:errorMsg];
 }
 
-#pragma mark -- Search Lesson InterfaceDelegate
--(void)getSearchLessonInfoDidFinished:(NSDictionary *)result {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            if (([[result objectForKey:@"sectionList"] isKindOfClass:[NSNull class]]) || ([result objectForKey:@"sectionList"] == nil) || ([[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]].count < 1)) {
-                [MBProgressHUD showHUDAddedTo:self.view animated:YES].labelText = @"搜索完毕,没有符合条件的结果!";
-            }else{
-                NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
-                if(self.searchBar.searchTextField.text != nil && ![self.searchBar.searchTextField.text isEqualToString:@""] && tempArray.count > 0){
-                    NSString *keyword = [self.searchBar.searchTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-                    NSMutableArray *ary = [NSMutableArray arrayWithCapacity:5];
-                    for(int i = 0 ; i < tempArray.count ; i++){
-                        SectionModel *section = [tempArray objectAtIndex:i];
-                        NSRange range = [section.sectionName rangeOfString:[NSString stringWithFormat:@"(%@)+",keyword] options:NSRegularExpressionSearch];
-                        if(range.location != NSNotFound){
-                            [ary addObject:section];
-                        }
-                    }
-                    tempArray = [NSMutableArray arrayWithArray:ary];
-                }
-                if(tempArray.count == 0){
-//                    [MBProgressHUD dismissWithSuccess:@"搜索完毕,没有符合条件的结果!"];
-                }else{
-                    self.recentArray = tempArray;
-                    self.sectionList = self.recentArray;
-                    
-                    //搜索成功则清除旧的筛选记录
-                    self.progressArray = nil;
-                    self.nameArray = nil;
-                    
-                    //对搜索结果进行筛选排序
-                    switch (self.filterStatus) {
-                        case progress:{
-                            [self bubbleSort:self.sectionList];
-                        }
-                            break;
-                        case a_z:{
-                            [self letterSort:self.sectionList];
-                        }
-                            break;
-                        default:
-                            break;
-                    }
-                    [self displayNewView];
-                }
-            }
-        });
+#pragma mark -- Search Lesson InterfaceDelegate 搜索课程
+
+-(void)getSearchLessonListDataForCategoryDidFinished:(NSArray *)lessonList withCurrentPageIndex:(int)pageIndex withTotalCount:(int)allDataCount{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (pageIndex > 0) {
+            [self loadNextPageDataWithDataArray:lessonList withCategoryId:self.lessonListForCategory.lessonCategoryId];
+        }else{
+            [self  reloadDataWithDataArray:lessonList withCategoryId:self.lessonListForCategory.lessonCategoryId];
+        }
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [self.headerRefreshView endRefreshing];
+        self.headerRefreshView.isForbidden = NO;
+        [self.footerRefreshView endRefreshing];
+        self.footerRefreshView.isForbidden = NO;
     });
 }
--(void)getSearchLessonInfoDidFailed:(NSString *)errorMsg {
-//    [MBProgressHUD dismiss];
-    [Utility errorAlert:errorMsg];
+
+-(void)getSearchLessonListDataForCategoryFailure:(NSString *)errorMsg{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        self.searchBar.searchTextField.text = self.oldSearchText;
+        [self.headerRefreshView endRefreshing];
+        self.headerRefreshView.isForbidden = NO;
+        [self.footerRefreshView endRefreshing];
+        self.footerRefreshView.isForbidden = NO;
+        [Utility errorAlert:errorMsg];
+    });
 }
+
+//-(void)getSearchLessonInfoDidFinished:(NSDictionary *)result {
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [MBProgressHUD hideHUDForView:self.view animated:YES];
+//            if (([[result objectForKey:@"sectionList"] isKindOfClass:[NSNull class]]) || ([result objectForKey:@"sectionList"] == nil) || ([[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]].count < 1)) {
+//                [MBProgressHUD showHUDAddedTo:self.view animated:YES].labelText = @"搜索完毕,没有符合条件的结果!";
+//            }else{
+//                NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
+//                if(self.searchBar.searchTextField.text != nil && ![self.searchBar.searchTextField.text isEqualToString:@""] && tempArray.count > 0){
+//                    NSString *keyword = [self.searchBar.searchTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+//                    NSMutableArray *ary = [NSMutableArray arrayWithCapacity:5];
+//                    for(int i = 0 ; i < tempArray.count ; i++){
+//                        SectionModel *section = [tempArray objectAtIndex:i];
+//                        NSRange range = [section.sectionName rangeOfString:[NSString stringWithFormat:@"(%@)+",keyword] options:NSRegularExpressionSearch];
+//                        if(range.location != NSNotFound){
+//                            [ary addObject:section];
+//                        }
+//                    }
+//                    tempArray = [NSMutableArray arrayWithArray:ary];
+//                }
+//                if(tempArray.count == 0){
+//                }else{
+//                    self.recentArray = tempArray;
+//                    self.sectionList = self.recentArray;
+//                    
+//                    //搜索成功则清除旧的筛选记录
+//                    self.progressArray = nil;
+//                    self.nameArray = nil;
+//                    
+//                    //对搜索结果进行筛选排序
+//                    switch (self.filterStatus) {
+//                        case progress:{
+//                            [self bubbleSort:self.sectionList];
+//                        }
+//                            break;
+//                        case a_z:{
+//                            [self letterSort:self.sectionList];
+//                        }
+//                            break;
+//                        default:
+//                            break;
+//                    }
+//                    [self displayNewView];
+//                }
+//            }
+//        });
+//    });
+//}
+//-(void)getSearchLessonInfoDidFailed:(NSString *)errorMsg {
+////    [MBProgressHUD dismiss];
+//    [Utility errorAlert:errorMsg];
+//}
 
 
 #pragma mark --CollectionViewDelegate
@@ -204,9 +247,6 @@
     return cell;
 }
 //绘制cell  (注:  160*153)
-//- (void) drawCollectionViewCell:(UICollectionViewCell *) cell index:(NSInteger) row{
-//    
-//}
 
 - (void) cellClicked:(id)sender{
     [self.searchBar.searchTextField resignFirstResponder];
@@ -239,6 +279,8 @@
         }
     }
 }
+
+
 
 //最近播放(默认)
 - (void)tappedInToolbar:(CJTMainToolbar_iPhone *)toolbar recentButton:(UIButton *) button{
@@ -279,6 +321,22 @@
             [self displayNewView];
         }
     }
+}
+
+#pragma mark arctions
+-(void)reloadDataWithDataArray:(NSArray*)data withCategoryId:(NSString*)lessonCategoryId{
+    self.sectionList = [NSMutableArray arrayWithArray:data];
+    dispatch_async(dispatch_get_main_queue(),  ^{
+        [self.collectionView reloadData];
+    });
+}
+
+//加载下一页数据
+-(void)loadNextPageDataWithDataArray:(NSArray*)data withCategoryId:(NSString*)lessonCategoryId{
+    [self.sectionList addObjectsFromArray:data];
+    dispatch_async(dispatch_get_main_queue(),  ^{
+        [self.collectionView reloadData];
+    });
 }
 
 #pragma mark-- 筛选
@@ -388,10 +446,11 @@
             [Utility errorAlert:@"暂无网络!"];
         }else {
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            self.oldSearchText = searchText;
             SearchLessonInterface *searchLessonInter = [[SearchLessonInterface alloc]init];
             self.searchInterface = searchLessonInter;
             self.searchInterface.delegate = self;
-            [self.searchInterface getSearchLessonInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:[self.searchBar.searchTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] withPageIndex:0 withSortType:LESSONSORTTYPE_CurrentStudy];
+            [self.searchInterface getSearchLessonInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:[self.searchBar.searchTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] withPageIndex:0 withSortType:self.sortType];
         }
     }
 }
@@ -450,6 +509,51 @@
     });
 }
 
+#pragma mark LessonListForCategoryDelegate 根据分类获取课程信息
+-(void)getLessonListDataForCategoryDidFinished:(NSArray *)lessonList withCurrentPageIndex:(int)pageIndex withTotalCount:(int)allDataCount{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        self.lessonListForCategory.currentPageIndex = 0;
+        self.isSearch = NO;
+        [self reloadDataWithDataArray:lessonList withCategoryId:self.lessonListForCategory.lessonCategoryId];
+    });
+}
+
+-(void)getLessonListDataForCategoryFailure:(NSString *)errorMsg{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [Utility errorAlert:errorMsg];
+    });
+}
+
+#pragma mark DRTreeTableViewDelegate //选择一个分类
+-(void)drTreeTableView:(DRTreeTableView *)treeView didSelectedTreeNode:(DRTreeNode *)selectedNote{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    UserModel *user = [[CaiJinTongManager shared] user];
+    [self.lessonListForCategory downloadLessonListForCategoryId:selectedNote.noteContentID withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
+}
+
+-(BOOL)drTreeTableView:(DRTreeTableView *)treeView isExtendChildSelectedTreeNode:(DRTreeNode *)selectedNote{
+    return YES;
+}
+
+#pragma mark MJRefreshBaseViewDelegate 分页加载
+-(void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView{
+    if (self.isSearch) {
+        [self.searchInterface getSearchLessonInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andText:self.oldSearchText withPageIndex:self.searchInterface.currentPageIndex+1 withSortType:self.sortType];
+    }else{
+        if (self.headerRefreshView == refreshView) {
+            self.footerRefreshView.isForbidden = YES;
+            UserModel *user = [[CaiJinTongManager shared] user];
+            [self.lessonListForCategory downloadLessonListForCategoryId:nil withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
+        }else{
+            self.headerRefreshView.isForbidden = YES;
+            UserModel *user = [[CaiJinTongManager shared] user];
+            [self.lessonListForCategory downloadLessonListForCategoryId:self.lessonListForCategory.lessonCategoryId withUserId:user.userId withPageIndex:self.lessonListForCategory.currentPageIndex+1 withSortType:self.sortType];
+        }
+    }
+}
+
 #pragma  mark property
 
 -(DRTreeTableView *)drTreeTableView{
@@ -466,6 +570,33 @@
         _lessonCategoryInterface.delegate = self;
     }
     return _lessonCategoryInterface;
+}
+
+-(LessonListForCategory *)lessonListForCategory{
+    if (!_lessonListForCategory) {
+        _lessonListForCategory = [[LessonListForCategory alloc] init];
+        _lessonListForCategory.delegate = self;
+    }
+    return _lessonListForCategory;
+}
+
+-(MJRefreshHeaderView *)headerRefreshView{
+    if (!_headerRefreshView) {
+        _headerRefreshView = [[MJRefreshHeaderView alloc] init];
+        _headerRefreshView.scrollView = self.collectionView;
+        _headerRefreshView.delegate = self;
+    }
+    return _headerRefreshView;
+}
+
+-(MJRefreshFooterView *)footerRefreshView{
+    if (!_footerRefreshView) {
+        _footerRefreshView = [[MJRefreshFooterView alloc] init];
+        _footerRefreshView.delegate = self;
+        _footerRefreshView.scrollView = self.collectionView;
+        
+    }
+    return _footerRefreshView;
 }
 
 - (void)didReceiveMemoryWarning

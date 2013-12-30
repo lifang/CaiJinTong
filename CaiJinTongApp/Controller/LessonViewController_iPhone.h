@@ -19,12 +19,13 @@
 #import "LHLNavigationBarViewController.h"
 #import "SectionViewController_iPhone.h"
 #import "MenuTableViewController.h"
+#import "MJRefresh.h"
 typedef enum{
     recent = 1,
     progress,
     a_z
 } FilterStatus;
-@interface LessonViewController_iPhone : LHLNavigationBarViewController<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,ChapterInfoInterfaceDelegate,CJTMainToolbar_iPhoneDelegate,SearchLessonInterfaceDelegate,ChapterSearchBarDelegate_iPhone,SectionInfoInterfaceDelegate,LessonCategoryInterfaceDelegate,DRTreeTableViewDelegate>
+@interface LessonViewController_iPhone : LHLNavigationBarViewController<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,ChapterInfoInterfaceDelegate,CJTMainToolbar_iPhoneDelegate,SearchLessonInterfaceDelegate,ChapterSearchBarDelegate_iPhone,SectionInfoInterfaceDelegate,LessonCategoryInterfaceDelegate,DRTreeTableViewDelegate,LessonListForCategoryDelegate,MJRefreshBaseViewDelegate>
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong,nonatomic) UIScrollView *myScrollView;
 
@@ -45,5 +46,9 @@ typedef enum{
 @property (strong,nonatomic) SectionInfoInterface *sectionInfoInterface;
 @property (strong,nonatomic) SearchLessonInterface *searchInterface;
 @property (nonatomic, strong) ChapterSearchBar_iPhone *searchBar;
+@property (nonatomic,strong) NSString *oldSearchText;//搜索之前字符串
+
 @property (strong,nonatomic) CJTMainToolbar_iPhone *mainToolBar;
+
+@property (assign,nonatomic) LESSONSORTTYPE sortType;
 @end
