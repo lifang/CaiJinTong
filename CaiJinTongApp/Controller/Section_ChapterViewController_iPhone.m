@@ -26,8 +26,15 @@
     return self;
 }
 
+-(void)changeTableFrame:(CGRect)frame{
+    self.tableViewList.frame = frame;
+//    self.tableViewList.center = (CGPoint){self.tableViewList.center.x-233,self.tableViewList.center.y};
+    [self.tableViewList reloadData];
+}
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
+//    self.tableViewList.center = (CGPoint){self.tableViewList.center.x-233,self.tableViewList.center.y};
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

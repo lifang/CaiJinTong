@@ -8,18 +8,21 @@
 
 #import "CJTMainToolbar_iPhone.h"
 
-#define LABEL_X 4
-#define BUTTON_X 8.0f
-#define BUTTON_Y 6.0f
-#define BUTTON_SPACE 20.0f
-#define BUTTON_HEIGHT 30.0f
+#define X frame.origin.x
+#define Y frame.origin.y
+#define WIDTH frame.size.width
+#define HEIGHT frame.size.height
 
-#define LABEL_WIDTH 24.0f
-#define RECENT_BUTTON_WIDTH 102.0f
-#define PROGRESS_BUTTON_WIDTH 60.0f
-#define NAME_BUTTON_WIDTH 75.0f
+#define LABEL_X ((WIDTH - RECENT_BUTTON_WIDTH - PROGRESS_BUTTON_WIDTH - NAME_BUTTON_WIDTH - 2 * BUTTON_SPACE ) )
+#define BUTTON_Y (HEIGHT / 4)
+#define BUTTON_SPACE (WIDTH / 14)
+#define BUTTON_HEIGHT (HEIGHT / 2)
 
-#define FONT_SIZE 15.0f
+#define RECENT_BUTTON_WIDTH (WIDTH * 102 / 281)
+#define PROGRESS_BUTTON_WIDTH (60 * WIDTH / 281)
+#define NAME_BUTTON_WIDTH (75 * WIDTH / 281)
+
+#define FONT_SIZE ((CGFloat) round(WIDTH * 15.0 / 281))
 
 #define RECENT_TAG 12345
 #define PROGRESS_TAG 12346
@@ -31,9 +34,7 @@
     if ((self = [super initWithFrame:frame])) {
         [self setBackgroundColor:[UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:232.0/255.0 alpha:1.0]];
         [self.layer setCornerRadius:3.0f];
-		CGFloat leftButtonX = BUTTON_X;
-        
-        leftButtonX = LABEL_X;
+		CGFloat leftButtonX = LABEL_X;
         //默认(最近播放)
         UIButton *recentPlayBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         recentPlayBtn.frame = CGRectMake(leftButtonX, BUTTON_Y, RECENT_BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -42,6 +43,7 @@
 		[recentPlayBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [recentPlayBtn addTarget:self action:@selector(recentButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
 		recentPlayBtn.titleLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
+        DLog(@"%f大大大大大大大",FONT_SIZE);
 		recentPlayBtn.autoresizingMask = UIViewAutoresizingNone;
 		[self addSubview:recentPlayBtn];
         

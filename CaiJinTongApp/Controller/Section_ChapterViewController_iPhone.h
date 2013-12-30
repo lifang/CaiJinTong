@@ -12,4 +12,5 @@
 @property (strong, nonatomic) IBOutlet UITableView *tableViewList;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 - (void)viewDidCurrentView;
+-(void)changeTableFrame:(CGRect)frame;
 @end

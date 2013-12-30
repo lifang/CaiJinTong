@@ -13,7 +13,6 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
     }
     return self;
 }
@@ -29,7 +28,7 @@
     SectionSaveModel *sectionSave = (SectionSaveModel *)[info.userInfo objectForKey:@"SectionSaveModel"];
     if ([self.sid isEqualToString:sectionSave.sid]) {
         self.pv = sectionSave.downloadPercent;
-        self.sliderFrontView.frame = CGRectMake(0, 37, 277 * self.pv, 111);
+        self.sliderFrontView.frame = CGRectMake(0, 37, self.contentView.frame.size.width * self.pv, 111);
         //查询数据库
         Section *sectionDb = [[Section alloc]init];
         float contentlength = [sectionDb getContentLengthBySid:sectionSave.sid];

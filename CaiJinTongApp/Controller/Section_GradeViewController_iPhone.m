@@ -47,19 +47,22 @@
 -(void)displayView {
     if (self.isGrade == 0) {//有打分界面
         if (!self.starRatingView) {
-            TQStarRatingView_iPhone *starRating = [[TQStarRatingView_iPhone alloc] initWithFrame:CGRectMake(22, 0, 276, 44) numberOfStar:5];
+            TQStarRatingView_iPhone *starRating = [[TQStarRatingView_iPhone alloc] initWithFrame:CGRectMake(22, 0, 276, IP5(44, 34)) numberOfStar:5];
             starRating.delegate = self;
             starRating.backgroundColor = [UIColor colorWithRed:246.0/255.0 green:246.0/255.0 blue:246.0/255.0 alpha:1.0];
             [self.view addSubview:starRating];
             self.starRatingView = starRating;
         }
         
-        self.textView.frame = CGRectMake(22, self.starRatingView.frame.origin.y + 44, 276, 53);
+        self.textView.frame = CGRectMake(22,CGRectGetMaxY(self.starRatingView.frame), 276,IP5(53, 43));
         
         self.myComment.frame = CGRectMake(22, self.submitBtn.frame.origin.y+40, 100, 30);
         self.tableViewList.frame =  CGRectMake(22, self.myComment.frame.origin.y+40, 276, self.view.frame.size.height-self.submitBtn.frame.origin.y-60);
         [self.submitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [self.submitBtn setBackgroundImage:[UIImage imageNamed:@"btn0.png"] forState:UIControlStateNormal];
+        if(!IS_4_INCH){
+            [self.submitBtn setFrame:CGRectMake(110, 88, 100, 27)];
+        }
         self.textView.backgroundColor = [UIColor colorWithRed:238.0/255.0 green:238.0/255.0 blue:238.0/255.0 alpha:1.0];
     }else {//隐藏打分界面
         NSArray *subViews = [self.view subviews];
@@ -81,7 +84,7 @@
             }
         }
         self.myComment.frame = CGRectMake(22, 0, 100, 16);
-        self.tableViewList.frame =  CGRectMake(22, self.myComment.frame.origin.y+15, 276, 141 - self.myComment.frame.size.height);
+        self.tableViewList.frame =  CGRectMake(22, self.myComment.frame.origin.y+15, 276,self.view.frame.size.height - 15);
         [self.view layoutSubviews];
         [self.tableViewList reloadData];
     }

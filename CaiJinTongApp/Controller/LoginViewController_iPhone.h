@@ -19,4 +19,5 @@
 - (IBAction)hideKeyboard:(id)sender;
 
 @property (nonatomic,strong) LogInterface *logInterface;
+@property (nonatomic,strong) LessonViewController *lessonView;
 @end

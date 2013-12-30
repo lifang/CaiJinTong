@@ -8,9 +8,6 @@
 
 #import "SectionViewController_iPhone.h"
 
-@interface SectionViewController_iPhone ()
-
-@end
 
 @implementation SectionViewController_iPhone
 
@@ -50,7 +47,47 @@
 }
 
 - (void)playVideo:(id) sender{
-    
+    DLog(@"play");
+    self.path = nil;//视频路径
+    //先匹配本地,在数据库中查找纪录
+    Section *sectionDb = [[Section alloc]init];
+    SectionSaveModel *sectionSave = [sectionDb getDataWithSid:self.section.sectionId];
+    if (sectionSave != nil && sectionSave.downloadState == 1) {
+        NSString *documentDir;
+        if (platform>5.0) {
+            documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        }else{
+            documentDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        }
+        self.path = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@.mp4",self.section.sectionId]];
+        
+        self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
+        
+        [self.playerController playMovieWithURL:[NSURL fileURLWithPath:self.path] withFileType:MPMovieSourceTypeFile];
+        self.playerController.sectionId = self.section.sectionId;
+        self.playerController.sectionModel = self.section;
+        
+        self.playerController.delegate = self;
+        AppDelegate *app = [AppDelegate sharedInstance];
+        [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
+            
+        }];
+    }else {
+        //在线播放
+        self.path = self.section.sectionSD;
+        if (self.path) {
+            if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+                [Utility errorAlert:@"暂无网络!"];
+            }else {
+                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                PlayVideoInterface *playVideoInter = [[PlayVideoInterface alloc]init];
+                self.playVideoInterface = playVideoInter;
+                self.playVideoInterface.delegate = self;
+                NSString *timespan = [Utility getNowDateFromatAnDate];
+                [self.playVideoInterface getPlayVideoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.section.sectionId andTimeStart:timespan];
+            }
+        }
+    }
 }
 
 #pragma mark - 滑动tab视图代理方法
@@ -127,13 +164,19 @@
 //界面上半部分
 - (void)initAppear {
     if (self.section) {
+        //访问view属性,激活view
+        NSLog(@"%f",self.view.frame.origin.x);
+        
+        //bar标题
+        self.lhlNavigationBar.title.text = self.section.sectionName;
+        
         //封面
-        SectionCustomView_iPhone *sv = [[SectionCustomView_iPhone alloc]initWithFrame:CGRectMake(18, 75, 125, 125) andSection:self.section andItemLabel:0];
+        SectionCustomView_iPhone *sv = [[SectionCustomView_iPhone alloc]initWithFrame:CGRectMake(18, IP5(75, 60), 125, 125) andSection:self.section andItemLabel:0];
         self.sectionView = sv;
         
         [self.view addSubview:self.sectionView];
         //显示分数
-        CustomLabel_iPhone *scoreLabel = [[CustomLabel_iPhone alloc]initWithFrame:CGRectMake(245, 80, 55, 55)];
+        CustomLabel_iPhone *scoreLabel = [[CustomLabel_iPhone alloc]initWithFrame:CGRectMake(245, IP5(80, 65), 55, 55)];
         scoreLabel.backgroundColor = [UIColor colorWithRed:12.0/255.0 green:58.0/255.0 blue:94.0/255.0 alpha:1.0f];
         scoreLabel.text =[NSString stringWithFormat:@"%.1f",[self.section.sectionScore floatValue]];
         scoreLabel.layer.cornerRadius = 12;
@@ -145,8 +188,8 @@
         scoreLabel = nil;
         
         //显示参数
-        CGFloat labelTop = 145;
-        CGFloat labelSpace = 3;
+        CGFloat labelTop = IP5(145, 125);
+        CGFloat labelSpace = IP5(3, 2);
         //标题
         UILabel *nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(152, labelTop, 165, 30)];
         nameLabel.backgroundColor = [UIColor clearColor];
@@ -158,17 +201,15 @@
         nameLabel = nil;
         labelTop +=self.nameLab.frame.size.height+labelSpace;
         //讲师
-//        if (self.section.sectionTeacher.length >0) {
-            UILabel *teacherLabel = [[UILabel alloc]initWithFrame:CGRectMake(152, labelTop, 165, 30)];
-            teacherLabel.backgroundColor = [UIColor clearColor];
-            teacherLabel.textColor = [UIColor darkGrayColor];
-            teacherLabel.font = [UIFont systemFontOfSize:15];
-            teacherLabel.text =[NSString stringWithFormat:@"讲师：%@",self.section.sectionTeacher];
-            self.teacherlab = teacherLabel;
-            [self.view addSubview:self.teacherlab];
-            teacherLabel = nil;
-            labelTop +=self.teacherlab.frame.size.height+labelSpace;
-//        }
+        UILabel *teacherLabel = [[UILabel alloc]initWithFrame:CGRectMake(152, labelTop, 165, 30)];
+        teacherLabel.backgroundColor = [UIColor clearColor];
+        teacherLabel.textColor = [UIColor darkGrayColor];
+        teacherLabel.font = [UIFont systemFontOfSize:15];
+        teacherLabel.text =[NSString stringWithFormat:@"讲师：%@",self.section.sectionTeacher];
+        self.teacherlab = teacherLabel;
+        [self.view addSubview:self.teacherlab];
+        teacherLabel = nil;
+        labelTop +=self.teacherlab.frame.size.height+labelSpace;
         //简介
 //        if (self.section.lessonInfo.length >0) {
             UIFont *aFont = [UIFont systemFontOfSize:15];
@@ -239,7 +280,7 @@
             labelTop = 200;
         }
         UIButton *palyButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        palyButton.frame = CGRectMake(18, labelTop + 8, 283, 33);
+        palyButton.frame = CGRectMake(18, labelTop + IP5(8, -2), 283, IP5(33, 30));
         [palyButton setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
         [palyButton setBackgroundColor:[UIColor clearColor]];
 		[palyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -254,6 +295,10 @@
 
 //界面下半部分
 - (void)initAppear_slide{
+    if(!(IS_4_INCH)){
+        //43为上半部分减少的高度 , 88 - 43 = 5 + 40
+        self.slideSwitchView.frame = CGRectMake(0, 362 - 43 -5, 320, 206 - 40);
+    }
     self.slideSwitchView.backgroundColor = [UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:232.0/255.0 alpha:1.0];
     //3个选项卡
     self.slideSwitchView.tabItemNormalColor = [SUNSlideSwitchView_iPhone colorFromHexRGB:@"868686"];
@@ -266,6 +311,8 @@
     //章节页面
     self.section_ChapterView = [story instantiateViewControllerWithIdentifier:@"Section_ChapterViewController_iPhone"];
     self.section_ChapterView.title = @"章节目录";
+    [self.section_ChapterView.view frame];
+    [self.section_ChapterView.tableViewList setFrame:CGRectMake(22, 0, 276, self.slideSwitchView.frame.size.height - IP5(63, 53))];
     self.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:self.section.sectionList];
     [self.section_ChapterView.tableViewList reloadData];
     
@@ -285,6 +332,8 @@
     //笔记页面
     self.section_NoteView = [story instantiateViewControllerWithIdentifier:@"Section_NoteViewController_iPhone"];
     self.section_NoteView.title = @"笔记";
+    [self.section_NoteView.view frame];
+    [self.section_NoteView.tableViewList setFrame:CGRectMake(22, 0, 276, self.slideSwitchView.frame.size.height - IP5(63, 53))];
     self.section_NoteView.dataArray = [NSMutableArray arrayWithArray:self.section.noteList];
     
     [self.slideSwitchView buildUI];
@@ -308,6 +357,42 @@
 -(void)getSectionInfoDidFailed:(NSString *)errorMsg {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
+}
+
+#pragma mark -- PlayVideoInterfaceDelegate
+-(void)getPlayVideoInfoDidFinished {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            //播放接口
+            DLog(@"self.storyboard = %@",self.storyboard);
+            self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
+            [self.playerController playMovieWithURL:[NSURL URLWithString:self.path] withFileType:MPMovieSourceTypeStreaming];
+            self.playerController.sectionId = self.section.sectionId;
+            self.playerController.sectionModel = self.section;
+            
+            self.playerController.delegate = self;
+            AppDelegate *app = [AppDelegate sharedInstance];
+            [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
+                
+            }];
+        });
+    });
+}
+-(void)getPlayVideoInfoDidFailed:(NSString *)errorMsg {
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [Utility errorAlert:errorMsg];
+}
+
+#pragma mark DRMoviePlayViewControllerDelegate 提交笔记成功
+-(void)lhlMoviePlayerViewController:(LHLMoviePlayViewController *)playerController commitNotesSuccess:(NSString *)noteText andTime:(NSString *)noteTime{
+    if (self.section_NoteView) {
+        NoteModel *note = [[NoteModel alloc] init];
+        note.noteTime = noteTime;
+        note.noteText = noteText;
+        [self.section_NoteView.dataArray insertObject:note atIndex:0];
+        [self.section_NoteView.tableViewList reloadData];
+    }
 }
 
 #pragma mark

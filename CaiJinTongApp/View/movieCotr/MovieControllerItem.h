@@ -11,7 +11,7 @@
 @interface MovieControllerItem : UIControl
 @property (weak,nonatomic) IBOutlet UIImageView *movieItemImageView;
 @property (weak,nonatomic) IBOutlet UILabel *movieItemTitleLabel;
-@property (weak,nonatomic) id<MovieControllerItemDelegate> delegate;
+@property (weak,nonatomic) IBOutlet id<MovieControllerItemDelegate> delegate;
 @property (assign,nonatomic) BOOL isSelected;
 @end
 

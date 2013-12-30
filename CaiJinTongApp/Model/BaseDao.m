@@ -39,7 +39,7 @@
             self.dbPath = dbPath;
         }else{
             
-            //如果系统是5.0及其以上这么干
+            //如果系统是5.0及其以下这么干
             NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
             NSString *documentDirectory = [paths objectAtIndex:0];
             
