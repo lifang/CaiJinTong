@@ -254,6 +254,8 @@
     if([[Utility isExistenceNetwork] isEqualToString:@"NotReachable"]){
         [Utility errorAlert:@"暂无网络!"];
     }else{
+        UserModel *user = [[CaiJinTongManager shared] user];
+        [self.lessonInterface downloadLessonInfoWithLessonId:lessonId withUserId:user.userId];
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         SectionInfoInterface *sectionInfoInterface = [[SectionInfoInterface alloc] init];
         self.sectionInfoInterface = sectionInfoInterface;
@@ -435,6 +437,22 @@
     [Utility errorAlert:errorMsg];
 }
 
+#pragma mark 
+
+#pragma mark-- LessonInfoInterfaceDelegate加载课程详细信息
+-(void)getLessonInfoDidFinished:(LessonModel*)lesson{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+        SectionViewController_iPhone *sectionView = [story instantiateViewControllerWithIdentifier:@"SectionViewController_iPhone"];
+        sectionView.lessonModel = lesson;
+        [self.navigationController pushViewController:sectionView animated:YES];
+    });
+}
+-(void)getLessonInfoDidFailed:(NSString *)errorMsg{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [Utility errorAlert:errorMsg];
+}
 
 #pragma mark -- search Bar delegate
 -(void)chapterSeachBar_iPhone:(ChapterSearchBar_iPhone *)searchBar beginningSearchString:(NSString *)searchText{
