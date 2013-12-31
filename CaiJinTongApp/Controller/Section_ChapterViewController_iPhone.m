@@ -67,7 +67,7 @@
                                                  name:@"stopDownLoad"
                                                object:nil];
     
-    [self.tableViewList registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"header"];
+//    [self.tableViewList registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"header"];
     
 }
 
@@ -93,10 +93,13 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return ((chapterModel *)self.dataArray[section]).sectionList.count;
+    NSInteger rows = ((chapterModel *)self.dataArray[section]).sectionList.count;
+    NSLog(@"%i",rows);
+    return rows;
 }
 
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+
+-(UITableViewHeaderFooterView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UITableViewHeaderFooterView *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"header"];
     chapterModel *chapter = [self.dataArray objectAtIndex:section];
     header.textLabel.text = chapter.chapterName;

@@ -311,7 +311,7 @@
     [self.section_ChapterView.view frame];
     [self.section_ChapterView.tableViewList setFrame:CGRectMake(22, 0, 276, self.slideSwitchView.frame.size.height - IP5(63, 53))];
     self.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:self.section.sectionList];
-    [self.section_ChapterView.tableViewList reloadData];
+//    [self.section_ChapterView.tableViewList reloadData];
     
     //评价页面
     AppDelegate *app = [AppDelegate sharedInstance];
