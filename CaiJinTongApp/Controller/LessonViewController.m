@@ -200,7 +200,6 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             [Utility errorAlert:@"暂无网络!"];
         }else {
             self.isSearching = YES;
-//            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             if (self.listType == LESSON_LIST) {
                 SearchLessonInterface *searchLessonInter = [[SearchLessonInterface alloc]init];
                 self.searchLessonInterface = searchLessonInter;

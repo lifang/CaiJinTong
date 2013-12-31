@@ -16,6 +16,7 @@
 #import "Section_GradeViewController_iPhone.h"
 #import "CommentModel.h"
 #import "LHLMoviePlayViewController.h"
+#import "LessonModel+toSection.h"
 
 @interface SectionViewController_iPhone : LHLNavigationBarViewController<SUNSlideSwitchView_iPhoneDelegate,UIScrollViewDelegate,SectionInfoInterfaceDelegate,LHLMoviePlayViewControllerDelegate,PlayVideoInterfaceDelegate>
 

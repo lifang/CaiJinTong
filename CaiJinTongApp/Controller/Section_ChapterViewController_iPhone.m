@@ -67,7 +67,7 @@
                                                  name:@"stopDownLoad"
                                                object:nil];
     
-    
+    [self.tableViewList registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"header"];
     
 }
 
@@ -88,15 +88,28 @@
     // Dispose of any resources that can be recreated.
 }
 #pragma mark -- tableViewDelegate
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return [self.dataArray count];
+}
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.dataArray.count;
+    return ((chapterModel *)self.dataArray[section]).sectionList.count;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    UITableViewHeaderFooterView *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"header"];
+    chapterModel *chapter = [self.dataArray objectAtIndex:section];
+    header.textLabel.text = chapter.chapterName;
+    header.textLabel.font = [UIFont systemFontOfSize:18];
+    return header;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Section_ChapterCell_iPhone";
     Section_ChapterCell_iPhone *cell = (Section_ChapterCell_iPhone *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    Section_chapterModel *section = (Section_chapterModel *)[self.dataArray objectAtIndex:indexPath.row];
+    chapterModel *chapter = (chapterModel *)[self.dataArray objectAtIndex:indexPath.section];
+    SectionModel *section = [chapter.sectionList objectAtIndex:indexPath.row];
     
     cell.nameLab.text = [NSString stringWithFormat:@"【%@】",section.sectionName];
     cell.sid = section.sectionId;

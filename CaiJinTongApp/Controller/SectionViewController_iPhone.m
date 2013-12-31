@@ -24,9 +24,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-//    [self initData];
-    
 }
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -324,8 +321,10 @@
         self.section_GradeView.dataArray = [NSMutableArray arrayWithArray:self.section.commentList];
         self.section_GradeView.isGrade = [self.section.isGrade intValue];
         self.section_GradeView.sectionId = self.section.sectionId;
-        CommentModel *comment = (CommentModel *)[self.section_GradeView.dataArray objectAtIndex:self.section_GradeView.dataArray.count-1];
-        self.section_GradeView.pageCount = comment.pageCount;
+        if(self.section_GradeView.dataArray.count > 0){
+            CommentModel *comment = (CommentModel *)[self.section_GradeView.dataArray objectAtIndex:self.section_GradeView.dataArray.count-1];
+            self.section_GradeView.pageCount = comment.pageCount;
+        }
         self.section_GradeView.nowPage = 1;
     }
     
@@ -334,7 +333,7 @@
     self.section_NoteView.title = @"笔记";
     [self.section_NoteView.view frame];
     [self.section_NoteView.tableViewList setFrame:CGRectMake(22, 0, 276, self.slideSwitchView.frame.size.height - IP5(63, 53))];
-    self.section_NoteView.dataArray = [NSMutableArray arrayWithArray:self.section.noteList];
+//    self.section_NoteView.dataArray = [NSMutableArray arrayWithArray:self.section.sectionList];
     
     [self.slideSwitchView buildUI];
 }
@@ -395,7 +394,15 @@
     }
 }
 
-#pragma mark
+#pragma mark property
+//setter自动转换LessonModel参数为Section
+-(void)setSection:(SectionModel *)section{
+    if([section isKindOfClass:[LessonModel class]]){
+        _section = ((LessonModel *)section).toSection;
+    }else{
+        _section = section;
+    }
+}
 
 - (void)didReceiveMemoryWarning
 {
