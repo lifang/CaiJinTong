@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SectionSaveModel.h"
 #import "SectionInfoInterface.h"
-@interface CustomButton : UIButton<SectionInfoInterfaceDelegate>
+@interface CustomButton : UIButton<SectionInfoInterfaceDelegate,UIAlertViewDelegate>
 @property (nonatomic, assign) BOOL isMovieView;//是否在播放界面显示
 @property (nonatomic, strong) SectionSaveModel *buttonModel;
 @property (nonatomic, strong) SectionInfoInterface *sectionInterface;

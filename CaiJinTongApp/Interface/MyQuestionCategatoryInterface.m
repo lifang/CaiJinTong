@@ -9,19 +9,11 @@
 #import "MyQuestionCategatoryInterface.h"
 
 @implementation MyQuestionCategatoryInterface
--(void)downloadMyQuestionCategoryDataWithUserId:(NSString*)userId withQuestionType:(QuestionAndAnswerScope)scope{
+-(void)downloadMyQuestionCategoryDataWithUserId:(NSString*)userId{
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
-    self.questionScope = scope;
-//http://lms.finance365.com/api/ios.ashx?active=getMyQuestionCategory&userId=17082&type=1
-    NSString *type= @"1";//1:表示我的提问。2:表示我的回答
-    if (scope == QuestionAndAnswerMYANSWER) {
-        type = @"2";
-    }else if (scope == QuestionAndAnswerMYQUESTION){
-    type = @"1";
-    }
-    
-    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=getMyQuestionCategory&userId=%@&type=%@",kHost,userId,type];
+//    http://lms.finance365.com/api/ios.ashx?active=getMyQuestionCategory&userId=17082
+    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=getMyQuestionCategory&userId=%@",kHost,userId];
     self.baseDelegate = self;
     self.headers = reqheaders;
     
@@ -43,15 +35,15 @@
                     if ([[jsonData objectForKey:@"Status"]intValue] == 1) {
                         @try {
                             NSDictionary *dictionary =[jsonData objectForKey:@"ReturnObject"];
+                            NSArray *questionCategory =nil;
                             if (dictionary) {
                                 //课程分类
-                                if (self.questionScope == QuestionAndAnswerMYANSWER) {
-                                    [self.delegate getMyQuestionCategoryDataDidFinished:[MyQuestionCategatoryInterface getTreeNodeArrayFromArray:[dictionary objectForKey:@"questionList"] withRootContentID:@"-3"] withQuestionType:self.questionScope];
-                                }else{
-                                [self.delegate getMyQuestionCategoryDataDidFinished:[MyQuestionCategatoryInterface getTreeNodeArrayFromArray:[dictionary objectForKey:@"questionList"] withRootContentID:@"-1"] withQuestionType:self.questionScope];
-                                }
-                            }else {
-                                [self.delegate getMyQuestionCategoryDataFailure:@"加载我的问答分类失败"];
+                                questionCategory = [MyQuestionCategatoryInterface getTreeNodeArrayFromArray:[dictionary objectForKey:@"mycategoryList"] withRootContentID:@"-1"];
+                            }
+                            
+                            NSArray *myAnswerCategoryArr = [MyQuestionCategatoryInterface getTreeNodeArrayFromArray:[jsonData objectForKey:@"myanswercategoryList"] withRootContentID:@"-3"];
+                            if (self.delegate && [self.delegate respondsToSelector:@selector(getMyQuestionCategoryDataDidFinishedWithMyAnswerCategorynodes:withMyQuestionCategorynodes:)]) {
+                                [self.delegate getMyQuestionCategoryDataDidFinishedWithMyAnswerCategorynodes:myAnswerCategoryArr withMyQuestionCategorynodes:questionCategory];
                             }
                         }
                         @catch (NSException *exception) {

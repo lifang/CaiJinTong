@@ -58,11 +58,27 @@
     [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [self.noticeBarImageView.layer setCornerRadius:4];
 }
-//数据源
+////数据源
 -(void)reloadDataWithDataArray:(NSArray*)data withQuestionChapterID:(NSString*)chapterID withScope:(QuestionAndAnswerScope)scope{
     self.questionAndAnswerScope = scope;
     self.chapterID = chapterID;
     self.myQuestionArr = [NSMutableArray arrayWithArray:data];
+    self.headerRefreshView.isForbidden = NO;
+    self.footerRefreshView.isForbidden = NO;
+    [self.headerRefreshView endRefreshing];
+    [self.footerRefreshView endRefreshing];
+    
+    
+    if (self.myQuestionArr.count>0) {
+        [self.tableView reloadData];
+    }
+}
+
+//数据源
+-(void)nextPageDataWithDataArray:(NSArray*)data withQuestionChapterID:(NSString*)chapterID withScope:(QuestionAndAnswerScope)scope{
+    self.questionAndAnswerScope = scope;
+    self.chapterID = chapterID;
+    [self.myQuestionArr addObjectsFromArray:data];
     self.headerRefreshView.isForbidden = NO;
     self.footerRefreshView.isForbidden = NO;
     [self.headerRefreshView endRefreshing];
@@ -316,7 +332,8 @@
             if (self.questionAndAnswerScope == QuestionAndAnswerMYQUESTION) {
                 [self.userQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:user.userId andIsMyselfQuestion:@"0" andLastQuestionID:lastQuestionID withCategoryId:self.chapterID];
             }else if (self.questionAndAnswerScope == QuestionAndAnswerSearchQuestion){
-                [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:user.userId andText:self.searchQuestionText withPageIndex:self.question_pageIndex+1];
+                QuestionModel *question = [self.myQuestionArr lastObject];
+                [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:user.userId andText:self.searchQuestionText withLastQuestionId:question.questionId];
             }
 }
 
@@ -480,7 +497,12 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             self.question_pageIndex = self.question_pageIndex+1;
-            [self reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:self.chapterID withScope:QuestionAndAnswerSearchQuestion];
+            if (self.headerRefreshView.isForbidden) {//加载下一页
+                [self nextPageDataWithDataArray:chapterQuestionList withQuestionChapterID:self.chapterID withScope:QuestionAndAnswerSearchQuestion];
+            }else{//重新加载
+                [self reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:self.chapterID withScope:QuestionAndAnswerSearchQuestion];
+            }
+            
         });
     });
 }
@@ -560,7 +582,6 @@
                 }else{//重新加载
                     self.myQuestionArr = [NSMutableArray arrayWithArray:chapterQuestionList];
                 }
-                QuestionModel *question = [self.myQuestionArr  lastObject];
                 [self.tableView reloadData];
             }else{
                 [Utility errorAlert:@"数据为空"];
@@ -577,7 +598,6 @@
             NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
             if (chapterQuestionList && [chapterQuestionList count] > 0) {
                 self.myQuestionArr = [NSMutableArray arrayWithArray:chapterQuestionList];
-                QuestionModel *question = [self.myQuestionArr  lastObject];
                 [self.tableView reloadData];
             }else{
                 [Utility errorAlert:@"数据为空"];
