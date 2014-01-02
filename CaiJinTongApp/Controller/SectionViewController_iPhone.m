@@ -27,28 +27,30 @@
 }
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    [self initAppear];
+    [self initAppear_slide];
     
 }
 //装载数据,目标 :self.section
--(void) initData{
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
-    }else {
-//        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        if(!self.sectionInterface){
-            self.sectionInterface = [[SectionInfoInterface alloc] init];
-            self.sectionInterface.delegate = self;
-        }
-        [self.sectionInterface getSectionInfoInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andSectionId:@"2928"];
-    }
-}
+//-(void) initData{
+//    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+//        [Utility errorAlert:@"暂无网络!"];
+//    }else {
+////        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//        if(!self.sectionInterface){
+//            self.sectionInterface = [[SectionInfoInterface alloc] init];
+//            self.sectionInterface.delegate = self;
+//        }
+//        [self.sectionInterface getSectionInfoInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andSectionId:@"2928"];
+//    }
+//}
 
 - (void)playVideo:(id) sender{
     DLog(@"play");
     self.path = nil;//视频路径
     //先匹配本地,在数据库中查找纪录
-    Section *sectionDb = [[Section alloc]init];
-    SectionSaveModel *sectionSave = [sectionDb getDataWithSid:self.section.sectionId];
+    Section *section = [[Section alloc]init];
+    SectionSaveModel *sectionSave = [section getDataWithSid:self.section.sectionId];
     if (sectionSave != nil && sectionSave.downloadState == 1) {
         NSString *documentDir;
         if (platform>5.0) {
@@ -311,7 +313,6 @@
     [self.section_ChapterView.view frame];
     [self.section_ChapterView.tableViewList setFrame:CGRectMake(22, 0, 276, self.slideSwitchView.frame.size.height - IP5(63, 53))];
     self.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:self.section.sectionList];
-//    [self.section_ChapterView.tableViewList reloadData];
     
     //评价页面
     AppDelegate *app = [AppDelegate sharedInstance];
@@ -333,30 +334,30 @@
     self.section_NoteView.title = @"笔记";
     [self.section_NoteView.view frame];
     [self.section_NoteView.tableViewList setFrame:CGRectMake(22, 0, 276, self.slideSwitchView.frame.size.height - IP5(63, 53))];
-//    self.section_NoteView.dataArray = [NSMutableArray arrayWithArray:self.section.sectionList];
+    self.section_NoteView.dataArray = [NSMutableArray arrayWithArray:self.section.sectionList];
     
     [self.slideSwitchView buildUI];
 }
 
-#pragma mark -- SectionInfoInterface
--(void)getSectionInfoDidFinished:(SectionModel *)result {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        SectionModel *section = (SectionModel *)result;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            self.section = section;
-            self.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:self.section.sectionList];
-            [self.section_ChapterView.tableViewList reloadData];
-            [self initAppear];          //界面上半部分
-            [self initAppear_slide];    //界面下半部分(滑动视图)
-        });
-    });
-}
-
--(void)getSectionInfoDidFailed:(NSString *)errorMsg {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Utility errorAlert:errorMsg];
-}
+//#pragma mark -- SectionInfoInterface Delegate
+//-(void)getSectionInfoDidFinished:(SectionModel *)result {
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        SectionModel *section = (SectionModel *)result;
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [MBProgressHUD hideHUDForView:self.view animated:YES];
+//            self.section = section;
+//            self.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:self.section.sectionList];
+//            [self.section_ChapterView.tableViewList reloadData];
+//            [self initAppear];          //界面上半部分
+//            [self initAppear_slide];    //界面下半部分(滑动视图)
+//        });
+//    });
+//}
+//
+//-(void)getSectionInfoDidFailed:(NSString *)errorMsg {
+//    [MBProgressHUD hideHUDForView:self.view animated:YES];
+//    [Utility errorAlert:errorMsg];
+//}
 
 #pragma mark -- PlayVideoInterfaceDelegate
 -(void)getPlayVideoInfoDidFinished {

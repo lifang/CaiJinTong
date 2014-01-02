@@ -1,20 +1,22 @@
 //
-//  Section_ChapterViewController_iPhone.m
+//  Section_ChapterViewController_iPhone_Embed.m
 //  CaiJinTongApp
 //
-//  Created by apple on 13-11-29.
-//  Copyright (c) 2013年 david. All rights reserved.
+//  Created by apple on 14-1-2.
+//  Copyright (c) 2014年 david. All rights reserved.
 //
 
-#import "Section_ChapterViewController_iPhone.h"
+#import "Section_ChapterViewController_iPhone_Embed.h"
 #import "Section_ChapterCell_iPhone.h"
 #import "SectionModel.h"
 #import "SectionSaveModel.h"
 #import "Section.h"
-@interface Section_ChapterViewController_iPhone ()
+
+@interface Section_ChapterViewController_iPhone_Embed ()
 
 @end
-@implementation Section_ChapterViewController_iPhone
+
+@implementation Section_ChapterViewController_iPhone_Embed
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,13 +29,13 @@
 
 -(void)changeTableFrame:(CGRect)frame{
     self.tableViewList.frame = frame;
-//    self.tableViewList.center = (CGPoint){self.tableViewList.center.x-233,self.tableViewList.center.y};
+    //    self.tableViewList.center = (CGPoint){self.tableViewList.center.x-233,self.tableViewList.center.y};
     [self.tableViewList reloadData];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-//    self.tableViewList.center = (CGPoint){self.tableViewList.center.x-233,self.tableViewList.center.y};
+    //    self.tableViewList.center = (CGPoint){self.tableViewList.center.x-233,self.tableViewList.center.y};
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -105,11 +107,11 @@
 -(UITableViewHeaderFooterView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UITableViewHeaderFooterView *header = [[UITableViewHeaderFooterView alloc] init];
     chapterModel *chapter = [self.dataArray objectAtIndex:section];
-    UILabel *label = [[UILabel alloc] initWithFrame:(CGRect){0,1,276,15}];
+    UILabel *label = [[UILabel alloc] initWithFrame:(CGRect){0,0,276,15}];
     label.font = [UIFont systemFontOfSize:12];
     label.text = chapter.chapterName;
     label.textColor = [UIColor darkGrayColor];
-    label.backgroundColor = [ UIColor lightGrayColor];
+    label.backgroundColor = [ UIColor clearColor];
     [header.contentView addSubview:label];
     return header;
 }
@@ -159,4 +161,5 @@
     cell.timeLab.text = section.sectionLastTime;
     return cell;
 }
+
 @end

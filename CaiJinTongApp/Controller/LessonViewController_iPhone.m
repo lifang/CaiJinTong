@@ -557,12 +557,17 @@
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
         SectionViewController_iPhone *sectionView = [story instantiateViewControllerWithIdentifier:@"SectionViewController_iPhone"];
-        [sectionView.view frame];
         sectionView.section = (SectionModel *)lesson;
+//        NSMutableArray *a = [NSMutableArray arrayWithArray:sectionView.section.sectionList];
+//        Section_ChapterViewController_iPhone *scvc = [story instantiateViewControllerWithIdentifier:@"Section_ChapterViewController_iPhone"];
+//        scvc.dataArray = [NSMutableArray arrayWithArray:a];
+//        [scvc.view frame];
+//        [scvc.tableViewList setFrame:CGRectMake(22, 0, 276, 433)];
+//        [self.navigationController pushViewController:scvc animated:YES];
 //        sectionView.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:lesson.chapterList];
 //        [sectionView.section_ChapterView.tableViewList reloadData];
-        [sectionView initAppear];          //界面上半部分
-        [sectionView initAppear_slide];    //界面下半部分(滑动视图)
+//        [sectionView initAppear];          //界面上半部分
+//        [sectionView initAppear_slide];    //界面下半部分(滑动视图)
         [self.navigationController pushViewController:sectionView animated:YES];
     });
 }

@@ -204,6 +204,7 @@
 		184F8AA818432D0000A2FEB4 /* LessonViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 184F8AA718432D0000A2FEB4 /* LessonViewController_iPhone.m */; };
 		184F8AAF18434A3200A2FEB4 /* LHLNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 184F8AAE18434A3200A2FEB4 /* LHLNavigationBar.m */; };
 		185780DE187282210070CB0D /* LessonModel+toSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 185780DD187282210070CB0D /* LessonModel+toSection.m */; };
+		1864A83C1875383A00B26024 /* Section_ChapterViewController_iPhone_Embed.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864A83B1875383A00B26024 /* Section_ChapterViewController_iPhone_Embed.m */; };
 		189ED9D7184ED5D10029D8F1 /* TQStarRatingView_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 189ED9D6184ED5D10029D8F1 /* TQStarRatingView_iPhone.m */; };
 		189ED9DA184F17260029D8F1 /* Section_GradeCell_iPhoneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 189ED9D9184F17260029D8F1 /* Section_GradeCell_iPhoneCell.m */; };
 		189ED9DD184F196B0029D8F1 /* Section_NoteCell_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 189ED9DC184F196B0029D8F1 /* Section_NoteCell_iPhone.m */; };
@@ -671,6 +672,8 @@
 		184F8AAE18434A3200A2FEB4 /* LHLNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LHLNavigationBar.m; sourceTree = "<group>"; };
 		185780DC187282210070CB0D /* LessonModel+toSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LessonModel+toSection.h"; sourceTree = "<group>"; };
 		185780DD187282210070CB0D /* LessonModel+toSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LessonModel+toSection.m"; sourceTree = "<group>"; };
+		1864A83A1875383A00B26024 /* Section_ChapterViewController_iPhone_Embed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Section_ChapterViewController_iPhone_Embed.h; sourceTree = "<group>"; };
+		1864A83B1875383A00B26024 /* Section_ChapterViewController_iPhone_Embed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section_ChapterViewController_iPhone_Embed.m; sourceTree = "<group>"; };
 		189ED9D5184ED5D10029D8F1 /* TQStarRatingView_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TQStarRatingView_iPhone.h; sourceTree = "<group>"; };
 		189ED9D6184ED5D10029D8F1 /* TQStarRatingView_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TQStarRatingView_iPhone.m; sourceTree = "<group>"; };
 		189ED9D8184F17260029D8F1 /* Section_GradeCell_iPhoneCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Section_GradeCell_iPhoneCell.h; sourceTree = "<group>"; };
@@ -1432,6 +1435,8 @@
 				18F28C14184738B300692F90 /* SectionViewController_iPhone.m */,
 				18046A8C1848637300EB8BDA /* Section_ChapterViewController_iPhone.h */,
 				18046A8D1848637300EB8BDA /* Section_ChapterViewController_iPhone.m */,
+				1864A83A1875383A00B26024 /* Section_ChapterViewController_iPhone_Embed.h */,
+				1864A83B1875383A00B26024 /* Section_ChapterViewController_iPhone_Embed.m */,
 				18046A92184884D300EB8BDA /* Section_GradeViewController_iPhone.h */,
 				18046A93184884D300EB8BDA /* Section_GradeViewController_iPhone.m */,
 				18046A951848850700EB8BDA /* Section_NoteViewController_iPhone.h */,
@@ -2101,6 +2106,7 @@
 				0EA36ED2182C8E4F0074D67B /* CustomLabel.m in Sources */,
 				0EA7EF8D1827805D00C47F69 /* SectionInfoInterface.m in Sources */,
 				0EA36ED7182CB5570074D67B /* CustomTextView.m in Sources */,
+				1864A83C1875383A00B26024 /* Section_ChapterViewController_iPhone_Embed.m in Sources */,
 				1812A4E91851D1AA009B3D5D /* QuestionAndAnswerCell_iPhone.m in Sources */,
 				0EDF4DF518210241007161E0 /* NSString+URLEncoding.m in Sources */,
 				0EB849331835DE2700C97030 /* SettingViewController.m in Sources */,

@@ -119,7 +119,7 @@
                             <view autoresizesSubviews="NO" clipsSubviews="YES" contentMode="scaleToFill" id="USC-aE-Lad" customClass="SUNSlideSwitchView_iPhone">
                                 <rect key="frame" x="0.0" y="362" width="320" height="206"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <inset key="insetFor6xAndEarlier" minX="0.0" minY="-22" maxX="0.0" maxY="22"/>
                                 <connections>
                                     <outlet property="slideSwitchViewDelegate" destination="LqH-YZ-yPx" id="4ub-zH-Ygv"/>
@@ -144,10 +144,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="51" sectionHeaderHeight="22" sectionFooterHeight="22" id="dmL-Nc-bNX">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="dmL-Nc-bNX">
                                 <rect key="frame" x="22" y="0.0" width="276" height="164"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" red="0.40000000600000002" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Section_ChapterCell_iPhone" rowHeight="51" id="Nto-Tg-eoR" customClass="Section_ChapterCell_iPhone">
                                         <rect key="frame" x="0.0" y="22" width="276" height="51"/>
@@ -244,7 +244,7 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
                         <outlet property="tableViewList" destination="dmL-Nc-bNX" id="Ppm-mR-djT"/>
@@ -1305,10 +1305,10 @@
             </objects>
             <point key="canvasLocation" x="392" y="307"/>
         </scene>
-        <!--Section Chapter View Controller i Phone-->
+        <!--Section Chapter View Controller i Phone Embed-->
         <scene sceneID="h87-zo-WNA">
             <objects>
-                <viewController storyboardIdentifier="Section_ChapterViewController_iPhone_embed" automaticallyAdjustsScrollViewInsets="NO" id="YeX-7D-LWP" customClass="Section_ChapterViewController_iPhone" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Section_ChapterViewController_iPhone_embed" automaticallyAdjustsScrollViewInsets="NO" id="YeX-7D-LWP" customClass="Section_ChapterViewController_iPhone_Embed" sceneMemberID="viewController">
                     <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="hYr-bs-JkR">
                         <rect key="frame" x="0.0" y="0.0" width="247" height="275"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1318,7 +1318,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Section_ChapterCell_iPhone" rowHeight="51" id="dc0-pU-sne" customClass="Section_ChapterCell_iPhone">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Section_ChapterCell_iPhone_Embed" rowHeight="51" id="dc0-pU-sne" customClass="Section_ChapterCell_iPhone">
                                         <rect key="frame" x="0.0" y="22" width="247" height="51"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dc0-pU-sne" id="Lmd-2r-q9G">
@@ -1408,8 +1408,8 @@
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
-                                    <outlet property="dataSource" destination="YeX-7D-LWP" id="E3a-4P-gEd"/>
-                                    <outlet property="delegate" destination="YeX-7D-LWP" id="GrO-X6-ydY"/>
+                                    <outlet property="dataSource" destination="YeX-7D-LWP" id="Szd-AZ-9eB"/>
+                                    <outlet property="delegate" destination="YeX-7D-LWP" id="qfH-p2-N0C"/>
                                 </connections>
                             </tableView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  章节列表" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qXx-1b-uVf">
@@ -1425,7 +1425,7 @@
                     </view>
                     <toolbarItems/>
                     <connections>
-                        <outlet property="tableViewList" destination="6Ci-Gk-Hxe" id="eVy-ji-vV2"/>
+                        <outlet property="tableViewList" destination="6Ci-Gk-Hxe" id="laL-Pi-9Ft"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8aR-R0-SAd" userLabel="First Responder" sceneMemberID="firstResponder"/>

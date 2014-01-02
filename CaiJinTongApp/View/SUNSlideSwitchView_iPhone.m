@@ -133,8 +133,6 @@ static CGRect frame;
             [vc.view setFrame:CGRectMake(vc.view.frame.origin.x, vc.view.frame.origin.y, vc.view.frame.size.width, vc.view.frame.size.height - 30)];
         }
         [_rootScrollView addSubview:vc.view];
-        
-        //        NSLog(@"----_rootScrollView.subviews: %@----",_rootScrollView.subviews);
     }
     [self createNameButtons];
     
