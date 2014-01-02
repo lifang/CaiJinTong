@@ -11,10 +11,13 @@
 @interface SectionModel : NSObject
 
 @property (nonatomic, strong) NSString *sectionId;//视频id
+@property (nonatomic, strong) NSString *lessonId;//课程id
 @property (nonatomic, strong) NSString *sectionName;//视频名称
-@property (strong,nonatomic) NSString *sectionLastPlayTime;//最后一次播放进度
+@property (strong,nonatomic) NSString *sectionLastPlayTime;//最后一次播放时间点
 @property (strong,nonatomic) NSString *sectionMoviePlayURL;//视频播放url
 @property (strong,nonatomic) NSString *sectionMovieDownloadURL;//视频下载url
+@property (strong,nonatomic) NSString *sectionMovieLocalURL;//视频本地播放地址
+@property (strong,nonatomic) NSString *sectionFinishedDate;//最后播放结束日期
 @property (strong,nonatomic) NSMutableArray *sectionNoteList;//小节对应的笔记
 //以下过时
 @property (nonatomic, strong) NSString *sectionImg;//过时

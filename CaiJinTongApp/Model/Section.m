@@ -8,6 +8,10 @@
 
 #import "Section.h"
 
+@interface Section()
++(SectionModel*)convertToSectionModelFromResult:(FMResultSet*)rs;
+@end
+
 @implementation Section
 static Section *defaultSection = nil;
 +(Section*)defaultSection{
@@ -41,6 +45,18 @@ static Section *defaultSection = nil;
     return nm;
 }
 
+-(SectionModel *)getSectionModelWithSid:(NSString *) sid {
+    FMResultSet * rs = [self.db executeQuery:@"select id , sid , name , fileUrl , downloadState ,contentLength,percentDown,sectionStudy,sectionLastTime,sectionImg,lessonInfo,sectionTeacher from Section where sid = ?",sid];
+    
+    SectionModel *nm = nil;
+    
+    if ([rs next]) {
+        nm = [Section convertToSectionModelFromResult:rs];
+    }
+    
+    [rs close];
+    return nm;
+}
 -(void)deleteDataWithSid:(NSString *)sid {
     BOOL res = [self.db executeUpdate:@"delete from Section where sid = ?",sid];
     
@@ -51,20 +67,23 @@ static Section *defaultSection = nil;
     }
 }
 
--(BOOL)addDataWithSectionSaveModel:(SectionSaveModel *)model {
-    BOOL res = [self.db executeUpdate:@"insert into Section ( sid , name , fileUrl , downloadState ,contentLength,percentDown,sectionStudy,sectionLastTime,sectionImg,lessonInfo,sectionTeacher) values (?,?,?,?,?,?,?,?,?,?,?)"
+-(BOOL)addDataWithSectionSaveModel:(SectionSaveModel *)model{
+    BOOL res = [self.db executeUpdate:@"insert into Section ( sid , lessonId,name , fileUrl ,playUrl, localFileUrl,downloadState ,contentLength,percentDown,sectionStudy,sectionLastTime,sectionImg,lessonInfo,sectionTeacher,sectionFinishedDate) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
                 , model.sid
+                ,model.lessonId
                 ,model.name
                 ,model.fileUrl
+                ,model.playUrl
+                ,model.localFileUrl
                 ,@"0"
-                ,[NSString stringWithFormat:@"%f"
-                , model.downloadPercent]
+                ,[NSString stringWithFormat:@"%f", model.downloadPercent]
                 ,@"0"
                 ,@"0"
                 ,model.sectionLastTime
                 ,model.sectionImg
                 ,model.lessonInfo
-                ,model.sectionTeacher];
+                ,model.sectionTeacher
+                ,@""];
     return res;
 }
 -(BOOL)updateTheStateWithSid:(NSString *) sid andDownloadState:(NSUInteger)downloadState {
@@ -84,6 +103,35 @@ static Section *defaultSection = nil;
 -(BOOL)updatePercentDown:(double)length BySid:(NSString *)sid {
     return [self.db executeUpdate:@"update Section set percentDown = ? where sid= ?",[NSString stringWithFormat:@"%lf", length], sid];
 }
+
+-(void)saveSectionModelFinishedDateWithSectionModel:(SectionModel*)section withLessonId:(NSString*)lessonId{
+    if (!section) {
+        return;
+    }
+     FMResultSet * rs = [self.db executeQuery:@"select sid from Section where sid = ?",section.sectionId];
+    if (rs.next) {
+        [self.db executeUpdate:@"update Section set sectionFinishedDate = ?,sectionStudy=? where sid= ?",section.sectionFinishedDate,section.sectionLastPlayTime, section.sectionId];
+    }else{
+        [self.db executeUpdate:@"insert into Section ( sid , lessonId,name , fileUrl ,playUrl, localFileUrl,downloadState ,contentLength,percentDown,sectionStudy,sectionLastTime,sectionImg,lessonInfo,sectionTeacher,sectionFinishedDate) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+         , section.sectionId
+         ,lessonId?:@""
+         ,section.sectionName
+         ,section.sectionMovieDownloadURL
+         ,section.sectionMoviePlayURL
+         ,section.sectionMovieLocalURL?:@""
+         ,@"0"
+         ,@"0"
+         ,@"0"
+         ,section.sectionLastPlayTime
+         ,@""
+         ,@""
+         ,@""
+         ,@""
+         ,section.sectionFinishedDate];
+    }
+}
+
+
 //更新学习时间
 -(BOOL)updateStudyTime:(NSString *)sectionStudy BySid:(NSString *)sid {
     return [self.db executeUpdate:@"update Section set sectionStudy = ? where sid= ?",sectionStudy, sid];
@@ -149,19 +197,52 @@ static Section *defaultSection = nil;
     
     NSMutableArray *array = [NSMutableArray array];
     while ([rs next]) {
-        SectionModel *nm = [[SectionModel alloc] init];
-        nm.sectionId = [rs stringForColumn:@"sid"];
-        nm.sectionName = [rs stringForColumn:@"name"];
-        nm.sectionDownload = [rs stringForColumn:@"fileUrl"];
-        nm.sectionStudy = [rs stringForColumn:@"sectionStudy"];
-        nm.sectionLastTime = [rs stringForColumn:@"sectionLastTime"];
-        nm.sectionImg = [rs stringForColumn:@"sectionImg"];
-        nm.lessonInfo = [rs stringForColumn:@"lessonInfo"];
-        nm.sectionTeacher = [rs stringForColumn:@"sectionTeacher"];
-        [array addObject:nm];
+        [array addObject:[Section convertToSectionModelFromResult:rs]];
     }
     [rs close];
     return array;
+}
+
+-(SectionModel*)searchLastPlaySectionModelWithLessonId:(NSString*)lessonId{//获取最近播放的sectionModel
+    if (!lessonId) {
+        return nil;
+    }
+    FMResultSet * rs = [self.db executeQuery:@"select * from Section where lessonId =?",lessonId];
+    SectionModel *resultModel = nil;
+    while ([rs next]) {
+        NSString *lastDateString = [rs stringForColumn:@"sectionFinishedDate"];
+        if ([lastDateString isEqualToString:@""]) {
+            continue;
+        }
+        if (!resultModel) {
+            resultModel = [Section convertToSectionModelFromResult:rs];
+        }
+        NSDate *tempDate = [Utility getDateFromDateString:lastDateString];
+        NSDate *lastDate = [Utility getDateFromDateString:resultModel.sectionFinishedDate];
+        
+        if ([tempDate compare:lastDate] == NSOrderedDescending) {
+            resultModel = [Section convertToSectionModelFromResult:rs];
+        }
+    }
+    [rs close];
+    return resultModel;
+}
+
++(SectionModel*)convertToSectionModelFromResult:(FMResultSet*)rs{
+    SectionModel *nm = [[SectionModel alloc] init];
+    nm.sectionId = [rs stringForColumn:@"sid"];
+    nm.lessonId = [rs stringForColumn:@"lessonId"];
+    nm.sectionName = [rs stringForColumn:@"name"];
+    nm.sectionMovieDownloadURL = [rs stringForColumn:@"fileUrl"];//下载地址
+    nm.sectionMoviePlayURL = [rs stringForColumn:@"playUrl"];//在线播放地址
+    nm.sectionMovieLocalURL = [rs stringForColumn:@"localFileUrl"];//本地地址
+    nm.sectionLastPlayTime = [rs stringForColumn:@"sectionStudy"];//已经学习时间
+    nm.sectionLastTime = [rs stringForColumn:@"sectionLastTime"];//视频总长度
+    nm.sectionImg = [rs stringForColumn:@"sectionImg"];
+    nm.lessonInfo = [rs stringForColumn:@"lessonInfo"];
+    nm.sectionTeacher = [rs stringForColumn:@"sectionTeacher"];
+    nm.sectionFinishedDate = [rs stringForColumn:@"sectionFinishedDate"];
+    return nm;
 }
 
 -(NSArray *)getAllSection {
@@ -169,16 +250,7 @@ static Section *defaultSection = nil;
     
     NSMutableArray *array = [NSMutableArray array];
     while ([rs next]) {
-        SectionModel *nm = [[SectionModel alloc] init];
-        nm.sectionId = [rs stringForColumn:@"sid"];
-        nm.sectionName = [rs stringForColumn:@"name"];
-        nm.sectionDownload = [rs stringForColumn:@"fileUrl"];
-        nm.sectionStudy = [rs stringForColumn:@"sectionStudy"];
-        nm.sectionLastTime = [rs stringForColumn:@"sectionLastTime"];
-        nm.sectionImg = [rs stringForColumn:@"sectionImg"];
-        nm.lessonInfo = [rs stringForColumn:@"lessonInfo"];
-        nm.sectionTeacher = [rs stringForColumn:@"sectionTeacher"];
-        [array addObject:nm];
+        [array addObject:[Section convertToSectionModelFromResult:rs]];
     }
     [rs close];
     return array;

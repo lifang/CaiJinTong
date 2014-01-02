@@ -94,7 +94,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="wcb-2W-NLW">
-                                <rect key="frame" x="419" y="714.00000112577072" width="188" height="34"/>
+                                <rect key="frame" x="419" y="714.00000059604645" width="188" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -529,7 +529,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="cIP-4c-pTV">
-                                                <rect key="frame" x="25" y="7" width="112.99999999999999" height="98"/>
+                                                <rect key="frame" x="25" y="7" width="113" height="98"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             </imageView>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6BM-q3-isR">
@@ -588,7 +588,7 @@
                                                         </connections>
                                                     </button>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="hPI-XB-wGH">
-                                                        <rect key="frame" x="88.00000110970575" y="18" width="374" height="34"/>
+                                                        <rect key="frame" x="88.000003140584738" y="18" width="374" height="34"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <connections>
@@ -1300,20 +1300,20 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
             <objects>
                 <viewController storyboardIdentifier="MyQuestionAndAnswerViewController" id="xg3-PT-MB4" customClass="MyQuestionAndAnswerViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ZWg-1i-zPe">
-                        <rect key="frame" x="0.0" y="0.0" width="568" height="984"/>
+                        <rect key="frame" x="0.0" y="0.0" width="984" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="kwd-RL-NQ4">
-                                <rect key="frame" x="52" y="72" width="464" height="25"/>
+                                <rect key="frame" x="52" y="72" width="880" height="25"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="jWT-H4-rpD">
-                                        <rect key="frame" x="0.0" y="0.0" width="464" height="25"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="880" height="25"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" red="0.22798865838570867" green="0.27243572384291037" blue="0.71904894770408156" alpha="1" colorSpace="calibratedRGB"/>
                                     </imageView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击回答者语句可进行追问,点击&quot;采纳回答&quot;则采纳对方的回答." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="X0I-yw-pa2">
-                                        <rect key="frame" x="0.0" y="2" width="464" height="21"/>
+                                        <rect key="frame" x="0.0" y="2" width="880" height="21"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -1321,7 +1321,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="1pi-Vg-4sj">
-                                        <rect key="frame" x="394" y="2" width="70" height="22"/>
+                                        <rect key="frame" x="810" y="2" width="70" height="22"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <inset key="contentEdgeInsets" minX="37" minY="17" maxX="17" maxY="17"/>
@@ -1336,20 +1336,20 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="331" sectionHeaderHeight="22" sectionFooterHeight="22" id="A22-Yj-Ugi">
-                                <rect key="frame" x="0.0" y="115" width="568" height="894"/>
+                                <rect key="frame" x="0.0" y="115" width="984" height="478"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="questionAndAnswerCell" rowHeight="331" id="DyQ-co-jU4" customClass="QuestionAndAnswerCell">
-                                        <rect key="frame" x="0.0" y="22" width="568" height="331"/>
+                                        <rect key="frame" x="0.0" y="22" width="984" height="331"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DyQ-co-jU4" id="pmw-YN-i4a">
-                                            <rect key="frame" x="0.0" y="0.0" width="568" height="331"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="984" height="331"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" id="fdP-ww-Dzc" userLabel="titleView">
-                                                    <rect key="frame" x="54" y="0.0" width="460" height="30"/>
+                                                    <rect key="frame" x="54" y="0.0" width="876" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <subviews>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="杨幂" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="G3P-Pt-G96">
@@ -1408,24 +1408,12 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                 </view>
-                                                <view contentMode="scaleToFill" id="kDJ-cm-a8V" userLabel="answerView">
-                                                    <rect key="frame" x="54" y="31" width="460" height="158"/>
+                                                <view contentMode="scaleToFill" id="kDJ-cm-a8V" userLabel="answerView" customClass="DRAttributeStringView">
+                                                    <rect key="frame" x="54" y="31" width="876" height="158"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <subviews>
-                                                        <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" editable="NO" selectable="NO" id="YGs-qU-fcT">
-                                                            <rect key="frame" x="0.0" y="0.0" width="460" height="158"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                            <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                            <connections>
-                                                                <outlet property="delegate" destination="DyQ-co-jU4" id="wFS-Go-CQA"/>
-                                                            </connections>
-                                                        </textView>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="m4u-w5-Igp">
-                                                            <rect key="frame" x="0.0" y="-16" width="460" height="190"/>
+                                                            <rect key="frame" x="0.0" y="-16" width="876" height="190"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -1440,11 +1428,11 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
                                                 <view contentMode="scaleToFill" id="szu-l3-5le" userLabel="questionView">
-                                                    <rect key="frame" x="54" y="190" width="460" height="141"/>
+                                                    <rect key="frame" x="54" y="190" width="876" height="141"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                     <subviews>
                                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" id="quk-Fs-XIE">
-                                                            <rect key="frame" x="0.0" y="0.0" width="460" height="80"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="876" height="80"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -1455,7 +1443,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                                             </connections>
                                                         </textView>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8QY-aG-P3I">
-                                                            <rect key="frame" x="116" y="88" width="229" height="30"/>
+                                                            <rect key="frame" x="116" y="88" width="645" height="30"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                             <color key="backgroundColor" red="0.2456287918" green="0.91539996599999995" blue="0.25050926849999999" alpha="1" colorSpace="calibratedRGB"/>
                                                             <state key="normal" title="确认追问" backgroundImage="btn0.png">
@@ -1474,9 +1462,8 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <outlet property="acceptAnswerBt" destination="7WK-Ma-FeA" id="U09-YJ-faf"/>
-                                            <outlet property="answerBackgroundView" destination="kDJ-cm-a8V" id="1JW-o0-KzM"/>
+                                            <outlet property="answerAttributeTextView" destination="kDJ-cm-a8V" id="P3f-8a-AP3"/>
                                             <outlet property="answerBt" destination="m4u-w5-Igp" id="Ohx-sx-Wem"/>
-                                            <outlet property="answerTextField" destination="YGs-qU-fcT" id="Eq1-Ee-7PU"/>
                                             <outlet property="delegate" destination="xg3-PT-MB4" id="ZQo-Rz-baH"/>
                                             <outlet property="qDateLabel" destination="A1K-6Q-fLv" id="FnI-Vg-61S"/>
                                             <outlet property="qTitleNameLabel" destination="G3P-Pt-G96" id="R4F-aV-dfB"/>
@@ -1496,7 +1483,9 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="noticeBarImageView" destination="jWT-H4-rpD" id="duA-ax-WEy"/>
@@ -1506,205 +1495,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jgw-7Y-ggd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2010" y="820"/>
-        </scene>
-        <!--My Answer List For Question View Controller-->
-        <scene sceneID="fjx-Bm-Sda">
-            <objects>
-                <viewController storyboardIdentifier="MyAnswerListForQuestionViewController" id="ozt-Tx-Rcv" customClass="MyAnswerListForQuestionViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="58a-cy-Pan">
-                        <rect key="frame" x="0.0" y="0.0" width="568" height="984"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" id="htt-Od-9rL">
-                                <rect key="frame" x="52" y="72" width="464" height="25"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="CH2-DI-eAj">
-                                        <rect key="frame" x="0.0" y="0.0" width="464" height="25"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        <color key="backgroundColor" red="0.22798865839999999" green="0.27243572379999997" blue="0.71904894770000005" alpha="1" colorSpace="calibratedRGB"/>
-                                    </imageView>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击回答者语句可进行追问,点击&quot;采纳回答&quot;则采纳对方的回答." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="s1K-JG-qwi">
-                                        <rect key="frame" x="0.0" y="2" width="464" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="mDu-eK-fO6">
-                                        <rect key="frame" x="394" y="2" width="70" height="22"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <inset key="contentEdgeInsets" minX="37" minY="17" maxX="17" maxY="17"/>
-                                        <state key="normal" image="delete_2.png">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="noticeHideBtnClick:" destination="ozt-Tx-Rcv" eventType="touchUpInside" id="dli-r0-QQM"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="331" sectionHeaderHeight="22" sectionFooterHeight="22" id="SqQ-QO-2Kg">
-                                <rect key="frame" x="0.0" y="115" width="568" height="894"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="questionAndAnswerCell" rowHeight="331" id="nNR-bA-4Vi" customClass="QuestionAndAnswerCell">
-                                        <rect key="frame" x="0.0" y="22" width="568" height="331"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nNR-bA-4Vi" id="Qp1-dv-El9">
-                                            <rect key="frame" x="0.0" y="0.0" width="568" height="331"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" id="ryb-kC-Q6M" userLabel="titleView">
-                                                    <rect key="frame" x="54" y="0.0" width="460" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                    <subviews>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="杨幂" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9ie-bC-Fof">
-                                                            <rect key="frame" x="0.0" y="0.0" width="71" height="30"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="发表于昨天 19:12" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="KIq-Zk-dct">
-                                                            <rect key="frame" x="71" y="0.0" width="111" height="30"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="9999" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PlY-PT-yH7">
-                                                            <rect key="frame" x="228" y="0.0" width="53" height="30"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Q&amp;A-myq_19.png" id="Rti-2Y-pH1">
-                                                            <rect key="frame" x="195" y="5" width="20" height="20"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        </imageView>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Yb6-Jc-RB0">
-                                                            <rect key="frame" x="283" y="0.0" width="186" height="30"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                            <inset key="contentEdgeInsets" minX="12" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                            <state key="normal" title="采纳意见">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="acceptAnswerBtClicked:" destination="nNR-bA-4Vi" eventType="touchUpInside" id="k2G-h5-ggP"/>
-                                                            </connections>
-                                                        </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="E0C-HP-w9h" userLabel="flowerBt">
-                                                            <rect key="frame" x="182" y="-1" width="94" height="30"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                            <state key="normal">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="qflowerBtClicked:" destination="nNR-bA-4Vi" eventType="touchUpInside" id="x2s-Ue-f2N"/>
-                                                            </connections>
-                                                        </button>
-                                                    </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                                </view>
-                                                <view contentMode="scaleToFill" id="9dT-r2-VhB" userLabel="answerView">
-                                                    <rect key="frame" x="54" y="31" width="460" height="158"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                    <subviews>
-                                                        <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" editable="NO" selectable="NO" id="BvW-iv-Oeh">
-                                                            <rect key="frame" x="0.0" y="0.0" width="460" height="158"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                            <connections>
-                                                                <outlet property="delegate" destination="nNR-bA-4Vi" id="v4r-6R-gP2"/>
-                                                            </connections>
-                                                        </textView>
-                                                    </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </view>
-                                                <view contentMode="scaleToFill" id="l2Z-BF-mLm" userLabel="questionView">
-                                                    <rect key="frame" x="54" y="190" width="460" height="141"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                    <subviews>
-                                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" id="bVJ-NY-TSX">
-                                                            <rect key="frame" x="0.0" y="0.0" width="460" height="80"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                            <connections>
-                                                                <outlet property="delegate" destination="nNR-bA-4Vi" id="k2L-3D-j5L"/>
-                                                            </connections>
-                                                        </textView>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="TEf-D0-MA5">
-                                                            <rect key="frame" x="116" y="88" width="229" height="30"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                            <color key="backgroundColor" red="0.2456287918" green="0.91539996599999995" blue="0.25050926849999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <state key="normal" title="确认追问" backgroundImage="btn0.png">
-                                                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="questionOKBtClicked:" destination="nNR-bA-4Vi" eventType="touchUpInside" id="dPu-f1-nLR"/>
-                                                            </connections>
-                                                        </button>
-                                                    </subviews>
-                                                </view>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <outlet property="acceptAnswerBt" destination="Yb6-Jc-RB0" id="Qqz-c8-NZY"/>
-                                            <outlet property="answerBackgroundView" destination="9dT-r2-VhB" id="FX0-Zu-WRx"/>
-                                            <outlet property="answerTextField" destination="BvW-iv-Oeh" id="5bg-CH-f4R"/>
-                                            <outlet property="delegate" destination="ozt-Tx-Rcv" id="seK-yK-gsP"/>
-                                            <outlet property="qDateLabel" destination="KIq-Zk-dct" id="HJC-YE-Gc6"/>
-                                            <outlet property="qTitleNameLabel" destination="9ie-bC-Fof" id="oH6-fX-bXa"/>
-                                            <outlet property="qflowerBt" destination="E0C-HP-w9h" id="8a0-zA-WJ5"/>
-                                            <outlet property="qflowerImageView" destination="Rti-2Y-pH1" id="Gf7-Kg-A6e"/>
-                                            <outlet property="qflowerLabel" destination="PlY-PT-yH7" id="9uT-og-CgL"/>
-                                            <outlet property="questionBackgroundView" destination="l2Z-BF-mLm" id="LeO-F7-7M1"/>
-                                            <outlet property="questionTextField" destination="bVJ-NY-TSX" id="Q4C-ah-eV4"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="ozt-Tx-Rcv" id="RDd-ig-uRD"/>
-                                    <outlet property="delegate" destination="ozt-Tx-Rcv" id="eTB-iW-NdH"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <connections>
-                        <outlet property="noticeBarImageView" destination="CH2-DI-eAj" id="7Sg-Ds-vmi"/>
-                        <outlet property="noticeBarView" destination="htt-Od-9rL" id="Cqn-ZB-lP5"/>
-                        <outlet property="tableView" destination="SqQ-QO-2Kg" id="Ivi-mH-gsx"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Q7t-gt-iWs" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2662" y="833"/>
+            <point key="canvasLocation" x="1599" y="865"/>
         </scene>
         <!--Ask Question View Controller - ask a question-->
         <scene sceneID="cQS-eG-TSc">
@@ -2272,17 +2063,12 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <image name="0F943AD8-90CE-43E7-91E6-89F4D15AD078" width="16" height="16"/>
         <image name="Q&amp;A-myq_11.png" width="15" height="15"/>
         <image name="Q&amp;A-myq_19.png" width="15" height="15"/>
-        <image name="Q&amp;A-myq_19.png" width="15" height="15"/>
-        <image name="btn0.png" width="118" height="33"/>
-        <image name="btn0.png" width="118" height="33"/>
         <image name="btn0.png" width="118" height="33"/>
         <image name="course-courses_03.png" width="16" height="16"/>
         <image name="course-mycourse_03.png" width="57" height="30"/>
         <image name="delete_2.png" width="48" height="48"/>
-        <image name="delete_2.png" width="48" height="48"/>
         <image name="down.png" width="66" height="37"/>
         <image name="login_03.png" width="150" height="50"/>
-        <image name="login_10.png" width="353" height="47"/>
         <image name="login_10.png" width="353" height="47"/>
         <image name="pdlay-courselistd_07.png" width="436" height="20"/>
         <image name="play-M.png" width="24" height="24"/>
@@ -2295,9 +2081,6 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <image name="play_note.png" width="26" height="26"/>
         <image name="play_paused.png" width="69" height="69"/>
         <image name="play_play.png" width="69" height="69"/>
-        <image name="play_shuxian.png" width="1" height="69"/>
-        <image name="play_shuxian.png" width="1" height="69"/>
-        <image name="play_shuxian.png" width="1" height="69"/>
         <image name="play_shuxian.png" width="1" height="69"/>
         <image name="play_volume.png" width="28" height="19"/>
         <image name="settings_delete.png" width="36" height="36"/>

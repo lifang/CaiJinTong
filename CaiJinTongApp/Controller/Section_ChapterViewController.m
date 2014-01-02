@@ -116,6 +116,7 @@
     
     chapterModel *chapter = [self.dataArray objectAtIndex:indexPath.section];
     SectionModel *section = [chapter.sectionList objectAtIndex:indexPath.row];
+    section.lessonId = self.lessonId;
     cell.nameLab.text = section.sectionName;
     cell.sid = section.sectionId;
         
@@ -141,6 +142,7 @@
         sectionSave.fileUrl = section.sectionMovieDownloadURL;
         sectionSave.playUrl = section.sectionMoviePlayURL;
         sectionSave.name = section.sectionName;
+        sectionSave.lessonId = self.lessonId;
         cell.btn.buttonModel = sectionSave;
         
     }else {
@@ -152,6 +154,7 @@
         sectionSave.fileUrl = section.sectionMovieDownloadURL;
         sectionSave.playUrl = section.sectionMoviePlayURL;
         sectionSave.name = section.sectionName;
+        sectionSave.lessonId = self.lessonId;
         cell.btn.buttonModel = sectionSave;
         cell.sliderFrontView.frame = CGRectMake(47, 73, CAPTER_CELL_WIDTH * 0, 33);
         cell.statusLab.text = @"未下载";
