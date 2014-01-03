@@ -11,7 +11,7 @@
 @interface LHLMoviePlayViewController ()<LHLTakingMovieNoteViewControllerDelegate,LHLCommitQuestionViewControllerDelegate>
 @property (nonatomic,strong) MPMoviePlayerController *moviePlayer;
 @property (nonatomic,strong) NSTimer *timer;
-@property (nonatomic,strong) Section_ChapterViewController_iPhone *section_chapterController;
+@property (nonatomic,strong) Section_ChapterViewController_iPhone_Embed *section_chapterController;
 @property (nonatomic,assign) BOOL isHiddlePlayerControlView;
 @property (nonatomic,assign) BOOL isPlaying;
 @property (nonatomic,assign) BOOL isPopupChapter;
@@ -167,8 +167,8 @@
             self.drMovieTopBar.center = (CGPoint){self.movieplayerControlBackView.center.x,-15};
             if (!self.section_chapterController) {
                 for(UIViewController *vc in self.childViewControllers){
-                    if([vc isKindOfClass:[Section_ChapterViewController_iPhone class]]){
-                        self.section_chapterController = (Section_ChapterViewController_iPhone *)vc;
+                    if([vc isKindOfClass:[Section_ChapterViewController_iPhone_Embed class]]){
+                        self.section_chapterController = (Section_ChapterViewController_iPhone_Embed *)vc;
                         self.section_chapterController.lessonId = self.sectionModel.sectionId;
                         break;
                     }

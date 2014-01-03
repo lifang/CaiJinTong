@@ -21,7 +21,7 @@
 #import "DRMoviePlayerTopBar.h"
 #import "AskQuestionInterface.h"
 
-#import "Section_ChapterViewController_iPhone.h"
+#import "Section_ChapterViewController_iPhone_Embed.h"
 
 #import <MediaPlayer/MPMoviePlayerController.h>
 #import <QuartzCore/QuartzCore.h>
