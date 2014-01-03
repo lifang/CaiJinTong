@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) NSString *lessonId;//课程id
 @property (nonatomic, strong) NSString *lessonName;//课程名称
+@property (nonatomic, strong) NSString *lessonCategoryId;//课程所属分类
 @property (nonatomic, strong) NSString *lessonImageURL;//课程封面url
 @property (nonatomic, strong) NSString *lessonStudyProgress;//用户对本课程学习进度
 @property (nonatomic, strong) NSString *lessonDetailInfo;//课程详细介绍

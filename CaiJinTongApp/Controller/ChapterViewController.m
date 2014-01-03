@@ -333,8 +333,11 @@
     });
 }
 -(void)getLessonInfoDidFailed:(NSString *)errorMsg{
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Utility errorAlert:errorMsg];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [Utility errorAlert:errorMsg];
+    });
+   
 }
 
 #pragma mark --
@@ -518,6 +521,7 @@
     return TRUE;
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     LessonModel *lesson = (LessonModel *)[self.dataArray objectAtIndex:indexPath.row];
     [self getLessonInfoWithLessonId:lesson.lessonId];
 }

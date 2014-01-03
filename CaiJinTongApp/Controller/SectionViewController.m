@@ -49,6 +49,28 @@
     }
     self.isPlaying = NO;
 }
+
+-(void)keyBoardUP:(NSNotification*)notification{
+    NSTimeInterval animationDuration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    [UIView animateWithDuration:animationDuration animations:^{
+        if (self.section_GradeView.textView.isFirstResponder) {
+//            {{0, 0}, {719, 779}}
+            self.view.frame = (CGRect){0,-250,719,779};
+        }
+    } completion:^(BOOL finished) {
+       
+    }];
+    
+}
+
+-(void)keyBoardDOWN:(NSNotification*)notification{
+    NSTimeInterval animationDuration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    [UIView animateWithDuration:animationDuration animations:^{
+        self.view.frame = (CGRect){0,0,719,779};
+    } completion:^(BOOL finished) {
+        
+    }];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -58,10 +80,12 @@
                                              selector:@selector(refeshScore:)
                                                  name: @"refeshScore"
                                                object: nil];
-    
     self.drnavigationBar.titleLabel.text = self.lessonModel.lessonName;
     [self.drnavigationBar.navigationRightItem setTitle:@"关闭" forState:UIControlStateNormal];
     [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardUP:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardDOWN:) name:UIKeyboardWillHideNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotoMoviePlayMovieOnLineWithSectionSavemodel:) name:@"startPlaySectionMovieOnLine" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotoMoviePlayWithSid:) name:@"gotoMoviePlay" object:nil];
@@ -201,6 +225,7 @@
 - (void)slideSwitchView:(SUNSlideSwitchView *)view didselectTab:(NSUInteger)number
 {
     AppDelegate *app = [AppDelegate sharedInstance];
+    [self.section_GradeView.textView resignFirstResponder];
     if (app.isLocal == YES) {
         Section_ChapterViewController *section_ChapterView = nil;
         Section_NoteViewController *section_NoteView = nil;
@@ -243,12 +268,13 @@
             self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
             chapterModel *chapter = [self.lessonModel.chapterList firstObject];
             SectionModel *section = [chapter.sectionList firstObject];
-            [self.playerController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
+            
             self.playerController.delegate = self;
             AppDelegate *app = [AppDelegate sharedInstance];
             [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
                 
             }];
+            [self.playerController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
         });
     });
 }
@@ -262,14 +288,14 @@
     SectionModel *section = [info.userInfo objectForKey:@"sectionModel"];
     if (section.sectionMoviePlayURL) {
         //播放接口
-        UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-        self.playerController = [story instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
-        [self.playerController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
+        section.lessonId = self.lessonModel.lessonId;
+        self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
+        self.playerController.delegate = self;
         AppDelegate *app = [AppDelegate sharedInstance];
         [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
             
         }];
-        
+        [self.playerController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
     }else{
         [Utility errorAlert:@"没有发现要播放的视频文件"];
     }
@@ -281,10 +307,11 @@
     NSString *path = [CaiJinTongManager getMovieLocalPathWithSectionID:sectionID];
     if (path) {
         //播放接口
-        UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-        self.playerController = [story instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];        
         Section *s = [[Section alloc] init];
         SectionModel *ssm = [s getSectionModelWithSid:sectionID];
+        ssm.lessonId = self.lessonModel.lessonId;
+        self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
+        self.playerController.delegate = self;
         [self.playerController playMovieWithSectionModel:ssm withFileType:MPMovieSourceTypeFile];
         AppDelegate *app = [AppDelegate sharedInstance];
         [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
@@ -301,6 +328,13 @@
 #pragma mark --
 
 #pragma mark property
+//-(DRMoviePlayViewController *)playerController{
+//    if (!_playerController) {
+//        _playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
+//        _playerController.delegate = self;
+//    }
+//    return _playerController;
+//}
 
 -(Section_NoteViewController *)section_NoteView{
     if (!_section_NoteView) {
@@ -342,7 +376,8 @@
     [self.sectionView changeLessonModel:lesson];
     
     //显示分数
-    if ([self.lessonModel.lessonIsScored isEqualToString:@"1"]) {
+    int grade = self.lessonModel.lessonIsScored.intValue;
+    if (grade > 0) {
         self.scoreLab.backgroundColor = [UIColor colorWithRed:0.10f green:0.84f blue:0.99f alpha:1.0f];
         self.scoreLab.text = [NSString stringWithFormat:@"%.1f",[lesson.lessonScore floatValue]];
         self.scoreLab.layer.cornerRadius = 7;
@@ -413,7 +448,8 @@
         [self.view addSubview:self.sectionView];
         //显示分数
         CustomLabel *scoreLabel = [[CustomLabel alloc]initWithFrame:CGRectMake(630, 64, 60, 60)];
-        if ([self.lessonModel.lessonIsScored isEqualToString:@"1"]) {
+        int grade = self.lessonModel.lessonIsScored.intValue;
+        if (grade > 0) {
             scoreLabel.backgroundColor = [UIColor colorWithRed:0.10f green:0.84f blue:0.99f alpha:1.0f];
             scoreLabel.text = [NSString stringWithFormat:@"%.1f",[self.lessonModel.lessonScore floatValue]];
             scoreLabel.layer.cornerRadius = 7;

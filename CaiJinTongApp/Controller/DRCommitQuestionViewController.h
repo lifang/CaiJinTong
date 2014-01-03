@@ -20,8 +20,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *cancelBtn;
 @property (weak,nonatomic) id<DRCommitQuestionViewControllerDelegate> delegate;
 
-@property (nonatomic,strong) NSMutableArray *questionArrSelSection;
-@property (nonatomic, assign) NSInteger questionTmpSection;
 @property (nonatomic,strong) NSString *selectedQuestionId;
 - (IBAction)spaceAreaClicked:(id)sender;
 - (IBAction)cancelBtnClicked:(UIButton *)sender;

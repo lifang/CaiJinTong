@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="fEu-le-6ha"/>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="k86-FR-Gd9"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PKf-Jn-dZc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -94,7 +94,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="wcb-2W-NLW">
-                                <rect key="frame" x="419" y="714.00000059604645" width="188" height="34"/>
+                                <rect key="frame" x="419" y="714" width="188" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -288,14 +288,6 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <containerView contentMode="scaleToFill" id="NlH-64-5ay">
-                                <rect key="frame" x="305" y="0.0" width="719" height="779"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                <connections>
-                                    <segue destination="zew-u0-SZy" kind="embed" id="Dcw-IV-KFq"/>
-                                </connections>
-                            </containerView>
                         </subviews>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
@@ -318,7 +310,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZuI-kx-mWh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2347" y="-137"/>
+            <point key="canvasLocation" x="-2560" y="-224"/>
         </scene>
         <!--User Info Table View Controller-->
         <scene sceneID="kSh-Cr-gF4">
@@ -588,7 +580,7 @@
                                                         </connections>
                                                     </button>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="hPI-XB-wGH">
-                                                        <rect key="frame" x="88.000003140584738" y="18" width="374" height="34"/>
+                                                        <rect key="frame" x="88.00000110970575" y="18" width="374" height="34"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <connections>
@@ -950,21 +942,6 @@
             </objects>
             <point key="canvasLocation" x="731" y="1444"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="fFO-AW-Mzx">
-            <objects>
-                <navigationController storyboardIdentifier="DRNavigationController" definesPresentationContext="YES" navigationBarHidden="YES" id="zew-u0-SZy" customClass="DRNavigationController" sceneMemberID="viewController">
-                    <nil key="simulatedTopBarMetrics"/>
-                    <nil key="simulatedBottomBarMetrics"/>
-                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="HDJ-kp-EYF">
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="zVI-TB-1FP" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1283" y="-170"/>
-        </scene>
         <!--Section Chapter View Controller-->
         <scene sceneID="xS5-Ok-VJw">
             <objects>
@@ -1085,7 +1062,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Run-Pq-sPL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-498" y="-87"/>
+            <point key="canvasLocation" x="-458" y="-75"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="wOk-O6-eod">
@@ -2060,7 +2037,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         </scene>
     </scenes>
     <resources>
-        <image name="0F943AD8-90CE-43E7-91E6-89F4D15AD078" width="16" height="16"/>
+        <image name="0F943AD8-90CE-43E7-91E6-89F4D15AD078" width="26" height="26"/>
         <image name="Q&amp;A-myq_11.png" width="15" height="15"/>
         <image name="Q&amp;A-myq_19.png" width="15" height="15"/>
         <image name="btn0.png" width="118" height="33"/>
@@ -2086,7 +2063,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <image name="settings_delete.png" width="36" height="36"/>
         <image name="settings_选中.png" width="55" height="55"/>
         <image name="ss.png" width="113" height="13"/>
-        <image name="system_table_cell_up.png" width="16" height="16"/>
+        <image name="system_table_cell_up.png" width="26" height="26"/>
         <image name="财金通logo.png" width="230" height="56"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

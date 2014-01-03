@@ -6,7 +6,6 @@
 	objectVersion = 46;
 	objects = {
 
-
 /* Begin PBXBuildFile section */
 		0E5267261829E9EC0009E535 /* CustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E5267251829E9EC0009E535 /* CustomButton.m */; };
 		0E5267291829EA450009E535 /* SectionSaveModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E5267281829EA450009E535 /* SectionSaveModel.m */; };
@@ -2347,7 +2346,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Sen Ye (FE46ZS29LM)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sen Ye (FE46ZS29LM)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_INPUT_FILETYPE = sourcecode.c.objc;
@@ -2361,7 +2360,7 @@
 				INFOPLIST_FILE = "CaiJinTongApp/CaiJinTongApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "09F52011-573C-40B7-AA7A-ACFDAE6EECF3";
+				PROVISIONING_PROFILE = "3D7D0286-24FF-47FA-B504-B1444003EF14";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2376,7 +2375,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Sen Ye (63FVWL9TD6)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Sen Ye (63FVWL9TD6)";
 				ENABLE_NS_ASSERTIONS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;

@@ -102,13 +102,6 @@ static CGRect tableFrame;
 }
 
 #pragma mark property
--(NSMutableArray *)questionArrSelSection{
-    if (!_questionArrSelSection) {
-        _questionArrSelSection = [NSMutableArray array];
-    }
-    return _questionArrSelSection;
-}
-
 #pragma mark textView delegate
 -(BOOL)textViewShouldBeginEditing:(UITextView *)textView{
     return YES;

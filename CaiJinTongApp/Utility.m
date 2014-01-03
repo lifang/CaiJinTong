@@ -175,6 +175,11 @@
     return dataObject;
 }
 
++(NSString*)getStringFromDate:(NSDate*)date{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    return [dateFormatter stringFromDate:date];
+}
 +(NSDate*)getDateFromDateString:(NSString*)dateString{
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";

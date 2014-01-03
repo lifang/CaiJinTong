@@ -94,6 +94,8 @@
     if (!self.dataArray || self.dataArray.count <= 0) {
         [self.tipLabel removeFromSuperview];
         [tableView addSubview:self.tipLabel];
+    }else{
+        [self.tipLabel removeFromSuperview];
     }
     return [self.dataArray count];
 }
