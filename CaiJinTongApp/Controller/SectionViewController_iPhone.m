@@ -8,6 +8,9 @@
 
 #import "SectionViewController_iPhone.h"
 
+@interface SectionViewController_iPhone()
+@property (nonatomic,assign) BOOL isPlaying;
+@end
 
 @implementation SectionViewController_iPhone
 
@@ -46,47 +49,62 @@
 //}
 
 - (void)playVideo:(id) sender{
-    DLog(@"play");
-    self.path = nil;//视频路径
-    //先匹配本地,在数据库中查找纪录
-    Section *section = [[Section alloc]init];
-    SectionSaveModel *sectionSave = [section getDataWithSid:self.section.sectionId];
-    if (sectionSave != nil && sectionSave.downloadState == 1) {
-        NSString *documentDir;
-        if (platform>5.0) {
-            documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        }else{
-            documentDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        }
-        self.path = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@.mp4",self.section.sectionId]];
-        
-        self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
-        
-        [self.playerController playMovieWithURL:[NSURL fileURLWithPath:self.path] withFileType:MPMovieSourceTypeFile];
-        self.playerController.sectionId = self.section.sectionId;
-        self.playerController.sectionModel = self.section;
-        
-        self.playerController.delegate = self;
-        AppDelegate *app = [AppDelegate sharedInstance];
-        [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
-            
-        }];
-    }else {
-        //在线播放
-        self.path = self.section.sectionSD;
-        if (self.path) {
-            if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-                [Utility errorAlert:@"暂无网络!"];
-            }else {
-                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                PlayVideoInterface *playVideoInter = [[PlayVideoInterface alloc]init];
-                self.playVideoInterface = playVideoInter;
-                self.playVideoInterface.delegate = self;
-                NSString *timespan = [Utility getNowDateFromatAnDate];
-                [self.playVideoInterface getPlayVideoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.section.sectionId andTimeStart:timespan];
-            }
-        }
+    self.isPlaying = YES;
+    self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
+    chapterModel *chapter = [self.section.sectionList firstObject];
+    SectionModel *section = [chapter.sectionList firstObject];
+    SectionModel *lastplaySection = [[Section defaultSection] searchLastPlaySectionModelWithLessonId:self.section.sectionId];
+    if (lastplaySection) {
+        lastplaySection.lessonId = self.section.sectionId;
     }
+    section.lessonId = self.section.sectionId;
+    [self.playerController playMovieWithSectionModel:lastplaySection?:section withFileType:MPMovieSourceTypeStreaming];
+    self.playerController.delegate = self;
+    AppDelegate *app = [AppDelegate sharedInstance];
+    [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
+        
+    }];
+//    DLog(@"play");
+//    self.path = nil;//视频路径
+//    //先匹配本地,在数据库中查找纪录
+//    Section *section = [[Section alloc]init];
+//    SectionSaveModel *sectionSave = [section getDataWithSid:self.section.sectionId];
+//    if (sectionSave != nil && sectionSave.downloadState == 1) {
+//        NSString *documentDir;
+//        if (platform>5.0) {
+//            documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+//        }else{
+//            documentDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+//        }
+//        self.path = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@.mp4",self.section.sectionId]];
+//        
+//        self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
+//        
+//        [self.playerController playMovieWithURL:[NSURL fileURLWithPath:self.path] withFileType:MPMovieSourceTypeFile];
+//        self.playerController.sectionId = self.section.sectionId;
+//        self.playerController.sectionModel = self.section;
+//        
+//        self.playerController.delegate = self;
+//        AppDelegate *app = [AppDelegate sharedInstance];
+//        [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
+//            
+//        }];
+//    }else {
+//        //在线播放
+//        self.path = self.section.sectionSD;
+//        if (self.path) {
+//            if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+//                [Utility errorAlert:@"暂无网络!"];
+//            }else {
+//                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//                PlayVideoInterface *playVideoInter = [[PlayVideoInterface alloc]init];
+//                self.playVideoInterface = playVideoInter;
+//                self.playVideoInterface.delegate = self;
+//                NSString *timespan = [Utility getNowDateFromatAnDate];
+//                [self.playVideoInterface getPlayVideoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.section.sectionId andTimeStart:timespan];
+//            }
+//        }
+//    }
 }
 
 #pragma mark - 滑动tab视图代理方法
@@ -280,7 +298,12 @@
         }
         UIButton *palyButton = [UIButton buttonWithType:UIButtonTypeCustom];
         palyButton.frame = CGRectMake(18, labelTop + IP5(8, -2), 283, IP5(33, 30));
-        [palyButton setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
+//        [palyButton setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
+        if (!self.section.sectionStudy || [self.section.sectionStudy isEqualToString:@"0"]) {
+            [palyButton setTitle:NSLocalizedString(@"开始学习", @"button") forState:UIControlStateNormal];
+        }else{
+            [palyButton setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
+        }
         [palyButton setBackgroundColor:[UIColor clearColor]];
 		[palyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [palyButton.titleLabel setFont:[UIFont systemFontOfSize:16]];
@@ -309,10 +332,12 @@
     
     //章节页面
     self.section_ChapterView = [story instantiateViewControllerWithIdentifier:@"Section_ChapterViewController_iPhone"];
-    self.section_ChapterView.title = @"章节目录";
     [self.section_ChapterView.view frame];
     [self.section_ChapterView.tableViewList setFrame:CGRectMake(22, 0, 276, self.slideSwitchView.frame.size.height - IP5(63, 53))];
+    self.section_ChapterView.title = @"章节目录";
+    self.section_ChapterView.lessonId = self.section.sectionId;
     self.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:self.section.sectionList];
+    self.section_ChapterView.isMovieView = NO;
     
     //评价页面
     AppDelegate *app = [AppDelegate sharedInstance];
@@ -330,9 +355,8 @@
     }
     
     //笔记页面
-    self.section_NoteView = [story instantiateViewControllerWithIdentifier:@"Section_NoteViewController_iPhone"];
-    self.section_NoteView.title = @"笔记";
     [self.section_NoteView.view frame];
+    self.section_NoteView.title = @"笔记";
     [self.section_NoteView.tableViewList setFrame:CGRectMake(22, 0, 276, self.slideSwitchView.frame.size.height - IP5(63, 53))];
     self.section_NoteView.dataArray = [NSMutableArray arrayWithArray:self.section.sectionList];
     
@@ -365,11 +389,12 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             //播放接口
-            DLog(@"self.storyboard = %@",self.storyboard);
             self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
-            [self.playerController playMovieWithURL:[NSURL URLWithString:self.path] withFileType:MPMovieSourceTypeStreaming];
-            self.playerController.sectionId = self.section.sectionId;
-            self.playerController.sectionModel = self.section;
+            chapterModel *chapter = [self.section.sectionList firstObject];
+            SectionModel *section = [chapter.sectionList firstObject];
+            [self.playerController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
+//            self.playerController.sectionId = self.section.sectionId;
+//            self.playerController.sectionModel = self.section;
             
             self.playerController.delegate = self;
             AppDelegate *app = [AppDelegate sharedInstance];
@@ -403,6 +428,13 @@
     }else{
         _section = section;
     }
+}
+
+-(Section_NoteViewController_iPhone *) section_NoteView{
+    if(!_section_NoteView){
+        _section_NoteView = [self.storyboard instantiateViewControllerWithIdentifier:@"Section_NoteViewController_iPhone"];
+    }
+    return _section_NoteView;
 }
 
 - (void)didReceiveMemoryWarning

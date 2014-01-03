@@ -86,7 +86,12 @@
     self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
     chapterModel *chapter = [self.lessonModel.chapterList firstObject];
     SectionModel *section = [chapter.sectionList firstObject];
-    [self.playerController playMovieWithSectionModel:section orLocalSectionModel:nil withFileType:MPMovieSourceTypeStreaming];
+    SectionModel *lastplaySection = [[Section defaultSection] searchLastPlaySectionModelWithLessonId:self.lessonModel.lessonId];
+    if (lastplaySection) {
+        lastplaySection.lessonId = self.lessonModel.lessonId;
+    }
+    section.lessonId = self.lessonModel.lessonId;
+    [self.playerController playMovieWithSectionModel:lastplaySection?:section withFileType:MPMovieSourceTypeStreaming];
     self.playerController.delegate = self;
     AppDelegate *app = [AppDelegate sharedInstance];
     [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
@@ -105,7 +110,7 @@
     self.section_ChapterView.title = @"章节目录";
     self.section_ChapterView.isMovieView = NO;
     self.section_ChapterView.dataArray = self.lessonModel.chapterList;
-
+    self.section_ChapterView.lessonId = self.lessonModel.lessonId;
     AppDelegate *app = [AppDelegate sharedInstance];
     if (app.isLocal == NO) {
         self.section_GradeView.title = @"打分";
@@ -238,7 +243,7 @@
             self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
             chapterModel *chapter = [self.lessonModel.chapterList firstObject];
             SectionModel *section = [chapter.sectionList firstObject];
-            [self.playerController playMovieWithSectionModel:section orLocalSectionModel:nil withFileType:MPMovieSourceTypeStreaming];
+            [self.playerController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
             self.playerController.delegate = self;
             AppDelegate *app = [AppDelegate sharedInstance];
             [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
@@ -259,7 +264,7 @@
         //播放接口
         UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
         self.playerController = [story instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
-        [self.playerController playMovieWithSectionModel:section orLocalSectionModel:nil withFileType:MPMovieSourceTypeStreaming];
+        [self.playerController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
         AppDelegate *app = [AppDelegate sharedInstance];
         [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
             
@@ -279,8 +284,8 @@
         UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
         self.playerController = [story instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];        
         Section *s = [[Section alloc] init];
-        SectionSaveModel *ssm = [s getDataWithSid:sectionID];
-        [self.playerController playMovieWithSectionModel:nil orLocalSectionModel:ssm withFileType:MPMovieSourceTypeFile];
+        SectionModel *ssm = [s getSectionModelWithSid:sectionID];
+        [self.playerController playMovieWithSectionModel:ssm withFileType:MPMovieSourceTypeFile];
         AppDelegate *app = [AppDelegate sharedInstance];
         [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
             

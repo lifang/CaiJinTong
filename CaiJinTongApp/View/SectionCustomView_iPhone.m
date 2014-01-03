@@ -38,7 +38,7 @@
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",lesson.lessonImageURL]];
             [imageViewC setImageWithURL:url placeholderImage:Image(@"loginBgImage_v.png")];
             imageViewC.tag = [lesson.lessonId intValue];
-            [imageViewC setBackgroundColor:[UIColor grayColor]];//删
+            [imageViewC setBackgroundColor:[UIColor colorWithRed:240.0/255.0 green:230.0/255.0 blue:240.0/255.0 alpha:1.0]];//删
             [imageViewC setClipsToBounds:YES];
             self.imageView = imageViewC;
             [photoBg addSubview:self.imageView];
@@ -99,7 +99,7 @@
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",section.sectionImg]];
             [imageViewC setImageWithURL:url placeholderImage:Image(@"loginBgImage_v.png")];
             imageViewC.tag = [section.sectionId intValue];
-            [imageViewC setBackgroundColor:[UIColor grayColor]];//删
+            [imageViewC setBackgroundColor:[UIColor colorWithRed:240.0/255.0 green:230.0/255.0 blue:240.0/255.0 alpha:1.0]];//删
             [imageViewC setClipsToBounds:YES];
             self.imageView = imageViewC;
             [photoBg addSubview:self.imageView];

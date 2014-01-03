@@ -19,6 +19,7 @@
 @property (nonatomic,strong) NSIndexPath *activeIndexPath;//正在处理中的cell
 @property (nonatomic,assign) BOOL isReaskRefreshing;//判断是追问刷新还是上拉下拉刷新
 @property (nonatomic,strong) DRAskQuestionViewController *askQuestionController;
+@property (nonatomic,strong) UIViewController *modelController;
 @end
 
 @implementation MyQuestionAndAnswerViewController
@@ -57,7 +58,7 @@
     [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [self.noticeBarImageView.layer setCornerRadius:4];
 }
-//数据源
+////数据源
 -(void)reloadDataWithDataArray:(NSArray*)data withQuestionChapterID:(NSString*)chapterID withScope:(QuestionAndAnswerScope)scope{
     self.questionAndAnswerScope = scope;
     self.chapterID = chapterID;
@@ -69,7 +70,22 @@
     
     
     if (self.myQuestionArr.count>0) {
-        QuestionModel *question = [self.myQuestionArr  objectAtIndex:self.myQuestionArr.count-1];
+        [self.tableView reloadData];
+    }
+}
+
+//数据源
+-(void)nextPageDataWithDataArray:(NSArray*)data withQuestionChapterID:(NSString*)chapterID withScope:(QuestionAndAnswerScope)scope{
+    self.questionAndAnswerScope = scope;
+    self.chapterID = chapterID;
+    [self.myQuestionArr addObjectsFromArray:data];
+    self.headerRefreshView.isForbidden = NO;
+    self.footerRefreshView.isForbidden = NO;
+    [self.headerRefreshView endRefreshing];
+    [self.footerRefreshView endRefreshing];
+    
+    
+    if (self.myQuestionArr.count>0) {
         [self.tableView reloadData];
     }
 }
@@ -79,7 +95,32 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark DRAttributeStringViewDelegate用户点击图片内容时调用
+-(void)drAttributeStringView:(DRAttributeStringView *)attriView clickedFileURL:(NSURL *)url withFileType:(DRURLFileType)fileType{
+    if (!self.modelController) {
+       self.modelController = [[UIViewController alloc] init];
+    }
+    for (UIView *subView in self.modelController.view.subviews) {
+        [subView removeFromSuperview];
+    }
+    UIWebView *webView = [[UIWebView alloc] init];
+    [self.modelController.view addSubview:webView];
+    self.modelController.view.frame = (CGRect){0,0,800,700};
+    webView.frame = (CGRect){0,0,800,700};
+    [webView loadRequest:[NSURLRequest requestWithURL:url]];
+    [self presentPopupViewController:self.modelController animationType:MJPopupViewAnimationSlideTopTop isAlignmentCenter:YES dismissed:^{
+        
+    }];
+}
+#pragma mark --
+
 #pragma mark QuestionAndAnswerCellHeaderViewDelegate
+-(float)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header headerHeightAtIndexPath:(NSIndexPath *)path{
+    QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
+    CGRect rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:QUESTIONHEARD_VIEW_WIDTH];
+    return rect.size.height;
+}
+
 //赞问题
 -(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header flowerQuestionAtIndexPath:(NSIndexPath *)path{
 
@@ -135,10 +176,8 @@
 -(float)questionAndAnswerCell:(QuestionAndAnswerCell *)cell getCellheightAtIndexPath:(NSIndexPath *)path{
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
     AnswerModel *answer = [question.answerList objectAtIndex:path.row];
-    
-    NSAttributedString *attriString =  [Utility getTextSizeWithAnswerModel:answer withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:QUESTIONANDANSWER_CELL_WIDTH];
-    CGSize size = [Utility getAttributeStringSizeWithWidth:QUESTIONANDANSWER_CELL_WIDTH withAttributeString:attriString];
-    return size.height;
+    CGRect rect = [DRAttributeStringView boundsRectWithAnswer:answer withWidth:QUESTIONANDANSWER_CELL_WIDTH];
+    return rect.size.height;
 }
 
 -(void)questionAndAnswerCell:(QuestionAndAnswerCell *)cell willBeginTypeQuestionTextFieldAtIndexPath:(NSIndexPath *)path{
@@ -232,6 +271,7 @@
      [cell setAnswerModel:answer withQuestion:question];
     cell.delegate = self;
     cell.path = indexPath;
+    cell.answerAttributeTextView.delegate = self;
     cell.contentView.frame = (CGRect){cell.contentView.frame.origin,CGRectGetWidth(cell.contentView.frame),[self getTableViewRowHeightWithIndexPath:indexPath]};
     return cell;
 }
@@ -256,6 +296,7 @@
     [header setQuestionModel:question withQuestionAndAnswerScope:self.questionAndAnswerScope];
     header.backgroundColor = [UIColor whiteColor];
     header.delegate = self;
+    header.questionContentAttributeView.delegate = self;
     header.path = [NSIndexPath indexPathForRow:0 inSection:section];
     return header;
 }
@@ -291,16 +332,20 @@
             if (self.questionAndAnswerScope == QuestionAndAnswerMYQUESTION) {
                 [self.userQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:user.userId andIsMyselfQuestion:@"0" andLastQuestionID:lastQuestionID withCategoryId:self.chapterID];
             }else if (self.questionAndAnswerScope == QuestionAndAnswerSearchQuestion){
-                [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:user.userId andText:self.searchQuestionText withPageIndex:self.question_pageIndex+1];
+                QuestionModel *question = [self.myQuestionArr lastObject];
+                [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:user.userId andText:self.searchQuestionText withLastQuestionId:question.questionId];
             }
 }
 
 -(float)getTableViewHeaderHeightWithSection:(NSInteger)section{
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:section];
+    CGRect rect;
     if (question.isEditing) {
-        return  [Utility getTextSizeWithString:question.questionName withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:QUESTIONHEARD_VIEW_WIDTH].height + TEXT_HEIGHT + TEXT_PADDING + QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT;
+        rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:QUESTIONHEARD_VIEW_WIDTH];
+        return rect.size.height + TEXT_HEIGHT + TEXT_PADDING + QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT+ 10;
     }else{
-    return  [Utility getTextSizeWithString:question.questionName withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:QUESTIONHEARD_VIEW_WIDTH].height + TEXT_HEIGHT + TEXT_PADDING;
+         rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:QUESTIONHEARD_VIEW_WIDTH] ;
+        return rect.size.height + TEXT_HEIGHT + TEXT_PADDING + 10;
     }
 }
 
@@ -329,12 +374,11 @@
     }
     AnswerModel *answer = [question.answerList objectAtIndex:path.row];
     float questionTextFieldHeight = answer.isEditing?141:0;
-    NSAttributedString *attriString =  [Utility getTextSizeWithAnswerModel:answer withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:QUESTIONANDANSWER_CELL_WIDTH];
-    CGSize size = [Utility getAttributeStringSizeWithWidth:QUESTIONANDANSWER_CELL_WIDTH withAttributeString:attriString];
+    CGRect rect = [DRAttributeStringView boundsRectWithAnswer:answer withWidth:QUESTIONANDANSWER_CELL_WIDTH];
     if (platform >= 7.0) {
-        return size.height+ TEXT_HEIGHT + TEXT_PADDING*3+ questionTextFieldHeight;
+        return rect.size.height+ TEXT_HEIGHT + TEXT_PADDING*3+ questionTextFieldHeight;
     }else{
-        float height = size.height+ TEXT_HEIGHT + TEXT_PADDING+ questionTextFieldHeight;
+        float height = rect.size.height+ TEXT_HEIGHT + TEXT_PADDING+ questionTextFieldHeight;
         return height;
     }
 }
@@ -453,7 +497,12 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             self.question_pageIndex = self.question_pageIndex+1;
-            [self reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:self.chapterID withScope:QuestionAndAnswerSearchQuestion];
+            if (self.headerRefreshView.isForbidden) {//加载下一页
+                [self nextPageDataWithDataArray:chapterQuestionList withQuestionChapterID:self.chapterID withScope:QuestionAndAnswerSearchQuestion];
+            }else{//重新加载
+                [self reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:self.chapterID withScope:QuestionAndAnswerSearchQuestion];
+            }
+            
         });
     });
 }
@@ -533,7 +582,6 @@
                 }else{//重新加载
                     self.myQuestionArr = [NSMutableArray arrayWithArray:chapterQuestionList];
                 }
-                QuestionModel *question = [self.myQuestionArr  lastObject];
                 [self.tableView reloadData];
             }else{
                 [Utility errorAlert:@"数据为空"];
@@ -550,7 +598,6 @@
             NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
             if (chapterQuestionList && [chapterQuestionList count] > 0) {
                 self.myQuestionArr = [NSMutableArray arrayWithArray:chapterQuestionList];
-                QuestionModel *question = [self.myQuestionArr  lastObject];
                 [self.tableView reloadData];
             }else{
                 [Utility errorAlert:@"数据为空"];

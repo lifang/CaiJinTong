@@ -15,6 +15,7 @@
 + (NSString *)createMD5:(NSString *)params;
 + (NSDictionary *)initWithJSONFile:(NSString *)jsonPath;
 + (NSString *)getNowDateFromatAnDate;
++(NSDate*)getDateFromDateString:(NSString*)dateString;
 + (void)errorAlert:(NSString *)message;
 +(CGSize)getTextSizeWithString:(NSString*)text withFont:(UIFont*)font withWidth:(float)width;
 +(NSAttributedString*)getTextSizeWithAnswerModel:(AnswerModel*)answer withFont:(UIFont*)font withWidth:(float)width;

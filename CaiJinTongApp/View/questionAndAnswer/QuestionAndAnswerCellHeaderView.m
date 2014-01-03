@@ -7,13 +7,13 @@
 //
 
 #import "QuestionAndAnswerCellHeaderView.h"
-
 @interface QuestionAndAnswerCellHeaderView ()
 @property (nonatomic,strong) UILabel *questionNameLabel;
 @property (nonatomic,strong) UILabel *questionDateLabel;
 @property (nonatomic,strong) UIImageView *questionFlowerImageView;
 @property (nonatomic,strong) UILabel *questionFlowerLabel;
-@property (nonatomic,strong) UITextView *questionContentTextField;
+//@property (nonatomic,strong) UITextView *questionContentTextField;
+
 //@property (nonatomic,strong) UIButton *questionFlowerBt;
 @property (nonatomic,strong) UIView *backgroundView;
 @property (nonatomic,strong) UIImageView *questionImg;
@@ -62,16 +62,8 @@
         self.questionFlowerLabel.textColor = [UIColor darkGrayColor];
         [self.backgroundView addSubview:self.questionFlowerLabel];
         
-        self.questionContentTextField = [[UITextView alloc] init];
-        self.questionContentTextField.backgroundColor = [UIColor clearColor];
-        self.questionContentTextField.font = [UIFont systemFontOfSize:TEXT_FONT_SIZE+6];
-        self.questionContentTextField.textColor = [UIColor blueColor];
-        self.questionContentTextField.textAlignment = NSTextAlignmentLeft;
-        [self.questionContentTextField setUserInteractionEnabled:NO];
-        self.questionContentTextField.contentInset = UIEdgeInsetsMake(-10,-5,0,0);
-//        self.questionContentTextField.textColor = [UIColor darkGrayColor];
-        [self.backgroundView addSubview:self.questionContentTextField];
-        
+        self.questionContentAttributeView = [[DRAttributeStringView alloc] init];
+        [self.backgroundView addSubview:self.questionContentAttributeView];
 //        self.questionFlowerBt = [[UIButton alloc] init];
 //        self.questionFlowerBt.backgroundColor = [UIColor clearColor];
 //        [self.questionFlowerBt addTarget:self action:@selector(flowerBtClicked) forControlEvents:UIControlEventTouchUpInside];
@@ -180,7 +172,7 @@
     self.questionNameLabel.text = question.askerNick;
     self.questionDateLabel.text = [NSString stringWithFormat:@"发表于%@",question.askTime];
     self.questionFlowerLabel.text = question.praiseCount;
-    self.questionContentTextField.text = question.questionName;
+    self.questionContentAttributeView.questionModel = question;
 //    [self.questionFlowerBt setUserInteractionEnabled:NO];
     [self.summitQuestionAnswerBackView setHidden:!question.isEditing];
     [self setNeedsLayout];
@@ -205,10 +197,11 @@
     
     self.questionImg.frame = (CGRect){TEXT_PADDING*2+2,HEADER_TEXT_HEIGHT+2,20,20};
 //    float contentWidth = CGRectGetWidth(self.frame)-CGRectGetMaxX(self.questionImg.frame)-TEXT_PADDING*2;
-    self.questionContentTextField.frame = (CGRect){CGRectGetMaxX(self.questionImg.frame),HEADER_TEXT_HEIGHT,QUESTIONHEARD_VIEW_WIDTH,[Utility getTextSizeWithString:self.questionContentTextField.text withFont:self.questionContentTextField.font withWidth:QUESTIONHEARD_VIEW_WIDTH].height};
+    float height = [self.delegate questionAndAnswerCellHeaderView:self headerHeightAtIndexPath:self.path];
+    self.questionContentAttributeView.frame = (CGRect){CGRectGetMaxX(self.questionImg.frame),HEADER_TEXT_HEIGHT,QUESTIONHEARD_VIEW_WIDTH,height};
     
     if (!self.summitQuestionAnswerBackView.isHidden) {
-        self.summitQuestionAnswerBackView.frame = (CGRect){TEXT_PADDING*2,CGRectGetMaxY(self.questionContentTextField.frame)+TEXT_PADDING,QUESTIONHEARD_VIEW_WIDTH,QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT-TEXT_PADDING};
+        self.summitQuestionAnswerBackView.frame = (CGRect){TEXT_PADDING*2,CGRectGetMaxY(self.questionContentAttributeView.frame)+TEXT_PADDING,QUESTIONHEARD_VIEW_WIDTH,QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT-TEXT_PADDING};
         self.answerQuestionTextField.frame = (CGRect){0,0,QUESTIONHEARD_VIEW_WIDTH,80};
         self.submitAnswerBt.frame = (CGRect){QUESTIONHEARD_VIEW_WIDTH/2-50,90,100,30};
     }

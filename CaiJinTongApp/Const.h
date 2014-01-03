@@ -29,6 +29,7 @@ typedef enum {LESSONSORTTYPE_CurrentStudy,
     LESSONSORTTYPE_LessonName}LESSONSORTTYPE;//课程排序类型
 #define POPOUCHANGEVIEWFRAME @"popouChangeViewFrame"
 //#define kHost @"http://wmi.finance365.com/api/ios.ashx"
+#define kImageHost @"http://lms.finance365.com"
 #define kHost @"http://lms.finance365.com/api/ios.ashx"
 //#define kSummitQuestHost  @"http://lms.finance365.com/api/ios.ashx"
 //#define kQuestHost  kHost

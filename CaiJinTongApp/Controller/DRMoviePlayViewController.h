@@ -55,7 +55,7 @@ typedef enum {MOVIE_FILE,MOVIE_INTERNET}MovieLocateType;
 //开始播放入口，设置播放文件
 //-(void)playMovieWithURL:(NSURL*)url withFileType:(MPMovieSourceType)fileType;
 //-(void)playMovieWithURL:(NSURL*)url withFileType:(MPMovieSourceType)fileType withLessonName:(NSString*)lessonName;
--(void)playMovieWithSectionModel:(SectionModel*)sectionModel orLocalSectionModel:(SectionSaveModel*)saveSectionModel withFileType:(MPMovieSourceType)fileType;
+-(void)playMovieWithSectionModel:(SectionModel*)sectionModel withFileType:(MPMovieSourceType)fileType;
 @end
 
 @protocol DRMoviePlayViewControllerDelegate <NSObject>

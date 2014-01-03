@@ -11,6 +11,7 @@
 @interface SectionSaveModel : NSObject
 
 @property (nonatomic, strong) NSString *sid;//视频id
+@property (nonatomic, strong) NSString *lessonId;//课程id
 @property (nonatomic, strong) NSString *name;//视频名称
 @property (nonatomic, strong) NSString *fileUrl;//下载地址
 @property (nonatomic, strong) NSString *playUrl;//在线播放地址
@@ -20,6 +21,7 @@
 @property (nonatomic, strong) NSString *contentLength;//大小
 
 @property (nonatomic, strong) NSString *sectionStudy;//已经学习时间
+@property (nonatomic, strong) NSString *sectionFinishedDate;//保存到数据库日期
 @property (nonatomic, strong) NSString *sectionLastTime;//视频总的时长
 
 @property (nonatomic, strong) NSString *sectionImg;//视频封面图片

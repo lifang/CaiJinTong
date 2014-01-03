@@ -66,7 +66,7 @@
         
         if (![rs next]) {
             [rs close];
-            [self.db executeUpdate:@"CREATE TABLE Section (id INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE , sid VARCHAR , name VARCHAR,fileUrl VARCHAR, downloadState INTEGER,contentLength DOUBLE,percentDown FLOAT,sectionStudy VARCHAR,sectionLastTime VARCHAR,sectionImg VARCHAR,lessonInfo VARCHAR,sectionTeacher VARCHAR)"];
+            [self.db executeUpdate:@"CREATE TABLE Section (id INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE , sid VARCHAR ,lessonId VARCHAR, name VARCHAR,fileUrl VARCHAR,playUrl VARCHAR,localFileUrl VARCHAR, downloadState INTEGER,contentLength DOUBLE,percentDown FLOAT,sectionStudy VARCHAR,sectionLastTime VARCHAR,sectionImg VARCHAR,lessonInfo VARCHAR,sectionTeacher VARCHAR,sectionFinishedDate  VARCHAR)"];
         }
         
         [rs close];

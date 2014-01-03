@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 @protocol Section_NoteCellDelegate;
 @interface Section_NoteCell : UITableViewCell
-//@property (weak, nonatomic) IBOutlet UILabel *sectionNameLab;
 @property (weak, nonatomic) IBOutlet UITextView *contentTextView;
 @property (nonatomic, strong) IBOutlet UILabel *sectionNameLab;
 @property (nonatomic, strong) IBOutlet UILabel *timeLab;

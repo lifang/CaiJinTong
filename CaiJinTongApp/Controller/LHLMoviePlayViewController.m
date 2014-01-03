@@ -15,6 +15,7 @@
 @property (nonatomic,assign) BOOL isHiddlePlayerControlView;
 @property (nonatomic,assign) BOOL isPlaying;
 @property (nonatomic,assign) BOOL isPopupChapter;
+@property (nonatomic,assign) BOOL isBack;//是否退出播放
 @property (nonatomic,assign) __block float currentMoviePlaterVolume;
 @property (nonatomic,strong) LHLCommitQuestionViewController *commitQuestionVC;
 @property (nonatomic,strong) LHLTakingMovieNoteViewController *takingMovieNotesVC;
@@ -27,10 +28,6 @@
     if (self.sectionModel) {
         self.drMovieTopBar.titleLabel.text = self.sectionModel.sectionName;
     }
-    else if(self.sectionSaveModel){
-        self.drMovieTopBar.titleLabel.text = self.sectionSaveModel.name;
-    }
-    
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -105,13 +102,15 @@
 {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(playVideo:) name:@"gotoMoviePlay" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(changePlayVideoOnLine:) name:@"changePlaySectionMovieOnLine" object:nil];
     [self addApplicationNotification];
     [super viewDidLoad];
     self.myNotesItem.delegate = self;
     self.myQuestionItem.delegate = self;
     
     self.isPopupChapter = NO;
-    [self addMoviePlayBackNotification];
+//    [self addMoviePlayBackNotification];
     
     //    [self.moviePlayer play];
     self.moviePlayer.view.frame = (CGRect){0,0,IP5(568, 480),320};
@@ -122,7 +121,7 @@
     self.moviePlayerHolderView.layer.cornerRadius = 10;
     
     //视频加载提示框
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     [self.moviePlayerControlBackDownView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"play_barBG.png"]]];
     UIImage *maximukmTrackImage = [[UIImage imageNamed:@"play_black.png"] scaleToSize:CGSizeMake(572, 8)];
@@ -143,14 +142,14 @@
     self.section_ChapterView.alpha = 0.8;
     
     //测试数据
-    self.sectionId = @"2928";
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
-    }else {
-            self.sectionInterface = [[SectionInfoInterface alloc] init];
-            self.sectionInterface.delegate = self;
-        [self.sectionInterface getSectionInfoInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andSectionId:@"2928"];
-    }
+//    self.sectionId = @"2928";
+//    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+//        [Utility errorAlert:@"暂无网络!"];
+//    }else {
+//            self.sectionInterface = [[SectionInfoInterface alloc] init];
+//            self.sectionInterface.delegate = self;
+//        [self.sectionInterface getSectionInfoInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andSectionId:@"2928"];
+//    }
 }
 
 -(void)dealloc{
@@ -170,6 +169,7 @@
                 for(UIViewController *vc in self.childViewControllers){
                     if([vc isKindOfClass:[Section_ChapterViewController_iPhone class]]){
                         self.section_chapterController = (Section_ChapterViewController_iPhone *)vc;
+                        self.section_chapterController.lessonId = self.sectionModel.sectionId;
                         break;
                     }
                 }
@@ -180,10 +180,6 @@
             } else if (self.sectionSaveModel) {
                 self.section_chapterController.dataArray = [NSMutableArray arrayWithArray:[sectionDB getChapterInfoWithSid:self.sectionId]];
             }
-            
-            //测试数据,可删除
-            self.section_chapterController.dataArray = [NSMutableArray arrayWithArray:self.sectionModel.sectionList];
-            [self.section_chapterController.tableViewList reloadData];
             self.isPopupChapter = YES;
         }else {
             self.isPopupChapter = NO;
@@ -286,25 +282,34 @@
 
 #pragma mark notification
 -(void)playVideo:(NSNotification*)notification{
+    self.isBack = NO;
     [self saveCurrentStatus];
     NSString *sectionID = [notification.userInfo objectForKey:@"sectionID"];
-    NSString *path = nil;
-    NSString *documentDir;
-    if (platform>5.0) {
-        documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    }else{
-        documentDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    }
-    path = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@.mp4",sectionID]];
+    NSString *path = [CaiJinTongManager getMovieLocalPathWithSectionID:sectionID];
     Section *s = [[Section alloc] init];
-    SectionSaveModel *ssm = [s getDataWithSid:sectionID];
-    self.sectionSaveModel = ssm;
+    SectionModel *ssm = [s getSectionModelWithSid:sectionID];
+    self.drMovieSourceType = MPMovieSourceTypeFile;
     NSURL *url = [NSURL fileURLWithPath:path];
     if (![self.movieUrl.absoluteString  isEqualToString:url.absoluteString]) {
-        [self playMovieWithURL:url withFileType:MPMovieSourceTypeFile withLessonName:[notification.userInfo objectForKey:@"sectionName"]];
+        [self playMovieWithSectionModel:ssm withFileType:MPMovieSourceTypeFile];
+    }else{
+        [Utility errorAlert:@"当前文件正在播放"];
     }
 }
 
+//切换视频
+-(void)changePlayVideoOnLine:(NSNotification*)notification{
+    self.isBack = NO;
+    [self saveCurrentStatus];
+    SectionModel *section = [notification.userInfo objectForKey:@"sectionModel"];
+    self.drMovieSourceType = MPMovieSourceTypeStreaming;
+    NSURL *url = [NSURL URLWithString:section.sectionMoviePlayURL];
+    if (![self.movieUrl.absoluteString  isEqualToString:url.absoluteString]) {
+        [self playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
+    }else{
+        [Utility errorAlert:@"当前文件正在播放"];
+    }
+}
 
 -(void)didChangeMoviePlayerStateNotification{//当播放，暂停时触发
     DLog(@"didChangeMoviePlayerStateNotification:%d",self.moviePlayer.playbackState);
@@ -353,7 +358,12 @@
     
     if ([[notification.userInfo  objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey] integerValue] == MPMovieFinishReasonPlaybackEnded) {
         self.seekSlider.value = 1;
-    }
+    }else
+        if ([[notification.userInfo  objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey] integerValue] == MPMovieFinishReasonPlaybackError) {
+            self.seekSlider.value = 0;
+            [self removeMoviePlayBackNotification];
+            [Utility errorAlert:@"播放文件已经损坏或是格式不支持"];
+        }
 }
 
 -(void)didChangeMoviePlayerURLNotification{//播放的视频url改变时触发
@@ -372,7 +382,7 @@
 #pragma mark -- 提交问题
 -(void)commitQuestionController:(LHLCommitQuestionViewController *)controller didCommitQuestionWithTitle:(NSString *)title andText:(NSString *)text andQuestionId:(NSString *)questionId{
     self.myQuestionItem.isSelected = NO;
-    
+    [self.moviePlayer play];
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
@@ -386,6 +396,7 @@
 
 -(void)commitQuestionControllerCancel{
     self.myQuestionItem.isSelected = NO;
+    [self.moviePlayer play];
 }
 
 #pragma mark -- 提交笔记
@@ -393,6 +404,7 @@
     self.commitNoteText = text;
     self.commitNoteTime = noteTime;
     self.myNotesItem.isSelected = NO;
+    [self.moviePlayer play];
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
@@ -400,26 +412,29 @@
         SumitNoteInterface *sumitNoteInter = [[SumitNoteInterface alloc]init];
         self.sumitNoteInterface = sumitNoteInter;
         self.sumitNoteInterface.delegate = self;
-        [self.sumitNoteInterface getSumitNoteInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionId andNoteTime:noteTime andNoteText:text];
+        [self.sumitNoteInterface getSumitNoteInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionModel.sectionId andNoteTime:noteTime andNoteText:text];
     }
 }
 
 -(void)takingMovieNoteControllerCancel{
     self.myNotesItem.isSelected = NO;
+    [self.moviePlayer play];
 }
 #pragma mark --
 
 #pragma mark DRMoviePlayerTopBarDelegate
--(void)drMoviePlayerTopBarbackItemClicked:(DRMoviePlayerTopBar *)topBar{
+-(void)exitPlayMovie{
     [self.section_chapterController willMoveToParentViewController:nil];
     [self.section_chapterController removeFromParentViewController];
     [self.section_chapterController.view removeFromSuperview];
     [self dismissViewControllerAnimated:YES completion:^{
-        [self saveCurrentStatus];
         [self.moviePlayer stop];
         self.moviePlayer = nil;
     }];
-    
+}
+-(void)drMoviePlayerTopBarbackItemClicked:(DRMoviePlayerTopBar *)topBar{
+    self.isBack = YES;
+    [self saveCurrentStatus];
 }
 #pragma mark --
 
@@ -438,14 +453,10 @@
 #pragma mark action
 
 -(void)playMovie{
-    //  ----删
-    self.drMovieSourceType = MPMovieSourceTypeFile;
-    //  ----删
-    
     if (!self.movieUrl) {
         return;
     }
-    
+    self.moviePlayer.initialPlaybackTime = [self.sectionModel.sectionLastPlayTime floatValue];
     if (self.drMovieSourceType == MPMovieSourceTypeFile) {
         [self.moviePlayer setContentURL:self.movieUrl];
         [self.moviePlayer play];
@@ -460,21 +471,45 @@
 
 -(void)saveCurrentStatus{
     //保存之前的状态
-    if (self.drMovieSourceType == MPMovieSourceTypeFile) {
-        [[Section defaultSection] updateStudyTime:[NSString stringWithFormat:@"%0.2f",self.moviePlayer.currentPlaybackTime] BySid:self.sectionSaveModel.sid];
-    }else{
-        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-            [Utility errorAlert:@"暂无网络!"];
-        }else {
-            //判断是否播放完毕
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            PlayBackInterface *playBackInter = [[PlayBackInterface alloc]init];
-            self.playBackInterface = playBackInter;
-            self.playBackInterface.delegate = self;
-            NSString *timespan = [Utility getNowDateFromatAnDate];
-            NSString *status = self.seekSlider.value >= 1?@"completed": @"incomplete";
-            [self.playBackInterface getPlayBackInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionId andTimeEnd:timespan andStatus:status];
+    NSString *timespan = [NSString stringWithFormat:@"%.2f",self.moviePlayer.currentPlaybackTime];
+    self.sectionModel.sectionFinishedDate = [Utility getNowDateFromatAnDate];
+    self.sectionModel.sectionLastPlayTime = timespan;
+    [[Section defaultSection] saveSectionModelFinishedDateWithSectionModel:self.sectionModel withLessonId:self.sectionModel.lessonId];
+    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+        if (self.isBack) {
+            [self exitPlayMovie];
         }
+        
+    }else {
+        //判断是否播放完毕
+        //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        PlayBackInterface *playBackInter = [[PlayBackInterface alloc]init];
+        self.playBackInterface = playBackInter;
+        self.playBackInterface.delegate = self;
+        //        NSString *timespan = [Utility getNowDateFromatAnDate];
+        
+        NSString *status = self.seekSlider.value >= 1?@"completed": @"incomplete";
+        [self.playBackInterface getPlayBackInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionModel.sectionId andTimeEnd:timespan andStatus:status];
+    }
+}
+
+-(void)playMovieWithSectionModel:(SectionModel*)sectionModel withFileType:(MPMovieSourceType)fileType{
+    if (!sectionModel) {
+        [Utility errorAlert:@"没有发现要播放的文件"];
+        return;
+    }
+    self.sectionModel = sectionModel;
+    [self addMoviePlayBackNotification];
+    self.drMovieSourceType = fileType;
+    self.drMovieTopBar.titleLabel.text = sectionModel.sectionName;
+    if (fileType == MPMovieSourceTypeFile) {
+        self.movieUrl = [NSURL fileURLWithPath:[CaiJinTongManager getMovieLocalPathWithSectionID:sectionModel.sectionId]];
+    }else
+        if (fileType == MPMovieSourceTypeStreaming) {
+            self.movieUrl = [NSURL URLWithString:sectionModel.sectionMoviePlayURL];
+        }
+    if (self.isViewLoaded) {
+        [self playMovie];
     }
 }
 
@@ -508,7 +543,11 @@
 }
 
 -(void)removeMoviePlayBackNotification{
-    [[NSNotificationCenter defaultCenter]removeObserver:self];
+//    [[NSNotificationCenter defaultCenter]removeObserver:self];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:MPMoviePlayerLoadStateDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:MPMoviePlayerPlaybackStateDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:MPMoviePlayerNowPlayingMovieDidChangeNotification object:nil];
 }
 //实时更新进度条
 -(void)startObservePlayBackProgressBar{
@@ -568,7 +607,6 @@
 }
 
 -(void)setIsHiddlePlayerControlView:(BOOL)isHiddlePlayerControlView{
-    NSLog(@"%fplayer宽度:%f",self.moviePlayerView.frame.size.width,self.moviePlayer.view.frame.size.width);
     _isHiddlePlayerControlView = isHiddlePlayerControlView;
     [UIView animateWithDuration:0.5 animations:^{
         if (isHiddlePlayerControlView) {
@@ -600,7 +638,7 @@
         [self.moviePlayerView addSubview:_moviePlayer.view];
         [self.moviePlayerView sendSubviewToBack:_moviePlayer.view];
         
-        
+        [_moviePlayer setScalingMode:MPMovieScalingModeAspectFill];
     }
     return _moviePlayer;
 }
@@ -620,7 +658,7 @@
 }
 // pre-iOS 6 support
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
-    return (toInterfaceOrientation == UIInterfaceOrientationMaskLandscapeLeft);
+    return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
 }
 
 #pragma mark TOUCH
@@ -636,12 +674,17 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [[NSNotificationCenter defaultCenter] removeObserver:self];
+            if (self.isBack) {
+                [self exitPlayMovie];
+            }
         });
     });
 }
 -(void)getPlayBackDidFailed:(NSString *)errorMsg {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
+    if (self.isBack) {
+        [self exitPlayMovie];
+    }else
     [Utility errorAlert:errorMsg];
 }
 #pragma mark -- SumitNoteInterfaceDelegate
@@ -649,6 +692,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [Utility errorAlert:@"笔记提交成功"];
             //前一个view笔记里面加上刚提交的笔记
             if (self.delegate && [self.delegate respondsToSelector:@selector(lhlMoviePlayerViewController:commitNotesSuccess:andTime:)]) {
                 [self.delegate lhlMoviePlayerViewController:self commitNotesSuccess:self.commitNoteText andTime:self.commitNoteTime];
@@ -665,6 +709,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [Utility errorAlert:@"问题提交成功"];
         });
     });
 }
@@ -672,22 +717,5 @@
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
 }
-
-#pragma mark -- SectionInfoInterface  测试数据用,可删除
--(void)getSectionInfoDidFinished:(SectionModel *)result {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        SectionModel *section = (SectionModel *)result;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            self.sectionModel = section;
-        });
-    });
-}
-
--(void)getSectionInfoDidFailed:(NSString *)errorMsg {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Utility errorAlert:errorMsg];
-}
-
 
 @end

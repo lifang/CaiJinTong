@@ -6,6 +6,7 @@
 	objectVersion = 46;
 	objects = {
 
+
 /* Begin PBXBuildFile section */
 		0E5267261829E9EC0009E535 /* CustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E5267251829E9EC0009E535 /* CustomButton.m */; };
 		0E5267291829EA450009E535 /* SectionSaveModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E5267281829EA450009E535 /* SectionSaveModel.m */; };
@@ -294,6 +295,9 @@
 		6330033C1845F81200F7838D /* radio_unchecked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 633003381845F81200F7838D /* radio_unchecked@2x.png */; };
 		633003911845FC2100F7838D /* QRadioButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6330038E1845FC2100F7838D /* QRadioButton.m */; };
 		633003981846022500F7838D /* SexRadioView.m in Sources */ = {isa = PBXBuildFile; fileRef = 633003971846022500F7838D /* SexRadioView.m */; };
+		633BE0711872D70000CAA04B /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 633BE06E1872D70000CAA04B /* HTMLNode.m */; };
+		633BE0721872D70000CAA04B /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 633BE0701872D70000CAA04B /* HTMLParser.m */; };
+		633BE0751872D76400CAA04B /* DRAttributeStringView.m in Sources */ = {isa = PBXBuildFile; fileRef = 633BE0741872D76400CAA04B /* DRAttributeStringView.m */; };
 		633F6C901865802A00E322C9 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 633F6C8F1865802A00E322C9 /* CoreData.framework */; };
 		6376B3061839E62F0015C537 /* line2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6376B3051839E62F0015C537 /* line2@2x.png */; };
 		63841CF01838977000E3FA9E /* ChapterSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 63841CEF1838977000E3FA9E /* ChapterSearchBar.m */; };
@@ -808,6 +812,12 @@
 		6330038E1845FC2100F7838D /* QRadioButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRadioButton.m; sourceTree = "<group>"; };
 		633003961846022500F7838D /* SexRadioView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SexRadioView.h; sourceTree = "<group>"; };
 		633003971846022500F7838D /* SexRadioView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SexRadioView.m; sourceTree = "<group>"; };
+		633BE06D1872D70000CAA04B /* HTMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLNode.h; sourceTree = "<group>"; };
+		633BE06E1872D70000CAA04B /* HTMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLNode.m; sourceTree = "<group>"; };
+		633BE06F1872D70000CAA04B /* HTMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLParser.h; sourceTree = "<group>"; };
+		633BE0701872D70000CAA04B /* HTMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLParser.m; sourceTree = "<group>"; };
+		633BE0731872D76400CAA04B /* DRAttributeStringView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRAttributeStringView.h; sourceTree = "<group>"; };
+		633BE0741872D76400CAA04B /* DRAttributeStringView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRAttributeStringView.m; sourceTree = "<group>"; };
 		633F6C8F1865802A00E322C9 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		6376B3051839E62F0015C537 /* line2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "line2@2x.png"; sourceTree = "<group>"; };
 		63841CEE1838977000E3FA9E /* ChapterSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChapterSearchBar.h; sourceTree = "<group>"; };
@@ -1320,6 +1330,7 @@
 		0EDF4DDA18210241007161E0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				631105A818726D0F00ACA2A4 /* questionCellView */,
 				184F8AA9184336F400A2FEB4 /* View_iPhone */,
 				631227E1182B405C00530CC3 /* questionAndAnswer */,
 				630CB0821828E82A002FD462 /* movieCotr */,
@@ -1700,6 +1711,15 @@
 			name = movieCotr;
 			sourceTree = "<group>";
 		};
+		631105A818726D0F00ACA2A4 /* questionCellView */ = {
+			isa = PBXGroup;
+			children = (
+				633BE0731872D76400CAA04B /* DRAttributeStringView.h */,
+				633BE0741872D76400CAA04B /* DRAttributeStringView.m */,
+			);
+			name = questionCellView;
+			sourceTree = "<group>";
+		};
 		631227E1182B405C00530CC3 /* questionAndAnswer */ = {
 			isa = PBXGroup;
 			children = (
@@ -1726,6 +1746,17 @@
 			name = radioBtuuon;
 			sourceTree = "<group>";
 		};
+		633BE06C1872D70000CAA04B /* HTMLParser */ = {
+			isa = PBXGroup;
+			children = (
+				633BE06D1872D70000CAA04B /* HTMLNode.h */,
+				633BE06E1872D70000CAA04B /* HTMLNode.m */,
+				633BE06F1872D70000CAA04B /* HTMLParser.h */,
+				633BE0701872D70000CAA04B /* HTMLParser.m */,
+			);
+			path = HTMLParser;
+			sourceTree = "<group>";
+		};
 		6376B3041839E6200015C537 /* lesson */ = {
 			isa = PBXGroup;
 			children = (
@@ -1740,6 +1771,7 @@
 		639A07A01823905900B60670 /* thirty */ = {
 			isa = PBXGroup;
 			children = (
+				633BE06C1872D70000CAA04B /* HTMLParser */,
 				63921AE8186442FC006627B2 /* 财金通logo.png */,
 				639F434518631804006FBE26 /* DRTree */,
 				63B794DF1847477100B8276A /* MJRefresh */,
@@ -2108,6 +2140,7 @@
 				0EA36ED7182CB5570074D67B /* CustomTextView.m in Sources */,
 				1864A83C1875383A00B26024 /* Section_ChapterViewController_iPhone_Embed.m in Sources */,
 				1812A4E91851D1AA009B3D5D /* QuestionAndAnswerCell_iPhone.m in Sources */,
+				633BE0711872D70000CAA04B /* HTMLNode.m in Sources */,
 				0EDF4DF518210241007161E0 /* NSString+URLEncoding.m in Sources */,
 				0EB849331835DE2700C97030 /* SettingViewController.m in Sources */,
 				185780DE187282210070CB0D /* LessonModel+toSection.m in Sources */,
@@ -2137,6 +2170,7 @@
 				0EAFA11A18223FC500D01D3E /* CJTMainToolbar.m in Sources */,
 				631227E4182B409F00530CC3 /* QuestionAndAnswerCell.m in Sources */,
 				18E0D75C185025AE001A6667 /* MenuTableViewController.m in Sources */,
+				633BE0751872D76400CAA04B /* DRAttributeStringView.m in Sources */,
 				183F77AF1839B5E8004D0263 /* MBProgressHUD.m in Sources */,
 				639F434F18631804006FBE26 /* DRTreeCell.m in Sources */,
 				631227E7182B40EB00530CC3 /* QuestionAndAnswerCellHeaderView.m in Sources */,
@@ -2178,6 +2212,7 @@
 				0EDF4DF618210241007161E0 /* Reachability.m in Sources */,
 				180D88B6186D0F41008FC145 /* LHLAskQuestionViewController.m in Sources */,
 				0EA7EF7D182748BB00C47F69 /* SDWebImageManager.m in Sources */,
+				633BE0721872D70000CAA04B /* HTMLParser.m in Sources */,
 				0EAFA1121822399000D01D3E /* BaseInterface.m in Sources */,
 				0EA7EF3A1823581F00C47F69 /* SectionModel.m in Sources */,
 				18335B67183C982600DB8B7E /* DRAskQuestionViewController.m in Sources */,
@@ -2341,7 +2376,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CaiJinTongApp/CaiJinTongApp-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
-				HEADER_SEARCH_PATHS = "${SDK_DIR}/usr/include/libxml2";
+				HEADER_SEARCH_PATHS = (
+					"${SDK_DIR}/usr/include/libxml2",
+					"$(SDKROOT)/usr/include/libxml2",
+				);
 				INFOPLIST_FILE = "CaiJinTongApp/CaiJinTongApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2367,7 +2405,10 @@
 				GCC_INPUT_FILETYPE = sourcecode.c.objc;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CaiJinTongApp/CaiJinTongApp-Prefix.pch";
-				HEADER_SEARCH_PATHS = "${SDK_DIR}/usr/include/libxml2";
+				HEADER_SEARCH_PATHS = (
+					"${SDK_DIR}/usr/include/libxml2",
+					"$(SDKROOT)/usr/include/libxml2",
+				);
 				INFOPLIST_FILE = "CaiJinTongApp/CaiJinTongApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";

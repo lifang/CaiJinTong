@@ -15,6 +15,8 @@
 #import "Section_chapterModel.h"
 #import "DRMoviePlayViewController.h"
 #import "SectionViewController.h"
+
+
 @implementation CustomButton
 
 - (id)initWithFrame:(CGRect)frame
@@ -189,4 +191,10 @@
     [MBProgressHUD hideHUDForView:appDelegate.window animated:YES];
     [Utility errorAlert:errorMsg];
 }
+
+#pragma mark UIAlertViewDelegate
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+
+}
+#pragma mark --
 @end

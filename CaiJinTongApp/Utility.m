@@ -175,6 +175,12 @@
     return dataObject;
 }
 
++(NSDate*)getDateFromDateString:(NSString*)dateString{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    return [dateFormatter dateFromString:dateString];
+}
+
 + (NSString *)getNowDateFromatAnDate {
     NSDate *anyDate = [NSDate date];
     //设置源日期时区

@@ -9,10 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "TQStarRatingView_iPhone.h"
 #import "CustomTextView.h"
-
+#import "MJRefresh.h"
 #import "CommentListInterface.h"
 #import "GradeInterface.h"
-@interface Section_GradeViewController_iPhone : UIViewController<StarRatingViewDelegate_iPhone,UITableViewDataSource, UITableViewDelegate,UITextViewDelegate,CommentListInterfaceDelegate,GradeInterfaceDelegate>
+@interface Section_GradeViewController_iPhone : UIViewController<StarRatingViewDelegate_iPhone,UITableViewDataSource, UITableViewDelegate,UITextViewDelegate,CommentListInterfaceDelegate,GradeInterfaceDelegate,MJRefreshBaseViewDelegate>
 
 
 - (void)viewDidCurrentView;

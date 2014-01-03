@@ -26,4 +26,10 @@
     // Configure the view for the selected state
 }
 
+- (IBAction)section_noteTitleClicked:(id)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(section_NoteCell:didSelectedAtIndexPath:)]) {
+        [self.delegate section_NoteCell:self didSelectedAtIndexPath:self.path];
+    }
+}
+
 @end

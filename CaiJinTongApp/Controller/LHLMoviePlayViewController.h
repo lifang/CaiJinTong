@@ -33,8 +33,7 @@
 
 typedef enum {MOVIE_FILE,MOVIE_INTERNET}MovieLocateType;
 @protocol LHLMoviePlayViewControllerDelegate;
-@interface LHLMoviePlayViewController : UIViewController<MovieControllerItemDelegate,DRMoviePlayerPlaybackProgressBarDelegate,CustomPlayerViewDelegate,PlayBackInterfaceDelegate,SumitNoteInterfaceDelegate,DRMoviePlayerTopBarDelegate,AskQuestionInterfaceDelegate,SectionInfoInterfaceDelegate>
-//SectionInfoInterfaceDelegate为测试数据用,可删除
+@interface LHLMoviePlayViewController : UIViewController<MovieControllerItemDelegate,DRMoviePlayerPlaybackProgressBarDelegate,CustomPlayerViewDelegate,PlayBackInterfaceDelegate,SumitNoteInterfaceDelegate,DRMoviePlayerTopBarDelegate,AskQuestionInterfaceDelegate>
 
 @property (weak, nonatomic) IBOutlet DRMoviePlayerTopBar *drMovieTopBar;
 @property (weak, nonatomic) IBOutlet CustomPlayerView *moviePlayerView;
@@ -74,12 +73,13 @@ typedef enum {MOVIE_FILE,MOVIE_INTERNET}MovieLocateType;
 - (IBAction)volumeSliderTouchChangeValue:(id)sender;
 - (IBAction)volumeBtClicked:(id)sender;
 //开始播放入口，设置播放文件
--(void)playMovieWithURL:(NSURL*)url withFileType:(MPMovieSourceType)fileType;
--(void)playMovieWithURL:(NSURL*)url withFileType:(MPMovieSourceType)fileType withLessonName:(NSString*)lessonName;
+//-(void)playMovieWithURL:(NSURL*)url withFileType:(MPMovieSourceType)fileType;
+//-(void)playMovieWithURL:(NSURL*)url withFileType:(MPMovieSourceType)fileType withLessonName:(NSString*)lessonName;
+-(void)playMovieWithSectionModel:(SectionModel*)sectionModel withFileType:(MPMovieSourceType)fileType;
 @end
 
 @protocol LHLMoviePlayViewControllerDelegate <NSObject>
 
 -(void)lhlMoviePlayerViewController:(LHLMoviePlayViewController*)playerController commitNotesSuccess:(NSString*)noteText andTime:(NSString *)noteTime;
-
+-(LessonModel*)lessonModelForDrMoviePlayerViewController;
 @end

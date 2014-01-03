@@ -11,10 +11,15 @@
 #import "NoteModel.h"
 #import "SectionModel.h"
 #import "Section_chapterModel.h"
+#import "SectionModel.h"
 @interface Section : BaseDao
 +(Section*)defaultSection;
 -(NSArray *)getDowningInfo;
--(SectionSaveModel *)getDataWithSid:(NSString *) sid;//获取信息
+-(SectionModel*)searchLastPlaySectionModelWithLessonId:(NSString*)lessonId;//获取最近播放的sectionModel
+-(void)saveSectionModelFinishedDateWithSectionModel:(SectionModel*)section withLessonId:(NSString*)lessonId;//保存最近播放结束时间
+
+-(SectionSaveModel *)getDataWithSid:(NSString *) sid;
+-(SectionModel *)getSectionModelWithSid:(NSString *) sid;//获取信息
 -(void)deleteDataWithSid:(NSString *) sid;//删除
 -(BOOL)addDataWithSectionSaveModel:(SectionSaveModel *)model;
 -(BOOL)updateTheStateWithSid:(NSString *) sid andDownloadState:(NSUInteger)downloadState;//更新下载状态信息

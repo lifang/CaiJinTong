@@ -160,7 +160,6 @@
     self.qflowerLabel.text = answer.answerPraiseCount;
 //    self.answerTextField.text = answer.answerContent;
     [self.questionBackgroundView setHidden:!answer.isEditing];
-    self.answerTextField.font = [UIFont systemFontOfSize:TEXT_FONT_SIZE+6];
     
     //赞
     [self modifyPraiseBtStatusWithAnswerModel:answer withQuestion:question];
@@ -172,8 +171,7 @@
     //追问实现
     [self modifyReaskAnswerBtStatusWithAnswerModel:answer withQuestion:question];
     
-    NSAttributedString *attriString =  [Utility getTextSizeWithAnswerModel:answer withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:QUESTIONANDANSWER_CELL_WIDTH];
-    self.answerTextField.attributedText = attriString;
+    self.answerAttributeTextView.answerModel = answer;
     [self setNeedsLayout];
     
 //    self.qTitleNameLabel.backgroundColor = [UIColor clearColor];
@@ -186,11 +184,7 @@
 //    self.questionTextField.backgroundColor = [UIColor colorWithRed:238.0/255.0 green:238.0/255.0 blue:238.0/255.0 alpha:1.0];
 //    self.questionBackgroundView.backgroundColor = [UIColor clearColor];
 //    self.answerBackgroundView.backgroundColor = [UIColor clearColor];
-    self.answerTextField.contentInset = UIEdgeInsetsMake(-10, -5, 0, 0);
 //    self.answerTextField.backgroundColor = [UIColor redColor];
-    [self.answerTextField setEditable:NO];
-    [self.answerTextField setScrollEnabled:NO];
-    [self.answerTextField setPagingEnabled:YES];
 //    self.answerBackgroundView.backgroundColor = [UIColor greenColor];
 }
 
@@ -225,8 +219,7 @@
     self.acceptAnswerBt.frame = (CGRect){CGRectGetMaxX(self.qflowerLabel.frame)+TEXT_PADDING,0,self.acceptAnswerBt.frame.size};
     
     float cellHeight = [self.delegate questionAndAnswerCell:self getCellheightAtIndexPath:self.path];
-    self.answerBackgroundView.frame = (CGRect){self.answerBackgroundView.frame.origin,QUESTIONANDANSWER_CELL_WIDTH,cellHeight};
-    
+    self.answerAttributeTextView.frame = (CGRect){self.answerAttributeTextView.frame.origin,QUESTIONANDANSWER_CELL_WIDTH,cellHeight};
     self.qflowerBt.frame = (CGRect){CGRectGetMinX(self.qflowerImageView.frame)-TEXT_PADDING,0,CGRectGetMaxX(self.qflowerLabel.frame) - CGRectGetMinX(self.qflowerImageView.frame)+TEXT_PADDING*2,CGRectGetHeight(self.qTitleNameLabel.frame)};
 }
 

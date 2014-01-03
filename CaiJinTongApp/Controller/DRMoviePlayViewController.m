@@ -24,7 +24,6 @@
 @property (nonatomic,assign) BOOL isBack;//是否退出播放
 @property (nonatomic,assign) __block float currentMoviePlaterVolume;
 @property (nonatomic, strong) SectionModel *sectionModel;
-@property (nonatomic, strong) SectionSaveModel *sectionSaveModel;
 @property (assign,nonatomic) MPMovieSourceType drMovieSourceType;//播放文件类型，本地还是在线视频
 @end
 
@@ -35,10 +34,6 @@
     if (self.sectionModel) {
         self.drMovieTopBar.titleLabel.text = self.sectionModel.sectionName;
     }
-    else if(self.sectionSaveModel){
-        self.drMovieTopBar.titleLabel.text = self.sectionSaveModel.name;
-    }
-   
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -168,6 +163,7 @@
                 self.section_chapterController.isMovieView = YES;
                  [self.view addSubview:self.section_chapterController.view];
             }
+            self.section_chapterController.lessonId = self.sectionModel.lessonId;
             LessonModel *lessonModel = [self.delegate lessonModelForDrMoviePlayerViewController];
             if (lessonModel) {
                 self.section_chapterController.dataArray = lessonModel.chapterList;
@@ -224,6 +220,11 @@
     NSLog(@"seekSliderTouchChangeValue:%f",((UISlider*)sender).value);
     double playBack = self.moviePlayer.duration*((UISlider*)sender).value;
     DLog(@"%f,%f",self.moviePlayer.duration,((UISlider*)sender).value);
+//    if (playBack > self.moviePlayer.currentPlaybackTime) {
+//        [self.moviePlayer beginSeekingForward];
+//    }else{
+//        [self.moviePlayer beginSeekingBackward];
+//    }
     self.moviePlayer.currentPlaybackTime = playBack;
 }
 
@@ -289,7 +290,7 @@
     self.drMovieSourceType = MPMovieSourceTypeStreaming;
     NSURL *url = [NSURL URLWithString:section.sectionMoviePlayURL];
     if (![self.movieUrl.absoluteString  isEqualToString:url.absoluteString]) {
-        [self playMovieWithSectionModel:section orLocalSectionModel:nil withFileType:MPMovieSourceTypeStreaming];
+        [self playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
     }else{
         [Utility errorAlert:@"当前文件正在播放"];
     }
@@ -301,11 +302,11 @@
     NSString *sectionID = [notification.userInfo objectForKey:@"sectionID"];
     NSString *path = [CaiJinTongManager getMovieLocalPathWithSectionID:sectionID];
     Section *s = [[Section alloc] init];
-    SectionSaveModel *ssm = [s getDataWithSid:sectionID];
+    SectionModel *ssm = [s getSectionModelWithSid:sectionID];
     self.drMovieSourceType = MPMovieSourceTypeFile;
     NSURL *url = [NSURL fileURLWithPath:path];
     if (![self.movieUrl.absoluteString  isEqualToString:url.absoluteString]) {
-        [self playMovieWithSectionModel:nil orLocalSectionModel:ssm withFileType:MPMovieSourceTypeFile];
+        [self playMovieWithSectionModel:ssm withFileType:MPMovieSourceTypeFile];
     }else{
         [Utility errorAlert:@"当前文件正在播放"];
     }
@@ -417,11 +418,7 @@
         SumitNoteInterface *sumitNoteInter = [[SumitNoteInterface alloc]init];
         self.sumitNoteInterface = sumitNoteInter;
         self.sumitNoteInterface.delegate = self;
-        if (self.drMovieSourceType == MPMovieSourceTypeFile) {
-             [self.sumitNoteInterface getSumitNoteInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionSaveModel.sid andNoteTime:noteTime andNoteText:text];
-        }else{
-            [self.sumitNoteInterface getSumitNoteInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionModel.sectionId andNoteTime:noteTime andNoteText:text];
-        }
+        [self.sumitNoteInterface getSumitNoteInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionModel.sectionId andNoteTime:noteTime andNoteText:text];
     }
 }
 
@@ -457,6 +454,7 @@
 
 -(void)playBackProgressBarTouchEnd:(DRMoviePlayerPlaybackProgressBar *)progressBar{
     [self.moviePlayer play];
+//    [self.moviePlayer endSeeking];
     [self startObservePlayBackProgressBar];
 }
 
@@ -467,7 +465,7 @@
     if (!self.movieUrl) {
         return;
     }
-    
+    self.moviePlayer.initialPlaybackTime = [self.sectionModel.sectionLastPlayTime floatValue];
     if (self.drMovieSourceType == MPMovieSourceTypeFile) {
         [self.moviePlayer setContentURL:self.movieUrl];
         [self.moviePlayer play];
@@ -477,78 +475,74 @@
             [self.moviePlayer prepareToPlay];
             [self.moviePlayer play];
         }
+//    [self.moviePlayer beginSeekingForward];
+    
+//    [self.moviePlayer endSeeking];
     self.isPlaying = YES;
 }
 
 
-
 //-(void)saveCurrentStatus{
-//    //保存之前的状态
-//    if (self.drMovieSourceType == MPMovieSourceTypeFile) {
+//    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
 //        [[Section defaultSection] updateStudyTime:[NSString stringWithFormat:@"%0.2f",self.moviePlayer.currentPlaybackTime] BySid:self.sectionSaveModel.sid];
-//    }else{
-//        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-//            [Utility errorAlert:@"暂无网络!"];
-//            if (self.isBack) {
-//                [self exitPlayMovie];
-//            }
-//        }else {
-//            //判断是否播放完毕
-//            //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//            PlayBackInterface *playBackInter = [[PlayBackInterface alloc]init];
-//            self.playBackInterface = playBackInter;
-//            self.playBackInterface.delegate = self;
-//            NSString *timespan = [Utility getNowDateFromatAnDate];
-//            NSString *status = self.seekSlider.value >= 1?@"completed": @"incomplete";
-//            [self.playBackInterface getPlayBackInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionModel.sectionId andTimeEnd:timespan andStatus:status];
+//        if (self.isBack) {
+//             [self exitPlayMovie];
+//        }
+//       
+//    }else {
+//        //判断是否播放完毕
+//        //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//        PlayBackInterface *playBackInter = [[PlayBackInterface alloc]init];
+//        self.playBackInterface = playBackInter;
+//        self.playBackInterface.delegate = self;
+//        NSString *timespan = [Utility getNowDateFromatAnDate];
+////         NSString *timespan = [NSString stringWithFormat:@"%.2f",self.moviePlayer.currentPlaybackTime];
+//        NSString *status = self.seekSlider.value >= 1?@"completed": @"incomplete";
+//        if (self.drMovieSourceType == MPMovieSourceTypeFile) {
+//             [self.playBackInterface getPlayBackInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionSaveModel.sid andTimeEnd:timespan andStatus:status];
+//        }else{
+//             [self.playBackInterface getPlayBackInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionModel.sectionId andTimeEnd:timespan andStatus:status];
 //        }
 //    }
 //}
 
 -(void)saveCurrentStatus{
+    NSString *timespan = [NSString stringWithFormat:@"%.2f",self.moviePlayer.currentPlaybackTime];
+    self.sectionModel.sectionFinishedDate = [Utility getNowDateFromatAnDate];
+    self.sectionModel.sectionLastPlayTime = timespan;
+    [[Section defaultSection] saveSectionModelFinishedDateWithSectionModel:self.sectionModel withLessonId:self.sectionModel.lessonId];
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [[Section defaultSection] updateStudyTime:[NSString stringWithFormat:@"%0.2f",self.moviePlayer.currentPlaybackTime] BySid:self.sectionSaveModel.sid];
         if (self.isBack) {
-             [self exitPlayMovie];
+            [self exitPlayMovie];
         }
-       
+        
     }else {
         //判断是否播放完毕
         //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
         PlayBackInterface *playBackInter = [[PlayBackInterface alloc]init];
         self.playBackInterface = playBackInter;
         self.playBackInterface.delegate = self;
-        NSString *timespan = [Utility getNowDateFromatAnDate];
+//        NSString *timespan = [Utility getNowDateFromatAnDate];
+        
         NSString *status = self.seekSlider.value >= 1?@"completed": @"incomplete";
-        if (self.drMovieSourceType == MPMovieSourceTypeFile) {
-             [self.playBackInterface getPlayBackInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionSaveModel.sid andTimeEnd:timespan andStatus:status];
-        }else{
-             [self.playBackInterface getPlayBackInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionModel.sectionId andTimeEnd:timespan andStatus:status];
-        }
+        [self.playBackInterface getPlayBackInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionModel.sectionId andTimeEnd:timespan andStatus:status];
     }
 }
 
 
--(void)playMovieWithSectionModel:(SectionModel*)sectionModel orLocalSectionModel:(SectionSaveModel*)saveSectionModel withFileType:(MPMovieSourceType)fileType{
-    if (!saveSectionModel && fileType == MPMovieSourceTypeFile) {
-        [Utility errorAlert:@"没有发现要播放的文件"];
-        return;
-    }else
-        if (!sectionModel && fileType == MPMovieSourceTypeStreaming) {
+-(void)playMovieWithSectionModel:(SectionModel*)sectionModel withFileType:(MPMovieSourceType)fileType{
+        if (!sectionModel) {
             [Utility errorAlert:@"没有发现要播放的文件"];
             return;
         }
+    self.sectionModel = sectionModel;
     [self addMoviePlayBackNotification];
     self.drMovieSourceType = fileType;
+    self.drMovieTopBar.titleLabel.text = sectionModel.sectionName;
     if (fileType == MPMovieSourceTypeFile) {
-        self.sectionSaveModel = saveSectionModel;
-        self.drMovieTopBar.titleLabel.text = saveSectionModel.name;
-        self.movieUrl = [NSURL fileURLWithPath:[CaiJinTongManager getMovieLocalPathWithSectionID:saveSectionModel.sid]];
+        self.movieUrl = [NSURL fileURLWithPath:[CaiJinTongManager getMovieLocalPathWithSectionID:sectionModel.sectionId]];
     }else
         if (fileType == MPMovieSourceTypeStreaming) {
-            self.sectionModel = sectionModel;
-            self.drMovieTopBar.titleLabel.text = sectionModel.sectionName;
-//            self.movieUrl = [NSURL URLWithString:@"http://nginx.finance365.com/6/184/966/20130506143924184.mp4"];
             self.movieUrl = [NSURL URLWithString:sectionModel.sectionMoviePlayURL];
         }
     if (self.isViewLoaded) {

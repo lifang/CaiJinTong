@@ -11,8 +11,10 @@
 #import "SectionModel.h"
 #import "SectionSaveModel.h"
 #import "Section.h"
-@interface Section_ChapterViewController_iPhone ()
 
+#define CAPTER_CELL_WIDTH 276
+@interface Section_ChapterViewController_iPhone ()
+@property (nonatomic,strong) UILabel *tipLabel;
 @end
 @implementation Section_ChapterViewController_iPhone
 
@@ -88,13 +90,16 @@
 }
 #pragma mark -- tableViewDelegate
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    if (!self.dataArray || self.dataArray.count <= 0) {
+        [self.tipLabel removeFromSuperview];
+        [tableView addSubview:self.tipLabel];
+    }
     NSInteger number = [self.dataArray count];
     return number;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     NSInteger rows = ((chapterModel *)self.dataArray[section]).sectionList.count;
-    NSLog(@"%i",rows);
     return rows;
 }
 
@@ -139,24 +144,49 @@
         }else {
             cell.statusLab.text = @"下载";
         }
-        cell.sliderFrontView.frame = CGRectMake(0, 37, 277 * sectionSave.downloadPercent, 11);
+        cell.sliderFrontView.frame = CGRectMake(0, 37, CAPTER_CELL_WIDTH * sectionSave.downloadPercent, 11);
         if (contentlength>0) {
             cell.lengthLab.text = [NSString stringWithFormat:@"%.2fM/%.2fM",contentlength*sectionSave.downloadPercent,contentlength];
         }
+        sectionSave.fileUrl = section.sectionMovieDownloadURL;
+        sectionSave.playUrl = section.sectionMoviePlayURL;
+        sectionSave.name = section.sectionName;
+        sectionSave.lessonId = self.lessonId;
         cell.btn.buttonModel = sectionSave;
         
     }else {
         sectionSave = [[SectionSaveModel alloc]init];
         sectionSave.sid = section.sectionId;
         sectionSave.downloadState = 4;
+        sectionSave.name = section.sectionName;
         sectionSave.downloadPercent = 0;
+        sectionSave.fileUrl = section.sectionMovieDownloadURL;
+        sectionSave.playUrl = section.sectionMoviePlayURL;
+        sectionSave.name = section.sectionName;
+        sectionSave.lessonId = self.lessonId;
         cell.btn.buttonModel = sectionSave;
-        cell.sliderFrontView.frame = CGRectMake(0, 37, 277 * 0, 11);
+        cell.sliderFrontView.frame = CGRectMake(47, 73, CAPTER_CELL_WIDTH * 0, 33);
         cell.statusLab.text = @"未下载";
         cell.lengthLab.text = @"";
     }
+    cell.sectionModel = section;
+    cell.isMoviePlayView = self.isMovieView;
+    cell.btn.isMovieView = self.isMovieView;
     cell.sectionS = sectionSave;
     cell.timeLab.text = section.sectionLastTime;
     return cell;
 }
+
+#pragma mark property
+-(UILabel *)tipLabel{
+    if (!_tipLabel) {
+        _tipLabel = [[UILabel alloc] initWithFrame:(CGRect){0,0,CAPTER_CELL_WIDTH,self.tableViewList.frame.size.height}];
+        _tipLabel.textAlignment = NSTextAlignmentCenter;
+        _tipLabel.textColor = [UIColor grayColor];
+        _tipLabel.font = [UIFont systemFontOfSize:25];
+        [_tipLabel setText:@"没有数据"];
+    }
+    return _tipLabel;
+}
+
 @end

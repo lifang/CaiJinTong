@@ -9,8 +9,9 @@
 #import "Section_NoteViewController_iPhone.h"
 #import "Section_NoteCell_iPhone.h"
 #import "NoteModel.h"
+#define NOTE_CELL_WIDTH 261
 @interface Section_NoteViewController_iPhone ()
-
+@property (nonatomic,strong) UILabel *tipLabel;
 @end
 
 @implementation Section_NoteViewController_iPhone
@@ -49,6 +50,10 @@
 //    return 50;UIScrollView
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (!self.dataArray || self.dataArray.count <= 0) {
+        [self.tipLabel removeFromSuperview];
+        [tableView addSubview:self.tipLabel];
+    }
     return self.dataArray.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -67,7 +72,18 @@
     cell.contentTextView.contentInset = UIEdgeInsetsMake(-4, 0, 0, 0);
 //    [cell.contentTextView zoomToRect:CGRectMake(10, 55, 255, size.height + 21) animated:NO];
     [cell.contentTextView setUserInteractionEnabled:NO];
+    cell.contentLab.text = @"我还没有改好!";
+    cell.path = indexPath;
+    cell.delegate = self;
     return cell;
+}
+
+#pragma mark Section_NoteCellDelegate
+-(void)section_NoteCell:(Section_NoteCell_iPhone *)cell didSelectedAtIndexPath:(NSIndexPath *)path{
+    NoteModel *note = [self.dataArray objectAtIndex:path.row];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(section_NoteViewController:didClickedNoteCellWithObj:)]) {
+        [self.delegate section_NoteViewController:self didClickedNoteCellWithObj:note];
+    }
 }
 
 #pragma mark property
@@ -79,6 +95,17 @@
         }
     }
     _dataArray = data;
+}
+
+-(UILabel *)tipLabel{
+    if (!_tipLabel) {
+        _tipLabel = [[UILabel alloc] initWithFrame:(CGRect){0,0,NOTE_CELL_WIDTH,self.tableViewList.frame.size.height}];
+        _tipLabel.textAlignment = NSTextAlignmentCenter;
+        _tipLabel.textColor = [UIColor grayColor];
+        _tipLabel.font = [UIFont systemFontOfSize:30];
+        [_tipLabel setText:@"没有数据"];
+    }
+    return _tipLabel;
 }
 
 @end

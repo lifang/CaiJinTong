@@ -13,11 +13,10 @@
 @protocol MyQuestionCategatoryInterfaceDelegate;
 @interface MyQuestionCategatoryInterface : BaseInterface<BaseInterfaceDelegate>
 @property (nonatomic, weak) id<MyQuestionCategatoryInterfaceDelegate>delegate;
-@property (assign,nonatomic) QuestionAndAnswerScope questionScope;
--(void)downloadMyQuestionCategoryDataWithUserId:(NSString*)userId withQuestionType:(QuestionAndAnswerScope)scope;
+-(void)downloadMyQuestionCategoryDataWithUserId:(NSString*)userId;
 @end
 @protocol MyQuestionCategatoryInterfaceDelegate <NSObject>
--(void)getMyQuestionCategoryDataDidFinished:(NSArray*)categoryNotes withQuestionType:(QuestionAndAnswerScope)scope;
+-(void)getMyQuestionCategoryDataDidFinishedWithMyAnswerCategorynodes:(NSArray*)myAnswerCategoryNotes withMyQuestionCategorynodes:(NSArray*)myQuestionCategoryNotes;
 
 -(void)getMyQuestionCategoryDataFailure:(NSString*)errorMsg;
 @end
