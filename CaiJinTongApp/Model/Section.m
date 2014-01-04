@@ -68,7 +68,7 @@ static Section *defaultSection = nil;
 }
 
 -(BOOL)addDataWithSectionSaveModel:(SectionSaveModel *)model{
-    BOOL res = [self.db executeUpdate:@"insert into Section ( sid , lessonId,name , fileUrl ,playUrl, localFileUrl,downloadState ,contentLength,percentDown,sectionStudy,sectionLastTime,sectionImg,lessonInfo,sectionTeacher,sectionFinishedDate) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+    BOOL res = [self.db executeUpdate:@"insert into Section ( sid , lessonId,name , fileUrl ,playUrl, localFileUrl,downloadState ,contentLength,percentDown,sectionStudy,sectionLastTime,sectionImg,lessonInfo,sectionTeacher,sectionFinishedDate,firstPlayOfflineDate,totalPlayOfflineTime) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
                 , model.sid
                 ,model.lessonId
                 ,model.name
@@ -83,7 +83,9 @@ static Section *defaultSection = nil;
                 ,model.sectionImg
                 ,model.lessonInfo
                 ,model.sectionTeacher
-                ,@""];
+                ,@""
+                ,@"0"
+                ,@"0"];
     return res;
 }
 -(BOOL)updateTheStateWithSid:(NSString *) sid andDownloadState:(NSUInteger)downloadState {
@@ -104,6 +106,56 @@ static Section *defaultSection = nil;
     return [self.db executeUpdate:@"update Section set percentDown = ? where sid= ?",[NSString stringWithFormat:@"%lf", length], sid];
 }
 
+-(void)addPlayTimeOffLineWithSectionId:(NSString*)sectionId withTimeForSecond:(NSString*)playTime{//追加离线播放时长
+    if (!sectionId || !!playTime) {
+        return;
+    }
+    NSString *totalTime = nil;
+    FMResultSet * rs = [self.db executeQuery:@"select totalPlayOfflineTime from Section where sid = ?",sectionId];
+    if (rs.next) {
+        totalTime = [rs stringForColumn:@"totalPlayOfflineTime"];
+    }
+    [self.db executeUpdate:@"update Section set totalPlayOfflineTime = ? where sid= ?",[NSString stringWithFormat:@"%d",totalTime.intValue + playTime.intValue], sectionId];
+}
+-(void)updatePlayDateOffLineWithSectionId:(NSString*)sectionId{//重新计算离线播放时间点
+    if (!sectionId) {
+        return;
+    }
+    [self.db executeUpdate:@"update Section set totalPlayOfflineTime = ?,firstPlayOfflineDate = ? where sid= ?",@"0", [Utility getNowDateFromatAnDate],sectionId];
+}
+-(NSString*)selectTotalPlayDateOffLineWithSectionId:(NSString*)sectionId{//计算第一次离线播放时间点＋离线播放时长
+//     firstPlayOfflineDate VARCHAR,totalPlayOfflineTime VARCHAR
+    if (!sectionId) {
+        return nil;
+    }
+    NSString *totalTime = nil;
+     NSString *offlineDate = nil;
+    FMResultSet * rs = [self.db executeQuery:@"select totalPlayOfflineTime,firstPlayOfflineDate from Section where sid = ?",sectionId];
+    if (rs.next) {
+        totalTime = [rs stringForColumn:@"totalPlayOfflineTime"];
+        offlineDate = [rs stringForColumn:@"firstPlayOfflineDate"];
+    }
+    if (offlineDate && totalTime) {
+        NSDate *offDate = [Utility getDateFromDateString:offlineDate];
+        NSDate *lastDate = [offDate dateByAddingTimeInterval:totalTime.intValue];
+        offlineDate = [Utility getStringFromDate:lastDate];
+    }
+    return offlineDate;
+}
+
+-(NSString*)selectTotalPlayTimeOffLineWithSectionId:(NSString*)sectionId{//计算第一次离线播放时间点＋离线播放时长
+    //     firstPlayOfflineDate VARCHAR,totalPlayOfflineTime VARCHAR
+    if (!sectionId) {
+        return nil;
+    }
+    NSString *totalTime = nil;
+    FMResultSet * rs = [self.db executeQuery:@"select totalPlayOfflineTime from Section where sid = ?",sectionId];
+    if (rs.next) {
+        totalTime = [rs stringForColumn:@"totalPlayOfflineTime"];
+    }
+    return totalTime;
+}
+
 -(void)saveSectionModelFinishedDateWithSectionModel:(SectionModel*)section withLessonId:(NSString*)lessonId{
     if (!section) {
         return;
@@ -112,7 +164,8 @@ static Section *defaultSection = nil;
     if (rs.next) {
         [self.db executeUpdate:@"update Section set sectionFinishedDate = ?,sectionStudy=? where sid= ?",section.sectionFinishedDate,section.sectionLastPlayTime, section.sectionId];
     }else{
-        [self.db executeUpdate:@"insert into Section ( sid , lessonId,name , fileUrl ,playUrl, localFileUrl,downloadState ,contentLength,percentDown,sectionStudy,sectionLastTime,sectionImg,lessonInfo,sectionTeacher,sectionFinishedDate) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+       
+        [self.db executeUpdate:@"insert into Section ( sid , lessonId,name , fileUrl ,playUrl, localFileUrl,downloadState ,contentLength,percentDown,sectionStudy,sectionLastTime,sectionImg,lessonInfo,sectionTeacher,sectionFinishedDate,firstPlayOfflineDate,totalPlayOfflineTime) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
          , section.sectionId
          ,lessonId?:@""
          ,section.sectionName
@@ -127,7 +180,9 @@ static Section *defaultSection = nil;
          ,@""
          ,@""
          ,@""
-         ,section.sectionFinishedDate];
+         ,section.sectionFinishedDate
+         ,@"0"
+         ,@"0"];
     }
 }
 

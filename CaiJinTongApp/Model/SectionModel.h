@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) NSString *sectionId;//视频id
 @property (nonatomic, strong) NSString *lessonId;//课程id
+@property (nonatomic, strong) NSString *lessonCategoryId;//课程所属分类
 @property (nonatomic, strong) NSString *sectionName;//视频名称
 @property (strong,nonatomic) NSString *sectionLastPlayTime;//最后一次播放时间点
 @property (strong,nonatomic) NSString *sectionMoviePlayURL;//视频播放url

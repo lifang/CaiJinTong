@@ -65,7 +65,7 @@
                                     if (array && array.count > 0) {
                                         NSDictionary *lessonDic = [array lastObject];
                                         lessonModel.lessonId = [NSString stringWithFormat:@"%@",[lessonDic objectForKey:@"lessonId"]];
-                                        
+                                        lessonModel.lessonCategoryId = [NSString stringWithFormat:@"%@",[lessonDic objectForKey:@"lessonCategoryId"]];
                                         lessonModel.lessonName = [NSString stringWithFormat:@"%@",[lessonDic objectForKey:@"lessonName"]];
                                         lessonModel.lessonImageURL = [NSString stringWithFormat:@"%@",[lessonDic objectForKey:@"sectionImg"]];
                                         lessonModel.lessonStudyProgress = [NSString stringWithFormat:@"%@",[lessonDic objectForKey:@"studyProgress"]];
@@ -88,6 +88,7 @@
                                             NSMutableArray *sectionArr = [NSMutableArray array];
                                             for (NSDictionary *sectionDic in sectionList) {
                                                 SectionModel *section = [[SectionModel alloc] init];
+                                                section.lessonCategoryId = lessonModel.lessonCategoryId;
                                                 section.sectionId = [NSString stringWithFormat:@"%@",[sectionDic objectForKey:@"sectionId"]];
                                                 section.sectionName = [NSString stringWithFormat:@"%@",[sectionDic objectForKey:@"sectionName"]];
                                                 section.sectionMoviePlayURL = [NSString stringWithFormat:@"%@",[sectionDic objectForKey:@"sectionMoviePlayURL"]];

@@ -11,11 +11,11 @@
 #define LINE_PADDING 5
 #define IMAGE_WIDTH 300
 #define IMAGE_HEIGHT 200
-#define Question_Content_Font [UIFont systemFontOfSize:15]
-#define Answer_Content_Font [UIFont systemFontOfSize:15]
-#define Reask_Content_Font [UIFont systemFontOfSize:15]
+#define Question_Content_Font [UIFont systemFontOfSize:22]
+#define Answer_Content_Font [UIFont systemFontOfSize:22]
+#define Reask_Content_Font [UIFont systemFontOfSize:22]
 #define Reask_Title_Font [UIFont systemFontOfSize:10]
-#define ReAnswer_Content_Font [UIFont systemFontOfSize:15]
+#define ReAnswer_Content_Font [UIFont systemFontOfSize:22]
 #define ReAnswer_Title_Font [UIFont systemFontOfSize:10]
 
 #define Question_Content_Color [UIColor blueColor]

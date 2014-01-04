@@ -108,6 +108,9 @@ static void * const keypath = (void*)&keypath;
             
         }
     }
+    if ([self respondsToSelector:@selector(willDismissPopoupController)]) {
+        [self performSelector:@selector(willDismissPopoupController) withObject:nil];
+    }
     UIView *sourceView = [presentedController topView];
 //    DLog(@"%@>>>>%@",[sourceView subviews],sourceView);
     UIView *popupView = [sourceView viewWithTag:kMJPopupViewTag];

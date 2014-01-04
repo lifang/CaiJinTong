@@ -58,7 +58,8 @@ static BOOL tableVisible;
     self.drnavigationBar.titleLabel.text = @"我要提问";
 
     //问答分类
-        self.questionCategoryList = [TestModelData getTreeNodeArrayFromArray:[TestModelData loadJSON]];
+//        self.questionCategoryList = [TestModelData getTreeNodeArrayFromArray:[TestModelData loadJSON]];
+    self.questionCategoryList = [NSMutableArray arrayWithArray:[[CaiJinTongManager shared] questionCategoryArr]];
     [self.view addSubview:self.categoryTreeTableView];
     //tableView of 问答分类
     frame = CGRectMake(6, 160, 41, 123);//按钮坐标
@@ -73,6 +74,9 @@ static BOOL tableVisible;
 -(void)drTreeTableView:(DRTreeTableView *)treeView didSelectedTreeNode:(DRTreeNode *)selectedNote{
     self.selectedQuestionCategoryId = selectedNote.noteContentID;
     [self.dropDownBt setTitle:selectedNote.noteContentName forState:UIControlStateNormal];
+    if (selectedNote.childnotes.count <= 0) {
+        self.dropdownmenuSelected = !self.dropdownmenuSelected;
+    }
 }
 
 -(BOOL)drTreeTableView:(DRTreeTableView *)treeView isExtendChildSelectedTreeNode:(DRTreeNode *)selectedNote{
@@ -177,6 +181,8 @@ static BOOL tableVisible;
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"数据提交成功" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
             [alert show];
+            self.questionTitleTextField.text = @"";
+            self.questionContentTextView.text = @"";
         });
     });
 }

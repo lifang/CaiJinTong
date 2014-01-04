@@ -33,6 +33,7 @@
 @property (strong,nonatomic) LessonCategoryInterface *lessonCategoryInterface;//获取课程分类
 @property (strong,nonatomic) LessonListForCategory *lessonListForCategory;//根据分类获取课程列表
 @property (weak, nonatomic) IBOutlet UIView *leftBackGroundview;
+@property (weak, nonatomic) IBOutlet UIView *rightBackGroundview;
 @property (weak, nonatomic) IBOutlet UIButton *lessonListBt;
 @property (weak, nonatomic) IBOutlet UIButton *questionListBt;
 @property (weak, nonatomic) IBOutlet UILabel *lessonListTitleLabel;

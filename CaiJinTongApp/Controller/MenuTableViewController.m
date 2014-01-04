@@ -196,7 +196,7 @@ static NSString *chapterName;
     dispatch_async(dispatch_get_main_queue(), ^{
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         self.drTreeTableView.noteArr = [NSMutableArray arrayWithArray:categoryNotes];
-        [[CaiJinTongManager shared] setLessonCategoryArr:[NSMutableArray arrayWithArray:categoryNotes]];
+//        [[CaiJinTongManager shared] setLessonCategoryArr:[NSMutableArray arrayWithArray:categoryNotes]];
     });
 }
 

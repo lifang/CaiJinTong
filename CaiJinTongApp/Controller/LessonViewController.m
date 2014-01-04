@@ -38,7 +38,8 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 @property (nonatomic, strong) NSArray *allQuestionCategoryArr;//所有问答分类信息
 @property (nonatomic, strong) NSArray *myQuestionCategoryArr;//我的提问分类信息
 @property (nonatomic, strong) NSArray *myAnswerCategoryArr;//我的回答分类信息
-
+@property (nonatomic, strong) DRNavigationController *lessonNavigationController;
+@property (nonatomic, strong) DRNavigationController *questionNavigationController;
 //组合所有问答分类，我的提问问答分类，我的回答分类
 -(NSMutableArray*)togetherAllQuestionCategorys;
 @end
@@ -66,7 +67,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 }
 
 //获取我的问答分类信息
--(void)getMyQuestionCategoryListWithQuestionScope:(QuestionAndAnswerScope)scope{
+-(void)getMyQuestionCategoryList{
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
@@ -100,13 +101,9 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hiddleSearchKeyboard) name:@"hiddleSearchKeyboardNotification" object:nil];
-    DRNavigationController *drNavi = [self.childViewControllers lastObject];
-    if (drNavi) {
-        UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-        self.chapterView = [story instantiateViewControllerWithIdentifier:@"ChapterViewController"];
-        [drNavi pushViewController:self.chapterView animated:NO];
-    }
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingViewControllerDismis) name:@"SettingViewControllerDismiss" object:nil];
     self.listType = LESSON_LIST;
     [Utility setBackgroungWithView:self.LogoImageView.superview andImage6:@"login_bg_7" andImage7:@"login_bg_7"];
@@ -124,6 +121,14 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     
     self.drTreeTableView.backgroundColor = [UIColor colorWithRed:12/255.0 green:43/255.0 blue:75/255.0 alpha:1];
     [self.lessonListBackgroundView addSubview:self.drTreeTableView];
+    
+    if (self.lessonNavigationController) {
+        [self addChildViewController:_lessonNavigationController];
+        _lessonNavigationController.view.frame = (CGRect){305,0,768-305,1024};
+        [self.view addSubview:_lessonNavigationController.view];
+        [_lessonNavigationController didMoveToParentViewController:self];
+    }
+    
     [self downloadLessonCategoryInfo];
     //按默认顺序加载
     [self downloadLessonListForCatogory];
@@ -152,38 +157,41 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 
 - (IBAction)lessonListBtClicked:(id)sender {
     self.listType = LESSON_LIST;
-//    self.drTreeTableView.noteArr = [NSMutableArray arrayWithArray:[TestModelData getTreeNodeArrayFromArray:[TestModelData loadJSON]]];
-    DRNavigationController *navi = [self.childViewControllers lastObject];
-    if (navi.childViewControllers.count > 2) {
-        UIViewController *childController = [navi.childViewControllers objectAtIndex:1];
-        [navi popToViewController:childController animated:YES];
+    self.drTreeTableView.noteArr = [NSMutableArray arrayWithArray:[TestModelData getTreeNodeArrayFromArray:[TestModelData loadJSON]]];
+    if (_questionNavigationController) {
+        [_questionNavigationController willMoveToParentViewController:nil];
+        [_questionNavigationController.view removeFromSuperview];
+        [_questionNavigationController removeFromParentViewController];
     }
+    if (self.lessonNavigationController) {
+        [self addChildViewController:_lessonNavigationController];
+        _lessonNavigationController.view.frame = (CGRect){305,0,768,1024-250};
+        [self.view addSubview:_lessonNavigationController.view];
+        [_lessonNavigationController didMoveToParentViewController:self];
+    }
+    
+//    [self.navigationController pushViewController:self.chapterView animated:YES];
+//    self.navigationController.view.frame = (CGRect){305,0,719,779};;
+//    self.chapterView.view.frame = (CGRect){305,0,719,779};;
     [self downloadLessonCategoryInfo];
 }
 
 - (IBAction)questionListBtClicked:(id)sender {
     [self.searchText resignFirstResponder];
     self.listType = QUEATION_LIST;
-    DRNavigationController *navi = [self.childViewControllers lastObject];
-    if (!self.myQAVC) {
-        self.myQAVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
-//        NSMutableArray *array = [TestModelData getQuestion];
-//        [self.myQAVC reloadDataWithDataArray:array withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
-         [navi pushViewController:self.myQAVC animated:YES];
-    }else{
-        if (navi) {
-            if ([[navi.childViewControllers lastObject] isKindOfClass:[MyQuestionAndAnswerViewController class]] || ([[navi.childViewControllers lastObject] isKindOfClass:[DRAskQuestionViewController class]])) {
-                
-            }else{
-                [navi pushViewController:self.myQAVC animated:YES];
-            }
-            
-        }
+    if (_lessonNavigationController) {
+        [_lessonNavigationController willMoveToParentViewController:nil];
+        [_lessonNavigationController.view removeFromSuperview];
+        [_lessonNavigationController removeFromParentViewController];
     }
-
+    if (self.questionNavigationController) {
+        [self addChildViewController:_questionNavigationController];
+        _questionNavigationController.view.frame = (CGRect){305,0,768,1024-250};
+        [self.view addSubview:_questionNavigationController.view];
+        [_questionNavigationController didMoveToParentViewController:self];
+    }
      [self getQuestionInfo];
-     [self getMyQuestionCategoryListWithQuestionScope:QuestionAndAnswerMYANSWER];
-     [self getMyQuestionCategoryListWithQuestionScope:QuestionAndAnswerMYQUESTION];
+     [self getMyQuestionCategoryList];
 }
 
 - (IBAction)SearchBrClicked:(id)sender {
@@ -197,11 +205,13 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
             self.isSearching = YES;
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             if (self.listType == LESSON_LIST) {
+                [self.lessonNavigationController popToRootViewControllerAnimated:YES];
                 SearchLessonInterface *searchLessonInter = [[SearchLessonInterface alloc]init];
                 self.searchLessonInterface = searchLessonInter;
                 self.searchLessonInterface.delegate = self;
                 [self.searchLessonInterface getSearchLessonInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchText.text withPageIndex:0 withSortType:LESSONSORTTYPE_CurrentStudy];
             }else{
+                [self.questionNavigationController popToRootViewControllerAnimated:YES];
                  [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                 [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchText.text withLastQuestionId:@"0"];
             }
@@ -318,10 +328,12 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 #pragma mark DRTreeTableViewDelegate //选择一个分类
 -(void)drTreeTableView:(DRTreeTableView *)treeView didSelectedTreeNode:(DRTreeNode *)selectedNote{
     if (self.listType == LESSON_LIST) {
+        [self.lessonNavigationController popToRootViewControllerAnimated:YES];
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         UserModel *user = [[CaiJinTongManager shared] user];
         [self.lessonListForCategory downloadLessonListForCategoryId:selectedNote.noteContentID withUserId:user.userId withPageIndex:0 withSortType:self.chapterView.sortType];
     }else{
+        [self.questionNavigationController popToRootViewControllerAnimated:YES];
         switch ([selectedNote.noteRootContentID integerValue]) {
             case -2://所有问答
             {
@@ -359,6 +371,36 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 #pragma mark --
 
 #pragma mark property
+-(ChapterViewController *)chapterView{
+    if (!_chapterView) {
+        _chapterView= [self.storyboard instantiateViewControllerWithIdentifier:@"ChapterViewController"];
+    }
+    return _chapterView;
+}
+-(MyQuestionAndAnswerViewController *)myQAVC{
+    if (!_myQAVC) {
+        _myQAVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
+    }
+    return _myQAVC;
+}
+
+
+-(DRNavigationController *)lessonNavigationController{
+    if (!_lessonNavigationController) {
+        _lessonNavigationController = [[DRNavigationController alloc] initWithRootViewController:self.chapterView];
+        [_lessonNavigationController setNavigationBarHidden:YES];
+    }
+    return _lessonNavigationController;
+}
+
+-(DRNavigationController *)questionNavigationController{
+    if (!_questionNavigationController) {
+        _questionNavigationController = [[DRNavigationController alloc] initWithRootViewController:self.myQAVC];
+        [_questionNavigationController setNavigationBarHidden:YES];
+    }
+    return _questionNavigationController;
+}
+
 -(MyQuestionCategatoryInterface *)myAnswerCategatoryInterface{
     if (!_myAnswerCategatoryInterface) {
         _myAnswerCategatoryInterface = [[MyQuestionCategatoryInterface alloc] init];
@@ -540,6 +582,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     dispatch_async(dispatch_get_main_queue(), ^{
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         self.allQuestionCategoryArr = questionCategoryArr;
+        [[CaiJinTongManager shared] setQuestionCategoryArr:questionCategoryArr] ;
         self.drTreeTableView.noteArr = [self togetherAllQuestionCategorys];
     });
 }
@@ -574,13 +617,13 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         self.chapterView.isSearch = YES;
         self.chapterView.oldSearchText = self.searchText.text;
         [self.chapterView reloadDataWithDataArray:lessonList withCategoryId:nil];
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
     });
 }
 
 -(void)getSearchLessonListDataForCategoryFailure:(NSString *)errorMsg{
     dispatch_async(dispatch_get_main_queue(), ^{
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         [Utility errorAlert:errorMsg];
     });
 }
@@ -592,7 +635,6 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 dispatch_async(dispatch_get_main_queue(), ^{
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     self.drTreeTableView.noteArr = [NSMutableArray arrayWithArray:categoryNotes];
-    [[CaiJinTongManager shared] setLessonCategoryArr:[NSMutableArray arrayWithArray:categoryNotes]];
 });
 }
 
