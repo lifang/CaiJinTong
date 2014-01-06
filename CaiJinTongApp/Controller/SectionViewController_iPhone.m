@@ -51,13 +51,13 @@
 - (void)playVideo:(id) sender{
     self.isPlaying = YES;
     self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
-    chapterModel *chapter = [self.section.sectionList firstObject];
+    chapterModel *chapter = [self.lessonModel.chapterList firstObject];
     SectionModel *section = [chapter.sectionList firstObject];
-    SectionModel *lastplaySection = [[Section defaultSection] searchLastPlaySectionModelWithLessonId:self.section.sectionId];
+    SectionModel *lastplaySection = [[Section defaultSection] searchLastPlaySectionModelWithLessonId:self.lessonModel.lessonId];
     if (lastplaySection) {
-        lastplaySection.lessonId = self.section.sectionId;
+        lastplaySection.lessonId = self.lessonModel.lessonId;
     }
-    section.lessonId = self.section.sectionId;
+    section.lessonId = self.lessonModel.lessonId;
     [self.playerController playMovieWithSectionModel:lastplaySection?:section withFileType:MPMovieSourceTypeStreaming];
     self.playerController.delegate = self;
     AppDelegate *app = [AppDelegate sharedInstance];
@@ -68,7 +68,7 @@
 //    self.path = nil;//视频路径
 //    //先匹配本地,在数据库中查找纪录
 //    Section *section = [[Section alloc]init];
-//    SectionSaveModel *sectionSave = [section getDataWithSid:self.section.sectionId];
+//    SectionSaveModel *sectionSave = [section getDataWithSid:self.lessonModel.lessonId];
 //    if (sectionSave != nil && sectionSave.downloadState == 1) {
 //        NSString *documentDir;
 //        if (platform>5.0) {
@@ -76,12 +76,12 @@
 //        }else{
 //            documentDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 //        }
-//        self.path = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@.mp4",self.section.sectionId]];
+//        self.path = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@.mp4",self.lessonModel.lessonId]];
 //        
 //        self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
 //        
 //        [self.playerController playMovieWithURL:[NSURL fileURLWithPath:self.path] withFileType:MPMovieSourceTypeFile];
-//        self.playerController.sectionId = self.section.sectionId;
+//        self.playerController.sectionId = self.lessonModel.lessonId;
 //        self.playerController.sectionModel = self.section;
 //        
 //        self.playerController.delegate = self;
@@ -101,7 +101,7 @@
 //                self.playVideoInterface = playVideoInter;
 //                self.playVideoInterface.delegate = self;
 //                NSString *timespan = [Utility getNowDateFromatAnDate];
-//                [self.playVideoInterface getPlayVideoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.section.sectionId andTimeStart:timespan];
+//                [self.playVideoInterface getPlayVideoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.lessonModel.lessonId andTimeStart:timespan];
 //            }
 //        }
 //    }
@@ -180,22 +180,22 @@
 
 //界面上半部分
 - (void)initAppear {
-    if (self.section) {
+    if (self.lessonModel) {
         //访问view属性,激活view
         NSLog(@"%f",self.view.frame.origin.x);
         
         //bar标题
-        self.lhlNavigationBar.title.text = self.section.sectionName;
+        self.lhlNavigationBar.title.text = self.lessonModel.lessonName;
         
         //封面
-        SectionCustomView_iPhone *sv = [[SectionCustomView_iPhone alloc]initWithFrame:CGRectMake(18, IP5(75, 60), 125, 125) andSection:self.section andItemLabel:0];
+        SectionCustomView_iPhone *sv = [[SectionCustomView_iPhone alloc]initWithFrame:CGRectMake(18, IP5(75, 60), 125, 125) andLesson:self.lessonModel andItemLabel:0];
         self.sectionView = sv;
         
         [self.view addSubview:self.sectionView];
         //显示分数
         CustomLabel_iPhone *scoreLabel = [[CustomLabel_iPhone alloc]initWithFrame:CGRectMake(245, IP5(80, 65), 55, 55)];
         scoreLabel.backgroundColor = [UIColor colorWithRed:12.0/255.0 green:58.0/255.0 blue:94.0/255.0 alpha:1.0f];
-        scoreLabel.text =[NSString stringWithFormat:@"%.1f",[self.section.sectionScore floatValue]];
+        scoreLabel.text =[NSString stringWithFormat:@"%.1f",[self.lessonModel.lessonScore floatValue]];
         scoreLabel.layer.cornerRadius = 12;
         [scoreLabel setColor:[UIColor whiteColor] fromIndex:0 length:scoreLabel.text.length];
         [scoreLabel setFont:[UIFont systemFontOfSize:38] fromIndex:0 length:1];
@@ -212,7 +212,7 @@
         nameLabel.backgroundColor = [UIColor clearColor];
         nameLabel.textColor = [UIColor darkGrayColor];
         nameLabel.font = [UIFont systemFontOfSize:15];
-        nameLabel.text =[NSString stringWithFormat:@"名称：%@",self.section.sectionName];
+        nameLabel.text =[NSString stringWithFormat:@"名称：%@",self.lessonModel.lessonName];
         self.nameLab = nameLabel;
         [self.view addSubview:self.nameLab];
         nameLabel = nil;
@@ -222,15 +222,15 @@
         teacherLabel.backgroundColor = [UIColor clearColor];
         teacherLabel.textColor = [UIColor darkGrayColor];
         teacherLabel.font = [UIFont systemFontOfSize:15];
-        teacherLabel.text =[NSString stringWithFormat:@"讲师：%@",self.section.sectionTeacher];
+        teacherLabel.text =[NSString stringWithFormat:@"讲师：%@",self.lessonModel.lessonTeacherName];
         self.teacherlab = teacherLabel;
         [self.view addSubview:self.teacherlab];
         teacherLabel = nil;
         labelTop +=self.teacherlab.frame.size.height+labelSpace;
         //简介
-//        if (self.section.lessonInfo.length >0) {
+//        if (self.lessonModel.lessonDetailInfo.length >0) {
             UIFont *aFont = [UIFont systemFontOfSize:15];
-            CGSize size = [self.section.lessonInfo sizeWithFont:aFont constrainedToSize:CGSizeMake(285, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
+            CGSize size = [self.lessonModel.lessonDetailInfo sizeWithFont:aFont constrainedToSize:CGSizeMake(285, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
             CGFloat hh = 0;  //infoLabel的height
             if (size.height-60>0){
                 hh = 60;
@@ -241,7 +241,7 @@
                 infoLabel.textColor = [UIColor darkGrayColor];
                 infoLabel.numberOfLines = 0;
                 infoLabel.font = aFont;
-                infoLabel.text =[NSString stringWithFormat:@"简介：%@",self.section.lessonInfo];
+                infoLabel.text =[NSString stringWithFormat:@"简介：%@",self.lessonModel.lessonDetailInfo];
                 self.infoLab = infoLabel;
                 [self.scrollView addSubview:self.infoLab];
                 self.scrollView.contentSize = CGSizeMake(280,self.infoLab.frame.size.height);
@@ -259,7 +259,7 @@
                 infoLabel.textColor = [UIColor darkGrayColor];
                 infoLabel.numberOfLines = 0;
                 infoLabel.font = aFont;
-                infoLabel.text =[NSString stringWithFormat:@"简介：%@",self.section.lessonInfo];
+                infoLabel.text =[NSString stringWithFormat:@"简介：%@",self.lessonModel.lessonDetailInfo];
                 self.infoLab = infoLabel;
                 [self.view addSubview:self.infoLab];
                 infoLabel = nil;
@@ -272,7 +272,7 @@
         lastLabel.backgroundColor = [UIColor clearColor];
         lastLabel.textColor = [UIColor darkGrayColor];
         lastLabel.font = [UIFont systemFontOfSize:15];
-        lastLabel.text =[NSString stringWithFormat:@"时长：%@",self.section.sectionLastTime];
+        lastLabel.text =[NSString stringWithFormat:@"时长：%@",self.lessonModel.lessonDuration];
         self.lastLab = lastLabel;
         [self.view addSubview:self.lastLab];
         lastLabel = nil;
@@ -283,7 +283,7 @@
         studyLabel.backgroundColor = [UIColor clearColor];
         studyLabel.textColor = [UIColor darkGrayColor];
         studyLabel.font = [UIFont systemFontOfSize:15];
-        NSString *studyProgress = [self.section.sectionStudy stringByReplacingOccurrencesOfString:@"分" withString:@"´"];
+        NSString *studyProgress = [self.lessonModel.lessonStudyTime stringByReplacingOccurrencesOfString:@"分" withString:@"´"];
         studyProgress = [studyProgress stringByReplacingOccurrencesOfString:@"秒" withString:@"〞"];
         studyLabel.text =[NSString stringWithFormat:@"已学习：%@",studyProgress];
         self.studyLab = studyLabel;
@@ -299,7 +299,7 @@
         UIButton *palyButton = [UIButton buttonWithType:UIButtonTypeCustom];
         palyButton.frame = CGRectMake(18, labelTop + IP5(8, -2), 283, IP5(33, 30));
 //        [palyButton setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
-        if (!self.section.sectionStudy || [self.section.sectionStudy isEqualToString:@"0"]) {
+        if (!self.lessonModel.lessonStudyTime || [self.lessonModel.lessonStudyTime isEqualToString:@"0"]) {
             [palyButton setTitle:NSLocalizedString(@"开始学习", @"button") forState:UIControlStateNormal];
         }else{
             [palyButton setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
@@ -335,8 +335,8 @@
     [self.section_ChapterView.view frame];
     [self.section_ChapterView.tableViewList setFrame:CGRectMake(22, 0, 276, self.slideSwitchView.frame.size.height - IP5(63, 53))];
     self.section_ChapterView.title = @"章节目录";
-    self.section_ChapterView.lessonId = self.section.sectionId;
-    self.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:self.section.sectionList];
+    self.section_ChapterView.lessonId = self.lessonModel.lessonId;
+    self.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:self.lessonModel.chapterList];
     self.section_ChapterView.isMovieView = NO;
     
     //评价页面
@@ -344,9 +344,9 @@
     if (app.isLocal == NO) {
         self.section_GradeView = [story instantiateViewControllerWithIdentifier:@"Section_GradeViewController_iPhone"];
         self.section_GradeView.title = @"打分";
-        self.section_GradeView.dataArray = [NSMutableArray arrayWithArray:self.section.commentList];
-        self.section_GradeView.isGrade = [self.section.isGrade intValue];
-        self.section_GradeView.sectionId = self.section.sectionId;
+        self.section_GradeView.dataArray = [NSMutableArray arrayWithArray:self.lessonModel.lessonCommentList];
+        self.section_GradeView.isGrade = [self.lessonModel.lessonIsScored intValue];
+        self.section_GradeView.sectionId = self.lessonModel.lessonId;
         if(self.section_GradeView.dataArray.count > 0){
             CommentModel *comment = (CommentModel *)[self.section_GradeView.dataArray objectAtIndex:self.section_GradeView.dataArray.count-1];
             self.section_GradeView.pageCount = comment.pageCount;
@@ -358,7 +358,7 @@
     [self.section_NoteView.view frame];
     self.section_NoteView.title = @"笔记";
     [self.section_NoteView.tableViewList setFrame:CGRectMake(22, 0, 276, self.slideSwitchView.frame.size.height - IP5(63, 53))];
-    self.section_NoteView.dataArray = [NSMutableArray arrayWithArray:self.section.sectionList];
+    self.section_NoteView.dataArray = [NSMutableArray arrayWithArray:self.lessonModel.chapterList];
     
     [self.slideSwitchView buildUI];
 }
@@ -370,7 +370,7 @@
 //        dispatch_async(dispatch_get_main_queue(), ^{
 //            [MBProgressHUD hideHUDForView:self.view animated:YES];
 //            self.section = section;
-//            self.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:self.section.sectionList];
+//            self.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:self.lessonModel.chapterList];
 //            [self.section_ChapterView.tableViewList reloadData];
 //            [self initAppear];          //界面上半部分
 //            [self initAppear_slide];    //界面下半部分(滑动视图)
@@ -390,10 +390,10 @@
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             //播放接口
             self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
-            chapterModel *chapter = [self.section.sectionList firstObject];
+            chapterModel *chapter = [self.lessonModel.chapterList firstObject];
             SectionModel *section = [chapter.sectionList firstObject];
             [self.playerController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
-//            self.playerController.sectionId = self.section.sectionId;
+//            self.playerController.sectionId = self.lessonModel.lessonId;
 //            self.playerController.sectionModel = self.section;
             
             self.playerController.delegate = self;
@@ -435,6 +435,10 @@
         _section_NoteView = [self.storyboard instantiateViewControllerWithIdentifier:@"Section_NoteViewController_iPhone"];
     }
     return _section_NoteView;
+}
+
+-(LessonModel *)lessonModelForDrMoviePlayerViewController{
+    return self.lessonModel;
 }
 
 - (void)didReceiveMemoryWarning

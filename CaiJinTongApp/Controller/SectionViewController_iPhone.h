@@ -33,6 +33,7 @@
 @property (nonatomic,strong) LHLMoviePlayViewController *playerController;
 //数据
 @property (nonatomic,strong) SectionModel *section;
+@property (nonatomic,strong) LessonModel *lessonModel;
 @property (nonatomic,strong) SectionInfoInterface *sectionInterface;
 @property (nonatomic, strong) NSString *path;
 @property (nonatomic, strong) PlayVideoInterface *playVideoInterface;

@@ -12,7 +12,7 @@
 #import "SectionSaveModel.h"
 #import "Section.h"
 
-#define CAPTER_CELL_WIDTH 276
+#define CAPTER_CELL_WIDTH 277
 @interface Section_ChapterViewController_iPhone_Embed ()
 @property (nonatomic,strong) UILabel *tipLabel;
 @end
@@ -144,7 +144,7 @@
         }else {
             cell.statusLab.text = @"下载";
         }
-        cell.sliderFrontView.frame = CGRectMake(0, 37, CAPTER_CELL_WIDTH * sectionSave.downloadPercent, 11);
+        cell.sliderFrontView.frame = CGRectMake(0, 33, CAPTER_CELL_WIDTH * sectionSave.downloadPercent, 15);
         if (contentlength>0) {
             cell.lengthLab.text = [NSString stringWithFormat:@"%.2fM/%.2fM",contentlength*sectionSave.downloadPercent,contentlength];
         }
@@ -165,7 +165,7 @@
         sectionSave.name = section.sectionName;
         sectionSave.lessonId = self.lessonId;
         cell.btn.buttonModel = sectionSave;
-        cell.sliderFrontView.frame = CGRectMake(47, 73, CAPTER_CELL_WIDTH * 0, 33);
+        cell.sliderFrontView.frame = CGRectMake(0, 33, CAPTER_CELL_WIDTH * 0, 15);
         cell.statusLab.text = @"未下载";
         cell.lengthLab.text = @"";
     }

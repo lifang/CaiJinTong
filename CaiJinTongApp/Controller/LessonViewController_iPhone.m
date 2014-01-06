@@ -44,6 +44,8 @@
 
 - (void)viewDidLoad
 {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSLog(@"%@=============================",paths[0]);
     [super viewDidLoad];
     [[CaiJinTongManager shared] setUserId:@"17082"];
     NSLog(@"%@",NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory, NSUserDomainMask, YES)[0]);
@@ -221,12 +223,12 @@
         }
     }
     if(flag){
-        self.sectionCustomView = [[SectionCustomView_iPhone alloc] initWithFrame:CGRectMake(18, 10, 125, 145) andSection:(SectionModel *)self.sectionList[indexPath.row] andItemLabel:20];
+        self.sectionCustomView = [[SectionCustomView_iPhone alloc] initWithFrame:CGRectMake(18, 10, 125, 145) andLesson:self.sectionList[indexPath.row] andItemLabel:20];
         [self.sectionCustomView addTarget:self action:@selector(cellClicked:) forControlEvents:UIControlEventTouchUpInside];
         cell.clipsToBounds = NO;
         [cell.contentView addSubview:self.sectionCustomView];
     }else{
-        [self.sectionCustomView refreshDataWithSection:self.sectionList[indexPath.row]];
+        [self.sectionCustomView refreshDataWithLesson:self.sectionList[indexPath.row]];
     }
     return cell;
 }
@@ -495,10 +497,11 @@
 
 #pragma mark LessonCategoryInterfaceDelegate获取课程分类信息
 -(void)getLessonCategoryDataDidFinished:(NSArray *)categoryNotes{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         self.drTreeTableView.noteArr = [NSMutableArray arrayWithArray:categoryNotes];
-//        [[CaiJinTongManager shared] setLessonCategoryArr:[NSMutableArray arrayWithArray:categoryNotes]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        });
     });
 }
 
@@ -557,7 +560,7 @@
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
         SectionViewController_iPhone *sectionView = [story instantiateViewControllerWithIdentifier:@"SectionViewController_iPhone"];
-        sectionView.section = (SectionModel *)lesson;
+        sectionView.lessonModel = lesson;
 //        NSMutableArray *a = [NSMutableArray arrayWithArray:sectionView.section.sectionList];
 //        Section_ChapterViewController_iPhone *scvc = [story instantiateViewControllerWithIdentifier:@"Section_ChapterViewController_iPhone"];
 //        scvc.dataArray = [NSMutableArray arrayWithArray:a];

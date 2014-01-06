@@ -29,7 +29,7 @@
     if ([self.sid isEqualToString:sectionSave.sid]) {
         [self.playBt setHidden:sectionSave.downloadState == 1];
         self.pv = sectionSave.downloadPercent;
-        self.sliderFrontView.frame = CGRectMake(0, 33, self.contentView.frame.size.width * self.pv, 14);
+        self.sliderFrontView.frame = CGRectMake(0, 33, self.contentView.frame.size.width * self.pv, 15);
         //查询数据库
         Section *sectionDb = [[Section alloc]init];
         float contentlength = [sectionDb getContentLengthBySid:sectionSave.sid];
