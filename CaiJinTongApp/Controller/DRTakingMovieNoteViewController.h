@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
-
+/*
+ 记笔记
+ */
 @protocol DRTakingMovieNoteViewControllerDelegate;
 @interface DRTakingMovieNoteViewController : BaseViewController
 @property (weak, nonatomic) IBOutlet UILabel *noteTimeLabel;//记笔记时的播放时间

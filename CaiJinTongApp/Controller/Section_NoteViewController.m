@@ -76,7 +76,7 @@
     [cell.contentTextView setScrollEnabled:NO];
     [cell.contentTextView setEditable:NO];
     cell.contentTextView.text = note.noteText;
-    cell.sectionNameLab.text = @"财金基础知识第一章 > 第一节 > 财金基础知识第一章视频";
+    cell.sectionNameLab.text = [NSString stringWithFormat:@"%@ > %@",note.noteChapterName,note.noteSectionName];
     cell.path = indexPath;
     cell.delegate = self;
     return cell;

@@ -204,7 +204,7 @@
     if (item == self.myNotesItem) {
         [self.moviePlayer pause];
         DRTakingMovieNoteViewController *takingController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRTakingMovieNoteViewController"];
-        takingController.view.frame = (CGRect){0,0,804,426};
+        takingController.view.frame = (CGRect){0,0,804,300};
         takingController.delegate = self;
         [self presentPopupViewController:takingController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
             self.myNotesItem.isSelected = NO;
@@ -415,7 +415,7 @@
         AskQuestionInterface *askQuestionInter = [[AskQuestionInterface alloc]init];
         self.askQuestionInterface = askQuestionInter;
         self.askQuestionInterface.delegate = self;
-        [self.askQuestionInterface getAskQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionModel.lessonCategoryId andQuestionName:title andQuestionContent:text];
+        [self.askQuestionInterface getAskQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:questionId andQuestionName:title andQuestionContent:text];
     }
 }
 

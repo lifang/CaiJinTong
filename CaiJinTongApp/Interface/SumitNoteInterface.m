@@ -20,8 +20,8 @@
     [reqheaders setValue:[NSString stringWithFormat:@"%@",noteText] forKey:@"noteText"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",noteTime] forKey:@"noteTime"];
 
-//    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=submitNote&userId=17082&sectionId=2690&noteTime=2013-11-21 11:00&noteText=做笔记";
-    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=submitNote&userId=%@&sectionId=%@&noteTime=%@&noteText=%@",kHost,userId,sectionId,noteTime,noteText];
+//   self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=submitNote&userId=17082&sectionId=2690&noteText=做笔记";
+    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=submitNote&userId=%@&sectionId=%@&noteText=%@",kHost,userId,sectionId,noteText];
     self.baseDelegate = self;
     self.headers = reqheaders;
     

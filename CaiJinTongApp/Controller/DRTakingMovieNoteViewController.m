@@ -22,12 +22,12 @@
 
 -(void)keyBoardWillHide:(id)sender{
     CGRect selfRect = self.view.frame;
-    self.view.frame = (CGRect){selfRect.origin.x,100,selfRect.size};
+    self.view.frame = (CGRect){selfRect.origin.x,140,selfRect.size};
 }
 
 -(void)keyBoardWillShow:(id)sender{
     CGRect selfRect = self.view.frame;
-    self.view.frame = (CGRect){selfRect.origin.x,10,selfRect.size};
+    self.view.frame = (CGRect){selfRect.origin.x,30,selfRect.size};
 }
 
 -(void)popouViewFinishedFrameRect:(id)sender{

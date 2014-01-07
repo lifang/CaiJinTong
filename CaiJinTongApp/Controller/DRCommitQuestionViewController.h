@@ -10,9 +10,12 @@
 #import <QuartzCore/QuartzCore.h>
 #import "BaseViewController.h"
 #import "QuestionInfoInterface.h"
+/*
+ 提问题
+ */
 @protocol DRCommitQuestionViewControllerDelegate;
 
-@interface DRCommitQuestionViewController : BaseViewController<UITextFieldDelegate,UITextViewDelegate>
+@interface DRCommitQuestionViewController : BaseViewController<UITextFieldDelegate,UITextViewDelegate,AskQuestionInterfaceDelegate,DRTreeTableViewDelegate,QuestionInfoInterfaceDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *commitTimeLabel;
 @property (weak, nonatomic) IBOutlet UITextField *titleField;  //标题框
 @property (weak, nonatomic) IBOutlet UITextView *contentField;  //主文本框
@@ -20,12 +23,16 @@
 @property (weak, nonatomic) IBOutlet UIButton *cancelBtn;
 @property (weak,nonatomic) id<DRCommitQuestionViewControllerDelegate> delegate;
 
-@property (nonatomic,strong) NSString *selectedQuestionId;
+@property (weak, nonatomic) IBOutlet UIButton *dropDownBt;
+@property (nonatomic, strong) NSMutableArray *questionCategoryList;
+@property (nonatomic, strong) AskQuestionInterface *askQuestionInterface;
+@property (nonatomic,strong) NSString *selectedQuestionCategoryId;
+
 - (IBAction)spaceAreaClicked:(id)sender;
 - (IBAction)cancelBtnClicked:(UIButton *)sender;
 - (IBAction)commitBtnClicked:(UIButton *)sender;
 - (IBAction)inputBegin:(id)sender;
-
+- (IBAction)dropDownMenuBtClicked:(id)sender;
 
 @end
 

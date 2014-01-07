@@ -35,6 +35,8 @@ typedef enum {LESSONSORTTYPE_CurrentStudy,
 //#define kQuestHost  kHost
 #define kDomain @"http://116.255.135.175:3004"
 
+#define kUsingTestData 1//使用json测试数据
+
 #define kLogin @"/chapters/user_round"
 #define kIndex @"/orders/index_list"
 #define kSearchCar @"/orders/search_car"

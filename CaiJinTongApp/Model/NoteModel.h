@@ -21,5 +21,6 @@
 @property (nonatomic, strong) NSString *noteSectionLastPlayTime;//笔记对应小节最近播放进度
 @property (nonatomic, strong) NSString *noteChapterId;//笔记对应章id
 @property (nonatomic, strong) NSString *noteChapterName;//笔记对应章名称
-
+@property (nonatomic, strong) NSString *noteLessonId;//笔记对应 课程id
+@property (nonatomic, strong) NSString *noteLessonName;//笔记对应课程名称
 @end

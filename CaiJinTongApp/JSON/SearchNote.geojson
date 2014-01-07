@@ -1,0 +1,21 @@
+http://lms.finance365.com/api/ios.ashx?active=searchNoteList&userId=17082&searchContent=hjhhhj
+
+
+{"Status":1,
+    "Msg":"",
+    "ReturnObject":[
+                    {
+                    "noteId":"12",
+                    "noteCreateDate":"2012-12-02",
+                    "noteContent":"好",
+                    "sectionId":"",
+                    "sectionName":"",
+                    "sectionMoviePlayURL":"http://www.baihttp://lms.finance365.com/api/ios.ashx?active=chapterQuestion&userId=17082&categoryId=42du.com",
+                    "sectionLastPlayTime":"1245",
+                    "chapterId":"",
+                    "chapterName":"",
+                    "lessonId":"",
+                    "lessonName":""
+                    }
+                    ]
+}

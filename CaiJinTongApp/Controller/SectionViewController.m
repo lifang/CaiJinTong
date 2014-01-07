@@ -323,7 +323,32 @@
 
 #pragma mark Section_NoteViewControllerDelegate选中一条笔记
 -(void)section_NoteViewController:(Section_NoteViewController *)controller didClickedNoteCellWithObj:(NoteModel *)noteModel{
-    [self playVideo:Nil];
+    self.isPlaying = YES;
+    SectionModel *section = nil;
+    for (chapterModel *chapter in self.lessonModel.chapterList) {
+        if ([chapter.chapterId isEqualToString:noteModel.noteChapterId]) {
+            for (SectionModel *sec in chapter.sectionList) {
+                if ([sec.sectionId isEqualToString:noteModel.noteSectionId]) {
+                    section = sec;
+                    break;
+                }
+            }
+            break;
+        }
+    }
+    if (section && section.sectionMoviePlayURL) {
+        //播放接口
+        section.lessonId = self.lessonModel.lessonId;
+        self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
+        self.playerController.delegate = self;
+        AppDelegate *app = [AppDelegate sharedInstance];
+        [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
+            
+        }];
+        [self.playerController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
+    }else{
+        [Utility errorAlert:@"没有发现要播放的视频文件"];
+    }
 }
 #pragma mark --
 
