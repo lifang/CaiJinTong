@@ -178,6 +178,7 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 
 - (IBAction)questionListBtClicked:(id)sender {
     [self.searchText resignFirstResponder];
+     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.listType = QUEATION_LIST;
     if (_lessonNavigationController) {
         [_lessonNavigationController willMoveToParentViewController:nil];
@@ -190,8 +191,20 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         [self.view addSubview:_questionNavigationController.view];
         [_questionNavigationController didMoveToParentViewController:self];
     }
-     [self getQuestionInfo];
-     [self getMyQuestionCategoryList];
+    
+    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+        [Utility errorAlert:@"暂无网络!"];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }else {
+        QuestionInfoInterface *questionInfoInter = [[QuestionInfoInterface alloc]init];
+        self.questionInfoInterface = questionInfoInter;
+        self.questionInfoInterface.delegate = self;
+        [self.questionInfoInterface getQuestionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId];
+        
+        UserModel *user = [[CaiJinTongManager shared] user];
+        [self.myQuestionCategatoryInterface downloadMyQuestionCategoryDataWithUserId:user.userId];
+    }
+    
 }
 
 - (IBAction)SearchBrClicked:(id)sender {
@@ -557,25 +570,6 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
 }
 #pragma mark --
 
-#pragma mark -- ChapterInfoInterfaceDelegate
--(void)getChapterInfoDidFinished:(NSDictionary *)result {  //章节信息查询完毕,显示章节界面
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
-                NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
-//                [self.chapterView reloadDataWithDataArray:[[NSMutableArray alloc]initWithArray:tempArray]];
-            }else{
-                [Utility errorAlert:@"没有加载到数据"];
-            }
-        });
-    });
-}
-
--(void)getChapterInfoDidFailed:(NSString *)errorMsg {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Utility errorAlert:errorMsg];
-}
 
 #pragma mark--QuestionInfoInterfaceDelegate 获取所有问答分类信息
 -(void)getQuestionInfoDidFinished:(NSArray *)questionCategoryArr {
@@ -587,9 +581,12 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
     });
 }
 -(void)getQuestionInfoDidFailed:(NSString *)errorMsg {
-    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-    self.listType = LESSON_LIST;
-    [Utility errorAlert:errorMsg];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        self.listType = LESSON_LIST;
+        [Utility errorAlert:errorMsg];
+    });
+
 }
 #pragma mark--ChapterQuestionInterfaceDelegate所有问答数据
 -(void)getChapterQuestionInfoDidFinished:(NSDictionary *)result {

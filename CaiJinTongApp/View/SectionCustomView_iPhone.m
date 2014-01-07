@@ -50,11 +50,11 @@
             [self.pv setThumbImage:[UIImage imageNamed:@"nothing"] forState:UIControlStateNormal];
             [self.pv setMaximumValue:100.0];
             [self.pv setMinimumValue:0.0];
-            self.pv.value = [lesson.lessonStudyProgress floatValue];
+            self.pv.value = [lesson.lessonStudyProgress floatValue] * 100.0;
             //进度条label
             self.progressLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, imageViewFrame.size.height - 18, imageViewFrame.size.width, 20)];
             self.progressLabel.font = [UIFont systemFontOfSize:12.0];
-            CGFloat xx = [lesson.lessonStudyProgress floatValue];
+            CGFloat xx = [lesson.lessonStudyProgress floatValue] * 100.0;
             if ( xx-100 >0) {
                 xx=100;
             }
@@ -94,7 +94,7 @@
     self.nameLab.text = lesson.lessonName;
     
     self.pv.value = [lesson.lessonStudyProgress floatValue];
-    CGFloat xx = [lesson.lessonStudyProgress floatValue];
+    CGFloat xx = [lesson.lessonStudyProgress floatValue] * 100.0;
     if ( xx-100 >0) {
         xx=100;
     }

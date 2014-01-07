@@ -89,7 +89,10 @@ static NSString *timespan = nil;
             GradeInterface *gradeInter = [[GradeInterface alloc]init];
             self.gradeInterface = gradeInter;
             self.gradeInterface.delegate = self;
-            [self.gradeInterface getGradeInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.lessonId andScore:[NSString stringWithFormat:@"%d",self.starRatingView.score]andContent:self.textView.text];
+            [self.gradeInterface getGradeInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId
+                                                        andSectionId:self.lessonId
+                                                            andScore:[NSString stringWithFormat:@"%d",self.starRatingView.score]
+                                                          andContent:self.textView.text];
         }
     }
 }
@@ -133,10 +136,10 @@ static NSString *timespan = nil;
     CommentModel *model = [[CommentModel alloc] init];
     UserModel *user = [[CaiJinTongManager shared] user];
     if (user) {
-        model.nickName = user.nickName;
+        model.commentAuthorName = user.nickName;
     }
-    model.time = [Utility getNowDateFromatAnDate];
-    model.content = self.textView.text;
+    model.commentCreateDate = [Utility getNowDateFromatAnDate];
+    model.commentContent = self.textView.text;
     self.textView.text = @"";
     [self.textView resignFirstResponder];
     [self.dataArray insertObject:model atIndex:0];

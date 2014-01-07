@@ -145,10 +145,10 @@ static BOOL tableVisible;
         return ;
     }
     
-//    if ([questionTitle isEqualToString:@""]) {
-//        [Utility errorAlert:@"标题不能为空"];
-//        return ;
-//    }
+    if ([questionTitle isEqualToString:@""]) {
+        [Utility errorAlert:@"标题不能为空"];
+        return ;
+    }
     
     if (self.selectedQuestionCategoryId != nil && ![self.dropDownBt.titleLabel.text isEqualToString:DROPDOWNMENU_TITLE]){
         if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
@@ -187,7 +187,10 @@ static BOOL tableVisible;
     });
 }
 -(void)getAskQuestionDidFailed:(NSString *)errorMsg {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Utility errorAlert:errorMsg];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [Utility errorAlert:errorMsg];
+    });
+    
 }
 @end

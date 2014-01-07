@@ -93,15 +93,15 @@
                                                 section.sectionName = [NSString stringWithFormat:@"%@",[sectionDic objectForKey:@"sectionName"]];
                                                 section.sectionMoviePlayURL = [NSString stringWithFormat:@"%@",[sectionDic objectForKey:@"sectionMoviePlayURL"]];
                                                 section.sectionMovieDownloadURL = [NSString stringWithFormat:@"%@",[sectionDic objectForKey:@"sectionMovieDownloadURL"]];
-                                                //设置小节笔记
-                                                NSArray *noteList = [sectionDic objectForKey:@"sectionNoteList"];
-                                                NSMutableArray *noteArr = [NSMutableArray array];
-                                                for (NSDictionary *noteDic in noteList) {
-                                                    NoteModel *note = [[NoteModel alloc] init];
-                                                    
-                                                    [noteArr addObject:note];
-                                                }
-                                                section.sectionNoteList = noteArr;
+//                                                //设置小节笔记
+//                                                NSArray *noteList = [sectionDic objectForKey:@"sectionNoteList"];
+//                                                NSMutableArray *noteArr = [NSMutableArray array];
+//                                                for (NSDictionary *noteDic in noteList) {
+//                                                    NoteModel *note = [[NoteModel alloc] init];
+//                                                    
+//                                                    [noteArr addObject:note];
+//                                                }
+//                                                section.sectionNoteList = noteArr;
                                                 [sectionArr addObject:section];
                                             }
                                             chapter.sectionList = sectionArr;
@@ -111,7 +111,14 @@
                                             NSMutableArray *noteArr = [NSMutableArray array];
                                             for (NSDictionary *noteDic in noteList) {
                                                 NoteModel *note = [[NoteModel alloc] init];
-                                                
+                                                note.noteId = [NSString stringWithFormat:@"%@",[noteDic objectForKey:@"noteId"]];
+                                                note.noteTime = [NSString stringWithFormat:@"%@",[noteDic objectForKey:@"noteCreateDate"]];
+                                                note.noteText = [NSString stringWithFormat:@"%@",[noteDic objectForKey:@"noteContent"]];
+                                                note.noteSectionId = [NSString stringWithFormat:@"%@",[noteDic objectForKey:@"sectionId"]];
+                                                note.noteSectionName = [NSString stringWithFormat:@"%@",[noteDic objectForKey:@"sectionName"]];
+                                                note.noteSectionMoviePlayURL = [NSString stringWithFormat:@"%@",[noteDic objectForKey:@"sectionMoviePlayURL"]];
+                                                note.noteChapterId = [NSString stringWithFormat:@"%@",[noteDic objectForKey:@"chapterId"]];
+                                                note.noteChapterName = [NSString stringWithFormat:@"%@",[noteDic objectForKey:@"chapterName"]];
                                                 [noteArr addObject:note];
                                             }
                                             chapter.chapterNoteList = noteArr;

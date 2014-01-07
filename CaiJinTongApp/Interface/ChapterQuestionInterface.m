@@ -80,7 +80,6 @@
                                                     answer.answerPraiseCount =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"answerPraiseCount"]];
                                                     answer.IsAnswerAccept =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"IsAnswerAccept"]];
                                                     answer.answerContent =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"answerContent"]];
-                                                    answer.isPraised=[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"isPraised"]];
 //                                                    answer.askPeopleId =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"askPeopleId"]];
 //                                                    answer.askPeopleNick =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"askPeopleNick"]];????
                                                     answer.pageIndex =[[answer_dic objectForKey:@"pageIndex"]intValue];

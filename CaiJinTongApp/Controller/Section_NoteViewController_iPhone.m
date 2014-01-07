@@ -73,7 +73,7 @@
     [cell.contentTextView setEditable:NO];
     cell.contentTextView.text = note.noteText;
     
-    cell.contentLab.text = @"我还没有改好!"; //笔记标题
+    cell.contentLab.text = [NSString stringWithFormat:@"%@ > %@",note.noteChapterName,note.noteSectionName]; //笔记标题
     
     cell.timeLab.text = note.noteTime;
     
@@ -104,7 +104,6 @@
 -(UILabel *)tipLabel{
     if (!_tipLabel) {
         _tipLabel = [[UILabel alloc] initWithFrame:(CGRect){0,0,NOTE_CELL_WIDTH,self.tableViewList.frame.size.height}];
-        NSLog(@"%f 9078239580089523098235253890",_tipLabel.frame.size.height);
         _tipLabel.textAlignment = NSTextAlignmentCenter;
         _tipLabel.textColor = [UIColor grayColor];
         _tipLabel.font = [UIFont systemFontOfSize:25];
