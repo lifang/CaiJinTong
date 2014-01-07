@@ -93,6 +93,8 @@
     if (!self.dataArray || self.dataArray.count <= 0) {
         [self.tipLabel removeFromSuperview];
         [tableView addSubview:self.tipLabel];
+    }else {
+        [self.tipLabel removeFromSuperview];
     }
     NSInteger number = [self.dataArray count];
     return number;
@@ -120,7 +122,7 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"Section_ChapterCell_iPhone";
+    static NSString *CellIdentifier = @"Section_ChapterCell_iPhone_Embed";
     Section_ChapterCell_iPhone *cell = (Section_ChapterCell_iPhone *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     chapterModel *chapter = (chapterModel *)[self.dataArray objectAtIndex:indexPath.section];

@@ -93,6 +93,8 @@
     if (!self.dataArray || self.dataArray.count <= 0) {
         [self.tipLabel removeFromSuperview];
         [tableView addSubview:self.tipLabel];
+    }else{
+        [self.tipLabel removeFromSuperview];
     }
     NSInteger number = [self.dataArray count];
     return number;

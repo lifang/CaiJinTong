@@ -10,6 +10,7 @@
 
 @interface SectionViewController_iPhone()
 @property (nonatomic,assign) BOOL isPlaying;
+@property (nonatomic,strong) LessonInfoInterface *lessonInterface;
 @end
 
 @implementation SectionViewController_iPhone
@@ -23,88 +24,108 @@
     return self;
 }
 
-//调用本View时要先指定要显示的section
+//调用本View时要先指定要显示的self.lessonModel
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //打分之后提交
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refeshScore:)
+                                                 name: @"refeshScore"
+                                               object: nil];
+    
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardUP:) name:UIKeyboardWillShowNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardDOWN:) name:UIKeyboardWillHideNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(gotoMoviePlayMovieOnLineWithSectionSavemodel:)
+                                                 name:@"startPlaySectionMovieOnLine" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(gotoMoviePlayWithSid:)
+                                                 name:@"gotoMoviePlay" object:nil];
+    [self initAppear];
+    [self initAppear_slide];
+}
+-(void)refeshScore:(NSNotification *)notification {
+    NSDictionary *dic = notification.object;
+    NSString *score = [dic objectForKey:@"sectionScore"];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.lessonModel.lessonScore = score;
+        self.lessonModel.lessonIsScored = @"1";
+        [self reloadLessonData:self.lessonModel];
+    });
+}
+-(void)reloadLessonData:(LessonModel *)lesson{
+    //封面
+    [self.sectionView refreshDataWithLesson:lesson];
+    
+    //显示分数
+    int grade = self.lessonModel.lessonIsScored.intValue;
+    if(grade > 0){
+        self.scoreLab.text = [NSString stringWithFormat:@"%.1f",[lesson.lessonScore floatValue]];
+    }else{
+        self.scoreLab.text = [NSString stringWithFormat:@"%.1f",0.0];
+    }
+    //标题
+    self.nameLab.text =[NSString stringWithFormat:@"名称:%@",lesson.lessonName];
+    //    self.nameLab.frame = (CGRect){275, labelTop, width, 30};
+    
+    //简介
+//    self.detailInfoTextView.text = [NSString stringWithFormat:@"简介:%@",lesson.lessonDetailInfo?:@""];
+//    self.detailInfoTextView.frame = (CGRect){270, labelTop - 10, width, 100};
+//    CGSize size = [Utility getTextSizeWithString:self.lessonModel.lessonDetailInfo withFont:[UIFont boldSystemFontOfSize:16] withWidth:width];
+//    if (size.height > 100) {
+//        labelTop += 100 +labelSpace;
+//    }else{
+//        labelTop += size.height +labelSpace;
+//    }
+    
+    //讲师
+    self.teacherlab.text =[NSString stringWithFormat:@"讲师:%@",lesson.lessonTeacherName];
+    
+    //时长
+    self.lastLab.text =[NSString stringWithFormat:@"时长:%@",lesson.lessonDuration];
+    
+    //已学习
+    self.studyLab.text =[NSString stringWithFormat:@"已学习:%@",lesson.lessonStudyTime];
+    
+    //播放按钮
+    if (!lesson.lessonStudyTime || [lesson.lessonStudyTime isEqualToString:@"0"]) {
+        [self.playBtn setTitle:NSLocalizedString(@"开始学习", @"button") forState:UIControlStateNormal];
+    }else{
+        [self.playBtn setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
+    }
 }
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self initAppear];
-    [self initAppear_slide];
-    
+    if (self.isPlaying) {
+        //根据sectionID获取单个视频的详细信息
+        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+            [Utility errorAlert:@"暂无网络!"];
+        }else {
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            UserModel *user = [[CaiJinTongManager shared] user];
+            [self.lessonInterface downloadLessonInfoWithLessonId:self.lessonModel.lessonId withUserId:user.userId];
+        }
+    }
+    self.isPlaying = NO;
 }
-//装载数据,目标 :self.section
-//-(void) initData{
-//    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-//        [Utility errorAlert:@"暂无网络!"];
-//    }else {
-////        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//        if(!self.sectionInterface){
-//            self.sectionInterface = [[SectionInfoInterface alloc] init];
-//            self.sectionInterface.delegate = self;
-//        }
-//        [self.sectionInterface getSectionInfoInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andSectionId:@"2928"];
-//    }
-//}
-
 - (void)playVideo:(id) sender{
     self.isPlaying = YES;
     self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
     chapterModel *chapter = [self.lessonModel.chapterList firstObject];
     SectionModel *section = [chapter.sectionList firstObject];
+    section.lessonId = self.lessonModel.lessonId;
     SectionModel *lastplaySection = [[Section defaultSection] searchLastPlaySectionModelWithLessonId:self.lessonModel.lessonId];
     if (lastplaySection) {
         lastplaySection.lessonId = self.lessonModel.lessonId;
     }
-    section.lessonId = self.lessonModel.lessonId;
-    [self.playerController playMovieWithSectionModel:lastplaySection?:section withFileType:MPMovieSourceTypeStreaming];
+    [self.playerController playMovieWithSectionModel:lastplaySection?lastplaySection:section withFileType:MPMovieSourceTypeStreaming];
     self.playerController.delegate = self;
     AppDelegate *app = [AppDelegate sharedInstance];
     [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
         
     }];
-//    DLog(@"play");
-//    self.path = nil;//视频路径
-//    //先匹配本地,在数据库中查找纪录
-//    Section *section = [[Section alloc]init];
-//    SectionSaveModel *sectionSave = [section getDataWithSid:self.lessonModel.lessonId];
-//    if (sectionSave != nil && sectionSave.downloadState == 1) {
-//        NSString *documentDir;
-//        if (platform>5.0) {
-//            documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-//        }else{
-//            documentDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-//        }
-//        self.path = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@.mp4",self.lessonModel.lessonId]];
-//        
-//        self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
-//        
-//        [self.playerController playMovieWithURL:[NSURL fileURLWithPath:self.path] withFileType:MPMovieSourceTypeFile];
-//        self.playerController.sectionId = self.lessonModel.lessonId;
-//        self.playerController.sectionModel = self.section;
-//        
-//        self.playerController.delegate = self;
-//        AppDelegate *app = [AppDelegate sharedInstance];
-//        [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
-//            
-//        }];
-//    }else {
-//        //在线播放
-//        self.path = self.section.sectionSD;
-//        if (self.path) {
-//            if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-//                [Utility errorAlert:@"暂无网络!"];
-//            }else {
-//                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//                PlayVideoInterface *playVideoInter = [[PlayVideoInterface alloc]init];
-//                self.playVideoInterface = playVideoInter;
-//                self.playVideoInterface.delegate = self;
-//                NSString *timespan = [Utility getNowDateFromatAnDate];
-//                [self.playVideoInterface getPlayVideoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.lessonModel.lessonId andTimeStart:timespan];
-//            }
-//        }
-//    }
 }
 
 #pragma mark - 滑动tab视图代理方法
@@ -135,6 +156,7 @@
         } else if (number == 1) {
             return self.section_GradeView;
         } else if (number == 2) {
+            [self.section_NoteView.view setBackgroundColor:[UIColor redColor]];
             return self.section_NoteView;
         } else {
             return nil;
@@ -363,26 +385,6 @@
     [self.slideSwitchView buildUI];
 }
 
-//#pragma mark -- SectionInfoInterface Delegate
-//-(void)getSectionInfoDidFinished:(SectionModel *)result {
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        SectionModel *section = (SectionModel *)result;
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [MBProgressHUD hideHUDForView:self.view animated:YES];
-//            self.section = section;
-//            self.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:self.lessonModel.chapterList];
-//            [self.section_ChapterView.tableViewList reloadData];
-//            [self initAppear];          //界面上半部分
-//            [self initAppear_slide];    //界面下半部分(滑动视图)
-//        });
-//    });
-//}
-//
-//-(void)getSectionInfoDidFailed:(NSString *)errorMsg {
-//    [MBProgressHUD hideHUDForView:self.view animated:YES];
-//    [Utility errorAlert:errorMsg];
-//}
-
 #pragma mark -- PlayVideoInterfaceDelegate
 -(void)getPlayVideoInfoDidFinished {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -409,6 +411,58 @@
     [Utility errorAlert:errorMsg];
 }
 
+- (void)gotoMoviePlayMovieOnLineWithSectionSavemodel:(NSNotification *)info {
+    self.isPlaying = YES;
+    SectionModel *section = [info.userInfo objectForKey:@"sectionModel"];
+    if (section.sectionMoviePlayURL) {
+        //播放接口
+        section.lessonId = self.lessonModel.lessonId;
+        if(!self.playerController){
+            self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
+            self.playerController.delegate = self;
+        }
+        AppDelegate *app = [AppDelegate sharedInstance];
+        [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
+            
+        }];
+        [self.playerController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
+    }else{
+        [Utility errorAlert:@"没有发现要播放的视频文件"];
+    }
+}
+
+- (void)gotoMoviePlayWithSid:(NSNotification *)info {
+    self.isPlaying = YES;
+    NSString *sectionID = [info.userInfo objectForKey:@"sectionID"];
+    NSString *path = [CaiJinTongManager getMovieLocalPathWithSectionID:sectionID];
+    if (path) {
+        //播放接口
+        Section *s = [[Section alloc] init];
+        SectionModel *ssm = [s getSectionModelWithSid:sectionID];
+        ssm.lessonId = self.lessonModel.lessonId;
+        self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
+        self.playerController.delegate = self;
+        [self.playerController playMovieWithSectionModel:ssm withFileType:MPMovieSourceTypeFile];
+        AppDelegate *app = [AppDelegate sharedInstance];
+        [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
+            
+        }];
+        
+    }
+}
+
+#pragma mark-- LessonInfoInterfaceDelegate加载课程详细信息 ,播放完成后回调
+-(void)getLessonInfoDidFinished:(LessonModel*)lesson{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self reloadLessonData:lesson];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    });
+}
+-(void)getLessonInfoDidFailed:(NSString *)errorMsg{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [Utility errorAlert:errorMsg];
+}
+
 #pragma mark DRMoviePlayViewControllerDelegate 提交笔记成功
 -(void)lhlMoviePlayerViewController:(LHLMoviePlayViewController *)playerController commitNotesSuccess:(NSString *)noteText andTime:(NSString *)noteTime{
     if (self.section_NoteView) {
@@ -418,6 +472,10 @@
         [self.section_NoteView.dataArray insertObject:note atIndex:0];
         [self.section_NoteView.tableViewList reloadData];
     }
+}
+
+-(LessonModel *)lessonModelForDrMoviePlayerViewController{
+    return self.lessonModel;
 }
 
 #pragma mark property
@@ -437,8 +495,13 @@
     return _section_NoteView;
 }
 
--(LessonModel *)lessonModelForDrMoviePlayerViewController{
-    return self.lessonModel;
+
+-(LessonInfoInterface *)lessonInterface{
+    if (!_lessonInterface) {
+        _lessonInterface = [[LessonInfoInterface alloc] init];
+        _lessonInterface.delegate = self;
+    }
+    return _lessonInterface;
 }
 
 - (void)didReceiveMemoryWarning

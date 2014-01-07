@@ -8,6 +8,7 @@
 
 #import "LessonViewController_iPhone.h"
 #define CELL_REUSE_IDENTIFIER @"CollectionCell"
+static BOOL treeViewInited = NO;
 @interface LessonViewController_iPhone ()
 @property (nonatomic,strong) LessonCategoryInterface *lessonCategoryInterface;
 @property (strong,nonatomic) LessonListForCategory *lessonListForCategory;//根据分类获取课程列表
@@ -103,20 +104,6 @@
     }
 }
 
-//-(void) initData{
-//    chapterModel *chapter = [[chapterModel alloc] init];
-//    chapter.chapterId = @"708";
-//    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-//        [Utility errorAlert:@"暂无网络!"];
-//    }else {
-//        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//        ChapterInfoInterface *chapterInter = [[ChapterInfoInterface alloc]init];
-//        self.chapterInterface = chapterInter;
-//        self.chapterInterface.delegate = self;
-//        [self.chapterInterface getChapterInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andChapterId:chapter.chapterId];
-//    }
-//
-//}
 
 //设置tabBar
 -(void)setTabBar{
@@ -126,79 +113,6 @@
     [bar setTintColor:[UIColor colorWithRed:10.0/255.0 green:35.0/255.0 blue:56.0/255.0 alpha:1.0]];
     [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"play-table.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"play-table.png"]];//iOS 7 本语句失效
 }
-
-//#pragma mark --ChapterInfoDelegate
-//-(void)getChapterInfoDidFinished:(NSDictionary *)result {  //章节信息查询完毕,显示章节界面
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [MBProgressHUD hideHUDForView:self.view animated:YES];
-//            if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
-//                self.recentArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
-//                self.sectionList = self.recentArray;
-//                [self.collectionView reloadData];
-//            }
-//        });
-//    });
-//}
-//-(void)getChapterInfoDidFailed:(NSString *)errorMsg {
-//    [MBProgressHUD hideHUDForView:self.view animated:YES];
-//    [Utility errorAlert:errorMsg];
-//}
-
-
-
-//-(void)getSearchLessonInfoDidFinished:(NSDictionary *)result {
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [MBProgressHUD hideHUDForView:self.view animated:YES];
-//            if (([[result objectForKey:@"sectionList"] isKindOfClass:[NSNull class]]) || ([result objectForKey:@"sectionList"] == nil) || ([[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]].count < 1)) {
-//                [MBProgressHUD showHUDAddedTo:self.view animated:YES].labelText = @"搜索完毕,没有符合条件的结果!";
-//            }else{
-//                NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
-//                if(self.searchBar.searchTextField.text != nil && ![self.searchBar.searchTextField.text isEqualToString:@""] && tempArray.count > 0){
-//                    NSString *keyword = [self.searchBar.searchTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-//                    NSMutableArray *ary = [NSMutableArray arrayWithCapacity:5];
-//                    for(int i = 0 ; i < tempArray.count ; i++){
-//                        SectionModel *section = [tempArray objectAtIndex:i];
-//                        NSRange range = [section.sectionName rangeOfString:[NSString stringWithFormat:@"(%@)+",keyword] options:NSRegularExpressionSearch];
-//                        if(range.location != NSNotFound){
-//                            [ary addObject:section];
-//                        }
-//                    }
-//                    tempArray = [NSMutableArray arrayWithArray:ary];
-//                }
-//                if(tempArray.count == 0){
-//                }else{
-//                    self.recentArray = tempArray;
-//                    self.sectionList = self.recentArray;
-//                    
-//                    //搜索成功则清除旧的筛选记录
-//                    self.progressArray = nil;
-//                    self.nameArray = nil;
-//                    
-//                    //对搜索结果进行筛选排序
-//                    switch (self.filterStatus) {
-//                        case progress:{
-//                            [self bubbleSort:self.sectionList];
-//                        }
-//                            break;
-//                        case a_z:{
-//                            [self letterSort:self.sectionList];
-//                        }
-//                            break;
-//                        default:
-//                            break;
-//                    }
-//                    [self displayNewView];
-//                }
-//            }
-//        });
-//    });
-//}
-//-(void)getSearchLessonInfoDidFailed:(NSString *)errorMsg {
-////    [MBProgressHUD dismiss];
-//    [Utility errorAlert:errorMsg];
-//}
 
 
 #pragma mark --CollectionViewDelegate
@@ -240,7 +154,7 @@
         [Utility errorAlert:@"暂无网络!"];
     }else{
         UserModel *user = [[CaiJinTongManager shared] user];
-        [self.lessonInterface downloadLessonInfoWithLessonId:((SectionCustomView_iPhone *)sender).sectionId withUserId:user.userId];
+        [self.lessonInterface downloadLessonInfoWithLessonId:((SectionCustomView_iPhone *)sender).sectionId withUserId:user.userId]; //sectionId即为lessonId的值
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     }
     self.menuVisible = NO;
@@ -470,12 +384,13 @@
 }
 
 -(void)rightItemClicked:(id)sender{
-    if(!_drTreeTableView){
+    if(!treeViewInited){
         [self downloadLessonCategoryInfo];
         [self drTreeTableView];
         self.menuVisible = YES;
         [self.view addSubview:self.drTreeTableView];
         [self.drTreeTableView setBackgroundColor:[UIColor colorWithRed:6.0/255.0 green:18.0/255.0 blue:27.0/255.0 alpha:1.0]];
+        treeViewInited = YES;
     }else{
         self.menuVisible = !self.menuVisible;
     }
@@ -498,8 +413,8 @@
 #pragma mark LessonCategoryInterfaceDelegate获取课程分类信息
 -(void)getLessonCategoryDataDidFinished:(NSArray *)categoryNotes{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        self.drTreeTableView.noteArr = [NSMutableArray arrayWithArray:categoryNotes];
         dispatch_async(dispatch_get_main_queue(), ^{
+            self.drTreeTableView.noteArr = [NSMutableArray arrayWithArray:categoryNotes];
             [MBProgressHUD hideHUDForView:self.view animated:YES];
         });
     });
@@ -561,16 +476,6 @@
         UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
         SectionViewController_iPhone *sectionView = [story instantiateViewControllerWithIdentifier:@"SectionViewController_iPhone"];
         sectionView.lessonModel = lesson;
-//        NSMutableArray *a = [NSMutableArray arrayWithArray:sectionView.section.sectionList];
-//        Section_ChapterViewController_iPhone *scvc = [story instantiateViewControllerWithIdentifier:@"Section_ChapterViewController_iPhone"];
-//        scvc.dataArray = [NSMutableArray arrayWithArray:a];
-//        [scvc.view frame];
-//        [scvc.tableViewList setFrame:CGRectMake(22, 0, 276, 433)];
-//        [self.navigationController pushViewController:scvc animated:YES];
-//        sectionView.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:lesson.chapterList];
-//        [sectionView.section_ChapterView.tableViewList reloadData];
-//        [sectionView initAppear];          //界面上半部分
-//        [sectionView initAppear_slide];    //界面下半部分(滑动视图)
         [self.navigationController pushViewController:sectionView animated:YES];
     });
 }

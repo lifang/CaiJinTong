@@ -53,7 +53,7 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
@@ -415,7 +415,11 @@
         AskQuestionInterface *askQuestionInter = [[AskQuestionInterface alloc]init];
         self.askQuestionInterface = askQuestionInter;
         self.askQuestionInterface.delegate = self;
-        [self.askQuestionInterface getAskQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionModel.lessonCategoryId andQuestionName:title andQuestionContent:text];
+        [self.askQuestionInterface
+         getAskQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId
+         andSectionId:self.sectionModel.lessonCategoryId
+         andQuestionName:title
+         andQuestionContent:text];
     }
 }
 
@@ -436,7 +440,11 @@
         SumitNoteInterface *sumitNoteInter = [[SumitNoteInterface alloc]init];
         self.sumitNoteInterface = sumitNoteInter;
         self.sumitNoteInterface.delegate = self;
-        [self.sumitNoteInterface getSumitNoteInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionModel.sectionId andNoteTime:noteTime andNoteText:text];
+        [self.sumitNoteInterface
+         getSumitNoteInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId
+         andSectionId:self.sectionModel.sectionId
+         andNoteTime:noteTime
+         andNoteText:text];
     }
 }
 
@@ -444,7 +452,7 @@
 }
 #pragma mark --
 
-#pragma mark DRMoviePlayerTopBarDelegate播放完成推出界面
+#pragma mark DRMoviePlayerTopBarDelegate播放完成退出界面
 
 -(void)exitPlayMovie{
     [self.section_chapterController willMoveToParentViewController:nil];
@@ -765,6 +773,5 @@
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         [Utility errorAlert:errorMsg];
     });
-
 }
 @end
