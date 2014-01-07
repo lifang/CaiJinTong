@@ -18,7 +18,7 @@
 #import "LHLMoviePlayViewController.h"
 #import "LessonModel+toSection.h"
 
-@interface SectionViewController_iPhone : LHLNavigationBarViewController<SUNSlideSwitchView_iPhoneDelegate,UIScrollViewDelegate,LHLMoviePlayViewControllerDelegate,PlayVideoInterfaceDelegate,LessonInfoInterfaceDelegate>
+@interface SectionViewController_iPhone : LHLNavigationBarViewController<SUNSlideSwitchView_iPhoneDelegate,UIScrollViewDelegate,LHLMoviePlayViewControllerDelegate,PlayVideoInterfaceDelegate,LessonInfoInterfaceDelegate,Section_NoteViewControllerDelegate>
 
 //界面
 @property (nonatomic,strong) SectionCustomView_iPhone *sectionView;

@@ -110,22 +110,28 @@
     }
     self.isPlaying = NO;
 }
+
+/////////////
+//播放接口
+
 - (void)playVideo:(id) sender{
-    self.isPlaying = YES;
-    self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
-    chapterModel *chapter = [self.lessonModel.chapterList firstObject];
-    SectionModel *section = [chapter.sectionList firstObject];
-    section.lessonId = self.lessonModel.lessonId;
-    SectionModel *lastplaySection = [[Section defaultSection] searchLastPlaySectionModelWithLessonId:self.lessonModel.lessonId];
-    if (lastplaySection) {
-        lastplaySection.lessonId = self.lessonModel.lessonId;
-    }
-    [self.playerController playMovieWithSectionModel:lastplaySection?lastplaySection:section withFileType:MPMovieSourceTypeStreaming];
-    self.playerController.delegate = self;
-    AppDelegate *app = [AppDelegate sharedInstance];
-    [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
-        
-    }];
+    CGRect f = self.section_NoteView.tableViewList.frame;
+    NSLog(@"%f,%f,%f,%f",f.origin.x,f.origin.y,f.size.width,f.size.height);
+//    self.isPlaying = YES;
+//    self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
+//    chapterModel *chapter = [self.lessonModel.chapterList firstObject];
+//    SectionModel *section = [chapter.sectionList firstObject];
+//    section.lessonId = self.lessonModel.lessonId;
+//    SectionModel *lastplaySection = [[Section defaultSection] searchLastPlaySectionModelWithLessonId:self.lessonModel.lessonId];
+//    if (lastplaySection) {
+//        lastplaySection.lessonId = self.lessonModel.lessonId;
+//    }
+//    [self.playerController playMovieWithSectionModel:lastplaySection?lastplaySection:section withFileType:MPMovieSourceTypeStreaming];
+//    self.playerController.delegate = self;
+//    AppDelegate *app = [AppDelegate sharedInstance];
+//    [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
+//        
+//    }];
 }
 
 #pragma mark - 滑动tab视图代理方法
@@ -156,7 +162,6 @@
         } else if (number == 1) {
             return self.section_GradeView;
         } else if (number == 2) {
-            [self.section_NoteView.view setBackgroundColor:[UIColor redColor]];
             return self.section_NoteView;
         } else {
             return nil;
@@ -350,10 +355,10 @@
     self.slideSwitchView.shadowImage = [[UIImage imageNamed:@"play-courselist_0df3"]
                                         stretchableImageWithLeftCapWidth:59.0f topCapHeight:0.0f];
     
-    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+//    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
     
     //章节页面
-    self.section_ChapterView = [story instantiateViewControllerWithIdentifier:@"Section_ChapterViewController_iPhone"];
+//    self.section_ChapterView = [story instantiateViewControllerWithIdentifier:@"Section_ChapterViewController_iPhone"];
     [self.section_ChapterView.view frame];
     [self.section_ChapterView.tableViewList setFrame:CGRectMake(22, 0, 276, self.slideSwitchView.frame.size.height - IP5(63, 53))];
     self.section_ChapterView.title = @"章节目录";
@@ -364,21 +369,19 @@
     //评价页面
     AppDelegate *app = [AppDelegate sharedInstance];
     if (app.isLocal == NO) {
-        self.section_GradeView = [story instantiateViewControllerWithIdentifier:@"Section_GradeViewController_iPhone"];
         self.section_GradeView.title = @"打分";
         self.section_GradeView.dataArray = [NSMutableArray arrayWithArray:self.lessonModel.lessonCommentList];
         self.section_GradeView.isGrade = [self.lessonModel.lessonIsScored intValue];
-        self.section_GradeView.sectionId = self.lessonModel.lessonId;
+        self.section_GradeView.lessonId = self.lessonModel.lessonId;
         if(self.section_GradeView.dataArray.count > 0){
-            CommentModel *comment = (CommentModel *)[self.section_GradeView.dataArray objectAtIndex:self.section_GradeView.dataArray.count-1];
-            self.section_GradeView.pageCount = comment.pageCount;
+            self.section_GradeView.nowPage = 1;
         }
-        self.section_GradeView.nowPage = 1;
     }
     
     //笔记页面
-    [self.section_NoteView.view frame];
+    [self.section_NoteView.view setFrame:CGRectMake(0, 0, 320, IP5(568, 480))];
     self.section_NoteView.title = @"笔记";
+    self.section_NoteView.delegate = self;
     [self.section_NoteView.tableViewList setFrame:CGRectMake(22, 0, 276, self.slideSwitchView.frame.size.height - IP5(63, 53))];
     self.section_NoteView.dataArray = [NSMutableArray arrayWithArray:self.lessonModel.chapterList];
     
@@ -478,6 +481,11 @@
     return self.lessonModel;
 }
 
+#pragma mark Section_NoteViewControllerDelegate选中一条笔记
+-(void)section_NoteViewController:(Section_NoteViewController_iPhone *)controller didClickedNoteCellWithObj:(NoteModel *)noteModel{
+    [self playVideo:Nil];
+}
+
 #pragma mark property
 //setter自动转换LessonModel参数为Section
 -(void)setSection:(SectionModel *)section{
@@ -488,13 +496,29 @@
     }
 }
 
--(Section_NoteViewController_iPhone *) section_NoteView{
-    if(!_section_NoteView){
+-(Section_NoteViewController_iPhone *)section_NoteView{
+    if (!_section_NoteView) {
         _section_NoteView = [self.storyboard instantiateViewControllerWithIdentifier:@"Section_NoteViewController_iPhone"];
+        [self addChildViewController:_section_NoteView];
     }
     return _section_NoteView;
 }
 
+-(Section_GradeViewController_iPhone *)section_GradeView{
+    if (!_section_GradeView) {
+        _section_GradeView = [self.storyboard instantiateViewControllerWithIdentifier:@"Section_GradeViewController_iPhone"];
+        [self addChildViewController:_section_GradeView];
+    }
+    return _section_GradeView;
+}
+
+-(Section_ChapterViewController_iPhone *)section_ChapterView{
+    if (!_section_ChapterView) {
+        _section_ChapterView =  [self.storyboard instantiateViewControllerWithIdentifier:@"Section_ChapterViewController_iPhone"];
+        [self addChildViewController:_section_ChapterView];
+    }
+    return _section_ChapterView;
+}
 
 -(LessonInfoInterface *)lessonInterface{
     if (!_lessonInterface) {

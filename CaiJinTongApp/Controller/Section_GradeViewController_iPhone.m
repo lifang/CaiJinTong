@@ -116,7 +116,7 @@ static NSString *timespan = nil;
             GradeInterface *gradeInter = [[GradeInterface alloc]init];
             self.gradeInterface = gradeInter;
             self.gradeInterface.delegate = self;
-            [self.gradeInterface getGradeInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionId andScore:[NSString stringWithFormat:@"%d",self.starRatingView.score]andContent:self.textView.text];
+            [self.gradeInterface getGradeInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.lessonId andScore:[NSString stringWithFormat:@"%d",self.starRatingView.score]andContent:self.textView.text];
         }
     }
 }
@@ -125,7 +125,7 @@ static NSString *timespan = nil;
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row<self.dataArray.count) {
         CommentModel *comment = (CommentModel *)[self.dataArray objectAtIndex:indexPath.row];
-        CGSize size = [Utility getTextSizeWithString:comment.content withFont:[UIFont systemFontOfSize:10] withWidth:261];
+        CGSize size = [Utility getTextSizeWithString:comment.commentContent withFont:[UIFont systemFontOfSize:10] withWidth:261];
         return size.height+30;
     }
     return 35;
@@ -141,7 +141,7 @@ static NSString *timespan = nil;
     static NSString *CellIdentifier = @"Section_GradeCell_iPhoneCell";
     Section_GradeCell_iPhoneCell *cell = (Section_GradeCell_iPhoneCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         CommentModel *comment = (CommentModel *)[self.dataArray objectAtIndex:indexPath.row];
-        CGSize size = [Utility getTextSizeWithString:comment.content withFont:[UIFont systemFontOfSize:10] withWidth:261];
+        CGSize size = [Utility getTextSizeWithString:comment.commentContent withFont:[UIFont systemFontOfSize:10] withWidth:261];
         cell.contentLab.layer.borderWidth = 1.0;
         cell.contentLab.layer.borderColor = [[UIColor colorWithRed:244.0/255.0 green:243.0/255.0 blue:244.0/255.0 alpha:1.0] CGColor];
         cell.contentLab.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
@@ -149,8 +149,8 @@ static NSString *timespan = nil;
         cell.contentLab.font = [UIFont systemFontOfSize:10];
         cell.contentLab.contentInset = UIEdgeInsetsMake(-3, 0, 0, 0);
         cell.alpha = 0.5;
-        cell.contentLab.text = [comment.content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        cell.titleLab.text = [NSString stringWithFormat:@"%@发表于%@",comment.nickName,comment.time];
+        cell.contentLab.text = [comment.commentContent stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        cell.titleLab.text = [NSString stringWithFormat:@"%@发表于%@",comment.commentAuthorName,comment.commentCreateDate];
     
     return cell;
 }
@@ -191,7 +191,7 @@ static NSString *timespan = nil;
         CommentListInterface *commentList = [[CommentListInterface alloc]init];
         self.commentInterface = commentList;
         self.commentInterface.delegate = self;
-        [self.commentInterface getGradeInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionId andPageIndex:self.nowPage];
+        [self.commentInterface getGradeInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.lessonId andPageIndex:self.nowPage];
     }
 
 }
@@ -232,11 +232,8 @@ static NSString *timespan = nil;
             //隐藏打分栏，只出现评论框
             self.isGrade = 1;
             [self displayView];
-            if (self.nowPage == self.pageCount) {
-                //更新tableview
-                [self insertCommitDataInToCommentTable];
-                
-            }
+            //更新tableview
+            [self insertCommitDataInToCommentTable];
         });
     });
 }

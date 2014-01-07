@@ -63,16 +63,20 @@
     UIFont *aFont = [UIFont fontWithName:@"Trebuchet MS" size:9];
     CGSize size = [note.noteText sizeWithFont:aFont constrainedToSize:CGSizeMake(255, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
     
+    [cell.contentTextView setUserInteractionEnabled:NO];
     cell.contentTextView.frame = CGRectMake(7, 18, 261, size.height + 15);
-    cell.contentTextView.text = note.noteText;
-    cell.timeLab.text = note.noteTime;
     cell.contentTextView.layer.borderWidth = 1.0;
     cell.contentTextView.layer.borderColor = [[UIColor colorWithRed:244.0/255.0 green:243.0/255.0 blue:244.0/255.0 alpha:1.0] CGColor];
     cell.contentTextView.font = aFont;
     cell.contentTextView.contentInset = UIEdgeInsetsMake(-4, 0, 0, 0);
-//    [cell.contentTextView zoomToRect:CGRectMake(10, 55, 255, size.height + 21) animated:NO];
-    [cell.contentTextView setUserInteractionEnabled:NO];
-    cell.contentLab.text = @"我还没有改好!";
+    [cell.contentTextView setScrollEnabled:NO];
+    [cell.contentTextView setEditable:NO];
+    cell.contentTextView.text = note.noteText;
+    
+    cell.contentLab.text = @"我还没有改好!"; //笔记标题
+    
+    cell.timeLab.text = note.noteTime;
+    
     cell.path = indexPath;
     cell.delegate = self;
     return cell;
@@ -100,9 +104,10 @@
 -(UILabel *)tipLabel{
     if (!_tipLabel) {
         _tipLabel = [[UILabel alloc] initWithFrame:(CGRect){0,0,NOTE_CELL_WIDTH,self.tableViewList.frame.size.height}];
+        NSLog(@"%f 9078239580089523098235253890",_tipLabel.frame.size.height);
         _tipLabel.textAlignment = NSTextAlignmentCenter;
         _tipLabel.textColor = [UIColor grayColor];
-        _tipLabel.font = [UIFont systemFontOfSize:30];
+        _tipLabel.font = [UIFont systemFontOfSize:25];
         [_tipLabel setText:@"没有数据"];
     }
     return _tipLabel;
