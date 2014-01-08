@@ -586,7 +586,6 @@ typedef enum {LESSON_LIST,QUEATION_LIST}TableListType;
         self.listType = LESSON_LIST;
         [Utility errorAlert:errorMsg];
     });
-
 }
 #pragma mark--ChapterQuestionInterfaceDelegate所有问答数据
 -(void)getChapterQuestionInfoDidFinished:(NSDictionary *)result {

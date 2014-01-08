@@ -158,7 +158,7 @@
                         self.questionScope = QuestionAndAnswerALL;
                         
                         //调用问答界面的方法请求问答内容
-                        [self.myQAVC setQuestionAndAnswerScope:self.questionScope];
+//                        [self.myQAVC setQuestionAndAnswerScope:self.questionScope];
                         [self.myQAVC setChapterID:self.questionAndSwerRequestID];
                         [self.myQAVC requestNewPageDataWithLastQuestionID:nil];
                         [self.myQAVC rightItemClicked:nil];

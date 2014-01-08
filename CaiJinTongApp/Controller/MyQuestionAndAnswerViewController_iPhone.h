@@ -15,17 +15,18 @@
 #import "AcceptAnswerInterface.h"
 #import "MJRefresh.h"
 
-@interface MyQuestionAndAnswerViewController_iPhone : LHLNavigationBarViewController<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,QuestionAndAnswerCell_iPhoneDelegate,QuestionAndAnswerCell_iPhoneHeaderViewDelegate,AcceptAnswerInterfaceDelegate,LHLAskQuestionViewControllerDelegate,MJRefreshBaseViewDelegate,QuestionListInterfaceDelegate,GetUserQuestionInterfaceDelegate,LHLNavigationBarDelegate>
+@interface MyQuestionAndAnswerViewController_iPhone : LHLNavigationBarViewController<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,QuestionAndAnswerCell_iPhoneDelegate,QuestionAndAnswerCell_iPhoneHeaderViewDelegate,AcceptAnswerInterfaceDelegate,LHLAskQuestionViewControllerDelegate,MJRefreshBaseViewDelegate,QuestionListInterfaceDelegate,GetUserQuestionInterfaceDelegate,LHLNavigationBarDelegate,DRTreeTableViewDelegate,QuestionInfoInterfaceDelegate,MyQuestionCategatoryInterfaceDelegate,ChapterQuestionInterfaceDelegate,SearchQuestionInterfaceDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *noticeBarView;
 @property (weak, nonatomic) IBOutlet UIImageView *noticeBarImageView;
 
 @property (nonatomic,strong)  AnswerPraiseInterface *answerPraiseinterface;//提交赞接口
 @property (nonatomic, strong) AcceptAnswerInterface *acceptAnswerInterface;
-@property (assign,nonatomic) QuestionAndAnswerScope questionAndAnswerScope;
+//@property (assign,nonatomic) QuestionAndAnswerScope questionAndAnswerScope;
 @property (assign, nonatomic) NSInteger question_pageIndex;
 @property (assign, nonatomic) NSInteger question_pageCount;
 @property (strong,nonatomic) NSString *chapterID;
+@property (nonatomic,assign) QuestionAndAnswerScope questionScope;//当前页面的问题类型
 @property (strong,nonatomic) GetUserQuestionInterface *getUserQuestionInterface;
 @property (nonatomic,strong) MenuQuestionTableViewController *menu;//问题分类菜单
 @property (nonatomic,assign) BOOL menuVisible;//菜单是否可见

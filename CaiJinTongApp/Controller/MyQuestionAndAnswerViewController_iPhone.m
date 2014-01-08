@@ -19,6 +19,18 @@
 @property (nonatomic,assign) BOOL isReaskRefreshing;//判断是追问刷新还是上拉下拉刷新
 @property (nonatomic,strong) LHLAskQuestionViewController *askQuestionController;
 @property (nonatomic,strong) UIButton *askQuestionBtn;  //我要提问button
+@property (nonatomic,strong) DRTreeTableView *drTreeTableView;
+@property (nonatomic, strong) QuestionInfoInterface *questionInfoInterface;//获取所有问答分类
+@property (nonatomic, strong) MyQuestionCategatoryInterface *myQuestionCategatoryInterface;//获取我的提问分类
+@property (nonatomic, strong) MyQuestionCategatoryInterface *myAnswerCategatoryInterface;//获取我的回答分类
+@property (nonatomic, strong) NSArray *allQuestionCategoryArr;//所有问答分类信息
+@property (nonatomic, strong) NSArray *myQuestionCategoryArr;//我的提问分类信息
+@property (nonatomic, strong) NSArray *myAnswerCategoryArr;//我的回答分类信息
+@property (nonatomic,strong) NSString *questionAndSwerRequestID;//请求问题列表ID
+@property (nonatomic, strong) ChapterQuestionInterface *chapterQuestionInterface;//点击列表之后请求问答信息的接口
+@property (nonatomic,assign) BOOL myQuestionNodesOK; //我的问答加载完毕
+@property (nonatomic,assign) BOOL otherQuestionNodesOK;  //其他问答类型加载完毕
+@property (nonatomic,strong) SearchQuestionInterface *searchQuestionInterface;//搜索问答接口
 @end
 
 @implementation MyQuestionAndAnswerViewController_iPhone
@@ -64,6 +76,25 @@
     [self makeTestData];
 }
 
+//获取问题tableView所需的数据
+-(void)getQuestionCategoryNodes{
+    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+        [Utility errorAlert:@"暂无网络!"];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }else {
+        QuestionInfoInterface *questionInfoInter = [[QuestionInfoInterface alloc]init];
+        self.questionInfoInterface = questionInfoInter;
+        self.questionInfoInterface.delegate = self;
+        self.otherQuestionNodesOK = NO;
+        [self.questionInfoInterface getQuestionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId];
+        
+        UserModel *user = [[CaiJinTongManager shared] user];
+        self.myQuestionNodesOK = NO;
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [self.myQuestionCategatoryInterface downloadMyQuestionCategoryDataWithUserId:user.userId];
+    }
+}
+
 #pragma mark 测试数据
 
 -(void)makeTestData{
@@ -71,7 +102,7 @@
     //此接口property及其代理+回调方法也删掉
     self.getUserQuestionInterface = [[GetUserQuestionInterface alloc] init];
     self.getUserQuestionInterface.delegate = self;
-    self.questionAndAnswerScope = QuestionAndAnswerMYQUESTION;
+    self.questionScope = QuestionAndAnswerMYQUESTION;
     //请求我的回答
     [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"0" andLastQuestionID:nil withCategoryId:nil];
 }
@@ -82,7 +113,7 @@
 
 //数据源
 -(void)reloadDataWithDataArray:(NSArray*)data withQuestionChapterID:(NSString*)chapterID withScope:(QuestionAndAnswerScope)scope{
-    self.questionAndAnswerScope = scope;
+    self.questionScope = scope;
     self.chapterID = chapterID;
     self.myQuestionArr = [NSMutableArray arrayWithArray:data];
     if (self.myQuestionArr.count>0) {
@@ -94,6 +125,23 @@
         });
     }
 }
+
+//数据源
+-(void)nextPageDataWithDataArray:(NSArray*)data withQuestionChapterID:(NSString*)chapterID withScope:(QuestionAndAnswerScope)scope{
+    self.questionScope = scope;
+    self.chapterID = chapterID;
+    [self.myQuestionArr addObjectsFromArray:data];
+    self.headerRefreshView.isForbidden = NO;
+    self.footerRefreshView.isForbidden = NO;
+    [self.headerRefreshView endRefreshing];
+    [self.footerRefreshView endRefreshing];
+    
+    
+    if (self.myQuestionArr.count>0) {
+        [self.tableView reloadData];
+    }
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -261,6 +309,7 @@
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
     [self keyboardDismiss];
+    self.menuVisible = NO;
 }
 
 #pragma mark --
@@ -295,7 +344,7 @@
     if([self cellIsHeader:indexPath.row]){
         QuestionAndAnswerCell_iPhoneHeaderView *cell = (QuestionAndAnswerCell_iPhoneHeaderView *)[tableView dequeueReusableCellWithIdentifier:@"header"];
         QuestionModel *question = [self questionForIndexPath:indexPath];
-        [cell setQuestionModel:question withQuestionAndAnswerScope:self.questionAndAnswerScope];
+        [cell setQuestionModel:question withQuestionAndAnswerScope:self.questionScope];
         cell.backgroundColor = [UIColor whiteColor];
         cell.delegate = self;
         cell.path = indexPath;
@@ -329,15 +378,16 @@
 
 #pragma mark --
 
-#pragma mark action
+#pragma mark action  动作
 
 -(void)rightItemClicked:(id)sender{
-    if(!self.menu){
-        self.menu = [self.storyboard instantiateViewControllerWithIdentifier:@"MenuQuestionTableViewController"];
-        [self addChildViewController:self.menu];
-        self.menu.myQAVC = self;
+    if(!self.drTreeTableView){
+        _drTreeTableView = [[DRTreeTableView alloc] initWithFrame:CGRectMake(120,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55)) withTreeNodeArr:nil];
+        _drTreeTableView.delegate = self;
+        [self.view addSubview:_drTreeTableView];
+        [self.drTreeTableView setBackgroundColor:[UIColor colorWithRed:6.0/255.0 green:18.0/255.0 blue:27.0/255.0 alpha:1.0]];
+        [self getQuestionCategoryNodes];  //获取tree所需数据
         self.menuVisible = YES;
-        [self.view addSubview:self.menu.view];
     }else{
         self.menuVisible = !self.menuVisible;
     }
@@ -358,9 +408,9 @@
     [UIView animateWithDuration:0.3 animations:^{
         if(menuVisible){
             [self keyboardDismiss];
-            self.menu.view.frame = CGRectMake(120,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55));
+            self.drTreeTableView.frame = CGRectMake(120,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55));
         }else{
-            self.menu.view.frame = CGRectMake(320,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55));
+            self.drTreeTableView.frame = CGRectMake(320,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55));
         }
     }];
 }
@@ -444,14 +494,27 @@
 }
 
 -(void)requestNewPageDataWithLastQuestionID:(NSString*)lastQuestionID{
-    if (self.questionAndAnswerScope == QuestionAndAnswerALL) {
-        [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andChapterQuestionId:self.chapterID andLastQuestionID:lastQuestionID];
+//    if (self.questionScope == QuestionAndAnswerALL) {
+//        [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andChapterQuestionId:self.chapterID andLastQuestionID:lastQuestionID];
+//    }else
+//        if (self.questionScope == QuestionAndAnswerMYANSWER) {
+////            [self.userQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andIsMyselfQuestion:@"1" andLastQuestionID:lastQuestionID];
+//        }else
+//            if (self.questionScope == QuestionAndAnswerMYQUESTION) {
+////                [self.userQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andIsMyselfQuestion:@"0" andLastQuestionID:lastQuestionID];
+//            }
+    UserModel *user = [[CaiJinTongManager shared] user];
+    if (self.questionScope == QuestionAndAnswerALL) {
+        [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:user.userId andChapterQuestionId:self.chapterID andLastQuestionID:lastQuestionID];
     }else
-        if (self.questionAndAnswerScope == QuestionAndAnswerMYANSWER) {
-//            [self.userQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andIsMyselfQuestion:@"1" andLastQuestionID:lastQuestionID];
+        if (self.questionScope == QuestionAndAnswerMYANSWER) {
+            [self.userQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:user.userId andIsMyselfQuestion:@"1" andLastQuestionID:lastQuestionID withCategoryId:self.chapterID];
         }else
-            if (self.questionAndAnswerScope == QuestionAndAnswerMYQUESTION) {
-//                [self.userQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andIsMyselfQuestion:@"0" andLastQuestionID:lastQuestionID];
+            if (self.questionScope == QuestionAndAnswerMYQUESTION) {
+                [self.userQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:user.userId andIsMyselfQuestion:@"0" andLastQuestionID:lastQuestionID withCategoryId:self.chapterID];
+            }else if (self.questionScope == QuestionAndAnswerSearchQuestion){
+                QuestionModel *question = [self.myQuestionArr lastObject];
+//                [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:user.userId andText:self.searchQuestionText withLastQuestionId:question.questionId];
             }
 }
 
@@ -522,9 +585,34 @@
 #pragma mark --
 
 #pragma mark property
--(void)setQuestionAndAnswerScope:(QuestionAndAnswerScope)questionAndAnswerScope{
-    _questionAndAnswerScope = questionAndAnswerScope;
-    switch (questionAndAnswerScope) {
+-(SearchQuestionInterface *)searchQuestionInterface{
+    if (!_searchQuestionInterface) {
+        _searchQuestionInterface = [[SearchQuestionInterface alloc] init];
+        _searchQuestionInterface.delegate = self;
+    }
+    return _searchQuestionInterface;
+}
+
+-(MyQuestionCategatoryInterface *)myQuestionCategatoryInterface{
+    if (!_myQuestionCategatoryInterface) {
+        _myQuestionCategatoryInterface = [[MyQuestionCategatoryInterface alloc] init];
+        _myQuestionCategatoryInterface.delegate = self;
+    }
+    return _myQuestionCategatoryInterface;
+}
+
+-(MyQuestionCategatoryInterface *)myAnswerCategatoryInterface{
+    if (!_myAnswerCategatoryInterface) {
+        _myAnswerCategatoryInterface = [[MyQuestionCategatoryInterface alloc] init];
+        _myAnswerCategatoryInterface.delegate = self;
+    }
+    return _myAnswerCategatoryInterface;
+}
+
+
+-(void)setQuestionScope:(QuestionAndAnswerScope)questionScope{
+    _questionScope = questionScope;
+    switch (_questionScope) {
         case QuestionAndAnswerALL:
             self.lhlNavigationBar.title.text = @"所有问答";
             break;
@@ -604,6 +692,124 @@
     [self.tableView setFrame: CGRectMake(frame.origin.x,self.lhlNavigationBar.frame.size.height + 5,frame.size.width,IP5(568, 480) - self.lhlNavigationBar.frame.size.height - 5 - self.tabBarController.tabBar.frame.size.height)];
 }
 
+#pragma mark
+-(void)reLoadQuestionWithQuestionScope:(QuestionAndAnswerScope)scope withTreeNode:(DRTreeNode*)node{
+    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+        [Utility errorAlert:@"暂无网络!"];
+    }else {
+        //             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self.questionAndSwerRequestID = node.noteContentID;
+        switch (scope) {
+            case QuestionAndAnswerALL:
+            {
+                ChapterQuestionInterface *chapterInter = [[ChapterQuestionInterface alloc]init];
+                self.chapterQuestionInterface = chapterInter;
+                self.chapterQuestionInterface.delegate = self;
+                self.questionAndSwerRequestID = node.noteContentID;
+                self.questionScope = QuestionAndAnswerALL;
+                //                    NSMutableArray *array = [TestModelData getQuestion];
+                //                    [self.myQAVC reloadDataWithDataArray:array withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
+                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                [self.chapterQuestionInterface getChapterQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andChapterQuestionId:node.noteContentID];
+            }
+                break;
+            case QuestionAndAnswerMYQUESTION:
+            {
+                //请求我的提问
+                self.getUserQuestionInterface = [[GetUserQuestionInterface alloc] init];
+                self.getUserQuestionInterface.delegate = self;
+                self.questionScope = QuestionAndAnswerMYQUESTION;
+                //                    NSMutableArray *array = [TestModelData getQuestion];
+                //                    [self.myQAVC reloadDataWithDataArray:array withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
+                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"0" andLastQuestionID:nil withCategoryId:node.noteContentID];
+            }
+                break;
+            case QuestionAndAnswerMYANSWER:
+            {
+                self.getUserQuestionInterface = [[GetUserQuestionInterface alloc] init];
+                self.getUserQuestionInterface.delegate = self;
+                //请求我的回答
+                self.questionScope = QuestionAndAnswerMYANSWER;
+                //                    NSMutableArray *array = [TestModelData getQuestion];
+                //                    [self.myQAVC reloadDataWithDataArray:array withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
+                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"1" andLastQuestionID:nil withCategoryId:node.noteContentID];
+            }
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+//组合所有问答分类，我的提问问答分类，我的回答分类
+-(NSMutableArray*)togetherAllQuestionCategorys{
+    //如果只有一个接口返回数据,则先返回nil,等所有接口都返回数据以后才返回数据
+    if(self.myQuestionNodesOK && self.otherQuestionNodesOK){
+        //所有问答列表
+        DRTreeNode *question = [[DRTreeNode alloc] init];
+        question.noteContentID = @"-2";
+        question.noteContentName = @"所有问答";
+        question.childnotes = self.allQuestionCategoryArr;
+        
+        //我的提问列表
+        DRTreeNode *myQuestion = [[DRTreeNode alloc] init];
+        myQuestion.noteContentID = @"-1";
+        myQuestion.noteContentName = @"我的提问";
+        myQuestion.childnotes = self.myQuestionCategoryArr;
+        //我的回答列表
+        DRTreeNode *myAnswer = [[DRTreeNode alloc] init];
+        myAnswer.noteContentID = @"-3";
+        myAnswer.noteContentName = @"我的回答";
+        myAnswer.childnotes = self.myAnswerCategoryArr;
+        //我的问答
+        DRTreeNode *my = [[DRTreeNode alloc] init];
+        my.noteContentID = @"-4";
+        my.noteContentName = @"我的问答";
+        my.childnotes = @[myQuestion,myAnswer];
+        
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        return [NSMutableArray arrayWithArray:@[question,my]];
+    }else return nil;
+}
+
+#pragma mark DRTreeTableViewDelegate //选择一个分类
+-(void)drTreeTableView:(DRTreeTableView *)treeView didSelectedTreeNode:(DRTreeNode *)selectedNote{
+        switch ([selectedNote.noteRootContentID integerValue]) {
+            case -2://所有问答
+            {
+                self.questionScope = QuestionAndAnswerALL;
+                [self reLoadQuestionWithQuestionScope:self.questionScope withTreeNode:selectedNote];
+            }
+                break;
+            case -1://我的提问
+            {
+                self.questionScope = QuestionAndAnswerMYQUESTION;
+                [self reLoadQuestionWithQuestionScope:self.questionScope withTreeNode:selectedNote];
+            }
+                break;
+            case -3://我的回答
+            {
+                self.questionScope = QuestionAndAnswerMYANSWER;
+                [self reLoadQuestionWithQuestionScope:self.questionScope withTreeNode:selectedNote];
+            }
+                break;
+            case -4://我的问答
+            {
+            }
+                break;
+            default:{
+                
+            }
+                break;
+        }
+}
+
+-(BOOL)drTreeTableView:(DRTreeTableView *)treeView isExtendChildSelectedTreeNode:(DRTreeNode *)selectedNote{
+    return YES;
+}
+
 #pragma mark DRAskQuestionViewControllerDelegate 提问问题成功时回调
 -(void)askQuestionViewControllerDidAskingSuccess:(LHLAskQuestionViewController *)controller{
     self.isReaskRefreshing = YES;
@@ -640,8 +846,48 @@
     [Utility errorAlert:@"提交失败"];
 }
 
+
+
+
 #pragma mark --
-#pragma mark GetUserQuestionInterfaceDelegate 加载我的回答或者我的提问新数据
+
+#pragma mark --MyQuestionCategatoryInterfaceDelegate 获取我的问答分类接口
+-(void)getMyQuestionCategoryDataDidFinishedWithMyAnswerCategorynodes:(NSArray *)myAnswerCategoryNotes withMyQuestionCategorynodes:(NSArray *)myQuestionCategoryNotes{
+    dispatch_async(dispatch_get_main_queue(), ^{
+//        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        self.myAnswerCategoryArr = myAnswerCategoryNotes;
+        self.myQuestionCategoryArr = myQuestionCategoryNotes;
+        self.myQuestionNodesOK = YES;
+        self.drTreeTableView.noteArr = [self togetherAllQuestionCategorys];
+    });
+}
+
+-(void)getMyQuestionCategoryDataFailure:(NSString *)errorMsg{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [Utility errorAlert:errorMsg];
+    });
+}
+
+#pragma mark --QuestionInfoInterfaceDelegate 获取所有问答分类信息
+-(void)getQuestionInfoDidFinished:(NSArray *)questionCategoryArr {
+    dispatch_async(dispatch_get_main_queue(), ^{
+//        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        self.allQuestionCategoryArr = questionCategoryArr;
+        [[CaiJinTongManager shared] setQuestionCategoryArr:questionCategoryArr] ;
+        self.otherQuestionNodesOK = YES;
+        self.drTreeTableView.noteArr = [self togetherAllQuestionCategorys];
+    });
+}
+-(void)getQuestionInfoDidFailed:(NSString *)errorMsg {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [Utility errorAlert:errorMsg];
+    });
+}
+
+#pragma mark --
+#pragma mark --GetUserQuestionInterfaceDelegate 加载我的回答或者我的提问新数据
 -(void)getUserQuestionInfoDidFinished:(NSDictionary *)result{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
@@ -667,6 +913,21 @@
 }
 
 -(void)getUserQuestionInfoDidFailed:(NSString *)errorMsg{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [Utility errorAlert:errorMsg];
+}
+
+#pragma mark--ChapterQuestionInterfaceDelegate所有问答数据
+-(void)getChapterQuestionInfoDidFinished:(NSDictionary *)result {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [self reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
+        });
+    });
+}
+-(void)getChapterQuestionInfoDidFailed:(NSString *)errorMsg {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
 }
@@ -726,8 +987,33 @@
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
 }
+
 #pragma mark --
 
+
+#pragma mark SearchQuestionInterfaceDelegate搜索问答回调
+-(void)getSearchQuestionInfoDidFailed:(NSString *)errorMsg{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [Utility errorAlert:errorMsg];
+}
+
+-(void)getSearchQuestionInfoDidFinished:(NSDictionary *)result{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            self.question_pageIndex = self.question_pageIndex+1;
+            if (self.headerRefreshView.isForbidden) {//加载下一页
+                [self nextPageDataWithDataArray:chapterQuestionList withQuestionChapterID:self.chapterID withScope:QuestionAndAnswerSearchQuestion];
+            }else{//重新加载
+                [self reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:self.chapterID withScope:QuestionAndAnswerSearchQuestion];
+            }
+            
+        });
+    });
+}
+
+#pragma mark --
 
 #pragma mark -- AcceptAnswerInterfaceDelegate 采纳答案
 -(void)getAcceptAnswerInfoDidFinished:(NSDictionary *)result {
@@ -749,7 +1035,7 @@
 }
 
 -(void)dealloc{
-    if (self.questionAndAnswerScope == QuestionAndAnswerALL) {
+    if (self.questionScope == QuestionAndAnswerALL) {
         [self.headerRefreshView free];
         [self.footerRefreshView free];
     }
