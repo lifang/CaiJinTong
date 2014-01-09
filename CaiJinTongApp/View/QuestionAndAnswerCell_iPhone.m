@@ -183,7 +183,7 @@
     
     self.qflowerLabel.frame = (CGRect){CGRectGetMaxX(self.qflowerImageView.frame)+TEXT_PADDING,0,[Utility getTextSizeWithString:self.qflowerLabel.text withFont:self.qflowerLabel.font].width,CGRectGetHeight(self.qflowerLabel.frame)};
     
-    self.acceptAnswerBt.frame = (CGRect){CGRectGetMaxX(self.qflowerLabel.frame)+TEXT_PADDING,0,self.acceptAnswerBt.frame.size};
+//    self.acceptAnswerBt.frame = (CGRect){CGRectGetMaxX(self.qflowerLabel.frame)+TEXT_PADDING,0,self.acceptAnswerBt.frame.size};
     
     self.qflowerBt.frame = (CGRect){CGRectGetMinX(self.qflowerImageView.frame)-TEXT_PADDING,0,CGRectGetMaxX(self.qflowerLabel.frame) - CGRectGetMinX(self.qflowerImageView.frame)+TEXT_PADDING*2,CGRectGetHeight(self.qTitleNameLabel.frame)};
     
@@ -191,7 +191,9 @@
     //回答的正文
     float cellHeight = [self.delegate QuestionAndAnswerCell_iPhone:self getCellheightAtIndexPath:self.path];
     self.answerAttributeTextView.frame = (CGRect){self.answerAttributeTextView.frame.origin,QUESTIONANDANSWER_CELL_WIDTH,cellHeight};
-    self.answerBt.frame = (CGRect){0,0,self.answerAttributeTextView.frame.size};
+//    self.answerBt.frame = (CGRect){0,0,self.answerAttributeTextView.frame.size};
+    self.answerBt.frame = self.answerAttributeTextView.frame;
+    DLog(@"self.answerBt.frame : %f %f %f %f",self.answerBt.frame.origin.x,self.answerBt.frame.origin.y,self.answerBt.frame.size.width,self.answerBt.frame.size.height);
 //    self.answerBackgroundView.frame = (CGRect){self.answerBackgroundView.frame.origin,QUESTIONANDANSWER_CELL_WIDTH,cellHeight};
     
 //    self.answerAttributeTextView.frame = (CGRect){0,0,self.answerBackgroundView.frame.size.width + 27,self.answerBackgroundView.frame.size.height};  //调整文字位置27

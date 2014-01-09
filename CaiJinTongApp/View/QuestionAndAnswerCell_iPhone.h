@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "AnswerModel.h"
 #import "DRAttributeStringView.h"
-#define TEXT_FONT_SIZE 10
-#define TEXT_FONT [UIFont systemFontOfSize:TEXT_FONT_SIZE]
+//#define TEXT_FONT_SIZE 10
+//#define TEXT_FONT [UIFont systemFontOfSize:TEXT_FONT_SIZE]
 #define TEXT_PADDING 5
 #define TEXT_HEIGHT 30
 #define  QUESTIONANDANSWER_CELL_WIDTH 265

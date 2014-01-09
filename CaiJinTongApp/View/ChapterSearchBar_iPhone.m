@@ -48,10 +48,7 @@
     }else{
         self.searchTextField.frame = (CGRect){CGRectGetMaxX(self.searchBt.frame)+11,8 ,CGRectGetWidth(self.backImageView.frame) - CGRectGetMaxX(self.searchBt.frame) - 13,CGRectGetHeight(self.backImageView.frame)};
     }
-    
-
 }
-
 
 -(void)beginSearch{
     [self.searchTextField resignFirstResponder];

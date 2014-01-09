@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "QuestionModel.h"
+#import "DRAttributeStringView.h"
 #define TEXT_FONT_SIZE 12
 #define TEXT_FONT [UIFont systemFontOfSize:TEXT_FONT_SIZE]
 #define TEXT_PADDING 5
@@ -19,6 +20,7 @@
 @property (strong,nonatomic) NSIndexPath *path;
 @property (weak,nonatomic) id <QuestionAndAnswerCell_iPhoneHeaderViewDelegate> delegate;
 @property (assign,nonatomic) QuestionAndAnswerScope *scope;//判断是回答还是追问
+@property (nonatomic,strong) DRAttributeStringView *questionContentAttributeView;  //问题主体内容绘制view
 -(void)setQuestionModel:(QuestionModel*)question withQuestionAndAnswerScope:(QuestionAndAnswerScope)scope;
 @end
 
@@ -31,4 +33,6 @@
 -(void)questionAndAnswerCell_iPhoneHeaderView:(QuestionAndAnswerCell_iPhoneHeaderView*)header didAnswerQuestionAtIndexPath:(NSIndexPath*)path withAnswer:(NSString*)text;
 
 -(void)questionAndAnswerCell_iPhoneHeaderView:(QuestionAndAnswerCell_iPhoneHeaderView*)header willBeginTypeAnswerQuestionAtIndexPath:(NSIndexPath*)path;
+
+-(float)questionAndAnswerCell_iPhoneHeaderView:(QuestionAndAnswerCell_iPhoneHeaderView*)header headerHeightAtIndexPath:(NSIndexPath*)path;
 @end

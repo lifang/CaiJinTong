@@ -31,6 +31,9 @@
 @property (nonatomic,assign) BOOL myQuestionNodesOK; //我的问答加载完毕
 @property (nonatomic,assign) BOOL otherQuestionNodesOK;  //其他问答类型加载完毕
 @property (nonatomic,strong) SearchQuestionInterface *searchQuestionInterface;//搜索问答接口
+@property (nonatomic,strong) UIViewController *modelController; //点击图片显示的VC
+@property (nonatomic,strong) ChapterSearchBar_iPhone *searchBar;//搜索栏+按钮
+@property (nonatomic,strong) UIButton *showSearchBarBtn; //显示/隐藏搜索栏
 @end
 
 @implementation MyQuestionAndAnswerViewController_iPhone
@@ -53,6 +56,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //临时,搜索按钮
+    CGRect frame = self.lhlNavigationBar.rightItem.frame;
+    self.showSearchBarBtn = [UIButton buttonWithType:UIButtonTypeSystem ];
+    self.showSearchBarBtn.frame = (CGRect){frame.origin.x - 58,frame.origin.y,frame.size};
+    [self.showSearchBarBtn setTitle:@"搜" forState:UIControlStateNormal];
+    [self.showSearchBarBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [self.showSearchBarBtn addTarget:self action:@selector(showSearchBar) forControlEvents:UIControlEventTouchUpInside];
+    [self.lhlNavigationBar addSubview:self.showSearchBarBtn];
+    
     [self.headerRefreshView endRefreshing];//instance refresh view
     [self.footerRefreshView endRefreshing];
     [self.tableView registerClass:[QuestionAndAnswerCell_iPhoneHeaderView class] forCellReuseIdentifier:@"header"];
@@ -148,7 +160,31 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark DRAttributeStringViewDelegate用户点击图片内容时调用
+-(void)drAttributeStringView:(DRAttributeStringView *)attriView clickedFileURL:(NSURL *)url withFileType:(DRURLFileType)fileType{
+    if (!self.modelController) {
+        self.modelController = [[UIViewController alloc] init];
+    }
+    for (UIView *subView in self.modelController.view.subviews) {
+        [subView removeFromSuperview];
+    }
+    UIWebView *webView = [[UIWebView alloc] init];
+    [self.modelController.view addSubview:webView];
+    self.modelController.view.frame = (CGRect){0,0,300,IP5(548, 460)};
+    webView.frame = (CGRect){0,0,300,IP5(548, 460)};
+    [webView loadRequest:[NSURLRequest requestWithURL:url]];
+    [self presentPopupViewController:self.modelController animationType:MJPopupViewAnimationSlideTopTop isAlignmentCenter:YES dismissed:^{
+        
+    }];
+}
+
 #pragma mark QuestionAndAnswerCell_iPhoneHeaderViewDelegate
+-(float)questionAndAnswerCell_iPhoneHeaderView:(QuestionAndAnswerCell_iPhoneHeaderView *)header headerHeightAtIndexPath:(NSIndexPath *)path{
+    QuestionModel *question = [self questionForIndexPath:path];
+    CGRect rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:QUESTIONHEARD_VIEW_WIDTH];
+    return rect.size.height;
+}
+
 //赞问题
 -(void)questionAndAnswerCell_iPhoneHeaderView:(QuestionAndAnswerCell_iPhoneHeaderView *)header flowerQuestionAtIndexPath:(NSIndexPath *)path{
     
@@ -215,9 +251,8 @@
     QuestionModel *question = [self questionForIndexPath:path];
     AnswerModel *answer = [question.answerList objectAtIndex:[self answerForCellIndexPath:path]];
     
-    NSAttributedString *attriString =  [Utility getTextSizeWithAnswerModel:answer withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+4] withWidth:QUESTIONANDANSWER_CELL_WIDTH];
-    CGSize size = [Utility getAttributeStringSizeWithWidth:QUESTIONANDANSWER_CELL_WIDTH withAttributeString:attriString];
-    return size.height;
+    CGRect rect = [DRAttributeStringView boundsRectWithAnswer:answer withWidth:QUESTIONANDANSWER_CELL_WIDTH];
+    return rect.size.height;
 }
 
 //键盘弹出
@@ -347,6 +382,7 @@
         [cell setQuestionModel:question withQuestionAndAnswerScope:self.questionScope];
         cell.backgroundColor = [UIColor whiteColor];
         cell.delegate = self;
+        cell.questionContentAttributeView.delegate = self;
         cell.path = indexPath;
         return cell;
     }else{
@@ -356,6 +392,7 @@
         [cell setAnswerModel:answer withQuestion:question];
         cell.delegate = self;
         cell.path = indexPath;
+        cell.answerAttributeTextView.delegate = self;
         cell.contentView.frame = (CGRect){cell.contentView.frame.origin,CGRectGetWidth(cell.contentView.frame),[self getTableViewRowHeightWithIndexPath:indexPath]};
         return cell;
     }
@@ -379,6 +416,12 @@
 #pragma mark --
 
 #pragma mark action  动作
+//显示/隐藏搜索栏
+-(void)showSearchBar{
+    [UIView animateWithDuration:0.3 animations:^{
+        [self.searchBar setHidden:!self.searchBar.hidden];
+    }];
+}
 
 -(void)rightItemClicked:(id)sender{
     if(!self.drTreeTableView){
@@ -514,30 +557,37 @@
                 [self.userQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:user.userId andIsMyselfQuestion:@"0" andLastQuestionID:lastQuestionID withCategoryId:self.chapterID];
             }else if (self.questionScope == QuestionAndAnswerSearchQuestion){
                 QuestionModel *question = [self.myQuestionArr lastObject];
-//                [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:user.userId andText:self.searchQuestionText withLastQuestionId:question.questionId];
+                [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:user.userId andText:self.searchBar.searchTextField.text withLastQuestionId:question.questionId];
             }
 }
 
 -(float)getTableViewRowHeightWithIndexPath:(NSIndexPath*)path{
     QuestionModel *question = [self questionForIndexPath:path];
     if([self cellIsHeader:path.row]){  //如果是问题本身(header)
+        CGRect rect;
         if (question.isEditing) {
-            return  [Utility getTextSizeWithString:question.questionName withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+4] withWidth:QUESTIONHEARD_VIEW_WIDTH + TEXT_PADDING * 2].height + TEXT_HEIGHT + QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT;
+            rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:QUESTIONHEARD_VIEW_WIDTH];
+            return rect.size.height + HEADER_TEXT_HEIGHT + TEXT_PADDING + QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT;
         }else{
-            return  [Utility getTextSizeWithString:question.questionName withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+4] withWidth:QUESTIONHEARD_VIEW_WIDTH + TEXT_PADDING * 2].height + TEXT_HEIGHT;
+            rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:QUESTIONHEARD_VIEW_WIDTH] ;
+            return rect.size.height + HEADER_TEXT_HEIGHT + TEXT_PADDING ;
         }
+//        if (question.isEditing) {
+//            return  [Utility getTextSizeWithString:question.questionName withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+4] withWidth:QUESTIONHEARD_VIEW_WIDTH + TEXT_PADDING * 2].height + TEXT_HEIGHT + QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT;
+//        }else{
+//            return  [Utility getTextSizeWithString:question.questionName withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+4] withWidth:QUESTIONHEARD_VIEW_WIDTH + TEXT_PADDING * 2].height + TEXT_HEIGHT;
+//        }
     }
     if (question.answerList == nil || [question.answerList count] <= 0) {
         return 0;
     }
     AnswerModel *answer = [question.answerList objectAtIndex:[self answerForCellIndexPath:path]];
     float questionTextFieldHeight = answer.isEditing?87:0;
-    NSAttributedString *attriString =  [Utility getTextSizeWithAnswerModel:answer withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+4] withWidth:QUESTIONANDANSWER_CELL_WIDTH];
-    CGSize size = [Utility getAttributeStringSizeWithWidth:QUESTIONANDANSWER_CELL_WIDTH withAttributeString:attriString];
+    CGRect rect = [DRAttributeStringView boundsRectWithAnswer:answer withWidth:QUESTIONANDANSWER_CELL_WIDTH];
     if (platform >= 7.0) {
-        return size.height + TEXT_PADDING*4+ questionTextFieldHeight;
+        return rect.size.height + TEXT_PADDING*5+ questionTextFieldHeight;
     }else{
-        return size.height + TEXT_PADDING*4+ questionTextFieldHeight;
+        return rect.size.height + TEXT_PADDING*5+ questionTextFieldHeight;
     }
 }
 
@@ -585,6 +635,16 @@
 #pragma mark --
 
 #pragma mark property
+-(ChapterSearchBar_iPhone *)searchBar{
+    if(!_searchBar){
+        _searchBar = [[ChapterSearchBar_iPhone alloc] initWithFrame:CGRectMake(19, IP5(65, 55), 282, 34)];
+        _searchBar.delegate = self;
+        [_searchBar setHidden:YES];
+        [self.view addSubview:_searchBar];
+    }
+    return _searchBar;
+}
+
 -(SearchQuestionInterface *)searchQuestionInterface{
     if (!_searchQuestionInterface) {
         _searchQuestionInterface = [[SearchQuestionInterface alloc] init];
@@ -1032,6 +1092,26 @@
 -(void)getAcceptAnswerInfoDidFailed:(NSString *)errorMsg {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
+}
+
+#pragma mark --
+
+#pragma mark -- ChapterSearchBarDelegate
+-(void)chapterSeachBar_iPhone:(ChapterSearchBar_iPhone*)searchBar beginningSearchString:(NSString*)searchText{
+    if (self.searchBar.searchTextField.text.length == 0) {
+        [Utility errorAlert:@"请输入搜索内容!"];
+    }else {
+        [self.searchBar.searchTextField resignFirstResponder];
+        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+            [Utility errorAlert:@"暂无网络!"];
+        }else {
+//            self.isSearching = YES;
+            [self showSearchBar];
+            self.questionScope = QuestionAndAnswerSearchQuestion;
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchBar.searchTextField.text withLastQuestionId:@"0"];
+        }
+    }
 }
 
 -(void)dealloc{

@@ -14,15 +14,15 @@
 #import "MenuQuestionTableViewController.h"
 #import "AcceptAnswerInterface.h"
 #import "MJRefresh.h"
+#import "ChapterSearchBar_iPhone.h"
 
-@interface MyQuestionAndAnswerViewController_iPhone : LHLNavigationBarViewController<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,QuestionAndAnswerCell_iPhoneDelegate,QuestionAndAnswerCell_iPhoneHeaderViewDelegate,AcceptAnswerInterfaceDelegate,LHLAskQuestionViewControllerDelegate,MJRefreshBaseViewDelegate,QuestionListInterfaceDelegate,GetUserQuestionInterfaceDelegate,LHLNavigationBarDelegate,DRTreeTableViewDelegate,QuestionInfoInterfaceDelegate,MyQuestionCategatoryInterfaceDelegate,ChapterQuestionInterfaceDelegate,SearchQuestionInterfaceDelegate>
+@interface MyQuestionAndAnswerViewController_iPhone : LHLNavigationBarViewController<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,QuestionAndAnswerCell_iPhoneDelegate,QuestionAndAnswerCell_iPhoneHeaderViewDelegate,AcceptAnswerInterfaceDelegate,LHLAskQuestionViewControllerDelegate,MJRefreshBaseViewDelegate,QuestionListInterfaceDelegate,GetUserQuestionInterfaceDelegate,LHLNavigationBarDelegate,DRTreeTableViewDelegate,QuestionInfoInterfaceDelegate,MyQuestionCategatoryInterfaceDelegate,ChapterQuestionInterfaceDelegate,SearchQuestionInterfaceDelegate,DRAttributeStringViewDelegate,ChapterSearchBarDelegate_iPhone>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *noticeBarView;
 @property (weak, nonatomic) IBOutlet UIImageView *noticeBarImageView;
 
 @property (nonatomic,strong)  AnswerPraiseInterface *answerPraiseinterface;//提交赞接口
 @property (nonatomic, strong) AcceptAnswerInterface *acceptAnswerInterface;
-//@property (assign,nonatomic) QuestionAndAnswerScope questionAndAnswerScope;
 @property (assign, nonatomic) NSInteger question_pageIndex;
 @property (assign, nonatomic) NSInteger question_pageCount;
 @property (strong,nonatomic) NSString *chapterID;
