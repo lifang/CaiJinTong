@@ -218,6 +218,7 @@
 		18A19C84183CA60500C11310 /* iRate.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18A19C81183CA60500C11310 /* iRate.bundle */; };
 		18A19C85183CA60500C11310 /* iRate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A19C83183CA60500C11310 /* iRate.m */; };
 		18A77073187FCC6000DAE6A6 /* InfoViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A77072187FCC6000DAE6A6 /* InfoViewController_iPhone.m */; };
+		18A77076187FEF7B00DAE6A6 /* SuggestionFeedbackViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A77075187FEF7B00DAE6A6 /* SuggestionFeedbackViewController_iPhone.m */; };
 		18C9312C18363B2A00FBE1A8 /* btn1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18C9311B18363B2A00FBE1A8 /* btn1@2x.png */; };
 		18C9312D18363B2A00FBE1A8 /* play_barBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18C9311C18363B2A00FBE1A8 /* play_barBG@2x.png */; };
 		18C9312E18363B2A00FBE1A8 /* play_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18C9311D18363B2A00FBE1A8 /* play_black@2x.png */; };
@@ -710,6 +711,8 @@
 		18A19C83183CA60500C11310 /* iRate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iRate.m; sourceTree = "<group>"; };
 		18A77071187FCC6000DAE6A6 /* InfoViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoViewController_iPhone.h; sourceTree = "<group>"; };
 		18A77072187FCC6000DAE6A6 /* InfoViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoViewController_iPhone.m; sourceTree = "<group>"; };
+		18A77074187FEF7B00DAE6A6 /* SuggestionFeedbackViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuggestionFeedbackViewController_iPhone.h; sourceTree = "<group>"; };
+		18A77075187FEF7B00DAE6A6 /* SuggestionFeedbackViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuggestionFeedbackViewController_iPhone.m; sourceTree = "<group>"; };
 		18C9311B18363B2A00FBE1A8 /* btn1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn1@2x.png"; sourceTree = "<group>"; };
 		18C9311C18363B2A00FBE1A8 /* play_barBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play_barBG@2x.png"; sourceTree = "<group>"; };
 		18C9311D18363B2A00FBE1A8 /* play_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play_black@2x.png"; sourceTree = "<group>"; };
@@ -1509,6 +1512,8 @@
 				1839A1BD187FB32E007F3245 /* SettingViewController_iPhone.m */,
 				18A77071187FCC6000DAE6A6 /* InfoViewController_iPhone.h */,
 				18A77072187FCC6000DAE6A6 /* InfoViewController_iPhone.m */,
+				18A77074187FEF7B00DAE6A6 /* SuggestionFeedbackViewController_iPhone.h */,
+				18A77075187FEF7B00DAE6A6 /* SuggestionFeedbackViewController_iPhone.m */,
 			);
 			name = Controller_iPhone;
 			sourceTree = "<group>";
@@ -2123,6 +2128,7 @@
 				0E9DA3C6183F568D000A5995 /* ASIS3Request.m in Sources */,
 				0EAD1F70182B24B100204FC3 /* FMResultSet.m in Sources */,
 				0E9DA3C5183F568D000A5995 /* ASIS3ObjectRequest.m in Sources */,
+				18A77076187FEF7B00DAE6A6 /* SuggestionFeedbackViewController_iPhone.m in Sources */,
 				0EAFA1231822485500D01D3E /* LessonInfoInterface.m in Sources */,
 				18F87E671844AA2A00B0F7EC /* CJTMainToolbar_iPhone.m in Sources */,
 				0E9DA3BC183F568D000A5995 /* ASICloudFilesContainer.m in Sources */,

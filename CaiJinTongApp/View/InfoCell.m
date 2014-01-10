@@ -23,7 +23,7 @@
     if (self) {
         self.backgroundView = [UIView new];
         
-        self.coverBt = [[UIButton alloc] initWithFrame:CGRectMake(50, 10, 300, 50)];
+        self.coverBt = [[UIButton alloc] initWithFrame:CGRectMake(61, 10, 198, 40)];
         self.coverBt.backgroundColor = [UIColor redColor];
         [self.coverBt setTitle:@"退出" forState:UIControlStateNormal];
         [self addSubview:self.coverBt];

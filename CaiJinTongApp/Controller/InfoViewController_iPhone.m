@@ -47,6 +47,9 @@
     self.textField4.layer.masksToBounds = YES;
     self.textField4.layer.cornerRadius = 6;
     [self.textField4 setKeyboardType:UIKeyboardTypeDefault];
+    [self.textField4 setBackgroundColor:[UIColor colorWithRed:1.0/255.0 green:1.0/255.0 blue:1.0/255.0 alpha:0.03]];
+    [self.textField4.layer setBorderColor:[UIColor colorWithRed:1.0/255.0 green:1.0/255.0 blue:1.0/255.0 alpha:0.07].CGColor];
+    [self.textField4.layer setBorderWidth:0.8];
     
     self.textField1.tag = 1;
     self.textField2.tag = 2;

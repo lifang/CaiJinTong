@@ -45,6 +45,7 @@ NSString *appleID_ = @"6224939";
     [super viewDidLoad];
     self.lhlNavigationBar.title.text = @"设置";
     
+    [self.tableView setFrame:CGRectMake(0, IP5(65, 55), 320,IP5(503, 425))];
     [self.tableView registerClass:[InfoCell class] forHeaderFooterViewReuseIdentifier:Info_HEADER_IDENTIFIER];
     if (platform<7.0) {
         self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
@@ -262,15 +263,15 @@ NSString *appleID_ = @"6224939";
 #pragma mark --
 #pragma mark -- cellDelegate
 -(void)infoCellView:(InfoCell*)header {
-    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
-    AppDelegate *app = [AppDelegate sharedInstance];
-    [app.lessonViewCtrol.navigationController popToRootViewControllerAnimated:NO];
+    [self.navigationController popViewControllerAnimated:YES];
+//    AppDelegate *app = [AppDelegate sharedInstance];
+//    [app.lessonViewCtrol.navigationController popToRootViewControllerAnimated:NO];
 }
 
 #pragma mark -- suggestion feedback view
 -(void)suggestionFeedbackViewClicked{
-    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:[NSBundle mainBundle]];
-    SuggestionFeedbackViewController *suggestion = [story instantiateViewControllerWithIdentifier:@"SuggestionFeedbackViewController"];
+    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:[NSBundle mainBundle]];
+    SuggestionFeedbackViewController_iPhone *suggestion = [story instantiateViewControllerWithIdentifier:@"SuggestionFeedbackViewController_iPhone"];
     [self.navigationController pushViewController:suggestion animated:YES];
 }
 @end
