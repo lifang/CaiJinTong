@@ -61,7 +61,7 @@
     self.showSearchBarBtn = [UIButton buttonWithType:UIButtonTypeSystem ];
     self.showSearchBarBtn.frame = (CGRect){frame.origin.x - 58,frame.origin.y,frame.size};
     [self.showSearchBarBtn setTitle:@"搜" forState:UIControlStateNormal];
-    [self.showSearchBarBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [self.showSearchBarBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self.showSearchBarBtn addTarget:self action:@selector(showSearchBar) forControlEvents:UIControlEventTouchUpInside];
     [self.lhlNavigationBar addSubview:self.showSearchBarBtn];
     
@@ -345,6 +345,9 @@
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
     [self keyboardDismiss];
     self.menuVisible = NO;
+    if(self.searchBar.alpha > 0.999){
+        [self showSearchBar];
+    }
 }
 
 #pragma mark --
@@ -418,12 +421,31 @@
 #pragma mark action  动作
 //显示/隐藏搜索栏
 -(void)showSearchBar{
-    [UIView animateWithDuration:0.3 animations:^{
-        [self.searchBar setHidden:!self.searchBar.hidden];
-    }];
+    if(self.searchBar.hidden){
+        [self.searchBar setHidden:NO];
+        [UIView animateWithDuration:0.5
+                         animations:^{
+//                             [self.searchBar setFrame:CGRectMake(19, IP5(65, 55), 282, 34)];
+                             [self.searchBar setAlpha:1.0];
+                         }
+                         completion:nil];
+    }else{
+        [UIView animateWithDuration:0.5
+                         animations:^{
+                             [self.searchBar setAlpha:0.0];
+//                             [self.searchBar setFrame:CGRectMake(19, IP5(65, 55), 1, 1)];
+                         }
+                         completion:^ void (BOOL completed){
+                             if(completed){
+                                 [self.searchBar setHidden:!self.searchBar.hidden];
+                             }
+                         }];
+    }
 }
 
 -(void)rightItemClicked:(id)sender{
+    [self.searchBar.searchTextField resignFirstResponder];
+    
     if(!self.drTreeTableView){
         _drTreeTableView = [[DRTreeTableView alloc] initWithFrame:CGRectMake(120,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55)) withTreeNodeArr:nil];
         _drTreeTableView.delegate = self;
@@ -434,6 +456,10 @@
     }else{
         self.menuVisible = !self.menuVisible;
     }
+}
+
+-(void)leftItemClicked:(id)sender{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)askQuestionBtnClicked:(id)sender{
@@ -459,6 +485,8 @@
 }
 
 -(void)keyboardDismiss{
+    [self.searchBar.searchTextField resignFirstResponder];
+    
     //暴力遍历所有cell
     for(int i = 0; i < self.tableView.visibleCells.count;i ++ ){
         if([self.tableView.visibleCells[i] isKindOfClass:[QuestionAndAnswerCell_iPhone class]]){
@@ -640,6 +668,8 @@
         _searchBar = [[ChapterSearchBar_iPhone alloc] initWithFrame:CGRectMake(19, IP5(65, 55), 282, 34)];
         _searchBar.delegate = self;
         [_searchBar setHidden:YES];
+        [_searchBar setAlpha:0.0];
+        [_searchBar.searchTextField setPlaceholder:@"搜索问题"];
         [self.view addSubview:_searchBar];
     }
     return _searchBar;

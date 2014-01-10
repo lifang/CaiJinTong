@@ -36,6 +36,9 @@
     [self.findPasswordBtn addTarget:self action:@selector(findPasswordBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.registerAccBtn addTarget:self action:@selector(registerAccBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     
+    //注册账号btn暂时改为设置
+    [self.registerAccBtn setTitle:@"设置" forState:UIControlStateNormal];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -75,7 +78,7 @@
 }
 
 -(void)registerAccBtnClicked{
-    
+    [self.navigationController pushViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"SettingViewController_iPhone"] animated:YES];
 }
 
 #pragma mark - LogInterface

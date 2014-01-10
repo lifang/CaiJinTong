@@ -189,6 +189,13 @@
 		1836AFE2183AF875009E65B5 /* settings_delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 1836AFDF183AF875009E65B5 /* settings_delete.png */; };
 		1836AFE3183AF875009E65B5 /* settings_未选中.png in Resources */ = {isa = PBXBuildFile; fileRef = 1836AFE0183AF875009E65B5 /* settings_未选中.png */; };
 		1836AFE4183AF875009E65B5 /* settings_选中.png in Resources */ = {isa = PBXBuildFile; fileRef = 1836AFE1183AF875009E65B5 /* settings_选中.png */; };
+		1839A1AC187FADE3007F3245 /* NoteListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1839A1AB187FADE3007F3245 /* NoteListViewController.m */; };
+		1839A1AF187FAE30007F3245 /* NoteListInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 1839A1AE187FAE30007F3245 /* NoteListInterface.m */; };
+		1839A1B6187FAE5E007F3245 /* DeleteNoteInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 1839A1B1187FAE5E007F3245 /* DeleteNoteInterface.m */; };
+		1839A1B7187FAE5E007F3245 /* ModifyNoteInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 1839A1B3187FAE5E007F3245 /* ModifyNoteInterface.m */; };
+		1839A1B8187FAE5E007F3245 /* SearchNoteInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 1839A1B5187FAE5E007F3245 /* SearchNoteInterface.m */; };
+		1839A1BB187FAE9A007F3245 /* NoteListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1839A1BA187FAE9A007F3245 /* NoteListCell.m */; };
+		1839A1BE187FB32E007F3245 /* SettingViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 1839A1BD187FB32E007F3245 /* SettingViewController_iPhone.m */; };
 		183F77AF1839B5E8004D0263 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F77AE1839B5E8004D0263 /* MBProgressHUD.m */; };
 		184317371855652200ABEFD3 /* LHLMoviePlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184317361855652200ABEFD3 /* LHLMoviePlayViewController.m */; };
 		18491C3F18345E11003C82E4 /* play_0h5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18491C3E18345E11003C82E4 /* play_0h5@2x.png */; };
@@ -210,6 +217,7 @@
 		189ED9DD184F196B0029D8F1 /* Section_NoteCell_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 189ED9DC184F196B0029D8F1 /* Section_NoteCell_iPhone.m */; };
 		18A19C84183CA60500C11310 /* iRate.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18A19C81183CA60500C11310 /* iRate.bundle */; };
 		18A19C85183CA60500C11310 /* iRate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A19C83183CA60500C11310 /* iRate.m */; };
+		18A77073187FCC6000DAE6A6 /* InfoViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A77072187FCC6000DAE6A6 /* InfoViewController_iPhone.m */; };
 		18C9312C18363B2A00FBE1A8 /* btn1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18C9311B18363B2A00FBE1A8 /* btn1@2x.png */; };
 		18C9312D18363B2A00FBE1A8 /* play_barBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18C9311C18363B2A00FBE1A8 /* play_barBG@2x.png */; };
 		18C9312E18363B2A00FBE1A8 /* play_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18C9311D18363B2A00FBE1A8 /* play_black@2x.png */; };
@@ -654,6 +662,20 @@
 		1836AFDF183AF875009E65B5 /* settings_delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings_delete.png; sourceTree = "<group>"; };
 		1836AFE0183AF875009E65B5 /* settings_未选中.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings_未选中.png"; sourceTree = "<group>"; };
 		1836AFE1183AF875009E65B5 /* settings_选中.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings_选中.png"; sourceTree = "<group>"; };
+		1839A1AA187FADE3007F3245 /* NoteListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteListViewController.h; sourceTree = "<group>"; };
+		1839A1AB187FADE3007F3245 /* NoteListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteListViewController.m; sourceTree = "<group>"; };
+		1839A1AD187FAE30007F3245 /* NoteListInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteListInterface.h; sourceTree = "<group>"; };
+		1839A1AE187FAE30007F3245 /* NoteListInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteListInterface.m; sourceTree = "<group>"; };
+		1839A1B0187FAE5E007F3245 /* DeleteNoteInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteNoteInterface.h; sourceTree = "<group>"; };
+		1839A1B1187FAE5E007F3245 /* DeleteNoteInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteNoteInterface.m; sourceTree = "<group>"; };
+		1839A1B2187FAE5E007F3245 /* ModifyNoteInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyNoteInterface.h; sourceTree = "<group>"; };
+		1839A1B3187FAE5E007F3245 /* ModifyNoteInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifyNoteInterface.m; sourceTree = "<group>"; };
+		1839A1B4187FAE5E007F3245 /* SearchNoteInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchNoteInterface.h; sourceTree = "<group>"; };
+		1839A1B5187FAE5E007F3245 /* SearchNoteInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchNoteInterface.m; sourceTree = "<group>"; };
+		1839A1B9187FAE9A007F3245 /* NoteListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteListCell.h; sourceTree = "<group>"; };
+		1839A1BA187FAE9A007F3245 /* NoteListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteListCell.m; sourceTree = "<group>"; };
+		1839A1BC187FB32E007F3245 /* SettingViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController_iPhone.h; sourceTree = "<group>"; };
+		1839A1BD187FB32E007F3245 /* SettingViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController_iPhone.m; sourceTree = "<group>"; };
 		183F77AD1839B5E8004D0263 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		183F77AE1839B5E8004D0263 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		184317351855652200ABEFD3 /* LHLMoviePlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LHLMoviePlayViewController.h; sourceTree = "<group>"; };
@@ -686,6 +708,8 @@
 		18A19C81183CA60500C11310 /* iRate.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = iRate.bundle; sourceTree = "<group>"; };
 		18A19C82183CA60500C11310 /* iRate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iRate.h; sourceTree = "<group>"; };
 		18A19C83183CA60500C11310 /* iRate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iRate.m; sourceTree = "<group>"; };
+		18A77071187FCC6000DAE6A6 /* InfoViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoViewController_iPhone.h; sourceTree = "<group>"; };
+		18A77072187FCC6000DAE6A6 /* InfoViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoViewController_iPhone.m; sourceTree = "<group>"; };
 		18C9311B18363B2A00FBE1A8 /* btn1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn1@2x.png"; sourceTree = "<group>"; };
 		18C9311C18363B2A00FBE1A8 /* play_barBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play_barBG@2x.png"; sourceTree = "<group>"; };
 		18C9311D18363B2A00FBE1A8 /* play_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play_black@2x.png"; sourceTree = "<group>"; };
@@ -1190,6 +1214,8 @@
 				63841CF21838A60100E3FA9E /* DRNavigationController.m */,
 				18335B65183C982600DB8B7E /* DRAskQuestionViewController.h */,
 				18335B66183C982600DB8B7E /* DRAskQuestionViewController.m */,
+				1839A1AA187FADE3007F3245 /* NoteListViewController.h */,
+				1839A1AB187FADE3007F3245 /* NoteListViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1264,6 +1290,14 @@
 				63D43107186A7C78004A786A /* LessonListForCategory.m */,
 				63D4310A186AC8E5004A786A /* MyQuestionCategatoryInterface.h */,
 				63D4310B186AC8E5004A786A /* MyQuestionCategatoryInterface.m */,
+				1839A1AD187FAE30007F3245 /* NoteListInterface.h */,
+				1839A1AE187FAE30007F3245 /* NoteListInterface.m */,
+				1839A1B0187FAE5E007F3245 /* DeleteNoteInterface.h */,
+				1839A1B1187FAE5E007F3245 /* DeleteNoteInterface.m */,
+				1839A1B2187FAE5E007F3245 /* ModifyNoteInterface.h */,
+				1839A1B3187FAE5E007F3245 /* ModifyNoteInterface.m */,
+				1839A1B4187FAE5E007F3245 /* SearchNoteInterface.h */,
+				1839A1B5187FAE5E007F3245 /* SearchNoteInterface.m */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -1365,6 +1399,8 @@
 				0E8166EB1848755B0064DE98 /* CollectionCell.m */,
 				0E8166ED1848755B0064DE98 /* CollectionHeader.h */,
 				0E8166EE1848755B0064DE98 /* CollectionHeader.m */,
+				1839A1B9187FAE9A007F3245 /* NoteListCell.h */,
+				1839A1BA187FAE9A007F3245 /* NoteListCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1469,6 +1505,10 @@
 				18F2FE9918584A990006AF11 /* LHLTakingMovieNoteViewController.m */,
 				180D88B4186D0F41008FC145 /* LHLAskQuestionViewController.h */,
 				180D88B5186D0F41008FC145 /* LHLAskQuestionViewController.m */,
+				1839A1BC187FB32E007F3245 /* SettingViewController_iPhone.h */,
+				1839A1BD187FB32E007F3245 /* SettingViewController_iPhone.m */,
+				18A77071187FCC6000DAE6A6 /* InfoViewController_iPhone.h */,
+				18A77072187FCC6000DAE6A6 /* InfoViewController_iPhone.m */,
 			);
 			name = Controller_iPhone;
 			sourceTree = "<group>";
@@ -2043,6 +2083,7 @@
 				18F2FE9A18584A990006AF11 /* LHLTakingMovieNoteViewController.m in Sources */,
 				184F8AA818432D0000A2FEB4 /* LessonViewController_iPhone.m in Sources */,
 				0EA7EF8A1827792A00C47F69 /* SectionCustomView.m in Sources */,
+				1839A1B6187FAE5E007F3245 /* DeleteNoteInterface.m in Sources */,
 				0EAFA12C18224C2700D01D3E /* LessonViewController.m in Sources */,
 				6323875A1822056000C71535 /* LoginViewController.m in Sources */,
 				630B9600182A4CF6000ED31E /* MoviePlayerHolderView.m in Sources */,
@@ -2124,6 +2165,7 @@
 				1812A4E61851CB89009B3D5D /* MyQuestionAndAnswerViewController_iPhone.m in Sources */,
 				18E0D765185077D5001A6667 /* MenuQuestionTableViewController.m in Sources */,
 				639F435018631804006FBE26 /* DRTreeNode.m in Sources */,
+				1839A1B8187FAE5E007F3245 /* SearchNoteInterface.m in Sources */,
 				0EA7EF4C18238DF600C47F69 /* AnswerModel.m in Sources */,
 				0EA7EF1918234A7500C47F69 /* CommentListInterface.m in Sources */,
 				0EA7EF2218234BA100C47F69 /* QuestionListInterface.m in Sources */,
@@ -2136,8 +2178,10 @@
 				0EA2A9311828D78F003D152E /* Section_NoteViewController.m in Sources */,
 				0EA36ED2182C8E4F0074D67B /* CustomLabel.m in Sources */,
 				0EA7EF8D1827805D00C47F69 /* SectionInfoInterface.m in Sources */,
+				1839A1B7187FAE5E007F3245 /* ModifyNoteInterface.m in Sources */,
 				0EA36ED7182CB5570074D67B /* CustomTextView.m in Sources */,
 				1864A83C1875383A00B26024 /* Section_ChapterViewController_iPhone_Embed.m in Sources */,
+				18A77073187FCC6000DAE6A6 /* InfoViewController_iPhone.m in Sources */,
 				1812A4E91851D1AA009B3D5D /* QuestionAndAnswerCell_iPhone.m in Sources */,
 				633BE0711872D70000CAA04B /* HTMLNode.m in Sources */,
 				0EDF4DF518210241007161E0 /* NSString+URLEncoding.m in Sources */,
@@ -2147,10 +2191,12 @@
 				0EA7EF1018233CDC00C47F69 /* LessonModel.m in Sources */,
 				0E9DA3BB183F568D000A5995 /* ASICloudFilesCDNRequest.m in Sources */,
 				0EA7EF2518234BE900C47F69 /* AcceptAnswerInterface.m in Sources */,
+				1839A1BE187FB32E007F3245 /* SettingViewController_iPhone.m in Sources */,
 				0EA7EF7A182748BB00C47F69 /* SDImageCache.m in Sources */,
 				18F87E6418448CA300B0F7EC /* ChapterSearchBar_iPhone.m in Sources */,
 				0E5267291829EA450009E535 /* SectionSaveModel.m in Sources */,
 				18F87E611844741C00B0F7EC /* SectionCustomView_iPhone.m in Sources */,
+				1839A1AF187FAE30007F3245 /* NoteListInterface.m in Sources */,
 				0E9DA3C7183F568D000A5995 /* ASIS3ServiceRequest.m in Sources */,
 				0E9C9EF8184328CC00D48781 /* EditInfoInterface.m in Sources */,
 				0EA7EF7E182748BB00C47F69 /* SDWebImagePrefetcher.m in Sources */,
@@ -2203,11 +2249,13 @@
 				0EAD1F6D182B24B100204FC3 /* FMDatabaseQueue.m in Sources */,
 				0E5267261829E9EC0009E535 /* CustomButton.m in Sources */,
 				63098F39183CBA0B007A76AC /* MJPopupBackgroundView.m in Sources */,
+				1839A1AC187FADE3007F3245 /* NoteListViewController.m in Sources */,
 				630CB0781828943E002FD462 /* DRMoviePlayViewController.m in Sources */,
 				0EA2A92E1828D77D003D152E /* Section_GradeViewController.m in Sources */,
 				0EA2A92318289E17003D152E /* SectionViewController.m in Sources */,
 				184F8AAF18434A3200A2FEB4 /* LHLNavigationBar.m in Sources */,
 				0EA7EF8718276DD300C47F69 /* AMProgressViewGradient.m in Sources */,
+				1839A1BB187FAE9A007F3245 /* NoteListCell.m in Sources */,
 				0EDF4DF618210241007161E0 /* Reachability.m in Sources */,
 				180D88B6186D0F41008FC145 /* LHLAskQuestionViewController.m in Sources */,
 				0EA7EF7D182748BB00C47F69 /* SDWebImageManager.m in Sources */,

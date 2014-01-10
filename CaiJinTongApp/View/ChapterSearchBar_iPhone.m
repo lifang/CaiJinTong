@@ -67,4 +67,11 @@
     return YES;
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    if(textField.returnKeyType == UIReturnKeySearch){
+        [self beginSearch];
+    }
+    return YES;
+}
+
 @end
