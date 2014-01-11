@@ -184,6 +184,12 @@
 		18153251183608330078A410 /* Q&A-myq_11@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18153250183608330078A410 /* Q&A-myq_11@2x.png */; };
 		1815325418360DE60078A410 /* Q&A-myq_19@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1815325318360DE60078A410 /* Q&A-myq_19@2x.png */; };
 		1815325618360DF40078A410 /* Q&A-myq_15@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1815325518360DF40078A410 /* Q&A-myq_15@2x.png */; };
+		18199EF51881070600377B74 /* CustomTabbarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18199EF41881070600377B74 /* CustomTabbarController.m */; };
+		18199EF81881120400377B74 /* LHLTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18199EF71881120400377B74 /* LHLTabBarController.m */; };
+		18199EFC18811C4D00377B74 /* Q&A_Item@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18199EFA18811C4D00377B74 /* Q&A_Item@2x.png */; };
+		18199EFD18811C4D00377B74 /* Lesson_Item_S@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18199EFB18811C4D00377B74 /* Lesson_Item_S@2x.png */; };
+		18199F0018812FB600377B74 /* LHLTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 18199EFF18812FB600377B74 /* LHLTabBar.m */; };
+		18199F031881305800377B74 /* LHLTabBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 18199F021881305800377B74 /* LHLTabBarItem.m */; };
 		182314411840A35D00DE9422 /* delete_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 182314401840A35D00DE9422 /* delete_2.png */; };
 		18335B67183C982600DB8B7E /* DRAskQuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18335B66183C982600DB8B7E /* DRAskQuestionViewController.m */; };
 		1836AFE2183AF875009E65B5 /* settings_delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 1836AFDF183AF875009E65B5 /* settings_delete.png */; };
@@ -657,6 +663,16 @@
 		18153250183608330078A410 /* Q&A-myq_11@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Q&A-myq_11@2x.png"; sourceTree = "<group>"; };
 		1815325318360DE60078A410 /* Q&A-myq_19@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Q&A-myq_19@2x.png"; sourceTree = "<group>"; };
 		1815325518360DF40078A410 /* Q&A-myq_15@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Q&A-myq_15@2x.png"; sourceTree = "<group>"; };
+		18199EF31881070600377B74 /* CustomTabbarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTabbarController.h; sourceTree = "<group>"; };
+		18199EF41881070600377B74 /* CustomTabbarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTabbarController.m; sourceTree = "<group>"; };
+		18199EF61881120400377B74 /* LHLTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LHLTabBarController.h; sourceTree = "<group>"; };
+		18199EF71881120400377B74 /* LHLTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LHLTabBarController.m; sourceTree = "<group>"; };
+		18199EFA18811C4D00377B74 /* Q&A_Item@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Q&A_Item@2x.png"; sourceTree = "<group>"; };
+		18199EFB18811C4D00377B74 /* Lesson_Item_S@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Lesson_Item_S@2x.png"; sourceTree = "<group>"; };
+		18199EFE18812FB600377B74 /* LHLTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LHLTabBar.h; sourceTree = "<group>"; };
+		18199EFF18812FB600377B74 /* LHLTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LHLTabBar.m; sourceTree = "<group>"; };
+		18199F011881305800377B74 /* LHLTabBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LHLTabBarItem.h; sourceTree = "<group>"; };
+		18199F021881305800377B74 /* LHLTabBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LHLTabBarItem.m; sourceTree = "<group>"; };
 		182314401840A35D00DE9422 /* delete_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_2.png; sourceTree = "<group>"; };
 		18335B65183C982600DB8B7E /* DRAskQuestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRAskQuestionViewController.h; sourceTree = "<group>"; };
 		18335B66183C982600DB8B7E /* DRAskQuestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRAskQuestionViewController.m; sourceTree = "<group>"; };
@@ -1441,6 +1457,15 @@
 			name = "Q&A";
 			sourceTree = "<group>";
 		};
+		18199EF918811BB400377B74 /* temp */ = {
+			isa = PBXGroup;
+			children = (
+				18199EFA18811C4D00377B74 /* Q&A_Item@2x.png */,
+				18199EFB18811C4D00377B74 /* Lesson_Item_S@2x.png */,
+			);
+			name = temp;
+			sourceTree = "<group>";
+		};
 		183F77AC1839B5D8004D0263 /* MBProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
@@ -1514,6 +1539,10 @@
 				18A77072187FCC6000DAE6A6 /* InfoViewController_iPhone.m */,
 				18A77074187FEF7B00DAE6A6 /* SuggestionFeedbackViewController_iPhone.h */,
 				18A77075187FEF7B00DAE6A6 /* SuggestionFeedbackViewController_iPhone.m */,
+				18199EF31881070600377B74 /* CustomTabbarController.h */,
+				18199EF41881070600377B74 /* CustomTabbarController.m */,
+				18199EF61881120400377B74 /* LHLTabBarController.h */,
+				18199EF71881120400377B74 /* LHLTabBarController.m */,
 			);
 			name = Controller_iPhone;
 			sourceTree = "<group>";
@@ -1553,6 +1582,10 @@
 				1812A4E81851D1AA009B3D5D /* QuestionAndAnswerCell_iPhone.m */,
 				184E11581855A81500A81E6E /* QuestionAndAnswerCell_iPhoneHeaderView.h */,
 				184E11591855A81500A81E6E /* QuestionAndAnswerCell_iPhoneHeaderView.m */,
+				18199EFE18812FB600377B74 /* LHLTabBar.h */,
+				18199EFF18812FB600377B74 /* LHLTabBar.m */,
+				18199F011881305800377B74 /* LHLTabBarItem.h */,
+				18199F021881305800377B74 /* LHLTabBarItem.m */,
 			);
 			name = View_iPhone;
 			sourceTree = "<group>";
@@ -1703,6 +1736,7 @@
 		630B03B11820F5BB00F72C4C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				18199EF918811BB400377B74 /* temp */,
 				0EAFA1011822200200D01D3E /* Images */,
 				18E32DFF1831FD9F00041B8A /* images */,
 				630B03B21820F5BB00F72C4C /* CaiJinTongApp-Info.plist */,
@@ -2035,6 +2069,7 @@
 				0EAFA0EE1822167800D01D3E /* chapterQuestion.json in Resources */,
 				1812A4E31851B80D009B3D5D /* rightItemBg@2x.png in Resources */,
 				0EAFA0FB1822167800D01D3E /* sectionInfo.json in Resources */,
+				18199EFC18811C4D00377B74 /* Q&A_Item@2x.png in Resources */,
 				18C9312E18363B2A00FBE1A8 /* play_black@2x.png in Resources */,
 				18F477F4183DC5CA00021886 /* nothing.png in Resources */,
 				63B710FB1844A16100A61B14 /* iVersion.bundle in Resources */,
@@ -2062,6 +2097,7 @@
 				0EAFA0EB1822167800D01D3E /* answerPraise.json in Resources */,
 				181532491835EA400078A410 /* pdlay-courselistd_07@2x.png in Resources */,
 				63A589001848445500F3B926 /* pause@2x.png in Resources */,
+				18199EFD18811C4D00377B74 /* Lesson_Item_S@2x.png in Resources */,
 				18E32E091831FDF900041B8A /* login_03@2x.png in Resources */,
 				18153251183608330078A410 /* Q&A-myq_11@2x.png in Resources */,
 				0EAFA0F91822167800D01D3E /* searchLesson.json in Resources */,
@@ -2123,6 +2159,7 @@
 				0E9DA3BE183F568D000A5995 /* ASICloudFilesContainerXMLParserDelegate.m in Sources */,
 				0EA7EF1C18234AC600C47F69 /* SearchLessonInterface.m in Sources */,
 				18F2FE97185846410006AF11 /* LHLCommitQuestionViewController.m in Sources */,
+				18199F0018812FB600377B74 /* LHLTabBar.m in Sources */,
 				0EDF4DFD1821028F007161E0 /* Utility.m in Sources */,
 				639F435118631804006FBE26 /* DRTreeTableView.m in Sources */,
 				0E9DA3C6183F568D000A5995 /* ASIS3Request.m in Sources */,
@@ -2182,6 +2219,7 @@
 				18046A8E1848637300EB8BDA /* Section_ChapterViewController_iPhone.m in Sources */,
 				63FD2E071869730B004218EF /* LessonCategoryInterface.m in Sources */,
 				0EA2A9311828D78F003D152E /* Section_NoteViewController.m in Sources */,
+				18199F031881305800377B74 /* LHLTabBarItem.m in Sources */,
 				0EA36ED2182C8E4F0074D67B /* CustomLabel.m in Sources */,
 				0EA7EF8D1827805D00C47F69 /* SectionInfoInterface.m in Sources */,
 				1839A1B7187FAE5E007F3245 /* ModifyNoteInterface.m in Sources */,
@@ -2192,6 +2230,7 @@
 				633BE0711872D70000CAA04B /* HTMLNode.m in Sources */,
 				0EDF4DF518210241007161E0 /* NSString+URLEncoding.m in Sources */,
 				0EB849331835DE2700C97030 /* SettingViewController.m in Sources */,
+				18199EF81881120400377B74 /* LHLTabBarController.m in Sources */,
 				185780DE187282210070CB0D /* LessonModel+toSection.m in Sources */,
 				0E9DA3C1183F568D000A5995 /* ASICloudFilesRequest.m in Sources */,
 				0EA7EF1018233CDC00C47F69 /* LessonModel.m in Sources */,
@@ -2217,6 +2256,7 @@
 				0E9DA3B8183F568D000A5995 /* ASIInputStream.m in Sources */,
 				0E52672C1829EE990009E535 /* DownLoadInformView.m in Sources */,
 				0EA7EF7F182748BB00C47F69 /* UIButton+WebCache.m in Sources */,
+				18199EF51881070600377B74 /* CustomTabbarController.m in Sources */,
 				0EA7EF2818234CDC00C47F69 /* ChapterQuestionInterface.m in Sources */,
 				0EAFA11A18223FC500D01D3E /* CJTMainToolbar.m in Sources */,
 				631227E4182B409F00530CC3 /* QuestionAndAnswerCell.m in Sources */,

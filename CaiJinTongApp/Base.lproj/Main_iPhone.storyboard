@@ -964,12 +964,22 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" id="SCe-Pb-jFO">
+                                <rect key="frame" x="111" y="269" width="97" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="tFu-p9-M1U">
                                 <rect key="frame" x="20" y="80" width="280" height="184"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <connections>
+                                    <outlet property="delegate" destination="1Cf-ES-bdl" id="Lv7-ie-poa"/>
+                                </connections>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="pHC-Oy-ULe">
                                 <rect key="frame" x="57" y="292" width="88" height="30"/>
@@ -1003,6 +1013,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                         <outlet property="backgroundForTextView" destination="Y7N-So-01Q" id="tXx-Ac-mU6"/>
                         <outlet property="cancelButton" destination="pHC-Oy-ULe" id="uBm-0L-ylx"/>
                         <outlet property="contentTextView" destination="tFu-p9-M1U" id="UZw-Ti-jjD"/>
+                        <outlet property="placeholderTextField" destination="SCe-Pb-jFO" id="SaL-bK-hOC"/>
                         <outlet property="submitButton" destination="IQd-6d-IU6" id="may-Kk-5xV"/>
                     </connections>
                 </viewController>
@@ -1032,7 +1043,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <!--My Question And Answer View Controller i Phone - 问题-->
         <scene sceneID="DLP-4d-y4f">
             <objects>
-                <viewController id="prM-RX-mI2" customClass="MyQuestionAndAnswerViewController_iPhone" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MyQuestionAndAnswerViewController_iPhone" id="prM-RX-mI2" customClass="MyQuestionAndAnswerViewController_iPhone" sceneMemberID="viewController">
                     <view key="view" autoresizesSubviews="NO" contentMode="scaleToFill" id="Spf-3F-Sjn">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

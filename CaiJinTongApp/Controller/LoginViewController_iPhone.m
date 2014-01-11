@@ -105,13 +105,15 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            if(!self.lessonView){
-                UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
-                LessonViewController *lessonView = [story instantiateViewControllerWithIdentifier:@"TabBarController"];
-                self.lessonView = lessonView;
-            }
+//            if(!self.lessonView){
+//                UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+//                LessonViewController_iPhone *lessonView = [story instantiateViewControllerWithIdentifier:@"LessonViewController_iPhone"];
+//                self.lessonView = lessonView;
+//            }
             
-            [self.navigationController pushViewController:self.lessonView animated:YES];
+            LHLTabBarController *mainController = [[LHLTabBarController alloc] init];
+            
+            [self.navigationController pushViewController:mainController animated:YES];
             AppDelegate* appDelegate = [AppDelegate sharedInstance];
             appDelegate.lessonViewCtrol = self.lessonView;
             

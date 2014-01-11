@@ -8,7 +8,7 @@
 
 #import "LHLNavigationBarViewController.h"
 
-@interface SuggestionFeedbackViewController_iPhone : LHLNavigationBarViewController<SuggestionInterfaceDelegate,UIAlertViewDelegate>
+@interface SuggestionFeedbackViewController_iPhone : LHLNavigationBarViewController<SuggestionInterfaceDelegate,UIAlertViewDelegate,UITextViewDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *backgroundForTextView;
 @property (weak, nonatomic) IBOutlet UITextView *contentTextView;//文本输入框
 

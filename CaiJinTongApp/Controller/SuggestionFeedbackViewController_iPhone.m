@@ -9,6 +9,7 @@
 #import "SuggestionFeedbackViewController_iPhone.h"
 
 @interface SuggestionFeedbackViewController_iPhone ()
+@property (weak, nonatomic) IBOutlet UITextField *placeholderTextField; //用来显示提示
 
 @end
 
@@ -34,6 +35,9 @@
     self.backgroundForTextView.frame = self.contentTextView.frame;
     self.backgroundForTextView.borderStyle = UITextBorderStyleRoundedRect;
     [self.backgroundForTextView setEnabled:NO];
+    
+    self.placeholderTextField.frame = (CGRect){self.backgroundForTextView.frame.origin,280,30};
+    self.placeholderTextField.placeholder = @"请留下您的宝贵意见...";
     
     UIImage *btnImageHighlighted = [[UIImage imageNamed:@"btn.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 6) resizingMode:UIImageResizingModeStretch];
     UIImage *btnImageNormal = [[UIImage imageNamed:@"btn0.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 6) resizingMode:UIImageResizingModeStretch];
@@ -82,6 +86,15 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+#pragma mark --
+
+#pragma mark --
+-(BOOL)textViewShouldBeginEditing:(UITextView *)textView{
+    self.placeholderTextField.placeholder = nil;
+    return YES;
+}
+
 #pragma mark --
 
 #pragma mark --SuggestionInterfaceDelegate
