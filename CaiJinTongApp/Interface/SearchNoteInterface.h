@@ -14,8 +14,8 @@
 @protocol SearchNoteInterfaceDelegate;
 @interface SearchNoteInterface : BaseInterface<BaseInterfaceDelegate>
 @property (nonatomic, weak) id<SearchNoteInterfaceDelegate>delegate;
-//@property (assign,nonatomic) int currentPageIndex;
-//@property (assign,nonatomic) int allDataCount;
+@property (assign,nonatomic) int currentPageIndex;
+@property (assign,nonatomic) int pageCount;
 -(void)searchNoteListWithUserId:(NSString*)userId withSearchContent:(NSString*)searchContent withPageIndex:(int)pageIndex;
 @end
 

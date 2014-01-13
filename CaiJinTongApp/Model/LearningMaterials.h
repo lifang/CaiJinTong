@@ -30,4 +30,6 @@ typedef enum {
 @property (strong,nonatomic) NSString *materialSearchCount;//资料查看次数
 @property (strong,nonatomic) NSString *materialCreateDate;//资料创建时间
 @property (strong,nonatomic) NSString *materialFileDownloadURL;//资料下载URL
+@property (strong,nonatomic) NSString *materialFileLocalPath;//资料本地地址
+@property (assign,nonatomic) DownloadStatus materialFileDownloadStaus;//资料本地地址
 @end

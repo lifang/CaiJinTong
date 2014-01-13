@@ -78,6 +78,16 @@
         }
         
         [rs close];
+        
+        //创建资料表
+        rs = [self.db executeQuery:@"select name from SQLITE_MASTER where name = 'LearningMaterials'"];
+        if (![rs next]) {
+            [rs close];
+            [self.db executeUpdate:@"CREATE TABLE LearningMaterials (id INTEGER PRIMARY KEY  NOT NULL , userId VARCHAR,materialId VARCHAR,materialName VARCHAR,fileName VARCHAR, fileCategoryId VARCHAR,fileLocalPath VARCHAR,fileDownloadUrl VARCHAR,fileDownloadStatus VARCHAR,fileCreateDate VARCHAR,fileCategoryName VARCHAR,fileType INTEGER, fileSearchCount VARCHAR,fileSize VARCHAR)"];
+        }
+        
+        [rs close];
+        
         //创建section笔记表
         rs = [self.db executeQuery:@"select name from SQLITE_MASTER where name = 'Note'"];
         if (![rs next]) {

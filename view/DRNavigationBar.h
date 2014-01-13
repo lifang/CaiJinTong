@@ -10,6 +10,7 @@
 
 @interface DRNavigationBar : UIView
 @property (strong, nonatomic) IBOutlet UILabel *titleLabel;
-@property (strong, nonatomic) UIButton *navigationRightItem;
+@property (strong, nonatomic) IBOutlet UIButton *navigationRightItem;
 @property (strong, nonatomic) UIButton *hiddenBtn;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @end

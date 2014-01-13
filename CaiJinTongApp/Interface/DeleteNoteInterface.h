@@ -13,6 +13,7 @@
 @protocol DeleteNoteInterfaceDelegate;
 @interface DeleteNoteInterface : BaseInterface<BaseInterfaceDelegate>
 @property (nonatomic, weak) id<DeleteNoteInterfaceDelegate>delegate;
+@property (strong,nonatomic) NSIndexPath *path;
 //@property (assign,nonatomic) int currentPageIndex;
 //@property (assign,nonatomic) int allDataCount;
 -(void)deleteNoteWithUserId:(NSString*)userId withNoteId:(NSString*)noteId;

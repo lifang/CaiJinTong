@@ -13,8 +13,8 @@
 @protocol NoteListInterfaceDelegate;
 @interface NoteListInterface : BaseInterface<BaseInterfaceDelegate>
 @property (nonatomic, weak) id<NoteListInterfaceDelegate>delegate;
-//@property (assign,nonatomic) int currentPageIndex;
-//@property (assign,nonatomic) int allDataCount;
+@property (assign,nonatomic) int currentPageIndex;
+@property (assign,nonatomic) int pageCount;
 -(void)downloadNoteListWithUserId:(NSString*)userId withPageIndex:(int)pageIndex;
 @end
 

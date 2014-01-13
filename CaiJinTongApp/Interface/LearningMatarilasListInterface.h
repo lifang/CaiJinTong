@@ -19,7 +19,7 @@
 @property (assign,nonatomic) int allDataCount;
 @property (strong,nonatomic) NSString *lessonCategoryId;//课程分类的id
 //sortType :1:时间，2:名称
--(void)downloadlearningMaterilasListForCategoryId:(NSString*)categoryId withUserId:(NSString*)userId withPageIndex:(int)pageIndex withSortType:(NSString*)sortType;
+-(void)downloadlearningMaterilasListForCategoryId:(NSString*)categoryId withUserId:(NSString*)userId withPageIndex:(int)pageIndex withSortType:(LearningMaterialsSortType)sortType;
 @end
 
 @protocol LearningMatarilasListInterfaceDelegate <NSObject>

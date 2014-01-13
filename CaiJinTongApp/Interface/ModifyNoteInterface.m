@@ -13,6 +13,7 @@
 #if kUsingTestData
 -(void)modifyNoteWithUserId:(NSString*)userId withNoteId:(NSString*)noteId withNoteContent:(NSString*)noteContent{
     NSString *path = [NSBundle pathForResource:@"ModifyNote" ofType:@"geojson" inDirectory:[[NSBundle mainBundle] bundlePath]];
+    self.modifyContent = noteContent;
     NSData *data = [NSData dataWithContentsOfFile:path];
     id jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
     double delayInSeconds = 2.0;
@@ -25,6 +26,7 @@
 -(void)modifyNoteWithUserId:(NSString*)userId withNoteId:(NSString*)noteId withNoteContent:(NSString*)noteContent{
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
+    self.modifyContent = noteContent;
     //http://lms.finance365.com/api/ios.ashx?active=modifyNote&userId=17082&noteId=123&noteContent=jhdhffjiofj
     self.interfaceUrl = [NSString stringWithFormat:@"%@?active=modifyNote&userId=%@&noteId=%@&noteContent=%@",kHost,userId,noteId,noteContent];
     self.baseDelegate = self;

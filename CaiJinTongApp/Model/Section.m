@@ -21,6 +21,202 @@ static Section *defaultSection = nil;
     });
     return defaultSection;
 }
+
+#pragma mark 学习资料
+
++(NSString*)convertDownloadStatusFromStatus:(DownloadStatus)status{
+    switch (status) {
+        case DownloadStatus_UnDownload:
+            return @"0";
+        case DownloadStatus_Downloading:
+            return @"1";
+        case DownloadStatus_Downloaded:
+            return @"2";
+        case DownloadStatus_Pause:
+            return @"3";
+        default:
+            break;
+    }
+    return @"0";
+}
+
++(DownloadStatus)convertDownloadStatusFromString:(NSString*)status{
+    if (!status || [status isEqualToString:@""]) {
+        return DownloadStatus_UnDownload;
+    }
+    switch (status.intValue) {
+        case 0:
+            return DownloadStatus_UnDownload;
+        case 1:
+            return DownloadStatus_Downloading;
+        case 2:
+            return DownloadStatus_Downloaded;
+        case 3:
+            return DownloadStatus_Pause;
+        default:
+            break;
+    }
+    return DownloadStatus_UnDownload;
+}
+/**
+ *return
+  0:未下载，1没有下载完成，2下载完成,3暂停
+ */
+-(DownloadStatus)searchLearningMaterialsDownloadStatusWithMaterialId:(NSString*)materialId withUserId:(NSString*)userId{
+    if (!materialId || !userId) {
+        return DownloadStatus_UnDownload;
+    }
+    FMResultSet * rs = [self.db executeQuery:@"select fileDownloadStatus from LearningMaterials where userId = ? and materialId = ?",userId,materialId];
+    NSString *path = nil;
+    if ([rs next]) {
+        
+        path = [rs stringForColumn:@"fileDownloadStatus"];
+    }
+    
+    [rs close];
+    return [Section convertDownloadStatusFromString:path];
+}
+-(NSString*)searchLearningMaterialsLocalPathWithMaterialId:(NSString*)materialId withUserId:(NSString*)userId{
+    if (!materialId || !userId) {
+        return nil;
+    }
+    FMResultSet * rs = [self.db executeQuery:@"select fileLocalPath from LearningMaterials where userId = ? and materialId = ?",userId,materialId];
+    NSString *path = nil;
+    if ([rs next]) {
+
+        path = [rs stringForColumn:@"fileLocalPath"];
+    }
+    
+    [rs close];
+    return path;
+}
+
+-(LearningMaterials*)searchLearningMaterialsWithMaterialId:(NSString*)materialId withUserId:(NSString*)userId{
+    if (!materialId || !userId) {
+        return nil;
+    }
+    FMResultSet * rs = [self.db executeQuery:@"select * from LearningMaterials where userId = ? and materialId = ?",userId,materialId];
+    
+    LearningMaterials *material = nil;
+    
+    if ([rs next]) {
+        material = [[LearningMaterials alloc] init];
+        material.materialId = [rs stringForColumn:@"materialId"];
+        material.materialName = [rs stringForColumn:@"materialName"];
+        material.materialLessonCategoryId = [rs stringForColumn:@"fileCategoryId"];
+        material.materialLessonCategoryName = [rs stringForColumn:@"fileCategoryName"];
+        material.materialFileSize = [rs stringForColumn:@"fileSize"];
+        material.materialFileType = [Section convertMaterialFileTypeFromInteger:[rs intForColumn:@"fileType"]];
+        material.materialFileDownloadStaus = [Section convertDownloadStatusFromString:[rs stringForColumn:@"fileDownloadStatus"]];
+        material.materialSearchCount = [rs stringForColumn:@"fileSearchCount"];
+        material.materialCreateDate = [rs stringForColumn:@"fileCreateDate"];
+        material.materialFileDownloadURL = [rs stringForColumn:@"fileDownloadUrl"];
+        material.materialFileLocalPath = [rs stringForColumn:@"fileLocalPath"];
+    }
+    
+    [rs close];
+    return material;
+}
+
++(NSString*)convertMaterialFileTypeFromFileType:(LearningMaterialsFileType)fileType{
+    switch (fileType) {
+        case LearningMaterialsFileType_jpg:
+            return @"0";
+        case LearningMaterialsFileType_pdf:
+            return @"1";
+        case LearningMaterialsFileType_ppt:
+            return @"2";
+        case LearningMaterialsFileType_text:
+            return @"3";
+        case LearningMaterialsFileType_word:
+            return @"4";
+        case LearningMaterialsFileType_zip:
+            return @"5";
+        case LearningMaterialsFileType_other:
+            return @"6";
+        default:
+            break;
+    }
+    return @"6";
+}
+
++(LearningMaterialsFileType)convertMaterialFileTypeFromInteger:(int)inter{
+    switch (inter) {
+        case 0:
+            return LearningMaterialsFileType_jpg;
+        case 1:
+            return LearningMaterialsFileType_pdf;
+        case 2:
+            return LearningMaterialsFileType_ppt;
+        case 3:
+            return LearningMaterialsFileType_text;
+        case 4:
+            return LearningMaterialsFileType_word;
+        case 5:
+            return LearningMaterialsFileType_zip;
+        case 6:
+            return LearningMaterialsFileType_other;
+        default:
+            break;
+    }
+    return LearningMaterialsFileType_other;
+}
+-(void)addLeariningMaterial:(LearningMaterials*)materials withUserId:(NSString*)userId{
+    if (!materials || !userId) {
+        return;
+    }
+    if (![[Section defaultSection] isExistForMaterialId:materials.materialId withUserId:userId]) {
+        [self.db executeUpdate:@"insert into LearningMaterials (userId,materialId,materialName,fileName,fileCategoryId,fileLocalPath,fileDownloadUrl,fileDownloadStatus,fileCreateDate,fileCategoryName,fileType,fileSearchCount,fileSize) values (?,?,?,?,?,?,?,?,?,?,?,?,?)"
+         ,userId?:@""
+         ,materials.materialId?:@""
+         ,materials.materialName?:@""
+         ,@"fileName"
+         ,materials.materialLessonCategoryId?:@""
+         ,materials.materialFileLocalPath?:@""
+         ,materials.materialFileDownloadURL?:@""
+         ,[Section convertDownloadStatusFromStatus:materials.materialFileDownloadStaus]
+         ,materials.materialCreateDate?:@""
+         ,materials.materialLessonCategoryName?:@""
+         ,[Section convertMaterialFileTypeFromFileType:materials.materialFileType]
+         ,materials.materialSearchCount?:@""
+         ,materials.materialFileSize?:@""];
+    }
+}
+
+-(BOOL)isExistForMaterialId:(NSString*)materialId withUserId:(NSString*)userId{
+    if (!materialId || !userId) {
+        return NO;
+    }
+    FMResultSet * rs = [self.db executeQuery:@"select id from LearningMaterials where userId = ? and materialId = ?",userId,materialId];
+    if (rs.next) {
+        [rs close];
+        return YES;
+    }
+    return NO;
+}
+
+-(void)updateLeariningMaterial:(LearningMaterials*)materials withUserId:(NSString*)userId{
+    if (!materials || !userId) {
+        return;
+    }
+    if ([[Section defaultSection] isExistForMaterialId:materials.materialId withUserId:userId]) {
+        [self.db executeUpdate:@"update LearningMaterials set fileLocalPath = ?,fileDownloadStatus = ? where userId = ? and materialId = ?",materials.materialFileLocalPath,[Section convertDownloadStatusFromStatus:materials.materialFileDownloadStaus],userId,materials.materialId];
+    }else{
+        [[Section defaultSection] addLeariningMaterial:materials withUserId:userId];
+    }
+}
+
+-(void)deleteLeariningMaterialWithMaterialId:(NSString*)materialId withUserId:(NSString*)userId{
+    BOOL res = [self.db executeUpdate:@"delete from LearningMaterials where userId = ? and materialId = ?",userId,materialId];
+    if (!res) {
+        DLog(@"删除失败!");
+    } else {
+        DLog(@"删除成功");
+    }
+}
+
+#pragma mark --
+
 -(SectionSaveModel *)getDataWithSid:(NSString *) sid {
     FMResultSet * rs = [self.db executeQuery:@"select id , sid , name , fileUrl , downloadState ,contentLength,percentDown,sectionStudy,sectionLastTime,sectionImg,lessonInfo,sectionTeacher from Section where sid = ?",sid];
     

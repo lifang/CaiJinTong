@@ -13,7 +13,6 @@
 -(void)downloadNoteListWithUserId:(NSString*)userId withPageIndex:(int)pageIndex{
     NSString *path = [NSBundle pathForResource:@"noteList" ofType:@"geojson" inDirectory:[[NSBundle mainBundle] bundlePath]];
     NSData *data = [NSData dataWithContentsOfFile:path];
-    NSString *str =[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     __block id jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
     double delayInSeconds = 2.0;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
@@ -45,24 +44,31 @@
                 if ([[jsonData objectForKey:@"Status"]intValue] == 1) {
                     @try {
                         //设置小节笔记,应该是小节下面笔记
-                        NSArray *noteList = [jsonData objectForKey:@"ReturnObject"];
-                        NSMutableArray *noteArr = [NSMutableArray array];
-                        for (NSDictionary *noteDic in noteList) {
-                            NoteModel *note = [[NoteModel alloc] init];
-                            note.noteId = [NSString stringWithFormat:@"%@",[noteDic objectForKey:@"noteId"]];
-                            note.noteTime = [NSString stringWithFormat:@"%@",[noteDic objectForKey:@"noteCreateDate"]];
-                            note.noteText = [NSString stringWithFormat:@"%@",[noteDic objectForKey:@"noteContent"]];
-                            note.noteSectionId = [NSString stringWithFormat:@"%@",[noteDic objectForKey:@"sectionId"]];
-                            note.noteSectionName = [NSString stringWithFormat:@"%@",[noteDic objectForKey:@"sectionName"]];
-                            note.noteSectionMoviePlayURL = [NSString stringWithFormat:@"%@",[noteDic objectForKey:@"sectionMoviePlayURL"]];
-                            note.noteChapterId = [NSString stringWithFormat:@"%@",[noteDic objectForKey:@"chapterId"]];
-                            note.noteChapterName = [NSString stringWithFormat:@"%@",[noteDic objectForKey:@"chapterName"]];
-                            note.noteLessonId = [NSString stringWithFormat:@"%@",[noteDic objectForKey:@"lessonId"]];
-                            note.noteLessonName = [NSString stringWithFormat:@"%@",[noteDic objectForKey:@"lessonName"]];
-                            
-                            [noteArr addObject:note];
+                        NSDictionary *dataDic = [jsonData objectForKey:@"ReturnObject"];
+                        if (dataDic) {
+                            self.currentPageIndex = [[dataDic objectForKey:@"pageIndex"]intValue] -1;
+                            self.pageCount = [[dataDic objectForKey:@"pageIndex"]intValue];
+                            NSArray *noteList = [dataDic objectForKey:@"noteList"];
+                            NSMutableArray *noteArr = [NSMutableArray array];
+                            for (NSDictionary *noteDic in noteList) {
+                                NoteModel *note = [[NoteModel alloc] init];
+                                note.noteId = [NSString stringWithFormat:@"%@",[noteDic objectForKey:@"noteId"]];
+                                note.noteTime = [NSString stringWithFormat:@"%@",[noteDic objectForKey:@"noteCreateDate"]];
+                                note.noteText = [NSString stringWithFormat:@"%@",[noteDic objectForKey:@"noteContent"]];
+                                note.noteSectionId = [NSString stringWithFormat:@"%@",[noteDic objectForKey:@"sectionId"]];
+                                note.noteSectionName = [NSString stringWithFormat:@"%@",[noteDic objectForKey:@"sectionName"]?:@""];
+                                note.noteSectionMoviePlayURL = [NSString stringWithFormat:@"%@",[noteDic objectForKey:@"sectionMoviePlayURL"]];
+                                note.noteChapterId = [NSString stringWithFormat:@"%@",[noteDic objectForKey:@"chapterId"]];
+                                note.noteChapterName = [NSString stringWithFormat:@"%@",[noteDic objectForKey:@"chapterName"]?:@""];
+                                note.noteLessonId = [NSString stringWithFormat:@"%@",[noteDic objectForKey:@"lessonId"]];
+                                note.noteLessonName = [NSString stringWithFormat:@"%@",[noteDic objectForKey:@"lessonName"]?:@""];
+                                
+                                [noteArr addObject:note];
+                            }
+                            [self.delegate getNoteListDataDidFinished:noteArr withCurrentPageIndex:self.currentPageIndex withTotalCount:self.pageCount];
+                        } else {
+                            [self.delegate getNoteListDataFailure:@"获取笔记列表失败"];
                         }
-                        [self.delegate getNoteListDataDidFinished:noteArr withCurrentPageIndex:0 withTotalCount:0];
                     }
                     @catch (NSException *exception) {
                         [self.delegate getNoteListDataFailure:@"获取笔记列表失败"];

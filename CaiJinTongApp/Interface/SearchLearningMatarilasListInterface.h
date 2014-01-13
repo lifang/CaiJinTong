@@ -18,7 +18,7 @@
 @property (assign,nonatomic) int currentPageIndex;
 @property (assign,nonatomic) int allDataCount;
 //sortType :1:时间，2:名称
--(void)searchLearningMaterilasListWithUserId:(NSString*)userId withSearchContent:(NSString*)searchContent withPageIndex:(int)pageIndex withSortType:(NSString*)sortType;
+-(void)searchLearningMaterilasListWithUserId:(NSString*)userId withSearchContent:(NSString*)searchContent withPageIndex:(int)pageIndex withSortType:(LearningMaterialsSortType)sortType;
 @end
 
 @protocol SearchLearningMatarilasListInterfaceDelegate <NSObject>

@@ -1,32 +1,17 @@
-//http://lms.finance365.com/api/ios.ashx?active=learningMaterials&userId=17082&lessonCategoryId=181&pageIndex=0&sortType=1
-
 {
-    "Status":1,
+    "Status":"1",
     "Msg":"",
-    "pageIndex":2,
-    "pageCount":10,
-    "learningMaterials":[
-                         {
-                         "materialId":123,
+    "pageIndex":"1",
+    "pageCount":"10",
+    "learningMaterials":[{
+                         "materialId":"123",
                          "materialName":"证券投资基金 每日一练 15",
                          "lessonCategoryId":"1245",
                          "lessonCategoryName":"证券从业",
-                         "materialFileType":2,
-                         "materialFileSize":54865.012,
-                         "materialSearchCount":12,
+                         "materialFileType":"2",
+                         "materialFileSize":"54865.012",
+                         "materialSearchCount":"12",
                          "materialCreateDate":"2013-12-25 12:12:00",
-                         "materialFileDownloadURL":"http://Ims.finance365.com/materialFile/jlkj.word",
-                         },
-                         {
-                         "materialId":321,
-                         "materialName":"证券市场基础知识 每日一练 15	",
-                         "lessonCategoryId":"1245",
-                         "lessonCategoryName":"证券从业",
-                         "materialFileType":2,
-                         "materialFileSize":54865.012,
-                         "materialSearchCount":12,
-                         "materialCreateDate":"2013-12-25 12:12:00",
-                         "materialFileDownloadURL":"http://Ims.finance365.com/materialFile/jlkj.word",
-                         }
-    ]
+                         "materialFileDownloadURL":"http://lms.finance365.com/data/course/6/181/937/20130505173238317.mp4",
+                         }]
 }

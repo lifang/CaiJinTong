@@ -6,7 +6,6 @@
 	objectVersion = 46;
 	objects = {
 
-
 /* Begin PBXBuildFile section */
 		0E5267261829E9EC0009E535 /* CustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E5267251829E9EC0009E535 /* CustomButton.m */; };
 		0E5267291829EA450009E535 /* SectionSaveModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E5267281829EA450009E535 /* SectionSaveModel.m */; };
@@ -324,6 +323,8 @@
 		639F435118631804006FBE26 /* DRTreeTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 639F434C18631804006FBE26 /* DRTreeTableView.m */; };
 		639F435218631804006FBE26 /* open@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 639F434D18631804006FBE26 /* open@2x.png */; };
 		63A589001848445500F3B926 /* pause@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63A588FF1848445500F3B926 /* pause@2x.png */; };
+		63AFEF90187CFF480094C8B2 /* LearningMaterialsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AFEF8F187CFF480094C8B2 /* LearningMaterialsViewController.m */; };
+		63B6E0E518814B4100F1624D /* DRNavigationBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63B6E0E418814B4100F1624D /* DRNavigationBar.xib */; };
 		63B710FB1844A16100A61B14 /* iVersion.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 63B710F81844A16100A61B14 /* iVersion.bundle */; };
 		63B710FC1844A16100A61B14 /* iVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B710FA1844A16100A61B14 /* iVersion.m */; };
 		63B794E81847477100B8276A /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 63B794E01847477100B8276A /* MJRefresh.bundle */; };
@@ -331,6 +332,12 @@
 		63B794EA1847477100B8276A /* MJRefreshFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B794E51847477100B8276A /* MJRefreshFooterView.m */; };
 		63B794EB1847477100B8276A /* MJRefreshHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B794E71847477100B8276A /* MJRefreshHeaderView.m */; };
 		63C15C73183F54E600890086 /* DRMoviePlayerTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C15C72183F54E600890086 /* DRMoviePlayerTopBar.m */; };
+		63C7FBC9187E8B0E0051EEBE /* ASIHTTPRequest+DownloadData.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C7FBC2187E8B0E0051EEBE /* ASIHTTPRequest+DownloadData.m */; };
+		63C7FBCA187E8B0E0051EEBE /* ASIHTTPRequestHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C7FBC4187E8B0E0051EEBE /* ASIHTTPRequestHeader.m */; };
+		63C7FBCB187E8B0E0051EEBE /* ASINetworkQueue+StaticQueues.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C7FBC6187E8B0E0051EEBE /* ASINetworkQueue+StaticQueues.m */; };
+		63C7FBCC187E8B0E0051EEBE /* DownloadDataButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C7FBC8187E8B0E0051EEBE /* DownloadDataButton.m */; };
+		63C7FC20187EA9000051EEBE /* DRImageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C7FC1F187EA9000051EEBE /* DRImageButton.m */; };
+		63C7FC23187EB5A40051EEBE /* LearningMaterialCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C7FC22187EB5A40051EEBE /* LearningMaterialCell.m */; };
 		63D1B5E01867F02D00506D03 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 630B03BF1820F5BB00F72C4C /* Main_iPad.storyboard */; };
 		63D1B5E11867F02D00506D03 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 630B03BC1820F5BB00F72C4C /* Main_iPhone.storyboard */; };
 		63D43108186A7C78004A786A /* LessonListForCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D43107186A7C78004A786A /* LessonListForCategory.m */; };
@@ -869,6 +876,9 @@
 		639F434C18631804006FBE26 /* DRTreeTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRTreeTableView.m; sourceTree = "<group>"; };
 		639F434D18631804006FBE26 /* open@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "open@2x.png"; sourceTree = "<group>"; };
 		63A588FF1848445500F3B926 /* pause@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pause@2x.png"; sourceTree = "<group>"; };
+		63AFEF8E187CFF480094C8B2 /* LearningMaterialsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LearningMaterialsViewController.h; sourceTree = "<group>"; };
+		63AFEF8F187CFF480094C8B2 /* LearningMaterialsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LearningMaterialsViewController.m; sourceTree = "<group>"; };
+		63B6E0E418814B4100F1624D /* DRNavigationBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DRNavigationBar.xib; sourceTree = "<group>"; };
 		63B710F81844A16100A61B14 /* iVersion.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = iVersion.bundle; sourceTree = "<group>"; };
 		63B710F91844A16100A61B14 /* iVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iVersion.h; sourceTree = "<group>"; };
 		63B710FA1844A16100A61B14 /* iVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iVersion.m; sourceTree = "<group>"; };
@@ -882,6 +892,18 @@
 		63B794E71847477100B8276A /* MJRefreshHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshHeaderView.m; sourceTree = "<group>"; };
 		63C15C71183F54E600890086 /* DRMoviePlayerTopBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DRMoviePlayerTopBar.h; path = movieCotr/DRMoviePlayerTopBar.h; sourceTree = "<group>"; };
 		63C15C72183F54E600890086 /* DRMoviePlayerTopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DRMoviePlayerTopBar.m; path = movieCotr/DRMoviePlayerTopBar.m; sourceTree = "<group>"; };
+		63C7FBC1187E8B0E0051EEBE /* ASIHTTPRequest+DownloadData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ASIHTTPRequest+DownloadData.h"; sourceTree = "<group>"; };
+		63C7FBC2187E8B0E0051EEBE /* ASIHTTPRequest+DownloadData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ASIHTTPRequest+DownloadData.m"; sourceTree = "<group>"; };
+		63C7FBC3187E8B0E0051EEBE /* ASIHTTPRequestHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIHTTPRequestHeader.h; sourceTree = "<group>"; };
+		63C7FBC4187E8B0E0051EEBE /* ASIHTTPRequestHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIHTTPRequestHeader.m; sourceTree = "<group>"; };
+		63C7FBC5187E8B0E0051EEBE /* ASINetworkQueue+StaticQueues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ASINetworkQueue+StaticQueues.h"; sourceTree = "<group>"; };
+		63C7FBC6187E8B0E0051EEBE /* ASINetworkQueue+StaticQueues.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ASINetworkQueue+StaticQueues.m"; sourceTree = "<group>"; };
+		63C7FBC7187E8B0E0051EEBE /* DownloadDataButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadDataButton.h; sourceTree = "<group>"; };
+		63C7FBC8187E8B0E0051EEBE /* DownloadDataButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadDataButton.m; sourceTree = "<group>"; };
+		63C7FC1E187EA9000051EEBE /* DRImageButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRImageButton.h; sourceTree = "<group>"; };
+		63C7FC1F187EA9000051EEBE /* DRImageButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRImageButton.m; sourceTree = "<group>"; };
+		63C7FC21187EB5A40051EEBE /* LearningMaterialCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LearningMaterialCell.h; sourceTree = "<group>"; };
+		63C7FC22187EB5A40051EEBE /* LearningMaterialCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LearningMaterialCell.m; sourceTree = "<group>"; };
 		63D43106186A7C78004A786A /* LessonListForCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LessonListForCategory.h; sourceTree = "<group>"; };
 		63D43107186A7C78004A786A /* LessonListForCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonListForCategory.m; sourceTree = "<group>"; };
 		63D4310A186AC8E5004A786A /* MyQuestionCategatoryInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyQuestionCategatoryInterface.h; sourceTree = "<group>"; };
@@ -944,6 +966,7 @@
 		0E9DA35F183F568D000A5995 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				63C7FBC0187E8B0E0051EEBE /* DRExtendASI */,
 				0E9DA360183F568D000A5995 /* ASIAuthenticationDialog.h */,
 				0E9DA361183F568D000A5995 /* ASIAuthenticationDialog.m */,
 				0E9DA362183F568D000A5995 /* ASICacheDelegate.h */,
@@ -1226,6 +1249,8 @@
 				6395A1FE187BE5EA00F304CC /* NoteListViewController.h */,
 				6395A1FF187BE5EA00F304CC /* NoteListViewController.m */,
 				18335B66183C982600DB8B7E /* DRAskQuestionViewController.m */,
+				63AFEF8E187CFF480094C8B2 /* LearningMaterialsViewController.h */,
+				63AFEF8F187CFF480094C8B2 /* LearningMaterialsViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1377,6 +1402,7 @@
 		0EDF4DDA18210241007161E0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				63C7FC1D187EA8C80051EEBE /* LearningMatrials */,
 				6395A201187BE6F200F304CC /* notetableView */,
 				631105A818726D0F00ACA2A4 /* questionCellView */,
 				184F8AA9184336F400A2FEB4 /* View_iPhone */,
@@ -1387,6 +1413,7 @@
 				0EAFA11918223FC500D01D3E /* CJTMainToolbar.m */,
 				6323876118223E9500C71535 /* DRNavigationBar.h */,
 				6323876218223E9500C71535 /* DRNavigationBar.m */,
+				63B6E0E418814B4100F1624D /* DRNavigationBar.xib */,
 				0E8166E318484E450064DE98 /* CJTSlider.h */,
 				0E8166E418484E450064DE98 /* CJTSlider.m */,
 				0EA7EF881827792A00C47F69 /* SectionCustomView.h */,
@@ -1703,6 +1730,7 @@
 		630B03B11820F5BB00F72C4C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				63D284051883BED5005D8721 /* newImages */,
 				0EAFA1011822200200D01D3E /* Images */,
 				18E32DFF1831FD9F00041B8A /* images */,
 				630B03B21820F5BB00F72C4C /* CaiJinTongApp-Info.plist */,
@@ -1893,6 +1921,47 @@
 			path = MJRefresh;
 			sourceTree = "<group>";
 		};
+		63C7FBC0187E8B0E0051EEBE /* DRExtendASI */ = {
+			isa = PBXGroup;
+			children = (
+				63C7FBC1187E8B0E0051EEBE /* ASIHTTPRequest+DownloadData.h */,
+				63C7FBC2187E8B0E0051EEBE /* ASIHTTPRequest+DownloadData.m */,
+				63C7FBC3187E8B0E0051EEBE /* ASIHTTPRequestHeader.h */,
+				63C7FBC4187E8B0E0051EEBE /* ASIHTTPRequestHeader.m */,
+				63C7FBC5187E8B0E0051EEBE /* ASINetworkQueue+StaticQueues.h */,
+				63C7FBC6187E8B0E0051EEBE /* ASINetworkQueue+StaticQueues.m */,
+				63C7FBC7187E8B0E0051EEBE /* DownloadDataButton.h */,
+				63C7FBC8187E8B0E0051EEBE /* DownloadDataButton.m */,
+			);
+			path = DRExtendASI;
+			sourceTree = "<group>";
+		};
+		63C7FC1D187EA8C80051EEBE /* LearningMatrials */ = {
+			isa = PBXGroup;
+			children = (
+				63C7FC1E187EA9000051EEBE /* DRImageButton.h */,
+				63C7FC1F187EA9000051EEBE /* DRImageButton.m */,
+				63C7FC21187EB5A40051EEBE /* LearningMaterialCell.h */,
+				63C7FC22187EB5A40051EEBE /* LearningMaterialCell.m */,
+			);
+			name = LearningMatrials;
+			sourceTree = "<group>";
+		};
+		63D284051883BED5005D8721 /* newImages */ = {
+			isa = PBXGroup;
+			children = (
+				63D284061883BEE1005D8721 /* navigationBar */,
+			);
+			name = newImages;
+			sourceTree = "<group>";
+		};
+		63D284061883BEE1005D8721 /* navigationBar */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = navigationBar;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2073,6 +2142,7 @@
 				0EAFA0FC1822167800D01D3E /* submitAnswer.json in Resources */,
 				0E9DA2C0183EF00D000A5995 /* questionInfo副本.json in Resources */,
 				0EAFA0EA1822167800D01D3E /* acceptAnswer.json in Resources */,
+				63B6E0E518814B4100F1624D /* DRNavigationBar.xib in Resources */,
 				0EAFA0EB1822167800D01D3E /* answerPraise.json in Resources */,
 				181532491835EA400078A410 /* pdlay-courselistd_07@2x.png in Resources */,
 				63A589001848445500F3B926 /* pause@2x.png in Resources */,
@@ -2126,6 +2196,7 @@
 				0EA7EF90182782C600C47F69 /* SuggestionInterface.m in Sources */,
 				6395A1ED187BCC8600F304CC /* LearningMatarilasListInterface.m in Sources */,
 				0EA7EF661827445500C47F69 /* ChapterViewController.m in Sources */,
+				63AFEF90187CFF480094C8B2 /* LearningMaterialsViewController.m in Sources */,
 				0E8166F41848755B0064DE98 /* CollectionHeader.m in Sources */,
 				633003911845FC2100F7838D /* QRadioButton.m in Sources */,
 				0EAD1F78182B276700204FC3 /* Section.m in Sources */,
@@ -2135,6 +2206,7 @@
 				0E9DA3BF183F568D000A5995 /* ASICloudFilesObject.m in Sources */,
 				0E9DA3B2183F568D000A5995 /* ASIAuthenticationDialog.m in Sources */,
 				63D43108186A7C78004A786A /* LessonListForCategory.m in Sources */,
+				63C7FBC9187E8B0E0051EEBE /* ASIHTTPRequest+DownloadData.m in Sources */,
 				6395A1DE187B98DA00F304CC /* ModifyNoteInterface.m in Sources */,
 				0E9DA3BE183F568D000A5995 /* ASICloudFilesContainerXMLParserDelegate.m in Sources */,
 				0EA7EF1C18234AC600C47F69 /* SearchLessonInterface.m in Sources */,
@@ -2159,6 +2231,7 @@
 				0E9DA3C4183F568D000A5995 /* ASIS3BucketRequest.m in Sources */,
 				0E9DA3B7183F568D000A5995 /* ASIHTTPRequest.m in Sources */,
 				18F28C15184738B300692F90 /* SectionViewController_iPhone.m in Sources */,
+				63C7FBCB187E8B0E0051EEBE /* ASINetworkQueue+StaticQueues.m in Sources */,
 				0E9C9EF318431A5300D48781 /* InfoViewController.m in Sources */,
 				1812A4D21851791F009B3D5D /* LoginViewController_iPhone.m in Sources */,
 				631227E0182B384B00530CC3 /* MyQuestionAndAnswerViewController.m in Sources */,
@@ -2203,6 +2276,7 @@
 				1812A4E91851D1AA009B3D5D /* QuestionAndAnswerCell_iPhone.m in Sources */,
 				633BE0711872D70000CAA04B /* HTMLNode.m in Sources */,
 				6395A1DB187B8FD200F304CC /* NoteListInterface.m in Sources */,
+				63C7FC23187EB5A40051EEBE /* LearningMaterialCell.m in Sources */,
 				0EDF4DF518210241007161E0 /* NSString+URLEncoding.m in Sources */,
 				0EB849331835DE2700C97030 /* SettingViewController.m in Sources */,
 				6395A1E4187B9CFA00F304CC /* SearchNoteInterface.m in Sources */,
@@ -2245,6 +2319,7 @@
 				630CB0851828E8B0002FD462 /* MovieControllerItem.m in Sources */,
 				63B710FC1844A16100A61B14 /* iVersion.m in Sources */,
 				0E9DA3C0183F568D000A5995 /* ASICloudFilesObjectRequest.m in Sources */,
+				63C7FC20187EA9000051EEBE /* DRImageButton.m in Sources */,
 				633003981846022500F7838D /* SexRadioView.m in Sources */,
 				0E9DA3B3183F568D000A5995 /* ASIDataCompressor.m in Sources */,
 				18046A94184884D300EB8BDA /* Section_GradeViewController_iPhone.m in Sources */,
@@ -2270,11 +2345,13 @@
 				630CB0781828943E002FD462 /* DRMoviePlayViewController.m in Sources */,
 				0EA2A92E1828D77D003D152E /* Section_GradeViewController.m in Sources */,
 				0EA2A92318289E17003D152E /* SectionViewController.m in Sources */,
+				63C7FBCC187E8B0E0051EEBE /* DownloadDataButton.m in Sources */,
 				184F8AAF18434A3200A2FEB4 /* LHLNavigationBar.m in Sources */,
 				0EA7EF8718276DD300C47F69 /* AMProgressViewGradient.m in Sources */,
 				6395A204187BE72F00F304CC /* NoteListCell.m in Sources */,
 				0EDF4DF618210241007161E0 /* Reachability.m in Sources */,
 				0EA7EF7D182748BB00C47F69 /* SDWebImageManager.m in Sources */,
+				63C7FBCA187E8B0E0051EEBE /* ASIHTTPRequestHeader.m in Sources */,
 				633BE0721872D70000CAA04B /* HTMLParser.m in Sources */,
 				0EAFA1121822399000D01D3E /* BaseInterface.m in Sources */,
 				0EA7EF3A1823581F00C47F69 /* SectionModel.m in Sources */,

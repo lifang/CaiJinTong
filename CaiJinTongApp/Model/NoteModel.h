@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "SectionModel.h"
 @interface NoteModel : NSObject
 /*
  笔记对象
