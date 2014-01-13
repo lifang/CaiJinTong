@@ -40,6 +40,19 @@
     return self;
 }
 
+
+-(UIView *) hitTest:(CGPoint)point withEvent:(UIEvent *)event{
+    UIView* result = [super hitTest:point withEvent:event];
+    if (result)
+        return result;
+    for (UIView* sub in [self.subviews reverseObjectEnumerator]) {
+        CGPoint pt = [self convertPoint:point toView:sub];
+        result = [sub hitTest:pt withEvent:event];
+        if (result)
+            return result;
+    }
+    return nil;
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

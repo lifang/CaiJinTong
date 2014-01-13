@@ -1924,7 +1924,6 @@ static NSOperationQueue *sharedQueue = nil;
 		// Cocoa Touch: UIProgressView
 		SEL selector = @selector(setProgress:);
 		float progressAmount = (float)((progress*1.0)/(total*1.0));
-		
 	#else
 		// Cocoa: NSProgressIndicator
 		double progressAmount = progressAmount = (progress*1.0)/(total*1.0);

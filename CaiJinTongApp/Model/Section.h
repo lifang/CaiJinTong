@@ -12,9 +12,19 @@
 #import "SectionModel.h"
 #import "Section_chapterModel.h"
 #import "SectionModel.h"
+#import "LearningMaterials.h"
 @interface Section : BaseDao
 +(Section*)defaultSection;
 -(NSArray *)getDowningInfo;
+//////////////////////////////////资料
+-(LearningMaterials*)searchLearningMaterialsWithMaterialId:(NSString*)materialId withUserId:(NSString*)userId;
+-(NSString*)searchLearningMaterialsLocalPathWithMaterialId:(NSString*)materialId withUserId:(NSString*)userId;
+-(DownloadStatus)searchLearningMaterialsDownloadStatusWithMaterialId:(NSString*)materialId withUserId:(NSString*)userId;
+-(void)addLeariningMaterial:(LearningMaterials*)materials withUserId:(NSString*)userId;
+-(BOOL)isExistForMaterialId:(NSString*)materialId withUserId:(NSString*)userId;
+-(void)updateLeariningMaterial:(LearningMaterials*)materials withUserId:(NSString*)userId;
+-(void)deleteLeariningMaterialWithMaterialId:(NSString*)materialId withUserId:(NSString*)userId;
+//////////////////////////////////小节
 -(SectionModel*)searchLastPlaySectionModelWithLessonId:(NSString*)lessonId;//获取最近播放的sectionModel
 -(void)saveSectionModelFinishedDateWithSectionModel:(SectionModel*)section withLessonId:(NSString*)lessonId;//保存最近播放结束时间
 -(void)addPlayTimeOffLineWithSectionId:(NSString*)sectionId withTimeForSecond:(NSString*)playTime;//追加离线播放时长

@@ -197,12 +197,6 @@
 		1836AFE2183AF875009E65B5 /* settings_delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 1836AFDF183AF875009E65B5 /* settings_delete.png */; };
 		1836AFE3183AF875009E65B5 /* settings_未选中.png in Resources */ = {isa = PBXBuildFile; fileRef = 1836AFE0183AF875009E65B5 /* settings_未选中.png */; };
 		1836AFE4183AF875009E65B5 /* settings_选中.png in Resources */ = {isa = PBXBuildFile; fileRef = 1836AFE1183AF875009E65B5 /* settings_选中.png */; };
-		1839A1AC187FADE3007F3245 /* NoteListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1839A1AB187FADE3007F3245 /* NoteListViewController.m */; };
-		1839A1AF187FAE30007F3245 /* NoteListInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 1839A1AE187FAE30007F3245 /* NoteListInterface.m */; };
-		1839A1B6187FAE5E007F3245 /* DeleteNoteInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 1839A1B1187FAE5E007F3245 /* DeleteNoteInterface.m */; };
-		1839A1B7187FAE5E007F3245 /* ModifyNoteInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 1839A1B3187FAE5E007F3245 /* ModifyNoteInterface.m */; };
-		1839A1B8187FAE5E007F3245 /* SearchNoteInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 1839A1B5187FAE5E007F3245 /* SearchNoteInterface.m */; };
-		1839A1BB187FAE9A007F3245 /* NoteListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1839A1BA187FAE9A007F3245 /* NoteListCell.m */; };
 		1839A1BE187FB32E007F3245 /* SettingViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 1839A1BD187FB32E007F3245 /* SettingViewController_iPhone.m */; };
 		183F77AF1839B5E8004D0263 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F77AE1839B5E8004D0263 /* MBProgressHUD.m */; };
 		184317371855652200ABEFD3 /* LHLMoviePlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184317361855652200ABEFD3 /* LHLMoviePlayViewController.m */; };
@@ -220,6 +214,11 @@
 		184F8AAF18434A3200A2FEB4 /* LHLNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 184F8AAE18434A3200A2FEB4 /* LHLNavigationBar.m */; };
 		185780DE187282210070CB0D /* LessonModel+toSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 185780DD187282210070CB0D /* LessonModel+toSection.m */; };
 		1864A83C1875383A00B26024 /* Section_ChapterViewController_iPhone_Embed.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864A83B1875383A00B26024 /* Section_ChapterViewController_iPhone_Embed.m */; };
+		187CE7BE1883CB5E00D65660 /* DeleteNoteInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 187CE7BB1883CB5E00D65660 /* DeleteNoteInterface.m */; };
+		187CE7BF1883CB5E00D65660 /* SearchNoteInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 187CE7BD1883CB5E00D65660 /* SearchNoteInterface.m */; };
+		187CE7C21883CBF600D65660 /* ModifyNoteInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 187CE7C11883CBF600D65660 /* ModifyNoteInterface.m */; };
+		187CE7C51883CC6200D65660 /* NoteListInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 187CE7C41883CC6200D65660 /* NoteListInterface.m */; };
+		187CE7C81883CCD800D65660 /* NoteListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187CE7C71883CCD800D65660 /* NoteListViewController.m */; };
 		189ED9D7184ED5D10029D8F1 /* TQStarRatingView_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 189ED9D6184ED5D10029D8F1 /* TQStarRatingView_iPhone.m */; };
 		189ED9DA184F17260029D8F1 /* Section_GradeCell_iPhoneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 189ED9D9184F17260029D8F1 /* Section_GradeCell_iPhoneCell.m */; };
 		189ED9DD184F196B0029D8F1 /* Section_NoteCell_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 189ED9DC184F196B0029D8F1 /* Section_NoteCell_iPhone.m */; };
@@ -321,6 +320,16 @@
 		63921AE418644221006627B2 /* LHLTestJSON.json in Resources */ = {isa = PBXBuildFile; fileRef = 63921AE318644221006627B2 /* LHLTestJSON.json */; };
 		63921AE9186442FC006627B2 /* 财金通logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 63921AE8186442FC006627B2 /* 财金通logo.png */; };
 		6392BFEE1852CA2F00F68671 /* MyAnswerListForQuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6392BFED1852CA2F00F68671 /* MyAnswerListForQuestionViewController.m */; };
+		6395A1E7187BCA2000F304CC /* LearningMaterials.m in Sources */ = {isa = PBXBuildFile; fileRef = 6395A1E6187BCA2000F304CC /* LearningMaterials.m */; };
+		6395A1ED187BCC8600F304CC /* LearningMatarilasListInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 6395A1EC187BCC8600F304CC /* LearningMatarilasListInterface.m */; };
+		6395A1F0187BD3F600F304CC /* SearchLearningMatarilasListInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 6395A1EF187BD3F600F304CC /* SearchLearningMatarilasListInterface.m */; };
+		6395A1F8187BDD6800F304CC /* noteList.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 6395A1F2187BDD6800F304CC /* noteList.geojson */; };
+		6395A1F9187BDD6800F304CC /* SearchLearningMaterials.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 6395A1F3187BDD6800F304CC /* SearchLearningMaterials.geojson */; };
+		6395A1FA187BDD6800F304CC /* LearningMaterials.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 6395A1F4187BDD6800F304CC /* LearningMaterials.geojson */; };
+		6395A1FB187BDD6800F304CC /* SearchNote.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 6395A1F5187BDD6800F304CC /* SearchNote.geojson */; };
+		6395A1FC187BDD6800F304CC /* DeleteNote.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 6395A1F6187BDD6800F304CC /* DeleteNote.geojson */; };
+		6395A1FD187BDD6800F304CC /* ModifyNote.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 6395A1F7187BDD6800F304CC /* ModifyNote.geojson */; };
+		6395A204187BE72F00F304CC /* NoteListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6395A203187BE72F00F304CC /* NoteListCell.m */; };
 		639F43191862FAA1006FBE26 /* TestModelData.m in Sources */ = {isa = PBXBuildFile; fileRef = 639F43181862FAA1006FBE26 /* TestModelData.m */; };
 		639F431C1862FC0E006FBE26 /* CategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 639F431B1862FC0E006FBE26 /* CategoryModel.m */; };
 		639F434E18631804006FBE26 /* close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 639F434618631804006FBE26 /* close@2x.png */; };
@@ -329,6 +338,8 @@
 		639F435118631804006FBE26 /* DRTreeTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 639F434C18631804006FBE26 /* DRTreeTableView.m */; };
 		639F435218631804006FBE26 /* open@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 639F434D18631804006FBE26 /* open@2x.png */; };
 		63A589001848445500F3B926 /* pause@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63A588FF1848445500F3B926 /* pause@2x.png */; };
+		63AFEF90187CFF480094C8B2 /* LearningMaterialsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AFEF8F187CFF480094C8B2 /* LearningMaterialsViewController.m */; };
+		63B6E0E518814B4100F1624D /* DRNavigationBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63B6E0E418814B4100F1624D /* DRNavigationBar.xib */; };
 		63B710FB1844A16100A61B14 /* iVersion.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 63B710F81844A16100A61B14 /* iVersion.bundle */; };
 		63B710FC1844A16100A61B14 /* iVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B710FA1844A16100A61B14 /* iVersion.m */; };
 		63B794E81847477100B8276A /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 63B794E01847477100B8276A /* MJRefresh.bundle */; };
@@ -336,6 +347,12 @@
 		63B794EA1847477100B8276A /* MJRefreshFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B794E51847477100B8276A /* MJRefreshFooterView.m */; };
 		63B794EB1847477100B8276A /* MJRefreshHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B794E71847477100B8276A /* MJRefreshHeaderView.m */; };
 		63C15C73183F54E600890086 /* DRMoviePlayerTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C15C72183F54E600890086 /* DRMoviePlayerTopBar.m */; };
+		63C7FBC9187E8B0E0051EEBE /* ASIHTTPRequest+DownloadData.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C7FBC2187E8B0E0051EEBE /* ASIHTTPRequest+DownloadData.m */; };
+		63C7FBCA187E8B0E0051EEBE /* ASIHTTPRequestHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C7FBC4187E8B0E0051EEBE /* ASIHTTPRequestHeader.m */; };
+		63C7FBCB187E8B0E0051EEBE /* ASINetworkQueue+StaticQueues.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C7FBC6187E8B0E0051EEBE /* ASINetworkQueue+StaticQueues.m */; };
+		63C7FBCC187E8B0E0051EEBE /* DownloadDataButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C7FBC8187E8B0E0051EEBE /* DownloadDataButton.m */; };
+		63C7FC20187EA9000051EEBE /* DRImageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C7FC1F187EA9000051EEBE /* DRImageButton.m */; };
+		63C7FC23187EB5A40051EEBE /* LearningMaterialCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C7FC22187EB5A40051EEBE /* LearningMaterialCell.m */; };
 		63D1B5E01867F02D00506D03 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 630B03BF1820F5BB00F72C4C /* Main_iPad.storyboard */; };
 		63D1B5E11867F02D00506D03 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 630B03BC1820F5BB00F72C4C /* Main_iPhone.storyboard */; };
 		63D43108186A7C78004A786A /* LessonListForCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D43107186A7C78004A786A /* LessonListForCategory.m */; };
@@ -683,16 +700,6 @@
 		1836AFDF183AF875009E65B5 /* settings_delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings_delete.png; sourceTree = "<group>"; };
 		1836AFE0183AF875009E65B5 /* settings_未选中.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings_未选中.png"; sourceTree = "<group>"; };
 		1836AFE1183AF875009E65B5 /* settings_选中.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings_选中.png"; sourceTree = "<group>"; };
-		1839A1AA187FADE3007F3245 /* NoteListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteListViewController.h; sourceTree = "<group>"; };
-		1839A1AB187FADE3007F3245 /* NoteListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteListViewController.m; sourceTree = "<group>"; };
-		1839A1AD187FAE30007F3245 /* NoteListInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteListInterface.h; sourceTree = "<group>"; };
-		1839A1AE187FAE30007F3245 /* NoteListInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteListInterface.m; sourceTree = "<group>"; };
-		1839A1B0187FAE5E007F3245 /* DeleteNoteInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteNoteInterface.h; sourceTree = "<group>"; };
-		1839A1B1187FAE5E007F3245 /* DeleteNoteInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteNoteInterface.m; sourceTree = "<group>"; };
-		1839A1B2187FAE5E007F3245 /* ModifyNoteInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyNoteInterface.h; sourceTree = "<group>"; };
-		1839A1B3187FAE5E007F3245 /* ModifyNoteInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifyNoteInterface.m; sourceTree = "<group>"; };
-		1839A1B4187FAE5E007F3245 /* SearchNoteInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchNoteInterface.h; sourceTree = "<group>"; };
-		1839A1B5187FAE5E007F3245 /* SearchNoteInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchNoteInterface.m; sourceTree = "<group>"; };
 		1839A1B9187FAE9A007F3245 /* NoteListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteListCell.h; sourceTree = "<group>"; };
 		1839A1BA187FAE9A007F3245 /* NoteListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteListCell.m; sourceTree = "<group>"; };
 		1839A1BC187FB32E007F3245 /* SettingViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController_iPhone.h; sourceTree = "<group>"; };
@@ -720,6 +727,16 @@
 		185780DD187282210070CB0D /* LessonModel+toSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LessonModel+toSection.m"; sourceTree = "<group>"; };
 		1864A83A1875383A00B26024 /* Section_ChapterViewController_iPhone_Embed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Section_ChapterViewController_iPhone_Embed.h; sourceTree = "<group>"; };
 		1864A83B1875383A00B26024 /* Section_ChapterViewController_iPhone_Embed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section_ChapterViewController_iPhone_Embed.m; sourceTree = "<group>"; };
+		187CE7BA1883CB5E00D65660 /* DeleteNoteInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteNoteInterface.h; sourceTree = "<group>"; };
+		187CE7BB1883CB5E00D65660 /* DeleteNoteInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteNoteInterface.m; sourceTree = "<group>"; };
+		187CE7BC1883CB5E00D65660 /* SearchNoteInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchNoteInterface.h; sourceTree = "<group>"; };
+		187CE7BD1883CB5E00D65660 /* SearchNoteInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchNoteInterface.m; sourceTree = "<group>"; };
+		187CE7C01883CBF600D65660 /* ModifyNoteInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyNoteInterface.h; sourceTree = "<group>"; };
+		187CE7C11883CBF600D65660 /* ModifyNoteInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifyNoteInterface.m; sourceTree = "<group>"; };
+		187CE7C31883CC6200D65660 /* NoteListInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteListInterface.h; sourceTree = "<group>"; };
+		187CE7C41883CC6200D65660 /* NoteListInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteListInterface.m; sourceTree = "<group>"; };
+		187CE7C61883CCD800D65660 /* NoteListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteListViewController.h; sourceTree = "<group>"; };
+		187CE7C71883CCD800D65660 /* NoteListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteListViewController.m; sourceTree = "<group>"; };
 		189ED9D5184ED5D10029D8F1 /* TQStarRatingView_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TQStarRatingView_iPhone.h; sourceTree = "<group>"; };
 		189ED9D6184ED5D10029D8F1 /* TQStarRatingView_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TQStarRatingView_iPhone.m; sourceTree = "<group>"; };
 		189ED9D8184F17260029D8F1 /* Section_GradeCell_iPhoneCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Section_GradeCell_iPhoneCell.h; sourceTree = "<group>"; };
@@ -874,6 +891,20 @@
 		63921AE8186442FC006627B2 /* 财金通logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "财金通logo.png"; sourceTree = "<group>"; };
 		6392BFEC1852CA2F00F68671 /* MyAnswerListForQuestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAnswerListForQuestionViewController.h; sourceTree = "<group>"; };
 		6392BFED1852CA2F00F68671 /* MyAnswerListForQuestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAnswerListForQuestionViewController.m; sourceTree = "<group>"; };
+		6395A1E5187BCA2000F304CC /* LearningMaterials.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LearningMaterials.h; sourceTree = "<group>"; };
+		6395A1E6187BCA2000F304CC /* LearningMaterials.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LearningMaterials.m; sourceTree = "<group>"; };
+		6395A1EB187BCC8600F304CC /* LearningMatarilasListInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LearningMatarilasListInterface.h; sourceTree = "<group>"; };
+		6395A1EC187BCC8600F304CC /* LearningMatarilasListInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LearningMatarilasListInterface.m; sourceTree = "<group>"; };
+		6395A1EE187BD3F600F304CC /* SearchLearningMatarilasListInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchLearningMatarilasListInterface.h; sourceTree = "<group>"; };
+		6395A1EF187BD3F600F304CC /* SearchLearningMatarilasListInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchLearningMatarilasListInterface.m; sourceTree = "<group>"; };
+		6395A1F2187BDD6800F304CC /* noteList.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = noteList.geojson; sourceTree = "<group>"; };
+		6395A1F3187BDD6800F304CC /* SearchLearningMaterials.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SearchLearningMaterials.geojson; sourceTree = "<group>"; };
+		6395A1F4187BDD6800F304CC /* LearningMaterials.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LearningMaterials.geojson; sourceTree = "<group>"; };
+		6395A1F5187BDD6800F304CC /* SearchNote.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SearchNote.geojson; sourceTree = "<group>"; };
+		6395A1F6187BDD6800F304CC /* DeleteNote.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DeleteNote.geojson; sourceTree = "<group>"; };
+		6395A1F7187BDD6800F304CC /* ModifyNote.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ModifyNote.geojson; sourceTree = "<group>"; };
+		6395A202187BE72F00F304CC /* NoteListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteListCell.h; sourceTree = "<group>"; };
+		6395A203187BE72F00F304CC /* NoteListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteListCell.m; sourceTree = "<group>"; };
 		639F43171862FAA1006FBE26 /* TestModelData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestModelData.h; path = testModel/TestModelData.h; sourceTree = "<group>"; };
 		639F43181862FAA1006FBE26 /* TestModelData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestModelData.m; path = testModel/TestModelData.m; sourceTree = "<group>"; };
 		639F431A1862FC0E006FBE26 /* CategoryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryModel.h; sourceTree = "<group>"; };
@@ -887,6 +918,9 @@
 		639F434C18631804006FBE26 /* DRTreeTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRTreeTableView.m; sourceTree = "<group>"; };
 		639F434D18631804006FBE26 /* open@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "open@2x.png"; sourceTree = "<group>"; };
 		63A588FF1848445500F3B926 /* pause@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pause@2x.png"; sourceTree = "<group>"; };
+		63AFEF8E187CFF480094C8B2 /* LearningMaterialsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LearningMaterialsViewController.h; sourceTree = "<group>"; };
+		63AFEF8F187CFF480094C8B2 /* LearningMaterialsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LearningMaterialsViewController.m; sourceTree = "<group>"; };
+		63B6E0E418814B4100F1624D /* DRNavigationBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DRNavigationBar.xib; sourceTree = "<group>"; };
 		63B710F81844A16100A61B14 /* iVersion.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = iVersion.bundle; sourceTree = "<group>"; };
 		63B710F91844A16100A61B14 /* iVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iVersion.h; sourceTree = "<group>"; };
 		63B710FA1844A16100A61B14 /* iVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iVersion.m; sourceTree = "<group>"; };
@@ -900,6 +934,18 @@
 		63B794E71847477100B8276A /* MJRefreshHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshHeaderView.m; sourceTree = "<group>"; };
 		63C15C71183F54E600890086 /* DRMoviePlayerTopBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DRMoviePlayerTopBar.h; path = movieCotr/DRMoviePlayerTopBar.h; sourceTree = "<group>"; };
 		63C15C72183F54E600890086 /* DRMoviePlayerTopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DRMoviePlayerTopBar.m; path = movieCotr/DRMoviePlayerTopBar.m; sourceTree = "<group>"; };
+		63C7FBC1187E8B0E0051EEBE /* ASIHTTPRequest+DownloadData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ASIHTTPRequest+DownloadData.h"; sourceTree = "<group>"; };
+		63C7FBC2187E8B0E0051EEBE /* ASIHTTPRequest+DownloadData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ASIHTTPRequest+DownloadData.m"; sourceTree = "<group>"; };
+		63C7FBC3187E8B0E0051EEBE /* ASIHTTPRequestHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIHTTPRequestHeader.h; sourceTree = "<group>"; };
+		63C7FBC4187E8B0E0051EEBE /* ASIHTTPRequestHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIHTTPRequestHeader.m; sourceTree = "<group>"; };
+		63C7FBC5187E8B0E0051EEBE /* ASINetworkQueue+StaticQueues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ASINetworkQueue+StaticQueues.h"; sourceTree = "<group>"; };
+		63C7FBC6187E8B0E0051EEBE /* ASINetworkQueue+StaticQueues.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ASINetworkQueue+StaticQueues.m"; sourceTree = "<group>"; };
+		63C7FBC7187E8B0E0051EEBE /* DownloadDataButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadDataButton.h; sourceTree = "<group>"; };
+		63C7FBC8187E8B0E0051EEBE /* DownloadDataButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadDataButton.m; sourceTree = "<group>"; };
+		63C7FC1E187EA9000051EEBE /* DRImageButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRImageButton.h; sourceTree = "<group>"; };
+		63C7FC1F187EA9000051EEBE /* DRImageButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRImageButton.m; sourceTree = "<group>"; };
+		63C7FC21187EB5A40051EEBE /* LearningMaterialCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LearningMaterialCell.h; sourceTree = "<group>"; };
+		63C7FC22187EB5A40051EEBE /* LearningMaterialCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LearningMaterialCell.m; sourceTree = "<group>"; };
 		63D43106186A7C78004A786A /* LessonListForCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LessonListForCategory.h; sourceTree = "<group>"; };
 		63D43107186A7C78004A786A /* LessonListForCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonListForCategory.m; sourceTree = "<group>"; };
 		63D4310A186AC8E5004A786A /* MyQuestionCategatoryInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyQuestionCategatoryInterface.h; sourceTree = "<group>"; };
@@ -962,6 +1008,7 @@
 		0E9DA35F183F568D000A5995 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				63C7FBC0187E8B0E0051EEBE /* DRExtendASI */,
 				0E9DA360183F568D000A5995 /* ASIAuthenticationDialog.h */,
 				0E9DA361183F568D000A5995 /* ASIAuthenticationDialog.m */,
 				0E9DA362183F568D000A5995 /* ASICacheDelegate.h */,
@@ -1115,6 +1162,12 @@
 		0EAFA0D41822166700D01D3E /* JSON */ = {
 			isa = PBXGroup;
 			children = (
+				6395A1F2187BDD6800F304CC /* noteList.geojson */,
+				6395A1F3187BDD6800F304CC /* SearchLearningMaterials.geojson */,
+				6395A1F4187BDD6800F304CC /* LearningMaterials.geojson */,
+				6395A1F5187BDD6800F304CC /* SearchNote.geojson */,
+				6395A1F6187BDD6800F304CC /* DeleteNote.geojson */,
+				6395A1F7187BDD6800F304CC /* ModifyNote.geojson */,
 				63921AE318644221006627B2 /* LHLTestJSON.json */,
 				0E9DA2BF183EF00D000A5995 /* questionInfo副本.json */,
 				0EAFA0DF1822167800D01D3E /* logIn.json */,
@@ -1237,8 +1290,10 @@
 				63841CF21838A60100E3FA9E /* DRNavigationController.m */,
 				18335B65183C982600DB8B7E /* DRAskQuestionViewController.h */,
 				18335B66183C982600DB8B7E /* DRAskQuestionViewController.m */,
-				1839A1AA187FADE3007F3245 /* NoteListViewController.h */,
-				1839A1AB187FADE3007F3245 /* NoteListViewController.m */,
+				63AFEF8E187CFF480094C8B2 /* LearningMaterialsViewController.h */,
+				63AFEF8F187CFF480094C8B2 /* LearningMaterialsViewController.m */,
+				187CE7C61883CCD800D65660 /* NoteListViewController.h */,
+				187CE7C71883CCD800D65660 /* NoteListViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1255,6 +1310,14 @@
 		0EDF4DD018210241007161E0 /* Interface */ = {
 			isa = PBXGroup;
 			children = (
+				187CE7C31883CC6200D65660 /* NoteListInterface.h */,
+				187CE7C41883CC6200D65660 /* NoteListInterface.m */,
+				187CE7C01883CBF600D65660 /* ModifyNoteInterface.h */,
+				187CE7C11883CBF600D65660 /* ModifyNoteInterface.m */,
+				187CE7BA1883CB5E00D65660 /* DeleteNoteInterface.h */,
+				187CE7BB1883CB5E00D65660 /* DeleteNoteInterface.m */,
+				187CE7BC1883CB5E00D65660 /* SearchNoteInterface.h */,
+				187CE7BD1883CB5E00D65660 /* SearchNoteInterface.m */,
 				0EAFA10C1822399000D01D3E /* BaseInterface.h */,
 				0EAFA10D1822399000D01D3E /* BaseInterface.m */,
 				0EAFA1101822399000D01D3E /* LogInterface.h */,
@@ -1313,14 +1376,10 @@
 				63D43107186A7C78004A786A /* LessonListForCategory.m */,
 				63D4310A186AC8E5004A786A /* MyQuestionCategatoryInterface.h */,
 				63D4310B186AC8E5004A786A /* MyQuestionCategatoryInterface.m */,
-				1839A1AD187FAE30007F3245 /* NoteListInterface.h */,
-				1839A1AE187FAE30007F3245 /* NoteListInterface.m */,
-				1839A1B0187FAE5E007F3245 /* DeleteNoteInterface.h */,
-				1839A1B1187FAE5E007F3245 /* DeleteNoteInterface.m */,
-				1839A1B2187FAE5E007F3245 /* ModifyNoteInterface.h */,
-				1839A1B3187FAE5E007F3245 /* ModifyNoteInterface.m */,
-				1839A1B4187FAE5E007F3245 /* SearchNoteInterface.h */,
-				1839A1B5187FAE5E007F3245 /* SearchNoteInterface.m */,
+				6395A1EB187BCC8600F304CC /* LearningMatarilasListInterface.h */,
+				6395A1EC187BCC8600F304CC /* LearningMatarilasListInterface.m */,
+				6395A1EE187BD3F600F304CC /* SearchLearningMatarilasListInterface.h */,
+				6395A1EF187BD3F600F304CC /* SearchLearningMatarilasListInterface.m */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -1359,6 +1418,8 @@
 				639F431B1862FC0E006FBE26 /* CategoryModel.m */,
 				185780DC187282210070CB0D /* LessonModel+toSection.h */,
 				185780DD187282210070CB0D /* LessonModel+toSection.m */,
+				6395A1E5187BCA2000F304CC /* LearningMaterials.h */,
+				6395A1E6187BCA2000F304CC /* LearningMaterials.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1386,6 +1447,8 @@
 		0EDF4DDA18210241007161E0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				63C7FC1D187EA8C80051EEBE /* LearningMatrials */,
+				6395A201187BE6F200F304CC /* notetableView */,
 				631105A818726D0F00ACA2A4 /* questionCellView */,
 				184F8AA9184336F400A2FEB4 /* View_iPhone */,
 				631227E1182B405C00530CC3 /* questionAndAnswer */,
@@ -1395,6 +1458,7 @@
 				0EAFA11918223FC500D01D3E /* CJTMainToolbar.m */,
 				6323876118223E9500C71535 /* DRNavigationBar.h */,
 				6323876218223E9500C71535 /* DRNavigationBar.m */,
+				63B6E0E418814B4100F1624D /* DRNavigationBar.xib */,
 				0E8166E318484E450064DE98 /* CJTSlider.h */,
 				0E8166E418484E450064DE98 /* CJTSlider.m */,
 				0EA7EF881827792A00C47F69 /* SectionCustomView.h */,
@@ -1743,6 +1807,7 @@
 			isa = PBXGroup;
 			children = (
 				18199EF918811BB400377B74 /* temp */,
+				63D284051883BED5005D8721 /* newImages */,
 				0EAFA1011822200200D01D3E /* Images */,
 				18E32DFF1831FD9F00041B8A /* images */,
 				630B03B21820F5BB00F72C4C /* CaiJinTongApp-Info.plist */,
@@ -1852,6 +1917,15 @@
 			name = lesson;
 			sourceTree = "<group>";
 		};
+		6395A201187BE6F200F304CC /* notetableView */ = {
+			isa = PBXGroup;
+			children = (
+				6395A202187BE72F00F304CC /* NoteListCell.h */,
+				6395A203187BE72F00F304CC /* NoteListCell.m */,
+			);
+			name = notetableView;
+			sourceTree = "<group>";
+		};
 		639A07A01823905900B60670 /* thirty */ = {
 			isa = PBXGroup;
 			children = (
@@ -1922,6 +1996,47 @@
 				63B794E71847477100B8276A /* MJRefreshHeaderView.m */,
 			);
 			path = MJRefresh;
+			sourceTree = "<group>";
+		};
+		63C7FBC0187E8B0E0051EEBE /* DRExtendASI */ = {
+			isa = PBXGroup;
+			children = (
+				63C7FBC1187E8B0E0051EEBE /* ASIHTTPRequest+DownloadData.h */,
+				63C7FBC2187E8B0E0051EEBE /* ASIHTTPRequest+DownloadData.m */,
+				63C7FBC3187E8B0E0051EEBE /* ASIHTTPRequestHeader.h */,
+				63C7FBC4187E8B0E0051EEBE /* ASIHTTPRequestHeader.m */,
+				63C7FBC5187E8B0E0051EEBE /* ASINetworkQueue+StaticQueues.h */,
+				63C7FBC6187E8B0E0051EEBE /* ASINetworkQueue+StaticQueues.m */,
+				63C7FBC7187E8B0E0051EEBE /* DownloadDataButton.h */,
+				63C7FBC8187E8B0E0051EEBE /* DownloadDataButton.m */,
+			);
+			path = DRExtendASI;
+			sourceTree = "<group>";
+		};
+		63C7FC1D187EA8C80051EEBE /* LearningMatrials */ = {
+			isa = PBXGroup;
+			children = (
+				63C7FC1E187EA9000051EEBE /* DRImageButton.h */,
+				63C7FC1F187EA9000051EEBE /* DRImageButton.m */,
+				63C7FC21187EB5A40051EEBE /* LearningMaterialCell.h */,
+				63C7FC22187EB5A40051EEBE /* LearningMaterialCell.m */,
+			);
+			name = LearningMatrials;
+			sourceTree = "<group>";
+		};
+		63D284051883BED5005D8721 /* newImages */ = {
+			isa = PBXGroup;
+			children = (
+				63D284061883BEE1005D8721 /* navigationBar */,
+			);
+			name = newImages;
+			sourceTree = "<group>";
+		};
+		63D284061883BEE1005D8721 /* navigationBar */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = navigationBar;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2022,13 +2137,16 @@
 				18C9313918363B2A00FBE1A8 /* play-courselist_03@2x.png in Resources */,
 				630B9602182A5A94000ED31E /* loginBgImage_v@2x.png in Resources */,
 				18C9312C18363B2A00FBE1A8 /* btn1@2x.png in Resources */,
+				6395A1FA187BDD6800F304CC /* LearningMaterials.geojson in Resources */,
 				18E32E0B1831FDF900041B8A /* login_10@2x.png in Resources */,
 				18C9313018363B2A00FBE1A8 /* play_chat@2x.png in Resources */,
 				1815325418360DE60078A410 /* Q&A-myq_19@2x.png in Resources */,
 				18EBD11C1842FA0900F9BDA9 /* lhl1@2x.png in Resources */,
+				6395A1FB187BDD6800F304CC /* SearchNote.geojson in Resources */,
 				18E32E0C1831FDF900041B8A /* login_bg@2x.png in Resources */,
 				0EAFA0F41822167800D01D3E /* logIn.json in Resources */,
 				0EAFA0F21822167800D01D3E /* grade.json in Resources */,
+				6395A1FD187BDD6800F304CC /* ModifyNote.geojson in Resources */,
 				18EBD11D1842FA0900F9BDA9 /* lhl2@2x.png in Resources */,
 				0EAFA0F31822167800D01D3E /* lessonInfo.json in Resources */,
 				18C9313518363B2A00FBE1A8 /* play_shuxian@2x.png in Resources */,
@@ -2051,6 +2169,7 @@
 				1815324D1835FE9A0078A410 /* course-onecourse_03@2x.png in Resources */,
 				0EAFA0F01822167800D01D3E /* findPassWord.json in Resources */,
 				630B95FC182A4A7F000ED31E /* retreat.png in Resources */,
+				6395A1F8187BDD6800F304CC /* noteList.geojson in Resources */,
 				18C9313618363B2A00FBE1A8 /* play_volume@2x.png in Resources */,
 				0EAFA0FD1822167800D01D3E /* submitNote.json in Resources */,
 				630B95FD182A4A7F000ED31E /* speed.png in Resources */,
@@ -2075,6 +2194,7 @@
 				1815324B1835F0810078A410 /* play-courselist_0df3@2x.png in Resources */,
 				0EAFA0F61822167800D01D3E /* playVideo.json in Resources */,
 				18C9313A18363B2A00FBE1A8 /* play-M.png in Resources */,
+				6395A1FC187BDD6800F304CC /* DeleteNote.geojson in Resources */,
 				0EAFA0EE1822167800D01D3E /* chapterQuestion.json in Resources */,
 				1812A4E31851B80D009B3D5D /* rightItemBg@2x.png in Resources */,
 				0EAFA0FB1822167800D01D3E /* sectionInfo.json in Resources */,
@@ -2097,11 +2217,13 @@
 				0EAFA0F51822167800D01D3E /* playBack.json in Resources */,
 				630B03B51820F5BB00F72C4C /* InfoPlist.strings in Resources */,
 				639F435218631804006FBE26 /* open@2x.png in Resources */,
+				6395A1F9187BDD6800F304CC /* SearchLearningMaterials.geojson in Resources */,
 				18491C4718347A2A003C82E4 /* course-courses_06@2x.png in Resources */,
 				1836AFE2183AF875009E65B5 /* settings_delete.png in Resources */,
 				0EAFA0FC1822167800D01D3E /* submitAnswer.json in Resources */,
 				0E9DA2C0183EF00D000A5995 /* questionInfo副本.json in Resources */,
 				0EAFA0EA1822167800D01D3E /* acceptAnswer.json in Resources */,
+				63B6E0E518814B4100F1624D /* DRNavigationBar.xib in Resources */,
 				0EAFA0EB1822167800D01D3E /* answerPraise.json in Resources */,
 				181532491835EA400078A410 /* pdlay-courselistd_07@2x.png in Resources */,
 				63A589001848445500F3B926 /* pause@2x.png in Resources */,
@@ -2132,8 +2254,8 @@
 				18F2FE9A18584A990006AF11 /* LHLTakingMovieNoteViewController.m in Sources */,
 				184F8AA818432D0000A2FEB4 /* LessonViewController_iPhone.m in Sources */,
 				0EA7EF8A1827792A00C47F69 /* SectionCustomView.m in Sources */,
-				1839A1B6187FAE5E007F3245 /* DeleteNoteInterface.m in Sources */,
 				0EAFA12C18224C2700D01D3E /* LessonViewController.m in Sources */,
+				6395A1F0187BD3F600F304CC /* SearchLearningMatarilasListInterface.m in Sources */,
 				6323875A1822056000C71535 /* LoginViewController.m in Sources */,
 				630B9600182A4CF6000ED31E /* MoviePlayerHolderView.m in Sources */,
 				63841CF31838A60100E3FA9E /* DRNavigationController.m in Sources */,
@@ -2148,13 +2270,16 @@
 				0EAFA1261822488700D01D3E /* ChapterInfoInterface.m in Sources */,
 				639F431C1862FC0E006FBE26 /* CategoryModel.m in Sources */,
 				0EA7EF3718234F9000C47F69 /* SearchQuestionInterface.m in Sources */,
+				187CE7BF1883CB5E00D65660 /* SearchNoteInterface.m in Sources */,
 				1812A4D518519203009B3D5D /* UIImage+Scale.m in Sources */,
 				0EA7EF09182336B600C47F69 /* chapterModel.m in Sources */,
 				630B03C41820F5BB00F72C4C /* ViewController.m in Sources */,
 				18E0D75F1850296D001A6667 /* MenuTableCell.m in Sources */,
 				63B794E91847477100B8276A /* MJRefreshBaseView.m in Sources */,
 				0EA7EF90182782C600C47F69 /* SuggestionInterface.m in Sources */,
+				6395A1ED187BCC8600F304CC /* LearningMatarilasListInterface.m in Sources */,
 				0EA7EF661827445500C47F69 /* ChapterViewController.m in Sources */,
+				63AFEF90187CFF480094C8B2 /* LearningMaterialsViewController.m in Sources */,
 				0E8166F41848755B0064DE98 /* CollectionHeader.m in Sources */,
 				633003911845FC2100F7838D /* QRadioButton.m in Sources */,
 				0EAD1F78182B276700204FC3 /* Section.m in Sources */,
@@ -2164,6 +2289,7 @@
 				0E9DA3BF183F568D000A5995 /* ASICloudFilesObject.m in Sources */,
 				0E9DA3B2183F568D000A5995 /* ASIAuthenticationDialog.m in Sources */,
 				63D43108186A7C78004A786A /* LessonListForCategory.m in Sources */,
+				63C7FBC9187E8B0E0051EEBE /* ASIHTTPRequest+DownloadData.m in Sources */,
 				0E9DA3BE183F568D000A5995 /* ASICloudFilesContainerXMLParserDelegate.m in Sources */,
 				0EA7EF1C18234AC600C47F69 /* SearchLessonInterface.m in Sources */,
 				18F2FE97185846410006AF11 /* LHLCommitQuestionViewController.m in Sources */,
@@ -2174,21 +2300,25 @@
 				0EAD1F70182B24B100204FC3 /* FMResultSet.m in Sources */,
 				0E9DA3C5183F568D000A5995 /* ASIS3ObjectRequest.m in Sources */,
 				18A77076187FEF7B00DAE6A6 /* SuggestionFeedbackViewController_iPhone.m in Sources */,
+				187CE7BE1883CB5E00D65660 /* DeleteNoteInterface.m in Sources */,
 				0EAFA1231822485500D01D3E /* LessonInfoInterface.m in Sources */,
 				18F87E671844AA2A00B0F7EC /* CJTMainToolbar_iPhone.m in Sources */,
 				0E9DA3BC183F568D000A5995 /* ASICloudFilesContainer.m in Sources */,
 				18F477E9183D9BDA00021886 /* SuggestionFeedbackViewController.m in Sources */,
 				0E9DA3B5183F568D000A5995 /* ASIDownloadCache.m in Sources */,
+				187CE7C81883CCD800D65660 /* NoteListViewController.m in Sources */,
 				0E9DA3B4183F568D000A5995 /* ASIDataDecompressor.m in Sources */,
 				0E9C9EFB18433C3000D48781 /* BaseImageInfo.m in Sources */,
 				0EA7EF4618238CC600C47F69 /* ChapterQuestionModel.m in Sources */,
 				0EA7EF7C182748BB00C47F69 /* SDWebImageDownloader.m in Sources */,
 				6323876318223E9500C71535 /* DRNavigationBar.m in Sources */,
+				187CE7C21883CBF600D65660 /* ModifyNoteInterface.m in Sources */,
 				63091FFA1827435400C1AF07 /* LessonListCell.m in Sources */,
 				18C9314118363B9C00FBE1A8 /* DRTakingMovieNoteViewController.m in Sources */,
 				0E9DA3C4183F568D000A5995 /* ASIS3BucketRequest.m in Sources */,
 				0E9DA3B7183F568D000A5995 /* ASIHTTPRequest.m in Sources */,
 				18F28C15184738B300692F90 /* SectionViewController_iPhone.m in Sources */,
+				63C7FBCB187E8B0E0051EEBE /* ASINetworkQueue+StaticQueues.m in Sources */,
 				0E9C9EF318431A5300D48781 /* InfoViewController.m in Sources */,
 				1812A4D21851791F009B3D5D /* LoginViewController_iPhone.m in Sources */,
 				631227E0182B384B00530CC3 /* MyQuestionAndAnswerViewController.m in Sources */,
@@ -2214,9 +2344,9 @@
 				18046A971848850800EB8BDA /* Section_NoteViewController_iPhone.m in Sources */,
 				630B03BB1820F5BB00F72C4C /* AppDelegate.m in Sources */,
 				1812A4E61851CB89009B3D5D /* MyQuestionAndAnswerViewController_iPhone.m in Sources */,
+				187CE7C51883CC6200D65660 /* NoteListInterface.m in Sources */,
 				18E0D765185077D5001A6667 /* MenuQuestionTableViewController.m in Sources */,
 				639F435018631804006FBE26 /* DRTreeNode.m in Sources */,
-				1839A1B8187FAE5E007F3245 /* SearchNoteInterface.m in Sources */,
 				0EA7EF4C18238DF600C47F69 /* AnswerModel.m in Sources */,
 				0EA7EF1918234A7500C47F69 /* CommentListInterface.m in Sources */,
 				0EA7EF2218234BA100C47F69 /* QuestionListInterface.m in Sources */,
@@ -2230,12 +2360,12 @@
 				18199F031881305800377B74 /* LHLTabBarItem.m in Sources */,
 				0EA36ED2182C8E4F0074D67B /* CustomLabel.m in Sources */,
 				0EA7EF8D1827805D00C47F69 /* SectionInfoInterface.m in Sources */,
-				1839A1B7187FAE5E007F3245 /* ModifyNoteInterface.m in Sources */,
 				0EA36ED7182CB5570074D67B /* CustomTextView.m in Sources */,
 				1864A83C1875383A00B26024 /* Section_ChapterViewController_iPhone_Embed.m in Sources */,
 				18A77073187FCC6000DAE6A6 /* InfoViewController_iPhone.m in Sources */,
 				1812A4E91851D1AA009B3D5D /* QuestionAndAnswerCell_iPhone.m in Sources */,
 				633BE0711872D70000CAA04B /* HTMLNode.m in Sources */,
+				63C7FC23187EB5A40051EEBE /* LearningMaterialCell.m in Sources */,
 				0EDF4DF518210241007161E0 /* NSString+URLEncoding.m in Sources */,
 				0EB849331835DE2700C97030 /* SettingViewController.m in Sources */,
 				18199EF81881120400377B74 /* LHLTabBarController.m in Sources */,
@@ -2249,7 +2379,6 @@
 				18F87E6418448CA300B0F7EC /* ChapterSearchBar_iPhone.m in Sources */,
 				0E5267291829EA450009E535 /* SectionSaveModel.m in Sources */,
 				18F87E611844741C00B0F7EC /* SectionCustomView_iPhone.m in Sources */,
-				1839A1AF187FAE30007F3245 /* NoteListInterface.m in Sources */,
 				0E9DA3C7183F568D000A5995 /* ASIS3ServiceRequest.m in Sources */,
 				0E9C9EF8184328CC00D48781 /* EditInfoInterface.m in Sources */,
 				0EA7EF7E182748BB00C47F69 /* SDWebImagePrefetcher.m in Sources */,
@@ -2265,6 +2394,7 @@
 				0E52672C1829EE990009E535 /* DownLoadInformView.m in Sources */,
 				0EA7EF7F182748BB00C47F69 /* UIButton+WebCache.m in Sources */,
 				18199EF51881070600377B74 /* CustomTabbarController.m in Sources */,
+				6395A1E7187BCA2000F304CC /* LearningMaterials.m in Sources */,
 				0EA7EF2818234CDC00C47F69 /* ChapterQuestionInterface.m in Sources */,
 				0EAFA11A18223FC500D01D3E /* CJTMainToolbar.m in Sources */,
 				631227E4182B409F00530CC3 /* QuestionAndAnswerCell.m in Sources */,
@@ -2281,6 +2411,7 @@
 				630CB0851828E8B0002FD462 /* MovieControllerItem.m in Sources */,
 				63B710FC1844A16100A61B14 /* iVersion.m in Sources */,
 				0E9DA3C0183F568D000A5995 /* ASICloudFilesObjectRequest.m in Sources */,
+				63C7FC20187EA9000051EEBE /* DRImageButton.m in Sources */,
 				633003981846022500F7838D /* SexRadioView.m in Sources */,
 				0E9DA3B3183F568D000A5995 /* ASIDataCompressor.m in Sources */,
 				18046A94184884D300EB8BDA /* Section_GradeViewController_iPhone.m in Sources */,
@@ -2303,16 +2434,17 @@
 				0EAD1F6D182B24B100204FC3 /* FMDatabaseQueue.m in Sources */,
 				0E5267261829E9EC0009E535 /* CustomButton.m in Sources */,
 				63098F39183CBA0B007A76AC /* MJPopupBackgroundView.m in Sources */,
-				1839A1AC187FADE3007F3245 /* NoteListViewController.m in Sources */,
 				630CB0781828943E002FD462 /* DRMoviePlayViewController.m in Sources */,
 				0EA2A92E1828D77D003D152E /* Section_GradeViewController.m in Sources */,
 				0EA2A92318289E17003D152E /* SectionViewController.m in Sources */,
+				63C7FBCC187E8B0E0051EEBE /* DownloadDataButton.m in Sources */,
 				184F8AAF18434A3200A2FEB4 /* LHLNavigationBar.m in Sources */,
 				0EA7EF8718276DD300C47F69 /* AMProgressViewGradient.m in Sources */,
-				1839A1BB187FAE9A007F3245 /* NoteListCell.m in Sources */,
+				6395A204187BE72F00F304CC /* NoteListCell.m in Sources */,
 				0EDF4DF618210241007161E0 /* Reachability.m in Sources */,
 				180D88B6186D0F41008FC145 /* LHLAskQuestionViewController.m in Sources */,
 				0EA7EF7D182748BB00C47F69 /* SDWebImageManager.m in Sources */,
+				63C7FBCA187E8B0E0051EEBE /* ASIHTTPRequestHeader.m in Sources */,
 				633BE0721872D70000CAA04B /* HTMLParser.m in Sources */,
 				0EAFA1121822399000D01D3E /* BaseInterface.m in Sources */,
 				0EA7EF3A1823581F00C47F69 /* SectionModel.m in Sources */,

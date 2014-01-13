@@ -22,11 +22,25 @@
     });
 }
 #else
--(void)searchLearningMaterilasListWithUserId:(NSString*)userId withSearchContent:(NSString*)searchContent withPageIndex:(int)pageIndex withSortType:(NSString*)sortType{
+-(void)searchLearningMaterilasListWithUserId:(NSString*)userId withSearchContent:(NSString*)searchContent withPageIndex:(int)pageIndex withSortType:(LearningMaterialsSortType)sortType{
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
-http://lms.finance365.com/api/ios.ashx?active=searchLearningMaterials&userId=17082&searchContent=181&pageIndex=0&sortType=1
-    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=searchLearningMaterials&userId=%@&searchContent=%@&pageIndex=%d&sortType=%@",kHost,userId,searchContent,pageIndex+1,sortType];
+//http://lms.finance365.com/api/ios.ashx?active=searchLearningMaterials&userId=17082&searchContent=181&pageIndex=0&sortType=1
+    NSString *sort = @"1";
+    switch (sortType) {
+        case LearningMaterialsSortType_Default:
+            sort = @"1";
+            break;
+        case LearningMaterialsSortType_Date:
+            sort = @"1";
+            break;
+        case LearningMaterialsSortType_Name:
+            sort = @"2";
+            break;
+        default:
+            break;
+    }
+    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=searchLearningMaterials&userId=%@&searchContent=%@&pageIndex=%d&sortType=%@",kHost,userId,searchContent,pageIndex+1,sort];
     self.baseDelegate = self;
     self.headers = reqheaders;
     
@@ -77,8 +91,12 @@ http://lms.finance365.com/api/ios.ashx?active=searchLearningMaterials&userId=170
                             }
                             material.materialSearchCount = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialSearchCount"]];
                             material.materialCreateDate = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialCreateDate"]];
-                            material.materialFileDownloadURL = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialFileDownloadURL"]];
+                            material.materialFileSize = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialFileSize"]];
+                            if (material.materialFileSize) {
+                                material.materialFileSize = [Utility convertFileSizeUnitWithBytes:material.materialFileSize];
+                            }
                             [materialsList addObject:material];
+                            
                         }
                         if (materialsList.count > 0) {
                             [self.delegate searchLearningMaterilasListDataForCategoryDidFinished:materialsList withCurrentPageIndex:self.currentPageIndex withTotalCount:self.allDataCount];

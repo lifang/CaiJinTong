@@ -23,4 +23,5 @@
 +(CGSize)getAttributeStringSizeWithWidth:(float)width withAttributeString:(NSAttributedString*)attriString;
 + (void)setBackgroungWithView:(UIView *)view andImage6:(NSString *)str6 andImage7:(NSString *)str7;
 +(CGSize)getTextSizeWithString:(NSString*)text withFont:(UIFont*)font;
++(NSString*)convertFileSizeUnitWithBytes:(NSString*)bytes;
 @end

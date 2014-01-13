@@ -12,6 +12,8 @@
  */
 @protocol ModifyNoteInterfaceDelegate;
 @interface ModifyNoteInterface : BaseInterface<BaseInterfaceDelegate>
+@property (strong,nonatomic) NSIndexPath *path;
+@property (strong,nonatomic) NSString *modifyContent;
 @property (nonatomic, weak) id<ModifyNoteInterfaceDelegate>delegate;
 //@property (assign,nonatomic) int currentPageIndex;
 //@property (assign,nonatomic) int allDataCount;

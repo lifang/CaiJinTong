@@ -110,6 +110,37 @@
     }
     return subRangeArr;
 }
++(NSString*)convertFileSizeUnitWithBytes:(NSString*)bytes{
+    int level = 0;
+    NSString *convertSize = nil;
+    long long size = bytes.longLongValue;
+    double lenght = size*1.0;
+    while (lenght >= 1024.0) {
+        if (level >= 3) {
+            break;
+        }
+        level++;
+        lenght = lenght/1024.0;
+    }
+    
+    switch (level) {
+        case 0:
+            convertSize = [NSString stringWithFormat:@"%0.2fKB",lenght];
+            break;
+        case 1:
+            convertSize = [NSString stringWithFormat:@"%0.2fM",lenght];
+            break;
+        case 2:
+            convertSize = [NSString stringWithFormat:@"%0.2fG",lenght];
+            break;
+        case 3:
+            convertSize = [NSString stringWithFormat:@"%0.2fTB",lenght];
+            break;
+        default:
+            break;
+    }
+    return convertSize;
+}
 +(CGSize)getTextSizeWithString:(NSString*)text withFont:(UIFont*)font withWidth:(float)width{
     if (text && font) {
         if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {

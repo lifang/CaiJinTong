@@ -11,7 +11,7 @@
 @implementation LearningMatarilasListInterface
 
 #if kUsingTestData
--(void)downloadlearningMaterilasListForCategoryId:(NSString*)categoryId withUserId:(NSString*)userId withPageIndex:(int)pageIndex withSortType:(NSString*)sortType{
+-(void)downloadlearningMaterilasListForCategoryId:(NSString*)categoryId withUserId:(NSString*)userId withPageIndex:(int)pageIndex withSortType:(LearningMaterialsSortType)sortType{
     NSString *path = [NSBundle pathForResource:@"LearningMaterials" ofType:@"geojson" inDirectory:[[NSBundle mainBundle] bundlePath]];
     NSData *data = [NSData dataWithContentsOfFile:path];
     id jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
@@ -22,12 +22,27 @@
     });
 }
 #else
--(void)downloadlearningMaterilasListForCategoryId:(NSString*)categoryId withUserId:(NSString*)userId withPageIndex:(int)pageIndex withSortType:(NSString*)sortType{
+-(void)downloadlearningMaterilasListForCategoryId:(NSString*)categoryId withUserId:(NSString*)userId withPageIndex:(int)pageIndex withSortType:(LearningMaterialsSortType)sortType{
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     self.lessonCategoryId = categoryId;
     //    http://lms.finance365.com/api/ios.ashx?active=learningMaterials&userId=17082&lessonCategoryId=181&pageIndex=0&sortType=1
-    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=learningMaterials&userId=%@&lessonCategoryId=%@&pageIndex=%d&sortType=%@",kHost,userId,categoryId,pageIndex+1,sortType];
+    
+    NSString *sort = @"1";
+    switch (sortType) {
+        case LearningMaterialsSortType_Default:
+            sort = @"1";
+            break;
+        case LearningMaterialsSortType_Date:
+            sort = @"1";
+            break;
+        case LearningMaterialsSortType_Name:
+            sort = @"2";
+            break;
+        default:
+            break;
+    }
+    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=learningMaterials&userId=%@&lessonCategoryId=%@&pageIndex=%d&sortType=%@",kHost,userId,categoryId,pageIndex+1,sort];
     self.baseDelegate = self;
     self.headers = reqheaders;
     
@@ -80,6 +95,10 @@
                             material.materialSearchCount = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialSearchCount"]];
                             material.materialCreateDate = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialCreateDate"]];
                             material.materialFileDownloadURL = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialFileDownloadURL"]];
+                            material.materialFileSize = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialFileSize"]];
+                            if (material.materialFileSize) {
+                                material.materialFileSize = [Utility convertFileSizeUnitWithBytes:material.materialFileSize];
+                            }
                             [materialsList addObject:material];
                         }
                         if (materialsList.count > 0) {

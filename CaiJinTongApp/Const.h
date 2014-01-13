@@ -23,6 +23,9 @@ typedef enum {//追问类型
     ReaskType_None,
 }ReaskType;
 
+typedef enum {DownloadStatus_UnDownload,DownloadStatus_Downloading,DownloadStatus_Downloaded,DownloadStatus_Pause}DownloadStatus;
+
+typedef enum {LearningMaterialsSortType_Default,LearningMaterialsSortType_Date,LearningMaterialsSortType_Name}LearningMaterialsSortType;
 
 typedef enum {LESSONSORTTYPE_CurrentStudy,
     LESSONSORTTYPE_ProgressStudy,
@@ -35,7 +38,7 @@ typedef enum {LESSONSORTTYPE_CurrentStudy,
 //#define kQuestHost  kHost
 #define kDomain @"http://116.255.135.175:3004"
 
-#define kUsingTestData 1//使用json测试数据
+#define kUsingTestData 0//使用json测试数据
 
 #define kLogin @"/chapters/user_round"
 #define kIndex @"/orders/index_list"
