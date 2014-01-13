@@ -30,27 +30,33 @@
     
     [self.imageView setBackgroundColor:[UIColor clearColor]];
     self.imageView.image = image;
+    self.imageView.alpha = 0.5;
+    [self.imageView setUserInteractionEnabled:YES];
+    [self setUserInteractionEnabled:YES];
+    //单指单击
+    UITapGestureRecognizer *singleFingerOne = [[UITapGestureRecognizer alloc]
+                                               initWithTarget:self
+                                               action:@selector(itemClicked:)];
+    singleFingerOne.numberOfTouchesRequired = 1; //手指数
+    
+    singleFingerOne.numberOfTapsRequired = 1; //tap次数
+    
+    [self addGestureRecognizer:singleFingerOne];
     return self;
 }
 
 -(void) layoutSubviews{
-    [self.imageView setFrame:(CGRect){(self.frame.size.width - IMAGE_SIZE) / 2,(self.frame.size.height - IMAGE_SIZE) / 2,IMAGE_SIZE,IMAGE_SIZE}];
-    [self.titleLabel setFrame:(CGRect){0,self.imageView.frame.size.height,self.frame.size.width,self.frame.size.height - CGRectGetMaxY(self.imageView.frame)}];
-    [self.titleLabel setCenter:(CGPoint){self.imageView.frame.size.width / 2 , self.imageView.frame.size.height + (self.frame.size.height - CGRectGetMaxY(self.imageView.frame) / 2)}];
+    [self.imageView setFrame:(CGRect){(self.frame.size.width - IMAGE_SIZE) / 2,(self.frame.size.height - IMAGE_SIZE) / 3,IMAGE_SIZE,IMAGE_SIZE}];
+    [self.titleLabel setFrame:(CGRect){- ((self.frame.size.width - IMAGE_SIZE) / 2),self.imageView.frame.size.height,self.frame.size.width,self.frame.size.height - CGRectGetMaxY(self.imageView.frame)}];
 }
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
 
 #pragma mark --
 #pragma mark -- action
-
+-(void)itemClicked:(UITapGestureRecognizer *)sender{
+    if(self.delegate && [self.delegate respondsToSelector:@selector(tabBarItemSelected:)]){
+        [self.delegate tabBarItemSelected:self];
+    }
+}
 
 #pragma mark --
 #pragma mark -- property

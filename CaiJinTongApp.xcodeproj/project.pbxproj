@@ -157,6 +157,9 @@
 		0EDF4E0F182102DD007161E0 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EDF4E0E182102DD007161E0 /* libsqlite3.0.dylib */; };
 		0EDF4E11182102E7007161E0 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EDF4E10182102E7007161E0 /* libz.dylib */; };
 		0EEAC94F183CA96800B15830 /* Section_chapterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEAC94E183CA96800B15830 /* Section_chapterModel.m */; };
+		18024D0A1883AD8A005A9B0B /* set@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18024D091883AD8A005A9B0B /* set@2x.png */; };
+		18024D0C1883AE0A005A9B0B /* lessons@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18024D0B1883AE0A005A9B0B /* lessons@2x.png */; };
+		18024D0E1883AEFA005A9B0B /* QA_Item@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18024D0D1883AEFA005A9B0B /* QA_Item@2x.png */; };
 		18046A881848315D00EB8BDA /* CustomLabel_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 18046A871848315D00EB8BDA /* CustomLabel_iPhone.m */; };
 		18046A8B18485FF300EB8BDA /* SUNSlideSwitchView_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 18046A8A18485FF300EB8BDA /* SUNSlideSwitchView_iPhone.m */; };
 		18046A8E1848637300EB8BDA /* Section_ChapterViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 18046A8D1848637300EB8BDA /* Section_ChapterViewController_iPhone.m */; };
@@ -186,7 +189,6 @@
 		1815325618360DF40078A410 /* Q&A-myq_15@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1815325518360DF40078A410 /* Q&A-myq_15@2x.png */; };
 		18199EF51881070600377B74 /* CustomTabbarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18199EF41881070600377B74 /* CustomTabbarController.m */; };
 		18199EF81881120400377B74 /* LHLTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18199EF71881120400377B74 /* LHLTabBarController.m */; };
-		18199EFC18811C4D00377B74 /* Q&A_Item@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18199EFA18811C4D00377B74 /* Q&A_Item@2x.png */; };
 		18199EFD18811C4D00377B74 /* Lesson_Item_S@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18199EFB18811C4D00377B74 /* Lesson_Item_S@2x.png */; };
 		18199F0018812FB600377B74 /* LHLTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 18199EFF18812FB600377B74 /* LHLTabBar.m */; };
 		18199F031881305800377B74 /* LHLTabBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 18199F021881305800377B74 /* LHLTabBarItem.m */; };
@@ -623,6 +625,9 @@
 		0EDF4E10182102E7007161E0 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		0EEAC94D183CA96800B15830 /* Section_chapterModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Section_chapterModel.h; sourceTree = "<group>"; };
 		0EEAC94E183CA96800B15830 /* Section_chapterModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section_chapterModel.m; sourceTree = "<group>"; };
+		18024D091883AD8A005A9B0B /* set@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "set@2x.png"; sourceTree = "<group>"; };
+		18024D0B1883AE0A005A9B0B /* lessons@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lessons@2x.png"; sourceTree = "<group>"; };
+		18024D0D1883AEFA005A9B0B /* QA_Item@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "QA_Item@2x.png"; sourceTree = "<group>"; };
 		18046A861848315D00EB8BDA /* CustomLabel_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomLabel_iPhone.h; sourceTree = "<group>"; };
 		18046A871848315D00EB8BDA /* CustomLabel_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomLabel_iPhone.m; sourceTree = "<group>"; };
 		18046A8918485FF300EB8BDA /* SUNSlideSwitchView_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUNSlideSwitchView_iPhone.h; sourceTree = "<group>"; };
@@ -667,7 +672,6 @@
 		18199EF41881070600377B74 /* CustomTabbarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTabbarController.m; sourceTree = "<group>"; };
 		18199EF61881120400377B74 /* LHLTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LHLTabBarController.h; sourceTree = "<group>"; };
 		18199EF71881120400377B74 /* LHLTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LHLTabBarController.m; sourceTree = "<group>"; };
-		18199EFA18811C4D00377B74 /* Q&A_Item@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Q&A_Item@2x.png"; sourceTree = "<group>"; };
 		18199EFB18811C4D00377B74 /* Lesson_Item_S@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Lesson_Item_S@2x.png"; sourceTree = "<group>"; };
 		18199EFE18812FB600377B74 /* LHLTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LHLTabBar.h; sourceTree = "<group>"; };
 		18199EFF18812FB600377B74 /* LHLTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LHLTabBar.m; sourceTree = "<group>"; };
@@ -1460,7 +1464,9 @@
 		18199EF918811BB400377B74 /* temp */ = {
 			isa = PBXGroup;
 			children = (
-				18199EFA18811C4D00377B74 /* Q&A_Item@2x.png */,
+				18024D0B1883AE0A005A9B0B /* lessons@2x.png */,
+				18024D091883AD8A005A9B0B /* set@2x.png */,
+				18024D0D1883AEFA005A9B0B /* QA_Item@2x.png */,
 				18199EFB18811C4D00377B74 /* Lesson_Item_S@2x.png */,
 			);
 			name = temp;
@@ -1997,6 +2003,7 @@
 				63D1B5E01867F02D00506D03 /* Main_iPad.storyboard in Resources */,
 				63D1B5E11867F02D00506D03 /* Main_iPhone.storyboard in Resources */,
 				18F477F0183DB57000021886 /* progressBar-background.png in Resources */,
+				18024D0C1883AE0A005A9B0B /* lessons@2x.png in Resources */,
 				18C9312D18363B2A00FBE1A8 /* play_barBG@2x.png in Resources */,
 				18F477EF183DB57000021886 /* progressBar-front.png in Resources */,
 				6330033C1845F81200F7838D /* radio_unchecked@2x.png in Resources */,
@@ -2005,6 +2012,7 @@
 				1812A4DF1851B2F5009B3D5D /* 按钮背景@2x.png in Resources */,
 				0EAFA0EC1822167800D01D3E /* askQuestion.json in Resources */,
 				18C9313318363B2A00FBE1A8 /* play_paused@2x.png in Resources */,
+				18024D0E1883AEFA005A9B0B /* QA_Item@2x.png in Resources */,
 				18EA12551845BF7000F12D8B /* barbg.png in Resources */,
 				18491C4D1834B166003C82E4 /* course-courses_03@2x.png in Resources */,
 				1812A4E11851B647009B3D5D /* leftItemBg@2x.png in Resources */,
@@ -2035,6 +2043,7 @@
 				18491C4518347A13003C82E4 /* course-courses_06_right@2x.png in Resources */,
 				180D88B8186D1C18008FC145 /* question1@2x.png in Resources */,
 				1836AFE3183AF875009E65B5 /* settings_未选中.png in Resources */,
+				18024D0A1883AD8A005A9B0B /* set@2x.png in Resources */,
 				0EAFA0F11822167800D01D3E /* getUserQuestion.json in Resources */,
 				18C9313418363B2A00FBE1A8 /* play_play@2x.png in Resources */,
 				18C9313118363B2A00FBE1A8 /* play_movieSlider@2x.png in Resources */,
@@ -2069,7 +2078,6 @@
 				0EAFA0EE1822167800D01D3E /* chapterQuestion.json in Resources */,
 				1812A4E31851B80D009B3D5D /* rightItemBg@2x.png in Resources */,
 				0EAFA0FB1822167800D01D3E /* sectionInfo.json in Resources */,
-				18199EFC18811C4D00377B74 /* Q&A_Item@2x.png in Resources */,
 				18C9312E18363B2A00FBE1A8 /* play_black@2x.png in Resources */,
 				18F477F4183DC5CA00021886 /* nothing.png in Resources */,
 				63B710FB1844A16100A61B14 /* iVersion.bundle in Resources */,

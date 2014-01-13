@@ -40,5 +40,16 @@
 -(void) setItems:(NSMutableArray *)items{
     _items = [NSMutableArray arrayWithArray:items];
     [self layoutItems];
+    self.selectedIndex = 0;
 }
+
+-(void) setSelectedIndex:(NSUInteger)selectedIndex{
+    //高亮显示
+    if(self.items.count > 0){
+        ((LHLTabBarItem *)self.items[_selectedIndex]).imageView.alpha = 0.5;
+        ((LHLTabBarItem *)self.items[selectedIndex]).imageView.alpha = 1.0;
+    }
+    _selectedIndex = selectedIndex;
+}
+
 @end

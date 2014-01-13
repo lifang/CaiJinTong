@@ -69,44 +69,14 @@
 -(LHLTabBarItem *) createItem:(NSUInteger ) index{
     NSString *title;
     UIImage *image;
-//    UIImage *selectedImage;
-//    switch (index) {
-//        case 0:
-//            title = @"课程";
-//            image = [UIImage imageNamed:@"question1.png"];
-//            selectedImage = [UIImage imageNamed:@"Lesson_Item_S.png"];
-//            break;
-//        case 1:
-//            title = @"问答";
-//            image = [UIImage imageNamed:@"Q&A_Item.png"];
-//            selectedImage = [UIImage imageNamed:@"question1.png"];
-//            break;
-//        case 2:
-//            title = @"资料";
-//            image = [UIImage imageNamed:@"play_note.png"];
-//            selectedImage = [UIImage imageNamed:@"question1.png"];
-//            break;
-//        case 3:
-//            title = @"笔记";
-//            image = [UIImage imageNamed:@"play_note.png"];
-//            selectedImage = [UIImage imageNamed:@"question1.png"];
-//            break;
-//        case 4:
-//            title = @"设置";
-//            image = [UIImage imageNamed:@"play_note.png"];
-//            selectedImage = [UIImage imageNamed:@"question1.png"];
-//            break;
-//        default:
-//            break;
-//    }
     switch (index) {
         case 0:
             title = @"课程";
-            image = [UIImage imageNamed:@"question1.png"];
+            image = [UIImage imageNamed:@"lessons.png"];
             break;
         case 1:
             title = @"问答";
-            image = [UIImage imageNamed:@"Q&A_Item.png"];
+            image = [UIImage imageNamed:@"QA_Item.png"];
             break;
         case 2:
             title = @"资料";
@@ -125,16 +95,8 @@
     }
     LHLTabBarItem *item = [[LHLTabBarItem alloc] initWithTitle:title andImage:image];
     item.imageView.tag = index;
-    [item.imageView setUserInteractionEnabled:YES];
-    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(itemClicked:)];
-    [item.imageView addGestureRecognizer:singleTap];
+    item.delegate = self;
     return item;
-}
-
-//item点击
--(void)itemClicked:(UITapGestureRecognizer *)sender{
-    UIImageView *imageView = (UIImageView *) sender;
-    self.selectedIndex = imageView.tag;
 }
 
 #pragma mark --
@@ -148,8 +110,9 @@
 }
 
 #pragma mark --
-#pragma mark -- UITabBar Delegate
-//-(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item{
-//    self.selectedIndex = item.tag;
-//}
+#pragma mark -- LHLTabBarItemDelegate
+-(void)tabBarItemSelected:(LHLTabBarItem *) sender{
+    self.selectedIndex = sender.imageView.tag;
+    self.lhlTabBar.selectedIndex = sender.imageView.tag;
+}
 @end

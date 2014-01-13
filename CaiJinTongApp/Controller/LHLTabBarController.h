@@ -12,6 +12,6 @@
 #import "LHLTabBar.h"
 #import "LHLTabBarItem.h"
 
-@interface LHLTabBarController : UITabBarController
+@interface LHLTabBarController : UITabBarController<UIGestureRecognizerDelegate,LHLTabBarItemDelegate>
 @property (nonatomic,strong) LHLTabBar *lhlTabBar;//替代默认的tabBar
 @end
