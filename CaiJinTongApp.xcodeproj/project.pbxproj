@@ -219,6 +219,7 @@
 		187CE7C21883CBF600D65660 /* ModifyNoteInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 187CE7C11883CBF600D65660 /* ModifyNoteInterface.m */; };
 		187CE7C51883CC6200D65660 /* NoteListInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 187CE7C41883CC6200D65660 /* NoteListInterface.m */; };
 		187CE7C81883CCD800D65660 /* NoteListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187CE7C71883CCD800D65660 /* NoteListViewController.m */; };
+		187CE7CB1883E99700D65660 /* LearningMaterialsViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 187CE7CA1883E99700D65660 /* LearningMaterialsViewController_iPhone.m */; };
 		189ED9D7184ED5D10029D8F1 /* TQStarRatingView_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 189ED9D6184ED5D10029D8F1 /* TQStarRatingView_iPhone.m */; };
 		189ED9DA184F17260029D8F1 /* Section_GradeCell_iPhoneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 189ED9D9184F17260029D8F1 /* Section_GradeCell_iPhoneCell.m */; };
 		189ED9DD184F196B0029D8F1 /* Section_NoteCell_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 189ED9DC184F196B0029D8F1 /* Section_NoteCell_iPhone.m */; };
@@ -737,6 +738,8 @@
 		187CE7C41883CC6200D65660 /* NoteListInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteListInterface.m; sourceTree = "<group>"; };
 		187CE7C61883CCD800D65660 /* NoteListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteListViewController.h; sourceTree = "<group>"; };
 		187CE7C71883CCD800D65660 /* NoteListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteListViewController.m; sourceTree = "<group>"; };
+		187CE7C91883E99700D65660 /* LearningMaterialsViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LearningMaterialsViewController_iPhone.h; sourceTree = "<group>"; };
+		187CE7CA1883E99700D65660 /* LearningMaterialsViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LearningMaterialsViewController_iPhone.m; sourceTree = "<group>"; };
 		189ED9D5184ED5D10029D8F1 /* TQStarRatingView_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TQStarRatingView_iPhone.h; sourceTree = "<group>"; };
 		189ED9D6184ED5D10029D8F1 /* TQStarRatingView_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TQStarRatingView_iPhone.m; sourceTree = "<group>"; };
 		189ED9D8184F17260029D8F1 /* Section_GradeCell_iPhoneCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Section_GradeCell_iPhoneCell.h; sourceTree = "<group>"; };
@@ -1613,6 +1616,8 @@
 				18199EF41881070600377B74 /* CustomTabbarController.m */,
 				18199EF61881120400377B74 /* LHLTabBarController.h */,
 				18199EF71881120400377B74 /* LHLTabBarController.m */,
+				187CE7C91883E99700D65660 /* LearningMaterialsViewController_iPhone.h */,
+				187CE7CA1883E99700D65660 /* LearningMaterialsViewController_iPhone.m */,
 			);
 			name = Controller_iPhone;
 			sourceTree = "<group>";
@@ -2435,6 +2440,7 @@
 				0E5267261829E9EC0009E535 /* CustomButton.m in Sources */,
 				63098F39183CBA0B007A76AC /* MJPopupBackgroundView.m in Sources */,
 				630CB0781828943E002FD462 /* DRMoviePlayViewController.m in Sources */,
+				187CE7CB1883E99700D65660 /* LearningMaterialsViewController_iPhone.m in Sources */,
 				0EA2A92E1828D77D003D152E /* Section_GradeViewController.m in Sources */,
 				0EA2A92318289E17003D152E /* SectionViewController.m in Sources */,
 				63C7FBCC187E8B0E0051EEBE /* DownloadDataButton.m in Sources */,

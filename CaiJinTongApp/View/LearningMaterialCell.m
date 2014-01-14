@@ -53,11 +53,21 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFinishedDownloadFile:) name:DownloadDataButton_Notification_DidFinished object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didPauseDownloadFile:) name:DownloadDataButton_Notification_Pause object:nil];
     self.materialModel = learningMaterial;
-    self.fileNameLabel.text = learningMaterial.materialName;
-    self.materialCategoryLabel.text = learningMaterial.materialLessonCategoryName;
-    self.fileSizeLabel.text = learningMaterial.materialFileSize;
-    self.fileSearchTimeLabel.text = learningMaterial.materialSearchCount;
-    self.fileCreateDateLabel.text = learningMaterial.materialCreateDate;
+    //ipad和iPhone不同
+    if(isPAD){
+        self.fileNameLabel.text = learningMaterial.materialName;
+        self.materialCategoryLabel.text = learningMaterial.materialLessonCategoryName;
+        self.fileSizeLabel.text = learningMaterial.materialFileSize;
+        self.fileSearchTimeLabel.text = learningMaterial.materialSearchCount;
+        self.fileCreateDateLabel.text = learningMaterial.materialCreateDate;
+    }else{
+        self.fileNameLabel.text = learningMaterial.materialName;
+        self.materialCategoryLabel.text = [NSString stringWithFormat:@"分类:%@",learningMaterial.materialLessonCategoryName];
+        self.fileSizeLabel.text = [NSString stringWithFormat:@"大小:%@",learningMaterial.materialFileSize];
+        self.fileSearchTimeLabel.text = [NSString stringWithFormat:@"次数:%@", learningMaterial.materialSearchCount];
+        self.fileCreateDateLabel.text = [NSString stringWithFormat:@"上传日期:%@", learningMaterial.materialCreateDate];
+    }
+    
     UserModel *user = [[CaiJinTongManager shared] user];
      DownloadStatus status = [[Section defaultSection] searchLearningMaterialsDownloadStatusWithMaterialId:learningMaterial.materialId withUserId:user.userId];
     self.fileDownloadStatus = status;

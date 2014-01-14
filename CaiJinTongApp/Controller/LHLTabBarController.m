@@ -52,6 +52,12 @@
     MyQuestionAndAnswerViewController_iPhone *myQAVC = [story instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController_iPhone"];
     [VCs addObject:myQAVC];
     
+    LearningMaterialsViewController_iPhone *lMVC = [story instantiateViewControllerWithIdentifier:@"LearningMaterialsViewController_iPhone"];
+    [VCs addObject:lMVC];
+    
+    UIViewController *vc = [UIViewController new];
+    [VCs addObject:vc];
+    
     SettingViewController_iPhone *settingVC = [story instantiateViewControllerWithIdentifier:@"SettingViewController_iPhone"];
     [VCs addObject:settingVC];
     
@@ -82,7 +88,7 @@
             image = [UIImage imageNamed:@"QA_Item.png"];
             break;
         case 2:
-            title = @"设置";
+            title = @"资料";
             image = [UIImage imageNamed:@"set.png"];
             break;
         case 3:
@@ -91,7 +97,7 @@
             break;
         case 4:
             title = @"设置";
-            image = [UIImage imageNamed:@"play_note.png"];
+            image = [UIImage imageNamed:@"set.png"];
             break;
         default:
             break;
