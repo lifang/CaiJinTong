@@ -29,15 +29,8 @@
     UIImage *bgImage = [[UIImage imageNamed:@"login_bg_7.png"] scaleToSize:CGSizeMake(320, SCREEN_HEIGHT)];
     self.view.backgroundColor = [UIColor colorWithPatternImage:bgImage];
     
-//    UIImage *loginBtnImage = [[UIImage imageNamed:@"btn.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 6)];
-//    [self.loginBtn setBackgroundImage:loginBtnImage forState:UIControlStateNormal];
+    [self.loginBtn setBackgroundImage:[UIImage imageNamed:@"bttn1.png"] forState:UIControlStateNormal];
     [self.loginBtn addTarget:self action:@selector(loginBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-//    self.loginBtn.layer.shadowColor = [UIColor grayColor].CGColor;
-//    self.loginBtn.layer.shadowOffset = (CGSize){2.0,2.0};
-//    self.loginBtn.layer.shadowRadius = 1.0;
-//    self.loginBtn.layer.shadowOpacity = 1.0;
-//    self.loginBtn.layer.cornerRadius = 5.0;
-    
     
     [self.findPasswordBtn addTarget:self action:@selector(findPasswordBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.registerAccBtn addTarget:self action:@selector(registerAccBtnClicked) forControlEvents:UIControlEventTouchUpInside];

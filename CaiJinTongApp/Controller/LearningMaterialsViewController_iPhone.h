@@ -12,7 +12,8 @@
 #import "LearningMatarilasListInterface.h"
 #import "SearchLearningMatarilasListInterface.h"
 #import "MJRefresh.h"
-@interface LearningMaterialsViewController_iPhone : LHLNavigationBarViewController<LearningMaterialCellDelegate,UITableViewDataSource,UITableViewDelegate,LearningMatarilasListInterfaceDelegate,SearchLearningMatarilasListInterfaceDelegate,MJRefreshBaseViewDelegate,LessonCategoryInterfaceDelegate,DRTreeTableViewDelegate>
+#import "ChapterSearchBar_iPhone.h"
+@interface LearningMaterialsViewController_iPhone : LHLNavigationBarViewController<LearningMaterialCellDelegate,UITableViewDataSource,UITableViewDelegate,LearningMatarilasListInterfaceDelegate,SearchLearningMatarilasListInterfaceDelegate,MJRefreshBaseViewDelegate,LessonCategoryInterfaceDelegate,DRTreeTableViewDelegate,ChapterSearchBarDelegate_iPhone>
 @property (strong,nonatomic) NSString *lessonCategoryId;
 @property (strong,nonatomic) NSMutableArray *dataArray;
 

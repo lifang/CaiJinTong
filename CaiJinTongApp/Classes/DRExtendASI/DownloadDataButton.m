@@ -33,7 +33,7 @@
 }
 -(void)addTargetMethod{
     [self setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    self.progressView.frame = (CGRect){0,CGRectGetHeight(self.frame)-3,CGRectGetWidth(self.frame),5};
+    self.progressView.frame = (CGRect){0,CGRectGetHeight(self.frame)-PAD(3, 5),CGRectGetWidth(self.frame),PAD(5, 4)};
     [self addTarget:self action:@selector(downloadBtClicked) forControlEvents:UIControlEventTouchUpInside];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDateProgress:) name:DownloadDataButton_Notification_Progress object:nil];
 }

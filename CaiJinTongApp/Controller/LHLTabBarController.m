@@ -32,6 +32,7 @@
     
     [self loadViewControllers];
     [self generateTabBarItems];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -85,11 +86,11 @@
             break;
         case 1:
             title = @"问答";
-            image = [UIImage imageNamed:@"QA_Item.png"];
+            image = [UIImage imageNamed:@"_play_09.png"];
             break;
         case 2:
             title = @"资料";
-            image = [UIImage imageNamed:@"set.png"];
+            image = [UIImage imageNamed:@"material.png"];
             break;
         case 3:
             title = @"笔记";

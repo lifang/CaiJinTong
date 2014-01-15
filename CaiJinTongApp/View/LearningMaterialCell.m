@@ -62,7 +62,8 @@
         self.fileCreateDateLabel.text = learningMaterial.materialCreateDate;
     }else{
         self.fileNameLabel.text = learningMaterial.materialName;
-        self.materialCategoryLabel.text = [NSString stringWithFormat:@"分类:%@",learningMaterial.materialLessonCategoryName];
+        NSMutableString *categoryText = [NSMutableString stringWithFormat:@"分类:%@",learningMaterial.materialLessonCategoryName];
+        self.materialCategoryLabel.text = categoryText;
         self.fileSizeLabel.text = [NSString stringWithFormat:@"大小:%@",learningMaterial.materialFileSize];
         self.fileSearchTimeLabel.text = [NSString stringWithFormat:@"次数:%@", learningMaterial.materialSearchCount];
         self.fileCreateDateLabel.text = [NSString stringWithFormat:@"上传日期:%@", learningMaterial.materialCreateDate];
@@ -92,25 +93,25 @@
     
     switch (learningMaterial.materialFileType) {
         case LearningMaterialsFileType_pdf:
-            self.fileCategoryImageView.image = [UIImage imageNamed:@"course-onecourse_03@.png"];
+            self.fileCategoryImageView.image = [UIImage imageNamed:@"course-onecourse_03.png"];
             break;
         case LearningMaterialsFileType_jpg:
-            self.fileCategoryImageView.image = [UIImage imageNamed:@"course-onecourse_03@.png"];
+            self.fileCategoryImageView.image = [UIImage imageNamed:@"course-onecourse_03.png"];
             break;
         case LearningMaterialsFileType_ppt:
-            self.fileCategoryImageView.image = [UIImage imageNamed:@"course-onecourse_03@.png"];
+            self.fileCategoryImageView.image = [UIImage imageNamed:@"course-onecourse_03.png"];
             break;
         case LearningMaterialsFileType_zip:
-            self.fileCategoryImageView.image = [UIImage imageNamed:@"course-onecourse_03@.png"];
+            self.fileCategoryImageView.image = [UIImage imageNamed:@"course-onecourse_03.png"];
             break;
         case LearningMaterialsFileType_word:
-            self.fileCategoryImageView.image = [UIImage imageNamed:@"course-onecourse_03@.png"];
+            self.fileCategoryImageView.image = [UIImage imageNamed:@"course-onecourse_03.png"];
             break;
         case LearningMaterialsFileType_text:
-            self.fileCategoryImageView.image = [UIImage imageNamed:@"course-onecourse_03@.png"];
+            self.fileCategoryImageView.image = [UIImage imageNamed:@"course-onecourse_03.png"];
             break;
         case LearningMaterialsFileType_other:
-            self.fileCategoryImageView.image = [UIImage imageNamed:@"course-onecourse_03@.png"];
+            self.fileCategoryImageView.image = [UIImage imageNamed:@"course-onecourse_03.png"];
             break;
         default:
             break;
