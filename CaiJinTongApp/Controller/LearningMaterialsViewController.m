@@ -149,13 +149,18 @@
 
 #pragma mark LearningMaterialCellDelegate
 -(void)learningMaterialCell:(LearningMaterialCell *)cell scanLearningMaterialFileAtIndexPath:(NSIndexPath *)path{
-    UIWebView *webView = [[UIWebView alloc] initWithFrame:(CGRect){0,0,800,700}];
-    UIViewController *webController = [[UIViewController alloc]init];
-    [webController.view addSubview:webView];
-    webController.view.frame = (CGRect){0,0,800,700};
-    [self presentPopupViewController:webController animationType:MJPopupViewAnimationSlideTopTop isAlignmentCenter:YES dismissed:^{
-        
-    }];
+    LearningMaterials *material = self.isSearch?[self.searchArray objectAtIndex:path.row]:[self.dataArray objectAtIndex:path.row];
+    if (material.materialFileType == LearningMaterialsFileType_other || material.materialFileType == LearningMaterialsFileType_zip) {
+        [Utility errorAlert:@"无法查看文件内容，请到电脑上下载查看！"];
+    }else{
+        UIWebView *webView = [[UIWebView alloc] initWithFrame:(CGRect){0,0,800,700}];
+        UIViewController *webController = [[UIViewController alloc]init];
+        [webController.view addSubview:webView];
+        webController.view.frame = (CGRect){0,0,800,700};
+        [self presentPopupViewController:webController animationType:MJPopupViewAnimationSlideTopTop isAlignmentCenter:YES dismissed:^{
+            
+        }];
+    }
 }
 #pragma mark --
 
