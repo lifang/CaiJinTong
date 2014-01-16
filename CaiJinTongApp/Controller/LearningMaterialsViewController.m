@@ -16,7 +16,7 @@
 - (IBAction)nameSortBtClicked:(id)sender;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic,strong) NSMutableArray *searchArray;
-@property (nonatomic,assign) BOOL isSearch;
+@property (nonatomic,assign) BOOL isSearch;//搜索
 @property (nonatomic,assign) BOOL isReloading;//正在下载中
 @property (nonatomic,assign) LearningMaterialsSortType sortType;
 @property (nonatomic,strong) NSString *searchContent;
@@ -42,8 +42,39 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.drnavigationBar.titleLabel.text = @"我的资料";
+    self.drnavigationBar.searchBar.searchTextLabel.placeholder = @"搜索资料";
+    [self.drnavigationBar hiddleBackButton:YES];
 	// Do any additional setup after loading the view.
 }
+
+
+-(void)changeLearningMaterialsDate:(NSArray*)learningMaterialArr withSortType:(LearningMaterialsSortType)sortType{
+    if (!learningMaterialArr) {
+        return;
+    }
+    self.dataArray = [NSMutableArray arrayWithArray:learningMaterialArr];
+//    self.sortType = sortType;
+    [self.tableView reloadData];
+    [self.headerRefreshView endRefreshing];
+    [self.footerRefreshView endRefreshing];
+    self.headerRefreshView.isForbidden = NO;
+    self.footerRefreshView.isForbidden = NO;
+}
+#pragma mark DRSearchBarDelegate搜索
+-(void)drSearchBar:(DRSearchBar *)searchBar didBeginSearchText:(NSString *)searchText{
+    self.isSearch = YES;
+    UserModel *user = [[CaiJinTongManager shared] user];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.searchContent = searchText;
+    [self.searchMaterialInterface searchLearningMaterilasListWithUserId:user.userId withSearchContent:self.searchContent withPageIndex:self.searchMaterialInterface.currentPageIndex+1 withSortType:self.sortType];
+}
+
+-(void)drSearchBar:(DRSearchBar *)searchBar didCancelSearchText:(NSString *)searchText{
+    self.isSearch = NO;
+    [self.tableView reloadData];
+}
+#pragma mark --
 
 - (void)didReceiveMemoryWarning
 {

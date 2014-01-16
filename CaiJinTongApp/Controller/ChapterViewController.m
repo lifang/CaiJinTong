@@ -23,9 +23,11 @@
 #define ItemHeightSpace 4
 #define ItemLabel 30
 @interface ChapterViewController ()
-@property (nonatomic,strong) SearchLessonInterface *searchLessonInter;
+@property (nonatomic,strong) SearchLessonInterface *searchLessonInterface;
 @property (nonatomic,strong) MJRefreshHeaderView *headerRefreshView;
 @property (nonatomic,strong) MJRefreshFooterView *footerRefreshView;
+@property (assign,nonatomic) BOOL isSearch;//是否是搜索
+@property (nonatomic,strong) NSString *searchContent;//搜索之前字符串
 @end
 
 @implementation ChapterViewController
@@ -48,6 +50,7 @@
     }
 }
 
+
 -(void)drnavigationBarRightItemClicked:(id)sender{
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
 }
@@ -55,10 +58,10 @@
 -(void)initCollectionView {
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
     flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    flowLayout.minimumLineSpacing = 30;
-    flowLayout.minimumInteritemSpacing = 10;
-    flowLayout.itemSize = (CGSize){300, 270};
-    flowLayout.sectionInset = UIEdgeInsetsMake(20, 50, 50, 17);
+    flowLayout.minimumLineSpacing = 20;
+    flowLayout.minimumInteritemSpacing = 20;
+    flowLayout.itemSize = (CGSize){200, 210};
+    flowLayout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
     [self.collectionView setCollectionViewLayout:flowLayout];
     [self.headerRefreshView endRefreshing];
     self.headerRefreshView.isForbidden = NO;
@@ -69,18 +72,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.collectionView registerClass:[CollectionCell class] forCellWithReuseIdentifier:@"cell"];
 //    self.dataArray = [NSMutableArray arrayWithArray:[TestModelData getLessonArr]];//测试数据
     [self initCollectionView];
-    
-    self.searchBar = [[ChapterSearchBar alloc] initWithFrame:(CGRect){50, 54, (self.view.frame.size.width - 200 - 100), 70}];
-    self.searchBar.delegate = self;
-    self.searchBar.searchTextField.returnKeyType = UIReturnKeySearch;
-    [self.searchBar.searchTextField setClearButtonMode:UITextFieldViewModeWhileEditing];
-    [self.view addSubview:self.searchBar];
-    [self.searchBar setHidden:!self.isSearch];
-
-    [self.drnavigationBar.navigationRightItem setHidden:YES];
+    self.drnavigationBar.searchBar.searchTextLabel.placeholder = @"搜索课程";
+    [self.drnavigationBar hiddleBackButton:YES];
     self.drnavigationBar.titleLabel.text = @"课程";
 }
 
@@ -102,19 +97,6 @@
     });
 }
 
-#pragma mark ChapterSearchBarDelegate
--(void)chapterSeachBar:(ChapterSearchBar *)searchBar beginningSearchString:(NSString *)searchText{
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
-    }else {
-        if (!self.oldSearchText) {
-            self.oldSearchText = searchText;
-        }
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        [self.searchLessonInter getSearchLessonInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andText:searchText withPageIndex:0 withSortType:self.sortType];
-    } 
-}
-#pragma mark --
 
 #pragma -- 页面布局
 - (void)didReceiveMemoryWarning
@@ -135,79 +117,59 @@
 }
 #pragma mark --
 
-
-#pragma mark-- 筛选
-//学习进度
-- (void)bubbleSort:(NSMutableArray *)array {
-    int i, y;
-    BOOL bFinish = YES;
-    for (i = 1; i<= [array count] && bFinish; i++) {
-        bFinish = NO;
-        for (y = (int)[array count]-1; y>=i; y--) {
-            LessonModel *section1 = (LessonModel *)[array objectAtIndex:y];
-            LessonModel *section2 = (LessonModel *)[array objectAtIndex:y-1];
-            if (([section1.lessonStudyProgress floatValue] - [section2.lessonStudyProgress floatValue])<0.000001) {
-                [array exchangeObjectAtIndex:y-1 withObjectAtIndex:y];
-                bFinish = YES;
-            }
-        }
-    }
+#pragma mark DRSearchBarDelegate搜索
+-(void)drSearchBar:(DRSearchBar *)searchBar didBeginSearchText:(NSString *)searchText{
+    self.isSearch = YES;
+    UserModel *user = [[CaiJinTongManager shared] user];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.searchContent = searchText;
+    [self.searchLessonInterface getSearchLessonInterfaceDelegateWithUserId:user.userId andText:self.searchContent withPageIndex:self.searchLessonInterface.currentPageIndex+1 withSortType:self.sortType];
 }
-//按字母排序
--(void)letterSort:(NSMutableArray *)array {
-    NSMutableArray *tempArray = array;
-    self.dataArray = nil;
-    self.dataArray = [[NSMutableArray alloc]init];
-    NSMutableArray *chineseStringsArray=[NSMutableArray array];
-    for(int i=0;i<[array count];i++){
-        ChineseString *chineseString=[[ChineseString alloc]init];
-        
-        LessonModel *section = (LessonModel *)[array objectAtIndex:i];
-        chineseString.string=[NSString stringWithString:section.lessonName];
-        
-        if(chineseString.string==nil){
-            chineseString.string=@"";
-        }
-        
-        if(![chineseString.string isEqualToString:@""]){
-            NSString *pinYinResult=[NSString string];
-            
-            NSString *regexCall = @"[\u4E00-\u9FFF]+$";
-            NSPredicate *predicateCall = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",regexCall];
-            //是汉字
-            if ([predicateCall evaluateWithObject:[chineseString.string substringToIndex:1]]) {
-                for(int j=0;j<chineseString.string.length;j++){
-                    NSString *singlePinyinLetter=[[NSString stringWithFormat:@"%c",pinyinFirstLetter([chineseString.string characterAtIndex:j])]uppercaseString];
-                    
-                    pinYinResult=[pinYinResult stringByAppendingString:singlePinyinLetter];
-                }
-            }else {//非汉字
-                pinYinResult = [pinYinResult stringByAppendingString:[[chineseString.string substringToIndex:1]uppercaseString]];
-            }
-            chineseString.pinYin=pinYinResult;
-        }else{
-            chineseString.pinYin=@"";
-        }
-        [chineseStringsArray addObject:chineseString];
-    }
 
-    NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"pinYin" ascending:YES]];
-    [chineseStringsArray sortUsingDescriptors:sortDescriptors];
-    NSMutableArray *result=[NSMutableArray array];
-    for(int i=0;i<[chineseStringsArray count];i++){
-        [result addObject:((ChineseString*)[chineseStringsArray objectAtIndex:i]).string];
+-(void)drSearchBar:(DRSearchBar *)searchBar didCancelSearchText:(NSString *)searchText{
+    self.isSearch = NO;
+    [self.collectionView reloadData];
+}
+#pragma mark --
+
+#pragma mark sort 排序
+- (IBAction)studyProgressSortBtClicked:(id)sender {
+    self.sortType = LESSONSORTTYPE_ProgressStudy;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    UserModel *user = [[CaiJinTongManager shared] user];
+    if (self.isSearch) {
+        [self.searchLessonInterface getSearchLessonInterfaceDelegateWithUserId:user.userId andText:self.searchContent withPageIndex:0 withSortType:self.sortType];
+    }else{
+        
+        [self.lessonListForCategory downloadLessonListForCategoryId:self.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
     }
-    for(int i=0;i<[result count];i++){
-        NSString *string = [result objectAtIndex:i];
-        for (int k=0; k<tempArray.count; k++) {
-            LessonModel *section = (LessonModel *)[array objectAtIndex:k];
-            if ([string isEqualToString:section.lessonName]) {
-                [self.dataArray addObject:section];
-            }
-        }
+    
+}
+- (IBAction)defaultSortBtClicked:(id)sender {
+    self.sortType = LESSONSORTTYPE_CurrentStudy;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    UserModel *user = [[CaiJinTongManager shared] user];
+    if (self.isSearch) {
+        [self.searchLessonInterface getSearchLessonInterfaceDelegateWithUserId:user.userId andText:self.searchContent withPageIndex:0 withSortType:self.sortType];
+    }else{
+        
+        [self.lessonListForCategory downloadLessonListForCategoryId:self.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
+    }
+    
+}
+- (IBAction)nameSortBtClicked:(id)sender {
+    self.sortType = LESSONSORTTYPE_LessonName;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    UserModel *user = [[CaiJinTongManager shared] user];
+    if (self.isSearch) {
+        [self.searchLessonInterface getSearchLessonInterfaceDelegateWithUserId:user.userId andText:self.searchContent withPageIndex:0 withSortType:self.sortType];
+    }else{
+        
+        [self.lessonListForCategory downloadLessonListForCategoryId:self.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
     }
 }
 
+#pragma mark --
 
 #pragma mark -- SectionInfoInterface
 -(void)getSectionInfoDidFinished:(LessonModel *)result {
@@ -281,29 +243,34 @@
     return _lessonListForCategory;
 }
 
--(SearchLessonInterface *)searchLessonInter{
-    if (!_searchLessonInter) {
-        _searchLessonInter = [[SearchLessonInterface alloc]init];
-        _searchLessonInter.delegate = self;
+-(SearchLessonInterface *)searchLessonInterface{
+    if (!_searchLessonInterface) {
+        _searchLessonInterface = [[SearchLessonInterface alloc]init];
+        _searchLessonInterface.delegate = self;
     }
-    return _searchLessonInter;
+    return _searchLessonInterface;
 }
 
 #pragma mark MJRefreshBaseViewDelegate 分页加载
 -(void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView{
-    if (self.isSearch) {
-                [self.searchLessonInter getSearchLessonInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andText:self.oldSearchText withPageIndex:self.searchLessonInter.currentPageIndex+1 withSortType:self.sortType];
-    }else{
-        if (self.headerRefreshView == refreshView) {
-            self.footerRefreshView.isForbidden = YES;
-            UserModel *user = [[CaiJinTongManager shared] user];
-            [self.lessonListForCategory downloadLessonListForCategoryId:nil withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
+    if (self.headerRefreshView == refreshView) {
+        self.footerRefreshView.isForbidden = YES;
+        UserModel *user = [[CaiJinTongManager shared] user];
+        if (self.isSearch) {
+            [self.searchLessonInterface getSearchLessonInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andText:self.searchContent withPageIndex:0 withSortType:self.sortType];
         }else{
-            self.headerRefreshView.isForbidden = YES;
-            UserModel *user = [[CaiJinTongManager shared] user];
-            [self.lessonListForCategory downloadLessonListForCategoryId:self.lessonCategoryId withUserId:user.userId withPageIndex:self.lessonListForCategory.currentPageIndex+1 withSortType:self.sortType];;
+            [self.lessonListForCategory downloadLessonListForCategoryId:nil withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
+        }
+    }else{
+        self.headerRefreshView.isForbidden = YES;
+        UserModel *user = [[CaiJinTongManager shared] user];
+        if (self.isSearch) {
+            [self.searchLessonInterface getSearchLessonInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andText:self.searchContent withPageIndex:self.searchLessonInterface.currentPageIndex+1 withSortType:self.sortType];
+        }else{
+            [self.lessonListForCategory downloadLessonListForCategoryId:self.lessonCategoryId withUserId:user.userId withPageIndex:self.lessonListForCategory.currentPageIndex+1 withSortType:self.sortType];
         }
     }
+
 }
 
 #pragma mark --
@@ -377,7 +344,6 @@
 -(void)getSearchLessonListDataForCategoryFailure:(NSString *)errorMsg{
     dispatch_async(dispatch_get_main_queue(), ^{
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-         [self.searchBar addSearchText:self.oldSearchText];
         [self.headerRefreshView endRefreshing];
         self.headerRefreshView.isForbidden = NO;
         [self.footerRefreshView endRefreshing];
@@ -387,29 +353,6 @@
 }
 
 #pragma mark --
-
-#pragma mark -- ChapterInfoInterfaceDelegate
-
--(void)getChapterInfoDidFinished:(NSDictionary *)result {  //章节信息查询完毕,显示章节界面
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            if (![[result objectForKey:@"sectionList"]isKindOfClass:[NSNull class]] && [result objectForKey:@"sectionList"]!=nil) {
-                NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[result objectForKey:@"sectionList"]];
-                [self reloadDataWithDataArray:[TestModelData getLessonArr] withCategoryId:self.lessonCategoryId];
-            }else{
-                self.searchBar.searchTipLabel.text = @"无搜索结果";
-            }
-        });
-    });
-}
--(void)getChapterInfoDidFailed:(NSString *)errorMsg {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    self.searchBar.searchTipLabel.text = @"无搜索结果";
-    [Utility errorAlert:errorMsg];
-}
-#pragma mark -- CollectionHeaderDelegate
 //按学习进度排序
 -(void)initButton:(UIButton *)button  withCollectionHeaderView:(CollectionHeader*)header{
     [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -464,12 +407,7 @@
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
 }
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    CollectionHeader *header = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"CollectionHeader" forIndexPath:indexPath];
-    
-    header.delegate = self;
-    return header;
-}
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return self.dataArray.count;
 }
@@ -477,32 +415,15 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     CollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
     LessonModel *lesson = (LessonModel *)[self.dataArray objectAtIndex:indexPath.row];
-    cell.contentView.backgroundColor = [UIColor clearColor];
-    //名称
-    cell.nameLab.text = [NSString stringWithFormat:@"%@",lesson.lessonName];
-    //视频封面
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",lesson.lessonImageURL]];
-    [cell.imageView setImageWithURL:url placeholderImage:Image(@"loginBgImage_v.png")];
-    //学习进度
-    CGFloat xx = [lesson.lessonStudyProgress floatValue];
-    if ( xx-100 >0) {
-        xx=100;
-    }
-    if (!xx) {
-        xx = 0;
-    }
-    cell.pv.value = xx;
-    //
-    cell.progressLabel.text = [NSString stringWithFormat:@"学习进度:%.2f%%",xx];
-    cell.backgroundColor = [UIColor clearColor];
+    [cell changeLessonModel:lesson];
     return cell;
     
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
-    CGSize size = CGSizeMake(568, 44);
-    return size;
-}
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
+//    CGSize size = CGSizeMake(568, 44);
+//    return size;
+//}
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     return TRUE;

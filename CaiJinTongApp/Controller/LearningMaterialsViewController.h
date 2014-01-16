@@ -11,8 +11,8 @@
 #import "LearningMatarilasListInterface.h"
 #import "SearchLearningMatarilasListInterface.h"
 #import "MJRefresh.h"
-@interface LearningMaterialsViewController : UIViewController<LearningMaterialCellDelegate,UITableViewDataSource,UITableViewDelegate,LearningMatarilasListInterfaceDelegate,SearchLearningMatarilasListInterfaceDelegate,MJRefreshBaseViewDelegate>
+@interface LearningMaterialsViewController : DRNaviGationBarController<LearningMaterialCellDelegate,UITableViewDataSource,UITableViewDelegate,LearningMatarilasListInterfaceDelegate,SearchLearningMatarilasListInterfaceDelegate,MJRefreshBaseViewDelegate>
 @property (strong,nonatomic) NSString *lessonCategoryId;
 @property (strong,nonatomic) NSMutableArray *dataArray;
-
+-(void)changeLearningMaterialsDate:(NSArray*)learningMaterialArr withSortType:(LearningMaterialsSortType)sortType;
 @end

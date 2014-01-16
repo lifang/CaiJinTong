@@ -62,11 +62,13 @@
 {
     [super viewDidLoad];
     self.drnavigationBar.titleLabel.text = @"我的笔记";
+    self.drnavigationBar.searchBar.searchTextLabel.placeholder = @"搜索笔记";
     self.isEditing = NO;
-    [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.drnavigationBar.navigationRightItem setTitle:@"编辑" forState:UIControlStateNormal];
+//    [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//    [self.drnavigationBar.navigationRightItem setTitle:@"编辑" forState:UIControlStateNormal];
     [self.headerRefreshView endRefreshing];
     [self.footerRefreshView endRefreshing];
+    [self.drnavigationBar hiddleBackButton:YES];
 	// Do any additional setup after loading the view.
 }
 
@@ -211,6 +213,23 @@
 #pragma mark --
 
 
+#pragma mark DRSearchBarDelegate搜索
+-(void)drSearchBar:(DRSearchBar *)searchBar didBeginSearchText:(NSString *)searchText{
+    self.isSearchRefreshing = YES;
+    [searchBar resignFirstResponder];
+    UserModel *user = [[CaiJinTongManager shared] user];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.searchText = searchText;
+    [self.searchNoteInterface searchNoteListWithUserId:user.userId withSearchContent:searchText withPageIndex:0];
+}
+
+-(void)drSearchBar:(DRSearchBar *)searchBar didCancelSearchText:(NSString *)searchText{
+    self.isSearchRefreshing = NO;
+    [self.noteListTableView reloadData];
+}
+#pragma mark --
+
+/*
 #pragma mark UISearchBarDelegate 查询代理
 -(BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     return YES;
@@ -251,7 +270,7 @@
     [self.noteListTableView reloadData];
 }
 #pragma mark --
-
+*/
 
 #pragma mark-- LessonInfoInterfaceDelegate加载课程详细信息
 -(void)getLessonInfoDidFinished:(LessonModel*)lesson{

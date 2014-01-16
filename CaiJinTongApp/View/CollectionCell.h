@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SectionModel.h"
+#import "LessonModel.h"
 #import "CJTSlider.h"
 @interface CollectionCell : UICollectionViewCell
+@property (weak, nonatomic) IBOutlet UIView *imageBackView;
+@property (weak, nonatomic) IBOutlet UIImageView *lessonImageView;
+@property (weak, nonatomic) IBOutlet UILabel *progressLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *progressTrackImageView;
+@property (weak, nonatomic) IBOutlet UILabel *lessonNameLabel;
 
-@property (nonatomic, strong) UILabel *nameLab;//视频名称
-@property (nonatomic, strong) UIImageView *imageView;//视频封面
-@property (nonatomic, strong) CJTSlider *pv; //视频进度
-@property (nonatomic, strong) UILabel *progressLabel;
+-(void)changeLessonModel:(LessonModel*)lessonModel;
 @end

@@ -29,7 +29,6 @@ static BOOL tableVisible;
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.drnavigationBar.navigationRightItem.titleLabel.textColor = [UIColor grayColor];
 }
 
 - (void)viewDidLoad
@@ -53,10 +52,8 @@ static BOOL tableVisible;
 //     [self.selectTableBtn setBackgroundImage:btnImageHighlighted forState:UIControlStateNormal];
     
     [self.drnavigationBar.navigationRightItem setTitle:@"返回" forState:UIControlStateNormal];
-    
-    
+    [self.drnavigationBar.searchBar setHidden:YES];
     self.drnavigationBar.titleLabel.text = @"我要提问";
-
     //问答分类
 //        self.questionCategoryList = [TestModelData getTreeNodeArrayFromArray:[TestModelData loadJSON]];
     self.questionCategoryList = [NSMutableArray arrayWithArray:[[CaiJinTongManager shared] questionCategoryArr]];

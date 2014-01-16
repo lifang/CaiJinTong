@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "DRSearchBar.h"
 @interface DRNavigationBar : UIView
-@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
-@property (strong, nonatomic) IBOutlet UIButton *navigationRightItem;
+@property (strong, nonatomic)  UILabel *titleLabel;
+@property (strong, nonatomic)  UIButton *navigationRightItem;
+@property (strong, nonatomic)  DRSearchBar *searchBar;
 @property (strong, nonatomic) UIButton *hiddenBtn;
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+-(void)hiddleBackButton:(BOOL)isHidden;
 @end

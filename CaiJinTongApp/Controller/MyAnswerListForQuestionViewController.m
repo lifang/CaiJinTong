@@ -14,6 +14,8 @@
 @property (nonatomic,strong)  AnswerPraiseInterface *answerPraiseinterface;//提交赞接口
 @property (nonatomic,strong)  AnswerListInterface *answerListInterface;//答案分页加载
 @property (nonatomic,strong) NSIndexPath *activeIndexPath;//正在处理中的cell
+@property (nonatomic,strong) NSString *searchContent;//搜索关键字
+@property (nonatomic,assign) BOOL isSearch;
 @end
 
 @implementation MyAnswerListForQuestionViewController
@@ -69,6 +71,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 #pragma mark QuestionAndAnswerCellHeaderViewDelegate
 //赞问题

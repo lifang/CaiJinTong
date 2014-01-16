@@ -23,7 +23,7 @@
 @end
 
 @protocol LearningMatarilasListInterfaceDelegate <NSObject>
--(void)getlearningMaterilasListDataForCategoryDidFinished:(NSArray*)lessonList withCurrentPageIndex:(int)pageIndex withTotalCount:(int)allDataCount;
+-(void)getlearningMaterilasListDataForCategoryDidFinished:(NSArray*)learningMaterialsList withCurrentPageIndex:(int)pageIndex withTotalCount:(int)allDataCount;
 
 -(void)getlearningMaterilasListDataForCategoryFailure:(NSString*)errorMsg;
 @end
