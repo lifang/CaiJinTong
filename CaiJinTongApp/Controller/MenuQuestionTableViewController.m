@@ -7,10 +7,12 @@
 //
 
 #import "MenuQuestionTableViewController.h"
+#import "MyQuestionAndAnswerViewController_iPhone.h"
+#import "GetUserQuestionInterface.h"
 #define LESSON_HEADER_IDENTIFIER @"lessonHeader"
 #define QUESTION_CELL_IDENTIFIER @"questionCell"
 @interface MenuQuestionTableViewController ()
-
+@property (nonatomic,strong) GetUserQuestionInterface *getUserQuestionInterface;
 @end
 
 @implementation MenuQuestionTableViewController
@@ -35,14 +37,24 @@
 }
 
 - (void)initData{
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
-    }else {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        QuestionInfoInterface *questionInfoInter = [[QuestionInfoInterface alloc]init];
-        self.questionInfoInterface = questionInfoInter;
-        self.questionInfoInterface.delegate = self;
-        [self.questionInfoInterface getQuestionInfoInterfaceDelegateWithUserId:@"18676"];
+    if([CaiJinTongManager shared].question.count > 0){
+        self.questionList = [NSMutableArray arrayWithArray:[CaiJinTongManager shared].question];
+        //标记是否选中了
+        self.questionArrSelSection = [[NSMutableArray alloc] init];
+        for (int i =0; i<self.questionList.count; i++) {
+            [self.questionArrSelSection addObject:[NSString stringWithFormat:@"%d",i]];
+        }
+        [self.tableView reloadData];
+    }else{
+        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+            [Utility errorAlert:@"暂无网络!"];
+        }else {
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            QuestionInfoInterface *questionInfoInter = [[QuestionInfoInterface alloc]init];
+            self.questionInfoInterface = questionInfoInter;
+            self.questionInfoInterface.delegate = self;
+            [self.questionInfoInterface getQuestionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId];
+        }
     }
 }
 
@@ -141,13 +153,15 @@
                     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
                         [Utility errorAlert:@"暂无网络!"];
                     }else {
-                        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                        ChapterQuestionInterface *chapterInter = [[ChapterQuestionInterface alloc]init];
-                        self.chapterQuestionInterface = chapterInter;
-                        self.chapterQuestionInterface.delegate = self;
+                        [MBProgressHUD showHUDAddedTo:[self.myQAVC view] animated:YES];
                         self.questionAndSwerRequestID = [d valueForKey:@"questionID"];
                         self.questionScope = QuestionAndAnswerALL;
-                        [self.chapterQuestionInterface getChapterQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andChapterQuestionId:[d valueForKey:@"questionID"]];
+                        
+                        //调用问答界面的方法请求问答内容
+//                        [self.myQAVC setQuestionAndAnswerScope:self.questionScope];
+                        [self.myQAVC setChapterID:self.questionAndSwerRequestID];
+                        [self.myQAVC requestNewPageDataWithLastQuestionID:nil];
+                        [self.myQAVC rightItemClicked:nil];
                     }
                 }else {
                     BOOL isAlreadyInserted=NO;
@@ -172,32 +186,35 @@
                 }
             }
         }
-//      else{
-//            UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-//            MyQuestionAndAnswerViewController *myQAVC = [story instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
-//            UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:myQAVC];
-//            [navControl setNavigationBarHidden:YES];
-//            navControl.view.frame = (CGRect){0,0,568,1024};
-//            [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
-//                
-//            }];
-//            switch (indexPath.row) {
-//                case 0:
-//                {
-//                    //请求我的提问
-//                    self.questionScope = QuestionAndAnswerMYQUESTION;
-//                    break;
-//                }
-//                case 1:
-//                {
-//                    //请求我的回答
-//                    self.questionScope = QuestionAndAnswerMYANSWER;
-//                    break;
-//                }
-//                default:
-//                    break;
-//            }
-//        }
+      else{
+            switch (indexPath.row) {
+                case 0:
+                {
+                    //请求我的提问
+                    self.questionScope = QuestionAndAnswerMYQUESTION;
+                    break;
+                }
+                case 1:
+                {
+                    //请求我的回答
+                    self.questionScope = QuestionAndAnswerMYANSWER;
+                    break;
+                }
+                default:
+                    break;
+            }
+          if([[Utility isExistenceNetwork] isEqualToString:@"NotReachable"]){
+              [Utility errorAlert:@"暂无网络!"];
+          }else{
+              [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+              //请求我的问答
+              if (self.questionScope == QuestionAndAnswerMYANSWER) {
+                  [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andIsMyselfQuestion:@"1" andLastQuestionID:nil withCategoryId:nil];
+              }else if (self.questionScope == QuestionAndAnswerMYQUESTION) {
+                  [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andIsMyselfQuestion:@"0" andLastQuestionID:nil withCategoryId:nil];
+              }
+          }
+        }
 }
 
 -(void)miniMizeThisRows:(NSArray*)ar{
@@ -246,23 +263,49 @@
         
         //按问题类型显示问题列表
         
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [MBProgressHUD hideHUDForView:self.view animated:YES];
-//            UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-//            MyQuestionAndAnswerViewController *myQAVC = [story instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
-//            UINavigationController *navControl = [[UINavigationController alloc]initWithRootViewController:myQAVC];
-//            [navControl setNavigationBarHidden:YES];
-//            navControl.view.frame = (CGRect){0,0,568,1024};
-//            [myQAVC reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
-//            [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
+        dispatch_async(dispatch_get_main_queue(),^{
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            [self.myQAVC rightItemClicked:nil];
+            [self.myQAVC reloadDataWithDataArray:chapterQuestionList
+                           withQuestionChapterID:self.questionAndSwerRequestID
+                                       withScope:self.questionScope];
             
-//            }];
-//        });
+        });
     });
 }
 -(void)getChapterQuestionInfoDidFailed:(NSString *)errorMsg {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
+}
+
+#pragma mark GetUser QuestionInterface Delegate
+
+-(void)getUserQuestionInfoDidFailed:(NSString *)errorMsg{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [Utility errorAlert:errorMsg];
+}
+
+-(void)getUserQuestionInfoDidFinished:(NSDictionary *)result{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [self.myQAVC reloadDataWithDataArray:chapterQuestionList
+                           withQuestionChapterID:nil
+                                       withScope:self.questionScope];
+            [self.myQAVC rightItemClicked:nil];
+        });
+    });
+}
+
+#pragma mark property
+
+-(GetUserQuestionInterface *)getUserQuestionInterface{
+    if(!_getUserQuestionInterface){
+        _getUserQuestionInterface = [[GetUserQuestionInterface alloc] init];
+        _getUserQuestionInterface.delegate = self;
+    }
+    return _getUserQuestionInterface;
 }
 
 

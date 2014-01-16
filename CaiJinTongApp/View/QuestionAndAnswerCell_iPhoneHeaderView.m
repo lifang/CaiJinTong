@@ -13,7 +13,7 @@
 @property (nonatomic,strong) UILabel *questionDateLabel;
 @property (nonatomic,strong) UIImageView *questionFlowerImageView;
 @property (nonatomic,strong) UILabel *questionFlowerLabel;
-@property (nonatomic,strong) UITextView *questionContentTextField;
+//@property (nonatomic,strong) UITextView *questionContentTextField;
 //@property (nonatomic,strong) UIButton *questionFlowerBt;
 @property (nonatomic,strong) UIView *backgroundView;
 @property (nonatomic,strong) UIImageView *questionImg;
@@ -26,8 +26,8 @@
 
 @implementation QuestionAndAnswerCell_iPhoneHeaderView
 
--(id)initWithReuseIdentifier:(NSString *)reuseIdentifier{
-    self =[super initWithReuseIdentifier:reuseIdentifier];
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
+    self =[super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.backgroundView = [[UIView alloc] init];
         self.backgroundView.backgroundColor = [UIColor whiteColor];
@@ -62,20 +62,16 @@
         self.questionFlowerLabel.textColor = [UIColor darkGrayColor];
         [self.backgroundView addSubview:self.questionFlowerLabel];
         
-        self.questionContentTextField = [[UITextView alloc] init];
-        self.questionContentTextField.backgroundColor = [UIColor clearColor];
-        self.questionContentTextField.font = [UIFont systemFontOfSize:TEXT_FONT_SIZE+4];
-        self.questionContentTextField.textColor = [UIColor blueColor];
-        self.questionContentTextField.textAlignment = NSTextAlignmentLeft;
-        [self.questionContentTextField setUserInteractionEnabled:NO];
-        self.questionContentTextField.contentInset = UIEdgeInsetsMake(-10,-5,0,0);
-        //        self.questionContentTextField.textColor = [UIColor darkGrayColor];
-        [self.backgroundView addSubview:self.questionContentTextField];
-        
-        //        self.questionFlowerBt = [[UIButton alloc] init];
-        //        self.questionFlowerBt.backgroundColor = [UIColor clearColor];
-        //        [self.questionFlowerBt addTarget:self action:@selector(flowerBtClicked) forControlEvents:UIControlEventTouchUpInside];
-        //        [self.backgroundView addSubview:self.questionFlowerBt];
+        self.questionContentAttributeView = [[DRAttributeStringView alloc] init];
+        [self.backgroundView addSubview:self.questionContentAttributeView];
+//        self.questionContentTextField = [[UITextView alloc] init];
+//        self.questionContentTextField.backgroundColor = [UIColor clearColor];
+//        self.questionContentTextField.font = [UIFont systemFontOfSize:TEXT_FONT_SIZE+4];
+//        self.questionContentTextField.textColor = [UIColor blueColor];
+//        self.questionContentTextField.textAlignment = NSTextAlignmentLeft;
+//        [self.questionContentTextField setUserInteractionEnabled:NO];
+//        self.questionContentTextField.contentInset = UIEdgeInsetsMake(-10,-5,0,0);
+//        [self.backgroundView addSubview:self.questionContentTextField];
         
         self.questionImg = [[UIImageView alloc] init];
         self.questionImg.image = [UIImage imageNamed:@"Q&A-myq_15.png"];
@@ -85,6 +81,9 @@
         
         self.answerQuestionBt = [[UIButton alloc] init];
         self.answerQuestionBt.backgroundColor = [UIColor clearColor];
+//        [self.answerQuestionBt setTitle:@"回答" forState:UIControlStateNormal];
+        [self.answerQuestionBt setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+        [self.answerQuestionBt.titleLabel setFont:TEXT_FONT];
         [self.answerQuestionBt addTarget:self action:@selector(willAnswerQuestionBtClicked) forControlEvents:UIControlEventTouchUpInside];
         [self.backgroundView addSubview:self.answerQuestionBt];
         
@@ -108,7 +107,7 @@
         self.submitAnswerBt = [[UIButton alloc] init];
         [self.submitAnswerBt setBackgroundImage:[UIImage imageNamed:@"btn0@2x.png"] forState:UIControlStateNormal];
         [self.submitAnswerBt addTarget:self action:@selector(submitQuestionAnswetBtClicked) forControlEvents:UIControlEventTouchUpInside];
-        [self.submitAnswerBt.titleLabel setFont:[UIFont systemFontOfSize:12.0]];
+        [self.submitAnswerBt.titleLabel setFont:[UIFont boldSystemFontOfSize:12.0]];
         [self.submitAnswerBt setTitle:@"确认回答" forState:UIControlStateNormal];
         [self.summitQuestionAnswerBackView addSubview:self.submitAnswerBt];
     }
@@ -123,14 +122,6 @@
         [self.delegate questionAndAnswerCell_iPhoneHeaderView:self flowerQuestionAtIndexPath:self.path];
     }
 }
-/*
- // Only override drawRect: if you perform custom drawing.
- // An empty implementation adversely affects performance during animation.
- - (void)drawRect:(CGRect)rect
- {
- // Drawing code
- }
- */
 
 #pragma mark UITextViewDelegate
 -(void)textViewDidBeginEditing:(UITextView *)textView{
@@ -142,7 +133,7 @@
 
 -(void)willAnswerQuestionBtClicked{
     if (self.delegate && [self.delegate respondsToSelector:@selector(questionAndAnswerCell_iPhoneHeaderView:willAnswerQuestionAtIndexPath:)]) {
-        [self.answerQuestionBt setUserInteractionEnabled:NO];
+        [self.answerQuestionBt setHidden:YES];
         [self.summitQuestionAnswerBackView setHidden:NO];
         [self.delegate questionAndAnswerCell_iPhoneHeaderView:self willAnswerQuestionAtIndexPath:self.path];
     }
@@ -154,7 +145,7 @@
         return;
     }
     if (self.delegate && [self.delegate respondsToSelector:@selector(questionAndAnswerCell_iPhoneHeaderView:didAnswerQuestionAtIndexPath:withAnswer:)]) {
-        [self.answerQuestionBt setUserInteractionEnabled:YES];
+        [self.answerQuestionBt setHidden:NO];
         [self.summitQuestionAnswerBackView setHidden:YES];
         [self.delegate questionAndAnswerCell_iPhoneHeaderView:self didAnswerQuestionAtIndexPath:self.path withAnswer:self.answerQuestionTextField.text];
     }
@@ -165,21 +156,21 @@
         return;
     }
     UserModel *user = [[CaiJinTongManager shared]user];
-    if (question.askerId && [question.askerId isEqualToString:user.userId]) {
+    if (question.askerId && [question.askerId isEqualToString:user.userId]) { //如果是自己的问题
         [self.answerQuestionBt setHidden:YES];
     }else{
         [self.answerQuestionBt setHidden:NO];
     }
     for (AnswerModel *answer in question.answerList) {
-        if ([answer.answerId isEqualToString:user.userId]) {
+        if ([answer.answerId isEqualToString:user.userId]) {  //如果已经回答过
             [self.answerQuestionBt setHidden:YES];
             break;
         }
     }
     self.questionNameLabel.text = question.askerNick;
     self.questionDateLabel.text = [NSString stringWithFormat:@"发表于%@",question.askTime];
-    self.questionFlowerLabel.text = question.praiseCount.length > 0 ? question.praiseCount : @"0";
-    self.questionContentTextField.text = question.questionName;
+    self.questionFlowerLabel.text = question.praiseCount;
+    self.questionContentAttributeView.questionModel = question;
     //    [self.questionFlowerBt setUserInteractionEnabled:NO];
     [self.summitQuestionAnswerBackView setHidden:!question.isEditing];
     [self setNeedsLayout];
@@ -205,15 +196,18 @@
     
     //第二行,问题
     self.questionImg.frame = (CGRect){0,HEADER_TEXT_HEIGHT+2,14,14};
-    self.questionContentTextField.frame = (CGRect){CGRectGetMaxX(self.questionImg.frame),HEADER_TEXT_HEIGHT,QUESTIONHEARD_VIEW_WIDTH+TEXT_PADDING*2,[Utility getTextSizeWithString:self.questionContentTextField.text withFont:self.questionContentTextField.font withWidth:QUESTIONHEARD_VIEW_WIDTH + TEXT_PADDING * 2].height};
+//    self.questionContentTextField.frame = (CGRect){CGRectGetMaxX(self.questionImg.frame),HEADER_TEXT_HEIGHT,QUESTIONHEARD_VIEW_WIDTH+TEXT_PADDING*2,[Utility getTextSizeWithString:self.questionContentTextField.text withFont:self.questionContentTextField.font withWidth:QUESTIONHEARD_VIEW_WIDTH + TEXT_PADDING * 2].height};
+    float height = [self.delegate questionAndAnswerCell_iPhoneHeaderView:self headerHeightAtIndexPath:self.path];
+    self.questionContentAttributeView.frame = (CGRect){CGRectGetMaxX(self.questionImg.frame),HEADER_TEXT_HEIGHT,QUESTIONHEARD_VIEW_WIDTH,height};
     
-    self.answerQuestionBt.frame = self.questionContentTextField.frame;
+    self.answerQuestionBt.frame = self.questionContentAttributeView.frame;
     [self bringSubviewToFront:self.answerQuestionBt];
+    NSLog(@"按钮%@,绘图%@",NSStringFromCGRect(self.answerQuestionBt.frame),NSStringFromCGRect(self.questionContentAttributeView.frame));
     //回答
     if (!self.summitQuestionAnswerBackView.isHidden) {
-        self.summitQuestionAnswerBackView.frame = (CGRect){TEXT_PADDING*2,CGRectGetMaxY(self.questionContentTextField.frame)+TEXT_PADDING,QUESTIONHEARD_VIEW_WIDTH,QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT - TEXT_PADDING};
+        self.summitQuestionAnswerBackView.frame = (CGRect){TEXT_PADDING*2,CGRectGetMaxY(self.questionContentAttributeView.frame)+TEXT_PADDING,QUESTIONHEARD_VIEW_WIDTH,QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT - TEXT_PADDING};
         self.answerQuestionTextField.frame = (CGRect){0,0,QUESTIONHEARD_VIEW_WIDTH,60};
-        self.submitAnswerBt.frame = (CGRect){(QUESTIONHEARD_VIEW_WIDTH)/2-47.5,65,95,27};
+        self.submitAnswerBt.frame = (CGRect){QUESTIONHEARD_VIEW_WIDTH-105,65,95,27};
     }
 }
 @end

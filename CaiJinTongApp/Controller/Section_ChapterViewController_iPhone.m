@@ -10,10 +10,11 @@
 #import "Section_ChapterCell_iPhone.h"
 #import "SectionModel.h"
 #import "SectionSaveModel.h"
-#import "AMProgressView.h"
 #import "Section.h"
-@interface Section_ChapterViewController_iPhone ()
 
+#define CAPTER_CELL_WIDTH 277
+@interface Section_ChapterViewController_iPhone ()
+@property (nonatomic,strong) UILabel *tipLabel;
 @end
 @implementation Section_ChapterViewController_iPhone
 
@@ -67,7 +68,7 @@
                                                  name:@"stopDownLoad"
                                                object:nil];
     
-    
+    [self.tableViewList registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"header"];
     
 }
 
@@ -88,15 +89,44 @@
     // Dispose of any resources that can be recreated.
 }
 #pragma mark -- tableViewDelegate
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    if (!self.dataArray || self.dataArray.count <= 0) {
+        [self.tipLabel removeFromSuperview];
+        [tableView addSubview:self.tipLabel];
+    }else{
+        [self.tipLabel removeFromSuperview];
+    }
+    NSInteger number = [self.dataArray count];
+    return number;
+}
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.dataArray.count;
+    NSInteger rows = ((chapterModel *)self.dataArray[section]).sectionList.count;
+    return rows;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 15.0;
+}
+
+-(UITableViewHeaderFooterView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    UITableViewHeaderFooterView *header = [[UITableViewHeaderFooterView alloc] init];
+    chapterModel *chapter = [self.dataArray objectAtIndex:section];
+    UILabel *label = [[UILabel alloc] initWithFrame:(CGRect){0,1,276,15}];
+    label.font = [UIFont systemFontOfSize:12];
+    label.text = chapter.chapterName;
+    label.textColor = [UIColor darkGrayColor];
+    label.backgroundColor = [ UIColor lightGrayColor];
+    [header.contentView addSubview:label];
+    return header;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Section_ChapterCell_iPhone";
     Section_ChapterCell_iPhone *cell = (Section_ChapterCell_iPhone *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    Section_chapterModel *section = (Section_chapterModel *)[self.dataArray objectAtIndex:indexPath.row];
+    chapterModel *chapter = (chapterModel *)[self.dataArray objectAtIndex:indexPath.section];
+    SectionModel *section = [chapter.sectionList objectAtIndex:indexPath.row];
     
     cell.nameLab.text = [NSString stringWithFormat:@"【%@】",section.sectionName];
     cell.sid = section.sectionId;
@@ -116,24 +146,49 @@
         }else {
             cell.statusLab.text = @"下载";
         }
-        cell.sliderFrontView.frame = CGRectMake(0, 37, 277 * sectionSave.downloadPercent, 11);
+        cell.sliderFrontView.frame = CGRectMake(0, 33, CAPTER_CELL_WIDTH * sectionSave.downloadPercent, 15);
         if (contentlength>0) {
             cell.lengthLab.text = [NSString stringWithFormat:@"%.2fM/%.2fM",contentlength*sectionSave.downloadPercent,contentlength];
         }
+        sectionSave.fileUrl = section.sectionMovieDownloadURL;
+        sectionSave.playUrl = section.sectionMoviePlayURL;
+        sectionSave.name = section.sectionName;
+        sectionSave.lessonId = self.lessonId;
         cell.btn.buttonModel = sectionSave;
         
     }else {
         sectionSave = [[SectionSaveModel alloc]init];
         sectionSave.sid = section.sectionId;
         sectionSave.downloadState = 4;
+        sectionSave.name = section.sectionName;
         sectionSave.downloadPercent = 0;
+        sectionSave.fileUrl = section.sectionMovieDownloadURL;
+        sectionSave.playUrl = section.sectionMoviePlayURL;
+        sectionSave.name = section.sectionName;
+        sectionSave.lessonId = self.lessonId;
         cell.btn.buttonModel = sectionSave;
-        cell.sliderFrontView.frame = CGRectMake(0, 37, 277 * 0, 11);
+        cell.sliderFrontView.frame = CGRectMake(0, 33, CAPTER_CELL_WIDTH * 0, 15);
         cell.statusLab.text = @"未下载";
         cell.lengthLab.text = @"";
     }
+    cell.sectionModel = section;
+    cell.isMoviePlayView = self.isMovieView;
+    cell.btn.isMovieView = self.isMovieView;
     cell.sectionS = sectionSave;
     cell.timeLab.text = section.sectionLastTime;
     return cell;
 }
+
+#pragma mark property
+-(UILabel *)tipLabel{
+    if (!_tipLabel) {
+        _tipLabel = [[UILabel alloc] initWithFrame:(CGRect){0,0,CAPTER_CELL_WIDTH,self.tableViewList.frame.size.height}];
+        _tipLabel.textAlignment = NSTextAlignmentCenter;
+        _tipLabel.textColor = [UIColor grayColor];
+        _tipLabel.font = [UIFont systemFontOfSize:25];
+        [_tipLabel setText:@"没有数据"];
+    }
+    return _tipLabel;
+}
+
 @end

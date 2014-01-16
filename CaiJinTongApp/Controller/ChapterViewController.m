@@ -79,19 +79,6 @@
     self.drnavigationBar.titleLabel.text = @"课程";
 }
 
-//-(void)viewDidAppear:(BOOL)animated {
-//    [super viewDidAppear:animated];
-//    CGRect frame = self.collectionView.frame;
-//    if (self.isSearch) {
-//        frame.origin.y = 144;
-//        frame.size.height = 1024-144;
-//    }else {
-//        frame.origin.y = 54;
-//        frame.size.height = 1024-54;
-//    }
-//    self.collectionView.frame = frame;
-//}
-
 -(void)reloadDataWithDataArray:(NSArray*)data withCategoryId:(NSString*)lessonCategoryId{
     self.lessonCategoryId = lessonCategoryId;
     DLog(@"count = %d",data.count);
@@ -384,7 +371,7 @@
 
 //默认(最近播放)
 - (void)tappedInToolbar:(CollectionHeader *)toolbar recentButton:(UIButton *)button {
-    if (self.headerRefreshView.isForbidden || self.headerRefreshView.isForbidden) {
+    if (self.headerRefreshView.isForbidden || self.footerRefreshView.isForbidden) {
         return;
     }
     [self initButton:button withCollectionHeaderView:toolbar];
@@ -395,7 +382,7 @@
 }
 //学习进度
 - (void)tappedInToolbar:(CollectionHeader *)toolbar progressButton:(UIButton *)button {
-    if (self.headerRefreshView.isForbidden || self.headerRefreshView.isForbidden) {
+    if (self.headerRefreshView.isForbidden || self.footerRefreshView.isForbidden) {
         return;
     }
     [self initButton:button withCollectionHeaderView:toolbar];
@@ -406,7 +393,7 @@
 }
 //名称(A-Z)
 - (void)tappedInToolbar:(CollectionHeader *)toolbar nameButton:(UIButton *)button {
-    if (self.headerRefreshView.isForbidden || self.headerRefreshView.isForbidden) {
+    if (self.headerRefreshView.isForbidden || self.footerRefreshView.isForbidden) {
         return;
     }
     [self initButton:button withCollectionHeaderView:toolbar];

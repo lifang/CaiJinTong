@@ -105,7 +105,6 @@
         //自己提的问题
         if (answer.reaskModelArray.count > 0) {
             Reaskmodel *reask = [answer.reaskModelArray lastObject];
-            //            if (reask.reAnswerID && ![reask.reAnswerID isEqualToString:@""] && ![reask.reAnswerID isEqualToString:@"<null>"] ) {
             if (reask.reAnswerID && ![reask.reAnswerID isEqualToString:@""]) {
                 //追问
                 [self.reaskBt setTitle:@"追问" forState:UIControlStateNormal];
@@ -150,13 +149,10 @@
     }
 }
 -(void)setAnswerModel:(AnswerModel*)answer withQuestion:(QuestionModel*)question{
-    //    self.answerTextField.delegate = self;
     self.qTitleNameLabel.text = answer.answerNick;
     self.qDateLabel.text = [NSString stringWithFormat:@"发表于%@",answer.answerTime];
     self.qflowerLabel.text = answer.answerPraiseCount;
-    //    self.answerTextField.text = answer.answerContent;
-    [self.questionBackgroundView setHidden:!answer.isEditing];
-    self.answerTextField.font = [UIFont systemFontOfSize:TEXT_FONT_SIZE+4];
+    [self.questionBackgroundView setHidden:!answer.isEditing]; //此处决定是否显示追问界面
     
     //赞
     [self modifyPraiseBtStatusWithAnswerModel:answer withQuestion:question];
@@ -168,15 +164,12 @@
     //追问实现
     [self modifyReaskAnswerBtStatusWithAnswerModel:answer withQuestion:question];
     
-    NSAttributedString *attriString =  [Utility getTextSizeWithAnswerModel:answer withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+4] withWidth:QUESTIONANDANSWER_CELL_WIDTH];
-    self.answerTextField.attributedText = attriString;
+    //绘制回答内容
+    self.answerAttributeTextView.answerModel = answer;
+
     [self setNeedsLayout];
-    self.answerTextField.contentInset = UIEdgeInsetsMake(-10, -27, 0, 0);
-    //    self.answerTextField.backgroundColor = [UIColor redColor];
-    [self.answerTextField setEditable:NO];
-    [self.answerTextField setScrollEnabled:NO];
-    [self.answerTextField setPagingEnabled:YES];
-    //    self.answerBackgroundView.backgroundColor = [UIColor greenColor];
+//    self.answerTextField.contentInset = UIEdgeInsetsMake(-10, -27, 0, 0);
+    
 }
 
 -(void)layoutSubviews{
@@ -190,21 +183,31 @@
     
     self.qflowerLabel.frame = (CGRect){CGRectGetMaxX(self.qflowerImageView.frame)+TEXT_PADDING,0,[Utility getTextSizeWithString:self.qflowerLabel.text withFont:self.qflowerLabel.font].width,CGRectGetHeight(self.qflowerLabel.frame)};
     
+//    self.acceptAnswerBt.frame = (CGRect){CGRectGetMaxX(self.qflowerLabel.frame)+TEXT_PADDING,0,self.acceptAnswerBt.frame.size};
+    
     self.qflowerBt.frame = (CGRect){CGRectGetMinX(self.qflowerImageView.frame)-TEXT_PADDING,0,CGRectGetMaxX(self.qflowerLabel.frame) - CGRectGetMinX(self.qflowerImageView.frame)+TEXT_PADDING*2,CGRectGetHeight(self.qTitleNameLabel.frame)};
     
-    self.acceptAnswerBt.frame = (CGRect){CGRectGetMaxX(self.qflowerLabel.frame)+TEXT_PADDING,0,self.acceptAnswerBt.frame.size};
 
     //回答的正文
     float cellHeight = [self.delegate QuestionAndAnswerCell_iPhone:self getCellheightAtIndexPath:self.path];
-    self.answerBackgroundView.frame = (CGRect){self.answerBackgroundView.frame.origin,QUESTIONANDANSWER_CELL_WIDTH,cellHeight};
+    self.answerAttributeTextView.frame = (CGRect){self.answerAttributeTextView.frame.origin,QUESTIONANDANSWER_CELL_WIDTH,cellHeight};
+//    self.answerBt.frame = (CGRect){0,0,self.answerAttributeTextView.frame.size};
+    self.answerBt.frame = self.answerAttributeTextView.frame;
+    DLog(@"self.answerBt.frame : %f %f %f %f",self.answerBt.frame.origin.x,self.answerBt.frame.origin.y,self.answerBt.frame.size.width,self.answerBt.frame.size.height);
+//    self.answerBackgroundView.frame = (CGRect){self.answerBackgroundView.frame.origin,QUESTIONANDANSWER_CELL_WIDTH,cellHeight};
     
-    self.answerTextField.frame = (CGRect){0,0,self.answerBackgroundView.frame.size.width + 27,self.answerBackgroundView.frame.size.height};  //调整文字位置27
-    self.answerBt.frame = (CGRect){0,0,self.answerBackgroundView.frame.size};
+//    self.answerAttributeTextView.frame = (CGRect){0,0,self.answerBackgroundView.frame.size.width + 27,self.answerBackgroundView.frame.size.height};  //调整文字位置27
+    
     
     //追问部分
-    self.questionBackgroundView.frame = (CGRect){CGRectGetMinX(self.questionBackgroundView.frame),CGRectGetMaxY(self.answerBackgroundView.frame)+5,self.questionBackgroundView.frame.size};
+//    self.questionBackgroundView.frame = (CGRect){CGRectGetMinX(self.questionBackgroundView.frame),CGRectGetMaxY(self.answerAttributeTextView.frame)+5,self.questionBackgroundView.frame.size};
+//    self.reaskBt.frame = (CGRect){self.questionTextField.center.x + 10,CGRectGetMaxY(self.questionTextField.frame) + 5,110,30};
     
     [self.questionTextField.layer setCornerRadius:4.0];
+    [self.questionTextField.layer setBorderWidth:0.6];
+    [self.questionTextField.layer setBorderColor:[UIColor lightGrayColor].CGColor];
+    [self.reaskBt setBackgroundImage:[UIImage imageNamed:@"btn0@2x.png"] forState:UIControlStateNormal];
+    [self.reaskBt.titleLabel setFont:[UIFont boldSystemFontOfSize:14.0]];
 }
 
 @end

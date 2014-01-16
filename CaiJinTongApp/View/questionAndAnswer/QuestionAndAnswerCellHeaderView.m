@@ -7,13 +7,13 @@
 //
 
 #import "QuestionAndAnswerCellHeaderView.h"
+
 @interface QuestionAndAnswerCellHeaderView ()
 @property (nonatomic,strong) UILabel *questionNameLabel;
 @property (nonatomic,strong) UILabel *questionDateLabel;
 @property (nonatomic,strong) UIImageView *questionFlowerImageView;
 @property (nonatomic,strong) UILabel *questionFlowerLabel;
 //@property (nonatomic,strong) UITextView *questionContentTextField;
-
 //@property (nonatomic,strong) UIButton *questionFlowerBt;
 @property (nonatomic,strong) UIView *backgroundView;
 @property (nonatomic,strong) UIImageView *questionImg;

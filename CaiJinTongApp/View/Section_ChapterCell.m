@@ -30,7 +30,6 @@
     if ([self.sid isEqualToString:sectionSave.sid]) {
         [self.playBt setHidden:sectionSave.downloadState == 1];
         self.pv = sectionSave.downloadPercent;
-//        NSLog(@"%@,%@,%f",NSStringFromCGRect(self.sliderBackView.frame),NSStringFromCGRect(self.sliderFrontView.frame),self.pv);
         self.sliderFrontView.frame = CGRectMake(47, 73, self.sliderBackView.frame.size.width * self.pv, 33);
         //查询数据库
         Section *sectionDb = [[Section alloc]init];

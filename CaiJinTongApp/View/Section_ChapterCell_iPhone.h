@@ -16,8 +16,13 @@
 @property (weak, nonatomic) IBOutlet UILabel *timeLab;      //视频时长
 @property (weak, nonatomic) IBOutlet CustomButton *btn;     //下载按钮
 @property (weak, nonatomic) IBOutlet UIView *sliderFrontView;//进度条
+@property (nonatomic, strong) IBOutlet UIButton *playBt;    //播放按钮
+-(IBAction)playBtClicked:(id)sender;
 
 @property ( nonatomic) double pv;//视频下载进度
 @property (nonatomic, strong) NSString *sid;
 @property (nonatomic, strong) SectionSaveModel *sectionS;
+
+@property (nonatomic, strong)  SectionModel *sectionModel;
+@property (assign,nonatomic) BOOL isMoviePlayView;
 @end

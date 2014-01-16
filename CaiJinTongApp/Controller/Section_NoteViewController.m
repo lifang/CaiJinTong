@@ -68,7 +68,6 @@
     
     [cell.contentTextView setUserInteractionEnabled:NO];
     cell.contentTextView.frame = CGRectMake(30, 50, NOTE_CELL_WIDTH, size.height+20);
-    cell.timeLab.text = note.noteTime;
     cell.contentTextView.layer.borderWidth = 2.0;
     cell.contentTextView.layer.borderColor = [[UIColor colorWithRed:244.0/255.0 green:243.0/255.0 blue:244.0/255.0 alpha:1.0] CGColor];
     cell.contentTextView.font = aFont;
@@ -112,5 +111,4 @@
     }
     return _tipLabel;
 }
-#pragma mark --
 @end

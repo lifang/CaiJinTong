@@ -55,10 +55,14 @@
                                                object: nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(initBtn:) name:@"removeDownLoad" object:nil];
+                                             selector:@selector(initBtn:)
+                                                 name:@"removeDownLoad"
+                                               object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(initBtn:) name:@"stopDownLoad" object:nil];
+                                             selector:@selector(initBtn:)
+                                                 name:@"stopDownLoad"
+                                               object:nil];
     
 
     

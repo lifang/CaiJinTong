@@ -36,6 +36,9 @@
 #define SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
 #define IP5(yes,no) (IS_4_INCH ? yes : no)
 
+//设备类型,判断是iPad还是iPhone
+#define isPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+#define PAD(yes,no) (isPAD ? (yes) : (no))
 
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);

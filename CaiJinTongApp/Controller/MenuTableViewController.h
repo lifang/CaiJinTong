@@ -17,7 +17,7 @@
 #import "LessonModel.h"
 #import "chapterModel.h"
 
-@interface MenuTableViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,LessonInfoInterfaceDelegate,LessonListHeaderView_iPhoneDelegate,ChapterInfoInterfaceDelegate>
+@interface MenuTableViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,LessonInfoInterfaceDelegate,LessonListHeaderView_iPhoneDelegate,ChapterInfoInterfaceDelegate,LessonCategoryInterfaceDelegate,DRTreeTableViewDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 

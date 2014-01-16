@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "UIImage+Scale.h"
 #import "ForgotPwdViewController_iPhone.h"
+#import "LHLTabBarController.h"
 
 @interface LoginViewController_iPhone : UIViewController<LogInterfaceDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *loginBtn;

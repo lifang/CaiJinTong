@@ -14,7 +14,6 @@
 @property (nonatomic,strong) TextFieldForSearchBar *searchTextField;
 @property (nonatomic,strong) UIButton *searchBt;
 @property (nonatomic,strong) UIImageView *backImageView;
-//@property (nonatomic,strong) UILabel *searchTipLabel;  iPhone端不需要
 @end
 
 

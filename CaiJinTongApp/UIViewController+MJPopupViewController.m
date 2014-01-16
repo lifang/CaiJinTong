@@ -369,6 +369,11 @@ static void * const keypath = (void*)&keypath;
         self.mj_popupBackgroundView.alpha = 0.0f;
     } completion:^(BOOL finished) {
         if (popupView) {
+//            for(UIView *child in popupView.subviews){
+//                if(child.isFirstResponder){
+//                    [child resignFirstResponder];
+//                }
+//            }
                  [popupView removeFromSuperview];
         }
    

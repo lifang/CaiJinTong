@@ -48,10 +48,7 @@
     }else{
         self.searchTextField.frame = (CGRect){CGRectGetMaxX(self.searchBt.frame)+11,8 ,CGRectGetWidth(self.backImageView.frame) - CGRectGetMaxX(self.searchBt.frame) - 13,CGRectGetHeight(self.backImageView.frame)};
     }
-    
-
 }
-
 
 -(void)beginSearch{
     [self.searchTextField resignFirstResponder];
@@ -66,6 +63,13 @@
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     if(!textField.window.isKeyWindow){
         [textField.window makeKeyAndVisible];
+    }
+    return YES;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    if(textField.returnKeyType == UIReturnKeySearch){
+        [self beginSearch];
     }
     return YES;
 }

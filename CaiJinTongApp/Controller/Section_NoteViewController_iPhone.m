@@ -9,8 +9,9 @@
 #import "Section_NoteViewController_iPhone.h"
 #import "Section_NoteCell_iPhone.h"
 #import "NoteModel.h"
+#define NOTE_CELL_WIDTH 261
 @interface Section_NoteViewController_iPhone ()
-
+@property (nonatomic,strong) UILabel *tipLabel;
 @end
 
 @implementation Section_NoteViewController_iPhone
@@ -43,14 +44,16 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     NoteModel *note = (NoteModel *)[self.dataArray objectAtIndex:indexPath.row];
-    note.noteText = @"这一章的重点是,这一小节的重点是,这里的重点是这一章的重点是,这一小节的重点是,这里的重点是这一章的重点是,这一小节的重点是,这里的重点是这一章的重点是,这一小节的重点是,这里的重点是这一章的重点是,这一小节的重点是,这里的重点是这一章的重点是,这一小节的重点是,这里的重点是这一章的重点是,这一小节的重点是,这里的重点是这一章的重点是,这一小节的重点是,这里的重点是.";
-
     UIFont *aFont = [UIFont fontWithName:@"Trebuchet MS" size:9];
     CGSize size = [note.noteText sizeWithFont:aFont constrainedToSize:CGSizeMake(255, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
     return size.height+51;
 //    return 50;UIScrollView
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (!self.dataArray || self.dataArray.count <= 0) {
+        [self.tipLabel removeFromSuperview];
+        [tableView addSubview:self.tipLabel];
+    }
     return self.dataArray.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -58,18 +61,55 @@
     Section_NoteCell_iPhone *cell = (Section_NoteCell_iPhone *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     NoteModel *note = (NoteModel *)[self.dataArray objectAtIndex:indexPath.row];
     UIFont *aFont = [UIFont fontWithName:@"Trebuchet MS" size:9];
-    note.noteText = @"这一章的重点是,这一小节的重点是,这里的重点是这一章的重点是,这一小节的重点是,这里的重点是这一章的重点是,这一小节的重点是,这里的重点是这一章的重点是,这一小节的重点是,这里的重点是这一章的重点是,这一小节的重点是,这里的重点是这一章的重点是,这一小节的重点是,这里的重点是这一章的重点是,这一小节的重点是,这里的重点是这一章的重点是,这一小节的重点是,这里的重点是.";
     CGSize size = [note.noteText sizeWithFont:aFont constrainedToSize:CGSizeMake(255, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
     
+    [cell.contentTextView setUserInteractionEnabled:NO];
     cell.contentTextView.frame = CGRectMake(7, 18, 261, size.height + 15);
-    cell.contentTextView.text = note.noteText;
-    cell.timeLab.text = note.noteTime;
     cell.contentTextView.layer.borderWidth = 1.0;
     cell.contentTextView.layer.borderColor = [[UIColor colorWithRed:244.0/255.0 green:243.0/255.0 blue:244.0/255.0 alpha:1.0] CGColor];
     cell.contentTextView.font = aFont;
     cell.contentTextView.contentInset = UIEdgeInsetsMake(-4, 0, 0, 0);
-//    [cell.contentTextView zoomToRect:CGRectMake(10, 55, 255, size.height + 21) animated:NO];
-    [cell.contentTextView setUserInteractionEnabled:NO];
+    [cell.contentTextView setScrollEnabled:NO];
+    [cell.contentTextView setEditable:NO];
+    cell.contentTextView.text = note.noteText;
+    
+    cell.contentLab.text = [NSString stringWithFormat:@"%@ > %@",note.noteChapterName,note.noteSectionName]; //笔记标题
+    
+    cell.timeLab.text = note.noteTime;
+    
+    cell.path = indexPath;
+    cell.delegate = self;
     return cell;
 }
+
+#pragma mark Section_NoteCellDelegate
+-(void)section_NoteCell:(Section_NoteCell_iPhone *)cell didSelectedAtIndexPath:(NSIndexPath *)path{
+    NoteModel *note = [self.dataArray objectAtIndex:path.row];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(section_NoteViewController:didClickedNoteCellWithObj:)]) {
+        [self.delegate section_NoteViewController:self didClickedNoteCellWithObj:note];
+    }
+}
+
+#pragma mark property
+-(void)setDataArray:(NSMutableArray *)dataArray{
+    NSMutableArray *data = [NSMutableArray array];
+    for (chapterModel *chapter in dataArray) {
+        for (NoteModel *note in chapter.chapterNoteList) {
+            [data addObject:note];
+        }
+    }
+    _dataArray = data;
+}
+
+-(UILabel *)tipLabel{
+    if (!_tipLabel) {
+        _tipLabel = [[UILabel alloc] initWithFrame:(CGRect){0,0,NOTE_CELL_WIDTH,self.tableViewList.frame.size.height}];
+        _tipLabel.textAlignment = NSTextAlignmentCenter;
+        _tipLabel.textColor = [UIColor grayColor];
+        _tipLabel.font = [UIFont systemFontOfSize:25];
+        [_tipLabel setText:@"没有数据"];
+    }
+    return _tipLabel;
+}
+
 @end

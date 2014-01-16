@@ -149,7 +149,7 @@
 ////下载中
 //-(void)downloadShowView
 //{
-//    //下载中的点击弹窗
+//    //下载中的点击弹窗`
 //    DownLoadInformView *mDownLoadInformView = [[[NSBundle mainBundle]loadNibNamed:@"DownLoadInformView" owner:self options:nil]objectAtIndex:0];
 //    mDownLoadInformView.nm1 = self.buttonModel;
 //    mDownLoadInformView.frame = CGRectMake(0, 0, 1024, 768);

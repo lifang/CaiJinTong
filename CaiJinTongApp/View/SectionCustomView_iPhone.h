@@ -17,8 +17,8 @@
 
 @property (strong,nonatomic) NSString *sectionId;//保存,用于点击时接口参数
 
-- (id)initWithFrame:(CGRect)frame andSection:(SectionModel *)section andItemLabel:(float)itemLabel;
+- (id)initWithFrame:(CGRect)frame andLesson:(LessonModel *)lesson andItemLabel:(float)itemLabel;
 
 //修改赋值
-- (void)refreshDataWithSection:(SectionModel *)section;
+- (void)refreshDataWithLesson:(LessonModel *)lesson;
 @end

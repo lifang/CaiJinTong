@@ -8,14 +8,14 @@
 
 #import "DRAttributeStringView.h"
 #import <CoreGraphics/CoreGraphics.h>
-#define LINE_PADDING 5
-#define IMAGE_WIDTH 300
-#define IMAGE_HEIGHT 200
-#define Question_Content_Font [UIFont systemFontOfSize:22]
-#define Answer_Content_Font [UIFont systemFontOfSize:22]
-#define Reask_Content_Font [UIFont systemFontOfSize:22]
+#define LINE_PADDING PAD(5,3)
+#define IMAGE_WIDTH PAD(300,200)
+#define IMAGE_HEIGHT PAD(200,150)
+#define Question_Content_Font [UIFont systemFontOfSize:PAD(22,14)]
+#define Answer_Content_Font [UIFont systemFontOfSize:PAD(22,14)]
+#define Reask_Content_Font [UIFont systemFontOfSize:PAD(22,14)]
 #define Reask_Title_Font [UIFont systemFontOfSize:10]
-#define ReAnswer_Content_Font [UIFont systemFontOfSize:22]
+#define ReAnswer_Content_Font [UIFont systemFontOfSize:PAD(22,14)]
 #define ReAnswer_Title_Font [UIFont systemFontOfSize:10]
 
 #define Question_Content_Color [UIColor blueColor]
@@ -24,6 +24,7 @@
 #define Reask_Title_Color [UIColor lightGrayColor]
 #define ReAnswer_Content_Color [UIColor grayColor]
 #define ReAnswer_Title_Color [UIColor lightGrayColor]
+
 @interface DRAttributeImageView:UIImageView
 @property (nonatomic,strong) NSURL *imageURL;
 @property (nonatomic,assign)DRURLFileType  urlFileType;
@@ -96,17 +97,17 @@ typedef enum {
 
 -(void)drawAnswermodel:(AnswerModel*)answer{
     self.drawRect = CGRectZero;
-    self.drawRect = [self drawHTMLContentString:answer.answerContent withStartPoint:(CGPoint){10,self.drawRect.origin.y} withContentType:DrawingContextType_AnswerContent];
+    self.drawRect = [self drawHTMLContentString:answer.answerContent withStartPoint:(CGPoint){PAD(10,0),self.drawRect.origin.y} withContentType:DrawingContextType_AnswerContent];
     
     for (Reaskmodel *reask in answer.reaskModelArray) {
         self.drawRect = [self drawTitleString:[NSString stringWithFormat:@"追问 发表于%@",reask.reaskDate] withStartPoint:(CGPoint){0, CGRectGetMaxY(self.drawRect)+ LINE_PADDING} withContentType:DrawingContextType_ReaskTitle];
-        self.drawRect = [self drawHTMLContentString:reask.reaskContent withStartPoint:(CGPoint){10,CGRectGetMaxY(self.drawRect) + LINE_PADDING} withContentType:DrawingContextType_ReaskContent];
+        self.drawRect = [self drawHTMLContentString:reask.reaskContent withStartPoint:(CGPoint){PAD(10,0),CGRectGetMaxY(self.drawRect) + LINE_PADDING} withContentType:DrawingContextType_ReaskContent];
         NSString *isteacher = @"";
         if ([reask.reAnswerIsTeacher isEqualToString:@"1"]) {
             isteacher = @"老师";
         }
         self.drawRect = [self drawTitleString:[NSString stringWithFormat:@"%@%@ 回复 发表于%@",reask.reAnswerNickName,isteacher,reask.reaskDate] withStartPoint:(CGPoint){0,CGRectGetMaxY(self.drawRect) + LINE_PADDING} withContentType:DrawingContextType_ReAnswerTitle];
-        self.drawRect = [self drawHTMLContentString:reask.reAnswerContent withStartPoint:(CGPoint){10,CGRectGetMaxY(self.drawRect) + LINE_PADDING} withContentType:DrawingContextType_ReAnswerContent];
+        self.drawRect = [self drawHTMLContentString:reask.reAnswerContent withStartPoint:(CGPoint){PAD(10,0),CGRectGetMaxY(self.drawRect) + LINE_PADDING} withContentType:DrawingContextType_ReAnswerContent];
     }
 }
 
@@ -338,17 +339,17 @@ typedef enum {
 
 +(CGRect)boundsRectWithAnswer:(AnswerModel*)answer withWidth:(float)width{
     CGRect rect = CGRectZero;
-    rect = [DRAttributeStringView drawHTMLContentString:answer.answerContent withStartPoint:(CGPoint){10,0} withWidth:width withContentType:DrawingContextType_AnswerContent];
+    rect = [DRAttributeStringView drawHTMLContentString:answer.answerContent withStartPoint:(CGPoint){PAD(10,0),0} withWidth:width withContentType:DrawingContextType_AnswerContent];
     
     for (Reaskmodel *reask in answer.reaskModelArray) {
         rect = [DRAttributeStringView drawTitleString:[NSString stringWithFormat:@"追问 发表于%@",reask.reaskDate] withStartPoint:(CGPoint){0, CGRectGetMaxY(rect)+ LINE_PADDING} withWidth:width withContentType:DrawingContextType_ReaskTitle];
-        rect = [DRAttributeStringView drawHTMLContentString:reask.reaskContent withStartPoint:(CGPoint){10,CGRectGetMaxY(rect) + LINE_PADDING} withWidth:width withContentType:DrawingContextType_ReaskContent];
+        rect = [DRAttributeStringView drawHTMLContentString:reask.reaskContent withStartPoint:(CGPoint){PAD(10,0),CGRectGetMaxY(rect) + LINE_PADDING} withWidth:width withContentType:DrawingContextType_ReaskContent];
         NSString *isteacher = @"";
         if ([reask.reAnswerIsTeacher isEqualToString:@"1"]) {
             isteacher = @"老师";
         }
         rect  = [DRAttributeStringView drawTitleString:[NSString stringWithFormat:@"%@%@ 回复 发表于%@",reask.reAnswerNickName,isteacher,reask.reaskDate] withStartPoint:(CGPoint){0,CGRectGetMaxY(rect) + LINE_PADDING} withWidth:width withContentType:DrawingContextType_ReAnswerTitle];
-        rect = [DRAttributeStringView drawHTMLContentString:reask.reAnswerContent withStartPoint:(CGPoint){10,CGRectGetMaxY(rect) + LINE_PADDING} withWidth:width withContentType:DrawingContextType_ReAnswerContent];
+        rect = [DRAttributeStringView drawHTMLContentString:reask.reAnswerContent withStartPoint:(CGPoint){PAD(10,0),CGRectGetMaxY(rect) + LINE_PADDING} withWidth:width withContentType:DrawingContextType_ReAnswerContent];
     }
     return (CGRect){0,0,CGRectGetWidth(rect),CGRectGetMaxY(rect)};
 }

@@ -29,12 +29,14 @@
     UIImage *bgImage = [[UIImage imageNamed:@"login_bg_7.png"] scaleToSize:CGSizeMake(320, SCREEN_HEIGHT)];
     self.view.backgroundColor = [UIColor colorWithPatternImage:bgImage];
     
-    UIImage *loginBtnImage = [[UIImage imageNamed:@"btn.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 6)];
-    [self.loginBtn setBackgroundImage:loginBtnImage forState:UIControlStateNormal];
+    [self.loginBtn setBackgroundImage:[UIImage imageNamed:@"bttn1.png"] forState:UIControlStateNormal];
     [self.loginBtn addTarget:self action:@selector(loginBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     
     [self.findPasswordBtn addTarget:self action:@selector(findPasswordBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.registerAccBtn addTarget:self action:@selector(registerAccBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+    
+    //注册账号btn暂时改为设置
+    [self.registerAccBtn setTitle:@"设置" forState:UIControlStateNormal];
     
 }
 
@@ -75,7 +77,7 @@
 }
 
 -(void)registerAccBtnClicked{
-    
+    [self.navigationController pushViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"SettingViewController_iPhone"] animated:YES];
 }
 
 #pragma mark - LogInterface
@@ -83,25 +85,29 @@
 -(void)getLogInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [CaiJinTongManager shared].userId = [NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]];
-        
         UserModel *user = [[UserModel alloc] init];
         user.userName = [NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]];
-        user.userId = [NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]];
+        
+        if ([self.accountLabel.text isEqualToString:@"18621607181"]) {
+            user.userId = @"17082";
+            [CaiJinTongManager shared].userId = @"17082";
+        }else{
+            user.userId = @"18676";
+            [CaiJinTongManager shared].userId = @"18676";
+        }
         user.birthday = [NSString stringWithFormat:@"%@",[result objectForKey:@"birthday"]];
         user.sex = [NSString stringWithFormat:@"%@",[result objectForKey:@"sex"]];
         user.address = [NSString stringWithFormat:@"%@",[result objectForKey:@"address"]];
         user.userImg = [NSString stringWithFormat:@"%@",[result objectForKey:@"userImg"]];
+        user.nickName = [NSString stringWithFormat:@"%@",[result objectForKey:@"nickname"]];
         [CaiJinTongManager shared].user = user;
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            if(!self.lessonView){
-                UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
-                LessonViewController *lessonView = [story instantiateViewControllerWithIdentifier:@"TabBarController"];
-                self.lessonView = lessonView;
-            }
             
-            [self.navigationController pushViewController:self.lessonView animated:YES];
+            LHLTabBarController *mainController = [[LHLTabBarController alloc] init];
+            
+            [self.navigationController pushViewController:mainController animated:YES];
             AppDelegate* appDelegate = [AppDelegate sharedInstance];
             appDelegate.lessonViewCtrol = self.lessonView;
             

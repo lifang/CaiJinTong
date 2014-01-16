@@ -8,6 +8,10 @@
 
 #import "SectionViewController_iPhone.h"
 
+@interface SectionViewController_iPhone()
+@property (nonatomic,assign) BOOL isPlaying;
+@property (nonatomic,strong) LessonInfoInterface *lessonInterface;
+@end
 
 @implementation SectionViewController_iPhone
 
@@ -20,74 +24,114 @@
     return self;
 }
 
-//调用本View时要先指定要显示的section
+//调用本View时要先指定要显示的self.lessonModel
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //打分之后提交
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refeshScore:)
+                                                 name: @"refeshScore"
+                                               object: nil];
     
-//    [self initData];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardUP:) name:UIKeyboardWillShowNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardDOWN:) name:UIKeyboardWillHideNotification object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(gotoMoviePlayMovieOnLineWithSectionSavemodel:)
+                                                 name:@"startPlaySectionMovieOnLine" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(gotoMoviePlayWithSid:)
+                                                 name:@"gotoMoviePlay" object:nil];
+    [self initAppear];
+    [self initAppear_slide];
+}
+-(void)refeshScore:(NSNotification *)notification {
+    NSDictionary *dic = notification.object;
+    NSString *score = [dic objectForKey:@"sectionScore"];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.lessonModel.lessonScore = score;
+        self.lessonModel.lessonIsScored = @"1";
+        [self reloadLessonData:self.lessonModel];
+    });
+}
+-(void)reloadLessonData:(LessonModel *)lesson{
+    //封面
+    [self.sectionView refreshDataWithLesson:lesson];
+    
+    //显示分数
+    int grade = self.lessonModel.lessonIsScored.intValue;
+    if(grade > 0){
+        self.scoreLab.text = [NSString stringWithFormat:@"%.1f",[lesson.lessonScore floatValue]];
+    }else{
+        self.scoreLab.text = [NSString stringWithFormat:@"%.1f",0.0];
+    }
+    //标题
+    self.nameLab.text =[NSString stringWithFormat:@"名称:%@",lesson.lessonName];
+    //    self.nameLab.frame = (CGRect){275, labelTop, width, 30};
+    
+    //简介
+//    self.detailInfoTextView.text = [NSString stringWithFormat:@"简介:%@",lesson.lessonDetailInfo?:@""];
+//    self.detailInfoTextView.frame = (CGRect){270, labelTop - 10, width, 100};
+//    CGSize size = [Utility getTextSizeWithString:self.lessonModel.lessonDetailInfo withFont:[UIFont boldSystemFontOfSize:16] withWidth:width];
+//    if (size.height > 100) {
+//        labelTop += 100 +labelSpace;
+//    }else{
+//        labelTop += size.height +labelSpace;
+//    }
+    
+    //讲师
+    self.teacherlab.text =[NSString stringWithFormat:@"讲师:%@",lesson.lessonTeacherName];
+    
+    //时长
+    self.lastLab.text =[NSString stringWithFormat:@"时长:%@",lesson.lessonDuration];
+    
+    //已学习
+    self.studyLab.text =[NSString stringWithFormat:@"已学习:%@",lesson.lessonStudyTime];
+    
+    //播放按钮
+    if (!lesson.lessonStudyTime || [lesson.lessonStudyTime isEqualToString:@"0"]) {
+        [self.playBtn setTitle:NSLocalizedString(@"开始学习", @"button") forState:UIControlStateNormal];
+    }else{
+        [self.playBtn setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
+    }
 }
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
-}
-//装载数据,目标 :self.section
--(void) initData{
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
-    }else {
-//        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        if(!self.sectionInterface){
-            self.sectionInterface = [[SectionInfoInterface alloc] init];
-            self.sectionInterface.delegate = self;
+    if (self.isPlaying) {
+        //根据sectionID获取单个视频的详细信息
+        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+            [Utility errorAlert:@"暂无网络!"];
+        }else {
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            UserModel *user = [[CaiJinTongManager shared] user];
+            [self.lessonInterface downloadLessonInfoWithLessonId:self.lessonModel.lessonId withUserId:user.userId];
         }
-        [self.sectionInterface getSectionInfoInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andSectionId:@"2928"];
     }
+    self.isPlaying = NO;
 }
 
+/////////////
+//播放接口
+
 - (void)playVideo:(id) sender{
-    DLog(@"play");
-    self.path = nil;//视频路径
-    //先匹配本地,在数据库中查找纪录
-    Section *sectionDb = [[Section alloc]init];
-    SectionSaveModel *sectionSave = [sectionDb getDataWithSid:self.section.sectionId];
-    if (sectionSave != nil && sectionSave.downloadState == 1) {
-        NSString *documentDir;
-        if (platform>5.0) {
-            documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        }else{
-            documentDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        }
-        self.path = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@.mp4",self.section.sectionId]];
-        
-        self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
-        
-        [self.playerController playMovieWithURL:[NSURL fileURLWithPath:self.path] withFileType:MPMovieSourceTypeFile];
-        self.playerController.sectionId = self.section.sectionId;
-        self.playerController.sectionModel = self.section;
-        
-        self.playerController.delegate = self;
-        AppDelegate *app = [AppDelegate sharedInstance];
-        [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
-            
-        }];
-    }else {
-        //在线播放
-        self.path = self.section.sectionSD;
-        if (self.path) {
-            if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-                [Utility errorAlert:@"暂无网络!"];
-            }else {
-                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                PlayVideoInterface *playVideoInter = [[PlayVideoInterface alloc]init];
-                self.playVideoInterface = playVideoInter;
-                self.playVideoInterface.delegate = self;
-                NSString *timespan = [Utility getNowDateFromatAnDate];
-                [self.playVideoInterface getPlayVideoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.section.sectionId andTimeStart:timespan];
-            }
-        }
-    }
+    CGRect f = self.section_NoteView.tableViewList.frame;
+    NSLog(@"%f,%f,%f,%f",f.origin.x,f.origin.y,f.size.width,f.size.height);
+//    self.isPlaying = YES;
+//    self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
+//    chapterModel *chapter = [self.lessonModel.chapterList firstObject];
+//    SectionModel *section = [chapter.sectionList firstObject];
+//    section.lessonId = self.lessonModel.lessonId;
+//    SectionModel *lastplaySection = [[Section defaultSection] searchLastPlaySectionModelWithLessonId:self.lessonModel.lessonId];
+//    if (lastplaySection) {
+//        lastplaySection.lessonId = self.lessonModel.lessonId;
+//    }
+//    [self.playerController playMovieWithSectionModel:lastplaySection?lastplaySection:section withFileType:MPMovieSourceTypeStreaming];
+//    self.playerController.delegate = self;
+//    AppDelegate *app = [AppDelegate sharedInstance];
+//    [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
+//        
+//    }];
 }
 
 #pragma mark - 滑动tab视图代理方法
@@ -163,22 +207,22 @@
 
 //界面上半部分
 - (void)initAppear {
-    if (self.section) {
+    if (self.lessonModel) {
         //访问view属性,激活view
         NSLog(@"%f",self.view.frame.origin.x);
         
         //bar标题
-        self.lhlNavigationBar.title.text = self.section.sectionName;
+        self.lhlNavigationBar.title.text = self.lessonModel.lessonName;
         
         //封面
-        SectionCustomView_iPhone *sv = [[SectionCustomView_iPhone alloc]initWithFrame:CGRectMake(18, IP5(75, 60), 125, 125) andSection:self.section andItemLabel:0];
+        SectionCustomView_iPhone *sv = [[SectionCustomView_iPhone alloc]initWithFrame:CGRectMake(18, IP5(75, 60), 125, 125) andLesson:self.lessonModel andItemLabel:0];
         self.sectionView = sv;
         
         [self.view addSubview:self.sectionView];
         //显示分数
         CustomLabel_iPhone *scoreLabel = [[CustomLabel_iPhone alloc]initWithFrame:CGRectMake(245, IP5(80, 65), 55, 55)];
         scoreLabel.backgroundColor = [UIColor colorWithRed:12.0/255.0 green:58.0/255.0 blue:94.0/255.0 alpha:1.0f];
-        scoreLabel.text =[NSString stringWithFormat:@"%.1f",[self.section.sectionScore floatValue]];
+        scoreLabel.text =[NSString stringWithFormat:@"%.1f",[self.lessonModel.lessonScore floatValue]];
         scoreLabel.layer.cornerRadius = 12;
         [scoreLabel setColor:[UIColor whiteColor] fromIndex:0 length:scoreLabel.text.length];
         [scoreLabel setFont:[UIFont systemFontOfSize:38] fromIndex:0 length:1];
@@ -195,7 +239,7 @@
         nameLabel.backgroundColor = [UIColor clearColor];
         nameLabel.textColor = [UIColor darkGrayColor];
         nameLabel.font = [UIFont systemFontOfSize:15];
-        nameLabel.text =[NSString stringWithFormat:@"名称：%@",self.section.sectionName];
+        nameLabel.text =[NSString stringWithFormat:@"名称：%@",self.lessonModel.lessonName];
         self.nameLab = nameLabel;
         [self.view addSubview:self.nameLab];
         nameLabel = nil;
@@ -205,15 +249,15 @@
         teacherLabel.backgroundColor = [UIColor clearColor];
         teacherLabel.textColor = [UIColor darkGrayColor];
         teacherLabel.font = [UIFont systemFontOfSize:15];
-        teacherLabel.text =[NSString stringWithFormat:@"讲师：%@",self.section.sectionTeacher];
+        teacherLabel.text =[NSString stringWithFormat:@"讲师：%@",self.lessonModel.lessonTeacherName];
         self.teacherlab = teacherLabel;
         [self.view addSubview:self.teacherlab];
         teacherLabel = nil;
         labelTop +=self.teacherlab.frame.size.height+labelSpace;
         //简介
-//        if (self.section.lessonInfo.length >0) {
+//        if (self.lessonModel.lessonDetailInfo.length >0) {
             UIFont *aFont = [UIFont systemFontOfSize:15];
-            CGSize size = [self.section.lessonInfo sizeWithFont:aFont constrainedToSize:CGSizeMake(285, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
+            CGSize size = [self.lessonModel.lessonDetailInfo sizeWithFont:aFont constrainedToSize:CGSizeMake(285, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
             CGFloat hh = 0;  //infoLabel的height
             if (size.height-60>0){
                 hh = 60;
@@ -224,7 +268,7 @@
                 infoLabel.textColor = [UIColor darkGrayColor];
                 infoLabel.numberOfLines = 0;
                 infoLabel.font = aFont;
-                infoLabel.text =[NSString stringWithFormat:@"简介：%@",self.section.lessonInfo];
+                infoLabel.text =[NSString stringWithFormat:@"简介：%@",self.lessonModel.lessonDetailInfo];
                 self.infoLab = infoLabel;
                 [self.scrollView addSubview:self.infoLab];
                 self.scrollView.contentSize = CGSizeMake(280,self.infoLab.frame.size.height);
@@ -242,7 +286,7 @@
                 infoLabel.textColor = [UIColor darkGrayColor];
                 infoLabel.numberOfLines = 0;
                 infoLabel.font = aFont;
-                infoLabel.text =[NSString stringWithFormat:@"简介：%@",self.section.lessonInfo];
+                infoLabel.text =[NSString stringWithFormat:@"简介：%@",self.lessonModel.lessonDetailInfo];
                 self.infoLab = infoLabel;
                 [self.view addSubview:self.infoLab];
                 infoLabel = nil;
@@ -255,7 +299,7 @@
         lastLabel.backgroundColor = [UIColor clearColor];
         lastLabel.textColor = [UIColor darkGrayColor];
         lastLabel.font = [UIFont systemFontOfSize:15];
-        lastLabel.text =[NSString stringWithFormat:@"时长：%@",self.section.sectionLastTime];
+        lastLabel.text =[NSString stringWithFormat:@"时长：%@",self.lessonModel.lessonDuration];
         self.lastLab = lastLabel;
         [self.view addSubview:self.lastLab];
         lastLabel = nil;
@@ -266,7 +310,7 @@
         studyLabel.backgroundColor = [UIColor clearColor];
         studyLabel.textColor = [UIColor darkGrayColor];
         studyLabel.font = [UIFont systemFontOfSize:15];
-        NSString *studyProgress = [self.section.sectionStudy stringByReplacingOccurrencesOfString:@"分" withString:@"´"];
+        NSString *studyProgress = [self.lessonModel.lessonStudyTime stringByReplacingOccurrencesOfString:@"分" withString:@"´"];
         studyProgress = [studyProgress stringByReplacingOccurrencesOfString:@"秒" withString:@"〞"];
         studyLabel.text =[NSString stringWithFormat:@"已学习：%@",studyProgress];
         self.studyLab = studyLabel;
@@ -281,7 +325,12 @@
         }
         UIButton *palyButton = [UIButton buttonWithType:UIButtonTypeCustom];
         palyButton.frame = CGRectMake(18, labelTop + IP5(8, -2), 283, IP5(33, 30));
-        [palyButton setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
+//        [palyButton setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
+        if (!self.lessonModel.lessonStudyTime || [self.lessonModel.lessonStudyTime isEqualToString:@"0"]) {
+            [palyButton setTitle:NSLocalizedString(@"开始学习", @"button") forState:UIControlStateNormal];
+        }else{
+            [palyButton setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
+        }
         [palyButton setBackgroundColor:[UIColor clearColor]];
 		[palyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [palyButton.titleLabel setFont:[UIFont systemFontOfSize:16]];
@@ -306,57 +355,37 @@
     self.slideSwitchView.shadowImage = [[UIImage imageNamed:@"play-courselist_0df3"]
                                         stretchableImageWithLeftCapWidth:59.0f topCapHeight:0.0f];
     
-    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+//    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
     
     //章节页面
-    self.section_ChapterView = [story instantiateViewControllerWithIdentifier:@"Section_ChapterViewController_iPhone"];
-    self.section_ChapterView.title = @"章节目录";
+//    self.section_ChapterView = [story instantiateViewControllerWithIdentifier:@"Section_ChapterViewController_iPhone"];
     [self.section_ChapterView.view frame];
     [self.section_ChapterView.tableViewList setFrame:CGRectMake(22, 0, 276, self.slideSwitchView.frame.size.height - IP5(63, 53))];
-    self.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:self.section.sectionList];
-    [self.section_ChapterView.tableViewList reloadData];
+    self.section_ChapterView.title = @"章节目录";
+    self.section_ChapterView.lessonId = self.lessonModel.lessonId;
+    self.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:self.lessonModel.chapterList];
+    self.section_ChapterView.isMovieView = NO;
     
     //评价页面
     AppDelegate *app = [AppDelegate sharedInstance];
     if (app.isLocal == NO) {
-        self.section_GradeView = [story instantiateViewControllerWithIdentifier:@"Section_GradeViewController_iPhone"];
         self.section_GradeView.title = @"打分";
-        self.section_GradeView.dataArray = [NSMutableArray arrayWithArray:self.section.commentList];
-        self.section_GradeView.isGrade = [self.section.isGrade intValue];
-        self.section_GradeView.sectionId = self.section.sectionId;
-        CommentModel *comment = (CommentModel *)[self.section_GradeView.dataArray objectAtIndex:self.section_GradeView.dataArray.count-1];
-        self.section_GradeView.pageCount = comment.pageCount;
-        self.section_GradeView.nowPage = 1;
+        self.section_GradeView.dataArray = [NSMutableArray arrayWithArray:self.lessonModel.lessonCommentList];
+        self.section_GradeView.isGrade = [self.lessonModel.lessonIsScored intValue];
+        self.section_GradeView.lessonId = self.lessonModel.lessonId;
+        if(self.section_GradeView.dataArray.count > 0){
+            self.section_GradeView.nowPage = 1;
+        }
     }
     
     //笔记页面
-    self.section_NoteView = [story instantiateViewControllerWithIdentifier:@"Section_NoteViewController_iPhone"];
+    [self.section_NoteView.view setFrame:CGRectMake(0, 0, 320, IP5(568, 480))];
     self.section_NoteView.title = @"笔记";
-    [self.section_NoteView.view frame];
+    self.section_NoteView.delegate = self;
     [self.section_NoteView.tableViewList setFrame:CGRectMake(22, 0, 276, self.slideSwitchView.frame.size.height - IP5(63, 53))];
-    self.section_NoteView.dataArray = [NSMutableArray arrayWithArray:self.section.noteList];
+    self.section_NoteView.dataArray = [NSMutableArray arrayWithArray:self.lessonModel.chapterList];
     
     [self.slideSwitchView buildUI];
-}
-
-#pragma mark -- SectionInfoInterface
--(void)getSectionInfoDidFinished:(SectionModel *)result {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        SectionModel *section = (SectionModel *)result;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            self.section = section;
-            self.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:self.section.sectionList];
-            [self.section_ChapterView.tableViewList reloadData];
-            [self initAppear];          //界面上半部分
-            [self initAppear_slide];    //界面下半部分(滑动视图)
-        });
-    });
-}
-
--(void)getSectionInfoDidFailed:(NSString *)errorMsg {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Utility errorAlert:errorMsg];
 }
 
 #pragma mark -- PlayVideoInterfaceDelegate
@@ -365,11 +394,12 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             //播放接口
-            DLog(@"self.storyboard = %@",self.storyboard);
             self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
-            [self.playerController playMovieWithURL:[NSURL URLWithString:self.path] withFileType:MPMovieSourceTypeStreaming];
-            self.playerController.sectionId = self.section.sectionId;
-            self.playerController.sectionModel = self.section;
+            chapterModel *chapter = [self.lessonModel.chapterList firstObject];
+            SectionModel *section = [chapter.sectionList firstObject];
+            [self.playerController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
+//            self.playerController.sectionId = self.lessonModel.lessonId;
+//            self.playerController.sectionModel = self.section;
             
             self.playerController.delegate = self;
             AppDelegate *app = [AppDelegate sharedInstance];
@@ -380,6 +410,58 @@
     });
 }
 -(void)getPlayVideoInfoDidFailed:(NSString *)errorMsg {
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [Utility errorAlert:errorMsg];
+}
+
+- (void)gotoMoviePlayMovieOnLineWithSectionSavemodel:(NSNotification *)info {
+    self.isPlaying = YES;
+    SectionModel *section = [info.userInfo objectForKey:@"sectionModel"];
+    if (section.sectionMoviePlayURL) {
+        //播放接口
+        section.lessonId = self.lessonModel.lessonId;
+        if(!self.playerController){
+            self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
+            self.playerController.delegate = self;
+        }
+        AppDelegate *app = [AppDelegate sharedInstance];
+        [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
+            
+        }];
+        [self.playerController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
+    }else{
+        [Utility errorAlert:@"没有发现要播放的视频文件"];
+    }
+}
+
+- (void)gotoMoviePlayWithSid:(NSNotification *)info {
+    self.isPlaying = YES;
+    NSString *sectionID = [info.userInfo objectForKey:@"sectionID"];
+    NSString *path = [CaiJinTongManager getMovieLocalPathWithSectionID:sectionID];
+    if (path) {
+        //播放接口
+        Section *s = [[Section alloc] init];
+        SectionModel *ssm = [s getSectionModelWithSid:sectionID];
+        ssm.lessonId = self.lessonModel.lessonId;
+        self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
+        self.playerController.delegate = self;
+        [self.playerController playMovieWithSectionModel:ssm withFileType:MPMovieSourceTypeFile];
+        AppDelegate *app = [AppDelegate sharedInstance];
+        [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
+            
+        }];
+        
+    }
+}
+
+#pragma mark-- LessonInfoInterfaceDelegate加载课程详细信息 ,播放完成后回调
+-(void)getLessonInfoDidFinished:(LessonModel*)lesson{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self reloadLessonData:lesson];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    });
+}
+-(void)getLessonInfoDidFailed:(NSString *)errorMsg{
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
 }
@@ -395,7 +477,56 @@
     }
 }
 
-#pragma mark
+-(LessonModel *)lessonModelForDrMoviePlayerViewController{
+    return self.lessonModel;
+}
+
+#pragma mark Section_NoteViewControllerDelegate选中一条笔记
+-(void)section_NoteViewController:(Section_NoteViewController_iPhone *)controller didClickedNoteCellWithObj:(NoteModel *)noteModel{
+    [self playVideo:Nil];
+}
+
+#pragma mark property
+//setter自动转换LessonModel参数为Section
+-(void)setSection:(SectionModel *)section{
+    if([section isKindOfClass:[LessonModel class]]){
+        _section = ((LessonModel *)section).toSection;
+    }else{
+        _section = section;
+    }
+}
+
+-(Section_NoteViewController_iPhone *)section_NoteView{
+    if (!_section_NoteView) {
+        _section_NoteView = [self.storyboard instantiateViewControllerWithIdentifier:@"Section_NoteViewController_iPhone"];
+        [self addChildViewController:_section_NoteView];
+    }
+    return _section_NoteView;
+}
+
+-(Section_GradeViewController_iPhone *)section_GradeView{
+    if (!_section_GradeView) {
+        _section_GradeView = [self.storyboard instantiateViewControllerWithIdentifier:@"Section_GradeViewController_iPhone"];
+        [self addChildViewController:_section_GradeView];
+    }
+    return _section_GradeView;
+}
+
+-(Section_ChapterViewController_iPhone *)section_ChapterView{
+    if (!_section_ChapterView) {
+        _section_ChapterView =  [self.storyboard instantiateViewControllerWithIdentifier:@"Section_ChapterViewController_iPhone"];
+        [self addChildViewController:_section_ChapterView];
+    }
+    return _section_ChapterView;
+}
+
+-(LessonInfoInterface *)lessonInterface{
+    if (!_lessonInterface) {
+        _lessonInterface = [[LessonInfoInterface alloc] init];
+        _lessonInterface.delegate = self;
+    }
+    return _lessonInterface;
+}
 
 - (void)didReceiveMemoryWarning
 {
