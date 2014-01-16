@@ -333,7 +333,7 @@
         _searchBar.delegate = self;
         [_searchBar setHidden:YES];
         [_searchBar setAlpha:0.0];
-        [_searchBar.searchTextField setPlaceholder:@"搜索问题"];
+        [_searchBar.searchTextField setPlaceholder:@"搜索资料"];
         [self.view addSubview:_searchBar];
     }
     return _searchBar;
