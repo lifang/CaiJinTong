@@ -14,5 +14,5 @@
 @interface LearningMaterialsViewController : DRNaviGationBarController<LearningMaterialCellDelegate,UITableViewDataSource,UITableViewDelegate,LearningMatarilasListInterfaceDelegate,SearchLearningMatarilasListInterfaceDelegate,MJRefreshBaseViewDelegate>
 @property (strong,nonatomic) NSString *lessonCategoryId;
 @property (strong,nonatomic) NSMutableArray *dataArray;
--(void)changeLearningMaterialsDate:(NSArray*)learningMaterialArr withSortType:(LearningMaterialsSortType)sortType;
+-(void)changeLearningMaterialsDate:(NSArray*)learningMaterialArr withSortType:(LearningMaterialsSortType)sortType withCategoryId:(NSString*)categoryId widthAllDataCount:(int)dataCount;
 @end

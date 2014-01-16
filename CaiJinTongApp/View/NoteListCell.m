@@ -102,6 +102,8 @@ typedef enum {AlertType_DeleteCell = 12,AlertType_ModifyCell}AlertType;
     return string;
 }
 -(void)setNoteDateWithnoteModel:(NoteModel*)noteModel withIsEditing:(BOOL)isEditing{
+    self.commitBt.layer.cornerRadius = 5;
+    self.cancelBt.layer.cornerRadius = 5;
     self.noteModel = noteModel;
     [self.noteContentTextView setFont:NoteListCell_Content_Font];
     [self.noteTitleLabel setFont:NoteListCell_Title_Font];

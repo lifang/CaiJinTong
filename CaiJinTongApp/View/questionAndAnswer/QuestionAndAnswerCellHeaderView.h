@@ -15,6 +15,7 @@
 #define HEADER_TEXT_HEIGHT 40
 #define QUESTIONHEARD_VIEW_WIDTH  650
 #define QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT 141
+#define ContentMinHeight 200
 @protocol QuestionAndAnswerCellHeaderViewDelegate;
 @interface QuestionAndAnswerCellHeaderView : UITableViewHeaderFooterView<UITextViewDelegate>
 @property (strong,nonatomic) NSIndexPath *path;
@@ -35,4 +36,6 @@
 -(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView*)header willBeginTypeAnswerQuestionAtIndexPath:(NSIndexPath*)path;
 
 -(float)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView*)header headerHeightAtIndexPath:(NSIndexPath*)path;
+-(BOOL)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView*)header isExtendAtIndexPath:(NSIndexPath*)path;
+-(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView*)header didIsExtendQuestionContent:(BOOL)isExtend atIndexPath:(NSIndexPath*)path;
 @end

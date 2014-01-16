@@ -11,7 +11,7 @@
 @implementation CollectionCell
 -(void)changeLessonModel:(LessonModel*)lessonModel{
     self.lessonNameLabel.text = lessonModel.lessonName;
-    [self.lessonImageView setImageWithURL:[NSURL URLWithString:lessonModel.lessonImageURL] placeholderImage:[UIImage imageNamed:@"logo@2x.png"]];
+    [self.lessonImageView setImageWithURL:[NSURL URLWithString:lessonModel.lessonImageURL] placeholderImage:[UIImage imageNamed:@"logo.png"]];
     self.imageBackView.layer.borderWidth = 1;
     self.imageBackView.layer.borderColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:0.4].CGColor;
     //学习进度

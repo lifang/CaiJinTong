@@ -42,7 +42,7 @@
         default:
             break;
     }
-    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=learningMaterials&userId=%@&lessonCategoryId=%@&pageIndex=%d&sortType=%@",kHost,userId,categoryId,pageIndex+1,sort];
+    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=learningMaterials&userId=%@&categoryid=%@&pageIndex=%d&sortType=%@",kHost,userId,categoryId?:@"0",pageIndex+1,sort];
     self.baseDelegate = self;
     self.headers = reqheaders;
     
@@ -59,52 +59,59 @@
             if (jsonData) {
                 if ([[jsonData objectForKey:@"Status"]intValue] == 1) {
                     @try {
-                        self.currentPageIndex = [[jsonData objectForKey:@"pageIndex"] integerValue]-1;
-                        self.allDataCount = [[jsonData objectForKey:@"pageCount"] integerValue];
-                        NSArray *materialsArr = [jsonData objectForKey:@"learningMaterials"];
-                        NSMutableArray *materialsList = [NSMutableArray array];
-                        for (NSDictionary *dic in materialsArr) {
-                            LearningMaterials *material = [[LearningMaterials alloc] init];
-                            material.materialId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialId"]];
-                            material.materialName = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialName"]];
-                            material.materialLessonCategoryId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"lessonCategoryId"]];
-                            material.materialLessonCategoryName = [NSString stringWithFormat:@"%@",[dic objectForKey:@"lessonCategoryName"]];
-                            //1:pdf，2:word，3:zip，4:ppt，5:jpg，6:text，7:其他
-                            switch ([[NSString stringWithFormat:@"%@",[dic objectForKey:@"materialFileType"]] intValue]) {
-                                case 1:
-                                    material.materialFileType = LearningMaterialsFileType_pdf;
-                                    break;
-                                case 2:
-                                    material.materialFileType = LearningMaterialsFileType_word;
-                                    break;
-                                case 3:
-                                    material.materialFileType = LearningMaterialsFileType_zip;
-                                    break;
-                                case 4:
-                                    material.materialFileType = LearningMaterialsFileType_ppt;
-                                    break;
-                                case 5:
-                                    material.materialFileType = LearningMaterialsFileType_text;
-                                    break;
-                                case 6:
-                                    material.materialFileType = LearningMaterialsFileType_other;
-                                    break;
-                                default:
-                                    break;
+                        NSDictionary *dictionary =[jsonData objectForKey:@"ReturnObject"];
+                        if (dictionary) {
+                            self.currentPageIndex = [[dictionary objectForKey:@"pageIndex"] integerValue]-1;
+                            self.allDataCount = [[dictionary objectForKey:@"pageCount"] integerValue];
+                            NSArray *materialsArr = [dictionary objectForKey:@"noteList"];
+                            NSMutableArray *materialsList = [NSMutableArray array];
+                            for (NSDictionary *dic in materialsArr) {
+                                LearningMaterials *material = [[LearningMaterials alloc] init];
+                                material.materialId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialId"]];
+                                material.materialName = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialName"]];
+                                material.materialLessonCategoryId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialCategoryId"]];
+                                material.materialLessonCategoryName = [NSString stringWithFormat:@"%@",[dic objectForKey:@"CategoryName"]];
+                                //1:pdf，2:word，3:zip，4:ppt，5:jpg，6:text，7:其他
+                                switch ([[NSString stringWithFormat:@"%@",[dic objectForKey:@"materialFileType"]] intValue]) {
+                                    case 1:
+                                        material.materialFileType = LearningMaterialsFileType_pdf;
+                                        break;
+                                    case 2:
+                                        material.materialFileType = LearningMaterialsFileType_word;
+                                        break;
+                                    case 3:
+                                        material.materialFileType = LearningMaterialsFileType_zip;
+                                        break;
+                                    case 4:
+                                        material.materialFileType = LearningMaterialsFileType_ppt;
+                                        break;
+                                    case 5:
+                                        material.materialFileType = LearningMaterialsFileType_text;
+                                        break;
+                                    case 6:
+                                        material.materialFileType = LearningMaterialsFileType_other;
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                material.materialSearchCount = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialSearchCount"]];
+                                material.materialCreateDate = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialCreateDate"]];
+                                material.materialFileDownloadURL = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialFileDownloadURL"]];
+                                material.materialFileSize = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialFileSize"]];
+                                if (material.materialFileSize) {
+                                    material.materialFileSize = [Utility convertFileSizeUnitWithBytes:material.materialFileSize];
+                                }
+                                [materialsList addObject:material];
                             }
-                            material.materialSearchCount = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialSearchCount"]];
-                            material.materialCreateDate = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialCreateDate"]];
-                            material.materialFileDownloadURL = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialFileDownloadURL"]];
-                            material.materialFileSize = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialFileSize"]];
-                            if (material.materialFileSize) {
-                                material.materialFileSize = [Utility convertFileSizeUnitWithBytes:material.materialFileSize];
+                            if (materialsList.count > 0) {
+                                [self.delegate getlearningMaterilasListDataForCategoryDidFinished:materialsList withCurrentPageIndex:self.currentPageIndex withTotalCount:self.allDataCount];
+                            }else{
+                                [self.delegate getlearningMaterilasListDataForCategoryFailure:@"没有相关资料数据!"];
                             }
-                            [materialsList addObject:material];
-                        }
-                        if (materialsList.count > 0) {
-                            [self.delegate getlearningMaterilasListDataForCategoryDidFinished:materialsList withCurrentPageIndex:self.currentPageIndex withTotalCount:self.allDataCount];
-                        }else{
-                            [self.delegate getlearningMaterilasListDataForCategoryFailure:@"没有相关资料数据!"];
+
+                            
+                        }else {
+                            [self.delegate getlearningMaterilasListDataForCategoryFailure:@"获取资料列表失败!"];
                         }
                     }
                     @catch (NSException *exception) {

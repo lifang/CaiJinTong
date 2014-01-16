@@ -200,9 +200,9 @@ typedef enum {
     self.didAppearController = self.learningMaterialNavigationController;
     [self addToRootController:self.learningMaterialNavigationController];
     //加载资料分类
-//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//    UserModel *user = [[CaiJinTongManager shared] user];
-//    [self.learningMatarilasCategoryInterface downloadLearningMatarilasCategoryDataWithUserId:user.userId];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    UserModel *user = [[CaiJinTongManager shared] user];
+    [self.learningMatarilasCategoryInterface downloadLearningMatarilasCategoryDataWithUserId:user.userId];
 }
 
 -(void)removeFromRootController:(UIViewController*)controller{
@@ -621,7 +621,7 @@ typedef enum {
 #pragma mark LearningMatarilasListInterfaceDelegate获取资料数据
 -(void)getlearningMaterilasListDataForCategoryDidFinished:(NSArray *)learningMaterialsList withCurrentPageIndex:(int)pageIndex withTotalCount:(int)allDataCount{
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.learningMaterialsController changeLearningMaterialsDate:learningMaterialsList withSortType:LearningMaterialsSortType_Default];
+        [self.learningMaterialsController changeLearningMaterialsDate:learningMaterialsList withSortType:LearningMaterialsSortType_Default withCategoryId:self.learningMatarilasListInterface.lessonCategoryId widthAllDataCount:allDataCount];
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     });
 }

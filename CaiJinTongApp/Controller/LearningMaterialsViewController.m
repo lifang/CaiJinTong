@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic,strong) NSMutableArray *searchArray;
 @property (nonatomic,assign) BOOL isSearch;//搜索
+@property (weak, nonatomic) IBOutlet UILabel *totalCountLabel;
 @property (nonatomic,assign) BOOL isReloading;//正在下载中
 @property (nonatomic,assign) LearningMaterialsSortType sortType;
 @property (nonatomic,strong) NSString *searchContent;
@@ -49,10 +50,12 @@
 }
 
 
--(void)changeLearningMaterialsDate:(NSArray*)learningMaterialArr withSortType:(LearningMaterialsSortType)sortType{
+-(void)changeLearningMaterialsDate:(NSArray*)learningMaterialArr withSortType:(LearningMaterialsSortType)sortType withCategoryId:(NSString*)categoryId widthAllDataCount:(int)dataCount{
     if (!learningMaterialArr) {
         return;
     }
+    self.totalCountLabel.text = [NSString stringWithFormat:@"目前有(%d)份资料",dataCount];
+    self.lessonCategoryId = categoryId;
     self.dataArray = [NSMutableArray arrayWithArray:learningMaterialArr];
 //    self.sortType = sortType;
     [self.tableView reloadData];
@@ -154,9 +157,13 @@
         [Utility errorAlert:@"无法查看文件内容，请到电脑上下载查看！"];
     }else{
         UIWebView *webView = [[UIWebView alloc] initWithFrame:(CGRect){0,0,800,700}];
+        webView.scrollView.minimumZoomScale = 0.5;
+        webView.scrollView.maximumZoomScale = 2.0;
+        webView.scalesPageToFit = YES;
         UIViewController *webController = [[UIViewController alloc]init];
         [webController.view addSubview:webView];
         webController.view.frame = (CGRect){0,0,800,700};
+        [webView loadRequest:[NSURLRequest requestWithURL:[[NSURL alloc] initFileURLWithPath:material.materialFileLocalPath]]];
         [self presentPopupViewController:webController animationType:MJPopupViewAnimationSlideTopTop isAlignmentCenter:YES dismissed:^{
             
         }];
@@ -188,9 +195,13 @@
 #pragma mark --
 
 #pragma mark SearchLearningMatarilasListInterfaceDelegate
--(void)searchLearningMaterilasListDataForCategoryDidFinished:(NSArray *)lessonList withCurrentPageIndex:(int)pageIndex withTotalCount:(int)allDataCount{
+-(void)searchLearningMaterilasListDataForCategoryDidFinished:(NSArray *)learningMaterialsList withCurrentPageIndex:(int)pageIndex withTotalCount:(int)allDataCount{
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.searchArray = [NSMutableArray arrayWithArray:lessonList];
+        if (pageIndex > 0) {
+            [self.searchArray addObjectsFromArray:learningMaterialsList];
+        }else{
+            self.searchArray = [NSMutableArray arrayWithArray:learningMaterialsList];
+        }
         [self.tableView reloadData];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self.headerRefreshView endRefreshing];
@@ -215,10 +226,15 @@
 #pragma mark --
 
 #pragma mark LearningMatarilasListInterfaceDelegate
--(void)getlearningMaterilasListDataForCategoryDidFinished:(NSArray *)lessonList withCurrentPageIndex:(int)pageIndex withTotalCount:(int)allDataCount{
+-(void)getlearningMaterilasListDataForCategoryDidFinished:(NSArray *)learningMaterialsList withCurrentPageIndex:(int)pageIndex withTotalCount:(int)allDataCount{
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.dataArray = [NSMutableArray arrayWithArray:lessonList];
+        if (pageIndex > 0) {
+            [self.dataArray addObjectsFromArray:learningMaterialsList];
+        }else{
+            self.dataArray = [NSMutableArray arrayWithArray:learningMaterialsList];
+        }
         [self.tableView reloadData];
+        self.totalCountLabel.text = [NSString stringWithFormat:@"目前有(%d)份资料",allDataCount];
         [self.headerRefreshView endRefreshing];
         [self.footerRefreshView endRefreshing];
         self.headerRefreshView.isForbidden = NO;

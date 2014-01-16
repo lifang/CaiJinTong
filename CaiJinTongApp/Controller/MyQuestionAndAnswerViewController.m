@@ -138,6 +138,17 @@
 #pragma mark --
 
 #pragma mark QuestionAndAnswerCellHeaderViewDelegate
+-(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header didIsExtendQuestionContent:(BOOL)isExtend atIndexPath:(NSIndexPath *)path{
+    QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
+    question.isExtend = isExtend;
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+-(BOOL)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header isExtendAtIndexPath:(NSIndexPath *)path{
+    QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
+    return question.isExtend;
+}
+
 -(float)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header headerHeightAtIndexPath:(NSIndexPath *)path{
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
     CGRect rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:QUESTIONHEARD_VIEW_WIDTH];
@@ -362,13 +373,23 @@
 
 -(float)getTableViewHeaderHeightWithSection:(NSInteger)section{
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:section];
-    CGRect rect;
-    if (question.isEditing) {
-        rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:QUESTIONHEARD_VIEW_WIDTH];
-        return rect.size.height + TEXT_HEIGHT + TEXT_PADDING + QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT+ 10;
+    CGRect rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:QUESTIONHEARD_VIEW_WIDTH];
+    if (question.isExtend) {
+        if (question.isEditing) {
+            return rect.size.height + TEXT_HEIGHT + TEXT_PADDING + QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT+ 10+40+10;
+        }else{
+            return rect.size.height + TEXT_HEIGHT + TEXT_PADDING + 10+40+10;
+        }
     }else{
-         rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:QUESTIONHEARD_VIEW_WIDTH] ;
-        return rect.size.height + TEXT_HEIGHT + TEXT_PADDING + 10;
+        float height = rect.size.height;
+        if (height > ContentMinHeight) {
+            height = ContentMinHeight;
+        }
+        if (question.isEditing) {
+            return height + TEXT_HEIGHT + TEXT_PADDING + QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT+ 10+40+10;
+        }else{
+            return height + TEXT_HEIGHT + TEXT_PADDING + 10+40+10;
+        }
     }
 }
 

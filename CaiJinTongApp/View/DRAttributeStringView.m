@@ -37,19 +37,28 @@
     _imageURL = imageURL;
     if (imageURL) {
         __block  ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:imageURL];
+        __weak ASIHTTPRequest *weakRequest = request;
+        __weak DRAttributeImageView *weakSelf = self;
         [self.progress startAnimating];
         [request setCompletionBlock:^{
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.progress stopAnimating];
-                [self setUserInteractionEnabled:YES];
-                self.image =  [UIImage imageWithData:[request responseData]];
+                DRAttributeImageView *tempSelf = weakSelf;
+                ASIHTTPRequest *tempRequest = weakRequest;
+                if (tempSelf) {
+                    [tempSelf.progress stopAnimating];
+                    [tempSelf setUserInteractionEnabled:YES];
+                    if (tempRequest) {
+                        tempSelf.image =  [UIImage imageWithData:[tempRequest responseData]];
+                    }
+                    
+                }
             });
         }];
         
         [request setFailedBlock:^{
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.progress stopAnimating];
-                self.image = [UIImage imageNamed:@"财金通logo.png"];
+                self.image = [UIImage imageNamed:@"logo.png"];
                 [self setUserInteractionEnabled:NO];
             });
         }];
