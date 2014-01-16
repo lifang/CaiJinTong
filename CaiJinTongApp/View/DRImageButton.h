@@ -18,7 +18,7 @@ typedef enum {
 @property (weak,nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak,nonatomic) IBOutlet UIImageView *titleImageView;
 @property (assign,nonatomic) DRImageButtonType imageButtonType;
-@property (weak,nonatomic) id<DRImageButtonDelegate> delegate;
+@property (weak,nonatomic) IBOutlet id<DRImageButtonDelegate> delegate;
 -(IBAction)imageButtonClicked:(id)sender;
 -(void)setTitle:(NSString*)title withImage:(UIImage*)image withType:(DRImageButtonType)type;
 @end

@@ -10,6 +10,7 @@
 #import "LogInterface.h"
 @interface LoginViewController : UIViewController<LogInterfaceDelegate>
 @property (weak, nonatomic) IBOutlet UIView *inputView;
+@property (weak, nonatomic) IBOutlet UIView *inputContainerView;
 
 @property (nonatomic,strong) LogInterface *logInterface;
 @end

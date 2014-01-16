@@ -35,11 +35,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [Utility setBackgroungWithView:self.view andImage6:@"login_bg_7.png" andImage7:@"login_bg_7.png"];
-    [Utility setBackgroungWithView:self.inputView andImage6:@"login_07" andImage7:@"login_07"];
+    self.inputView.layer.borderWidth = 2;
+    self.inputView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     NSString *text = @"找回密码";
      [self.forgotPwdBt setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [self.forgotPwdBt setTitle:text forState:UIControlStateNormal];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardUP:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardDOWN:) name: UIKeyboardWillHideNotification object:nil];
 //    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:text];
 //    [attri addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0, text.length)];
 //    [attri addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:NSMakeRange(0, text.length)];
@@ -47,6 +49,24 @@
 
 }
 
+-(void)keyBoardUP:(NSNotification*)notification{
+    NSTimeInterval animationDuration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    [UIView animateWithDuration:animationDuration animations:^{
+        self.inputContainerView.frame = (CGRect){0,768-251-370,1024,289};
+    } completion:^(BOOL finished) {
+        
+    }];
+    
+}
+
+-(void)keyBoardDOWN:(NSNotification*)notification{
+    NSTimeInterval animationDuration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    [UIView animateWithDuration:animationDuration animations:^{
+        self.inputContainerView.frame = (CGRect){0,768-251,1024,289};
+    } completion:^(BOOL finished) {
+        
+    }];
+}
 
 
 - (void)didReceiveMemoryWarning
@@ -56,6 +76,8 @@
 }
 
 - (IBAction)loginBtClicked:(id)sender {
+    [self getLogInfoDidFinished:nil];
+    return;
 //    NSString *regexCall = @"(\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*)|(1[0-9]{10})";
 //    NSPredicate *predicateCall = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",regexCall];
 //    if ([predicateCall evaluateWithObject:self.userNameTextField.text]) {

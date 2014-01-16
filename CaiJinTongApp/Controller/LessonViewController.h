@@ -17,7 +17,9 @@
 #import "LessonCategoryInterface.h"
 #import "LessonListForCategory.h"
 #import "MyQuestionCategatoryInterface.h"
-@interface LessonViewController : UIViewController<UISearchBarDelegate,ChapterInfoInterfaceDelegate,UITextFieldDelegate,SearchLessonInterfaceDelegate,QuestionInfoInterfaceDelegate,ChapterQuestionInterfaceDelegate,UIScrollViewDelegate,GetUserQuestionInterfaceDelegate,SearchQuestionInterfaceDelegate,UITextFieldDelegate,DRTreeTableViewDelegate,LessonCategoryInterfaceDelegate,LessonListForCategoryDelegate,MyQuestionCategatoryInterfaceDelegate>
+#import "LearningMatarilasCategoryInterface.h"
+#import "LearningMatarilasListInterface.h"
+@interface LessonViewController : UIViewController<UISearchBarDelegate,ChapterInfoInterfaceDelegate,UITextFieldDelegate,SearchLessonInterfaceDelegate,QuestionInfoInterfaceDelegate,ChapterQuestionInterfaceDelegate,UIScrollViewDelegate,GetUserQuestionInterfaceDelegate,SearchQuestionInterfaceDelegate,UITextFieldDelegate,DRTreeTableViewDelegate,LessonCategoryInterfaceDelegate,LessonListForCategoryDelegate,MyQuestionCategatoryInterfaceDelegate,LearningMatarilasCategoryInterfaceDelegate,LearningMatarilasListInterfaceDelegate>
 
 @property (nonatomic, strong) SearchLessonInterface *searchLessonInterface;
 @property (weak, nonatomic) IBOutlet UIButton *editBtn;
@@ -36,6 +38,8 @@
 @property (weak, nonatomic) IBOutlet UIView *rightBackGroundview;
 @property (weak, nonatomic) IBOutlet UIButton *lessonListBt;
 @property (weak, nonatomic) IBOutlet UIButton *questionListBt;
+@property (weak, nonatomic) IBOutlet UIButton *noteListBt;
+@property (weak, nonatomic) IBOutlet UIButton *learningMaterailBt;
 @property (weak, nonatomic) IBOutlet UILabel *lessonListTitleLabel;
 - (IBAction)lessonListBtClicked:(id)sender;
 - (IBAction)questionListBtClicked:(id)sender;

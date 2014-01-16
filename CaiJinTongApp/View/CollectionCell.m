@@ -7,47 +7,24 @@
 //
 
 #import "CollectionCell.h"
-
+#import "UIImageView+WebCache.h"
 @implementation CollectionCell
-
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        //300,270
-        self.pv = [[CJTSlider alloc]initWithFrame:CGRectMake(-2, 230, 254, 33)];
-        [self.contentView addSubview:self.pv];
-
-        //视频名称
-        UIFont *font = [UIFont systemFontOfSize:20];
-        UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 270, 31)];
-        nameLabel.textColor = [UIColor blackColor];
-        nameLabel.textAlignment = NSTextAlignmentLeft;
-        nameLabel.backgroundColor = [UIColor clearColor];
-        nameLabel.font = font;
-        nameLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleWidth;
-        self.nameLab = nameLabel;
-        [self.contentView addSubview:self.nameLab];
-        nameLabel = nil;
-        
-        //视频封面
-        UIImageView *imageViewC = [[UIImageView alloc]initWithFrame:CGRectMake(0, 31, 270, 236)];
-        self.imageView = imageViewC;
-        imageViewC.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        [self.contentView addSubview:self.imageView];
-        imageViewC = nil;
-
-        
-        UILabel *progress = [[UILabel alloc] initWithFrame:CGRectMake(1, 230, 300, 31)];
-        progress.textAlignment = NSTextAlignmentLeft;
-        progress.backgroundColor = [UIColor clearColor];
-        self.progressLabel = progress;
-        progress.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleWidth;
-        [self.contentView addSubview:self.progressLabel];
-        progress = nil;
-        
+-(void)changeLessonModel:(LessonModel*)lessonModel{
+    self.lessonNameLabel.text = lessonModel.lessonName;
+    [self.lessonImageView setImageWithURL:[NSURL URLWithString:lessonModel.lessonImageURL] placeholderImage:[UIImage imageNamed:@"logo@2x.png"]];
+    self.imageBackView.layer.borderWidth = 1;
+    self.imageBackView.layer.borderColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:0.4].CGColor;
+    //学习进度
+    CGFloat xx = [lessonModel.lessonStudyProgress floatValue];
+    if ( xx > 1.0) {
+        xx=1.0;
     }
-    return self;
+    if (!xx) {
+        xx = 0;
+    }
+    float width = CGRectGetWidth(self.imageBackView.frame)*xx;
+    self.progressTrackImageView.frame = (CGRect){0,CGRectGetMinY(self.progressTrackImageView.frame),width,CGRectGetHeight(self.progressTrackImageView.frame)};
+    self.progressLabel.text = [NSString stringWithFormat:@"学习进度 : %0.2f%%",xx*100];
 }
 
 /*

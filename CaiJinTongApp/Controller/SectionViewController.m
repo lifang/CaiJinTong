@@ -74,6 +74,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.drnavigationBar.searchBar setHidden:YES];
     self.navigationItem.hidesBackButton = YES;
     //打分之后提交
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -81,8 +82,7 @@
                                                  name: @"refeshScore"
                                                object: nil];
     self.drnavigationBar.titleLabel.text = self.lessonModel.lessonName;
-    [self.drnavigationBar.navigationRightItem setTitle:@"关闭" forState:UIControlStateNormal];
-    [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    [self.drnavigationBar.navigationRightItem setTitle:@"返回" forState:UIControlStateNormal];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardUP:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardDOWN:) name:UIKeyboardWillHideNotification object:nil];

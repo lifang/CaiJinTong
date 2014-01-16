@@ -20,6 +20,8 @@
 @property (nonatomic,assign) BOOL isReaskRefreshing;//判断是追问刷新还是上拉下拉刷新
 @property (nonatomic,strong) DRAskQuestionViewController *askQuestionController;
 @property (nonatomic,strong) UIViewController *modelController;
+@property (nonatomic,assign) BOOL isSearch;//判断是否是搜索
+@property (nonatomic,strong) NSString *searchContent;//搜索关键字
 @end
 
 @implementation MyQuestionAndAnswerViewController
@@ -33,7 +35,8 @@
     return self;
 }
 
--(void)drnavigationBarRightItemClicked:(id)sender{
+#pragma mark ask Question提问
+- (IBAction)askQuestionBtClicked:(id)sender {
     if (!self.askQuestionController) {
         UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
         self.askQuestionController  = [story instantiateViewControllerWithIdentifier:@"DRAskQuestionViewController"];
@@ -41,8 +44,9 @@
     }
     
     [self.navigationController pushViewController:self.askQuestionController animated:YES];
-    
 }
+
+#pragma mark --
 
 -(void)willDismissPopoupController{
     CGPoint offset = self.tableView.contentOffset;
@@ -55,9 +59,28 @@
     [self.footerRefreshView endRefreshing];
     [self.tableView registerClass:[QuestionAndAnswerCellHeaderView class] forHeaderFooterViewReuseIdentifier:@"header"];
     [self.drnavigationBar.navigationRightItem setTitle:@"提问" forState:UIControlStateNormal];
-    [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [self.drnavigationBar hiddleBackButton:YES];
+    self.drnavigationBar.searchBar.searchTextLabel.placeholder = @"搜索问题";
     [self.noticeBarImageView.layer setCornerRadius:4];
 }
+
+#pragma mark DRSearchBarDelegate搜索
+-(void)drSearchBar:(DRSearchBar *)searchBar didBeginSearchText:(NSString *)searchText{
+    self.isSearch = YES;
+     self.isReaskRefreshing = NO;
+    UserModel *user = [[CaiJinTongManager shared] user];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.searchContent = searchText;
+    self.questionAndAnswerScope = QuestionAndAnswerSearchQuestion;
+    [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:user.userId andText:self.searchContent withLastQuestionId:@"0"];
+}
+
+-(void)drSearchBar:(DRSearchBar *)searchBar didCancelSearchText:(NSString *)searchText{
+    self.isSearch = NO;
+    [self.tableView reloadData];
+}
+#pragma mark --
+
 ////数据源
 -(void)reloadDataWithDataArray:(NSArray*)data withQuestionChapterID:(NSString*)chapterID withScope:(QuestionAndAnswerScope)scope{
     self.questionAndAnswerScope = scope;
@@ -473,8 +496,6 @@
 
 - (IBAction)noticeHideBtnClick:(id)sender {
     [self.noticeBarView setHidden:YES];
-    CGRect frame = self.tableView.frame;
-    [self.tableView setFrame: CGRectMake(frame.origin.x,frame.origin.y - 35,frame.size.width,frame.size.height)];
 }
 
 #pragma mark DRAskQuestionViewControllerDelegate 提问问题成功时回调
@@ -487,8 +508,14 @@
 
 #pragma mark SearchQuestionInterfaceDelegate搜索问答回调
 -(void)getSearchQuestionInfoDidFailed:(NSString *)errorMsg{
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Utility errorAlert:errorMsg];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.headerRefreshView endRefreshing];
+        self.headerRefreshView.isForbidden = NO;
+        [self.footerRefreshView endRefreshing];
+        self.footerRefreshView.isForbidden = NO;
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [Utility errorAlert:errorMsg];
+    });
 }
 
 -(void)getSearchQuestionInfoDidFinished:(NSDictionary *)result{
@@ -503,6 +530,10 @@
                 [self reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:self.chapterID withScope:QuestionAndAnswerSearchQuestion];
             }
             
+            [self.headerRefreshView endRefreshing];
+            self.headerRefreshView.isForbidden = NO;
+            [self.footerRefreshView endRefreshing];
+            self.footerRefreshView.isForbidden = NO;
         });
     });
 }
@@ -566,8 +597,14 @@
 }
 
 -(void)getUserQuestionInfoDidFailed:(NSString *)errorMsg{
-     [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Utility errorAlert:errorMsg];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.headerRefreshView endRefreshing];
+        self.headerRefreshView.isForbidden = NO;
+        [self.footerRefreshView endRefreshing];
+        self.footerRefreshView.isForbidden = NO;
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [Utility errorAlert:errorMsg];
+    });
 }
 #pragma mark --
 
@@ -589,10 +626,6 @@
         }else{
             [Utility errorAlert:@"数据为空"];
         }
-        [self.headerRefreshView endRefreshing];
-        self.headerRefreshView.isForbidden = NO;
-        [self.footerRefreshView endRefreshing];
-        self.footerRefreshView.isForbidden = NO;
     }else{
         if (result) {
             NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
@@ -608,16 +641,22 @@
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     }
 
-
-
-}
-
--(void)getQuestionListInfoDidFailed:(NSString *)errorMsg{
     [self.headerRefreshView endRefreshing];
     self.headerRefreshView.isForbidden = NO;
     [self.footerRefreshView endRefreshing];
     self.footerRefreshView.isForbidden = NO;
-    [Utility errorAlert:errorMsg];
+
+}
+
+-(void)getQuestionListInfoDidFailed:(NSString *)errorMsg{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.headerRefreshView endRefreshing];
+        self.headerRefreshView.isForbidden = NO;
+        [self.footerRefreshView endRefreshing];
+        self.footerRefreshView.isForbidden = NO;
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [Utility errorAlert:errorMsg];
+    });
 }
 #pragma mark --
 
@@ -637,8 +676,10 @@
     });
 }
 -(void)getAcceptAnswerInfoDidFailed:(NSString *)errorMsg {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Utility errorAlert:errorMsg];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [Utility errorAlert:errorMsg];
+    });
 }
 
 -(void)dealloc{

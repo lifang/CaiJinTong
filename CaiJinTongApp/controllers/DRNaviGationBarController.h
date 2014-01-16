@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #import "DRNavigationBar.h"
-@interface DRNaviGationBarController : UIViewController<UISearchBarDelegate>
+@interface DRNaviGationBarController : UIViewController<DRSearchBarDelegate>
 @property (strong, nonatomic)   DRNavigationBar *drnavigationBar;
 @property (nonatomic,strong,readonly) UIStoryboard *story;
  - (void)drnavigationBarRightItemClicked:(id)sender;
