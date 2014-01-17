@@ -14,6 +14,7 @@
 @property (strong,nonatomic) NSURL *downloadFileURL;//下载文件的地址
 @property (assign,nonatomic) BOOL isPostNotification;//设置是否有通知事件
 @property (strong,nonatomic) UIAlertView *alert;
+@property (strong,nonatomic)  LearningMaterials *materialModel;
 @end
 
 @implementation DownloadDataButton
@@ -39,8 +40,8 @@
 }
 
 -(void)setDownloadUrl:(NSURL*)url withDownloadStatus:(DownloadDataButtonStatus)status withIsPostNotification:(BOOL)isPost{
-    NSArray *arr = [[ASINetworkQueue defaultDownloadLargeDataQueue] operations];
-    NSLog(@"%d",[arr count]);
+//    NSArray *arr = [[ASINetworkQueue defaultDownloadLargeDataQueue] operations];
+//    NSLog(@"%d",[arr count]);
     [self addTargetMethod];
     self.downloadFileStatus = status;
     if (self.downloadFileURL &&  ![self.downloadFileURL.absoluteString isEqualToString:url.absoluteString]) {
@@ -50,6 +51,22 @@
     self.downloadFileURL = url;
     self.isPostNotification = isPost;
 }
+
+
+-(void)setDownloadLearningMaterial:(LearningMaterials*)learningMaterial withDownloadStatus:(DownloadDataButtonStatus)status withIsPostNotification:(BOOL)isPost{
+//    NSArray *arr = [[ASINetworkQueue defaultDownloadLargeDataQueue] operations];
+//    NSLog(@"%d",[arr count]);
+    self.materialModel = learningMaterial;
+    [self addTargetMethod];
+    self.downloadFileStatus = status;
+    if (self.downloadFileURL &&  ![self.downloadFileURL.absoluteString isEqualToString:learningMaterial.materialFileDownloadURL]) {
+        [self pauseDownloadData];
+        self.downloadFileStatus = DownloadDataButtonStatus_Pause;
+    }
+    self.downloadFileURL = [NSURL URLWithString:learningMaterial.materialFileDownloadURL];
+    self.isPostNotification = isPost;
+}
+
 
 -(void)updateDateProgress:(NSNotification*)notification{
     if ([[notification.userInfo objectForKey:URLKey] isEqualToString:self.downloadFileURL.absoluteString]) {
@@ -136,6 +153,10 @@
 }
 
 -(void)downloadBtClicked{
+    if (self.materialModel.materialFileType == LearningMaterialsFileType_zip || self.materialModel.materialFileType == LearningMaterialsFileType_other) {
+        [Utility errorAlert:@"无法打开该文件，请到电脑上下载查看！"];
+        return;
+    }
     switch (self.downloadFileStatus) {
         case DownloadDataButtonStatus_UnDownload:
         {

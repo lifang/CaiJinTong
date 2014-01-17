@@ -11,8 +11,8 @@
 #import "ModifyNoteInterface.h"
 #import "DeleteNoteInterface.h"
 #import "SearchNoteInterface.h"
-#import "NoteListCell.h"
+#import "NoteListCell_iPhone.h"
 #import "DRMoviePlayViewController.h"
 #import "MJRefresh.h"
-@interface NoteListViewController_iPhone : LHLNavigationBarViewController<NoteListInterfaceDelegate,ModifyNoteInterfaceDelegate,DeleteNoteInterfaceDelegate,SearchNoteInterfaceDelegate,UITableViewDataSource,UITableViewDelegate,NoteListCellDelegate,DRMoviePlayViewControllerDelegate,LessonInfoInterfaceDelegate,MJRefreshBaseViewDelegate>
+@interface NoteListViewController_iPhone : LHLNavigationBarViewController<NoteListInterfaceDelegate,ModifyNoteInterfaceDelegate,DeleteNoteInterfaceDelegate,SearchNoteInterfaceDelegate,UITableViewDataSource,UITableViewDelegate,NoteListCell_iPhoneDelegate,DRMoviePlayViewControllerDelegate,LessonInfoInterfaceDelegate,MJRefreshBaseViewDelegate>
 @end

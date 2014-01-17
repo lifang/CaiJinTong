@@ -7,7 +7,6 @@
 //
 
 #import "NoteListViewController_iPhone.h"
-#import "NoteListCell.h"
 #import "Section.h"
 #import "SectionModel.h"
 #import "DRMoviePlayViewController.h"
@@ -108,8 +107,8 @@
 
 #pragma mark --
 
-#pragma mark NoteListCellDelegate
--(void)noteListCell:(NoteListCell *)cell playTitleBtClickedAtIndexPath:(NSIndexPath *)path{
+#pragma mark NoteListCell_iPhoneDelegate
+-(void)NoteListCell_iPhone:(NoteListCell_iPhone *)cell playTitleBtClickedAtIndexPath:(NSIndexPath *)path{
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
@@ -121,7 +120,7 @@
     }
 }
 
--(void)noteListCell:(NoteListCell *)cell willDeleteCellAtIndexPath:(NSIndexPath *)path{
+-(void)NoteListCell_iPhone:(NoteListCell_iPhone *)cell willDeleteCellAtIndexPath:(NSIndexPath *)path{
     NoteModel *note = self.isSearchRefreshing ?[self.searchArray objectAtIndex:path.row]:[self.noteDateList objectAtIndex:path.row];
     UserModel *user = [[CaiJinTongManager shared] user];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -129,13 +128,13 @@
     [self.deleteNoteInterface deleteNoteWithUserId:user.userId withNoteId:note.noteId];
 }
 
--(void)noteListCell:(NoteListCell*)cell willModifyCellAtIndexPath:(NSIndexPath*)path{
+-(void)NoteListCell_iPhone:(NoteListCell_iPhone*)cell willModifyCellAtIndexPath:(NSIndexPath*)path{
     self.isEditing = YES;
     self.editPath = path;
     [self.noteListTableView reloadData];
 }
 
--(void)noteListCell:(NoteListCell*)cell didModifyCellAtIndexPath:(NSIndexPath*)path withNoteContent:(NSString*)noteContent{
+-(void)NoteListCell_iPhone:(NoteListCell_iPhone*)cell didModifyCellAtIndexPath:(NSIndexPath*)path withNoteContent:(NSString*)noteContent{
     NoteModel *note = self.isSearchRefreshing ?[self.searchArray objectAtIndex:path.row] : [self.noteDateList objectAtIndex:path.row];
     UserModel *user = [[CaiJinTongManager shared] user];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -143,7 +142,7 @@
     [self.modifyNoteInterface modifyNoteWithUserId:user.userId withNoteId:note.noteId withNoteContent:noteContent];
 }
 
--(void)noteListCell:(NoteListCell*)cell cancelModifyCellAtIndexPath:(NSIndexPath*)path withNoteContent:(NSString*)noteContent{
+-(void)NoteListCell_iPhone:(NoteListCell_iPhone*)cell cancelModifyCellAtIndexPath:(NSIndexPath*)path withNoteContent:(NSString*)noteContent{
     self.isEditing = NO;
     self.editPath = nil;
     [self.noteListTableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -162,7 +161,7 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    NoteListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    NoteListCell_iPhone *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     cell.path = indexPath;
     cell.delegate = self;
     NoteModel *note = self.isSearchRefreshing ? [self.searchArray objectAtIndex:indexPath.row]: [self.noteDateList objectAtIndex:indexPath.row];
@@ -179,9 +178,9 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     NoteModel *note = self.isSearchRefreshing ?[self.searchArray objectAtIndex:indexPath.row]:[self.noteDateList objectAtIndex:indexPath.row];
     if (self.isEditing && self.editPath && self.editPath.row == indexPath.row) {
-        return [NoteListCell getNoteCellHeightWithNoteModel:note isEdit:YES];
+        return [NoteListCell_iPhone getNoteCellHeightWithNoteModel:note isEdit:YES];
     }else{
-        return [NoteListCell getNoteCellHeightWithNoteModel:note isEdit:NO];
+        return [NoteListCell_iPhone getNoteCellHeightWithNoteModel:note isEdit:NO];
     }
     
 }
@@ -475,7 +474,7 @@
 
 -(UILabel *)tipLabel{
     if (!_tipLabel) {
-        _tipLabel = [[UILabel alloc] initWithFrame:(CGRect){0,0,NoteListCell_Width,self.noteListTableView.frame.size.height}];
+        _tipLabel = [[UILabel alloc] initWithFrame:(CGRect){0,0,NoteListCell_iPhone_Width,self.noteListTableView.frame.size.height}];
         _tipLabel.textAlignment = NSTextAlignmentCenter;
         _tipLabel.textColor = [UIColor grayColor];
         _tipLabel.font = [UIFont systemFontOfSize:30];

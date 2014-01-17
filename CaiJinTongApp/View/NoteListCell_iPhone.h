@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "NoteModel.h"
-#define NoteListCell_iPhone_Width 320
+#define NoteListCell_iPhone_Width 275
 @protocol NoteListCell_iPhoneDelegate;
 @interface NoteListCell_iPhone : UITableViewCell<UIAlertViewDelegate,UITextViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *titleBackView;

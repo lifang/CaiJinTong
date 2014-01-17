@@ -56,7 +56,7 @@
     LearningMaterialsViewController_iPhone *lMVC = [story instantiateViewControllerWithIdentifier:@"LearningMaterialsViewController_iPhone"];
     [VCs addObject:lMVC];
     
-    UIViewController *vc = [UIViewController new];
+    NoteListViewController_iPhone *vc = [story instantiateViewControllerWithIdentifier:@"NoteListViewController_iPhone"];
     [VCs addObject:vc];
     
     SettingViewController_iPhone *settingVC = [story instantiateViewControllerWithIdentifier:@"SettingViewController_iPhone"];

@@ -31,7 +31,6 @@
 #import "Section.h"
 #import "UIImage+Scale.h"
 
-typedef enum {MOVIE_FILE,MOVIE_INTERNET}MovieLocateType;
 @protocol LHLMoviePlayViewControllerDelegate;
 @interface LHLMoviePlayViewController : UIViewController<MovieControllerItemDelegate,DRMoviePlayerPlaybackProgressBarDelegate,CustomPlayerViewDelegate,PlayBackInterfaceDelegate,SumitNoteInterfaceDelegate,DRMoviePlayerTopBarDelegate,AskQuestionInterfaceDelegate>
 

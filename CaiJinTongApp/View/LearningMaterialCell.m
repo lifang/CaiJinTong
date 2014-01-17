@@ -89,7 +89,8 @@
         default:
             break;
     }
-    [self.downloadBt setDownloadUrl:[NSURL URLWithString:learningMaterial.materialFileDownloadURL] withDownloadStatus:downloadButtonStatus withIsPostNotification:YES];
+//    [self.downloadBt setDownloadUrl:[NSURL URLWithString:learningMaterial.materialFileDownloadURL] withDownloadStatus:downloadButtonStatus withIsPostNotification:YES];
+    [self.downloadBt setDownloadLearningMaterial:learningMaterial withDownloadStatus:downloadButtonStatus withIsPostNotification:YES];
     
     switch (learningMaterial.materialFileType) {
         case LearningMaterialsFileType_pdf:

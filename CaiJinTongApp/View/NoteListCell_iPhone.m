@@ -27,13 +27,13 @@ typedef enum {AlertType_DeleteCell = 12,AlertType_ModifyCell}AlertType;
 
 +(float)getNoteCellHeightWithNoteModel:(NoteModel*)noteModel isEdit:(BOOL)isEdit{
     if (!noteModel) {
-        return 83;
+        return 10 + 26 + 25;
     }
     CGSize size = [Utility getTextSizeWithString:noteModel.noteText withFont:NoteListCell_iPhone_Content_Font withWidth:NoteListCell_iPhone_Width];
     if (isEdit) {
-        return  83 + 20 + size.height + 40;
+        return  10 + 26 + size.height + 17 + 30;
     }
-    return 83 + 20 + size.height;
+    return 10 + 26 + size.height + 17;
 }
 
 #pragma mark UITextViewDelegate
@@ -95,7 +95,7 @@ typedef enum {AlertType_DeleteCell = 12,AlertType_ModifyCell}AlertType;
 -(NSAttributedString*)getFlagAttributedString:(int)row{
     NSString *rowString = row >9?[NSString stringWithFormat:@"%d",row]:[NSString stringWithFormat:@"0%d",row];
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:rowString];
-    [string addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-BoldOblique" size:25] range:NSMakeRange(0, string.length)];
+    [string addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-BoldOblique" size:20] range:NSMakeRange(0, string.length)];
     [string addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, string.length)];
     //    [string addAttribute:NSFontAttributeName value:self.flagNumberLabel.font range:NSMakeRange(0, string.length)];
     return string;
@@ -156,7 +156,7 @@ typedef enum {AlertType_DeleteCell = 12,AlertType_ModifyCell}AlertType;
     if (self.delegate && [self.delegate respondsToSelector:@selector(NoteListCell_iPhone:cancelModifyCellAtIndexPath:withNoteContent:)]) {
         [self.delegate NoteListCell_iPhone:self cancelModifyCellAtIndexPath:self.path withNoteContent:self.noteContentTextView.text];
     }
-    //    [self hiddleEditView];
+    //    [self hiddleEditView];UITextView
 }
 
 -(void)hiddleEditView{
@@ -168,8 +168,8 @@ typedef enum {AlertType_DeleteCell = 12,AlertType_ModifyCell}AlertType;
     [self.noteContentTextView setEditable:NO];
     self.noteContentTextView.backgroundColor = [UIColor clearColor];
     CGRect contentRect = self.noteContentTextView.frame;
-    CGSize size = [Utility getTextSizeWithString:self.noteModel.noteText withFont:NoteListCell_iPhone_Content_Font withWidth:NoteListCell_iPhone_Width];
-    self.noteContentTextView.frame = (CGRect){contentRect.origin,NoteListCell_iPhone_Width,size.height+20};
+    CGSize size = [Utility getTextSizeWithString:self.noteModel.noteText withFont:NoteListCell_iPhone_Content_Font withWidth:NoteListCell_iPhone_Width - 15];
+    self.noteContentTextView.frame = (CGRect){contentRect.origin,NoteListCell_iPhone_Width,size.height + 17};
 }
 
 -(void)appearEditView{
@@ -183,8 +183,8 @@ typedef enum {AlertType_DeleteCell = 12,AlertType_ModifyCell}AlertType;
     [self.noteContentTextView setScrollEnabled:YES];
     [self.noteContentTextView setEditable:YES];
     CGRect contentRect = self.noteContentTextView.frame;
-    CGSize size = [Utility getTextSizeWithString:self.noteModel.noteText withFont:NoteListCell_iPhone_Content_Font withWidth:NoteListCell_iPhone_Width];
-    self.noteContentTextView.frame = (CGRect){contentRect.origin,NoteListCell_iPhone_Width,size.height+20};
+    CGSize size = [Utility getTextSizeWithString:self.noteModel.noteText withFont:NoteListCell_iPhone_Content_Font withWidth:NoteListCell_iPhone_Width - 15];
+    self.noteContentTextView.frame = (CGRect){contentRect.origin,NoteListCell_iPhone_Width,size.height + 17};
     //    [self.noteContentTextView becomeFirstResponder];
 }
 @end

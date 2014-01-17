@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ASIHTTPRequest+DownloadData.h"
 #import "ASINetworkQueue+StaticQueues.h"
+#import "LearningMaterials.h"
 //下载进度
 #define DownloadDataButton_Notification_Progress @"DownloadDataButton_Notification_Progress"
 //下载完成时通知
@@ -35,4 +36,5 @@ typedef enum DownloadDataButtonStatus:NSInteger {//文件状态
 @property (assign,nonatomic) DownloadDataButtonStatus downloadFileStatus;//文件下载状态
 
 -(void)setDownloadUrl:(NSURL*)url withDownloadStatus:(DownloadDataButtonStatus)status withIsPostNotification:(BOOL)isPost;
+-(void)setDownloadLearningMaterial:(LearningMaterials*)learningMaterial withDownloadStatus:(DownloadDataButtonStatus)status withIsPostNotification:(BOOL)isPost;
 @end
