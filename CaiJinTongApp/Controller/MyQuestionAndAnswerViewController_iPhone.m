@@ -57,12 +57,17 @@
 {
     [super viewDidLoad];
     //临时,搜索按钮
-    CGRect frame = self.lhlNavigationBar.rightItem.frame;
+    CGPoint center = self.lhlNavigationBar.leftItem.center;
     self.showSearchBarBtn = [UIButton buttonWithType:UIButtonTypeSystem ];
-    self.showSearchBarBtn.frame = (CGRect){frame.origin.x - 58,frame.origin.y,frame.size};
+    self.showSearchBarBtn.frame = (CGRect){0,0,26,26};
+    self.showSearchBarBtn.center = (CGPoint){center.x + 205,center.y};
     [self.showSearchBarBtn setTitle:@"搜" forState:UIControlStateNormal];
-    [self.showSearchBarBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    [self.showSearchBarBtn.titleLabel setFont:[UIFont systemFontOfSize:19.0]];
+    [self.showSearchBarBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.showSearchBarBtn addTarget:self action:@selector(showSearchBar) forControlEvents:UIControlEventTouchUpInside];
+    [self.showSearchBarBtn.layer setBorderColor:[UIColor whiteColor].CGColor];
+    [self.showSearchBarBtn.layer setBorderWidth:1.5];
+    [self.showSearchBarBtn.layer setCornerRadius:4.0];
     [self.lhlNavigationBar addSubview:self.showSearchBarBtn];
     
     [self.headerRefreshView endRefreshing];//instance refresh view
@@ -73,8 +78,8 @@
     [self.lhlNavigationBar.rightItem setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     if(!self.askQuestionBtn){
         self.askQuestionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        CGRect frame = self.lhlNavigationBar.rightItem.frame;
-        [self.askQuestionBtn setFrame:(CGRect){frame.origin.x - 30,frame.origin.y,frame.size}];
+        [self.askQuestionBtn setFrame:(CGRect){0,0,26,26}];
+        self.askQuestionBtn.center = (CGPoint){self.showSearchBarBtn.center.x + 28,self.showSearchBarBtn.center.y};
         [self.askQuestionBtn setBackgroundColor:[UIColor clearColor]];
         [self.askQuestionBtn setBackgroundImage:[UIImage imageNamed:@"question1.png"] forState:UIControlStateNormal];
         [self.askQuestionBtn addTarget:self action:@selector(askQuestionBtnClicked:) forControlEvents:UIControlEventTouchUpInside];

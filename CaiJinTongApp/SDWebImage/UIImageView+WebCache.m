@@ -20,7 +20,7 @@
     if ([[CaiJinTongManager shared]  isLoadLargeImage]) {
      [self setImageWithURL:url placeholderImage:placeholder options:0];
     }else{
-        self.image = [UIImage imageNamed:@"login_03@2x.png"];
+        self.image = placeholder;
     }
     
 }

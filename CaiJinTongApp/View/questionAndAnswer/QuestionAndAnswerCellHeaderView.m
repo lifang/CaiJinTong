@@ -22,6 +22,7 @@
 @property (nonatomic,strong) UIView *summitQuestionAnswerBackView;
 @property (nonatomic,strong) UITextView *answerQuestionTextField;//回答输入框
 @property (nonatomic,strong) UIButton *submitAnswerBt;//提交回答
+@property (nonatomic,strong) UIButton *scanMoreBt;//显示更多
 @end
 
 @implementation QuestionAndAnswerCellHeaderView
@@ -100,12 +101,26 @@
         [self.summitQuestionAnswerBackView addSubview:self.answerQuestionTextField];
         
         self.submitAnswerBt = [[UIButton alloc] init];
-        [self.submitAnswerBt setBackgroundImage:[UIImage imageNamed:@"btn0@2x.png"] forState:UIControlStateNormal];
+        [self.submitAnswerBt setBackgroundImage:[UIImage imageNamed:@"btn0.png"] forState:UIControlStateNormal];
         [self.submitAnswerBt addTarget:self action:@selector(submitQuestionAnswetBtClicked) forControlEvents:UIControlEventTouchUpInside];
         [self.submitAnswerBt setTitle:@"提交回答" forState:UIControlStateNormal];
         [self.summitQuestionAnswerBackView addSubview:self.submitAnswerBt];
+        
+        self.scanMoreBt = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [self.scanMoreBt setTitle:@"点击显示更多..." forState:UIControlStateNormal];
+        [self.scanMoreBt setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+//        [self.scanMoreBt setBackgroundColor:[UIColor clearColor]];
+        [self.scanMoreBt addTarget:self action:@selector(scanQuestionContentBtClicked) forControlEvents:UIControlEventTouchUpInside];
+        [self.backgroundView addSubview:self.scanMoreBt];
     }
     return self;
+}
+
+-(void)scanQuestionContentBtClicked{
+    BOOL isExtend  = [self.delegate questionAndAnswerCellHeaderView:self isExtendAtIndexPath:self.path];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(questionAndAnswerCellHeaderView:didIsExtendQuestionContent:atIndexPath:)]) {
+        [self.delegate questionAndAnswerCellHeaderView:self didIsExtendQuestionContent:!isExtend atIndexPath:self.path];
+    }
 }
 
 -(void)flowerBtClicked{
@@ -172,6 +187,8 @@
     self.questionNameLabel.text = question.askerNick;
     self.questionDateLabel.text = [NSString stringWithFormat:@"发表于%@",question.askTime];
     self.questionFlowerLabel.text = question.praiseCount;
+    self.questionContentAttributeView.truncateHeight = ContentMinHeight;
+    self.questionContentAttributeView.isTruncate = !question.isExtend;
     self.questionContentAttributeView.questionModel = question;
 //    [self.questionFlowerBt setUserInteractionEnabled:NO];
     [self.summitQuestionAnswerBackView setHidden:!question.isEditing];
@@ -198,10 +215,24 @@
     self.questionImg.frame = (CGRect){TEXT_PADDING*2+2,HEADER_TEXT_HEIGHT+2,20,20};
 //    float contentWidth = CGRectGetWidth(self.frame)-CGRectGetMaxX(self.questionImg.frame)-TEXT_PADDING*2;
     float height = [self.delegate questionAndAnswerCellHeaderView:self headerHeightAtIndexPath:self.path];
+    if (height > ContentMinHeight) {
+        [self.scanMoreBt setHidden:NO];
+        BOOL isExtend  = [self.delegate questionAndAnswerCellHeaderView:self isExtendAtIndexPath:self.path];
+        if (!isExtend) {
+            height = ContentMinHeight;
+            [self.scanMoreBt setTitle:@"点击显示更多..." forState:UIControlStateNormal];
+        }else{
+            [self.scanMoreBt setTitle:@"点击收起" forState:UIControlStateNormal];
+        }
+    }else{
+        [self.scanMoreBt setHidden:YES];
+    }
     self.questionContentAttributeView.frame = (CGRect){CGRectGetMaxX(self.questionImg.frame),HEADER_TEXT_HEIGHT,QUESTIONHEARD_VIEW_WIDTH,height};
     
+    self.scanMoreBt.frame = (CGRect){CGRectGetWidth(self.frame)-170,CGRectGetMaxY(self.questionContentAttributeView.frame)+TEXT_PADDING,150,40};
+    
     if (!self.summitQuestionAnswerBackView.isHidden) {
-        self.summitQuestionAnswerBackView.frame = (CGRect){TEXT_PADDING*2,CGRectGetMaxY(self.questionContentAttributeView.frame)+TEXT_PADDING,QUESTIONHEARD_VIEW_WIDTH,QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT-TEXT_PADDING};
+        self.summitQuestionAnswerBackView.frame = (CGRect){TEXT_PADDING*2,CGRectGetMaxY(self.scanMoreBt.frame)+TEXT_PADDING,QUESTIONHEARD_VIEW_WIDTH,QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT-TEXT_PADDING};
         self.answerQuestionTextField.frame = (CGRect){0,0,QUESTIONHEARD_VIEW_WIDTH,80};
         self.submitAnswerBt.frame = (CGRect){QUESTIONHEARD_VIEW_WIDTH/2-50,90,100,30};
     }

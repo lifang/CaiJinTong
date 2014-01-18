@@ -25,25 +25,19 @@
     }
     return self;
 }
+- (IBAction)backBtClicked:(id)sender {
+     [self.navigationController popViewControllerAnimated:YES];
+}
 
 - (void)viewDidLoad
 {
    
     [super viewDidLoad];
-    [Utility setBackgroungWithView:self.view andImage6:@"login_bg_7.png" andImage7:@"login_bg_7.png"];
-    
-    [self.drnavigationBar.navigationRightItem setTitle:@"返回" forState:UIControlStateNormal];
-    self.drnavigationBar.titleLabel.text = @"找回密码";
-    [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-
-    self.emailTextField.layer.cornerRadius = 5;
-    self.emailTextField.layer.borderWidth = 1;
-    self.emailTextField.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    self.textFieldBackView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    self.textFieldBackView.layer.borderWidth = 1.0;
+    self.textFieldBackView.layer.cornerRadius = 5;
 }
 
--(void)drnavigationBarRightItemClicked:(id)sender{
-    [self.navigationController popViewControllerAnimated:YES];
-}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -78,8 +72,11 @@
     });
 }
 -(void)getFindPassWordInfoDidFailed:(NSString *)errorMsg {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Utility errorAlert:errorMsg];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [Utility errorAlert:errorMsg];
+    });
+    
 }
 
 @end

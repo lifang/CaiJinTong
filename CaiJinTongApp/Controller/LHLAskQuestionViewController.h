@@ -10,7 +10,7 @@
 
 #import "AskQuestionInterface.h"
 @protocol LHLAskQuestionViewControllerDelegate;
-@interface LHLAskQuestionViewController : LHLNavigationBarViewController<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,AskQuestionInterfaceDelegate,QuestionInfoInterfaceDelegate,UIAlertViewDelegate>
+@interface LHLAskQuestionViewController : LHLNavigationBarViewController<DRTreeTableViewDelegate,UITextViewDelegate,AskQuestionInterfaceDelegate,QuestionInfoInterfaceDelegate,UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet  UITextField *questionTitleTextField;
 @property (weak, nonatomic) IBOutlet UITextView *questionContentTextView;

@@ -25,19 +25,19 @@
     
     //视频封面
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",lesson.lessonImageURL]];
-    [self.imageView setImageWithURL:url placeholderImage:Image(@"loginBgImage_v.png")];
+    [self.imageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"logo.png"]];
     self.imageView.tag = [lesson.lessonId intValue];
     
      //学习进度
-    CGFloat xx = [lesson.lessonStudyProgress floatValue]*100;
-    if ( xx-100 >0) {
-        xx=100;
+    CGFloat xx = [lesson.lessonStudyProgress floatValue];
+    if ( xx > 1.0) {
+        xx=1.0;
     }
     if (!xx) {
         xx = 0;
     }
-    self.pv.value = xx;
-    self.progressLabel.text = [NSString stringWithFormat:@"学习进度:%.2f%%",xx];
+    self.pv.progress = xx;
+    self.progressLabel.text = [NSString stringWithFormat:@"学习进度:%.2f%%",xx*100];
     
     
 }
@@ -63,7 +63,7 @@
         //视频封面
         UIImageView *imageViewC = [[UIImageView alloc]initWithFrame:CGRectMake(0, itemLabel, self.frame.size.width, self.frame.size.height)];
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",lesson.lessonImageURL]];
-        [imageViewC setImageWithURL:url placeholderImage:Image(@"loginBgImage_v.png")];
+        [imageViewC setImageWithURL:url placeholderImage:[UIImage imageNamed:@"logo.png"]];
         
         imageViewC.tag = [lesson.lessonId intValue];
         self.imageView = imageViewC;
@@ -72,21 +72,21 @@
         
         //学习进度
         CJTSlider *pVV = [[CJTSlider alloc] initWithFrame:CGRectMake(-2, self.frame.size.height+itemLabel-30, self.frame.size.width+4, 37)];
-        CGFloat xx = [lesson.lessonStudyProgress floatValue]*100;
-        if ( xx-100 >0) {
-            xx=100;
+        CGFloat xx = [lesson.lessonStudyProgress floatValue];
+        if ( xx > 1.0) {
+            xx=1.0;
         }
         if (!xx) {
             xx = 0;
         }
-        
-        pVV.value = xx;
+        pVV.progress = xx;
         self.pv =pVV;
+        
         [self addSubview:self.pv];
          pVV = nil;
         
         UILabel *progressLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, self.frame.size.height+itemLabel-28, self.frame.size.width, 30)];
-        progressLabel.text = [NSString stringWithFormat:@"学习进度:%.2f%%",xx];
+        progressLabel.text = [NSString stringWithFormat:@"学习进度:%.2f%%",xx*100];
         progressLabel.textAlignment = NSTextAlignmentLeft;
         progressLabel.backgroundColor = [UIColor clearColor];
         self.progressLabel = progressLabel;

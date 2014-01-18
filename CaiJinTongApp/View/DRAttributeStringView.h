@@ -17,6 +17,8 @@ typedef enum {DRURLFileType_IMAGR,DRURLFileType_WORD,DRURLFileType_PDF,DRURLFile
 @property (strong,nonatomic) QuestionModel *questionModel;
 @property (assign,nonatomic) CGRect attributeStringRect;
 @property (weak,nonatomic) id<DRAttributeStringViewDelegate> delegate;
+@property (assign,nonatomic) BOOL isTruncate;
+@property (assign,nonatomic) float truncateHeight;//指定的高内画内容
 +(CGRect)boundsRectWithAnswer:(AnswerModel*)answer withWidth:(float)width;
 +(CGRect)boundsRectWithQuestion:(QuestionModel*)question withWidth:(float)width;
 @end

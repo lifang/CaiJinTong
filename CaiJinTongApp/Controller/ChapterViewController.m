@@ -26,7 +26,6 @@
 @property (nonatomic,strong) SearchLessonInterface *searchLessonInterface;
 @property (nonatomic,strong) MJRefreshHeaderView *headerRefreshView;
 @property (nonatomic,strong) MJRefreshFooterView *footerRefreshView;
-@property (assign,nonatomic) BOOL isSearch;//是否是搜索
 @property (nonatomic,strong) NSString *searchContent;//搜索之前字符串
 @end
 
@@ -79,7 +78,8 @@
     self.drnavigationBar.titleLabel.text = @"课程";
 }
 
--(void)reloadDataWithDataArray:(NSArray*)data withCategoryId:(NSString*)lessonCategoryId{
+-(void)reloadDataWithDataArray:(NSArray*)data withCategoryId:(NSString*)lessonCategoryId isSearch:(BOOL)isSearch{
+    self.isSearch = isSearch;
     self.lessonCategoryId = lessonCategoryId;
     DLog(@"count = %d",data.count);
     self.dataArray = [NSMutableArray arrayWithArray:data];
@@ -108,12 +108,9 @@
 #pragma mark action
 //加载课程详细信息
 -(void)getLessonInfoWithLessonId:(NSString*)lessonId{
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
-    }else{
-        UserModel *user = [[CaiJinTongManager shared] user];
-        [self.lessonInterface downloadLessonInfoWithLessonId:lessonId withUserId:user.userId];
-    }
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    UserModel *user = [[CaiJinTongManager shared] user];
+    [self.lessonInterface downloadLessonInfoWithLessonId:lessonId withUserId:user.userId];
 }
 #pragma mark --
 
@@ -123,7 +120,7 @@
     UserModel *user = [[CaiJinTongManager shared] user];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.searchContent = searchText;
-    [self.searchLessonInterface getSearchLessonInterfaceDelegateWithUserId:user.userId andText:self.searchContent withPageIndex:self.searchLessonInterface.currentPageIndex+1 withSortType:self.sortType];
+    [self.searchLessonInterface getSearchLessonInterfaceDelegateWithUserId:user.userId andText:self.searchContent withPageIndex:0 withSortType:self.sortType];
 }
 
 -(void)drSearchBar:(DRSearchBar *)searchBar didCancelSearchText:(NSString *)searchText{
@@ -185,13 +182,21 @@
     });
 }
 -(void)getSectionInfoDidFailed:(NSString *)errorMsg {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Utility errorAlert:errorMsg];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [Utility errorAlert:errorMsg];
+    });
 }
 
 
 #pragma mark property
 
+-(void)setIsSearch:(BOOL)isSearch{
+    _isSearch = isSearch;
+    if (!isSearch) {
+        self.drnavigationBar.searchBar.isSearch = NO;
+    }
+}
 -(MJRefreshHeaderView *)headerRefreshView{
     if (!_headerRefreshView) {
         _headerRefreshView = [[MJRefreshHeaderView alloc] init];
@@ -302,7 +307,7 @@
         if (pageIndex > 0) {
             [self loadNextPageDataWithDataArray:lessonList withCategoryId:self.lessonCategoryId];
         }else{
-            [self  reloadDataWithDataArray:lessonList withCategoryId:self.lessonCategoryId];
+            [self  reloadDataWithDataArray:lessonList withCategoryId:self.lessonCategoryId isSearch:self.isSearch];
         }
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         [self.headerRefreshView endRefreshing];
@@ -331,7 +336,7 @@
         if (pageIndex > 0) {
             [self loadNextPageDataWithDataArray:lessonList withCategoryId:self.lessonCategoryId];
         }else{
-            [self  reloadDataWithDataArray:lessonList withCategoryId:self.lessonCategoryId];
+            [self  reloadDataWithDataArray:lessonList withCategoryId:self.lessonCategoryId isSearch:self.isSearch];
         }
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         [self.headerRefreshView endRefreshing];
@@ -429,7 +434,6 @@
     return TRUE;
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     LessonModel *lesson = (LessonModel *)[self.dataArray objectAtIndex:indexPath.row];
     [self getLessonInfoWithLessonId:lesson.lessonId];
 }

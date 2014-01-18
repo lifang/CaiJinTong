@@ -132,9 +132,9 @@
     if(sender.tag == 86){
         if(!_backButton){
             _backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            _backButton.frame = CGRectMake(23,IP5(29, 21), 13, 25);
+            _backButton.frame = CGRectMake(0, 10 + IP5(8, 0), 44, 44);
             [_backButton addTarget:self action:@selector(backButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-            [_backButton setBackgroundImage:[UIImage imageNamed:@"_back.png"] forState:UIControlStateNormal];
+            [_backButton setImage:[UIImage imageNamed:@"_back.png"] forState:UIControlStateNormal];
             [self.view addSubview:_backButton];
         }
         _backButton.hidden = NO;
@@ -145,6 +145,7 @@
     }
     if(sender.imageView.tag == 0 && self.lhlTabBar.selectedIndex == 0){
         [self.lhlTabBar layoutItems_fake];
+        self.backButton.hidden = YES;
     }
     self.selectedIndex = sender.imageView.tag;
     self.lhlTabBar.selectedIndex = sender.imageView.tag;

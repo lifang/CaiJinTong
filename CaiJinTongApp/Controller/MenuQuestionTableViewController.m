@@ -252,8 +252,11 @@
     });
 }
 -(void)getQuestionInfoDidFailed:(NSString *)errorMsg {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Utility errorAlert:errorMsg];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [Utility errorAlert:errorMsg];
+    });
+    
 }
 
 #pragma mark--ChapterQuestionInterfaceDelegate
@@ -274,15 +277,21 @@
     });
 }
 -(void)getChapterQuestionInfoDidFailed:(NSString *)errorMsg {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Utility errorAlert:errorMsg];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [Utility errorAlert:errorMsg];
+    });
+    
 }
 
 #pragma mark GetUser QuestionInterface Delegate
 
 -(void)getUserQuestionInfoDidFailed:(NSString *)errorMsg{
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Utility errorAlert:errorMsg];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [Utility errorAlert:errorMsg];
+    });
+    
 }
 
 -(void)getUserQuestionInfoDidFinished:(NSDictionary *)result{

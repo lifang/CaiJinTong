@@ -13,8 +13,8 @@
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     
-    //    http://lms.finance365.com/api/ios.ashx?active=lessonCategory&userId=17082
-    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=lessonCategory&userId=%@",kHost,userId];
+//    http://lms.finance365.com/api/ios.ashx?active=getkmcategory&userId=17082
+    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=getkmcategory&userId=%@",kHost,userId];
     self.baseDelegate = self;
     self.headers = reqheaders;
     

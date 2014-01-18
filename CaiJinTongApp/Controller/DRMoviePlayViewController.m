@@ -488,6 +488,7 @@
     }
     [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];
     self.moviePlayer.initialPlaybackTime = [self.sectionModel.sectionLastPlayTime floatValue];
+    self.moviePlayer.movieSourceType = self.drMovieSourceType;
     if (self.drMovieSourceType == MPMovieSourceTypeFile) {
         [self.moviePlayer setContentURL:self.movieUrl];
         [self.moviePlayer play];

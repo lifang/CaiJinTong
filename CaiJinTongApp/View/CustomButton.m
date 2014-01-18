@@ -246,9 +246,11 @@
     
 }
 -(void)getSectionInfoDidFailed:(NSString *)errorMsg {
-    AppDelegate* appDelegate = [AppDelegate sharedInstance];
-    [MBProgressHUD hideHUDForView:appDelegate.window animated:YES];
-    [Utility errorAlert:errorMsg];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        AppDelegate* appDelegate = [AppDelegate sharedInstance];
+        [MBProgressHUD hideHUDForView:appDelegate.window animated:YES];
+        [Utility errorAlert:errorMsg];
+    });
 }
 
 #pragma mark UIAlertViewDelegate

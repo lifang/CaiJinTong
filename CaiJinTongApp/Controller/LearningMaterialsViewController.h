@@ -14,5 +14,6 @@
 @interface LearningMaterialsViewController : DRNaviGationBarController<LearningMaterialCellDelegate,UITableViewDataSource,UITableViewDelegate,LearningMatarilasListInterfaceDelegate,SearchLearningMatarilasListInterfaceDelegate,MJRefreshBaseViewDelegate>
 @property (strong,nonatomic) NSString *lessonCategoryId;
 @property (strong,nonatomic) NSMutableArray *dataArray;
--(void)changeLearningMaterialsDate:(NSArray*)learningMaterialArr withSortType:(LearningMaterialsSortType)sortType;
+@property (nonatomic,assign) BOOL isSearch;//搜索
+-(void)changeLearningMaterialsDate:(NSArray*)learningMaterialArr withSortType:(LearningMaterialsSortType)sortType withCategoryId:(NSString*)categoryId widthAllDataCount:(int)dataCount isSearch:(BOOL)isSearch;
 @end

@@ -104,7 +104,7 @@ static BOOL tableVisible;
             [self.questionArrSelSection addObject:[NSString stringWithFormat:@"%d",i]];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.treeView ];
+            self.treeView.noteArr = [NSMutableArray arrayWithArray:[CaiJinTongManager shared].question];
         });
     }
 }
@@ -214,6 +214,9 @@ static BOOL tableVisible;
 -(DRTreeTableView *)treeView{
     if(!_treeView){
         _treeView = [[DRTreeTableView alloc] initWithFrame:(CGRect){2,2,2,2} withTreeNodeArr:nil];
+        _treeView.delegate = self;
+        [self.view addSubview:_treeView];
+        [_treeView setBackgroundColor:[UIColor lightGrayColor]];
     }
     return _treeView;
 }
@@ -223,23 +226,22 @@ static BOOL tableVisible;
 -(void)showSelectTable{
     if(!tableVisible){
         [self keyboardFuckOff:nil];//便于触发点击事件
-        [self.selectTable reloadData];
-        self.selectTable.hidden = NO;
+        self.treeView.hidden = NO;
         [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationOptionBeginFromCurrentState animations:^{
-            [self.selectTable setFrame:CGRectMake(tableFrame.origin.x, tableFrame.origin.y, tableFrame.size.width, tableFrame.size.height + 250)];
+            [self.treeView setFrame:CGRectMake(tableFrame.origin.x, tableFrame.origin.y, tableFrame.size.width, tableFrame.size.height + 250)];
             tableVisible = YES;
         }
-                         completion:NULL];
+                         completion:nil];
     }else{
         [UIView animateWithDuration:0.3 delay:0.0
                             options: UIViewAnimationOptionBeginFromCurrentState
                          animations:^{
-            [self.selectTable setFrame:CGRectMake(tableFrame.origin.x, tableFrame.origin.y, tableFrame.size.width, tableFrame.size.height)];
+            [self.treeView setFrame:CGRectMake(tableFrame.origin.x, tableFrame.origin.y, tableFrame.size.width, tableFrame.size.height)];
             tableVisible = NO;
         }
                          completion:^(BOOL finished) {
                              if(finished){
-                                 self.selectTable.hidden = YES;
+                                 self.treeView.hidden = YES;
                              }
                          }];
     }
@@ -282,24 +284,6 @@ static BOOL tableVisible;
 #pragma mark --
 
 #pragma mark QuestionInfoInterfaceDelegate
-//-(void)getQuestionInfoDidFinished:(NSDictionary *)result {
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        //分类的数据
-//        self.questionList = [NSMutableArray arrayWithArray:[result valueForKey:@"questionList"]];
-//        [CaiJinTongManager shared].question = [NSMutableArray arrayWithArray:[result valueForKey:@"questionList"]];
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            //标记是否选中了
-//            self.questionArrSelSection = [[NSMutableArray alloc] init];
-//            for (int i =0; i<self.questionList.count; i++) {
-//                [self.questionArrSelSection addObject:[NSString stringWithFormat:@"%d",i]];
-//            }
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [MBProgressHUD hideHUDForView:self.view animated:YES];
-//                [self.selectTable reloadData];
-//            });
-//        });
-//    });
-//}
 -(void)getQuestionInfoDidFinished:(NSArray *)questionCategoryArr {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         //分类的数据
@@ -320,19 +304,35 @@ static BOOL tableVisible;
 }
 
 -(void)getQuestionInfoDidFailed:(NSString *)errorMsg {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Utility errorAlert:errorMsg];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [Utility errorAlert:errorMsg];
+    });
+    
 }
 
 #pragma mark --
 
-#pragma mark -- AskQuestionInterfaceDelegate
+#pragma mark -- DRTreeView Delegate
+-(void)drTreeTableView:(DRTreeTableView*)treeView didSelectedTreeNode:(DRTreeNode*)selectedNote{
+//    self.selectedQuestionId = [NSString stringWithFormat:@"%i",selectedNote.noteId];
+    self.selectedQuestionId = selectedNote.noteContentID;
+    self.selectedQuestionName.text = selectedNote.noteContentName;
+    //点击生效
+    [self showSelectTable];
+}
 
+-(BOOL)drTreeTableView:(DRTreeTableView*)treeView isExtendChildSelectedTreeNode:(DRTreeNode*)selectedNote {
+    return YES;
+}
 
-self.selectedQuestionId = [d valueForKey:@"questionID"];
-self.selectedQuestionName.text = [d valueForKey:@"questionName"];
-//点击生效
-[self showSelectTable];
+-(void)drTreeTableView:(DRTreeTableView*)treeView didExtendChildTreeNode:(DRTreeNode*)extendNote{
+    
+}
+
+-(void)drTreeTableView:(DRTreeTableView*)treeView didCloseChildTreeNode:(DRTreeNode*)extendNote{
+    
+}
 
 #pragma mark --
 
@@ -347,7 +347,10 @@ self.selectedQuestionName.text = [d valueForKey:@"questionName"];
     });
 }
 -(void)getAskQuestionDidFailed:(NSString *)errorMsg {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Utility errorAlert:errorMsg];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [Utility errorAlert:errorMsg];
+    });
+    
 }
 @end

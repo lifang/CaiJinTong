@@ -20,7 +20,7 @@
 @property (nonatomic,assign) BOOL isReaskRefreshing;//判断是追问刷新还是上拉下拉刷新
 @property (nonatomic,strong) DRAskQuestionViewController *askQuestionController;
 @property (nonatomic,strong) UIViewController *modelController;
-@property (nonatomic,assign) BOOL isSearch;//判断是否是搜索
+
 @property (nonatomic,strong) NSString *searchContent;//搜索关键字
 @end
 
@@ -82,7 +82,8 @@
 #pragma mark --
 
 ////数据源
--(void)reloadDataWithDataArray:(NSArray*)data withQuestionChapterID:(NSString*)chapterID withScope:(QuestionAndAnswerScope)scope{
+-(void)reloadDataWithDataArray:(NSArray*)data withQuestionChapterID:(NSString*)chapterID withScope:(QuestionAndAnswerScope)scope isSearch:(BOOL)isSearch{
+    self.isSearch = isSearch;
     self.questionAndAnswerScope = scope;
     self.chapterID = chapterID;
     self.myQuestionArr = [NSMutableArray arrayWithArray:data];
@@ -130,6 +131,7 @@
     [self.modelController.view addSubview:webView];
     self.modelController.view.frame = (CGRect){0,0,800,700};
     webView.frame = (CGRect){0,0,800,700};
+    webView.scalesPageToFit = YES;
     [webView loadRequest:[NSURLRequest requestWithURL:url]];
     [self presentPopupViewController:self.modelController animationType:MJPopupViewAnimationSlideTopTop isAlignmentCenter:YES dismissed:^{
         
@@ -138,6 +140,17 @@
 #pragma mark --
 
 #pragma mark QuestionAndAnswerCellHeaderViewDelegate
+-(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header didIsExtendQuestionContent:(BOOL)isExtend atIndexPath:(NSIndexPath *)path{
+    QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
+    question.isExtend = isExtend;
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+-(BOOL)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header isExtendAtIndexPath:(NSIndexPath *)path{
+    QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
+    return question.isExtend;
+}
+
 -(float)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header headerHeightAtIndexPath:(NSIndexPath *)path{
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
     CGRect rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:QUESTIONHEARD_VIEW_WIDTH];
@@ -362,13 +375,23 @@
 
 -(float)getTableViewHeaderHeightWithSection:(NSInteger)section{
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:section];
-    CGRect rect;
-    if (question.isEditing) {
-        rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:QUESTIONHEARD_VIEW_WIDTH];
-        return rect.size.height + TEXT_HEIGHT + TEXT_PADDING + QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT+ 10;
+    CGRect rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:QUESTIONHEARD_VIEW_WIDTH];
+    if (question.isExtend) {
+        if (question.isEditing) {
+            return rect.size.height + TEXT_HEIGHT + TEXT_PADDING + QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT+ 10+40+10;
+        }else{
+            return rect.size.height + TEXT_HEIGHT + TEXT_PADDING + 10+40+10;
+        }
     }else{
-         rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:QUESTIONHEARD_VIEW_WIDTH] ;
-        return rect.size.height + TEXT_HEIGHT + TEXT_PADDING + 10;
+        float height = rect.size.height;
+        if (height > ContentMinHeight) {
+            height = ContentMinHeight;
+        }
+        if (question.isEditing) {
+            return height + TEXT_HEIGHT + TEXT_PADDING + QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT+ 10+40+10;
+        }else{
+            return height + TEXT_HEIGHT + TEXT_PADDING + 10+40+10;
+        }
     }
 }
 
@@ -409,6 +432,13 @@
 #pragma mark --
 
 #pragma mark property
+
+-(void)setIsSearch:(BOOL)isSearch{
+    _isSearch = isSearch;
+    if (!isSearch) {
+        self.drnavigationBar.searchBar.isSearch = NO;
+    }
+}
 
 -(SearchQuestionInterface *)searchQuestionInterface{
     if (!_searchQuestionInterface) {
@@ -527,7 +557,7 @@
             if (self.headerRefreshView.isForbidden) {//加载下一页
                 [self nextPageDataWithDataArray:chapterQuestionList withQuestionChapterID:self.chapterID withScope:QuestionAndAnswerSearchQuestion];
             }else{//重新加载
-                [self reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:self.chapterID withScope:QuestionAndAnswerSearchQuestion];
+                [self reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:self.chapterID withScope:QuestionAndAnswerSearchQuestion isSearch:self.isSearch];
             }
             
             [self.headerRefreshView endRefreshing];

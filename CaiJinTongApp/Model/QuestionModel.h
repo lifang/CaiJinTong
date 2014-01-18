@@ -29,4 +29,5 @@
 
 @property (assign,nonatomic) BOOL isEditing;//是否可编辑
 
+@property (assign,nonatomic) BOOL isExtend;//是否扩展
 @end

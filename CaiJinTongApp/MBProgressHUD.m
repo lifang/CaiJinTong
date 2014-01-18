@@ -72,7 +72,6 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @property (atomic, MB_STRONG) NSTimer *minShowTimer;
 @property (atomic, MB_STRONG) NSDate *showStarted;
 @property (atomic, assign) CGSize size;
-
 @end
 
 
@@ -123,12 +122,42 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 #pragma mark - Class methods
 
++(UIView*)superView:(UIView*)subView{
+    if (subView.superview) {
+        return [MBProgressHUD superView:subView.superview];
+    }else{
+        return subView;
+    }
+}
+
++ (MB_INSTANCETYPE)showHUDAddedToTopView:(UIView *)view animated:(BOOL)animated{
+    UIView *topView = [MBProgressHUD superView:view];
+	MBProgressHUD *hud = [[self alloc] initWithView:topView];
+    [[AppDelegate sharedInstance].alertViewArray addObject:hud];
+    hud.labelText = @"玩命加载中...";
+	[topView addSubview:hud];
+	[hud show:animated];
+    [topView bringSubviewToFront:hud];
+	return MB_AUTORELEASE(hud);
+}
+
 + (MB_INSTANCETYPE)showHUDAddedTo:(UIView *)view animated:(BOOL)animated {
 	MBProgressHUD *hud = [[self alloc] initWithView:view];
     hud.labelText = @"玩命加载中...";
 	[view addSubview:hud];
 	[hud show:animated];
 	return MB_AUTORELEASE(hud);
+}
+
++ (BOOL)hideHUDFromTopViewForView:(UIView *)view animated:(BOOL)animated{
+	MBProgressHUD *hud = [[[AppDelegate sharedInstance] alertViewArray] lastObject];
+	if (hud != nil) {
+		hud.removeFromSuperViewOnHide = YES;
+		[hud hide:animated];
+        [[[AppDelegate sharedInstance] alertViewArray] removeLastObject];
+		return YES;
+	}
+	return NO;
 }
 
 + (BOOL)hideHUDForView:(UIView *)view animated:(BOOL)animated {
@@ -153,6 +182,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 + (MB_INSTANCETYPE)HUDForView:(UIView *)view {
 	NSEnumerator *subviewsEnum = [view.subviews reverseObjectEnumerator];
 	for (UIView *subview in subviewsEnum) {
+        NSLog(@"%@",[subview class]);
 		if ([subview isKindOfClass:self]) {
 			return (MBProgressHUD *)subview;
 		}

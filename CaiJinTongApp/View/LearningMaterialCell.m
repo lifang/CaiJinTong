@@ -48,6 +48,7 @@
 }
 
 -(void)setLearningMaterialData:(LearningMaterials*)learningMaterial{
+    [self.downloadBt.titleLabel setFont:[UIFont systemFontOfSize:13]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didStartDownloadFile:) name:DownloadDataButton_Notification_DidStartDownload object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFailureDownloadFile:) name:DownloadDataButton_Notification_Failure object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFinishedDownloadFile:) name:DownloadDataButton_Notification_DidFinished object:nil];
@@ -81,8 +82,11 @@
             downloadButtonStatus = DownloadDataButtonStatus_Downloading;
             break;
         case DownloadStatus_Downloaded:
+        {
             downloadButtonStatus = DownloadDataButtonStatus_Downloaded;
+            learningMaterial.materialFileLocalPath = [[Section defaultSection] searchLearningMaterialsLocalPathWithMaterialId:learningMaterial.materialId withUserId:user.userId];
             break;
+        }
         case DownloadStatus_Pause:
             downloadButtonStatus = DownloadDataButtonStatus_Pause;
             break;
@@ -94,25 +98,25 @@
     
     switch (learningMaterial.materialFileType) {
         case LearningMaterialsFileType_pdf:
-            self.fileCategoryImageView.image = [UIImage imageNamed:@"course-onecourse_03.png"];
+            self.fileCategoryImageView.image = [UIImage imageNamed:@"pdf.png"];
             break;
         case LearningMaterialsFileType_jpg:
-            self.fileCategoryImageView.image = [UIImage imageNamed:@"course-onecourse_03.png"];
+            self.fileCategoryImageView.image = [UIImage imageNamed:@"image.png"];
             break;
         case LearningMaterialsFileType_ppt:
-            self.fileCategoryImageView.image = [UIImage imageNamed:@"course-onecourse_03.png"];
+            self.fileCategoryImageView.image = [UIImage imageNamed:@"ppt.png"];
             break;
         case LearningMaterialsFileType_zip:
-            self.fileCategoryImageView.image = [UIImage imageNamed:@"course-onecourse_03.png"];
+            self.fileCategoryImageView.image = [UIImage imageNamed:@"Q&A-myq_15.png"];
             break;
         case LearningMaterialsFileType_word:
-            self.fileCategoryImageView.image = [UIImage imageNamed:@"course-onecourse_03.png"];
+            self.fileCategoryImageView.image = [UIImage imageNamed:@"word.png"];
             break;
         case LearningMaterialsFileType_text:
-            self.fileCategoryImageView.image = [UIImage imageNamed:@"course-onecourse_03.png"];
+            self.fileCategoryImageView.image = [UIImage imageNamed:@"text.png"];
             break;
         case LearningMaterialsFileType_other:
-            self.fileCategoryImageView.image = [UIImage imageNamed:@"course-onecourse_03.png"];
+            self.fileCategoryImageView.image = [UIImage imageNamed:@"Q&A-myq_15.png"];
             break;
         default:
             break;
