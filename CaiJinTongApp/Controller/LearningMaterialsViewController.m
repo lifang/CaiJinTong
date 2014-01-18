@@ -16,7 +16,6 @@
 - (IBAction)nameSortBtClicked:(id)sender;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic,strong) NSMutableArray *searchArray;
-@property (nonatomic,assign) BOOL isSearch;//搜索
 @property (weak, nonatomic) IBOutlet UILabel *totalCountLabel;
 @property (nonatomic,assign) BOOL isReloading;//正在下载中
 @property (nonatomic,assign) LearningMaterialsSortType sortType;
@@ -50,10 +49,11 @@
 }
 
 
--(void)changeLearningMaterialsDate:(NSArray*)learningMaterialArr withSortType:(LearningMaterialsSortType)sortType withCategoryId:(NSString*)categoryId widthAllDataCount:(int)dataCount{
+-(void)changeLearningMaterialsDate:(NSArray*)learningMaterialArr withSortType:(LearningMaterialsSortType)sortType withCategoryId:(NSString*)categoryId widthAllDataCount:(int)dataCount isSearch:(BOOL)isSearch{
     if (!learningMaterialArr) {
         return;
     }
+    self.isSearch = isSearch;
     self.totalCountLabel.text = [NSString stringWithFormat:@"目前有(%d)份资料",dataCount];
     self.lessonCategoryId = categoryId;
     self.dataArray = [NSMutableArray arrayWithArray:learningMaterialArr];
@@ -70,7 +70,7 @@
     UserModel *user = [[CaiJinTongManager shared] user];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.searchContent = searchText;
-    [self.searchMaterialInterface searchLearningMaterilasListWithUserId:user.userId withSearchContent:self.searchContent withPageIndex:self.searchMaterialInterface.currentPageIndex+1 withSortType:self.sortType];
+    [self.searchMaterialInterface searchLearningMaterilasListWithUserId:user.userId withSearchContent:self.searchContent withPageIndex:0 withSortType:self.sortType];
 }
 
 -(void)drSearchBar:(DRSearchBar *)searchBar didCancelSearchText:(NSString *)searchText{
@@ -87,7 +87,6 @@
 
 #pragma mark sort排序
 - (IBAction)timeSortBtClicked:(id)sender {
-    self.isSearch = NO;
     self.sortType = LearningMaterialsSortType_Date;
     UserModel *user = [[CaiJinTongManager shared] user];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -96,7 +95,6 @@
 }
 
 - (IBAction)defaultSortBtClicked:(id)sender {
-    self.isSearch = NO;
     UserModel *user = [[CaiJinTongManager shared] user];
     self.sortType = LearningMaterialsSortType_Default;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -105,7 +103,6 @@
 }
 
 - (IBAction)nameSortBtClicked:(id)sender {
-    self.isSearch = NO;
     UserModel *user = [[CaiJinTongManager shared] user];
     self.sortType = LearningMaterialsSortType_Name;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -258,6 +255,12 @@ dispatch_async(dispatch_get_main_queue(), ^{
 #pragma mark --
 
 #pragma mark property
+-(void)setIsSearch:(BOOL)isSearch{
+    _isSearch = isSearch;
+    if (!isSearch) {
+        self.drnavigationBar.searchBar.isSearch = NO;
+    }
+}
 -(NSMutableArray *)dataArray{
     if (!_dataArray) {
         _dataArray = [NSMutableArray array];

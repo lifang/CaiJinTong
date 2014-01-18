@@ -38,14 +38,9 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     if (self.isPlaying) {
-        //根据sectionID获取单个视频的详细信息
-        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-//            [Utility errorAlert:@"暂无网络!"];
-        }else {
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            UserModel *user = [[CaiJinTongManager shared] user];
-            [self.lessonInterface downloadLessonInfoWithLessonId:self.lessonModel.lessonId withUserId:user.userId];
-        }
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        UserModel *user = [[CaiJinTongManager shared] user];
+        [self.lessonInterface downloadLessonInfoWithLessonId:self.lessonModel.lessonId withUserId:user.userId];
     }
     self.isPlaying = NO;
 }

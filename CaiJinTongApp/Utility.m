@@ -17,7 +17,7 @@
 }
 + (NSString *)isExistenceNetwork {
     NSString *str = nil;
-	Reachability *r = [Reachability reachabilityWithHostName:@"www.baidu.com"];
+	Reachability *r = [Reachability reachabilityWithHostName:@"lms.finance365.com"];
     switch ([r currentReachabilityStatus]) {
         case NotReachable:
 			str = @"NotReachable";

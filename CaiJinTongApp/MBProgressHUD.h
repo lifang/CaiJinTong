@@ -123,6 +123,7 @@ typedef void (^MBProgressHUDCompletionBlock)();
  */
 + (MB_INSTANCETYPE)showHUDAddedTo:(UIView *)view animated:(BOOL)animated;
 
++ (MB_INSTANCETYPE)showHUDAddedToTopView:(UIView *)view animated:(BOOL)animated;
 /**
  * Finds the top-most HUD subview and hides it. The counterpart to this method is showHUDAddedTo:animated:.
  *
@@ -136,6 +137,7 @@ typedef void (^MBProgressHUDCompletionBlock)();
  */
 + (BOOL)hideHUDForView:(UIView *)view animated:(BOOL)animated;
 
++ (BOOL)hideHUDFromTopViewForView:(UIView *)view animated:(BOOL)animated;
 /**
  * Finds all the HUD subviews and hides them. 
  *

@@ -76,6 +76,7 @@
     [cell.contentTextView setEditable:NO];
     cell.contentTextView.text = note.noteText;
     cell.sectionNameLab.text = [NSString stringWithFormat:@"%@ > %@",note.noteChapterName,note.noteSectionName];
+    cell.timeLab.text = note.noteTime;
     cell.path = indexPath;
     cell.delegate = self;
     return cell;

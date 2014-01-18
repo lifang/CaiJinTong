@@ -75,12 +75,23 @@
     if (self.isExtendChildNode) {
         [self selectedNoteAtIndexPath:indexPath withAnimation:YES];
     }
-    if (!note.noteIsExtend && [note.childnotes count] > 0) {
-        return;
+    
+    if ([note.childnotes count] > 0) {
+        if (note.noteIsExtend) {
+            if (self.delegate && [self.delegate respondsToSelector:@selector(drTreeTableView:didExtendChildTreeNode:)]) {
+                [self.delegate drTreeTableView:self didExtendChildTreeNode:note];
+            }
+        }else{
+            if (self.delegate && [self.delegate respondsToSelector:@selector(drTreeTableView:didCloseChildTreeNode:)]) {
+                [self.delegate drTreeTableView:self didCloseChildTreeNode:note];
+            }
+        }
+    }else{
+        if (self.delegate && [self.delegate respondsToSelector:@selector(drTreeTableView:didSelectedTreeNode:)]) {
+            [self.delegate drTreeTableView:self didSelectedTreeNode:note];
+        }
     }
-    if (self.delegate && [self.delegate respondsToSelector:@selector(drTreeTableView:didSelectedTreeNode:)]) {
-        [self.delegate drTreeTableView:self didSelectedTreeNode:note];
-    }
+    
 }
 #pragma mark --
 

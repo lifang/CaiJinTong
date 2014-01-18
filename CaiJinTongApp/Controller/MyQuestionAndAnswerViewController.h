@@ -25,7 +25,8 @@
 @property (assign, nonatomic) NSInteger question_pageCount;
 @property (strong,nonatomic) NSString *chapterID;
 @property (strong,nonatomic) NSString *searchQuestionText;
+@property (nonatomic,assign) BOOL isSearch;//判断是否是搜索
 - (IBAction)noticeHideBtnClick:(id)sender;
 //scope :设置问题的范围，我的回答，我的提问，所有回答
--(void)reloadDataWithDataArray:(NSArray*)data  withQuestionChapterID:(NSString*)chapterID withScope:(QuestionAndAnswerScope)scope;
+-(void)reloadDataWithDataArray:(NSArray*)data  withQuestionChapterID:(NSString*)chapterID withScope:(QuestionAndAnswerScope)scope isSearch:(BOOL)isSearch;
 @end

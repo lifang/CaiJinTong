@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 
 #import "UserModel.h"
-
 @interface CaiJinTongManager : NSObject
 {
     BOOL _free;
@@ -26,7 +25,6 @@
 @property (nonatomic, assign) CGFloat defaultHeight;
 @property (nonatomic, assign) CGFloat defaultLeftInset;
 @property (nonatomic, assign) BOOL isLoadLargeImage;//是否加载图片
-
 + (CaiJinTongManager *)shared;
 
 /** hold the thread when background task will terminate */

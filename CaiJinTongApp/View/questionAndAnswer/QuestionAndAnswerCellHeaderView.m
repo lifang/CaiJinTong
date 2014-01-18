@@ -187,6 +187,8 @@
     self.questionNameLabel.text = question.askerNick;
     self.questionDateLabel.text = [NSString stringWithFormat:@"发表于%@",question.askTime];
     self.questionFlowerLabel.text = question.praiseCount;
+    self.questionContentAttributeView.truncateHeight = ContentMinHeight;
+    self.questionContentAttributeView.isTruncate = !question.isExtend;
     self.questionContentAttributeView.questionModel = question;
 //    [self.questionFlowerBt setUserInteractionEnabled:NO];
     [self.summitQuestionAnswerBackView setHidden:!question.isEditing];

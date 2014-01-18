@@ -116,6 +116,13 @@
 //}
 
 #pragma mark property
+-(NSMutableArray *)alertViewArray{
+    if (!_alertViewArray) {
+        _alertViewArray = [NSMutableArray array];
+    }
+    return _alertViewArray;
+}
+
 -(NSMutableArray *)popupedControllerArr{
     if (!_popupedControllerArr) {
         _popupedControllerArr = [NSMutableArray array];

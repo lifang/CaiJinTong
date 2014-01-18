@@ -20,7 +20,7 @@
 @property (nonatomic,assign) BOOL isReaskRefreshing;//判断是追问刷新还是上拉下拉刷新
 @property (nonatomic,strong) DRAskQuestionViewController *askQuestionController;
 @property (nonatomic,strong) UIViewController *modelController;
-@property (nonatomic,assign) BOOL isSearch;//判断是否是搜索
+
 @property (nonatomic,strong) NSString *searchContent;//搜索关键字
 @end
 
@@ -82,7 +82,8 @@
 #pragma mark --
 
 ////数据源
--(void)reloadDataWithDataArray:(NSArray*)data withQuestionChapterID:(NSString*)chapterID withScope:(QuestionAndAnswerScope)scope{
+-(void)reloadDataWithDataArray:(NSArray*)data withQuestionChapterID:(NSString*)chapterID withScope:(QuestionAndAnswerScope)scope isSearch:(BOOL)isSearch{
+    self.isSearch = isSearch;
     self.questionAndAnswerScope = scope;
     self.chapterID = chapterID;
     self.myQuestionArr = [NSMutableArray arrayWithArray:data];
@@ -130,6 +131,7 @@
     [self.modelController.view addSubview:webView];
     self.modelController.view.frame = (CGRect){0,0,800,700};
     webView.frame = (CGRect){0,0,800,700};
+    webView.scalesPageToFit = YES;
     [webView loadRequest:[NSURLRequest requestWithURL:url]];
     [self presentPopupViewController:self.modelController animationType:MJPopupViewAnimationSlideTopTop isAlignmentCenter:YES dismissed:^{
         
@@ -431,6 +433,13 @@
 
 #pragma mark property
 
+-(void)setIsSearch:(BOOL)isSearch{
+    _isSearch = isSearch;
+    if (!isSearch) {
+        self.drnavigationBar.searchBar.isSearch = NO;
+    }
+}
+
 -(SearchQuestionInterface *)searchQuestionInterface{
     if (!_searchQuestionInterface) {
         _searchQuestionInterface = [[SearchQuestionInterface alloc] init];
@@ -548,7 +557,7 @@
             if (self.headerRefreshView.isForbidden) {//加载下一页
                 [self nextPageDataWithDataArray:chapterQuestionList withQuestionChapterID:self.chapterID withScope:QuestionAndAnswerSearchQuestion];
             }else{//重新加载
-                [self reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:self.chapterID withScope:QuestionAndAnswerSearchQuestion];
+                [self reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:self.chapterID withScope:QuestionAndAnswerSearchQuestion isSearch:self.isSearch];
             }
             
             [self.headerRefreshView endRefreshing];

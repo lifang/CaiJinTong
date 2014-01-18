@@ -14,13 +14,13 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        UIImage *frontImage = [[UIImage imageNamed:@"progressBar-front.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0) resizingMode:UIImageResizingModeStretch];
-        UIImage *backgroundImage = [[UIImage imageNamed:@"progressBar-background.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0) resizingMode:UIImageResizingModeStretch];
-        [self setMinimumTrackImage:frontImage forState:UIControlStateNormal];
-        [self setMaximumTrackImage:backgroundImage forState:UIControlStateNormal];
-        [self setThumbImage:[UIImage imageNamed:@"nothing"] forState:UIControlStateNormal];
-        [self setMaximumValue:100.0];
-        [self setMinimumValue:0.0];
+        self.frontImageView = [[UIImageView alloc] initWithFrame:(CGRect){0,0,frame.size}];
+        self.frontImageView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        [self.frontImageView setImage:[UIImage imageNamed:@"downloadprogressBar.png"]];
+        self.frontImageView.contentMode = UIViewContentModeScaleAspectFill;
+        self.frontImageView.clipsToBounds = YES;
+        [self addSubview:self.frontImageView];        
+        self.backgroundColor = [UIColor lightGrayColor];
     }
     return self;
 }
@@ -34,4 +34,8 @@
 }
 */
 
+-(void)setProgress:(float)progress{
+    _progress = progress;
+    self.frontImageView.frame = (CGRect){0,0,CGRectGetWidth(self.frame)*progress,self.frame.size.height};
+}
 @end

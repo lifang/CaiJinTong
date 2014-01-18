@@ -125,6 +125,64 @@ typedef enum {
     self.drawRect = [self drawHTMLContentString:question.questionName withStartPoint:(CGPoint){self.drawRect.origin.x,self.drawRect.origin.y} withContentType:DrawingContextType_QuestionContent];
 }
 
+-(void)drawQuestionModelWithTruncate:(QuestionModel*)question withTruncateHeight:(float)height{
+    NSError *error = nil;
+    CGPoint startPoint = (CGPoint){0,0};
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:question.questionName error:&error];
+    if (error) {
+        NSLog(@"DRAttributeStringView :parser content error%@",error);
+        return ;
+    }
+    CGRect startRect = (CGRect){startPoint,self.frame.size.width,0};
+    for (HTMLNode *node in parser.body.children) {
+        if ([node.tagName isEqualToString:@"img"]) {
+            NSString *imageUrl = [node getAttributeNamed:@"src"];
+            if (imageUrl) {
+                startRect = [self drawImage:imageUrl withStartPoint:(CGPoint){CGRectGetMinX(startRect),CGRectGetMaxY(startRect)+LINE_PADDING}];
+                startPoint = (CGPoint){CGRectGetMinX(startRect),CGRectGetMaxY(startRect)+LINE_PADDING};
+                if (CGRectGetMaxY(startRect) >= height) {
+                    break;
+                }
+            }
+        }else
+            if ([node.tagName isEqualToString:@"p"]) {
+                if (node.contents) {
+                    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:node.contents];
+                    [string beginEditing];
+                    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+                    style.headIndent = 0;
+                    style.tailIndent = self.frame.size.width -startPoint.x;
+                    [string addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, string.length)];
+                    [string addAttribute:NSForegroundColorAttributeName value:Question_Content_Color range:NSMakeRange(0, string.length)];
+                    [string addAttribute:NSFontAttributeName value:Question_Content_Font range:NSMakeRange(0, string.length)];
+                    [string endEditing];
+                    CGRect rect = [self getAttributeStringRectWithAttributeString:string withStartPoint:startPoint];
+                    if (CGRectGetMinY(rect) >= height) {
+                        break;
+                    }
+                    float oneLineHeight = [string boundingRectWithSize:(CGSize){self.frame.size.width - startPoint.x*2,MAXFLOAT} options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesFontLeading context:nil].size.height;
+                    if (CGRectGetMaxY(rect) > height) {
+                        rect = (CGRect){rect.origin,rect.size.width,height};
+                       style.lineBreakMode = NSLineBreakByTruncatingTail|NSLineBreakByWordWrapping;
+                    }
+                    if (height - CGRectGetMinY(rect) <= oneLineHeight) {
+                        style.lineBreakMode = NSLineBreakByTruncatingTail|NSLineBreakByWordWrapping;
+                    }
+                    CGContextRef context = UIGraphicsGetCurrentContext();
+                    CGContextSaveGState(context);
+                    CGContextTranslateCTM(context, startPoint.x,startPoint.y);
+                    [string drawInRect: (CGRect){0,0,rect.size}];
+                    CGContextRestoreGState(context);
+                    startRect = rect;
+                    startPoint = (CGPoint){CGRectGetMinX(startRect),CGRectGetMaxY(startRect)+LINE_PADDING};
+                    if (height - CGRectGetMinY(rect) <= oneLineHeight) {
+                        break;
+                    }
+                }
+            }
+    }
+}
+
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
@@ -142,7 +200,11 @@ typedef enum {
         [self drawAnswermodel:self.answerModel];
     }
     if (self.questionModel) {
-        [self drawQuestionmodel:self.questionModel];
+        if (self.isTruncate) {
+            [self drawQuestionModelWithTruncate:self.questionModel withTruncateHeight:self.truncateHeight];
+        }else{
+            [self drawQuestionmodel:self.questionModel];
+        }
     }
     
     _answerModel = nil;

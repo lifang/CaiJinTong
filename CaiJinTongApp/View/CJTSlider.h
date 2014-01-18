@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CJTSlider : UISlider
-
+@interface CJTSlider : UIView
+@property (strong,nonatomic) UIImageView *frontImageView;
+@property (assign,nonatomic) float progress;
 @end

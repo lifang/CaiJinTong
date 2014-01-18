@@ -18,6 +18,7 @@
 @property (assign, nonatomic) BOOL isLocal;
 @property (strong, nonatomic) DownloadService *mDownloadService;
 @property (strong, nonatomic)  LessonViewController *lessonViewCtrol;
+@property (strong, nonatomic) NSMutableArray *alertViewArray;
 +(AppDelegate *)sharedInstance;
 - (void)showRootView;
 @end

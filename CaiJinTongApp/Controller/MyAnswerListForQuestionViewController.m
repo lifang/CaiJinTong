@@ -360,22 +360,31 @@
     [self.tableView reloadRowsAtIndexPaths:@[self.activeIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
--(void)getAnswerPraiseInfoDidFailed:(NSString *)errorMsg{
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Utility errorAlert:@"赞失败"];
+-(void)getAnswerPraiseInfoDidFailed:(NSString *)errorMsg
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [Utility errorAlert:@"赞失败"];
+    });
+    
 }
 #pragma mark --
 
 #pragma mark SubmitAnswerInterfaceDelegate 提交回答或者提交追问的代理
 -(void)getSubmitAnswerInfoDidFinished:(NSDictionary *)result withReaskType:(ReaskType)reask{
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Utility errorAlert:@"提交成功"];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [Utility errorAlert:@"提交成功"];
+    });
+
 }
 
 -(void)getSubmitAnswerDidFailed:(NSString *)errorMsg withReaskType:(ReaskType)reask{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [Utility errorAlert:@"提交失败"];
+    });
     
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Utility errorAlert:@"提交失败"];
 }
 
 #pragma mark --
@@ -394,8 +403,11 @@
     });
 }
 -(void)getAcceptAnswerInfoDidFailed:(NSString *)errorMsg {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Utility errorAlert:errorMsg];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [Utility errorAlert:@"赞失败"];
+    });
+    
 }
 
 -(void)dealloc{
