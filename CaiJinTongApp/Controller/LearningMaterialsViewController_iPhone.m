@@ -53,7 +53,11 @@
 {
     [super viewDidLoad];
     self.sortType = LearningMaterialsSortType_Default;
-
+    self.isReloading = YES;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    UserModel *user = [[CaiJinTongManager shared] user];
+    //此处_lessonCategoryId改为要初始显示的分类Id
+    [self.learningMaterialListInterface downloadlearningMaterilasListForCategoryId:_lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
     [self setSubview];
 }
 
@@ -197,12 +201,12 @@
     LearningMaterialCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     cell.path = indexPath;
     cell.delegate = self;
-//    LearningMaterials *material = self.isSearch?[self.searchArray objectAtIndex:indexPath.row]:[self.dataArray objectAtIndex:indexPath.row];
-//    [cell setLearningMaterialData:material];
-    if(self.dataArray.count > 0){
-        LearningMaterials *material = self.isSearch?[self.searchArray objectAtIndex:indexPath.row]:[self.dataArray objectAtIndex:0];
-        [cell setLearningMaterialData:material];
-    }
+    LearningMaterials *material = self.isSearch?[self.searchArray objectAtIndex:indexPath.row]:[self.dataArray objectAtIndex:indexPath.row];
+    [cell setLearningMaterialData:material];
+//    if(self.dataArray.count > 0){
+//        LearningMaterials *material = self.isSearch?[self.searchArray objectAtIndex:indexPath.row]:[self.dataArray objectAtIndex:0];
+//        [cell setLearningMaterialData:material];
+//    }
     
     
     if (indexPath.row%2 == 0) {
@@ -218,8 +222,8 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 22;
-//    return self.isSearch? [self.searchArray count]:[self.dataArray count];
+//    return 22;
+    return self.isSearch? [self.searchArray count]:[self.dataArray count];
 }
 
 

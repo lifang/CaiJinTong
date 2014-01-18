@@ -60,6 +60,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.lhlNavigationBar.rightItem setHidden:YES];
     self.lhlNavigationBar.title.text = @"我的笔记";
     self.isEditing = NO;
     [self.headerRefreshView endRefreshing];

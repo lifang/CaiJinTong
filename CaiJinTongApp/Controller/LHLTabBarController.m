@@ -73,6 +73,7 @@
         [items addObject:item];
     }
     self.lhlTabBar.items = [NSMutableArray arrayWithArray:items];
+    self.lhlTabBar.fakeItem.delegate = self;
 }
 
 //生成一个tabBarItem
@@ -82,7 +83,7 @@
     switch (index) {
         case 0:
             title = @"课程";
-            image = [UIImage imageNamed:@"lessons.png"];
+            image = [UIImage imageNamed:@"play_0h5.png"];
             break;
         case 1:
             title = @"问答";
@@ -109,6 +110,12 @@
     return item;
 }
 
+-(void)backButtonClicked:(UIButton *)sender{
+    _backButton.hidden = YES;
+    self.selectedIndex = 0;
+    [self.lhlTabBar layoutItems_fake];
+}
+
 #pragma mark --
 #pragma mark -- property
 
@@ -122,7 +129,27 @@
 #pragma mark --
 #pragma mark -- LHLTabBarItemDelegate
 -(void)tabBarItemSelected:(LHLTabBarItem *) sender{
+    if(sender.tag == 86){
+        if(!_backButton){
+            _backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            _backButton.frame = CGRectMake(23,IP5(29, 21), 13, 25);
+            [_backButton addTarget:self action:@selector(backButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+            [_backButton setBackgroundImage:[UIImage imageNamed:@"_back.png"] forState:UIControlStateNormal];
+            [self.view addSubview:_backButton];
+        }
+        _backButton.hidden = NO;
+        self.selectedIndex = 0;
+        self.lhlTabBar.selectedIndex = 0;
+        [self.lhlTabBar layoutItems];
+        return;
+    }
+    if(sender.imageView.tag == 0 && self.lhlTabBar.selectedIndex == 0){
+        [self.lhlTabBar layoutItems_fake];
+    }
     self.selectedIndex = sender.imageView.tag;
     self.lhlTabBar.selectedIndex = sender.imageView.tag;
+//    if(sender.imageView.tag > 2){
+//        [self.lhlTabBar layoutItems_fake];
+//    }
 }
 @end

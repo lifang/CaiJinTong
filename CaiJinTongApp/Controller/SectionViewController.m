@@ -105,7 +105,7 @@
 /////////////
 //播放接口
 
--(void)playVideo:(id)sender {
+-(void)playVideo:(id)sender{
     self.isPlaying = YES;
     self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
     chapterModel *chapter = [self.lessonModel.chapterList firstObject];

@@ -17,4 +17,5 @@
 
 @interface LHLTabBarController : UITabBarController<UIGestureRecognizerDelegate,LHLTabBarItemDelegate>
 @property (nonatomic,strong) LHLTabBar *lhlTabBar;//替代默认的tabBar
+@property (nonatomic,strong) UIButton *backButton;//点击后退tabBar的按钮
 @end

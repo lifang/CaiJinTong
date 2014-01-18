@@ -16,9 +16,8 @@
 @property (weak, nonatomic) IBOutlet UITextView *questionContentTextView;
 @property (weak, nonatomic) IBOutlet UIButton *submitButton;
 @property (weak, nonatomic) IBOutlet UITextField *backgroundTextField;
-@property (weak, nonatomic) IBOutlet UITableView *selectTable;
+@property (strong, nonatomic) DRTreeTableView *treeView;
 @property (weak, nonatomic) IBOutlet UIButton *selectTableBtn;
-@property (weak, nonatomic) IBOutlet UITableViewCell *selectTableCell;
 @property (nonatomic, strong) NSMutableArray *questionList;
 @property (weak,nonatomic) id<LHLAskQuestionViewControllerDelegate> delegate;
 

@@ -154,16 +154,6 @@
     
     [self.playBt setBackgroundImage:[UIImage imageNamed:@"play_paused.png"] forState:UIControlStateNormal];
     self.section_ChapterView.alpha = 0.8;
-    
-    //测试数据
-//    self.sectionId = @"2928";
-//    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-//        [Utility errorAlert:@"暂无网络!"];
-//    }else {
-//            self.sectionInterface = [[SectionInfoInterface alloc] init];
-//            self.sectionInterface.delegate = self;
-//        [self.sectionInterface getSectionInfoInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andSectionId:@"2928"];
-//    }
 }
 
 -(void)dealloc{
@@ -460,6 +450,9 @@
     [self.section_chapterController willMoveToParentViewController:nil];
     [self.section_chapterController removeFromParentViewController];
     [self.section_chapterController.view removeFromSuperview];
+//    [self.navigationController popViewControllerAnimated:YES];
+//    [self.moviePlayer stop];
+//    self.moviePlayer = nil;
     [self dismissViewControllerAnimated:YES completion:^{
         [self.moviePlayer stop];
         self.moviePlayer = nil;

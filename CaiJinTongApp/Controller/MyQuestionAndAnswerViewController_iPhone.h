@@ -30,6 +30,7 @@
 @property (strong,nonatomic) GetUserQuestionInterface *getUserQuestionInterface;
 @property (nonatomic,strong) MenuQuestionTableViewController *menu;//问题分类菜单
 @property (nonatomic,assign) BOOL menuVisible;//菜单是否可见
+@property (nonatomic,weak) id lhlTabBarController;
 - (IBAction)noticeHideBtnClick:(id)sender;
 //scope :设置问题的范围，我的回答，我的提问，所有回答
 -(void)reloadDataWithDataArray:(NSArray*)data  withQuestionChapterID:(NSString*)chapterID withScope:(QuestionAndAnswerScope)scope;

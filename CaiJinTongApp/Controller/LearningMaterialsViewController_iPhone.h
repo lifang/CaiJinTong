@@ -16,5 +16,6 @@
 @interface LearningMaterialsViewController_iPhone : LHLNavigationBarViewController<LearningMaterialCellDelegate,UITableViewDataSource,UITableViewDelegate,LearningMatarilasListInterfaceDelegate,SearchLearningMatarilasListInterfaceDelegate,MJRefreshBaseViewDelegate,LessonCategoryInterfaceDelegate,DRTreeTableViewDelegate,ChapterSearchBarDelegate_iPhone>
 @property (strong,nonatomic) NSString *lessonCategoryId;
 @property (strong,nonatomic) NSMutableArray *dataArray;
+@property (nonatomic,weak) id lhlTabBarController;
 
 @end
