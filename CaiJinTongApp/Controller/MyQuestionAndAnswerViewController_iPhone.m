@@ -58,7 +58,7 @@
     [super viewDidLoad];
     //临时,搜索按钮
     CGPoint center = self.lhlNavigationBar.leftItem.center;
-    self.showSearchBarBtn = [UIButton buttonWithType:UIButtonTypeSystem ];
+    self.showSearchBarBtn = [UIButton buttonWithType:UIButtonTypeCustom ];
     self.showSearchBarBtn.frame = (CGRect){0,0,26,26};
     self.showSearchBarBtn.center = (CGPoint){center.x + 205,center.y};
     [self.showSearchBarBtn setTitle:@"搜" forState:UIControlStateNormal];
@@ -74,12 +74,12 @@
     [self.footerRefreshView endRefreshing];
     [self.tableView registerClass:[QuestionAndAnswerCell_iPhoneHeaderView class] forCellReuseIdentifier:@"header"];
     [self.tableView setFrame: CGRectMake(20,CGRectGetMaxY(self.noticeBarView.frame) + 5,281,IP5(568, 480) - CGRectGetMaxY(self.noticeBarView.frame) - 5 - self.tabBarController.tabBar.frame.size.height)];
-    [self.lhlNavigationBar.rightItem setTitle:@"提问" forState:UIControlStateNormal];
-    [self.lhlNavigationBar.rightItem setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    
+    //提问按钮
     if(!self.askQuestionBtn){
         self.askQuestionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.askQuestionBtn setFrame:(CGRect){0,0,26,26}];
-        self.askQuestionBtn.center = (CGPoint){self.showSearchBarBtn.center.x + 28,self.showSearchBarBtn.center.y};
+        self.askQuestionBtn.center = (CGPoint){self.showSearchBarBtn.center.x + 34,self.showSearchBarBtn.center.y};
         [self.askQuestionBtn setBackgroundColor:[UIColor clearColor]];
         [self.askQuestionBtn setBackgroundImage:[UIImage imageNamed:@"question1.png"] forState:UIControlStateNormal];
         [self.askQuestionBtn addTarget:self action:@selector(askQuestionBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -903,6 +903,41 @@
 
 -(BOOL)drTreeTableView:(DRTreeTableView *)treeView isExtendChildSelectedTreeNode:(DRTreeNode *)selectedNote{
     return YES;
+}
+
+-(void)drTreeTableView:(DRTreeTableView*)treeView didExtendChildTreeNode:(DRTreeNode*)extendNote{
+    switch ([extendNote.noteRootContentID integerValue]) {
+        case -2://所有问答
+        {
+            self.questionScope = QuestionAndAnswerALL;
+            [self reLoadQuestionWithQuestionScope:self.questionScope withTreeNode:extendNote];
+        }
+            break;
+        case -1://我的提问
+        {
+            self.questionScope = QuestionAndAnswerMYQUESTION;
+            [self reLoadQuestionWithQuestionScope:self.questionScope withTreeNode:extendNote];
+        }
+            break;
+        case -3://我的回答
+        {
+            self.questionScope = QuestionAndAnswerMYANSWER;
+            [self reLoadQuestionWithQuestionScope:self.questionScope withTreeNode:extendNote];
+        }
+            break;
+        case -4://我的问答
+        {
+        }
+            break;
+        default:{
+            
+        }
+            break;
+    }
+}
+
+-(void)drTreeTableView:(DRTreeTableView*)treeView didCloseChildTreeNode:(DRTreeNode*)extendNote{
+    
 }
 
 #pragma mark DRAskQuestionViewControllerDelegate 提问问题成功时回调

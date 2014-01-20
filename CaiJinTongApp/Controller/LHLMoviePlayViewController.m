@@ -145,9 +145,9 @@
     [self.seekSlider setMinimumTrackImage:minimukmTrackImage forState:UIControlStateNormal];
     [self.seekSlider setThumbImage:thumbImage forState:UIControlStateNormal];
     
-    maximukmTrackImage = [[UIImage imageNamed:@"play-courselist_0d3.png"] scaleToSize:CGSizeMake(228, 6)];
-    minimukmTrackImage = [[UIImage imageNamed:@"play-courselist_0df3.png"] scaleToSize:CGSizeMake(228,6)];
-    thumbImage = [[UIImage imageNamed:@"play-courselist_03.png"] scaleToSize:CGSizeMake(10, 10)];
+    maximukmTrackImage = [[UIImage imageNamed:@"_play_24.png"] scaleToSize:CGSizeMake(228, 6)];
+    minimukmTrackImage = [[UIImage imageNamed:@"_play_18.png"] scaleToSize:CGSizeMake(228,6)];
+    thumbImage = [[UIImage imageNamed:@"_play_27.png"] scaleToSize:CGSizeMake(10, 10)];
     [self.volumeSlider setMaximumTrackImage:maximukmTrackImage forState:UIControlStateNormal];
     [self.volumeSlider setMinimumTrackImage:minimukmTrackImage forState:UIControlStateNormal];
     [self.volumeSlider setThumbImage:thumbImage forState:UIControlStateNormal];
@@ -217,11 +217,11 @@
     self.isPlaying = !self.isPlaying;
     if (self.isPlaying) {
         [self.moviePlayer play];
-        [self.playBt setBackgroundImage:[UIImage imageNamed:@"play_paused.png"] forState:UIControlStateNormal];
+        [self.playBt setBackgroundImage:[UIImage imageNamed:@"_play_01_03.png"] forState:UIControlStateNormal];
         [self startStudyTime];
     }else{
         [self.moviePlayer pause];
-        [self.playBt setBackgroundImage:[UIImage imageNamed:@"play_play.png"] forState:UIControlStateNormal];
+        [self.playBt setBackgroundImage:[UIImage imageNamed:@"_play_03.png"] forState:UIControlStateNormal];
         [self pauseStudyTime];
     }
 }
@@ -245,7 +245,7 @@
     NSLog(@"%f,%f",mpc.volume,self.currentMoviePlaterVolume);
     if (mpc.volume < 0.00000001) {
         mpc.volume = self.currentMoviePlaterVolume;
-        [(UIButton*)sender setBackgroundImage:[UIImage imageNamed:@"play_volume.png"] forState:UIControlStateNormal];
+        [(UIButton*)sender setBackgroundImage:[UIImage imageNamed:@"_play_22.png"] forState:UIControlStateNormal];
     }else{
         [(UIButton*)sender setBackgroundImage:[UIImage imageNamed:@"pause.png"] forState:UIControlStateNormal];
         self.currentMoviePlaterVolume = mpc.volume;

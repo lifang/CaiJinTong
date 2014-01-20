@@ -9,7 +9,6 @@
 #import "NoteListViewController_iPhone.h"
 #import "Section.h"
 #import "SectionModel.h"
-#import "DRMoviePlayViewController.h"
 
 @interface NoteListViewController_iPhone ()
 @property (weak, nonatomic) IBOutlet UITableView *noteListTableView;
@@ -60,6 +59,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.noteListTableView.frame = (CGRect){0,IP5(65, 55),320,IP5(440, 375)};
     [self.lhlNavigationBar.rightItem setHidden:YES];
     self.lhlNavigationBar.title.text = @"我的笔记";
     self.isEditing = NO;
@@ -75,8 +75,8 @@
 }
 
 
-#pragma mark DRMoviePlayViewControllerDelegate 提交笔记成功
--(void)drMoviePlayerViewController:(DRMoviePlayViewController *)playerController commitNotesSuccess:(NSString *)noteText andTime:(NSString *)noteTime{
+#pragma mark LHLMoviePlayViewControllerDelegate 提交笔记成功
+-(void)lhlMoviePlayerViewController:(LHLMoviePlayViewController*)playerController commitNotesSuccess:(NSString*)noteText andTime:(NSString *)noteTime{
     
 }
 
@@ -130,6 +130,12 @@
 }
 
 -(void)NoteListCell_iPhone:(NoteListCell_iPhone*)cell willModifyCellAtIndexPath:(NSIndexPath*)path{
+    if(self.isEditing && [self.editPath isEqual:path]){
+        self.isEditing = NO;
+        self.editPath = nil;
+        [self.noteListTableView reloadData];
+        return;
+    }
     self.isEditing = YES;
     self.editPath = path;
     [self.noteListTableView reloadData];
@@ -256,13 +262,14 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         self.lessonModel = lesson;
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        DRMoviePlayViewController *movieController =  [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
+        LHLMoviePlayViewController *movieController =  [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
+        movieController.delegate = self;
         SectionModel *section = [[Section defaultSection] getSectionModelWithSid:self.playNoteModel.noteSectionId];
         [self presentViewController:movieController animated:YES completion:^{
             
         }];
         if (section) {
-            [movieController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
+            [movieController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeFile];
         }else{
             SectionModel *tempSection = nil;
             BOOL isReturn = NO;
