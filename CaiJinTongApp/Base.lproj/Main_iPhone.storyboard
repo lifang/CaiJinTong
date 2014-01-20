@@ -1994,18 +1994,10 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                 </state>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="YVD-QH-iYx">
-                                <rect key="frame" x="15" y="473" width="141" height="45"/>
+                                <rect key="frame" x="69" y="473" width="180" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <state key="normal" title="找回密码" backgroundImage="btn.png">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="SWA-4P-JUr">
-                                <rect key="frame" x="164" y="473" width="141" height="45"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="注册账号" backgroundImage="btn.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
@@ -2021,7 +2013,6 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                         <outlet property="findPasswordBtn" destination="YVD-QH-iYx" id="TFb-wh-ILO"/>
                         <outlet property="loginBtn" destination="5Kw-Ub-r3x" id="0Xf-Wt-1bC"/>
                         <outlet property="passwordTextField" destination="Qbv-ec-FnR" id="910-gX-SRI"/>
-                        <outlet property="registerAccBtn" destination="SWA-4P-JUr" id="wrS-9u-SVF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KrC-dD-ymW" userLabel="First Responder" sceneMemberID="firstResponder"/>
