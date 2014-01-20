@@ -11,5 +11,9 @@
 
 @interface LHLTabBar : UIView
 @property (strong,nonatomic) NSMutableArray *items;
+@property (strong,nonatomic) LHLTabBarItem *fakeItem;//学习按钮
 @property (nonatomic,assign) NSUInteger selectedIndex;
+-(void)layoutItems;
+-(void)layoutItems_fake;
+
 @end

@@ -51,4 +51,5 @@ typedef enum{
 @property (strong,nonatomic) CJTMainToolbar_iPhone *mainToolBar;
 
 @property (assign,nonatomic) LESSONSORTTYPE sortType;
+
 @end

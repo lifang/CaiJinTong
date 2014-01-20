@@ -28,7 +28,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.tableViewList.separatorStyle = NO;
 }
 - (void)viewDidCurrentView
 {
@@ -49,6 +48,7 @@
     return size.height+51;
 //    return 50;UIScrollView
 }
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (!self.dataArray || self.dataArray.count <= 0) {
         [self.tipLabel removeFromSuperview];

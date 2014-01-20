@@ -56,7 +56,7 @@
     LearningMaterialsViewController_iPhone *lMVC = [story instantiateViewControllerWithIdentifier:@"LearningMaterialsViewController_iPhone"];
     [VCs addObject:lMVC];
     
-    UIViewController *vc = [UIViewController new];
+    NoteListViewController_iPhone *vc = [story instantiateViewControllerWithIdentifier:@"NoteListViewController_iPhone"];
     [VCs addObject:vc];
     
     SettingViewController_iPhone *settingVC = [story instantiateViewControllerWithIdentifier:@"SettingViewController_iPhone"];
@@ -73,6 +73,7 @@
         [items addObject:item];
     }
     self.lhlTabBar.items = [NSMutableArray arrayWithArray:items];
+    self.lhlTabBar.fakeItem.delegate = self;
 }
 
 //生成一个tabBarItem
@@ -82,7 +83,7 @@
     switch (index) {
         case 0:
             title = @"课程";
-            image = [UIImage imageNamed:@"lessons.png"];
+            image = [UIImage imageNamed:@"play_0h5.png"];
             break;
         case 1:
             title = @"问答";
@@ -109,6 +110,12 @@
     return item;
 }
 
+-(void)backButtonClicked:(UIButton *)sender{
+    _backButton.hidden = YES;
+    self.selectedIndex = 0;
+    [self.lhlTabBar layoutItems_fake];
+}
+
 #pragma mark --
 #pragma mark -- property
 
@@ -122,7 +129,28 @@
 #pragma mark --
 #pragma mark -- LHLTabBarItemDelegate
 -(void)tabBarItemSelected:(LHLTabBarItem *) sender{
+    if(sender.tag == 86){
+        if(!_backButton){
+            _backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            _backButton.frame = CGRectMake(0, 10 + IP5(8, 0), 44, 44);
+            [_backButton addTarget:self action:@selector(backButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+            [_backButton setImage:[UIImage imageNamed:@"_back.png"] forState:UIControlStateNormal];
+            [self.view addSubview:_backButton];
+        }
+        _backButton.hidden = NO;
+        self.selectedIndex = 0;
+        self.lhlTabBar.selectedIndex = 0;
+        [self.lhlTabBar layoutItems];
+        return;
+    }
+    if(sender.imageView.tag == 0 && self.lhlTabBar.selectedIndex == 0){
+        [self.lhlTabBar layoutItems_fake];
+        self.backButton.hidden = YES;
+    }
     self.selectedIndex = sender.imageView.tag;
     self.lhlTabBar.selectedIndex = sender.imageView.tag;
+//    if(sender.imageView.tag > 2){
+//        [self.lhlTabBar layoutItems_fake];
+//    }
 }
 @end

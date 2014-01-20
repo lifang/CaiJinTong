@@ -24,15 +24,21 @@
         self.title.backgroundColor = [UIColor clearColor];
         [self addSubview:self.title];
         
-        self.rightItem = [[UIButton alloc]initWithFrame:CGRectMake(278, 21 + Y, 24, 24)];
-        [self.rightItem setBackgroundImage:[UIImage imageNamed:@"rightItem_06.png"] forState:UIControlStateNormal];
+        self.rightItem = [[UIButton alloc]initWithFrame:CGRectMake(270, 10 + Y, 44, 44)];
+        [self.rightItem setImage:[UIImage imageNamed:@"rightItem_06.png"] forState:UIControlStateNormal];
         self.rightItem.backgroundColor = [UIColor clearColor];
+//        self.rightItem = [[UIButton alloc]initWithFrame:CGRectMake(278, 21 + Y, 24, 24)];
+//        [self.rightItem setBackgroundImage:[UIImage imageNamed:@"rightItem_06.png"] forState:UIControlStateNormal];
+//        self.rightItem.backgroundColor = [UIColor clearColor];
         self.rightItem.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
         [self addSubview:self.rightItem];
         
-        self.leftItem = [[UIButton alloc]initWithFrame:CGRectMake(23, 21 + Y, 13, 25)];
-        [self.leftItem setBackgroundImage:[UIImage imageNamed:@"_back.png"] forState:UIControlStateNormal];
+        self.leftItem = [[UIButton alloc]initWithFrame:CGRectMake(0, 10 + Y, 44, 44)];
+        [self.leftItem setImage:[UIImage imageNamed:@"_back.png"] forState:UIControlStateNormal];
         self.leftItem.backgroundColor = [UIColor clearColor];
+//        self.leftItem = [[UIButton alloc]initWithFrame:CGRectMake(23, 21 + Y, 13, 25)];
+//        [self.leftItem setBackgroundImage:[UIImage imageNamed:@"_back.png"] forState:UIControlStateNormal];
+//        self.leftItem.backgroundColor = [UIColor clearColor];
         self.leftItem.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
         [self addSubview:self.leftItem];
         

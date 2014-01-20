@@ -44,12 +44,13 @@ static BOOL tableVisible;
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.selectTableBtn.frame = frame;//按钮坐标
-    self.selectTable.frame = tableFrame;//table坐标;
+    self.treeView.frame = tableFrame;//table坐标;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.lhlNavigationBar.rightItem setHidden:YES];
     [self.questionTitleTextField setFrame:CGRectMake(62, 118, 238, 43)];
     [self.questionTitleTextField setBackgroundColor:[UIColor colorWithRed:248.0/255.0 green:248.0/255.0 blue:248.0/255.0 alpha:1.0]];
     
@@ -69,9 +70,9 @@ static BOOL tableVisible;
     [self.submitButton addTarget:self action:@selector(submitButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     
     self.lhlNavigationBar.title.text = @"我要提问";
-    
-    //问答分类
-    self.questionList = [NSMutableArray arrayWithArray:[CaiJinTongManager shared].question];
+//    
+//    //问答分类
+//    self.questionList = [NSMutableArray arrayWithArray:[CaiJinTongManager shared].question];
     //标记是否选中了
     self.questionArrSelSection = [[NSMutableArray alloc] init];
     for (int i =0; i<self.questionList.count; i++) {
@@ -83,13 +84,12 @@ static BOOL tableVisible;
     
     [self.selectTableBtn addTarget:self action:@selector(showSelectTable) forControlEvents:UIControlEventTouchUpInside];
     
-    self.selectTable.frame = tableFrame;
-    self.selectTable.hidden = YES;
-    self.selectTable.backgroundColor = [UIColor lightGrayColor];
-    [self.selectTable.layer setCornerRadius:8];
-    [self.selectTable.layer setBorderColor:[UIColor blackColor].CGColor];
-    [self.selectTable.layer setBorderWidth:0.5];
-    self.selectTable.separatorStyle = NO;
+    self.treeView.frame = tableFrame;
+    self.treeView.hidden = YES;
+    self.treeView.backgroundColor = [UIColor lightGrayColor];
+    [self.treeView.layer setCornerRadius:8];
+    [self.treeView.layer setBorderColor:[UIColor blackColor].CGColor];
+    [self.treeView.layer setBorderWidth:0.5];
     tableVisible = NO;
     
     //问答分类
@@ -104,7 +104,7 @@ static BOOL tableVisible;
             [self.questionArrSelSection addObject:[NSString stringWithFormat:@"%d",i]];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.selectTable reloadData];
+            self.treeView.noteArr = [NSMutableArray arrayWithArray:[CaiJinTongManager shared].question];
         });
     }
 }
@@ -127,75 +127,75 @@ static BOOL tableVisible;
 }
 
 
-#pragma mark --TableView Delegate
+//#pragma mark --TableView Delegate
+//
+//-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+//    return self.questionList.count;
+//}
+//
+//-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"questionCell"];
+//    if(!cell){
+//        cell = [[UITableViewCell alloc] init];
+//    }
+//    cell.textLabel.text=[NSString stringWithFormat:@"%@",[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"questionName"]];
+//    [cell setIndentationLevel:[[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"level"]intValue]];
+//    cell.textLabel.textColor = [UIColor blackColor];
+//    cell.detailTextLabel.textColor = [UIColor blackColor];
+//    cell.backgroundColor = [UIColor clearColor];
+//    return cell;
+//    
+//}
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//    NSDictionary *d=[self.questionList objectAtIndex:indexPath.row];
+//    if([d valueForKey:@"questionNode"]) {
+//        NSArray *ar=[d valueForKey:@"questionNode"];
+//        if (ar.count == 0) {
+//            self.selectedQuestionId = [d valueForKey:@"questionID"];
+//            self.selectedQuestionName.text = [d valueForKey:@"questionName"];
+//            //点击生效
+//            [self showSelectTable];
+//        }else {
+//            BOOL isAlreadyInserted=NO;
+//            
+//            for(NSDictionary *dInner in ar ){
+//                NSInteger index=[self.questionList indexOfObjectIdenticalTo:dInner];
+//                isAlreadyInserted=(index>0 && index!=NSIntegerMax);
+//                if(isAlreadyInserted) break;
+//            }
+//            
+//            if(isAlreadyInserted) {
+//                [self miniMizeThisRows:ar];
+//            } else {
+//                NSUInteger count=indexPath.row+1;
+//                NSMutableArray *arCells=[NSMutableArray array];
+//                for(NSDictionary *dInner in ar ) {
+//                    [arCells addObject:[NSIndexPath indexPathForRow:count inSection:0]];
+//                    [self.questionList insertObject:dInner atIndex:count++];
+//                }
+//                [tableView insertRowsAtIndexPaths:arCells withRowAnimation:UITableViewRowAnimationLeft];
+//            }
+//        }
+//    }
+//}
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.questionList.count;
-}
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"questionCell"];
-    if(!cell){
-        cell = [[UITableViewCell alloc] init];
-    }
-    cell.textLabel.text=[NSString stringWithFormat:@"%@",[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"questionName"]];
-    [cell setIndentationLevel:[[[self.questionList objectAtIndex:indexPath.row] valueForKey:@"level"]intValue]];
-    cell.textLabel.textColor = [UIColor blackColor];
-    cell.detailTextLabel.textColor = [UIColor blackColor];
-    cell.backgroundColor = [UIColor clearColor];
-    return cell;
-    
-}
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSDictionary *d=[self.questionList objectAtIndex:indexPath.row];
-    if([d valueForKey:@"questionNode"]) {
-        NSArray *ar=[d valueForKey:@"questionNode"];
-        if (ar.count == 0) {
-            self.selectedQuestionId = [d valueForKey:@"questionID"];
-            self.selectedQuestionName.text = [d valueForKey:@"questionName"];
-            //点击生效
-            [self showSelectTable];
-        }else {
-            BOOL isAlreadyInserted=NO;
-            
-            for(NSDictionary *dInner in ar ){
-                NSInteger index=[self.questionList indexOfObjectIdenticalTo:dInner];
-                isAlreadyInserted=(index>0 && index!=NSIntegerMax);
-                if(isAlreadyInserted) break;
-            }
-            
-            if(isAlreadyInserted) {
-                [self miniMizeThisRows:ar];
-            } else {
-                NSUInteger count=indexPath.row+1;
-                NSMutableArray *arCells=[NSMutableArray array];
-                for(NSDictionary *dInner in ar ) {
-                    [arCells addObject:[NSIndexPath indexPathForRow:count inSection:0]];
-                    [self.questionList insertObject:dInner atIndex:count++];
-                }
-                [tableView insertRowsAtIndexPaths:arCells withRowAnimation:UITableViewRowAnimationLeft];
-            }
-        }
-    }
-}
-
--(void)miniMizeThisRows:(NSArray*)ar{
-	for(NSDictionary *dInner in ar ) {
-		NSUInteger indexToRemove=[self.questionList indexOfObjectIdenticalTo:dInner];
-		NSArray *arInner=[dInner valueForKey:@"questionNode"];
-		if(arInner && [arInner count]>0){
-			[self miniMizeThisRows:arInner];
-		}
-		
-		if([self.questionList indexOfObjectIdenticalTo:dInner]!=NSNotFound) {
-			[self.questionList removeObjectIdenticalTo:dInner];
-			[self.selectTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:
-                                                      [NSIndexPath indexPathForRow:indexToRemove inSection:0]
-                                                      ]
-                                    withRowAnimation:UITableViewRowAnimationRight];
-		}
-	}
-}
+//-(void)miniMizeThisRows:(NSArray*)ar{
+//	for(NSDictionary *dInner in ar ) {
+//		NSUInteger indexToRemove=[self.questionList indexOfObjectIdenticalTo:dInner];
+//		NSArray *arInner=[dInner valueForKey:@"questionNode"];
+//		if(arInner && [arInner count]>0){
+//			[self miniMizeThisRows:arInner];
+//		}
+//		
+//		if([self.questionList indexOfObjectIdenticalTo:dInner]!=NSNotFound) {
+//			[self.questionList removeObjectIdenticalTo:dInner];
+//			[self.selectTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:
+//                                                      [NSIndexPath indexPathForRow:indexToRemove inSection:0]
+//                                                      ]
+//                                    withRowAnimation:UITableViewRowAnimationRight];
+//		}
+//	}
+//}
 
 #pragma mark property
 -(NSMutableArray *)questionArrSelSection{
@@ -211,28 +211,37 @@ static BOOL tableVisible;
     [self inputBegin:nil];
 }
 
+-(DRTreeTableView *)treeView{
+    if(!_treeView){
+        _treeView = [[DRTreeTableView alloc] initWithFrame:(CGRect){2,2,2,2} withTreeNodeArr:nil];
+        _treeView.delegate = self;
+        [self.view addSubview:_treeView];
+        [_treeView setBackgroundColor:[UIColor lightGrayColor]];
+    }
+    return _treeView;
+}
+
 #pragma mark button methods
 //显示/隐藏提问类型table
 -(void)showSelectTable{
     if(!tableVisible){
         [self keyboardFuckOff:nil];//便于触发点击事件
-        [self.selectTable reloadData];
-        self.selectTable.hidden = NO;
+        self.treeView.hidden = NO;
         [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationOptionBeginFromCurrentState animations:^{
-            [self.selectTable setFrame:CGRectMake(tableFrame.origin.x, tableFrame.origin.y, tableFrame.size.width, tableFrame.size.height + 250)];
+            [self.treeView setFrame:CGRectMake(tableFrame.origin.x, tableFrame.origin.y, tableFrame.size.width, tableFrame.size.height + 250)];
             tableVisible = YES;
         }
-                         completion:NULL];
+                         completion:nil];
     }else{
         [UIView animateWithDuration:0.3 delay:0.0
                             options: UIViewAnimationOptionBeginFromCurrentState
                          animations:^{
-            [self.selectTable setFrame:CGRectMake(tableFrame.origin.x, tableFrame.origin.y, tableFrame.size.width, tableFrame.size.height)];
+            [self.treeView setFrame:CGRectMake(tableFrame.origin.x, tableFrame.origin.y, tableFrame.size.width, tableFrame.size.height)];
             tableVisible = NO;
         }
                          completion:^(BOOL finished) {
                              if(finished){
-                                 self.selectTable.hidden = YES;
+                                 self.treeView.hidden = YES;
                              }
                          }];
     }
@@ -275,11 +284,11 @@ static BOOL tableVisible;
 #pragma mark --
 
 #pragma mark QuestionInfoInterfaceDelegate
--(void)getQuestionInfoDidFinished:(NSDictionary *)result {
+-(void)getQuestionInfoDidFinished:(NSArray *)questionCategoryArr {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         //分类的数据
-        self.questionList = [NSMutableArray arrayWithArray:[result valueForKey:@"questionList"]];
-        [CaiJinTongManager shared].question = [NSMutableArray arrayWithArray:[result valueForKey:@"questionList"]];
+        self.questionList = [NSMutableArray arrayWithArray:questionCategoryArr];
+        [CaiJinTongManager shared].question = [NSMutableArray arrayWithArray:questionCategoryArr];
         dispatch_async(dispatch_get_main_queue(), ^{
             //标记是否选中了
             self.questionArrSelSection = [[NSMutableArray alloc] init];
@@ -288,11 +297,12 @@ static BOOL tableVisible;
             }
             dispatch_async(dispatch_get_main_queue(), ^{
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
-                [self.selectTable reloadData];
+                self.treeView.noteArr = [NSMutableArray arrayWithArray:questionCategoryArr];
             });
         });
     });
 }
+
 -(void)getQuestionInfoDidFailed:(NSString *)errorMsg {
     dispatch_async(dispatch_get_main_queue(), ^{
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -300,6 +310,30 @@ static BOOL tableVisible;
     });
     
 }
+
+#pragma mark --
+
+#pragma mark -- DRTreeView Delegate
+-(void)drTreeTableView:(DRTreeTableView*)treeView didSelectedTreeNode:(DRTreeNode*)selectedNote{
+//    self.selectedQuestionId = [NSString stringWithFormat:@"%i",selectedNote.noteId];
+    self.selectedQuestionId = selectedNote.noteContentID;
+    self.selectedQuestionName.text = selectedNote.noteContentName;
+    //点击生效
+    [self showSelectTable];
+}
+
+-(BOOL)drTreeTableView:(DRTreeTableView*)treeView isExtendChildSelectedTreeNode:(DRTreeNode*)selectedNote {
+    return YES;
+}
+
+-(void)drTreeTableView:(DRTreeTableView*)treeView didExtendChildTreeNode:(DRTreeNode*)extendNote{
+    
+}
+
+-(void)drTreeTableView:(DRTreeTableView*)treeView didCloseChildTreeNode:(DRTreeNode*)extendNote{
+    
+}
+
 #pragma mark --
 
 #pragma mark -- AskQuestionInterfaceDelegate

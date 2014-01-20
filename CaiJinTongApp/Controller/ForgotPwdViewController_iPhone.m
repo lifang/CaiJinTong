@@ -22,6 +22,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.lhlNavigationBar.rightItem setHidden:YES];
     self.lhlNavigationBar.title.text = @"找回密码";
     [self.lhlNavigationBar.rightItem setHidden:YES];
     

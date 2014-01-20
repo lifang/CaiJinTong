@@ -379,10 +379,6 @@ static BOOL treeViewInited = NO;
 
 #pragma mark lhlNavigationBar
 
--(void)leftItemClicked:(id)sender{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 -(void)rightItemClicked:(id)sender{
     if(!treeViewInited){
         [self downloadLessonCategoryInfo];

@@ -23,7 +23,7 @@
 
 #import "Section_ChapterViewController.h"
 
-typedef enum {MOVIE_FILE,MOVIE_INTERNET}MovieLocateType;
+
 @protocol DRMoviePlayViewControllerDelegate;
 @interface DRMoviePlayViewController : UIViewController<MovieControllerItemDelegate,DRMoviePlayerPlaybackProgressBarDelegate,CustomPlayerViewDelegate,PlayBackInterfaceDelegate,SumitNoteInterfaceDelegate,DRMoviePlayerTopBarDelegate,AskQuestionInterfaceDelegate>
 
