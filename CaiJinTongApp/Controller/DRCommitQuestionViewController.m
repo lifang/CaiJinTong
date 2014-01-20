@@ -44,6 +44,7 @@ static CGRect tableFrame;
     }
    
 }
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

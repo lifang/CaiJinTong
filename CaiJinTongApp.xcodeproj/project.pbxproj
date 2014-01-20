@@ -320,6 +320,7 @@
 		6323875D18220E7D00C71535 /* ForgotPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6323875C18220E7D00C71535 /* ForgotPwdViewController.m */; };
 		6323876018222A1500C71535 /* DRNaviGationBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6323875F18222A1500C71535 /* DRNaviGationBarController.m */; };
 		6323876318223E9500C71535 /* DRNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6323876218223E9500C71535 /* DRNavigationBar.m */; };
+		632CF221188A8FE50099D1A2 /* UploadImageDataInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 632CF220188A8FE50099D1A2 /* UploadImageDataInterface.m */; };
 		633003391845F81200F7838D /* radio_checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 633003351845F81200F7838D /* radio_checked.png */; };
 		6330033A1845F81200F7838D /* radio_checked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 633003361845F81200F7838D /* radio_checked@2x.png */; };
 		6330033B1845F81200F7838D /* radio_unchecked.png in Resources */ = {isa = PBXBuildFile; fileRef = 633003371845F81200F7838D /* radio_unchecked.png */; };
@@ -926,6 +927,8 @@
 		6323875F18222A1500C71535 /* DRNaviGationBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 5; lastKnownFileType = sourcecode.c.objc; name = DRNaviGationBarController.m; path = ../controllers/DRNaviGationBarController.m; sourceTree = "<group>"; };
 		6323876118223E9500C71535 /* DRNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DRNavigationBar.h; path = view/DRNavigationBar.h; sourceTree = SOURCE_ROOT; };
 		6323876218223E9500C71535 /* DRNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DRNavigationBar.m; path = view/DRNavigationBar.m; sourceTree = SOURCE_ROOT; };
+		632CF21F188A8FE50099D1A2 /* UploadImageDataInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadImageDataInterface.h; sourceTree = "<group>"; };
+		632CF220188A8FE50099D1A2 /* UploadImageDataInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadImageDataInterface.m; sourceTree = "<group>"; };
 		633003351845F81200F7838D /* radio_checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio_checked.png; sourceTree = "<group>"; };
 		633003361845F81200F7838D /* radio_checked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "radio_checked@2x.png"; sourceTree = "<group>"; };
 		633003371845F81200F7838D /* radio_unchecked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio_unchecked.png; sourceTree = "<group>"; };
@@ -1468,6 +1471,8 @@
 				6395A1EC187BCC8600F304CC /* LearningMatarilasListInterface.m */,
 				6395A1EE187BD3F600F304CC /* SearchLearningMatarilasListInterface.h */,
 				6395A1EF187BD3F600F304CC /* SearchLearningMatarilasListInterface.m */,
+				632CF21F188A8FE50099D1A2 /* UploadImageDataInterface.h */,
+				632CF220188A8FE50099D1A2 /* UploadImageDataInterface.m */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -2688,6 +2693,7 @@
 				0EAD1F6E182B24B100204FC3 /* FMDatabaseAdditions.m in Sources */,
 				63B794EB1847477100B8276A /* MJRefreshHeaderView.m in Sources */,
 				0EAD1F6F182B24B100204FC3 /* FMDatabase.m in Sources */,
+				632CF221188A8FE50099D1A2 /* UploadImageDataInterface.m in Sources */,
 				0EA7EF5E1823AE1800C47F69 /* AskQuestionInterface.m in Sources */,
 				0EAD1F83182B7D8C00204FC3 /* Section_GradeCell.m in Sources */,
 				0E9DA3BA183F568D000A5995 /* ASIWebPageRequest.m in Sources */,

@@ -10,7 +10,7 @@
 
 #import "AnswerModel.h"
 @interface Utility : NSObject
-
++ (UIImage *)getNormalImage:(UIView *)view;
 + (NSString *)isExistenceNetwork;
 + (NSString *)createMD5:(NSString *)params;
 + (NSDictionary *)initWithJSONFile:(NSString *)jsonPath;
