@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UITextView *contentField;  //主文本框
 @property (weak, nonatomic) IBOutlet UIButton *commitBtn;
 @property (weak, nonatomic) IBOutlet UIButton *cancelBtn;
+@property (strong,nonatomic) UIImage *cutImage;
 @property (weak,nonatomic) id<DRCommitQuestionViewControllerDelegate> delegate;
 
 @property (weak, nonatomic) IBOutlet UIButton *dropDownBt;
@@ -40,5 +41,4 @@
 
 -(void)commitQuestionController:(DRCommitQuestionViewController*)controller didCommitQuestionWithTitle:(NSString*)title andText:(NSString*)text andQuestionId:(NSString *)questionId;
 -(void)commitQuestionControllerCancel;
-
 @end

@@ -18,7 +18,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *commitBtn;
 @property (weak, nonatomic) IBOutlet UIButton *cancelBtn;
 @property (weak,nonatomic) id<DRTakingMovieNoteViewControllerDelegate> delegate;
-
 - (IBAction)spaceAreaClicked:(id)sender;
 - (IBAction)cancelBtnClicked:(UIButton *)sender;
 - (IBAction)commitBtnClicked:(UIButton *)sender;
