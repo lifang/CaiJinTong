@@ -332,6 +332,7 @@
 #pragma mark ModifyNoteInterfaceDelegate修改笔记
 -(void)modifyNoteDidFinished:(NSString *)success{
     dispatch_async(dispatch_get_main_queue(), ^{
+        self.isEditing = NO;
         if (self.modifyNoteInterface.path) {
             NoteModel *note = [self.noteDateList objectAtIndex:self.modifyNoteInterface.path.row];
             note.noteText = self.modifyNoteInterface.modifyContent;

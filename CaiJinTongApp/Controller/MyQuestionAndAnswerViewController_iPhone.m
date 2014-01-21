@@ -60,7 +60,8 @@
     CGPoint center = self.lhlNavigationBar.leftItem.center;
     self.showSearchBarBtn = [UIButton buttonWithType:UIButtonTypeCustom ];
     self.showSearchBarBtn.frame = (CGRect){0,0,26,26};
-    self.showSearchBarBtn.center = (CGPoint){center.x + 205,center.y};
+//    self.showSearchBarBtn.center = (CGPoint){center.x + 205,center.y};
+    self.showSearchBarBtn.center = (CGPoint){center.x + 35,center.y};
     [self.showSearchBarBtn setTitle:@"搜" forState:UIControlStateNormal];
     [self.showSearchBarBtn.titleLabel setFont:[UIFont systemFontOfSize:19.0]];
     [self.showSearchBarBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -79,7 +80,7 @@
     if(!self.askQuestionBtn){
         self.askQuestionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.askQuestionBtn setFrame:(CGRect){0,0,26,26}];
-        self.askQuestionBtn.center = (CGPoint){self.showSearchBarBtn.center.x + 34,self.showSearchBarBtn.center.y};
+        self.askQuestionBtn.center = (CGPoint){self.showSearchBarBtn.center.x + 200,self.showSearchBarBtn.center.y};
         [self.askQuestionBtn setBackgroundColor:[UIColor clearColor]];
         [self.askQuestionBtn setBackgroundImage:[UIImage imageNamed:@"question1.png"] forState:UIControlStateNormal];
         [self.askQuestionBtn addTarget:self action:@selector(askQuestionBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -232,8 +233,10 @@
         question.isEditing = NO;
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
         
-        AnswerModel *answer = [question.answerList objectAtIndex:[self answerForCellIndexPath:path]];
-        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:ReaskType_None andAnswerContent:text andQuestionId:question.questionId andAnswerID:answer.resultId  andResultId:@"0"];
+        //回答问题为什么需要一个answer?我删了
+//        AnswerModel *answer = [question.answerList objectAtIndex:[self answerForCellIndexPath:path]];
+//        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:ReaskType_None andAnswerContent:text andQuestionId:question.questionId andAnswerID:answer.resultId  andResultId:@"0"];
+        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:ReaskType_None andAnswerContent:text andQuestionId:question.questionId andAnswerID:0  andResultId:@"0"];
     }
 }
 
@@ -570,15 +573,6 @@
 }
 
 -(void)requestNewPageDataWithLastQuestionID:(NSString*)lastQuestionID{
-//    if (self.questionScope == QuestionAndAnswerALL) {
-//        [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andChapterQuestionId:self.chapterID andLastQuestionID:lastQuestionID];
-//    }else
-//        if (self.questionScope == QuestionAndAnswerMYANSWER) {
-////            [self.userQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andIsMyselfQuestion:@"1" andLastQuestionID:lastQuestionID];
-//        }else
-//            if (self.questionScope == QuestionAndAnswerMYQUESTION) {
-////                [self.userQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andIsMyselfQuestion:@"0" andLastQuestionID:lastQuestionID];
-//            }
     UserModel *user = [[CaiJinTongManager shared] user];
     if (self.questionScope == QuestionAndAnswerALL) {
         [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:user.userId andChapterQuestionId:self.chapterID andLastQuestionID:lastQuestionID];
@@ -714,6 +708,9 @@
         case QuestionAndAnswerMYQUESTION:
             self.lhlNavigationBar.title.text = @"我的提问";
             break;
+        case QuestionAndAnswerSearchQuestion:
+            self.lhlNavigationBar.title.text = @"搜索";
+            break;
         default:
             self.lhlNavigationBar.title.text = @"我的回答";
             break;
@@ -792,7 +789,6 @@
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
-        //             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         self.questionAndSwerRequestID = node.noteContentID;
         switch (scope) {
             case QuestionAndAnswerALL:
@@ -899,6 +895,7 @@
             }
                 break;
         }
+    self.menuVisible = NO;
 }
 
 -(BOOL)drTreeTableView:(DRTreeTableView *)treeView isExtendChildSelectedTreeNode:(DRTreeNode *)selectedNote{
@@ -1022,6 +1019,9 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
         dispatch_async(dispatch_get_main_queue(), ^{
+            if(!chapterQuestionList || chapterQuestionList.count < 1){
+                [Utility errorAlert:@"已经到最后一页了!"];
+            }
             if (self.isReaskRefreshing) {
                 self.myQuestionArr = [NSMutableArray arrayWithArray:chapterQuestionList];
                 [self.tableView reloadData];
@@ -1032,12 +1032,13 @@
                     self.myQuestionArr = [NSMutableArray arrayWithArray:chapterQuestionList];
                 }
                 [self.tableView reloadData];
-                [self.headerRefreshView endRefreshing];
-                self.headerRefreshView.isForbidden = NO;
-                [self.footerRefreshView endRefreshing];
-                self.footerRefreshView.isForbidden = NO;
+                
             }
             [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [self.headerRefreshView endRefreshing];
+            self.headerRefreshView.isForbidden = NO;
+            [self.footerRefreshView endRefreshing];
+            self.footerRefreshView.isForbidden = NO;
         });
     });
 }
@@ -1045,6 +1046,10 @@
 -(void)getUserQuestionInfoDidFailed:(NSString *)errorMsg{
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
+    [self.headerRefreshView endRefreshing];
+    self.headerRefreshView.isForbidden = NO;
+    [self.footerRefreshView endRefreshing];
+    self.footerRefreshView.isForbidden = NO;
 }
 
 #pragma mark--ChapterQuestionInterfaceDelegate所有问答数据
@@ -1085,10 +1090,6 @@
         }else{
             [Utility errorAlert:@"数据为空"];
         }
-        [self.headerRefreshView endRefreshing];
-        self.headerRefreshView.isForbidden = NO;
-        [self.footerRefreshView endRefreshing];
-        self.footerRefreshView.isForbidden = NO;
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     }else{
         if (result) {
@@ -1107,6 +1108,10 @@
         }
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     }
+    [self.headerRefreshView endRefreshing];
+    self.headerRefreshView.isForbidden = NO;
+    [self.footerRefreshView endRefreshing];
+    self.footerRefreshView.isForbidden = NO;
 }
 
 -(void)getQuestionListInfoDidFailed:(NSString *)errorMsg{
@@ -1125,12 +1130,20 @@
 -(void)getSearchQuestionInfoDidFailed:(NSString *)errorMsg{
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
+    [self.headerRefreshView endRefreshing];
+    self.headerRefreshView.isForbidden = NO;
+    [self.footerRefreshView endRefreshing];
+    self.footerRefreshView.isForbidden = NO;
 }
 
 -(void)getSearchQuestionInfoDidFinished:(NSDictionary *)result{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
         dispatch_async(dispatch_get_main_queue(), ^{
+            if(!chapterQuestionList || chapterQuestionList.count < 1){
+                [Utility errorAlert:@"已经到最后一页了!"];
+            }
+//            self.lhlNavigationBar.title.text = [NSString stringWithFormat:@"搜索:%@",self.searchBar.searchTextField.text];
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             self.question_pageIndex = self.question_pageIndex+1;
             if (self.headerRefreshView.isForbidden) {//加载下一页
@@ -1138,7 +1151,10 @@
             }else{//重新加载
                 [self reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:self.chapterID withScope:QuestionAndAnswerSearchQuestion];
             }
-            
+            [self.headerRefreshView endRefreshing];
+            self.headerRefreshView.isForbidden = NO;
+            [self.footerRefreshView endRefreshing];
+            self.footerRefreshView.isForbidden = NO;
         });
     });
 }

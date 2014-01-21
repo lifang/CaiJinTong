@@ -125,15 +125,10 @@
             }
         }
     }
-    //    NSString * str = [NSString stringWithFormat:@"%0.2f",p.x / self.frame.size.width];
-    //    float score = [str floatValue];
-    //    p.x = score * self.frame.size.width;
-    //    self.starForegroundView.frame = CGRectMake(0, 0, p.x, self.frame.size.height);
-    //
-    //    if(self.delegate && [self.delegate respondsToSelector:@selector(starRatingView: score:)])
-    //    {
-    //        [self.delegate starRatingView:self score:score];
-    //    }
+    if(self.score < 1){
+        self.score = 1;
+        self.starForegroundView.frame = CGRectMake(0, 0, START_HEIGHT+PADDING+5, self.frame.size.height);
+    }
 }
 
 -(void)setScore:(int)score{

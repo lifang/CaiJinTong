@@ -21,6 +21,7 @@
 @property (nonatomic,strong) LHLTakingMovieNoteViewController *takingMovieNotesVC;
 @property (nonatomic, assign) long  long studyTime;//学习时间
 @property (nonatomic,strong) NSTimer *studyTimer;
+@property (nonatomic,assign) BOOL chapterDismissByItself;
 @end
 
 @implementation LHLMoviePlayViewController
@@ -124,6 +125,7 @@
     self.myQuestionItem.delegate = self;
     
     self.isPopupChapter = NO;
+    self.chapterDismissByItself = NO;
 //    [self addMoviePlayBackNotification];
     
     //    [self.moviePlayer play];
@@ -153,7 +155,7 @@
     [self.volumeSlider setThumbImage:thumbImage forState:UIControlStateNormal];
     
     [self.playBt setBackgroundImage:[UIImage imageNamed:@"play_paused.png"] forState:UIControlStateNormal];
-    self.section_ChapterView.alpha = 0.8;
+    self.section_ChapterView.alpha = 0.9;
 }
 
 -(void)dealloc{
@@ -168,6 +170,7 @@
 -(void)moviePlayBarSelected:(MovieControllerItem *)item{
     if (item == self.chapterListItem) {
         [self changePlayButtonStatus:NO];
+        self.chapterDismissByItself = YES;
         if (!self.isPopupChapter) {
             self.drMovieTopBar.center = (CGPoint){self.movieplayerControlBackView.center.x,-15};
             if (!self.section_chapterController) {
@@ -192,24 +195,26 @@
         }
     }else
         if (item == self.myQuestionItem) {
-            [self changePlayButtonStatus:NO];
+            self.chapterDismissByItself = NO;
+            self.isPopupChapter = NO;
             LHLCommitQuestionViewController *commitQuestionVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLCommitQuestionViewController"];
             commitQuestionVC.view.frame = (CGRect){0,0,IP5(516, 435),255};
             commitQuestionVC.delegate = self;
             [self presentPopupViewController:commitQuestionVC animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
                 self.myQuestionItem.isSelected = NO;
             }];
-            self.isPopupChapter = NO;
+            [self changePlayButtonStatus:NO];
         }else
             if (item == self.myNotesItem) {
-                [self changePlayButtonStatus:NO];
+                self.chapterDismissByItself = NO;
+                self.isPopupChapter = NO;
                 LHLTakingMovieNoteViewController *takingMovieNotesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLTakingMovieNoteViewController"];
                 takingMovieNotesVC.view.frame = (CGRect){0,0,IP5(516, 435),255};
                 takingMovieNotesVC.delegate = self;
                 [self presentPopupViewController:takingMovieNotesVC animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
                     self.myNotesItem.isSelected = NO;
                 }];
-                self.isPopupChapter = NO;
+                [self changePlayButtonStatus:NO];
             }
 }
 #pragma mark --
@@ -683,7 +688,11 @@
                 self.section_ChapterView.frame = (CGRect){IP5(568, 480),0,247,274};
                 self.drMovieTopBar.center = (CGPoint){self.movieplayerControlBackView.center.x,15};
             } completion:^(BOOL finished) {
-                [self changePlayButtonStatus:YES];
+                [self.movieplayerControlBackView setUserInteractionEnabled:YES];
+                if(self.chapterDismissByItself){
+                    [self changePlayButtonStatus:YES];
+                    self.chapterDismissByItself = NO;
+                }
             }];
             [self.section_chapterController removeFromParentViewController];
         }else{
@@ -698,6 +707,7 @@
     }
 }
 
+//点击空白区域触发的方法
 -(void)setIsHiddlePlayerControlView:(BOOL)isHiddlePlayerControlView{
     _isHiddlePlayerControlView = isHiddlePlayerControlView;
     [UIView animateWithDuration:0.5 animations:^{
@@ -711,6 +721,8 @@
         }else{
             if (self.chapterListItem.isSelected) {
                 self.isPopupChapter = YES;
+                [self changePlayButtonStatus:NO];
+                self.chapterDismissByItself = YES;
             }else{
                 self.drMovieTopBar.center = (CGPoint){self.movieplayerControlBackView.center.x,15};
             }
@@ -753,13 +765,6 @@
     return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
 }
 
-#pragma mark TOUCH
-//-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
-////    [super touchesBegan:touches withEvent:event];
-//    if (self.isPopupChapter) {
-//        self.isPopupChapter = NO;
-//    }
-//}
 #pragma mark -- PlayBackInterfaceDelegate
 
 -(void)getPlayBackInfoDidFinished {
