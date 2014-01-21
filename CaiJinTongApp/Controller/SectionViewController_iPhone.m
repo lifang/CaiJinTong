@@ -7,6 +7,7 @@
 //
 
 #import "SectionViewController_iPhone.h"
+#define PLACEHOLD(string) (string.length < 1 || !string) ? @"(资料暂缺)" : string
 
 @interface SectionViewController_iPhone()
 @property (nonatomic,assign) BOOL isPlaying;
@@ -34,10 +35,6 @@
                                              selector:@selector(refeshScore:)
                                                  name: @"refeshScore"
                                                object: nil];
-    
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardUP:) name:UIKeyboardWillShowNotification object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardDOWN:) name:UIKeyboardWillHideNotification object:nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(gotoMoviePlayMovieOnLineWithSectionSavemodel:)
                                                  name:@"startPlaySectionMovieOnLine" object:nil];
@@ -68,7 +65,7 @@
         self.scoreLab.text = [NSString stringWithFormat:@"%.1f",0.0];
     }
     //标题
-    self.nameLab.text =[NSString stringWithFormat:@"名称:%@",lesson.lessonName];
+    self.nameLab.text =[NSString stringWithFormat:@"名称:%@",PLACEHOLD(lesson.lessonName)];
     //    self.nameLab.frame = (CGRect){275, labelTop, width, 30};
     
     //简介
@@ -82,13 +79,19 @@
 //    }
     
     //讲师
-    self.teacherlab.text =[NSString stringWithFormat:@"讲师:%@",lesson.lessonTeacherName];
+    self.teacherlab.text =[NSString stringWithFormat:@"讲师:%@",PLACEHOLD(lesson.lessonTeacherName)];
     
     //时长
-    self.lastLab.text =[NSString stringWithFormat:@"时长:%@",lesson.lessonDuration];
+    NSString *lessonDuration = [self.lessonModel.lessonDuration stringByReplacingOccurrencesOfString:@"分" withString:@"´"];
+    lessonDuration = [lessonDuration stringByReplacingOccurrencesOfString:@"秒" withString:@"〞"];
+    lessonDuration = [lessonDuration stringByReplacingOccurrencesOfString:@"小时" withString:@"h"];
+    self.lastLab.text =[NSString stringWithFormat:@"时长:%@",lessonDuration];
     
     //已学习
-    self.studyLab.text =[NSString stringWithFormat:@"已学习:%@",lesson.lessonStudyTime];
+    NSString *studyProgress = [self.lessonModel.lessonStudyTime stringByReplacingOccurrencesOfString:@"分" withString:@"´"];
+    studyProgress = [studyProgress stringByReplacingOccurrencesOfString:@"秒" withString:@"〞"];
+    studyProgress = [studyProgress stringByReplacingOccurrencesOfString:@"小时" withString:@"h"];
+    self.studyLab.text =[NSString stringWithFormat:@"已学习:%@",PLACEHOLD(studyProgress)];
     
     //播放按钮
     if (!lesson.lessonStudyTime || [lesson.lessonStudyTime isEqualToString:@"0"]) {
@@ -116,6 +119,7 @@
 //播放接口
 
 -(void)playVideo:(id)sender{
+    NSLog(@"%@",NSStringFromCGRect( self.slideSwitchView.frame));
     self.isPlaying = YES;
     self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
     chapterModel *chapter = [self.lessonModel.chapterList firstObject];
@@ -131,7 +135,7 @@
 //    [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
 //        
 //    }];
-    [self presentViewController:self.playerController animated:YES completion:^{
+    [self.navigationController presentViewController:self.playerController animated:YES completion:^{
         
     }];
 //    [self.navigationController pushViewController:self.playerController animated:YES];
@@ -242,7 +246,7 @@
         nameLabel.backgroundColor = [UIColor clearColor];
         nameLabel.textColor = [UIColor darkGrayColor];
         nameLabel.font = [UIFont systemFontOfSize:15];
-        nameLabel.text =[NSString stringWithFormat:@"名称：%@",self.lessonModel.lessonName];
+        nameLabel.text =[NSString stringWithFormat:@"名称：%@",PLACEHOLD( self.lessonModel.lessonName)];
         self.nameLab = nameLabel;
         [self.view addSubview:self.nameLab];
         nameLabel = nil;
@@ -252,7 +256,7 @@
         teacherLabel.backgroundColor = [UIColor clearColor];
         teacherLabel.textColor = [UIColor darkGrayColor];
         teacherLabel.font = [UIFont systemFontOfSize:15];
-        teacherLabel.text =[NSString stringWithFormat:@"讲师：%@",self.lessonModel.lessonTeacherName];
+        teacherLabel.text =[NSString stringWithFormat:@"讲师：%@",PLACEHOLD(self.lessonModel.lessonTeacherName)];
         self.teacherlab = teacherLabel;
         [self.view addSubview:self.teacherlab];
         teacherLabel = nil;
@@ -271,7 +275,7 @@
                 infoLabel.textColor = [UIColor darkGrayColor];
                 infoLabel.numberOfLines = 0;
                 infoLabel.font = aFont;
-                infoLabel.text =[NSString stringWithFormat:@"简介：%@",self.lessonModel.lessonDetailInfo];
+                infoLabel.text =[NSString stringWithFormat:@"简介：%@",PLACEHOLD(self.lessonModel.lessonDetailInfo)];
                 self.infoLab = infoLabel;
                 [self.scrollView addSubview:self.infoLab];
                 self.scrollView.contentSize = CGSizeMake(280,self.infoLab.frame.size.height);
@@ -289,7 +293,7 @@
                 infoLabel.textColor = [UIColor darkGrayColor];
                 infoLabel.numberOfLines = 0;
                 infoLabel.font = aFont;
-                infoLabel.text =[NSString stringWithFormat:@"简介：%@",self.lessonModel.lessonDetailInfo];
+                infoLabel.text =[NSString stringWithFormat:@"简介：%@",PLACEHOLD(self.lessonModel.lessonDetailInfo)];
                 self.infoLab = infoLabel;
                 [self.view addSubview:self.infoLab];
                 infoLabel = nil;
@@ -298,24 +302,29 @@
 //        }
         
         //时长
-        UILabel *lastLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, labelTop, 150, 30)];
+        UILabel *lastLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, labelTop, 140, 30)];
         lastLabel.backgroundColor = [UIColor clearColor];
         lastLabel.textColor = [UIColor darkGrayColor];
         lastLabel.font = [UIFont systemFontOfSize:15];
-        lastLabel.text =[NSString stringWithFormat:@"时长：%@",self.lessonModel.lessonDuration];
+        NSString *lessonDuration = [self.lessonModel.lessonDuration stringByReplacingOccurrencesOfString:@"分" withString:@"´"];
+        lessonDuration = [lessonDuration stringByReplacingOccurrencesOfString:@"秒" withString:@"〞"];
+        lessonDuration = [lessonDuration stringByReplacingOccurrencesOfString:@"小时" withString:@"h"];
+        lastLabel.text =[NSString stringWithFormat:@"时长:%@",lessonDuration];
         self.lastLab = lastLabel;
         [self.view addSubview:self.lastLab];
         lastLabel = nil;
 //        labelTop +=self.lastLab.frame.size.height+labelSpace;
         //已学习
         DLog(@"labtop = %f",labelTop);
-        UILabel *studyLabel = [[UILabel alloc]initWithFrame:CGRectMake(190, labelTop, 150, 30)];
+        UILabel *studyLabel = [[UILabel alloc]initWithFrame:CGRectMake(165, labelTop, 145, 30)];
+        studyLabel.textAlignment = NSTextAlignmentRight;
         studyLabel.backgroundColor = [UIColor clearColor];
         studyLabel.textColor = [UIColor darkGrayColor];
         studyLabel.font = [UIFont systemFontOfSize:15];
         NSString *studyProgress = [self.lessonModel.lessonStudyTime stringByReplacingOccurrencesOfString:@"分" withString:@"´"];
         studyProgress = [studyProgress stringByReplacingOccurrencesOfString:@"秒" withString:@"〞"];
-        studyLabel.text =[NSString stringWithFormat:@"已学习：%@",studyProgress];
+        studyProgress = [studyProgress stringByReplacingOccurrencesOfString:@"小时" withString:@"h"];
+        studyLabel.text =[NSString stringWithFormat:@"已学习：%@",PLACEHOLD(studyProgress)];
         self.studyLab = studyLabel;
         [self.view addSubview:self.studyLab];
         studyLabel = nil;
@@ -349,7 +358,7 @@
 - (void)initAppear_slide{
     if(!(IS_4_INCH)){
         //43为上半部分减少的高度 , 88 - 43 = 5 + 40
-        self.slideSwitchView.frame = CGRectMake(0, 362 - 43 -5, 320, 206 - 40);
+        self.slideSwitchView.frame = CGRectMake(0, 357 - 43 -5, 320, 211 - 40);
     }
     self.slideSwitchView.backgroundColor = [UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:232.0/255.0 alpha:1.0];
     //3个选项卡
@@ -366,7 +375,7 @@
     [self.section_ChapterView.tableViewList setFrame:CGRectMake(22, 0, 276, self.slideSwitchView.frame.size.height - IP5(63, 53))];
     self.section_ChapterView.title = @"章节目录";
     self.section_ChapterView.lessonId = self.lessonModel.lessonId;
-    self.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:self.lessonModel.chapterList];
+    self.section_ChapterView.dataArray = self.lessonModel.chapterList;
     self.section_ChapterView.isMovieView = NO;
     
     //评价页面
@@ -409,7 +418,7 @@
 //            [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
 //                
 //            }];
-            [self presentViewController:self.playerController animated:YES completion:^{
+            [self.navigationController presentViewController:self.playerController animated:YES completion:^{
                 
             }];
         });
@@ -434,7 +443,7 @@
 //        [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
 //            
 //        }];
-        [self presentViewController:self.playerController animated:YES completion:^{
+        [self.navigationController presentViewController:self.playerController animated:YES completion:^{
             
         }];
         [self.playerController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
@@ -459,7 +468,7 @@
 //        [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
 //            
 //        }];
-        [self presentViewController:self.playerController animated:YES completion:^{
+        [self.navigationController presentViewController:self.playerController animated:YES completion:^{
             
         }];
     }

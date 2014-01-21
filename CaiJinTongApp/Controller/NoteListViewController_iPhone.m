@@ -59,6 +59,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.lhlNavigationBar.leftItem.hidden = YES;
     self.noteListTableView.frame = (CGRect){0,IP5(65, 55),320,IP5(440, 375)};
     [self.lhlNavigationBar.rightItem setHidden:YES];
     self.lhlNavigationBar.title.text = @"我的笔记";

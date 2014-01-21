@@ -179,7 +179,7 @@
         }else{
             [self.learningMaterialListInterface downloadlearningMaterilasListForCategoryId:self.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
         }
-    }else{
+    }else{  //加载更多数据
         self.headerRefreshView.isForbidden = YES;
         if (self.isSearch) {
              [self.searchMaterialInterface searchLearningMaterilasListWithUserId:user.userId withSearchContent:self.searchContent withPageIndex:self.searchMaterialInterface.currentPageIndex+1 withSortType:self.sortType];

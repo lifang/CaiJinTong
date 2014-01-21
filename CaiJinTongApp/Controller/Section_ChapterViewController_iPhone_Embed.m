@@ -127,7 +127,7 @@
     
     chapterModel *chapter = (chapterModel *)[self.dataArray objectAtIndex:indexPath.section];
     SectionModel *section = [chapter.sectionList objectAtIndex:indexPath.row];
-    
+    section.lessonId = self.lessonId;
     cell.nameLab.text = [NSString stringWithFormat:@"【%@】",section.sectionName];
     cell.sid = section.sectionId;
     

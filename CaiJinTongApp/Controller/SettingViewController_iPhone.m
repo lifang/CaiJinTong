@@ -44,6 +44,7 @@ NSString *appleID_ = @"6224939";
 {
     [super viewDidLoad];
     [self.lhlNavigationBar.rightItem setHidden:YES];
+    [self.lhlNavigationBar.leftItem setHidden:YES];
     self.lhlNavigationBar.title.text = @"设置";
     
     [self.tableView setFrame:CGRectMake(0, IP5(65, 55), 320,IP5(440, 375))];

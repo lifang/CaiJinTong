@@ -115,7 +115,7 @@
 }
 - (void)viewDidLoad{
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(playVideo:) name:@"gotoMoviePlay" object:nil];
+                                             selector:@selector(playVideo:) name:@"gotoMoviePlayMovie" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(changePlayVideoOnLine:) name:@"changePlaySectionMovieOnLine" object:nil];
     [self addApplicationNotification];
@@ -167,6 +167,7 @@
 #pragma mark MovieControllerItemDelegate
 -(void)moviePlayBarSelected:(MovieControllerItem *)item{
     if (item == self.chapterListItem) {
+        [self changePlayButtonStatus:NO];
         if (!self.isPopupChapter) {
             self.drMovieTopBar.center = (CGPoint){self.movieplayerControlBackView.center.x,-15};
             if (!self.section_chapterController) {
@@ -191,7 +192,7 @@
         }
     }else
         if (item == self.myQuestionItem) {
-            [self.moviePlayer pause];
+            [self changePlayButtonStatus:NO];
             LHLCommitQuestionViewController *commitQuestionVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLCommitQuestionViewController"];
             commitQuestionVC.view.frame = (CGRect){0,0,IP5(516, 435),255};
             commitQuestionVC.delegate = self;
@@ -201,7 +202,7 @@
             self.isPopupChapter = NO;
         }else
             if (item == self.myNotesItem) {
-                [self.moviePlayer pause];
+                [self changePlayButtonStatus:NO];
                 LHLTakingMovieNoteViewController *takingMovieNotesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLTakingMovieNoteViewController"];
                 takingMovieNotesVC.view.frame = (CGRect){0,0,IP5(516, 435),255};
                 takingMovieNotesVC.delegate = self;
@@ -215,15 +216,16 @@
 
 - (IBAction)playBtClicked:(id)sender {
     self.isPlaying = !self.isPlaying;
-    if (self.isPlaying) {
-        [self.moviePlayer play];
-        [self.playBt setBackgroundImage:[UIImage imageNamed:@"_play_01_03.png"] forState:UIControlStateNormal];
-        [self startStudyTime];
-    }else{
-        [self.moviePlayer pause];
-        [self.playBt setBackgroundImage:[UIImage imageNamed:@"_play_03.png"] forState:UIControlStateNormal];
-        [self pauseStudyTime];
-    }
+    [self changePlayButtonStatus:self.isPlaying];
+//    if (self.isPlaying) {
+//        [self.moviePlayer play];
+//        [self.playBt setBackgroundImage:[UIImage imageNamed:@"_play_01_03.png"] forState:UIControlStateNormal];
+//        [self startStudyTime];
+//    }else{
+//        [self.moviePlayer pause];
+//        [self.playBt setBackgroundImage:[UIImage imageNamed:@"_play_03.png"] forState:UIControlStateNormal];
+//        [self pauseStudyTime];
+//    }
 }
 
 - (IBAction)seekSliderTouchChangeValue:(id)sender {
@@ -397,7 +399,9 @@
 #pragma mark -- 提交问题
 -(void)commitQuestionController:(LHLCommitQuestionViewController *)controller didCommitQuestionWithTitle:(NSString *)title andText:(NSString *)text andQuestionId:(NSString *)questionId{
     self.myQuestionItem.isSelected = NO;
-    [self.moviePlayer play];
+    if (self.isPlaying) {
+        [self changePlayButtonStatus:YES];
+    }
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
@@ -414,8 +418,10 @@
 }
 
 -(void)commitQuestionControllerCancel{
-//    self.myQuestionItem.isSelected = NO;
-//    [self.moviePlayer play];
+    self.myQuestionItem.isSelected = NO;
+    if (self.isPlaying) {
+        [self changePlayButtonStatus:YES];
+    }
 }
 
 #pragma mark -- 提交笔记
@@ -423,7 +429,9 @@
     self.commitNoteText = text;
     self.commitNoteTime = noteTime;
     self.myNotesItem.isSelected = NO;
-    [self.moviePlayer play];
+    if (self.isPlaying) {
+        [self changePlayButtonStatus:YES];
+    }
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
@@ -440,8 +448,9 @@
 }
 
 -(void)takingMovieNoteControllerCancel{
-//    self.myNotesItem.isSelected = NO;
-//    [self.moviePlayer play];
+    if (self.isPlaying) {
+        [self changePlayButtonStatus:YES];
+    }
 }
 #pragma mark --
 
@@ -460,6 +469,9 @@
 }
 -(void)drMoviePlayerTopBarbackItemClicked:(DRMoviePlayerTopBar *)topBar{
     self.isBack = YES;
+    self.myQuestionItem.isSelected = NO;
+    self.myNotesItem.isSelected = NO;
+    [self changePlayButtonStatus:NO];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [self saveCurrentStatus];
 }
@@ -499,7 +511,6 @@
 }
 
 -(void)saveCurrentStatus{
-    //保存之前的状态
     [self  endStudyTime];
     NSString *timespan = [NSString stringWithFormat:@"%.2f",self.moviePlayer.currentPlaybackTime];
     self.sectionModel.sectionFinishedDate = [Utility getNowDateFromatAnDate];
@@ -588,6 +599,21 @@
     self.studyTime +=30;
 }
 
+/**
+ 改变播放状态
+ */
+-(void)changePlayButtonStatus:(BOOL)isPlay{
+    if (isPlay) {
+        [self.moviePlayer play];
+        [self.playBt setBackgroundImage:[UIImage imageNamed:@"_play_01_03.png"] forState:UIControlStateNormal];
+        [self startStudyTime];
+    }else{
+        [self.moviePlayer pause];
+        [self.playBt setBackgroundImage:[UIImage imageNamed:@"_play_03.png"] forState:UIControlStateNormal];
+        [self pauseStudyTime];
+    }
+}
+
 //开始学习记时
 -(void)startStudyTime{
     if (self.studyTimer) {
@@ -655,8 +681,9 @@
             [self.section_chapterController willMoveToParentViewController:nil];
             [UIView animateWithDuration:0.5 animations:^{
                 self.section_ChapterView.frame = (CGRect){IP5(568, 480),0,247,274};
+                self.drMovieTopBar.center = (CGPoint){self.movieplayerControlBackView.center.x,15};
             } completion:^(BOOL finished) {
-                [self.movieplayerControlBackView setUserInteractionEnabled:YES];
+                [self changePlayButtonStatus:YES];
             }];
             [self.section_chapterController removeFromParentViewController];
         }else{

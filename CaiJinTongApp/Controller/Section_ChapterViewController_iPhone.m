@@ -125,9 +125,9 @@
     static NSString *CellIdentifier = @"Section_ChapterCell_iPhone";
     Section_ChapterCell_iPhone *cell = (Section_ChapterCell_iPhone *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    chapterModel *chapter = (chapterModel *)[self.dataArray objectAtIndex:indexPath.section];
+    chapterModel *chapter = [self.dataArray objectAtIndex:indexPath.section];
     SectionModel *section = [chapter.sectionList objectAtIndex:indexPath.row];
-    
+    section.lessonId = self.lessonId;
     cell.nameLab.text = [NSString stringWithFormat:@"【%@】",section.sectionName];
     cell.sid = section.sectionId;
     

@@ -19,6 +19,7 @@ static BOOL treeViewInited = NO;
 @property (nonatomic,strong) LessonInfoInterface *lessonInterface;
 @property (assign,nonatomic) BOOL isSearch;
 @property (assign,nonatomic) BOOL isRefreshing;
+@property (assign,nonatomic) BOOL isLoading; //标志读取课程列表的请求是否已经发出 / 结束
 @end
 @implementation LessonViewController_iPhone
 
@@ -26,6 +27,7 @@ static BOOL treeViewInited = NO;
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        self.isLoading = YES;
     }
     return self;
 }
@@ -49,7 +51,6 @@ static BOOL treeViewInited = NO;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSLog(@"%@=============================",paths[0]);
     [super viewDidLoad];
-//    [[CaiJinTongManager shared] setUserId:@"17082"];
     NSLog(@"%@",NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory, NSUserDomainMask, YES)[0]);
     
     [self setCollectionView];
@@ -105,6 +106,13 @@ static BOOL treeViewInited = NO;
     }
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    if(!self.isLoading){
+        if(!self.sectionList || self.sectionList.count < 1){
+            [self initData];
+        }
+    }
+}
 
 //设置tabBar
 -(void)setTabBar{
@@ -427,6 +435,7 @@ static BOOL treeViewInited = NO;
 
 #pragma mark LessonListForCategoryDelegate 根据分类获取课程信息
 -(void)getLessonListDataForCategoryDidFinished:(NSArray *)lessonList withCurrentPageIndex:(int)pageIndex withTotalCount:(int)allDataCount{
+    self.isLoading = NO;
     if(self.isRefreshing){   //回调方法如果是因为分页加载被调用,则:
         dispatch_async(dispatch_get_main_queue(), ^{
             if (pageIndex > 0) {
@@ -444,6 +453,7 @@ static BOOL treeViewInited = NO;
         return;
     }
     dispatch_async(dispatch_get_main_queue(), ^{    //因选择分类被调用
+        self.lhlNavigationBar.leftItem.hidden = YES;
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         self.lessonListForCategory.currentPageIndex = 0;
         self.isSearch = NO;
@@ -452,7 +462,9 @@ static BOOL treeViewInited = NO;
 }
 
 -(void)getLessonListDataForCategoryFailure:(NSString *)errorMsg{
+    self.isLoading = NO;
     dispatch_async(dispatch_get_main_queue(), ^{
+        self.lhlNavigationBar.leftItem.hidden = YES;
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         if(self.isRefreshing){
             [self.headerRefreshView endRefreshing];

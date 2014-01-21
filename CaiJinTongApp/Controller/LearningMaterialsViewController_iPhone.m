@@ -72,6 +72,10 @@
     [self.searchButton.layer setCornerRadius:3.0];
     [self.searchButton addTarget:self action:@selector(searchButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     
+    [self.headerRefreshView endRefreshing];
+    [self.footerRefreshView endRefreshing];
+    self.headerRefreshView.isForbidden = NO;
+    self.footerRefreshView.isForbidden = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -276,7 +280,11 @@
 -(void)searchLearningMaterilasListDataForCategoryDidFinished:(NSArray *)lessonList withCurrentPageIndex:(int)pageIndex withTotalCount:(int)allDataCount{
     dispatch_async(dispatch_get_main_queue(), ^{
         self.isSearch = YES;
-        self.searchArray = [NSMutableArray arrayWithArray:lessonList];
+        if(pageIndex > 0){
+            [self.dataArray addObjectsFromArray:lessonList];
+        }else{
+            self.dataArray = [NSMutableArray arrayWithArray:lessonList];
+        }
         [self.tableView reloadData];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self.headerRefreshView endRefreshing];
@@ -284,7 +292,7 @@
         self.headerRefreshView.isForbidden = NO;
         self.footerRefreshView.isForbidden = NO;
         self.isReloading = NO;
-        self.lhlNavigationBar.title.text = [NSString stringWithFormat:@"目前有(%i)份资料",self.searchArray.count];
+        self.lhlNavigationBar.title.text = [NSString stringWithFormat:@"目前有(%i)份资料",allDataCount];
     });
 }
 
@@ -304,7 +312,12 @@
 #pragma mark LearningMatarilasListInterfaceDelegate
 -(void)getlearningMaterilasListDataForCategoryDidFinished:(NSArray *)lessonList withCurrentPageIndex:(int)pageIndex withTotalCount:(int)allDataCount{
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.dataArray = [NSMutableArray arrayWithArray:lessonList];
+        if(pageIndex > 0){
+            [self.dataArray addObjectsFromArray:lessonList];
+        }else{
+            self.dataArray = [NSMutableArray arrayWithArray:lessonList];
+        }
+        
         [self.tableView reloadData];
         [self.headerRefreshView endRefreshing];
         [self.footerRefreshView endRefreshing];
@@ -316,7 +329,7 @@
         self.isReloading = NO;
         [MBProgressHUD hideHUDForView:self.view animated:YES];
 //        self.menuVisible = NO;
-        self.lhlNavigationBar.title.text = [NSString stringWithFormat:@"目前有(%i)份资料",self.dataArray.count];
+        self.lhlNavigationBar.title.text = [NSString stringWithFormat:@"目前有(%i)份资料",allDataCount];
     });
 }
 

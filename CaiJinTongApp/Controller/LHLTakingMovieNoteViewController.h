@@ -10,7 +10,7 @@
 #import "BaseViewController.h"
 
 @protocol LHLTakingMovieNoteViewControllerDelegate;
-@interface LHLTakingMovieNoteViewController : BaseViewController
+@interface LHLTakingMovieNoteViewController : BaseViewController<UITextViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *noteTimeLabel;//记笔记时的播放时间
 @property (weak, nonatomic) IBOutlet UITextView *contentField; //主文本框
 @property (weak, nonatomic) IBOutlet UIButton *commitBtn;

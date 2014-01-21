@@ -132,7 +132,7 @@
     if(sender.tag == 86){
         if(!_backButton){
             _backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            _backButton.frame = CGRectMake(0, 10 + IP5(8, 0), 44, 44);
+            _backButton.frame = CGRectMake(0, 5 + IP5(8, 0), 50, 50);
             [_backButton addTarget:self action:@selector(backButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
             [_backButton setImage:[UIImage imageNamed:@"_back.png"] forState:UIControlStateNormal];
             [self.view addSubview:_backButton];

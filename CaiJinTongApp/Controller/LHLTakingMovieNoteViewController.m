@@ -7,7 +7,12 @@
 //
 
 #import "LHLTakingMovieNoteViewController.h"
-
+@interface LHLTakingMovieNoteViewController()
+@property (nonatomic,assign) CGRect frame;   //3个用于保存初始坐标的变量
+@property (nonatomic,assign) CGRect contentTextViewFrame;
+@property (nonatomic,assign) CGFloat buttonY;
+@property (nonatomic,assign) BOOL originsRecorded;
+@end
 
 @implementation LHLTakingMovieNoteViewController
 
@@ -38,22 +43,24 @@
     self.contentField.layer.borderColor = [UIColor grayColor].CGColor;
     self.contentField.layer.borderWidth =1.0;
     self.contentField.layer.cornerRadius =5.0;
+    self.contentField.delegate = self;
     
     [self.view.layer setCornerRadius:6];
     [self.view.layer setMasksToBounds:YES];
     
-    //添加键盘消失键
-    UIToolbar * topView = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, IP5(568, 480), 25)];
-    [topView setBarStyle:UIBarStyleBlack];
+//    //添加键盘消失键
+//    UIToolbar * topView = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, IP5(568, 480), 25)];
+//    [topView setBarStyle:UIBarStyleBlack];
+//    
+//    UIBarButtonItem * btnSpace = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+//    
+//    UIBarButtonItem * doneButton = [[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(spaceAreaClicked:)];
+//    
+//    
+//    NSArray * buttonsArray = [NSArray arrayWithObjects:btnSpace,doneButton,nil];
+//    [topView setItems:buttonsArray];
+//    [self.contentField setInputAccessoryView:topView];
     
-    UIBarButtonItem * btnSpace = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-    
-    UIBarButtonItem * doneButton = [[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(spaceAreaClicked:)];
-    
-    
-    NSArray * buttonsArray = [NSArray arrayWithObjects:btnSpace,doneButton,nil];
-    [topView setItems:buttonsArray];
-    [self.contentField setInputAccessoryView:topView];
     
 }
 
@@ -64,6 +71,12 @@
 
 - (IBAction)spaceAreaClicked:(id)sender {
     [self.contentField resignFirstResponder];
+    [UIView animateWithDuration:0.3 animations:^{
+        self.view.frame = self.frame;
+        self.contentField.frame = self.contentTextViewFrame;
+        self.cancelBtn.frame = (CGRect){self.cancelBtn.frame.origin.x,self.buttonY,self.cancelBtn.frame.size};
+        self.commitBtn.frame = (CGRect){self.commitBtn.frame.origin.x,self.buttonY,self.commitBtn.frame.size};
+    }];
 }
 
 - (IBAction)cancelBtnClicked:(UIButton *)sender {
@@ -84,6 +97,23 @@
     }
 }
 
-
+#pragma mark UITextField delegate
+-(BOOL)textViewShouldBeginEditing:(UITextView *)textView{
+    if(!self.originsRecorded){
+        self.frame = self.view.frame;
+        self.contentTextViewFrame = self.contentField.frame;
+        self.buttonY = self.cancelBtn.frame.origin.y;
+    }
+    [UIView animateWithDuration:0.3 animations:^{
+        CGRect frame = self.view.frame;
+        self.view.frame = (CGRect){frame.origin.x,-20,frame.size.width,frame.size.height - 45};
+        frame = self.contentField.frame;
+        self.contentField.frame = (CGRect){frame.origin,frame.size.width,120};
+        CGFloat buttonY = CGRectGetMaxY(self.contentField.frame) + 3;
+        self.cancelBtn.frame = (CGRect){self.cancelBtn.frame.origin.x,buttonY,self.cancelBtn.frame.size};
+        self.commitBtn.frame = (CGRect){self.commitBtn.frame.origin.x,buttonY,self.commitBtn.frame.size};
+    }];
+    return YES;
+}
 
 @end
