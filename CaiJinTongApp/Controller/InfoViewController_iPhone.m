@@ -32,6 +32,7 @@
 {
     [super viewDidLoad];
     self.lhlNavigationBar.title.text = @"我的资料";
+    self.lhlNavigationBar.rightItem.hidden = YES;
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",[CaiJinTongManager shared].user.userImg]];
     [self.userImage setImageWithURL:url placeholderImage:Image(@"loginBgImage_v.png")];

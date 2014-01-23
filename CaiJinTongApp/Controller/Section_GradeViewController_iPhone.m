@@ -164,7 +164,7 @@ static NSString *timespan = nil;
     CommentModel *model = [[CommentModel alloc] init];
     UserModel *user = [[CaiJinTongManager shared] user];
     if (user) {
-        model.commentAuthorName = user.userName;
+        model.commentAuthorName = user.nickName;
     }
     model.commentCreateDate = [Utility getNowDateFromatAnDate];
     model.commentContent = self.textView.text;

@@ -9,7 +9,6 @@
 #import "LessonViewController_iPhone.h"
 #import "LessonViewControllerCell_iPhone.h"
 #define CELL_REUSE_IDENTIFIER @"CollectionCell"
-static BOOL treeViewInited = NO;
 @interface LessonViewController_iPhone ()
 @property (nonatomic,strong) LessonCategoryInterface *lessonCategoryInterface;
 @property (strong,nonatomic) LessonListForCategory *lessonListForCategory;//根据分类获取课程列表
@@ -20,6 +19,7 @@ static BOOL treeViewInited = NO;
 @property (assign,nonatomic) BOOL isSearch;
 @property (assign,nonatomic) BOOL isRefreshing;
 @property (assign,nonatomic) BOOL isLoading; //标志读取课程列表的请求是否已经发出 / 结束
+@property (assign,nonatomic) BOOL treeViewInited;
 @end
 @implementation LessonViewController_iPhone
 
@@ -48,6 +48,8 @@ static BOOL treeViewInited = NO;
 
 - (void)viewDidLoad
 {
+    self.treeViewInited = NO;
+    
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSLog(@"%@=============================",paths[0]);
     [super viewDidLoad];
@@ -369,9 +371,7 @@ static BOOL treeViewInited = NO;
         if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
             [Utility errorAlert:@"暂无网络!"];
         }else {
-            self.isSearch = YES;
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            self.oldSearchText = searchText;
             SearchLessonInterface *searchLessonInter = [[SearchLessonInterface alloc]init];
             self.searchInterface = searchLessonInter;
             self.searchInterface.delegate = self;
@@ -390,13 +390,13 @@ static BOOL treeViewInited = NO;
 #pragma mark lhlNavigationBar
 
 -(void)rightItemClicked:(id)sender{
-    if(!treeViewInited){
+    if(!self.treeViewInited){
         [self downloadLessonCategoryInfo];
         [self drTreeTableView];
         self.menuVisible = YES;
         [self.view addSubview:self.drTreeTableView];
         [self.drTreeTableView setBackgroundColor:[UIColor colorWithRed:6.0/255.0 green:18.0/255.0 blue:27.0/255.0 alpha:1.0]];
-        treeViewInited = YES;
+        self.treeViewInited = YES;
     }else{
         self.menuVisible = !self.menuVisible;
     }
@@ -500,11 +500,13 @@ static BOOL treeViewInited = NO;
 #pragma mark -- Search Lesson InterfaceDelegate 搜索课程
 
 -(void)getSearchLessonListDataForCategoryDidFinished:(NSArray *)lessonList withCurrentPageIndex:(int)pageIndex withTotalCount:(int)allDataCount{
+    self.isSearch = YES;
+    self.oldSearchText = self.searchBar.searchTextField.text;
     dispatch_async(dispatch_get_main_queue(), ^{
         if (pageIndex > 0) {
             [self loadNextPageDataWithDataArray:lessonList withCategoryId:self.lessonListForCategory.lessonCategoryId];
         }else{
-            [self  reloadDataWithDataArray:lessonList withCategoryId:self.lessonListForCategory.lessonCategoryId];
+            [self reloadDataWithDataArray:lessonList withCategoryId:self.lessonListForCategory.lessonCategoryId];
         }
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         [self.headerRefreshView endRefreshing];
@@ -517,7 +519,8 @@ static BOOL treeViewInited = NO;
 -(void)getSearchLessonListDataForCategoryFailure:(NSString *)errorMsg{
     dispatch_async(dispatch_get_main_queue(), ^{
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        self.searchBar.searchTextField.text = self.oldSearchText;
+//        self.searchBar.searchTextField.text = self.oldSearchText;
+        self.searchBar.searchTextField.text = nil;
         [self.headerRefreshView endRefreshing];
         self.headerRefreshView.isForbidden = NO;
         [self.footerRefreshView endRefreshing];
@@ -530,6 +533,7 @@ static BOOL treeViewInited = NO;
 -(void)drTreeTableView:(DRTreeTableView *)treeView didSelectedTreeNode:(DRTreeNode *)selectedNote{
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.isSearch = NO; // isLessonListForCategory
+    self.searchBar.searchTextField.text = nil;
     UserModel *user = [[CaiJinTongManager shared] user];
     [self.lessonListForCategory downloadLessonListForCategoryId:selectedNote.noteContentID withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
     self.menuVisible = NO;
@@ -542,6 +546,7 @@ static BOOL treeViewInited = NO;
 -(void)drTreeTableView:(DRTreeTableView*)treeView didExtendChildTreeNode:(DRTreeNode*)extendNote{
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.isSearch = NO; // isLessonListForCategory
+    self.searchBar.searchTextField.text = nil;
     UserModel *user = [[CaiJinTongManager shared] user];
     [self.lessonListForCategory downloadLessonListForCategoryId:extendNote.noteContentID withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
 }

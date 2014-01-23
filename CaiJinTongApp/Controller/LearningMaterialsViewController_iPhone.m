@@ -260,14 +260,14 @@
     if (self.headerRefreshView == refreshView) {
         self.footerRefreshView.isForbidden = YES;
         if (self.isSearch) {
-            [self.searchMaterialInterface searchLearningMaterilasListWithUserId:user.userId withSearchContent:self.searchContent withPageIndex:0 withSortType:self.sortType];
+            [self.searchMaterialInterface searchLearningMaterilasListWithUserId:user.userId withSearchContent:self.searchBar.searchTextField.text withPageIndex:0 withSortType:self.sortType];
         }else{
             [self.learningMaterialListInterface downloadlearningMaterilasListForCategoryId:self.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
         }
     }else{
         self.headerRefreshView.isForbidden = YES;
         if (self.isSearch) {
-            [self.searchMaterialInterface searchLearningMaterilasListWithUserId:user.userId withSearchContent:self.searchContent withPageIndex:self.searchMaterialInterface.currentPageIndex+1 withSortType:self.sortType];
+            [self.searchMaterialInterface searchLearningMaterilasListWithUserId:user.userId withSearchContent:self.searchBar.searchTextField.text withPageIndex:self.searchMaterialInterface.currentPageIndex+1 withSortType:self.sortType];
         }else{
             [self.learningMaterialListInterface downloadlearningMaterilasListForCategoryId:self.lessonCategoryId withUserId:user.userId withPageIndex:self.learningMaterialListInterface.currentPageIndex+1 withSortType:self.sortType];
         }
@@ -281,9 +281,9 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         self.isSearch = YES;
         if(pageIndex > 0){
-            [self.dataArray addObjectsFromArray:lessonList];
+            [self.searchArray addObjectsFromArray:lessonList];
         }else{
-            self.dataArray = [NSMutableArray arrayWithArray:lessonList];
+            self.searchArray = [NSMutableArray arrayWithArray:lessonList];
         }
         [self.tableView reloadData];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -304,6 +304,7 @@
         self.headerRefreshView.isForbidden = NO;
         self.footerRefreshView.isForbidden = NO;
         self.isReloading = NO;
+        self.searchBar.searchTextField.text = nil;
         [Utility errorAlert:errorMsg];
     });
 }
@@ -474,6 +475,7 @@
     self.isSearch = NO; // isLessonListForCategory
     self.lessonCategoryId = selectedNote.noteContentID;
     self.menuVisible = NO;
+    self.searchBar.searchTextField.text = nil;
 }
 
 -(BOOL)drTreeTableView:(DRTreeTableView *)treeView isExtendChildSelectedTreeNode:(DRTreeNode *)selectedNote{
@@ -483,6 +485,7 @@
 -(void)drTreeTableView:(DRTreeTableView*)treeView didExtendChildTreeNode:(DRTreeNode*)extendNote{
     self.isSearch = NO; // isLessonListForCategory
     self.lessonCategoryId = extendNote.noteContentID;
+    self.searchBar.searchTextField.text = nil;
 }
 
 -(void)drTreeTableView:(DRTreeTableView*)treeView didCloseChildTreeNode:(DRTreeNode*)extendNote{

@@ -12,7 +12,7 @@
 #import "QuestionInfoInterface.h"
 @protocol LHLCommitQuestionViewControllerDelegate;
 
-@interface LHLCommitQuestionViewController : BaseViewController<UITextFieldDelegate,UITextViewDelegate>
+@interface LHLCommitQuestionViewController : BaseViewController<UITextFieldDelegate,UITextViewDelegate,DRTreeTableViewDelegate,QuestionInfoInterfaceDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *titleField;  //标题框
 @property (weak, nonatomic) IBOutlet UITextView *contentField;  //主文本框
 @property (weak, nonatomic) IBOutlet UIButton *commitBtn;

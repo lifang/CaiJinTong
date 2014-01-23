@@ -100,7 +100,27 @@
             [data addObject:note];
         }
     }
+    data = [self bubbleSort:data];
     _dataArray = data;
+}
+
+-(NSMutableArray *)bubbleSort:(NSMutableArray *)data{
+    //对NoteModels按时间倒序排列
+    for(NSUInteger i = 0;i < data.count;i ++){
+        for(NSUInteger j = data.count - 1;j > i;j--){
+            NoteModel *model1 = data[j];
+            NoteModel *model2 = data[j - 1];
+            NSDateFormatter *formater = [[NSDateFormatter alloc] init];
+            [formater setDateFormat:@"yyyy-MM-dd"];
+            NSDate *date1 = [formater dateFromString:model1.noteTime];
+            NSDate *date2 = [formater dateFromString:model2.noteTime];
+            if([date1 compare:date2] == NSOrderedDescending){ //如果date1比date2更新
+                [data replaceObjectAtIndex:j - 1 withObject:model1];
+                [data replaceObjectAtIndex:j withObject:model2];
+            }
+        }
+    }
+    return data;
 }
 
 -(UILabel *)tipLabel{

@@ -85,6 +85,14 @@
 //}
 
 -(void)setButtonModel:(SectionSaveModel *)buttonModel {
+    /*
+     临时添加,1月22日. 如按钮状态发生改变时,即下载完成/失败时,去除alertView
+     */
+    if(_buttonModel.downloadState != buttonModel.downloadState && self.alert.visible){
+        [self.alert dismissWithClickedButtonIndex:0 animated:YES];
+    }
+    
+    
     _buttonModel = buttonModel;
     [self setBackgroundImage:[UIImage imageNamed:@"course-mycourse_03.png"] forState:UIControlStateNormal];
     [self setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];

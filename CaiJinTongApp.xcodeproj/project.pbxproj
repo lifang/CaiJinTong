@@ -214,6 +214,8 @@
 		18199EFD18811C4D00377B74 /* Lesson_Item_S@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18199EFB18811C4D00377B74 /* Lesson_Item_S@2x.png */; };
 		18199F0018812FB600377B74 /* LHLTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 18199EFF18812FB600377B74 /* LHLTabBar.m */; };
 		18199F031881305800377B74 /* LHLTabBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 18199F021881305800377B74 /* LHLTabBarItem.m */; };
+		1821465D188F73C8009B0DF8 /* _magnifying_glass@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1821465B188F73C8009B0DF8 /* _magnifying_glass@2x.png */; };
+		1821465E188F73C8009B0DF8 /* _question_mark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1821465C188F73C8009B0DF8 /* _question_mark@2x.png */; };
 		182314411840A35D00DE9422 /* delete_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 182314401840A35D00DE9422 /* delete_2.png */; };
 		18335B67183C982600DB8B7E /* DRAskQuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18335B66183C982600DB8B7E /* DRAskQuestionViewController.m */; };
 		1836AFE2183AF875009E65B5 /* settings_delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 1836AFDF183AF875009E65B5 /* settings_delete.png */; };
@@ -765,6 +767,8 @@
 		18199EFF18812FB600377B74 /* LHLTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LHLTabBar.m; sourceTree = "<group>"; };
 		18199F011881305800377B74 /* LHLTabBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LHLTabBarItem.h; sourceTree = "<group>"; };
 		18199F021881305800377B74 /* LHLTabBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LHLTabBarItem.m; sourceTree = "<group>"; };
+		1821465B188F73C8009B0DF8 /* _magnifying_glass@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "_magnifying_glass@2x.png"; sourceTree = "<group>"; };
+		1821465C188F73C8009B0DF8 /* _question_mark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "_question_mark@2x.png"; sourceTree = "<group>"; };
 		182314401840A35D00DE9422 /* delete_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_2.png; sourceTree = "<group>"; };
 		18335B65183C982600DB8B7E /* DRAskQuestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRAskQuestionViewController.h; sourceTree = "<group>"; };
 		18335B66183C982600DB8B7E /* DRAskQuestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRAskQuestionViewController.m; sourceTree = "<group>"; };
@@ -1621,6 +1625,8 @@
 		18112DDA1886272C0025C66B /* iPhoneImg */ = {
 			isa = PBXGroup;
 			children = (
+				1821465B188F73C8009B0DF8 /* _magnifying_glass@2x.png */,
+				1821465C188F73C8009B0DF8 /* _question_mark@2x.png */,
 				18EDCC7B188CF3CB00226530 /* _loginBG@2x.png */,
 				18EDCC7C188CF3CB00226530 /* _money@2x.png */,
 				18112E07188665DF0025C66B /* zoom_icon&48@2x.png */,
@@ -2350,6 +2356,7 @@
 				18C9313318363B2A00FBE1A8 /* play_paused@2x.png in Resources */,
 				18024D0E1883AEFA005A9B0B /* QA_Item@2x.png in Resources */,
 				18EA12551845BF7000F12D8B /* barbg.png in Resources */,
+				1821465D188F73C8009B0DF8 /* _magnifying_glass@2x.png in Resources */,
 				18491C4D1834B166003C82E4 /* course-courses_03@2x.png in Resources */,
 				1812A4E11851B647009B3D5D /* leftItemBg@2x.png in Resources */,
 				0EA7EF631823B1FC00C47F69 /* answerList.json in Resources */,
@@ -2371,6 +2378,7 @@
 				18112DF3188627450025C66B /* _play_12@2x.png in Resources */,
 				18112E02188627450025C66B /* rightItem_06@2x.png in Resources */,
 				0EAFA0F41822167800D01D3E /* logIn.json in Resources */,
+				1821465E188F73C8009B0DF8 /* _question_mark@2x.png in Resources */,
 				63D2840A1883D636005D8721 /* logo@2x.png in Resources */,
 				63A77AC91887D31F00E86C73 /* word@2x.png in Resources */,
 				0EAFA0F21822167800D01D3E /* grade.json in Resources */,

@@ -122,6 +122,7 @@
     NSLog(@"%@",NSStringFromCGRect( self.slideSwitchView.frame));
     self.isPlaying = YES;
     self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
+    self.playerController.delegate = self;
     chapterModel *chapter = [self.lessonModel.chapterList firstObject];
     SectionModel *section = [chapter.sectionList firstObject];
     SectionModel *lastplaySection = [[Section defaultSection] searchLastPlaySectionModelWithLessonId:self.lessonModel.lessonId];
@@ -358,7 +359,7 @@
 - (void)initAppear_slide{
     if(!(IS_4_INCH)){
         //43为上半部分减少的高度 , 88 - 43 = 5 + 40
-        self.slideSwitchView.frame = CGRectMake(0, 357 - 43 -5, 320, 211 - 40);
+        self.slideSwitchView.frame = CGRectMake(0, 357 - 43 , 320, 211 - 40);
     }
     self.slideSwitchView.backgroundColor = [UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:232.0/255.0 alpha:1.0];
     //3个选项卡
@@ -407,6 +408,7 @@
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             //播放接口
             self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
+            self.playerController.delegate = self;
             chapterModel *chapter = [self.lessonModel.chapterList firstObject];
             SectionModel *section = [chapter.sectionList firstObject];
             [self.playerController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
@@ -492,6 +494,8 @@
         NoteModel *note = [[NoteModel alloc] init];
         note.noteTime = noteTime;
         note.noteText = noteText;
+        note.noteChapterName = self.lessonModel.lessonName;
+//        note.noteSectionName = ;
         [self.section_NoteView.dataArray insertObject:note atIndex:0];
         [self.section_NoteView.tableViewList reloadData];
     }

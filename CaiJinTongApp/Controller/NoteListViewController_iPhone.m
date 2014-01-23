@@ -28,6 +28,9 @@
 @property (nonatomic,strong) MJRefreshHeaderView *headerRefreshView;
 @property (nonatomic,strong) MJRefreshFooterView *footerRefreshView;
 @property (nonatomic,assign) BOOL isSearchRefreshing;//判断是否是搜索
+@property (nonatomic,weak) UITextView *theEdtingTextView;//正在编辑的那个文本框
+@property (assign,nonatomic) CGFloat distanceOfTheViewMoved;
+@property (nonatomic,strong) ChapterSearchBar_iPhone *searchBar; //搜罗栏
 @end
 
 @implementation NoteListViewController_iPhone
@@ -64,6 +67,7 @@
     [self.lhlNavigationBar.rightItem setHidden:YES];
     self.lhlNavigationBar.title.text = @"我的笔记";
     self.isEditing = NO;
+    self.isSearchRefreshing = NO;
     [self.headerRefreshView endRefreshing];
     [self.footerRefreshView endRefreshing];
 	// Do any additional setup after loading the view.
@@ -143,6 +147,14 @@
 }
 
 -(void)NoteListCell_iPhone:(NoteListCell_iPhone*)cell didModifyCellAtIndexPath:(NSIndexPath*)path withNoteContent:(NSString*)noteContent{
+    if(!noteContent || noteContent.length < 1){
+        [Utility errorAlert:@"内容不能为空"];
+        return;
+    }
+    if(noteContent.length > 120){
+        [Utility errorAlert:@"内容请勿超过120个字符"];
+        return;
+    }
     NoteModel *note = self.isSearchRefreshing ?[self.searchArray objectAtIndex:path.row] : [self.noteDateList objectAtIndex:path.row];
     UserModel *user = [[CaiJinTongManager shared] user];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -155,12 +167,30 @@
     self.editPath = nil;
     [self.noteListTableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
+
+#pragma mark SearchBarDelegate搜索
+-(void)chapterSeachBar_iPhone:(ChapterSearchBar_iPhone *)searchBar beginningSearchString:(NSString *)searchText{
+    [searchBar resignFirstResponder];
+    UserModel *user = [[CaiJinTongManager shared] user];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.searchText = searchText;
+    [self.searchNoteInterface searchNoteListWithUserId:user.userId withSearchContent:searchText withPageIndex:0];
+}
+
 #pragma mark --
 
 #pragma mark UITableViewDelegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
 }
+
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    //键盘消失
+    if(self.theEdtingTextView){
+        [self.theEdtingTextView resignFirstResponder];
+    }
+}
+
 #pragma mark --
 
 #pragma mark UITableViewDataSource
@@ -172,6 +202,7 @@
     NoteListCell_iPhone *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     cell.path = indexPath;
     cell.delegate = self;
+    cell.noteContentTextView.delegate = self;
     NoteModel *note = self.isSearchRefreshing ? [self.searchArray objectAtIndex:indexPath.row]: [self.noteDateList objectAtIndex:indexPath.row];
     if (self.isEditing && self.editPath && self.editPath.row == indexPath.row) {
         [cell setNoteDateWithnoteModel:note withIsEditing:YES];
@@ -255,6 +286,39 @@
 //    self.isSearchRefreshing = NO;
 //    [self.noteListTableView reloadData];
 //}
+
+#pragma mark --
+
+
+#pragma mark-- UITextViewdelegate
+-(BOOL)textViewShouldBeginEditing:(UITextView *)textView{
+    self.theEdtingTextView = textView;
+    
+    NoteListCell_iPhone *cell = (NoteListCell_iPhone *)[self.noteListTableView cellForRowAtIndexPath:self.editPath];
+    CGFloat cellY = cell.frame.origin.y;
+    CGFloat contentOffsetY = self.noteListTableView.contentOffset.y;
+    if(cellY - contentOffsetY > 0){
+        [UIView animateWithDuration:0.3 animations:^{
+            self.distanceOfTheViewMoved = cellY - contentOffsetY < 190 ?:190;
+            if(SCREEN_HEIGHT -  (cellY - contentOffsetY) < 180){
+                self.noteListTableView.contentOffset = CGPointMake(self.noteListTableView.contentOffset.x, contentOffsetY + 40);
+            }
+            self.view.frame = (CGRect){self.view.frame.origin.x,self.view.frame.origin.y - self.distanceOfTheViewMoved,self.view.frame.size};
+        }];
+    }else{
+        self.distanceOfTheViewMoved = -1; // -1代表未移动
+    }
+    return YES;
+}
+
+-(void)textViewDidEndEditing:(UITextView *)textView{
+    if(self.distanceOfTheViewMoved > 0){//如果移动过view就恢复原位
+        self.view.frame = (CGRect){self.view.frame.origin.x,self.view.frame.origin.y + self.distanceOfTheViewMoved,self.view.frame.size};
+        self.distanceOfTheViewMoved = -1;
+    }
+    self.theEdtingTextView = nil;
+}
+
 #pragma mark --
 
 
@@ -270,7 +334,7 @@
             
         }];
         if (section) {
-            [movieController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeFile];
+            [movieController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
         }else{
             SectionModel *tempSection = nil;
             BOOL isReturn = NO;
@@ -346,6 +410,10 @@
 -(void)modifyNoteFailure:(NSString *)errorMsg{
     dispatch_async(dispatch_get_main_queue(), ^{
         [MBProgressHUD hideHUDForView:self.view animated:YES];
+//        if([errorMsg isEqualToString:@"修改笔记失败"]){
+//            [Utility errorAlert:@"笔记不能为空或过长!"];
+//            return;
+//        }
         [Utility errorAlert:errorMsg];
     });
 }
@@ -371,9 +439,10 @@
 }
 #pragma mark --
 
-
 #pragma mark SearchNoteInterfaceDelegate搜索笔记
+
 -(void)searchNoteListDataDidFinished:(NSArray *)noteList withCurrentPageIndex:(int)pageIndex withTotalCount:(int)allDataCount{
+    self.isSearchRefreshing = YES;
     dispatch_async(dispatch_get_main_queue(), ^{
         if (pageIndex <= 0) {
             self.searchArray = [NSMutableArray arrayWithArray:noteList];
@@ -408,6 +477,18 @@
 #pragma mark --
 
 #pragma mark property
+
+-(ChapterSearchBar_iPhone *)searchBar{
+    if(!_searchBar){
+        _searchBar = [[ChapterSearchBar_iPhone alloc] initWithFrame:CGRectMake(19, IP5(95, 85), 282, 34)];
+        _searchBar.delegate = self;
+        [_searchBar setHidden:YES];
+        [_searchBar setAlpha:0.0];
+        [_searchBar.searchTextField setPlaceholder:@"搜索资料"];
+        [self.view addSubview:_searchBar];
+    }
+    return _searchBar;
+}
 
 -(LessonInfoInterface *)lessonInterface{
     if (!_lessonInterface) {

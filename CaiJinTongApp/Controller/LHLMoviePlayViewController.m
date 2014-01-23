@@ -416,7 +416,7 @@
         self.askQuestionInterface.delegate = self;
         [self.askQuestionInterface
          getAskQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId
-         andSectionId:self.sectionModel.lessonCategoryId
+         andSectionId:questionId
          andQuestionName:title
          andQuestionContent:text];
     }

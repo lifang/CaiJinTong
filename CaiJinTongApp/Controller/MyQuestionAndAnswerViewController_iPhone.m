@@ -27,13 +27,14 @@
 @property (nonatomic, strong) NSArray *myQuestionCategoryArr;//我的提问分类信息
 @property (nonatomic, strong) NSArray *myAnswerCategoryArr;//我的回答分类信息
 @property (nonatomic,strong) NSString *questionAndSwerRequestID;//请求问题列表ID
-@property (nonatomic, strong) ChapterQuestionInterface *chapterQuestionInterface;//点击列表之后请求问答信息的接口
+//@property (nonatomic, strong) ChapterQuestionInterface *chapterQuestionInterface;//点击列表之后请求问答信息的接口
 @property (nonatomic,assign) BOOL myQuestionNodesOK; //我的问答加载完毕
 @property (nonatomic,assign) BOOL otherQuestionNodesOK;  //其他问答类型加载完毕
 @property (nonatomic,strong) SearchQuestionInterface *searchQuestionInterface;//搜索问答接口
 @property (nonatomic,strong) UIViewController *modelController; //点击图片显示的VC
 @property (nonatomic,strong) ChapterSearchBar_iPhone *searchBar;//搜索栏+按钮
 @property (nonatomic,strong) UIButton *showSearchBarBtn; //显示/隐藏搜索栏
+@property (assign,nonatomic) BOOL isClickOrSearching; //如果用户点击列表,或者搜索按钮,则出结果之后tableView要滚动到顶部
 @end
 
 @implementation MyQuestionAndAnswerViewController_iPhone
@@ -59,16 +60,17 @@
     //临时,搜索按钮
     CGPoint center = self.lhlNavigationBar.leftItem.center;
     self.showSearchBarBtn = [UIButton buttonWithType:UIButtonTypeCustom ];
-    self.showSearchBarBtn.frame = (CGRect){0,0,26,26};
+    self.showSearchBarBtn.frame = (CGRect){0,0,40,40};
 //    self.showSearchBarBtn.center = (CGPoint){center.x + 205,center.y};
-    self.showSearchBarBtn.center = (CGPoint){center.x + 35,center.y};
-    [self.showSearchBarBtn setTitle:@"搜" forState:UIControlStateNormal];
-    [self.showSearchBarBtn.titleLabel setFont:[UIFont systemFontOfSize:19.0]];
-    [self.showSearchBarBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.showSearchBarBtn.center = (CGPoint){center.x + 45,center.y};
+    [self.showSearchBarBtn setImage:[UIImage imageNamed:@"_magnifying_glass.png"] forState:UIControlStateNormal];
+//    [self.showSearchBarBtn setTitle:@"搜" forState:UIControlStateNormal];
+//    [self.showSearchBarBtn.titleLabel setFont:[UIFont systemFontOfSize:19.0]];
+//    [self.showSearchBarBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.showSearchBarBtn addTarget:self action:@selector(showSearchBar) forControlEvents:UIControlEventTouchUpInside];
-    [self.showSearchBarBtn.layer setBorderColor:[UIColor whiteColor].CGColor];
-    [self.showSearchBarBtn.layer setBorderWidth:1.5];
-    [self.showSearchBarBtn.layer setCornerRadius:4.0];
+//    [self.showSearchBarBtn.layer setBorderColor:[UIColor whiteColor].CGColor];
+//    [self.showSearchBarBtn.layer setBorderWidth:1.5];
+//    [self.showSearchBarBtn.layer setCornerRadius:4.0];
     [self.lhlNavigationBar addSubview:self.showSearchBarBtn];
     
     [self.headerRefreshView endRefreshing];//instance refresh view
@@ -79,10 +81,10 @@
     //提问按钮
     if(!self.askQuestionBtn){
         self.askQuestionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.askQuestionBtn setFrame:(CGRect){0,0,26,26}];
-        self.askQuestionBtn.center = (CGPoint){self.showSearchBarBtn.center.x + 200,self.showSearchBarBtn.center.y};
+        [self.askQuestionBtn setFrame:(CGRect){0,0,40,40}];
+        self.askQuestionBtn.center = (CGPoint){self.showSearchBarBtn.center.x + 180,self.showSearchBarBtn.center.y};
         [self.askQuestionBtn setBackgroundColor:[UIColor clearColor]];
-        [self.askQuestionBtn setBackgroundImage:[UIImage imageNamed:@"question1.png"] forState:UIControlStateNormal];
+        [self.askQuestionBtn setImage:[UIImage imageNamed:@"_question_mark.png"] forState:UIControlStateNormal];
         [self.askQuestionBtn addTarget:self action:@selector(askQuestionBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         [self.lhlNavigationBar addSubview:self.askQuestionBtn];
     }
@@ -430,6 +432,9 @@
 //显示/隐藏搜索栏
 -(void)showSearchBar{
     if(self.searchBar.hidden){
+        if(self.menuVisible){
+            self.menuVisible = NO;
+        }
         [self.searchBar setHidden:NO];
         [UIView animateWithDuration:0.5
                          animations:^{
@@ -471,12 +476,10 @@
 }
 
 -(void)askQuestionBtnClicked:(id)sender{
-    if (!self.askQuestionController) {
-        self.askQuestionController  = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLAskQuestionViewController"];
-        self.askQuestionController.delegate = self;
-    }
+    LHLAskQuestionViewController * askQuestionController  = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLAskQuestionViewController"];
+        askQuestionController.delegate = self;
     
-    [self.navigationController pushViewController:self.askQuestionController animated:YES];
+    [self.navigationController pushViewController:askQuestionController animated:YES];
     
 }
 
@@ -484,6 +487,9 @@
     _menuVisible = menuVisible;
     [UIView animateWithDuration:0.3 animations:^{
         if(menuVisible){
+            if(self.searchBar.hidden == NO){
+                [self showSearchBar];
+            }
             [self keyboardDismiss];
             self.drTreeTableView.frame = CGRectMake(120,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55));
         }else{
@@ -584,7 +590,7 @@
                 [self.userQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:user.userId andIsMyselfQuestion:@"0" andLastQuestionID:lastQuestionID withCategoryId:self.chapterID];
             }else if (self.questionScope == QuestionAndAnswerSearchQuestion){
                 QuestionModel *question = [self.myQuestionArr lastObject];
-                [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:user.userId andText:self.searchBar.searchTextField.text withLastQuestionId:question.questionId];
+                [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchBar.searchTextField.text withLastQuestionId:question.questionId];
             }
 }
 
@@ -793,15 +799,14 @@
         switch (scope) {
             case QuestionAndAnswerALL:
             {
-                ChapterQuestionInterface *chapterInter = [[ChapterQuestionInterface alloc]init];
-                self.chapterQuestionInterface = chapterInter;
-                self.chapterQuestionInterface.delegate = self;
+                QuestionListInterface *chapterInter = [[QuestionListInterface alloc]init];
+                self.questionListInterface = chapterInter;
+                self.questionListInterface.delegate = self;
                 self.questionAndSwerRequestID = node.noteContentID;
+                self.chapterID = node.noteContentID;
                 self.questionScope = QuestionAndAnswerALL;
-                //                    NSMutableArray *array = [TestModelData getQuestion];
-                //                    [self.myQAVC reloadDataWithDataArray:array withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
                 [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                [self.chapterQuestionInterface getChapterQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andChapterQuestionId:node.noteContentID];
+                [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andChapterQuestionId:self.chapterID andLastQuestionID:nil];
             }
                 break;
             case QuestionAndAnswerMYQUESTION:
@@ -822,8 +827,6 @@
                 self.getUserQuestionInterface.delegate = self;
                 //请求我的回答
                 self.questionScope = QuestionAndAnswerMYANSWER;
-                //                    NSMutableArray *array = [TestModelData getQuestion];
-                //                    [self.myQAVC reloadDataWithDataArray:array withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
                 [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                 [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"1" andLastQuestionID:nil withCategoryId:node.noteContentID];
             }
@@ -896,6 +899,7 @@
                 break;
         }
     self.menuVisible = NO;
+    self.searchBar.searchTextField.text = nil;
 }
 
 -(BOOL)drTreeTableView:(DRTreeTableView *)treeView isExtendChildSelectedTreeNode:(DRTreeNode *)selectedNote{
@@ -931,6 +935,7 @@
         }
             break;
     }
+    self.searchBar.searchTextField.text = nil;
 }
 
 -(void)drTreeTableView:(DRTreeTableView*)treeView didCloseChildTreeNode:(DRTreeNode*)extendNote{
@@ -978,7 +983,7 @@
 
 #pragma mark --
 
-#pragma mark --MyQuestionCategatoryInterfaceDelegate 获取我的问答分类接口
+#pragma mark --MyQuestionCategatoryInterfaceDelegate 获取我的问答分类接口  ---有效接口1
 -(void)getMyQuestionCategoryDataDidFinishedWithMyAnswerCategorynodes:(NSArray *)myAnswerCategoryNotes withMyQuestionCategorynodes:(NSArray *)myQuestionCategoryNotes{
     dispatch_async(dispatch_get_main_queue(), ^{
 //        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -996,7 +1001,7 @@
     });
 }
 
-#pragma mark --QuestionInfoInterfaceDelegate 获取所有问答分类信息
+#pragma mark --QuestionInfoInterfaceDelegate 获取所有问答分类信息     ---有效接口2
 -(void)getQuestionInfoDidFinished:(NSArray *)questionCategoryArr {
     dispatch_async(dispatch_get_main_queue(), ^{
 //        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -1014,7 +1019,7 @@
 }
 
 #pragma mark --
-#pragma mark --GetUserQuestionInterfaceDelegate 加载我的回答或者我的提问新数据
+#pragma mark --GetUserQuestionInterfaceDelegate 加载我的回答或者我的提问新数据   --有效接口
 -(void)getUserQuestionInfoDidFinished:(NSDictionary *)result{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
@@ -1052,24 +1057,24 @@
     self.footerRefreshView.isForbidden = NO;
 }
 
-#pragma mark--ChapterQuestionInterfaceDelegate所有问答数据
--(void)getChapterQuestionInfoDidFinished:(NSDictionary *)result {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [self reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
-        });
-    });
-}
--(void)getChapterQuestionInfoDidFailed:(NSString *)errorMsg {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Utility errorAlert:errorMsg];
-}
+//#pragma mark--ChapterQuestionInterfaceDelegate所有问答数据   --无效接口?? 点击tree的时候触发
+//-(void)getChapterQuestionInfoDidFinished:(NSDictionary *)result {
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [MBProgressHUD hideHUDForView:self.view animated:YES];
+//            [self reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
+//        });
+//    });
+//}
+//-(void)getChapterQuestionInfoDidFailed:(NSString *)errorMsg {
+//    [MBProgressHUD hideHUDForView:self.view animated:YES];
+//    [Utility errorAlert:errorMsg];
+//}
 
 #pragma mark --
 
-#pragma mark QuestionListInterfaceDelegate 加载所有问题新数据
+#pragma mark QuestionListInterfaceDelegate 加载所有问题新数据    --- refresh的时候触发
 -(void)getQuestionListInfoDidFinished:(NSDictionary *)result{
     if (!self.isReaskRefreshing) {
         if (result) {
@@ -1126,10 +1131,11 @@
 #pragma mark --
 
 
-#pragma mark SearchQuestionInterfaceDelegate搜索问答回调
+#pragma mark SearchQuestionInterfaceDelegate搜索问答回调   --有效接口
 -(void)getSearchQuestionInfoDidFailed:(NSString *)errorMsg{
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:errorMsg];
+    self.searchBar.searchTextField.text = nil;
     [self.headerRefreshView endRefreshing];
     self.headerRefreshView.isForbidden = NO;
     [self.footerRefreshView endRefreshing];
@@ -1138,6 +1144,7 @@
 
 -(void)getSearchQuestionInfoDidFinished:(NSDictionary *)result{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        self.questionScope = QuestionAndAnswerSearchQuestion;
         NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
         dispatch_async(dispatch_get_main_queue(), ^{
             if(!chapterQuestionList || chapterQuestionList.count < 1){
@@ -1182,7 +1189,7 @@
 
 #pragma mark --
 
-#pragma mark -- ChapterSearchBarDelegate
+#pragma mark -- SearchBarDelegate
 -(void)chapterSeachBar_iPhone:(ChapterSearchBar_iPhone*)searchBar beginningSearchString:(NSString*)searchText{
     if (self.searchBar.searchTextField.text.length == 0) {
         [Utility errorAlert:@"请输入搜索内容!"];
@@ -1193,9 +1200,8 @@
         }else {
 //            self.isSearching = YES;
             [self showSearchBar];
-            self.questionScope = QuestionAndAnswerSearchQuestion;
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchBar.searchTextField.text withLastQuestionId:@"0"];
+            [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchBar.searchTextField.text withLastQuestionId:nil];//@"0"
         }
     }
 }

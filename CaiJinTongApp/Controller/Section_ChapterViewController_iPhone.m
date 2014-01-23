@@ -175,7 +175,15 @@
     cell.isMoviePlayView = self.isMovieView;
     cell.btn.isMovieView = self.isMovieView;
     cell.sectionS = sectionSave;
-    cell.timeLab.text = section.sectionLastTime;
+    if(section.sectionLastTime){
+        NSString *sectionLastTime = [NSString stringWithString:section.sectionLastTime];
+        sectionLastTime = [sectionLastTime stringByReplacingOccurrencesOfString:@"小时" withString:@"h"];
+        sectionLastTime = [sectionLastTime stringByReplacingOccurrencesOfString:@"分" withString:@"´"];
+        sectionLastTime = [sectionLastTime stringByReplacingOccurrencesOfString:@"秒" withString:@"〞"];
+        cell.timeLab.text = sectionLastTime;
+    }else{
+        cell.timeLab.text = nil;
+    }
     return cell;
 }
 

@@ -315,7 +315,6 @@ static BOOL tableVisible;
 
 #pragma mark -- DRTreeView Delegate
 -(void)drTreeTableView:(DRTreeTableView*)treeView didSelectedTreeNode:(DRTreeNode*)selectedNote{
-//    self.selectedQuestionId = [NSString stringWithFormat:@"%i",selectedNote.noteId];
     self.selectedQuestionId = selectedNote.noteContentID;
     self.selectedQuestionName.text = selectedNote.noteContentName;
     //点击生效
@@ -327,7 +326,8 @@ static BOOL tableVisible;
 }
 
 -(void)drTreeTableView:(DRTreeTableView*)treeView didExtendChildTreeNode:(DRTreeNode*)extendNote{
-    
+    self.selectedQuestionId = extendNote.noteContentID;
+    self.selectedQuestionName.text = extendNote.noteContentName;
 }
 
 -(void)drTreeTableView:(DRTreeTableView*)treeView didCloseChildTreeNode:(DRTreeNode*)extendNote{
