@@ -168,6 +168,35 @@
     [self.noteListTableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
+-(BOOL)textViewShouldBeginEditing:(UITextView *)textView{
+    self.theEdtingTextView = textView;
+    
+    //键盘弹出界面上移调整
+    NoteListCell_iPhone *cell = (NoteListCell_iPhone *)[self.noteListTableView cellForRowAtIndexPath:self.editPath];
+    CGFloat cellY = cell.frame.origin.y;
+    CGFloat contentOffsetY = self.noteListTableView.contentOffset.y;
+    if(cellY - contentOffsetY > 0){
+        [UIView animateWithDuration:0.3 animations:^{
+            self.distanceOfTheViewMoved = cellY - contentOffsetY < 190 ?:190;
+            if(SCREEN_HEIGHT -  (cellY - contentOffsetY) < 180){
+                self.noteListTableView.contentOffset = CGPointMake(self.noteListTableView.contentOffset.x, contentOffsetY + 40);
+            }
+            self.view.frame = (CGRect){self.view.frame.origin.x,self.view.frame.origin.y - self.distanceOfTheViewMoved,self.view.frame.size};
+        }];
+    }else{
+        self.distanceOfTheViewMoved = -1; // -1代表未移动
+    }
+    return YES;
+}
+
+-(void)textViewDidEndEditing:(UITextView *)textView{
+    if(self.distanceOfTheViewMoved > 0){//如果移动过view就恢复原位
+        self.view.frame = (CGRect){self.view.frame.origin.x,self.view.frame.origin.y + self.distanceOfTheViewMoved,self.view.frame.size};
+        self.distanceOfTheViewMoved = -1;
+    }
+    self.theEdtingTextView = nil;
+}
+
 #pragma mark SearchBarDelegate搜索
 -(void)chapterSeachBar_iPhone:(ChapterSearchBar_iPhone *)searchBar beginningSearchString:(NSString *)searchText{
     [searchBar resignFirstResponder];
@@ -287,38 +316,8 @@
 //    [self.noteListTableView reloadData];
 //}
 
-#pragma mark --
 
 
-#pragma mark-- UITextViewdelegate
--(BOOL)textViewShouldBeginEditing:(UITextView *)textView{
-    self.theEdtingTextView = textView;
-    
-    //键盘弹出界面上移调整
-    NoteListCell_iPhone *cell = (NoteListCell_iPhone *)[self.noteListTableView cellForRowAtIndexPath:self.editPath];
-    CGFloat cellY = cell.frame.origin.y;
-    CGFloat contentOffsetY = self.noteListTableView.contentOffset.y;
-    if(cellY - contentOffsetY > 0){
-        [UIView animateWithDuration:0.3 animations:^{
-            self.distanceOfTheViewMoved = cellY - contentOffsetY < 190 ?:190;
-            if(SCREEN_HEIGHT -  (cellY - contentOffsetY) < 180){
-                self.noteListTableView.contentOffset = CGPointMake(self.noteListTableView.contentOffset.x, contentOffsetY + 40);
-            }
-            self.view.frame = (CGRect){self.view.frame.origin.x,self.view.frame.origin.y - self.distanceOfTheViewMoved,self.view.frame.size};
-        }];
-    }else{
-        self.distanceOfTheViewMoved = -1; // -1代表未移动
-    }
-    return YES;
-}
-
--(void)textViewDidEndEditing:(UITextView *)textView{
-    if(self.distanceOfTheViewMoved > 0){//如果移动过view就恢复原位
-        self.view.frame = (CGRect){self.view.frame.origin.x,self.view.frame.origin.y + self.distanceOfTheViewMoved,self.view.frame.size};
-        self.distanceOfTheViewMoved = -1;
-    }
-    self.theEdtingTextView = nil;
-}
 
 #pragma mark --
 
