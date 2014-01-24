@@ -202,7 +202,7 @@
     NoteListCell_iPhone *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     cell.path = indexPath;
     cell.delegate = self;
-    cell.noteContentTextView.delegate = self;
+//    cell.noteContentTextView.delegate = self;
     NoteModel *note = self.isSearchRefreshing ? [self.searchArray objectAtIndex:indexPath.row]: [self.noteDateList objectAtIndex:indexPath.row];
     if (self.isEditing && self.editPath && self.editPath.row == indexPath.row) {
         [cell setNoteDateWithnoteModel:note withIsEditing:YES];
@@ -294,6 +294,7 @@
 -(BOOL)textViewShouldBeginEditing:(UITextView *)textView{
     self.theEdtingTextView = textView;
     
+    //键盘弹出界面上移调整
     NoteListCell_iPhone *cell = (NoteListCell_iPhone *)[self.noteListTableView cellForRowAtIndexPath:self.editPath];
     CGFloat cellY = cell.frame.origin.y;
     CGFloat contentOffsetY = self.noteListTableView.contentOffset.y;
