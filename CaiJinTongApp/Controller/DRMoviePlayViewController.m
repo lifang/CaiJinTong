@@ -581,6 +581,7 @@
     if (!self.movieUrl) {
         return;
     }
+    [self notificateBackwillBeginPlayMovie];
     [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];
     if (self.moviePlayer.isPreparedToPlay) {
         [self.moviePlayer stop];
@@ -631,6 +632,18 @@
     }
 }
 
+//告诉后台将要开始播放
+-(void)notificateBackwillBeginPlayMovie{
+    __weak SectionModel *weakSection = self.sectionModel;
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+    UserModel *user = [[CaiJinTongManager shared] user];
+    SectionModel *tempSection = weakSection;
+    if (tempSection) {
+        [[PlayVideoInterface defaultPlayVideoInterface] getPlayVideoInterfaceDelegateWithUserId:user.userId andSectionId:tempSection.sectionId andTimeStart:[Utility getNowDateFromatAnDate]];
+    }
+    
+});
+}
 
 -(void)playMovieWithSectionModel:(SectionModel*)sectionModel withFileType:(MPMovieSourceType)fileType{
         if (!sectionModel) {
@@ -717,8 +730,11 @@
     self.seekSlider.value = (double)self.moviePlayer.currentPlaybackTime/self.moviePlayer.duration;
 }
 -(void)endObservePlayBackProgressBar{
-    [self.timer invalidate];
-    self.timer = nil;
+    if (self.timer) {
+        [self.timer invalidate];
+        self.timer = nil;
+    }
+
 }
 
 -(void)updateVolumeSlider{

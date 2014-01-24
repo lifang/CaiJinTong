@@ -97,13 +97,13 @@
 }
 
 
--(int)convertIndexpathToRow:(NSIndexPath*)path{
+-(int)convertIndexpathToRow:(NSIndexPath*)path{//bug
     NSArray *allkeys = [self.indexRowPathDic allKeysForObject:path];
     int row = -1;
     for (NSString *key in allkeys) {
         if ([self.indexRowPathDic objectForKey:key] == path) {
             row = key.intValue;
-            break;
+            break;  
         }
     }
     if (row < 0) {

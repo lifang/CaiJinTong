@@ -11,7 +11,14 @@
 #import "NSString+URLEncoding.h"
 #import "NSString+HTML.h"
 @implementation PlayVideoInterface
-
+static PlayVideoInterface *defaultPlayVideoInter = nil;
++(id)defaultPlayVideoInterface{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        defaultPlayVideoInter = [[PlayVideoInterface alloc] init];
+    });
+    return defaultPlayVideoInter;
+}
 -(void)getPlayVideoInterfaceDelegateWithUserId:(NSString *)userId andSectionId:(NSString *)sectionId andTimeStart:(NSString *)timeStart {
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     
@@ -23,7 +30,6 @@
 //    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=playVideo&userId=17082&sectionId=%@&timeStart=%@",kQuestHost,sectionId,timeStart];
     self.baseDelegate = self;
     self.headers = reqheaders;
-    
     [self connect];
 }
 #pragma mark - BaseInterfaceDelegate
