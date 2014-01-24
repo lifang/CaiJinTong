@@ -242,12 +242,11 @@ typedef enum {
  */
 - (IBAction)questionListBtClicked:(id)sender {
     [self.searchText resignFirstResponder];
-     [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
     self.listType = QUEATION_LIST;
-
     if (self.didAppearController == self.questionNavigationController) {
         return;
     }
+    [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
     [self removeFromRootController:self.didAppearController];
     self.didAppearController = self.questionNavigationController;
     [self addToRootController:self.questionNavigationController];

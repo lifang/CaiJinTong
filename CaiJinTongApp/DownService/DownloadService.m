@@ -98,7 +98,7 @@
             //数据库更新
             Section *sectionDb = [[Section alloc]init];
             [sectionDb updateTheStateWithSid:sectionSave.sid andDownloadState:0];
-            
+//            [sectionDb updateSectionModelLocalPath:downloadPath withSectionId:sectionSave.sid];
             //发送开始下载通知
             [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadStart" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:sectionSave,@"SectionSaveModel",nil]];
         }

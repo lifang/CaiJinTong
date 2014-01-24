@@ -7,7 +7,7 @@
 //
 
 #import "Section.h"
-
+#import "ASIHTTPRequest+DownloadData.h"
 @interface Section()
 +(SectionModel*)convertToSectionModelFromResult:(FMResultSet*)rs;
 @end
@@ -76,6 +76,27 @@ static Section *defaultSection = nil;
     [rs close];
     return [Section convertDownloadStatusFromString:path];
 }
+
+-(BOOL)deleteAllLearningMaterial{
+    return  [self.db executeUpdate:@"delete from LearningMaterials "];
+}
+
+-(NSArray*)searchAllDownloadMaterialsWithwithUserId:(NSString*)userId{
+    if (!userId) {
+        return nil;
+    }
+    NSMutableArray *materialsArr = [NSMutableArray array];
+    FMResultSet * rs = [self.db executeQuery:@"select * from LearningMaterials where userId = ? and fileDownloadStatus = 2",userId];
+    while ([rs next]) {
+        LearningMaterials *material  = [Section convertLearningMaterialsFromResultSet:rs];
+        [materialsArr addObject:material];
+    }
+    
+    [rs close];
+    return materialsArr;
+
+}
+
 -(NSString*)searchLearningMaterialsLocalPathWithMaterialId:(NSString*)materialId withUserId:(NSString*)userId{
     if (!materialId || !userId) {
         return nil;
@@ -91,27 +112,30 @@ static Section *defaultSection = nil;
     return path;
 }
 
++(LearningMaterials*)convertLearningMaterialsFromResultSet:(FMResultSet*)rs{
+    LearningMaterials *material  = [[LearningMaterials alloc] init];
+    material.materialId = [rs stringForColumn:@"materialId"];
+    material.materialName = [rs stringForColumn:@"materialName"];
+    material.materialLessonCategoryId = [rs stringForColumn:@"fileCategoryId"];
+    material.materialLessonCategoryName = [rs stringForColumn:@"fileCategoryName"];
+    material.materialFileSize = [rs stringForColumn:@"fileSize"];
+    material.materialFileType = [Section convertMaterialFileTypeFromInteger:[rs intForColumn:@"fileType"]];
+    material.materialFileDownloadStaus = [Section convertDownloadStatusFromString:[rs stringForColumn:@"fileDownloadStatus"]];
+    material.materialSearchCount = [rs stringForColumn:@"fileSearchCount"];
+    material.materialCreateDate = [rs stringForColumn:@"fileCreateDate"];
+    material.materialFileDownloadURL = [rs stringForColumn:@"fileDownloadUrl"];
+    material.materialFileLocalPath = [rs stringForColumn:@"fileLocalPath"];
+    return material;
+}
+
 -(LearningMaterials*)searchLearningMaterialsWithMaterialId:(NSString*)materialId withUserId:(NSString*)userId{
     if (!materialId || !userId) {
         return nil;
     }
     FMResultSet * rs = [self.db executeQuery:@"select * from LearningMaterials where userId = ? and materialId = ?",userId,materialId];
-    
-    LearningMaterials *material = nil;
-    
+    LearningMaterials *material  = nil;
     if ([rs next]) {
-        material = [[LearningMaterials alloc] init];
-        material.materialId = [rs stringForColumn:@"materialId"];
-        material.materialName = [rs stringForColumn:@"materialName"];
-        material.materialLessonCategoryId = [rs stringForColumn:@"fileCategoryId"];
-        material.materialLessonCategoryName = [rs stringForColumn:@"fileCategoryName"];
-        material.materialFileSize = [rs stringForColumn:@"fileSize"];
-        material.materialFileType = [Section convertMaterialFileTypeFromInteger:[rs intForColumn:@"fileType"]];
-        material.materialFileDownloadStaus = [Section convertDownloadStatusFromString:[rs stringForColumn:@"fileDownloadStatus"]];
-        material.materialSearchCount = [rs stringForColumn:@"fileSearchCount"];
-        material.materialCreateDate = [rs stringForColumn:@"fileCreateDate"];
-        material.materialFileDownloadURL = [rs stringForColumn:@"fileDownloadUrl"];
-        material.materialFileLocalPath = [rs stringForColumn:@"fileLocalPath"];
+        material = [Section convertLearningMaterialsFromResultSet:rs];
     }
     
     [rs close];
@@ -242,7 +266,7 @@ static Section *defaultSection = nil;
 }
 
 -(SectionModel *)getSectionModelWithSid:(NSString *) sid {
-    FMResultSet * rs = [self.db executeQuery:@"select id , sid , name , fileUrl , downloadState ,contentLength,percentDown,sectionStudy,sectionLastTime,sectionImg,lessonInfo,sectionTeacher from Section where sid = ?",sid];
+    FMResultSet * rs = [self.db executeQuery:@"select * from Section where sid = ?",sid];
     
     SectionModel *nm = nil;
     
@@ -284,11 +308,19 @@ static Section *defaultSection = nil;
                 ,@"0"];
     return res;
 }
+
+-(BOOL)updateSectionModelLocalPath:(NSString*)localPath withSectionId:(NSString*)sectionId{
+    if (!localPath || sectionId) {
+        return NO;
+    }
+    return [self.db executeUpdate:@"update Section set localFileUrl = ? where sid= ?",localPath, sectionId];
+}
+
 -(BOOL)updateTheStateWithSid:(NSString *) sid andDownloadState:(NSUInteger)downloadState {
     return [self.db executeUpdate:@"update Section set downloadState = ? where sid= ?",[NSString stringWithFormat:@"%d", downloadState], sid];
 }
 -(int)HasTheDataDownloadWithSid:(NSString *)sid {
-    FMResultSet * rs = [self.db executeQuery:@"select id , sid , name ,fileUrl , downloadState ,contentLength from Section where sid = ?",sid];
+    FMResultSet * rs = [self.db executeQuery:@"select downloadState from Section where sid = ?",sid];
     
     NSUInteger down = 4;//未下载状态
     if ([rs next]) {
@@ -420,6 +452,7 @@ static Section *defaultSection = nil;
 +(void)clearAllDownloadedSectionWithSuccess:(void(^)())success withFailure:(void(^)(NSString*errorString))failure{
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSError *error = nil;
+    //清除下载的视频
     AppDelegate* appDelegate = [AppDelegate sharedInstance];
     DownloadService *mDownloadService = appDelegate.mDownloadService;
     ASINetworkQueue *queue = mDownloadService.networkQueue;
@@ -435,7 +468,27 @@ static Section *defaultSection = nil;
         }
         [[Section defaultSection] deleteDataWithSid:sectionModel.sectionId];
     }
-    if (error) {
+    
+    //清除下载的资料
+    NSError *materialError = nil;
+    UserModel *user = [[CaiJinTongManager shared] user];
+    NSArray *allMaterialArr = [[Section defaultSection] searchAllDownloadMaterialsWithwithUserId:user.userId];
+    for (LearningMaterials *material in allMaterialArr) {
+        NSString *path = material.materialFileLocalPath;
+        if (path) {
+            if ([fileManager isExecutableFileAtPath:path] && [fileManager fileExistsAtPath:path]) {
+                if (materialError) {
+                    [fileManager removeItemAtPath:path error:nil];
+                }else{
+                    [fileManager removeItemAtPath:path error:&materialError];
+                }
+            }
+        }
+    }
+    
+    BOOL deleteIsSuccess = [[Section defaultSection] deleteAllLearningMaterial];
+    
+    if (error || materialError || !deleteIsSuccess) {
         failure(@"清除缓存时发生错误");
     }else{
         success();
@@ -444,7 +497,7 @@ static Section *defaultSection = nil;
 
 
 -(NSArray *)getAllInfo {
-    FMResultSet * rs = [self.db executeQuery:@"select id , sid , name , fileUrl , downloadState ,contentLength,percentDown,sectionStudy,sectionLastTime,sectionImg,lessonInfo,sectionTeacher from Section where downloadState ＝ 1"];
+    FMResultSet * rs = [self.db executeQuery:@"select * from Section where downloadState ＝ 1"];
     
     NSMutableArray *array = [NSMutableArray array];
     while ([rs next]) {

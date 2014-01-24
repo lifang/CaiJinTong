@@ -40,7 +40,7 @@
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     NSString *oldString = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSString *newString = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    if ([newString isEqualToString:@""]) {
+    if ([newString isEqualToString:@""] && oldString.length > 0) {
         oldString = [oldString stringByReplacingCharactersInRange:NSMakeRange(oldString.length-1, 1) withString:newString];
     }else{
         oldString = [NSString stringWithFormat:@"%@%@",oldString,newString];

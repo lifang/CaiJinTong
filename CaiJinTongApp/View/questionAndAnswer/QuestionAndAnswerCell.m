@@ -220,7 +220,9 @@
     
     float cellHeight = [self.delegate questionAndAnswerCell:self getCellheightAtIndexPath:self.path];
     self.answerAttributeTextView.frame = (CGRect){self.answerAttributeTextView.frame.origin,QUESTIONANDANSWER_CELL_WIDTH,cellHeight};
+    self.answerBt.frame = self.answerAttributeTextView.frame;
     self.qflowerBt.frame = (CGRect){CGRectGetMinX(self.qflowerImageView.frame)-TEXT_PADDING,0,CGRectGetMaxX(self.qflowerLabel.frame) - CGRectGetMinX(self.qflowerImageView.frame)+TEXT_PADDING*2,CGRectGetHeight(self.qTitleNameLabel.frame)};
+    self.questionBackgroundView.frame = (CGRect){self.questionBackgroundView.frame.origin,QUESTIONANDANSWER_CELL_WIDTH,self.questionBackgroundView.frame.size.height};
 }
 
 @end

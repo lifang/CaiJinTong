@@ -19,21 +19,51 @@ static UploadImageDataInterface *defaultUploadImage;
     return defaultUploadImage;
 }
 +(void)uploadImageWithUserId:(NSString*)userId withQuestionCategoryId:(NSString*)categoryId withQuestionTitle:(NSString*)questionTitle withQuestionContent:(NSString*)questionContent withUploadedData:(NSData*)uploadData withSuccess:(void (^)(NSString *success))success withFailure:(void (^)(NSString *failureMsg))failure{
-    ASIFormDataRequest* request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:@""]];
-    [request addData:uploadData forKey:@"img"];
-    [request addPostValue:@"asihttp" forKey:@"name"];
+    ASIFormDataRequest* request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://lms.finance365.com/api/iosuploadify.aspx"]];
+    
+    [request addPostValue:@"asihttp.png" forKey:@"name"];
     [request addPostValue:userId?:@"" forKey:@"userId"];
-    [request addPostValue:categoryId?:@"" forKey:@"categoryId"];
-    [request addPostValue:questionTitle?:@"" forKey:@"questionTitle"];
-    [request addPostValue:questionContent?:@"" forKey:@"questionContent"];
+    [request addPostValue:categoryId?:@"" forKey:@"sectionId"];
+    [request addPostValue:questionTitle?:@"" forKey:@"title"];
+    [request addPostValue:questionContent?:@"" forKey:@"content"];
+    if (uploadData) {
+        [request addPostValue:@"1" forKey:@"isImage"];//如果带图片数据就为1，不带图片就传2
+        [request addData:uploadData forKey:@"img"];
+    }else{
+        [request addPostValue:@"2" forKey:@"isImage"];//如果带图片数据就为1，不带图片就传2
+    }
+    
+//    [request setBytesSentBlock:^(unsigned long long size, unsigned long long total) {
+//        NSLog(@"%llu,%llu",size,total);
+//    }];
+    __weak ASIHTTPRequest *weakRequest = request;
     [request setCompletionBlock:^{
-        if ([UploadImageDataInterface defaultUploadImageDataInterface].uploadDataSuccess) {
-            [UploadImageDataInterface defaultUploadImageDataInterface].uploadDataSuccess(@"上传文件成功");
+        ASIHTTPRequest *tempRequest = weakRequest;
+        if (tempRequest) {
+            DLog(@"%@",tempRequest.responseString);
+            NSData *data = [[NSData alloc]initWithData:[tempRequest responseData]];
+            NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+            if (jsonObject && [jsonObject isKindOfClass:[NSDictionary class]]) {
+                NSString *status = [NSString stringWithFormat:@"%@",[jsonObject objectForKey:@"Status"]];
+                if ([status isEqualToString:@"1"]) {
+                    if (success) {
+                        success(@"上传文件成功");
+                    }
+                }else{
+                    if (failure) {
+                        failure(@"上传文件失败");
+                    }
+                }
+            }else{
+                if (failure) {
+                    failure(@"上传文件失败");
+                }
+            }
         }
     }];
     [request setFailedBlock:^{
-        if ([UploadImageDataInterface defaultUploadImageDataInterface].uploadDataFailure) {
-            [UploadImageDataInterface defaultUploadImageDataInterface].uploadDataFailure(@"上传文件失败");
+        if (failure) {
+            failure(@"上传文件失败");
         }
     }];
     [request startAsynchronous];

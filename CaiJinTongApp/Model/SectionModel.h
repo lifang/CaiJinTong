@@ -20,6 +20,7 @@
 @property (strong,nonatomic) NSString *sectionMovieLocalURL;//视频本地播放地址
 @property (strong,nonatomic) NSString *sectionFinishedDate;//最后播放结束日期
 @property (strong,nonatomic) NSMutableArray *sectionNoteList;//小节对应的笔记
+@property (assign,nonatomic) DownloadStatus sectionMovieFileDownloadStatus;
 //以下过时
 @property (nonatomic, strong) NSString *sectionImg;//过时
 @property (nonatomic, strong) NSString *sectionProgress;//过时

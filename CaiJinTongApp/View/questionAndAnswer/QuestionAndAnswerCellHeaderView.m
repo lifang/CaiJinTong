@@ -23,12 +23,12 @@
 @property (nonatomic,strong) UITextView *answerQuestionTextField;//回答输入框
 @property (nonatomic,strong) UIButton *submitAnswerBt;//提交回答
 @property (nonatomic,strong) UIButton *scanMoreBt;//显示更多
+@property (nonatomic,strong) QuestionModel *questionModel;
 @end
 
 @implementation QuestionAndAnswerCellHeaderView
-
--(id)initWithReuseIdentifier:(NSString *)reuseIdentifier{
-    self =[super initWithReuseIdentifier:reuseIdentifier];
+-(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.backgroundView = [[UIView alloc] init];
         self.backgroundView.backgroundColor = [UIColor whiteColor];
@@ -65,10 +65,10 @@
         
         self.questionContentAttributeView = [[DRAttributeStringView alloc] init];
         [self.backgroundView addSubview:self.questionContentAttributeView];
-//        self.questionFlowerBt = [[UIButton alloc] init];
-//        self.questionFlowerBt.backgroundColor = [UIColor clearColor];
-//        [self.questionFlowerBt addTarget:self action:@selector(flowerBtClicked) forControlEvents:UIControlEventTouchUpInside];
-//        [self.backgroundView addSubview:self.questionFlowerBt];
+        //        self.questionFlowerBt = [[UIButton alloc] init];
+        //        self.questionFlowerBt.backgroundColor = [UIColor clearColor];
+        //        [self.questionFlowerBt addTarget:self action:@selector(flowerBtClicked) forControlEvents:UIControlEventTouchUpInside];
+        //        [self.backgroundView addSubview:self.questionFlowerBt];
         
         self.questionImg = [[UIImageView alloc] init];
         self.questionImg.image = [UIImage imageNamed:@"Q&A-myq_15.png"];
@@ -90,7 +90,7 @@
         
         self.summitQuestionAnswerBackView = [[UIView alloc] init];
         self.summitQuestionAnswerBackView.backgroundColor = [UIColor clearColor];
-//         [self.summitQuestionAnswerBackView setHidden:YES];
+        //         [self.summitQuestionAnswerBackView setHidden:YES];
         [self.backgroundView addSubview:self.summitQuestionAnswerBackView];
         
         self.answerQuestionTextField = [[UITextView alloc] init];
@@ -109,9 +109,9 @@
         self.scanMoreBt = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [self.scanMoreBt setTitle:@"点击显示更多..." forState:UIControlStateNormal];
         [self.scanMoreBt setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-//        [self.scanMoreBt setBackgroundColor:[UIColor clearColor]];
+        //        [self.scanMoreBt setBackgroundColor:[UIColor clearColor]];
         [self.scanMoreBt addTarget:self action:@selector(scanQuestionContentBtClicked) forControlEvents:UIControlEventTouchUpInside];
-        [self.backgroundView addSubview:self.scanMoreBt];
+//        [self.backgroundView addSubview:self.scanMoreBt];
     }
     return self;
 }
@@ -150,9 +150,16 @@
 
 -(void)willAnswerQuestionBtClicked{
     if (self.delegate && [self.delegate respondsToSelector:@selector(questionAndAnswerCellHeaderView:willAnswerQuestionAtIndexPath:)]) {
-        [self.answerQuestionBt setUserInteractionEnabled:NO];
-        [self.summitQuestionAnswerBackView setHidden:NO];
+//        [self.answerQuestionBt setUserInteractionEnabled:NO];
+        if (!self.questionModel.isEditing) {
+            [self.answerQuestionTextField resignFirstResponder];
+            [self.summitQuestionAnswerBackView setHidden:YES];
+        }
         [self.delegate questionAndAnswerCellHeaderView:self willAnswerQuestionAtIndexPath:self.path];
+        if (self.questionModel.isEditing) {
+//            [self.answerQuestionTextField becomeFirstResponder];
+            [self.summitQuestionAnswerBackView setHidden:NO];
+        }
     }
 }
 
@@ -172,6 +179,7 @@
     if (!question) {
         return;
     }
+    self.questionModel = question;
     UserModel *user = [[CaiJinTongManager shared]user];
     if (question.askerId && [question.askerId isEqualToString:user.userId]) {
         [self.answerQuestionBt setHidden:YES];
@@ -186,9 +194,10 @@
     }
     self.questionNameLabel.text = question.askerNick;
     self.questionDateLabel.text = [NSString stringWithFormat:@"发表于%@",question.askTime];
-    self.questionFlowerLabel.text = question.praiseCount;
-    self.questionContentAttributeView.truncateHeight = ContentMinHeight;
-    self.questionContentAttributeView.isTruncate = !question.isExtend;
+//    self.questionFlowerLabel.text = question.praiseCount;
+    self.questionFlowerLabel.text = question.answerList?[NSString stringWithFormat:@"%d",question.answerList.count]:@"0";
+//    self.questionContentAttributeView.truncateHeight = ContentMinHeight;
+    self.questionContentAttributeView.isTruncate = NO;
     self.questionContentAttributeView.questionModel = question;
 //    [self.questionFlowerBt setUserInteractionEnabled:NO];
     [self.summitQuestionAnswerBackView setHidden:!question.isEditing];
@@ -215,18 +224,18 @@
     self.questionImg.frame = (CGRect){TEXT_PADDING*2+2,HEADER_TEXT_HEIGHT+2,20,20};
 //    float contentWidth = CGRectGetWidth(self.frame)-CGRectGetMaxX(self.questionImg.frame)-TEXT_PADDING*2;
     float height = [self.delegate questionAndAnswerCellHeaderView:self headerHeightAtIndexPath:self.path];
-    if (height > ContentMinHeight) {
-        [self.scanMoreBt setHidden:NO];
-        BOOL isExtend  = [self.delegate questionAndAnswerCellHeaderView:self isExtendAtIndexPath:self.path];
-        if (!isExtend) {
-            height = ContentMinHeight;
-            [self.scanMoreBt setTitle:@"点击显示更多..." forState:UIControlStateNormal];
-        }else{
-            [self.scanMoreBt setTitle:@"点击收起" forState:UIControlStateNormal];
-        }
-    }else{
-        [self.scanMoreBt setHidden:YES];
-    }
+//    if (height > ContentMinHeight) {
+//        [self.scanMoreBt setHidden:NO];
+//        BOOL isExtend  = [self.delegate questionAndAnswerCellHeaderView:self isExtendAtIndexPath:self.path];
+//        if (!isExtend) {
+//            height = ContentMinHeight;
+//            [self.scanMoreBt setTitle:@"点击显示更多..." forState:UIControlStateNormal];
+//        }else{
+//            [self.scanMoreBt setTitle:@"点击收起" forState:UIControlStateNormal];
+//        }
+//    }else{
+//        [self.scanMoreBt setHidden:YES];
+//    }
     self.questionContentAttributeView.frame = (CGRect){CGRectGetMaxX(self.questionImg.frame),HEADER_TEXT_HEIGHT,QUESTIONHEARD_VIEW_WIDTH,height};
     
     self.scanMoreBt.frame = (CGRect){CGRectGetWidth(self.frame)-170,CGRectGetMaxY(self.questionContentAttributeView.frame)+TEXT_PADDING,150,40};

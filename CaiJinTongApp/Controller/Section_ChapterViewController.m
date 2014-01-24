@@ -68,6 +68,9 @@
     
 }
 
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 -(void)initBtn:(NSNotification *)notification {
     dispatch_async ( dispatch_get_main_queue (), ^{

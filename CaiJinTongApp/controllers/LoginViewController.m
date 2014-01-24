@@ -76,11 +76,11 @@
 }
 
 - (IBAction)loginBtClicked:(id)sender {
-    [self getLogInfoDidFinished:nil];
-    return;
-//    NSString *regexCall = @"(\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*)|(1[0-9]{10})";
-//    NSPredicate *predicateCall = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",regexCall];
-//    if ([predicateCall evaluateWithObject:self.userNameTextField.text]) {
+//    [self getLogInfoDidFinished:nil];
+//    return;
+    NSString *regexCall = @"(\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*)|(1[0-9]{10})";
+    NSPredicate *predicateCall = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",regexCall];
+    if ([predicateCall evaluateWithObject:self.userNameTextField.text]) {
 //        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
 //            [Utility errorAlert:@"暂无网络!"];
 //        }else {
@@ -90,20 +90,26 @@
 //            self.logInterface.delegate = self;
 //            [self.logInterface getLogInterfaceDelegateWithName:self.userNameTextField.text andPassWord:self.pwdTextField.text];
 //        }
-//    }else {
-//        [Utility errorAlert:@"请输入正确的手机号码或邮箱!"];
-//    }
+    }else {
+        [Utility errorAlert:@"请输入正确的手机号码或邮箱!"];
+        return;
+    }
+    
+    
     if (self.userNameTextField.text && ![[self.userNameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
         if (self.pwdTextField.text && ![[self.pwdTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
-//            if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-//                [Utility errorAlert:@"暂无网络!"];
-//            }else {
-                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            [self.userNameTextField resignFirstResponder];
+            [self.pwdTextField resignFirstResponder];
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [Utility errorAlert:@"暂无网络!"];
+            }else {
                 LogInterface *log = [[LogInterface alloc]init];
                 self.logInterface = log;
                 self.logInterface.delegate = self;
                 [self.logInterface getLogInterfaceDelegateWithName:self.userNameTextField.text andPassWord:self.pwdTextField.text];
-//            }
+            }
         }else{
             [Utility errorAlert:@"密码不能为空"];
         }

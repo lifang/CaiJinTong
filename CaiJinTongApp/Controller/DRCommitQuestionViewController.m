@@ -206,6 +206,14 @@ static CGRect tableFrame;
     self.dropdownmenuSelected = !self.dropdownmenuSelected;
 }
 
+//点击截图
+- (IBAction)scanScreenBtClicked:(id)sender {
+    self.isCut = YES;
+    if (self.delegate && [self.delegate respondsToSelector:@selector(commitQuestionControllerDidStartCutScreenButtonClicked:isCut:)]) {
+        [self.delegate commitQuestionControllerDidStartCutScreenButtonClicked:self isCut:self.isCut];
+    }
+}
+
 #pragma mark property
 
 -(void)setDropdownmenuSelected:(BOOL)dropdownmenuSelected{

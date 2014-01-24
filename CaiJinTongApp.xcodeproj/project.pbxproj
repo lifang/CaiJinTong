@@ -222,7 +222,6 @@
 		1839A1BE187FB32E007F3245 /* SettingViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 1839A1BD187FB32E007F3245 /* SettingViewController_iPhone.m */; };
 		183F49191887766E007D5474 /* NoteListViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F49181887766E007D5474 /* NoteListViewController_iPhone.m */; };
 		183F491C1887864D007D5474 /* NoteListCell_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F491B1887864D007D5474 /* NoteListCell_iPhone.m */; };
-		183F77AF1839B5E8004D0263 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F77AE1839B5E8004D0263 /* MBProgressHUD.m */; };
 		184317371855652200ABEFD3 /* LHLMoviePlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184317361855652200ABEFD3 /* LHLMoviePlayViewController.m */; };
 		18491C3F18345E11003C82E4 /* play_0h5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18491C3E18345E11003C82E4 /* play_0h5@2x.png */; };
 		18491C4118345FF8003C82E4 /* play_05@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18491C4018345FF8003C82E4 /* play_05@2x.png */; };
@@ -323,7 +322,6 @@
 		6323875D18220E7D00C71535 /* ForgotPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6323875C18220E7D00C71535 /* ForgotPwdViewController.m */; };
 		6323876018222A1500C71535 /* DRNaviGationBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6323875F18222A1500C71535 /* DRNaviGationBarController.m */; };
 		6323876318223E9500C71535 /* DRNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6323876218223E9500C71535 /* DRNavigationBar.m */; };
-		632CF221188A8FE50099D1A2 /* UploadImageDataInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 632CF220188A8FE50099D1A2 /* UploadImageDataInterface.m */; };
 		633003391845F81200F7838D /* radio_checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 633003351845F81200F7838D /* radio_checked.png */; };
 		6330033A1845F81200F7838D /* radio_checked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 633003361845F81200F7838D /* radio_checked@2x.png */; };
 		6330033B1845F81200F7838D /* radio_unchecked.png in Resources */ = {isa = PBXBuildFile; fileRef = 633003371845F81200F7838D /* radio_unchecked.png */; };
@@ -382,6 +380,7 @@
 		63B794EA1847477100B8276A /* MJRefreshFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B794E51847477100B8276A /* MJRefreshFooterView.m */; };
 		63B794EB1847477100B8276A /* MJRefreshHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B794E71847477100B8276A /* MJRefreshHeaderView.m */; };
 		63C15C73183F54E600890086 /* DRMoviePlayerTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C15C72183F54E600890086 /* DRMoviePlayerTopBar.m */; };
+		63C46D651891110500626E21 /* UploadImageDataInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C46D641891110500626E21 /* UploadImageDataInterface.m */; };
 		63C7FBC9187E8B0E0051EEBE /* ASIHTTPRequest+DownloadData.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C7FBC2187E8B0E0051EEBE /* ASIHTTPRequest+DownloadData.m */; };
 		63C7FBCA187E8B0E0051EEBE /* ASIHTTPRequestHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C7FBC4187E8B0E0051EEBE /* ASIHTTPRequestHeader.m */; };
 		63C7FBCB187E8B0E0051EEBE /* ASINetworkQueue+StaticQueues.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C7FBC6187E8B0E0051EEBE /* ASINetworkQueue+StaticQueues.m */; };
@@ -777,8 +776,6 @@
 		183F49181887766E007D5474 /* NoteListViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteListViewController_iPhone.m; sourceTree = "<group>"; };
 		183F491A1887864D007D5474 /* NoteListCell_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteListCell_iPhone.h; sourceTree = "<group>"; };
 		183F491B1887864D007D5474 /* NoteListCell_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteListCell_iPhone.m; sourceTree = "<group>"; };
-		183F77AD1839B5E8004D0263 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
-		183F77AE1839B5E8004D0263 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		184317351855652200ABEFD3 /* LHLMoviePlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LHLMoviePlayViewController.h; sourceTree = "<group>"; };
 		184317361855652200ABEFD3 /* LHLMoviePlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LHLMoviePlayViewController.m; sourceTree = "<group>"; };
 		18491C3E18345E11003C82E4 /* play_0h5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play_0h5@2x.png"; sourceTree = "<group>"; };
@@ -936,8 +933,6 @@
 		6323875F18222A1500C71535 /* DRNaviGationBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 5; lastKnownFileType = sourcecode.c.objc; name = DRNaviGationBarController.m; path = ../controllers/DRNaviGationBarController.m; sourceTree = "<group>"; };
 		6323876118223E9500C71535 /* DRNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DRNavigationBar.h; path = view/DRNavigationBar.h; sourceTree = SOURCE_ROOT; };
 		6323876218223E9500C71535 /* DRNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DRNavigationBar.m; path = view/DRNavigationBar.m; sourceTree = SOURCE_ROOT; };
-		632CF21F188A8FE50099D1A2 /* UploadImageDataInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadImageDataInterface.h; sourceTree = "<group>"; };
-		632CF220188A8FE50099D1A2 /* UploadImageDataInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadImageDataInterface.m; sourceTree = "<group>"; };
 		633003351845F81200F7838D /* radio_checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio_checked.png; sourceTree = "<group>"; };
 		633003361845F81200F7838D /* radio_checked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "radio_checked@2x.png"; sourceTree = "<group>"; };
 		633003371845F81200F7838D /* radio_unchecked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio_unchecked.png; sourceTree = "<group>"; };
@@ -1022,6 +1017,8 @@
 		63B794E71847477100B8276A /* MJRefreshHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshHeaderView.m; sourceTree = "<group>"; };
 		63C15C71183F54E600890086 /* DRMoviePlayerTopBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DRMoviePlayerTopBar.h; path = movieCotr/DRMoviePlayerTopBar.h; sourceTree = "<group>"; };
 		63C15C72183F54E600890086 /* DRMoviePlayerTopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DRMoviePlayerTopBar.m; path = movieCotr/DRMoviePlayerTopBar.m; sourceTree = "<group>"; };
+		63C46D631891110500626E21 /* UploadImageDataInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadImageDataInterface.h; sourceTree = "<group>"; };
+		63C46D641891110500626E21 /* UploadImageDataInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadImageDataInterface.m; sourceTree = "<group>"; };
 		63C7FBC1187E8B0E0051EEBE /* ASIHTTPRequest+DownloadData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ASIHTTPRequest+DownloadData.h"; sourceTree = "<group>"; };
 		63C7FBC2187E8B0E0051EEBE /* ASIHTTPRequest+DownloadData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ASIHTTPRequest+DownloadData.m"; sourceTree = "<group>"; };
 		63C7FBC3187E8B0E0051EEBE /* ASIHTTPRequestHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIHTTPRequestHeader.h; sourceTree = "<group>"; };
@@ -1480,8 +1477,8 @@
 				6395A1EC187BCC8600F304CC /* LearningMatarilasListInterface.m */,
 				6395A1EE187BD3F600F304CC /* SearchLearningMatarilasListInterface.h */,
 				6395A1EF187BD3F600F304CC /* SearchLearningMatarilasListInterface.m */,
-				632CF21F188A8FE50099D1A2 /* UploadImageDataInterface.h */,
-				632CF220188A8FE50099D1A2 /* UploadImageDataInterface.m */,
+				63C46D631891110500626E21 /* UploadImageDataInterface.h */,
+				63C46D641891110500626E21 /* UploadImageDataInterface.m */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -2546,6 +2543,7 @@
 				0EDF4DFD1821028F007161E0 /* Utility.m in Sources */,
 				639F435118631804006FBE26 /* DRTreeTableView.m in Sources */,
 				0E9DA3C6183F568D000A5995 /* ASIS3Request.m in Sources */,
+				63C46D651891110500626E21 /* UploadImageDataInterface.m in Sources */,
 				0EAD1F70182B24B100204FC3 /* FMResultSet.m in Sources */,
 				0E9DA3C5183F568D000A5995 /* ASIS3ObjectRequest.m in Sources */,
 				18A77076187FEF7B00DAE6A6 /* SuggestionFeedbackViewController_iPhone.m in Sources */,
@@ -2707,7 +2705,6 @@
 				0EAD1F6E182B24B100204FC3 /* FMDatabaseAdditions.m in Sources */,
 				63B794EB1847477100B8276A /* MJRefreshHeaderView.m in Sources */,
 				0EAD1F6F182B24B100204FC3 /* FMDatabase.m in Sources */,
-				632CF221188A8FE50099D1A2 /* UploadImageDataInterface.m in Sources */,
 				0EA7EF5E1823AE1800C47F69 /* AskQuestionInterface.m in Sources */,
 				0EAD1F83182B7D8C00204FC3 /* Section_GradeCell.m in Sources */,
 				0E9DA3BA183F568D000A5995 /* ASIWebPageRequest.m in Sources */,

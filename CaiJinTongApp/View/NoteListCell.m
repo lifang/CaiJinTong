@@ -57,6 +57,10 @@ typedef enum {AlertType_DeleteCell = 12,AlertType_ModifyCell}AlertType;
     }else{
         [self.commitBt setEnabled:NO];
     }
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(noteListCell:didTypeTextViewAtCellAtIndexPath:)]) {
+        [self.delegate noteListCell:self didTypeTextViewAtCellAtIndexPath:self.path];
+    }
     return YES;
 }
 #pragma mark --

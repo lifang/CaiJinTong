@@ -24,6 +24,14 @@
 -(BOOL)isExistForMaterialId:(NSString*)materialId withUserId:(NSString*)userId;
 -(void)updateLeariningMaterial:(LearningMaterials*)materials withUserId:(NSString*)userId;
 -(void)deleteLeariningMaterialWithMaterialId:(NSString*)materialId withUserId:(NSString*)userId;
+/**
+  查询已经下载的资料
+ */
+-(NSArray*)searchAllDownloadMaterialsWithwithUserId:(NSString*)userId;
+/**
+ 删除所有资料数据
+ */
+-(BOOL)deleteAllLearningMaterial;
 //////////////////////////////////小节
 -(SectionModel*)searchLastPlaySectionModelWithLessonId:(NSString*)lessonId;//获取最近播放的sectionModel
 -(void)saveSectionModelFinishedDateWithSectionModel:(SectionModel*)section withLessonId:(NSString*)lessonId;//保存最近播放结束时间
@@ -37,6 +45,7 @@
 -(void)deleteDataWithSid:(NSString *) sid;//删除
 -(BOOL)addDataWithSectionSaveModel:(SectionSaveModel *)model;
 -(BOOL)updateTheStateWithSid:(NSString *) sid andDownloadState:(NSUInteger)downloadState;//更新下载状态信息
+//-(BOOL)updateSectionModelLocalPath:(NSString*)localPath withSectionId:(NSString*)sectionId;//更新本地路径
 //更新学习时间
 -(BOOL)updateStudyTime:(NSString *)sectionStudy BySid:(NSString *)sid;
 -(int)HasTheDataDownloadWithSid:(NSString *)sid;//判断是否下载完成
