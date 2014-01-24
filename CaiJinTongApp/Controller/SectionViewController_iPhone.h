@@ -30,7 +30,7 @@
 @property (nonatomic, strong) Section_ChapterViewController_iPhone *section_ChapterView;
 @property (nonatomic, strong) Section_GradeViewController_iPhone *section_GradeView;
 @property (nonatomic, strong) Section_NoteViewController_iPhone *section_NoteView;
-@property (nonatomic,strong) LHLMoviePlayViewController *playerController;
+//@property (nonatomic,strong) LHLMoviePlayViewController *playerController;
 //数据
 @property (nonatomic,strong) SectionModel *section;
 @property (nonatomic,strong) LessonModel *lessonModel;

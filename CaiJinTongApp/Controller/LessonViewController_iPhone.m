@@ -19,6 +19,7 @@
 @property (assign,nonatomic) BOOL isSearch;
 @property (assign,nonatomic) BOOL isRefreshing;
 @property (assign,nonatomic) BOOL isLoading; //标志读取课程列表的请求是否已经发出 / 结束
+@property (assign,nonatomic) BOOL isBackFromSectionVC;//判断本页面是否是从sectionViewController返回的
 @property (assign,nonatomic) BOOL treeViewInited;
 @end
 @implementation LessonViewController_iPhone
@@ -109,10 +110,16 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    if(!self.isLoading){
+    if(!self.isLoading){  //如果请求已经返回,没有数据,则重新发送请求
         if(!self.sectionList || self.sectionList.count < 1){
             [self initData];
+            return;
         }
+    }
+    if(self.isBackFromSectionVC){
+        [self initData];
+        self.isBackFromSectionVC = NO;
+        return;
     }
 }
 
@@ -487,6 +494,7 @@
         SectionViewController_iPhone *sectionView = [story instantiateViewControllerWithIdentifier:@"SectionViewController_iPhone"];
         sectionView.lessonModel = lesson;
         [self.navigationController pushViewController:sectionView animated:YES];
+        self.isBackFromSectionVC = YES;
     });
 }
 -(void)getLessonInfoDidFailed:(NSString *)errorMsg{

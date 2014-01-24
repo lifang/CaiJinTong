@@ -121,8 +121,8 @@
 -(void)playVideo:(id)sender{
     NSLog(@"%@",NSStringFromCGRect( self.slideSwitchView.frame));
     self.isPlaying = YES;
-    self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
-    self.playerController.delegate = self;
+    LHLMoviePlayViewController* playercontroller = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
+    playercontroller.delegate = self;
     chapterModel *chapter = [self.lessonModel.chapterList firstObject];
     SectionModel *section = [chapter.sectionList firstObject];
     SectionModel *lastplaySection = [[Section defaultSection] searchLastPlaySectionModelWithLessonId:self.lessonModel.lessonId];
@@ -130,16 +130,16 @@
         lastplaySection.lessonId = self.lessonModel.lessonId;
     }
     section.lessonId = self.lessonModel.lessonId;
-    [self.playerController playMovieWithSectionModel:lastplaySection?:section withFileType:MPMovieSourceTypeStreaming];
-    self.playerController.delegate = self;
+    [playercontroller playMovieWithSectionModel:lastplaySection?:section withFileType:MPMovieSourceTypeStreaming];
+    playercontroller.delegate = self;
 //    AppDelegate *app = [AppDelegate sharedInstance];
-//    [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
+//    [app.lessonViewCtrol presentViewController:playercontroller animated:YES completion:^{
 //        
 //    }];
-    [self.navigationController presentViewController:self.playerController animated:YES completion:^{
+    [self.navigationController presentViewController:playercontroller animated:YES completion:^{
         
     }];
-//    [self.navigationController pushViewController:self.playerController animated:YES];
+//    [self.navigationController pushViewController:playercontroller animated:YES];
 }
 
 #pragma mark - 滑动tab视图代理方法
@@ -339,7 +339,7 @@
         UIButton *palyButton = [UIButton buttonWithType:UIButtonTypeCustom];
         palyButton.frame = CGRectMake(18, labelTop + IP5(8, -2), 283, IP5(33, 30));
 //        [palyButton setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
-        if (!self.lessonModel.lessonStudyTime || [self.lessonModel.lessonStudyTime isEqualToString:@"0"]) {
+        if (!self.lessonModel.lessonStudyTime || [self.lessonModel.lessonStudyTime isEqualToString:@"0"] || [self.lessonModel.lessonStudyTime isEqualToString:@"-"]) {
             [palyButton setTitle:NSLocalizedString(@"开始学习", @"button") forState:UIControlStateNormal];
         }else{
             [palyButton setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
@@ -407,20 +407,20 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             //播放接口
-            self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
-            self.playerController.delegate = self;
+            LHLMoviePlayViewController* playercontroller = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
+            playercontroller.delegate = self;
             chapterModel *chapter = [self.lessonModel.chapterList firstObject];
             SectionModel *section = [chapter.sectionList firstObject];
-            [self.playerController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
-//            self.playerController.sectionId = self.lessonModel.lessonId;
-//            self.playerController.sectionModel = self.section;
+            [playercontroller playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
+//            playercontroller.sectionId = self.lessonModel.lessonId;
+//            playercontroller.sectionModel = self.section;
             
-            self.playerController.delegate = self;
+            playercontroller.delegate = self;
 //            AppDelegate *app = [AppDelegate sharedInstance];
-//            [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
+//            [app.lessonViewCtrol presentViewController:playercontroller animated:YES completion:^{
 //                
 //            }];
-            [self.navigationController presentViewController:self.playerController animated:YES completion:^{
+            [self.navigationController presentViewController:playercontroller animated:YES completion:^{
                 
             }];
         });
@@ -432,23 +432,22 @@
 }
 
 - (void)gotoMoviePlayMovieOnLineWithSectionSavemodel:(NSNotification *)info {
+    
     self.isPlaying = YES;
     SectionModel *section = [info.userInfo objectForKey:@"sectionModel"];
     if (section.sectionMoviePlayURL) {
         //播放接口
         section.lessonId = self.lessonModel.lessonId;
-        if(!self.playerController){
-            self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
-            self.playerController.delegate = self;
-        }
+        LHLMoviePlayViewController* playercontroller = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
+        playercontroller.delegate = self;
 //        AppDelegate *app = [AppDelegate sharedInstance];
-//        [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
+//        [app.lessonViewCtrol presentViewController:playercontroller animated:YES completion:^{
 //            
 //        }];
-        [self.navigationController presentViewController:self.playerController animated:YES completion:^{
+        [self.navigationController presentViewController:playercontroller animated:YES completion:^{
             
         }];
-        [self.playerController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
+        [playercontroller playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
     }else{
         [Utility errorAlert:@"没有发现要播放的视频文件"];
     }
@@ -463,14 +462,14 @@
         Section *s = [[Section alloc] init];
         SectionModel *ssm = [s getSectionModelWithSid:sectionID];
         ssm.lessonId = self.lessonModel.lessonId;
-        self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
-        self.playerController.delegate = self;
-        [self.playerController playMovieWithSectionModel:ssm withFileType:MPMovieSourceTypeFile];
+        LHLMoviePlayViewController* playercontroller = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
+        playercontroller.delegate = self;
+        [playercontroller playMovieWithSectionModel:ssm withFileType:MPMovieSourceTypeFile];
 //        AppDelegate *app = [AppDelegate sharedInstance];
-//        [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
+//        [app.lessonViewCtrol presentViewController:playercontroller animated:YES completion:^{
 //            
 //        }];
-        [self.navigationController presentViewController:self.playerController animated:YES completion:^{
+        [self.navigationController presentViewController:playercontroller animated:YES completion:^{
             
         }];
     }
