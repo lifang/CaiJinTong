@@ -28,12 +28,17 @@
 -(void)drnavigationBarRightItemClicked:(id)sender{
     [self.navigationController popViewControllerAnimated:YES];
 }
+- (IBAction)returnBackBtClicked:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.drnavigationBar.navigationRightItem setTitle:@"返回" forState:UIControlStateNormal];
-    [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    self.drnavigationBar.titleLabel.text = @"我的资料";
+    
+    
+//    [self.drnavigationBar.navigationRightItem setTitle:@"返回" forState:UIControlStateNormal];
+//    [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+//    self.drnavigationBar.titleLabel.text = @"我的资料";
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",[CaiJinTongManager shared].user.userImg]];
     [self.userImage setImageWithURL:url placeholderImage:Image(@"loginBgImage_v.png")];
@@ -65,11 +70,11 @@
     self.dateFormatter = [[NSDateFormatter alloc] init];
     [self.dateFormatter setDateFormat:@"yyyy-MM-dd"];
     
-    self.drnavigationBar.hiddenBtn.hidden = YES;
-    [self.drnavigationBar.hiddenBtn setTitle:@"编辑" forState:UIControlStateNormal];
-    [self.drnavigationBar.hiddenBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    [self.drnavigationBar.hiddenBtn addTarget:self action:@selector(textEdited:) forControlEvents:UIControlEventTouchUpInside];
-    
+//    self.drnavigationBar.hiddenBtn.hidden = YES;
+//    [self.drnavigationBar.hiddenBtn setTitle:@"编辑" forState:UIControlStateNormal];
+//    [self.drnavigationBar.hiddenBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+//    [self.drnavigationBar.hiddenBtn addTarget:self action:@selector(textEdited:) forControlEvents:UIControlEventTouchUpInside];
+//    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShowing:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHideing:) name: UIKeyboardWillHideNotification object:nil];
 }
@@ -104,10 +109,10 @@
 
     self.pickView.hidden = NO;
     
-    [self.drnavigationBar.hiddenBtn setTitle:@"保存" forState:UIControlStateNormal];
-    [self.drnavigationBar.hiddenBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    [self.drnavigationBar.hiddenBtn addTarget:self action:@selector(saveinfo:) forControlEvents:UIControlEventTouchUpInside];
-    [self.drnavigationBar.hiddenBtn setHidden:YES];
+//    [self.drnavigationBar.hiddenBtn setTitle:@"保存" forState:UIControlStateNormal];
+//    [self.drnavigationBar.hiddenBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+//    [self.drnavigationBar.hiddenBtn addTarget:self action:@selector(saveinfo:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.drnavigationBar.hiddenBtn setHidden:YES];
 }
 
 -(IBAction)showPicker:(id)sender {

@@ -20,7 +20,7 @@
 @property (nonatomic,assign) BOOL isReaskRefreshing;//判断是追问刷新还是上拉下拉刷新
 @property (nonatomic,strong) DRAskQuestionViewController *askQuestionController;
 @property (nonatomic,strong) UIViewController *modelController;
-
+@property (nonatomic,strong) NSMutableDictionary *indexRowPathDic;
 @property (nonatomic,strong) NSString *searchContent;//搜索关键字
 @end
 
@@ -52,12 +52,74 @@
     CGPoint offset = self.tableView.contentOffset;
     [self.tableView setContentOffset:offset animated:NO];
 }
+
+#pragma mark 转换question indexpath成answer indexpath
+-(void)changeQuestionIndexPathToAnswerIndexPath:(NSArray*)questionArr{
+    int section = 0;
+    int row = 0;
+    int index = 0;
+    NSMutableDictionary *indexPathDic = [NSMutableDictionary dictionary];
+    for (QuestionModel *question  in questionArr) {
+        row = -1;
+        [indexPathDic setValue:[NSIndexPath indexPathForRow:row++ inSection:section] forKey:[NSString stringWithFormat:@"%d",index++]];
+        for (AnswerModel *answer in question.answerList) {
+            [indexPathDic setValue:[NSIndexPath indexPathForRow:row++ inSection:section] forKey:[NSString stringWithFormat:@"%d",index++]];
+        }
+        section++;
+    }
+    self.indexRowPathDic = indexPathDic;
+    self.myQuestionArr = [NSMutableArray arrayWithArray:questionArr];
+}
+
+-(void)addQuestionIndexPathToAnswerIndexPath:(NSArray*)questionArr{
+//    int section = 0;
+//    int row = 0;
+//    int index = 0;
+//    if (self.indexRowPathDic.count > 0) {
+//        index = self.indexRowPathDic.count;
+//        NSIndexPath *path = [self.indexRowPathDic objectForKey:[NSString stringWithFormat:@"%d",index-1]];
+//        section = path.section +1;
+//    }
+//    NSMutableDictionary *indexPathDic = [NSMutableDictionary dictionary];
+//    for (QuestionModel *question  in questionArr) {
+//        row = -1;
+//        [indexPathDic setValue:[NSIndexPath indexPathForRow:row++ inSection:section] forKey:[NSString stringWithFormat:@"%d",index++]];
+//        for (AnswerModel *answer in question.answerList) {
+//            [indexPathDic setValue:[NSIndexPath indexPathForRow:row++ inSection:section] forKey:[NSString stringWithFormat:@"%d",index++]];
+//        }
+//        section++;
+//    }
+//    [self.indexRowPathDic addEntriesFromDictionary:indexPathDic];
+//    [self.myQuestionArr addObjectsFromArray:questionArr];
+    NSMutableArray *data = [NSMutableArray arrayWithArray:questionArr];
+    [data addObjectsFromArray:self.myQuestionArr];
+    [self changeQuestionIndexPathToAnswerIndexPath:data];
+}
+
+
+-(int)convertIndexpathToRow:(NSIndexPath*)path{
+    NSArray *allkeys = [self.indexRowPathDic allKeysForObject:path];
+    int row = -1;
+    for (NSString *key in allkeys) {
+        if ([self.indexRowPathDic objectForKey:key] == path) {
+            row = key.intValue;
+            break;
+        }
+    }
+    if (row < 0) {
+        NSLog(@"@#############$@@@@@@@@@@row is less 0");
+        return 0;
+    }
+    return row;
+}
+#pragma mark --
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.tableView registerClass:[QuestionAndAnswerCellHeaderView class] forCellReuseIdentifier:@"questionCell"];
     [self.headerRefreshView endRefreshing];//instance refresh view
     [self.footerRefreshView endRefreshing];
-    [self.tableView registerClass:[QuestionAndAnswerCellHeaderView class] forHeaderFooterViewReuseIdentifier:@"header"];
     [self.drnavigationBar.navigationRightItem setTitle:@"提问" forState:UIControlStateNormal];
     [self.drnavigationBar hiddleBackButton:YES];
     self.drnavigationBar.searchBar.searchTextLabel.placeholder = @"搜索问题";
@@ -86,7 +148,8 @@
     self.isSearch = isSearch;
     self.questionAndAnswerScope = scope;
     self.chapterID = chapterID;
-    self.myQuestionArr = [NSMutableArray arrayWithArray:data];
+//    self.myQuestionArr = [NSMutableArray arrayWithArray:data];
+    [self changeQuestionIndexPathToAnswerIndexPath:data];
     self.headerRefreshView.isForbidden = NO;
     self.footerRefreshView.isForbidden = NO;
     [self.headerRefreshView endRefreshing];
@@ -102,7 +165,8 @@
 -(void)nextPageDataWithDataArray:(NSArray*)data withQuestionChapterID:(NSString*)chapterID withScope:(QuestionAndAnswerScope)scope{
     self.questionAndAnswerScope = scope;
     self.chapterID = chapterID;
-    [self.myQuestionArr addObjectsFromArray:data];
+//    [self.myQuestionArr addObjectsFromArray:data];
+    [self addQuestionIndexPathToAnswerIndexPath:data];
     self.headerRefreshView.isForbidden = NO;
     self.footerRefreshView.isForbidden = NO;
     [self.headerRefreshView endRefreshing];
@@ -141,14 +205,16 @@
 
 #pragma mark QuestionAndAnswerCellHeaderViewDelegate
 -(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header didIsExtendQuestionContent:(BOOL)isExtend atIndexPath:(NSIndexPath *)path{
-    QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
-    question.isExtend = isExtend;
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
+//    QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
+//    question.isExtend = isExtend;
+    int row = [self convertIndexpathToRow:path];
+    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 -(BOOL)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header isExtendAtIndexPath:(NSIndexPath *)path{
-    QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
-    return question.isExtend;
+//    QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
+//    return question.isExtend;
+     return YES;
 }
 
 -(float)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header headerHeightAtIndexPath:(NSIndexPath *)path{
@@ -165,12 +231,13 @@
 -(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header willAnswerQuestionAtIndexPath:(NSIndexPath *)path{
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
     question.isEditing = !question.isEditing;
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
+     int row = [self convertIndexpathToRow:path];
+    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
     if (question.isEditing) {
-        float sectionHeight = [self getTableViewHeaderHeightWithSection:path.section];
-        CGRect sectionRect = [self.tableView rectForHeaderInSection:path.section];
-        float sectionMinHeight = CGRectGetMinY(sectionRect) - self.tableView.contentOffset.y;
-        float keyheight = CGRectGetMaxY(self.tableView.frame) - sectionHeight-300;
+        float sectionHeight = [self getTableViewHeaderHeightWithSection:row];
+        CGRect sectionRect = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+        float sectionMinHeight = CGRectGetMaxY(sectionRect) - self.tableView.contentOffset.y;
+        float keyheight = CGRectGetMaxY(self.tableView.frame) - sectionHeight;
         if (sectionMinHeight > keyheight) {
             [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (sectionMinHeight - keyheight)} animated:YES];
         }
@@ -186,19 +253,19 @@
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
         question.isEditing = NO;
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
-        
-        AnswerModel *answer = [question.answerList objectAtIndex:path.row];
-        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:ReaskType_None andAnswerContent:text andQuestionId:question.questionId andAnswerID:answer.resultId  andResultId:@"0"];
+         int row = [self convertIndexpathToRow:path];
+        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:ReaskType_None andAnswerContent:text andQuestionId:question.questionId andAnswerID:nil  andResultId:@"0"];
     }
 }
 
 //开始编辑回答
 -(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header willBeginTypeAnswerQuestionAtIndexPath:(NSIndexPath *)path{
-    float sectionHeight = [self getTableViewHeaderHeightWithSection:path.section];
-    CGRect sectionRect = [self.tableView rectForHeaderInSection:path.section];
-    float sectionMinHeight = CGRectGetMinY(sectionRect) - self.tableView.contentOffset.y;
-    float keyheight = CGRectGetMaxY(self.tableView.frame) - sectionHeight-400;
+    int row = [self convertIndexpathToRow:path];
+    float sectionHeight = [self getTableViewHeaderHeightWithSection:row];
+    CGRect sectionRect = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+    float sectionMinHeight = CGRectGetMaxY(sectionRect) - self.tableView.contentOffset.y;
+    float keyheight = CGRectGetMaxY(self.tableView.frame) - sectionHeight-300;
     if (sectionMinHeight > keyheight) {
         [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (sectionMinHeight - keyheight)} animated:YES];
     }
@@ -217,9 +284,10 @@
 }
 
 -(void)questionAndAnswerCell:(QuestionAndAnswerCell *)cell willBeginTypeQuestionTextFieldAtIndexPath:(NSIndexPath *)path{
-    CGRect cellRect = [self.tableView rectForRowAtIndexPath:path];
+    int row = [self convertIndexpathToRow:path];
+    CGRect cellRect = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
     float cellmaxHeight = CGRectGetMaxY(cellRect) - self.tableView.contentOffset.y;
-    float keyheight = CGRectGetMaxY(self.tableView.frame) - 400;
+    float keyheight = CGRectGetMaxY(self.tableView.frame) - 450;
     if (cellmaxHeight > keyheight) {
         [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (cellmaxHeight - keyheight)} animated:YES];
     }
@@ -254,10 +322,11 @@
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
     AnswerModel *answer = [question.answerList objectAtIndex:path.row];
     answer.isEditing = isHiddle;
-    [self.tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
+    int row = [self convertIndexpathToRow:path];
+    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
     if (answer.isEditing) {
         float cellHeight = [self getTableViewRowHeightWithIndexPath:path];
-        CGRect cellRect = [self.tableView rectForRowAtIndexPath:path];
+        CGRect cellRect = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
         float cellmaxHeight = CGRectGetMaxY(cellRect) - self.tableView.contentOffset.y;
         float keyheight = CGRectGetMaxY(self.tableView.frame) - cellHeight-20;
         if (cellmaxHeight > keyheight) {
@@ -291,52 +360,51 @@
 
 #pragma mark UITableViewDataSource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    int count = [self.myQuestionArr count];
-    return count;
+    return 1;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    QuestionAndAnswerCell *cell = (QuestionAndAnswerCell*)[tableView dequeueReusableCellWithIdentifier:@"questionAndAnswerCell"];
-    QuestionModel *question = [self.myQuestionArr  objectAtIndex:indexPath.section];
-    AnswerModel *answer = [question.answerList objectAtIndex:indexPath.row];
-//    if ([[CaiJinTongManager shared] userId] && [[[CaiJinTongManager shared] userId] isEqualToString:question.askerId]) {
-//        answer.isEditing = YES;
-//    }else{
-//     answer.isEditing = NO;
-//    }
-     [cell setAnswerModel:answer withQuestion:question];
-    cell.delegate = self;
-    cell.path = indexPath;
-    cell.answerAttributeTextView.delegate = self;
-    cell.contentView.frame = (CGRect){cell.contentView.frame.origin,CGRectGetWidth(cell.contentView.frame),[self getTableViewRowHeightWithIndexPath:indexPath]};
-    return cell;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return [self getTableViewHeaderHeightWithSection:section];
+    NSIndexPath *path  = [self.indexRowPathDic objectForKey:[NSString stringWithFormat:@"%d",indexPath.row]];
+    if (path.row < 0) {//问题
+        QuestionAndAnswerCellHeaderView *header = (QuestionAndAnswerCellHeaderView*)[tableView dequeueReusableCellWithIdentifier:@"questionCell"];
+        QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
+        [header setQuestionModel:question withQuestionAndAnswerScope:self.questionAndAnswerScope];
+        header.backgroundColor = [UIColor whiteColor];
+        header.delegate = self;
+        header.questionContentAttributeView.delegate = self;
+        header.path = path;
+        return header;
+    }else{//答案
+        QuestionAndAnswerCell *cell = (QuestionAndAnswerCell*)[tableView dequeueReusableCellWithIdentifier:@"questionAndAnswerCell"];
+        QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
+        AnswerModel *answer = [question.answerList objectAtIndex:path.row];
+        //    if ([[CaiJinTongManager shared] userId] && [[[CaiJinTongManager shared] userId] isEqualToString:question.askerId]) {
+        //        answer.isEditing = YES;
+        //    }else{
+        //     answer.isEditing = NO;
+        //    }
+        [cell setAnswerModel:answer withQuestion:question];
+        cell.delegate = self;
+        cell.path = path;
+        cell.answerAttributeTextView.delegate = self;
+        cell.contentView.frame = (CGRect){cell.contentView.frame.origin,CGRectGetWidth(cell.contentView.frame),[self getTableViewRowHeightWithIndexPath:path]};
+        return cell;
+    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    float height = [self getTableViewRowHeightWithIndexPath:indexPath];
-    return height;
+    NSIndexPath *path  = [self.indexRowPathDic objectForKey:[NSString stringWithFormat:@"%d",indexPath.row]];
+    if (path.row < 0) {
+        return [self getTableViewHeaderHeightWithSection:path.section];
+    }else{
+        float height = [self getTableViewRowHeightWithIndexPath:path];
+        return height;
+    }
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    QuestionModel *question = [self.myQuestionArr  objectAtIndex:section];
-    return question.answerList != nil ?[question.answerList count]:0;
+    return self.indexRowPathDic.count;
 }
-
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    QuestionAndAnswerCellHeaderView *header = (QuestionAndAnswerCellHeaderView*)[tableView dequeueReusableHeaderFooterViewWithIdentifier:@"header"];
-    QuestionModel *question = [self.myQuestionArr  objectAtIndex:section];
-    [header setQuestionModel:question withQuestionAndAnswerScope:self.questionAndAnswerScope];
-    header.backgroundColor = [UIColor whiteColor];
-    header.delegate = self;
-    header.questionContentAttributeView.delegate = self;
-    header.path = [NSIndexPath indexPathForRow:0 inSection:section];
-    return header;
-}
-
 
 #pragma mark --
 
@@ -376,23 +444,30 @@
 -(float)getTableViewHeaderHeightWithSection:(NSInteger)section{
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:section];
     CGRect rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:QUESTIONHEARD_VIEW_WIDTH];
-    if (question.isExtend) {
-        if (question.isEditing) {
-            return rect.size.height + TEXT_HEIGHT + TEXT_PADDING + QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT+ 10+40+10;
-        }else{
-            return rect.size.height + TEXT_HEIGHT + TEXT_PADDING + 10+40+10;
-        }
+    float height = rect.size.height;
+    if (question.isEditing) {
+        return height + TEXT_HEIGHT + TEXT_PADDING + QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT+ 10+40+10;
     }else{
-        float height = rect.size.height;
-        if (height > ContentMinHeight) {
-            height = ContentMinHeight;
-        }
-        if (question.isEditing) {
-            return height + TEXT_HEIGHT + TEXT_PADDING + QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT+ 10+40+10;
-        }else{
-            return height + TEXT_HEIGHT + TEXT_PADDING + 10+40+10;
-        }
+        return height + TEXT_HEIGHT + TEXT_PADDING + 10+40+10;
     }
+
+//    if (question.isExtend) {
+//        if (question.isEditing) {
+//            return rect.size.height + TEXT_HEIGHT + TEXT_PADDING + QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT+ 10+40+10;
+//        }else{
+//            return rect.size.height + TEXT_HEIGHT + TEXT_PADDING + 10+40+10;
+//        }
+//    }else{
+//        float height = rect.size.height;
+//        if (height > ContentMinHeight) {
+//            height = ContentMinHeight;
+//        }
+//        if (question.isEditing) {
+//            return height + TEXT_HEIGHT + TEXT_PADDING + QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT+ 10+40+10;
+//        }else{
+//            return height + TEXT_HEIGHT + TEXT_PADDING + 10+40+10;
+//        }
+//    }
 }
 
 //-(float)getTableViewRowHeightWithIndexPath:(NSIndexPath*)path{
@@ -432,6 +507,12 @@
 #pragma mark --
 
 #pragma mark property
+-(NSMutableDictionary *)indexRowPathDic{
+    if (!_indexRowPathDic) {
+        _indexRowPathDic = [NSMutableDictionary dictionary];
+    }
+    return _indexRowPathDic;
+}
 
 -(void)setIsSearch:(BOOL)isSearch{
     _isSearch = isSearch;
@@ -578,7 +659,8 @@
     AnswerModel *answer = [question.answerList objectAtIndex:self.activeIndexPath.row];
     answer.answerPraiseCount = [NSString stringWithFormat:@"%d",[answer.answerPraiseCount integerValue]+1];
     answer.isPraised = @"1";
-    [self.tableView reloadRowsAtIndexPaths:@[self.activeIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    int row = [self convertIndexpathToRow:self.activeIndexPath];
+    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 -(void)getAnswerPraiseInfoDidFailed:(NSString *)errorMsg{
@@ -606,13 +688,16 @@
         NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
         dispatch_async(dispatch_get_main_queue(), ^{
             if (self.isReaskRefreshing) {
-                self.myQuestionArr = [NSMutableArray arrayWithArray:chapterQuestionList];
+//                self.myQuestionArr = [NSMutableArray arrayWithArray:chapterQuestionList];
+                [self changeQuestionIndexPathToAnswerIndexPath:chapterQuestionList];
                  [self.tableView reloadData];
             }else{
                 if (self.headerRefreshView.isForbidden) {//加载下一页
-                    [self.myQuestionArr addObjectsFromArray:chapterQuestionList];
+//                    [self.myQuestionArr addObjectsFromArray:chapterQuestionList];
+                    [self addQuestionIndexPathToAnswerIndexPath:chapterQuestionList];
                 }else{//重新加载
-                    self.myQuestionArr = [NSMutableArray arrayWithArray:chapterQuestionList];
+//                    self.myQuestionArr = [NSMutableArray arrayWithArray:chapterQuestionList];
+                    [self changeQuestionIndexPathToAnswerIndexPath:chapterQuestionList];
                 }
                  [self.tableView reloadData];
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -640,42 +725,46 @@
 
 #pragma mark QuestionListInterfaceDelegate 加载所有问题新数据
 -(void)getQuestionListInfoDidFinished:(NSDictionary *)result{
-    if (!self.isReaskRefreshing) {
-        if (result) {
-            NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
-            if (chapterQuestionList && [chapterQuestionList count] > 0) {
-                if (self.headerRefreshView.isForbidden) {//加载下一页
-                    [self.myQuestionArr addObjectsFromArray:chapterQuestionList];
-                }else{//重新加载
-                    self.myQuestionArr = [NSMutableArray arrayWithArray:chapterQuestionList];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (!self.isReaskRefreshing) {
+            if (result) {
+                NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
+                if (chapterQuestionList && [chapterQuestionList count] > 0) {
+                    if (self.headerRefreshView.isForbidden) {//加载下一页
+//                        [self.myQuestionArr addObjectsFromArray:chapterQuestionList];
+                        [self addQuestionIndexPathToAnswerIndexPath:chapterQuestionList];
+                    }else{//重新加载
+//                        self.myQuestionArr = [NSMutableArray arrayWithArray:chapterQuestionList];
+                        [self changeQuestionIndexPathToAnswerIndexPath:chapterQuestionList];
+                    }
+                    [self.tableView reloadData];
+                }else{
+                    [Utility errorAlert:@"数据为空"];
                 }
-                [self.tableView reloadData];
             }else{
                 [Utility errorAlert:@"数据为空"];
             }
         }else{
-            [Utility errorAlert:@"数据为空"];
-        }
-    }else{
-        if (result) {
-            NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
-            if (chapterQuestionList && [chapterQuestionList count] > 0) {
-                self.myQuestionArr = [NSMutableArray arrayWithArray:chapterQuestionList];
-                [self.tableView reloadData];
+            if (result) {
+                NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
+                if (chapterQuestionList && [chapterQuestionList count] > 0) {
+//                    self.myQuestionArr = [NSMutableArray arrayWithArray:chapterQuestionList];
+                    [self changeQuestionIndexPathToAnswerIndexPath:chapterQuestionList];
+                    [self.tableView reloadData];
+                }else{
+                    [Utility errorAlert:@"数据为空"];
+                }
             }else{
                 [Utility errorAlert:@"数据为空"];
             }
-        }else{
-            [Utility errorAlert:@"数据为空"];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
         }
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-    }
-
-    [self.headerRefreshView endRefreshing];
-    self.headerRefreshView.isForbidden = NO;
-    [self.footerRefreshView endRefreshing];
-    self.footerRefreshView.isForbidden = NO;
-
+        
+        [self.headerRefreshView endRefreshing];
+        self.headerRefreshView.isForbidden = NO;
+        [self.footerRefreshView endRefreshing];
+        self.footerRefreshView.isForbidden = NO;
+    });
 }
 
 -(void)getQuestionListInfoDidFailed:(NSString *)errorMsg{
@@ -700,7 +789,8 @@
             AnswerModel *answer = [question.answerList objectAtIndex:self.activeIndexPath.row];
             question.isAcceptAnswer = @"1";
             answer.IsAnswerAccept = @"1";
-            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:self.activeIndexPath.section] withRowAnimation:UITableViewRowAnimationAutomatic];
+            int row = [self convertIndexpathToRow:self.activeIndexPath];
+            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
             [Utility errorAlert:@"提交采纳正确回答成功"];
         });
     });

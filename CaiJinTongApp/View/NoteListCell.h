@@ -41,6 +41,7 @@
 -(void)noteListCell:(NoteListCell*)cell willDeleteCellAtIndexPath:(NSIndexPath*)path;
 
 -(void)noteListCell:(NoteListCell*)cell willModifyCellAtIndexPath:(NSIndexPath*)path;
+-(void)noteListCell:(NoteListCell*)cell didTypeTextViewAtCellAtIndexPath:(NSIndexPath*)path;//开始输入
 -(void)noteListCell:(NoteListCell*)cell didModifyCellAtIndexPath:(NSIndexPath*)path withNoteContent:(NSString*)noteContent;
 -(void)noteListCell:(NoteListCell*)cell cancelModifyCellAtIndexPath:(NSIndexPath*)path withNoteContent:(NSString*)noteContent;
 @end

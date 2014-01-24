@@ -17,7 +17,7 @@
 #define QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT 141
 #define ContentMinHeight 210
 @protocol QuestionAndAnswerCellHeaderViewDelegate;
-@interface QuestionAndAnswerCellHeaderView : UITableViewHeaderFooterView<UITextViewDelegate>
+@interface QuestionAndAnswerCellHeaderView : UITableViewCell<UITextViewDelegate>
 @property (strong,nonatomic) NSIndexPath *path;
 @property (nonatomic,strong) DRAttributeStringView *questionContentAttributeView;
 @property (weak,nonatomic) id <QuestionAndAnswerCellHeaderViewDelegate> delegate;

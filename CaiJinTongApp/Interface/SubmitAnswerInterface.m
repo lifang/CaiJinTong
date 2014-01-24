@@ -53,7 +53,7 @@
             break;
         default:{//回答
             //    http://lms.finance365.com/api/ios.ashx?active=submitAnswer&userId=17079&answerContent=%E5%9B%9E%E7%AD%94%E6%B5%8B%E8%AF%95&questionId=1592&resultId=0
-            self.interfaceUrl = [NSString stringWithFormat:@"%@?active=submitAnswer&userId=%@&answerContent=%@&questionId=%@&resultId=%@",kHost,userId,answerContent,questionId,resultId];
+            self.interfaceUrl = [NSString stringWithFormat:@"%@?active=submitAnswer&userId=%@&answerContent=%@&questionId=%@",kHost,userId,answerContent,questionId];
         }
             break;
     }

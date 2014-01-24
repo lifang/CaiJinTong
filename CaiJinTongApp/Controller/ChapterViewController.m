@@ -264,7 +264,7 @@
         if (self.isSearch) {
             [self.searchLessonInterface getSearchLessonInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andText:self.searchContent withPageIndex:0 withSortType:self.sortType];
         }else{
-            [self.lessonListForCategory downloadLessonListForCategoryId:nil withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
+            [self.lessonListForCategory downloadLessonListForCategoryId:self.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
         }
     }else{
         self.headerRefreshView.isForbidden = YES;
@@ -383,7 +383,7 @@
     self.sortType = LESSONSORTTYPE_CurrentStudy;
     UserModel *user = [[CaiJinTongManager shared] user];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [self.lessonListForCategory downloadLessonListForCategoryId:nil withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
+    [self.lessonListForCategory downloadLessonListForCategoryId:self.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
 }
 //学习进度
 - (void)tappedInToolbar:(CollectionHeader *)toolbar progressButton:(UIButton *)button {
@@ -394,7 +394,7 @@
     self.sortType = LESSONSORTTYPE_ProgressStudy;
     UserModel *user = [[CaiJinTongManager shared] user];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [self.lessonListForCategory downloadLessonListForCategoryId:nil withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
+    [self.lessonListForCategory downloadLessonListForCategoryId:self.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
 }
 //名称(A-Z)
 - (void)tappedInToolbar:(CollectionHeader *)toolbar nameButton:(UIButton *)button {
@@ -405,7 +405,7 @@
     self.sortType = LESSONSORTTYPE_LessonName;
     UserModel *user = [[CaiJinTongManager shared] user];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [self.lessonListForCategory downloadLessonListForCategoryId:nil withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
+    [self.lessonListForCategory downloadLessonListForCategoryId:self.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
 }
 
 #pragma mark -- UICollectionViewDelegate

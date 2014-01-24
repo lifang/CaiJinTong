@@ -139,6 +139,14 @@
     [self.noteListTableView reloadData];
 }
 
+-(void)noteListCell:(NoteListCell*)cell didTypeTextViewAtCellAtIndexPath:(NSIndexPath*)path{//开始输入
+    CGRect cellRect = [self.noteListTableView rectForRowAtIndexPath:path];
+    float maxCellY = CGRectGetMaxY(cellRect) - self.noteListTableView.contentOffset.y;
+    float scrollHeight = 500 - (CGRectGetMaxY(self.noteListTableView.frame) - maxCellY) ;
+    if (CGRectGetMaxY(self.noteListTableView.frame) - maxCellY < 500) {
+        [self.noteListTableView setContentOffset:(CGPoint){self.noteListTableView.contentOffset.x,self.noteListTableView.contentOffset.y + scrollHeight} animated:YES];
+    }
+}
 -(void)noteListCell:(NoteListCell*)cell didModifyCellAtIndexPath:(NSIndexPath*)path withNoteContent:(NSString*)noteContent{
     NoteModel *note = self.isSearchRefreshing ?[self.searchArray objectAtIndex:path.row] : [self.noteDateList objectAtIndex:path.row];
     UserModel *user = [[CaiJinTongManager shared] user];
@@ -279,11 +287,12 @@
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         DRMoviePlayViewController *movieController =  [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
         SectionModel *section = [[Section defaultSection] getSectionModelWithSid:self.playNoteModel.noteSectionId];
+        BOOL downloadStatus = [[Section defaultSection] HasTheDataDownloadWithSid:self.playNoteModel.noteSectionId];//1 下载完成
         [self presentViewController:movieController animated:YES completion:^{
             
         }];
-        if (section) {
-            [movieController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
+        if (section && downloadStatus == 1) {
+            [movieController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeFile];
         }else{
             SectionModel *tempSection = nil;
             BOOL isReturn = NO;
@@ -346,8 +355,10 @@ dispatch_async(dispatch_get_main_queue(), ^{
 -(void)modifyNoteDidFinished:(NSString *)success{
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self.modifyNoteInterface.path) {
-            NoteModel *note = [self.noteDateList objectAtIndex:self.modifyNoteInterface.path.row];
+            NoteModel *note = self.isSearchRefreshing ?[self.searchArray objectAtIndex:self.modifyNoteInterface.path.row]: [self.noteDateList objectAtIndex:self.modifyNoteInterface.path.row];
             note.noteText = self.modifyNoteInterface.modifyContent;
+            self.isEditing = NO;
+            self.editPath = nil;
             [self.noteListTableView reloadData];
         }
         [MBProgressHUD hideHUDForView:self.view animated:YES];

@@ -150,6 +150,7 @@ typedef enum {
                     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:node.contents];
                     [string beginEditing];
                     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    style.alignment = NSTextAlignmentJustified;
                     style.headIndent = 0;
                     style.tailIndent = self.frame.size.width -startPoint.x;
                     [string addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, string.length)];
@@ -200,11 +201,12 @@ typedef enum {
         [self drawAnswermodel:self.answerModel];
     }
     if (self.questionModel) {
-        if (self.isTruncate) {
-            [self drawQuestionModelWithTruncate:self.questionModel withTruncateHeight:self.truncateHeight];
-        }else{
-            [self drawQuestionmodel:self.questionModel];
-        }
+        [self drawQuestionmodel:self.questionModel];
+//        if (self.isTruncate) {
+//            [self drawQuestionModelWithTruncate:self.questionModel withTruncateHeight:self.truncateHeight];
+//        }else{
+//            [self drawQuestionmodel:self.questionModel];
+//        }
     }
     
     _answerModel = nil;
@@ -219,6 +221,7 @@ typedef enum {
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:titleString];
     [string beginEditing];
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    style.alignment = NSTextAlignmentJustified;
     style.headIndent = 0;
     style.tailIndent = self.frame.size.width-startPoint.x;
     [string addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, string.length)];
@@ -340,6 +343,7 @@ typedef enum {
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:htmlString];
     [string beginEditing];
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    style.alignment = NSTextAlignmentJustified;
     style.headIndent = 0;
     style.tailIndent = self.frame.size.width -startPoint.x;
     [string addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, string.length)];
@@ -434,6 +438,7 @@ typedef enum {
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:titleString];
     [string beginEditing];
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    style.alignment = NSTextAlignmentJustified;
     style.headIndent = 0;
     style.tailIndent = width-startPoint.x;
     [string addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, string.length)];
@@ -519,6 +524,7 @@ typedef enum {
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:htmlString];
     [string beginEditing];
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    style.alignment = NSTextAlignmentJustified;
     style.headIndent = 0;
     style.tailIndent = width -startPoint.x;
     [string addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, string.length)];

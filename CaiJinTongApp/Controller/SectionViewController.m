@@ -452,7 +452,7 @@
         labelTop = 200;
     }
     self.playBtn.frame = CGRectMake(585, labelTop, 100, 35);
-    if (!lesson.lessonStudyTime || [lesson.lessonStudyTime isEqualToString:@"0"]) {
+    if (!lesson.lessonStudyTime || [lesson.lessonStudyTime isEqualToString:@"0"]|| [lesson.lessonStudyTime isEqualToString:@"-"]) {
         [self.playBtn setTitle:NSLocalizedString(@"开始学习", @"button") forState:UIControlStateNormal];
     }else{
         [self.playBtn setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
@@ -554,7 +554,7 @@
         }
         UIButton *palyButton = [UIButton buttonWithType:UIButtonTypeCustom];
         palyButton.frame = CGRectMake(585, labelTop, 100, 35);
-        if (!self.lessonModel.lessonStudyTime || [self.lessonModel.lessonStudyTime isEqualToString:@"0"]) {
+        if (!self.lessonModel.lessonStudyTime || [self.lessonModel.lessonStudyTime isEqualToString:@"0"]|| [self.lessonModel.lessonStudyTime isEqualToString:@"-"]) {
             [palyButton setTitle:NSLocalizedString(@"开始学习", @"button") forState:UIControlStateNormal];
         }else{
             [palyButton setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];

@@ -28,12 +28,17 @@
 @property (nonatomic, strong) NSMutableArray *questionCategoryList;
 @property (nonatomic, strong) AskQuestionInterface *askQuestionInterface;
 @property (nonatomic,strong) NSString *selectedQuestionCategoryId;
-
+/**
+ 是否开始剪切
+ */
+@property (assign,nonatomic) BOOL isCut;
 - (IBAction)spaceAreaClicked:(id)sender;
 - (IBAction)cancelBtnClicked:(UIButton *)sender;
 - (IBAction)commitBtnClicked:(UIButton *)sender;
 - (IBAction)inputBegin:(id)sender;
 - (IBAction)dropDownMenuBtClicked:(id)sender;
+- (IBAction)scanScreenBtClicked:(id)sender;
+
 
 @end
 
@@ -41,4 +46,8 @@
 
 -(void)commitQuestionController:(DRCommitQuestionViewController*)controller didCommitQuestionWithTitle:(NSString*)title andText:(NSString*)text andQuestionId:(NSString *)questionId;
 -(void)commitQuestionControllerCancel;
+/**
+ 开始截屏
+ */
+-(void)commitQuestionControllerDidStartCutScreenButtonClicked:(DRCommitQuestionViewController*)controller isCut:(BOOL)isCut;
 @end

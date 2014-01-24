@@ -227,6 +227,9 @@
 -(void)requestDidFinished:(ASIHTTPRequest*)request{
     if ([[request.userInfo objectForKey:URLKey] isEqualToString:self.downloadFileURL.absoluteString]) {
         self.downloadFileStatus = DownloadDataButtonStatus_Downloaded;
+        if (self.alert) {
+            [self.alert dismissWithClickedButtonIndex:1 animated:YES];
+        }
         [[NSNotificationCenter defaultCenter] postNotificationName:DownloadDataButton_Notification_DidFinished object:nil userInfo:@{URLKey: self.downloadFileURL.absoluteString?:@"",URLLocalPath:self.localPath?:@""}];
     }
     
