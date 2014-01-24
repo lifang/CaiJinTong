@@ -168,11 +168,11 @@
     [self.noteListTableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
--(BOOL)textViewShouldBeginEditing:(UITextView *)textView{
+-(void)NoteListCell_iPhone:(NoteListCell_iPhone *)cell textViewShouldBeginEditing:(UITextView *)textView{
     self.theEdtingTextView = textView;
     
     //键盘弹出界面上移调整
-    NoteListCell_iPhone *cell = (NoteListCell_iPhone *)[self.noteListTableView cellForRowAtIndexPath:self.editPath];
+//    NoteListCell_iPhone *cell = (NoteListCell_iPhone *)[self.noteListTableView cellForRowAtIndexPath:self.editPath];
     CGFloat cellY = cell.frame.origin.y;
     CGFloat contentOffsetY = self.noteListTableView.contentOffset.y;
     if(cellY - contentOffsetY > 0){
@@ -186,10 +186,9 @@
     }else{
         self.distanceOfTheViewMoved = -1; // -1代表未移动
     }
-    return YES;
 }
 
--(void)textViewDidEndEditing:(UITextView *)textView{
+-(void)NoteListCell_iPhone:(NoteListCell_iPhone *)cell textViewDidEndEditing:(UITextView *)textView{
     if(self.distanceOfTheViewMoved > 0){//如果移动过view就恢复原位
         self.view.frame = (CGRect){self.view.frame.origin.x,self.view.frame.origin.y + self.distanceOfTheViewMoved,self.view.frame.size};
         self.distanceOfTheViewMoved = -1;

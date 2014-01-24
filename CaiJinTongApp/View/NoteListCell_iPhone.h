@@ -43,4 +43,6 @@
 -(void)NoteListCell_iPhone:(NoteListCell_iPhone*)cell willModifyCellAtIndexPath:(NSIndexPath*)path;
 -(void)NoteListCell_iPhone:(NoteListCell_iPhone*)cell didModifyCellAtIndexPath:(NSIndexPath*)path withNoteContent:(NSString*)noteContent;
 -(void)NoteListCell_iPhone:(NoteListCell_iPhone*)cell cancelModifyCellAtIndexPath:(NSIndexPath*)path withNoteContent:(NSString*)noteContent;
+-(void)NoteListCell_iPhone:(NoteListCell_iPhone *)cell textViewShouldBeginEditing:(UITextView *)textView;
+-(void)NoteListCell_iPhone:(NoteListCell_iPhone *)cell textViewDidEndEditing:(UITextView *)textView;
 @end

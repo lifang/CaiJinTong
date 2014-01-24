@@ -58,11 +58,18 @@ typedef enum {AlertType_DeleteCell = 12,AlertType_ModifyCell}AlertType;
         [self.commitBt setEnabled:NO];
     }
     
-    if(self.delegate && [self.delegate respondsToSelector:@selector(2)]){
-        
+    if(self.delegate && [self.delegate respondsToSelector:@selector(NoteListCell_iPhone:textViewShouldBeginEditing:)]){
+        [self.delegate NoteListCell_iPhone:self textViewShouldBeginEditing:textView];
     }
     return YES;
 }
+
+-(void)textViewDidEndEditing:(UITextView *)textView{
+    if(self.delegate && [self.delegate respondsToSelector:@selector(NoteListCell_iPhone:textViewDidEndEditing:)]){
+        [self.delegate NoteListCell_iPhone:self textViewDidEndEditing:textView];
+    }
+}
+
 #pragma mark --
 
 #pragma mark UIAlertViewDelegate
