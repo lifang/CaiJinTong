@@ -7,6 +7,7 @@
 //
 
 #import "LessonViewController_iPhone.h"
+#import "LessonViewControllerCell_iPhone.h"
 #define CELL_REUSE_IDENTIFIER @"CollectionCell"
 static BOOL treeViewInited = NO;
 @interface LessonViewController_iPhone ()
@@ -48,7 +49,7 @@ static BOOL treeViewInited = NO;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSLog(@"%@=============================",paths[0]);
     [super viewDidLoad];
-    [[CaiJinTongManager shared] setUserId:@"17082"];
+//    [[CaiJinTongManager shared] setUserId:@"17082"];
     NSLog(@"%@",NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory, NSUserDomainMask, YES)[0]);
     
     [self setCollectionView];
@@ -78,7 +79,7 @@ static BOOL treeViewInited = NO;
     [self.collectionView setPagingEnabled:NO];
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
-    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER];
+    [self.collectionView registerClass:[LessonViewControllerCell_iPhone class] forCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER];
     //定制布局
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
     flowLayout.itemSize = CGSizeMake(160, 155);
@@ -94,13 +95,13 @@ static BOOL treeViewInited = NO;
     self.footerRefreshView.isForbidden = NO;
 }
 
-//加载数据
+//加载初始数据
 -(void) initData{
     if([[Utility isExistenceNetwork] isEqualToString:@"NotReachable"]){
         [Utility errorAlert:@"暂无网络!"];
     }else{
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        [self.lessonListForCategory downloadLessonListForCategoryId:nil withUserId:[CaiJinTongManager shared].userId withPageIndex:0 withSortType:LESSONSORTTYPE_CurrentStudy];
+        [self.lessonListForCategory downloadLessonListForCategoryId:nil withUserId:[CaiJinTongManager shared].userId withPageIndex:0 withSortType:self.sortType];
     }
 }
 
@@ -125,25 +126,26 @@ static BOOL treeViewInited = NO;
     return self.sectionList.count;
 }
 
-- (UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER forIndexPath:indexPath];
-    //如何实现subView的复用 (因为没有重写cell类)
-    BOOL flag = YES;//是否init新sectioncustomview
-    for(id son in cell.contentView.subviews){
-        if([son isKindOfClass:[SectionCustomView_iPhone class]]){
-            flag = NO;
-            self.sectionCustomView = (SectionCustomView_iPhone *)son;
-            break;
-        }
-    }
-    if(flag){
-        self.sectionCustomView = [[SectionCustomView_iPhone alloc] initWithFrame:CGRectMake(18, 10, 125, 145) andLesson:self.sectionList[indexPath.row] andItemLabel:20];
-        [self.sectionCustomView addTarget:self action:@selector(cellClicked:) forControlEvents:UIControlEventTouchUpInside];
-        cell.clipsToBounds = NO;
-        [cell.contentView addSubview:self.sectionCustomView];
-    }else{
-        [self.sectionCustomView refreshDataWithLesson:self.sectionList[indexPath.row]];
-    }
+- (LessonViewControllerCell_iPhone *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    LessonViewControllerCell_iPhone *cell = (LessonViewControllerCell_iPhone *)[collectionView dequeueReusableCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER forIndexPath:indexPath];
+//    //如何实现subView的复用 (因为没有重写cell类)
+//    BOOL flag = YES;//是否init新sectioncustomview
+//    for(id son in cell.contentView.subviews){
+//        if([son isKindOfClass:[SectionCustomView_iPhone class]]){
+//            flag = NO;
+//            self.sectionCustomView = (SectionCustomView_iPhone *)son;
+//            break;
+//        }
+//    }
+//    if(flag){
+//    cell.sectionCustomView = [[SectionCustomView_iPhone alloc] initWithFrame:CGRectMake(18, 10, 125, 145) andLesson:self.sectionList[indexPath.row] andItemLabel:20];
+    [cell.sectionCustomView refreshDataWithLesson:self.sectionList[indexPath.row]];
+    [cell.sectionCustomView addTarget:self action:@selector(cellClicked:) forControlEvents:UIControlEventTouchUpInside];
+    cell.clipsToBounds = NO;
+//    [cell.contentView addSubview:cell.sectionCustomView];
+//    }else{
+//        [self.sectionCustomView refreshDataWithLesson:self.sectionList[indexPath.row]];
+//    }
     return cell;
 }
 //绘制cell  (注:  160*153)
@@ -518,10 +520,22 @@ static BOOL treeViewInited = NO;
     self.isSearch = NO; // isLessonListForCategory
     UserModel *user = [[CaiJinTongManager shared] user];
     [self.lessonListForCategory downloadLessonListForCategoryId:selectedNote.noteContentID withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
+    self.menuVisible = NO;
 }
 
 -(BOOL)drTreeTableView:(DRTreeTableView *)treeView isExtendChildSelectedTreeNode:(DRTreeNode *)selectedNote{
     return YES;
+}
+
+-(void)drTreeTableView:(DRTreeTableView*)treeView didExtendChildTreeNode:(DRTreeNode*)extendNote{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.isSearch = NO; // isLessonListForCategory
+    UserModel *user = [[CaiJinTongManager shared] user];
+    [self.lessonListForCategory downloadLessonListForCategoryId:extendNote.noteContentID withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
+}
+
+-(void)drTreeTableView:(DRTreeTableView*)treeView didCloseChildTreeNode:(DRTreeNode*)extendNote{
+    
 }
 
 #pragma mark MJRefreshBaseViewDelegate 分页加载
@@ -529,12 +543,12 @@ static BOOL treeViewInited = NO;
     if (self.isSearch) {
         [self.searchInterface getSearchLessonInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andText:self.oldSearchText withPageIndex:self.searchInterface.currentPageIndex+1 withSortType:self.sortType];
     }else{
+        self.isRefreshing = YES;
         if (self.headerRefreshView == refreshView) {
             self.footerRefreshView.isForbidden = YES;
             UserModel *user = [[CaiJinTongManager shared] user];
-            [self.lessonListForCategory downloadLessonListForCategoryId:nil withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
+            [self.lessonListForCategory downloadLessonListForCategoryId:self.lessonListForCategory.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
         }else{
-            self.isRefreshing = YES;
             self.headerRefreshView.isForbidden = YES;
             UserModel *user = [[CaiJinTongManager shared] user];
             [self.lessonListForCategory downloadLessonListForCategoryId:self.lessonListForCategory.lessonCategoryId withUserId:user.userId withPageIndex:self.lessonListForCategory.currentPageIndex+1 withSortType:self.sortType];

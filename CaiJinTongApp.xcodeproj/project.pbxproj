@@ -277,6 +277,9 @@
 		18EA12571845E6B300F12D8B /* photoBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18EA12561845E6B300F12D8B /* photoBg@2x.png */; };
 		18EBD11C1842FA0900F9BDA9 /* lhl1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18EBD11A1842FA0900F9BDA9 /* lhl1@2x.png */; };
 		18EBD11D1842FA0900F9BDA9 /* lhl2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18EBD11B1842FA0900F9BDA9 /* lhl2@2x.png */; };
+		18EDCC7D188CF3CB00226530 /* _loginBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18EDCC7B188CF3CB00226530 /* _loginBG@2x.png */; };
+		18EDCC7E188CF3CB00226530 /* _money@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18EDCC7C188CF3CB00226530 /* _money@2x.png */; };
+		18EDCC81188CF87400226530 /* LessonViewControllerCell_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EDCC80188CF87400226530 /* LessonViewControllerCell_iPhone.m */; };
 		18F28C121847249C00692F90 /* LHLNavigationBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F28C111847249C00692F90 /* LHLNavigationBarViewController.m */; };
 		18F28C15184738B300692F90 /* SectionViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F28C14184738B300692F90 /* SectionViewController_iPhone.m */; };
 		18F2FE97185846410006AF11 /* LHLCommitQuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F2FE96185846410006AF11 /* LHLCommitQuestionViewController.m */; };
@@ -856,6 +859,10 @@
 		18EA12561845E6B300F12D8B /* photoBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photoBg@2x.png"; sourceTree = "<group>"; };
 		18EBD11A1842FA0900F9BDA9 /* lhl1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lhl1@2x.png"; sourceTree = "<group>"; };
 		18EBD11B1842FA0900F9BDA9 /* lhl2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lhl2@2x.png"; sourceTree = "<group>"; };
+		18EDCC7B188CF3CB00226530 /* _loginBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "_loginBG@2x.png"; sourceTree = "<group>"; };
+		18EDCC7C188CF3CB00226530 /* _money@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "_money@2x.png"; sourceTree = "<group>"; };
+		18EDCC7F188CF87400226530 /* LessonViewControllerCell_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LessonViewControllerCell_iPhone.h; sourceTree = "<group>"; };
+		18EDCC80188CF87400226530 /* LessonViewControllerCell_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonViewControllerCell_iPhone.m; sourceTree = "<group>"; };
 		18F28C101847249C00692F90 /* LHLNavigationBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LHLNavigationBarViewController.h; sourceTree = "<group>"; };
 		18F28C111847249C00692F90 /* LHLNavigationBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LHLNavigationBarViewController.m; sourceTree = "<group>"; };
 		18F28C13184738B300692F90 /* SectionViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionViewController_iPhone.h; sourceTree = "<group>"; };
@@ -1614,6 +1621,8 @@
 		18112DDA1886272C0025C66B /* iPhoneImg */ = {
 			isa = PBXGroup;
 			children = (
+				18EDCC7B188CF3CB00226530 /* _loginBG@2x.png */,
+				18EDCC7C188CF3CB00226530 /* _money@2x.png */,
 				18112E07188665DF0025C66B /* zoom_icon&48@2x.png */,
 				18112E051886645D0025C66B /* arrow_bottom_icon&48@2x.png */,
 				18112DDB188627450025C66B /* _back@2x.png */,
@@ -1754,6 +1763,8 @@
 				184F8AAE18434A3200A2FEB4 /* LHLNavigationBar.m */,
 				18F87E5F1844741C00B0F7EC /* SectionCustomView_iPhone.h */,
 				18F87E601844741C00B0F7EC /* SectionCustomView_iPhone.m */,
+				18EDCC7F188CF87400226530 /* LessonViewControllerCell_iPhone.h */,
+				18EDCC80188CF87400226530 /* LessonViewControllerCell_iPhone.m */,
 				18F87E6218448CA300B0F7EC /* ChapterSearchBar_iPhone.h */,
 				18F87E6318448CA300B0F7EC /* ChapterSearchBar_iPhone.m */,
 				18F87E651844AA2A00B0F7EC /* CJTMainToolbar_iPhone.h */,
@@ -2432,6 +2443,7 @@
 				63D2840F1883D690005D8721 /* login_pwdinput.png in Resources */,
 				18C9313A18363B2A00FBE1A8 /* play-M.png in Resources */,
 				6395A1FC187BDD6800F304CC /* DeleteNote.geojson in Resources */,
+				18EDCC7E188CF3CB00226530 /* _money@2x.png in Resources */,
 				0EAFA0EE1822167800D01D3E /* chapterQuestion.json in Resources */,
 				63A77ACD1887D39200E86C73 /* delete@2x.png in Resources */,
 				1812A4E31851B80D009B3D5D /* rightItemBg@2x.png in Resources */,
@@ -2439,6 +2451,7 @@
 				63D284151883D9AD005D8721 /* navi_back@2x.png in Resources */,
 				18112E08188665DF0025C66B /* zoom_icon&48@2x.png in Resources */,
 				18C9312E18363B2A00FBE1A8 /* play_black@2x.png in Resources */,
+				18EDCC7D188CF3CB00226530 /* _loginBG@2x.png in Resources */,
 				18F477F4183DC5CA00021886 /* nothing.png in Resources */,
 				18112DFB188627450025C66B /* bggg@2x.png in Resources */,
 				63B710FB1844A16100A61B14 /* iVersion.bundle in Resources */,
@@ -2550,6 +2563,7 @@
 				187CE7BE1883CB5E00D65660 /* DeleteNoteInterface.m in Sources */,
 				0EAFA1231822485500D01D3E /* LessonInfoInterface.m in Sources */,
 				18F87E671844AA2A00B0F7EC /* CJTMainToolbar_iPhone.m in Sources */,
+				18EDCC81188CF87400226530 /* LessonViewControllerCell_iPhone.m in Sources */,
 				0E9DA3BC183F568D000A5995 /* ASICloudFilesContainer.m in Sources */,
 				18F477E9183D9BDA00021886 /* SuggestionFeedbackViewController.m in Sources */,
 				0E9DA3B5183F568D000A5995 /* ASIDownloadCache.m in Sources */,

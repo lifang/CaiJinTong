@@ -29,7 +29,8 @@ typedef enum {AlertType_DeleteCell = 12,AlertType_ModifyCell}AlertType;
     if (!noteModel) {
         return 10 + 26 + 25;
     }
-    CGSize size = [Utility getTextSizeWithString:noteModel.noteText withFont:NoteListCell_iPhone_Content_Font withWidth:NoteListCell_iPhone_Width];
+    CGSize size = [Utility getTextSizeWithString:noteModel.noteText withFont:NoteListCell_iPhone_Content_Font withWidth:NoteListCell_iPhone_Width - 15];
+    
     if (isEdit) {
         return  10 + 26 + size.height + 17 + 30;
     }

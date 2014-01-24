@@ -46,10 +46,11 @@ NSString *appleID_ = @"6224939";
     [self.lhlNavigationBar.rightItem setHidden:YES];
     self.lhlNavigationBar.title.text = @"设置";
     
-    [self.tableView setFrame:CGRectMake(0, IP5(65, 55), 320,IP5(503, 425))];
+    [self.tableView setFrame:CGRectMake(0, IP5(65, 55), 320,IP5(440, 375))];
+//    if(IS_4_INCH && platform < 7.0)
     [self.tableView registerClass:[InfoCell class] forHeaderFooterViewReuseIdentifier:Info_HEADER_IDENTIFIER];
     if (platform<7.0) {
-        self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
+        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
     }else {
         self.tableView.contentInset = UIEdgeInsetsMake(-10, 0, 0, 0);
     }

@@ -15,7 +15,7 @@
 
 - (id)initWithFrame:(CGRect)frame
 {
-    return [self initWithFrame:frame andLesson:nil andItemLabel:0];
+    return [self initWithFrame:frame andLesson:nil andItemLabel:20];
 }
 - (id)initWithFrame:(CGRect)frame andLesson:(LessonModel *)lesson andItemLabel:(float)itemLabel{
     self = [super initWithFrame:frame];
@@ -33,9 +33,8 @@
             CGRect imageViewFrame = CGRectMake(5, 6, photoBg.frame.size.width - 11, photoBg.frame.size.height - 11);
             UIImageView *imageViewC = [[UIImageView alloc]initWithFrame:imageViewFrame];
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",lesson.lessonImageURL]];
-            [imageViewC setImageWithURL:url placeholderImage:Image(@"loginBgImage_v.png")];
+            [imageViewC setImageWithURL:url placeholderImage:Image(@"_money.png")];
             imageViewC.tag = [lesson.lessonId intValue];
-            [imageViewC setBackgroundColor:[UIColor colorWithRed:240.0/255.0 green:230.0/255.0 blue:240.0/255.0 alpha:1.0]];//删
             [imageViewC setClipsToBounds:YES];
             self.imageView = imageViewC;
             [photoBg addSubview:self.imageView];
@@ -84,8 +83,9 @@
     return self;
 }
 
-//更新课程名,进度,及图片
+//更新课程名,进度,及图片 ,及sectionId
 -(void)refreshDataWithLesson:(LessonModel *)lesson{
+    self.sectionId = lesson.lessonId;
     if(!self.pv){
         DLog(@"错误!应先初始化SectionCustomView!");
         return;
@@ -101,10 +101,11 @@
     if (!xx) {
         xx = 0;
     }
+    self.pv.value = xx;
     self.progressLabel.text = [NSString stringWithFormat:@"学习进度:%.2f%%",xx];
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",lesson.lessonImageURL]];
-    [self.imageView setImageWithURL:url placeholderImage:Image(@"loginBgImage_v.png")];
+    [self.imageView setImageWithURL:url placeholderImage:Image(@"_money.png")];
 }
 
 @end

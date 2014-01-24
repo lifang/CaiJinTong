@@ -240,8 +240,11 @@
         [webController.view addSubview:webView];
         [self.navigationController pushViewController:webController animated:YES];
         webController.lhlNavigationBar.title.text = material.materialName;
+        webController.lhlNavigationBar.rightItem.hidden = YES;
         NSURL *url = [NSURL fileURLWithPath:material.materialFileLocalPath];
         [webView loadRequest:[NSURLRequest requestWithURL:url]];
+        webView.scalesPageToFit = YES;
+        
     }
 }
 #pragma mark --
@@ -457,13 +460,20 @@
 -(void)drTreeTableView:(DRTreeTableView *)treeView didSelectedTreeNode:(DRTreeNode *)selectedNote{
     self.isSearch = NO; // isLessonListForCategory
     self.lessonCategoryId = selectedNote.noteContentID;
-    if(selectedNote.childnotes.count < 1){
-        self.menuVisible = NO;
-    }
+    self.menuVisible = NO;
 }
 
 -(BOOL)drTreeTableView:(DRTreeTableView *)treeView isExtendChildSelectedTreeNode:(DRTreeNode *)selectedNote{
     return YES;
+}
+
+-(void)drTreeTableView:(DRTreeTableView*)treeView didExtendChildTreeNode:(DRTreeNode*)extendNote{
+    self.isSearch = NO; // isLessonListForCategory
+    self.lessonCategoryId = extendNote.noteContentID;
+}
+
+-(void)drTreeTableView:(DRTreeTableView*)treeView didCloseChildTreeNode:(DRTreeNode*)extendNote{
+    
 }
 
 #pragma mark --

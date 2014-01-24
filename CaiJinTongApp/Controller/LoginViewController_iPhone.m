@@ -23,10 +23,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //背景
-//    [Utility setBackgroungWithView:self.view andImage6:@"login_bg_7.png" andImage7:@"login_bg_7.png"];
     //压缩图片
-    UIImage *bgImage = [[UIImage imageNamed:@"login_bg_7.png"] scaleToSize:CGSizeMake(320, SCREEN_HEIGHT)];
+    UIImage *bgImage = [[UIImage imageNamed:@"_loginBG.png"] scaleToSize:CGSizeMake(320, SCREEN_HEIGHT)];
     self.view.backgroundColor = [UIColor colorWithPatternImage:bgImage];
     
     [self.loginBtn setBackgroundImage:[UIImage imageNamed:@"bttn1.png"] forState:UIControlStateNormal];
