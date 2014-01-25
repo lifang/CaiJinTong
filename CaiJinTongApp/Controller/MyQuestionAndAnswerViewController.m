@@ -93,8 +93,8 @@
 //    }
 //    [self.indexRowPathDic addEntriesFromDictionary:indexPathDic];
 //    [self.myQuestionArr addObjectsFromArray:questionArr];
-    NSMutableArray *data = [NSMutableArray arrayWithArray:questionArr];
-    [data addObjectsFromArray:self.myQuestionArr];
+    NSMutableArray *data = [NSMutableArray arrayWithArray:self.myQuestionArr];
+    [data addObjectsFromArray:questionArr];
     [self changeQuestionIndexPathToAnswerIndexPath:data];
 }
 
@@ -327,10 +327,9 @@
     int row = [self convertIndexpathToRow:path];
     [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
     if (answer.isEditing) {
-        float cellHeight = [self getTableViewRowHeightWithIndexPath:path];
         CGRect cellRect = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
         float cellmaxHeight = CGRectGetMaxY(cellRect) - self.tableView.contentOffset.y;
-        float keyheight = CGRectGetMaxY(self.tableView.frame) - cellHeight-20;
+        float keyheight = CGRectGetMaxY(self.tableView.frame) - 450;
         if (cellmaxHeight > keyheight) {
             [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (cellmaxHeight - keyheight)} animated:YES];
         }

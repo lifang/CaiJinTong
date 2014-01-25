@@ -115,8 +115,10 @@ typedef enum {
         if ([reask.reAnswerIsTeacher isEqualToString:@"1"]) {
             isteacher = @"老师";
         }
-        self.drawRect = [self drawTitleString:[NSString stringWithFormat:@"%@%@ 回复 发表于%@",reask.reAnswerNickName,isteacher,reask.reaskDate] withStartPoint:(CGPoint){0,CGRectGetMaxY(self.drawRect) + LINE_PADDING} withContentType:DrawingContextType_ReAnswerTitle];
-        self.drawRect = [self drawHTMLContentString:reask.reAnswerContent withStartPoint:(CGPoint){PAD(10,0),CGRectGetMaxY(self.drawRect) + LINE_PADDING} withContentType:DrawingContextType_ReAnswerContent];
+        if (reask.reAnswerContent && ![reask.reAnswerContent isEqualToString:@""]) {
+            self.drawRect = [self drawTitleString:[NSString stringWithFormat:@"%@%@ 回复 发表于%@",reask.reAnswerNickName,isteacher,reask.reaskDate] withStartPoint:(CGPoint){0,CGRectGetMaxY(self.drawRect) + LINE_PADDING} withContentType:DrawingContextType_ReAnswerTitle];
+            self.drawRect = [self drawHTMLContentString:reask.reAnswerContent withStartPoint:(CGPoint){PAD(10,0),CGRectGetMaxY(self.drawRect) + LINE_PADDING} withContentType:DrawingContextType_ReAnswerContent];
+        }
     }
 }
 
@@ -287,13 +289,17 @@ typedef enum {
 }
 
 -(CGRect)drawHTMLContentString:(NSString*)htmlString withStartPoint:(CGPoint)startPoint withContentType:(DrawingContextType)type{
+    CGRect startRect = (CGRect){startPoint,self.frame.size.width,0};
+    if (!htmlString || [htmlString isEqualToString:@""]) {
+        return startRect;
+    }
     NSError *error = nil;
     HTMLParser *parser = [[HTMLParser alloc] initWithString:htmlString error:&error];
     if (error) {
         NSLog(@"DRAttributeStringView :parser content error%@",error);
-        return CGRectZero;
+        return startRect;
     }
-    CGRect startRect = (CGRect){startPoint,self.frame.size.width,0};
+   
     for (HTMLNode *node in parser.body.children) {
         if ([node.tagName isEqualToString:@"img"]) {
             NSString *imageUrl = [node getAttributeNamed:@"src"];
@@ -423,8 +429,10 @@ typedef enum {
         if ([reask.reAnswerIsTeacher isEqualToString:@"1"]) {
             isteacher = @"老师";
         }
-        rect  = [DRAttributeStringView drawTitleString:[NSString stringWithFormat:@"%@%@ 回复 发表于%@",reask.reAnswerNickName,isteacher,reask.reaskDate] withStartPoint:(CGPoint){0,CGRectGetMaxY(rect) + LINE_PADDING} withWidth:width withContentType:DrawingContextType_ReAnswerTitle];
-        rect = [DRAttributeStringView drawHTMLContentString:reask.reAnswerContent withStartPoint:(CGPoint){PAD(10,0),CGRectGetMaxY(rect) + LINE_PADDING} withWidth:width withContentType:DrawingContextType_ReAnswerContent];
+        if (reask.reAnswerContent && ![reask.reAnswerContent isEqualToString:@""]){
+            rect  = [DRAttributeStringView drawTitleString:[NSString stringWithFormat:@"%@%@ 回复 发表于%@",reask.reAnswerNickName,isteacher,reask.reaskDate] withStartPoint:(CGPoint){0,CGRectGetMaxY(rect) + LINE_PADDING} withWidth:width withContentType:DrawingContextType_ReAnswerTitle];
+            rect = [DRAttributeStringView drawHTMLContentString:reask.reAnswerContent withStartPoint:(CGPoint){PAD(10,0),CGRectGetMaxY(rect) + LINE_PADDING} withWidth:width withContentType:DrawingContextType_ReAnswerContent];
+        }
     }
     return (CGRect){0,0,CGRectGetWidth(rect),CGRectGetMaxY(rect)};
 }
