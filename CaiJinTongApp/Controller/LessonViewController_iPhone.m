@@ -119,6 +119,7 @@
     if(self.isBackFromSectionVC){
         [self refreshViewBeginRefreshing:self.headerRefreshView];
         self.isBackFromSectionVC = NO;
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         return;
     }
 }
@@ -211,18 +212,13 @@
     }
     [self initButton:button];
     self.sortType = LESSONSORTTYPE_CurrentStudy;
-    if(self.isSearch){
-        [self chapterSeachBar_iPhone:self.searchBar beginningSearchString:self.searchBar.searchTextField.text];
-        return;
-    }
-    UserModel *user = [[CaiJinTongManager shared] user];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [self.lessonListForCategory downloadLessonListForCategoryId:self.lessonListForCategory.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
-    
-//    self.sectionList = nil;
-//    self.sectionList = [NSMutableArray arrayWithArray:self.recentArray];
-//    self.filterStatus = recent;
-//    [self displayNewView];
+    UserModel *user = [[CaiJinTongManager shared] user];
+    if(self.isSearch){
+        [self.searchInterface getSearchLessonInterfaceDelegateWithUserId:user.userId andText:self.oldSearchText withPageIndex:0 withSortType:self.sortType];
+    }else{
+        [self.lessonListForCategory downloadLessonListForCategoryId:self.lessonListForCategory.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
+    }
 }
 //学习进度
 - (void)tappedInToolbar:(CJTMainToolbar_iPhone *)toolbar progressButton:(UIButton *)button {
@@ -231,13 +227,13 @@
     }
     [self initButton:button];
     self.sortType = LESSONSORTTYPE_ProgressStudy;
-    if(self.isSearch){
-        [self chapterSeachBar_iPhone:self.searchBar beginningSearchString:self.searchBar.searchTextField.text];
-        return;
-    }
-    UserModel *user = [[CaiJinTongManager shared] user];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [self.lessonListForCategory downloadLessonListForCategoryId:self.lessonListForCategory.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
+    UserModel *user = [[CaiJinTongManager shared] user];
+    if (self.isSearch) {
+        [self.searchInterface getSearchLessonInterfaceDelegateWithUserId:user.userId andText:self.oldSearchText withPageIndex:0 withSortType:self.sortType];
+    }else{
+        [self.lessonListForCategory downloadLessonListForCategoryId:self.lessonListForCategory.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
+    }
 }
 //名称(A-Z)
 - (void)tappedInToolbar:(CJTMainToolbar_iPhone *)toolbar nameButton:(UIButton *)button {
@@ -246,13 +242,13 @@
     }
     [self initButton:button];
     self.sortType = LESSONSORTTYPE_LessonName;
-    if(self.isSearch){
-        [self chapterSeachBar_iPhone:self.searchBar beginningSearchString:self.searchBar.searchTextField.text];
-        return;
-    }
-    UserModel *user = [[CaiJinTongManager shared] user];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [self.lessonListForCategory downloadLessonListForCategoryId:self.lessonListForCategory.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
+    UserModel *user = [[CaiJinTongManager shared] user];
+    if (self.isSearch) {
+        [self.searchInterface getSearchLessonInterfaceDelegateWithUserId:user.userId andText:self.oldSearchText withPageIndex:0 withSortType:self.sortType];
+    }else{
+        [self.lessonListForCategory downloadLessonListForCategoryId:self.lessonListForCategory.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
+    }
 }
 
 #pragma mark arctions

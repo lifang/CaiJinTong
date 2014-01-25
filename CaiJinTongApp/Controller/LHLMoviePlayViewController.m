@@ -501,6 +501,7 @@
     if (!self.movieUrl) {
         return;
     }
+    [self notificateBackwillBeginPlayMovie];
     self.moviePlayer.initialPlaybackTime = [self.sectionModel.sectionLastPlayTime floatValue];
     self.moviePlayer.movieSourceType = self.drMovieSourceType;
     if (self.drMovieSourceType == MPMovieSourceTypeFile) {
@@ -542,6 +543,19 @@
         NSString *status = self.seekSlider.value >= 1?@"completed": @"incomplete";
         [self.playBackInterface getPlayBackInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionModel.sectionId andTimeEnd:timespan andStatus:status];
     }
+}
+
+//告诉后台将要开始播放
+-(void)notificateBackwillBeginPlayMovie{
+    __weak SectionModel *weakSection = self.sectionModel;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        UserModel *user = [[CaiJinTongManager shared] user];
+        SectionModel *tempSection = weakSection;
+        if (tempSection) {
+            [[PlayVideoInterface defaultPlayVideoInterface] getPlayVideoInterfaceDelegateWithUserId:user.userId andSectionId:tempSection.sectionId andTimeStart:[Utility getNowDateFromatAnDate]];
+        }
+        
+    });
 }
 
 -(void)playMovieWithSectionModel:(SectionModel*)sectionModel withFileType:(MPMovieSourceType)fileType{
@@ -665,8 +679,10 @@
     self.seekSlider.value = (double)self.moviePlayer.currentPlaybackTime/self.moviePlayer.duration;
 }
 -(void)endObservePlayBackProgressBar{
-    [self.timer invalidate];
-    self.timer = nil;
+    if (self.timer) {
+        [self.timer invalidate];
+        self.timer = nil;
+    }
 }
 
 -(void)updateVolumeSlider{
