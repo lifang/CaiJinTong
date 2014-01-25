@@ -82,7 +82,7 @@
 
 -(void)getLogInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [CaiJinTongManager shared].userId = [NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]];
+//        [CaiJinTongManager shared].userId = [NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]];
         UserModel *user = [[UserModel alloc] init];
         user.userName = [NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]];
         

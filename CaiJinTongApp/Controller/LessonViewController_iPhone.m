@@ -117,7 +117,7 @@
         }
     }
     if(self.isBackFromSectionVC){
-        [self initData];
+        [self refreshViewBeginRefreshing:self.headerRefreshView];
         self.isBackFromSectionVC = NO;
         return;
     }
@@ -526,6 +526,7 @@
 
 -(void)getSearchLessonListDataForCategoryFailure:(NSString *)errorMsg{
     dispatch_async(dispatch_get_main_queue(), ^{
+        self.isSearch = NO;
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 //        self.searchBar.searchTextField.text = self.oldSearchText;
         self.searchBar.searchTextField.text = nil;

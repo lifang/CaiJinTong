@@ -119,7 +119,6 @@
 //播放接口
 
 -(void)playVideo:(id)sender{
-    NSLog(@"%@",NSStringFromCGRect( self.slideSwitchView.frame));
     self.isPlaying = YES;
     LHLMoviePlayViewController* playercontroller = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
     playercontroller.delegate = self;
@@ -131,15 +130,11 @@
     }
     section.lessonId = self.lessonModel.lessonId;
     [playercontroller playMovieWithSectionModel:lastplaySection?:section withFileType:MPMovieSourceTypeStreaming];
-    playercontroller.delegate = self;
-//    AppDelegate *app = [AppDelegate sharedInstance];
-//    [app.lessonViewCtrol presentViewController:playercontroller animated:YES completion:^{
-//        
-//    }];
+    
+    
     [self.navigationController presentViewController:playercontroller animated:YES completion:^{
         
     }];
-//    [self.navigationController pushViewController:playercontroller animated:YES];
 }
 
 #pragma mark - 滑动tab视图代理方法
@@ -432,7 +427,6 @@
 }
 
 - (void)gotoMoviePlayMovieOnLineWithSectionSavemodel:(NSNotification *)info {
-    
     self.isPlaying = YES;
     SectionModel *section = [info.userInfo objectForKey:@"sectionModel"];
     if (section.sectionMoviePlayURL) {

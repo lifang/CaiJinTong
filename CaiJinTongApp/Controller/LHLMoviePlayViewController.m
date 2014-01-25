@@ -502,6 +502,7 @@
         return;
     }
     self.moviePlayer.initialPlaybackTime = [self.sectionModel.sectionLastPlayTime floatValue];
+    self.moviePlayer.movieSourceType = self.drMovieSourceType;
     if (self.drMovieSourceType == MPMovieSourceTypeFile) {
         [self.moviePlayer setContentURL:self.movieUrl];
         [self.moviePlayer play];
@@ -553,6 +554,10 @@
     [self addMoviePlayBackNotification];
     self.drMovieSourceType = fileType;
     self.drMovieTopBar.titleLabel.text = sectionModel.sectionName;
+    SectionModel *section = [[Section defaultSection] getSectionModelWithSid:self.sectionModel.sectionId];
+    if (section && section.sectionLastPlayTime) {
+        self.sectionModel.sectionLastPlayTime = section.sectionLastPlayTime;
+    }
     if (fileType == MPMovieSourceTypeFile) {
         self.movieUrl = [NSURL fileURLWithPath:[CaiJinTongManager getMovieLocalPathWithSectionID:sectionModel.sectionId]];
     }else

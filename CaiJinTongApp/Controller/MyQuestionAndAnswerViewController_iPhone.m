@@ -35,6 +35,7 @@
 @property (nonatomic,strong) ChapterSearchBar_iPhone *searchBar;//搜索栏+按钮
 @property (nonatomic,strong) UIButton *showSearchBarBtn; //显示/隐藏搜索栏
 @property (assign,nonatomic) BOOL isClickOrSearching; //如果用户点击列表,或者搜索按钮,则出结果之后tableView要滚动到顶部
+@property (assign,nonatomic) BOOL isRequesting; //为YES表示正在请求接口,还没有得到回复
 @end
 
 @implementation MyQuestionAndAnswerViewController_iPhone
@@ -48,12 +49,17 @@
     return self;
 }
 
-
+-(void)viewWillAppear:(BOOL)animated{
+    if(!self.isRequesting){
+        [self makeTestData];
+    }
+}
 
 -(void)willDismissPopoupController{
     CGPoint offset = self.tableView.contentOffset;
     [self.tableView setContentOffset:offset animated:NO];
 }
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -125,6 +131,7 @@
     self.questionScope = QuestionAndAnswerMYQUESTION;
     //请求我的回答
     [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"0" andLastQuestionID:nil withCategoryId:nil];
+    self.isRequesting = YES;
 }
 
 
@@ -1044,6 +1051,7 @@
             self.headerRefreshView.isForbidden = NO;
             [self.footerRefreshView endRefreshing];
             self.footerRefreshView.isForbidden = NO;
+            self.isRequesting = NO;
         });
     });
 }
@@ -1055,6 +1063,7 @@
     self.headerRefreshView.isForbidden = NO;
     [self.footerRefreshView endRefreshing];
     self.footerRefreshView.isForbidden = NO;
+    self.isRequesting = NO;
 }
 
 //#pragma mark--ChapterQuestionInterfaceDelegate所有问答数据   --无效接口?? 点击tree的时候触发

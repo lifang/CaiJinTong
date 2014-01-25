@@ -105,6 +105,7 @@
         //自己提的问题
         if (answer.reaskModelArray.count > 0) {
             Reaskmodel *reask = [answer.reaskModelArray lastObject];
+            //            if (reask.reAnswerID && ![reask.reAnswerID isEqualToString:@""] && ![reask.reAnswerID isEqualToString:@"<null>"] ) {
             if (reask.reAnswerID && ![reask.reAnswerID isEqualToString:@""]) {
                 //追问
                 [self.reaskBt setTitle:@"追问" forState:UIControlStateNormal];
@@ -144,7 +145,7 @@
             
         }else{
             //别人的答案无权操作
-//            [self.answerBt setUserInteractionEnabled:NO];
+            [self.answerBt setUserInteractionEnabled:NO];
         }
     }
 }
