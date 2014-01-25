@@ -347,7 +347,7 @@
     self.isBack = NO;
     [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];
     [self saveCurrentStatus];
-     SectionModel *section = [notification.userInfo objectForKey:@"sectionModel"];
+    SectionModel *section = [notification.userInfo objectForKey:@"sectionModel"];
     self.drMovieSourceType = MPMovieSourceTypeStreaming;
     NSURL *url = [NSURL URLWithString:section.sectionMoviePlayURL];
     if (![self.movieUrl.absoluteString  isEqualToString:url.absoluteString]) {

@@ -30,6 +30,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.lhlNavigationBar.rightItem.hidden = YES;
     self.lhlNavigationBar.title.text = @"意见反馈";
     
     self.backgroundForTextView.frame = self.contentTextView.frame;

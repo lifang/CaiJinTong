@@ -12,6 +12,8 @@
 @interface SectionViewController_iPhone()
 @property (nonatomic,assign) BOOL isPlaying;
 @property (nonatomic,strong) LessonInfoInterface *lessonInterface;
+@property (nonatomic,strong) NoteModel *playNoteModel;
+@property (assign,nonatomic) BOOL isClickingNoteTitle;
 @end
 
 @implementation SectionViewController_iPhone
@@ -119,10 +121,9 @@
 //播放接口
 
 -(void)playVideo:(id)sender{
-    NSLog(@"%@",NSStringFromCGRect( self.slideSwitchView.frame));
     self.isPlaying = YES;
-    self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
-    self.playerController.delegate = self;
+    LHLMoviePlayViewController* playercontroller = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
+    playercontroller.delegate = self;
     chapterModel *chapter = [self.lessonModel.chapterList firstObject];
     SectionModel *section = [chapter.sectionList firstObject];
     SectionModel *lastplaySection = [[Section defaultSection] searchLastPlaySectionModelWithLessonId:self.lessonModel.lessonId];
@@ -130,16 +131,12 @@
         lastplaySection.lessonId = self.lessonModel.lessonId;
     }
     section.lessonId = self.lessonModel.lessonId;
-    [self.playerController playMovieWithSectionModel:lastplaySection?:section withFileType:MPMovieSourceTypeStreaming];
-    self.playerController.delegate = self;
-//    AppDelegate *app = [AppDelegate sharedInstance];
-//    [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
-//        
-//    }];
-    [self.navigationController presentViewController:self.playerController animated:YES completion:^{
+    [playercontroller playMovieWithSectionModel:lastplaySection?:section withFileType:MPMovieSourceTypeStreaming];
+    
+    
+    [self.navigationController presentViewController:playercontroller animated:YES completion:^{
         
     }];
-//    [self.navigationController pushViewController:self.playerController animated:YES];
 }
 
 #pragma mark - 滑动tab视图代理方法
@@ -339,7 +336,7 @@
         UIButton *palyButton = [UIButton buttonWithType:UIButtonTypeCustom];
         palyButton.frame = CGRectMake(18, labelTop + IP5(8, -2), 283, IP5(33, 30));
 //        [palyButton setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
-        if (!self.lessonModel.lessonStudyTime || [self.lessonModel.lessonStudyTime isEqualToString:@"0"]) {
+        if (!self.lessonModel.lessonStudyTime || [self.lessonModel.lessonStudyTime isEqualToString:@"0"] || [self.lessonModel.lessonStudyTime isEqualToString:@"-"]) {
             [palyButton setTitle:NSLocalizedString(@"开始学习", @"button") forState:UIControlStateNormal];
         }else{
             [palyButton setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
@@ -407,20 +404,20 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             //播放接口
-            self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
-            self.playerController.delegate = self;
+            LHLMoviePlayViewController* playercontroller = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
+            playercontroller.delegate = self;
             chapterModel *chapter = [self.lessonModel.chapterList firstObject];
             SectionModel *section = [chapter.sectionList firstObject];
-            [self.playerController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
-//            self.playerController.sectionId = self.lessonModel.lessonId;
-//            self.playerController.sectionModel = self.section;
+            [playercontroller playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
+//            playercontroller.sectionId = self.lessonModel.lessonId;
+//            playercontroller.sectionModel = self.section;
             
-            self.playerController.delegate = self;
+            playercontroller.delegate = self;
 //            AppDelegate *app = [AppDelegate sharedInstance];
-//            [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
+//            [app.lessonViewCtrol presentViewController:playercontroller animated:YES completion:^{
 //                
 //            }];
-            [self.navigationController presentViewController:self.playerController animated:YES completion:^{
+            [self.navigationController presentViewController:playercontroller animated:YES completion:^{
                 
             }];
         });
@@ -437,18 +434,16 @@
     if (section.sectionMoviePlayURL) {
         //播放接口
         section.lessonId = self.lessonModel.lessonId;
-        if(!self.playerController){
-            self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
-            self.playerController.delegate = self;
-        }
+        LHLMoviePlayViewController* playercontroller = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
+        playercontroller.delegate = self;
 //        AppDelegate *app = [AppDelegate sharedInstance];
-//        [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
+//        [app.lessonViewCtrol presentViewController:playercontroller animated:YES completion:^{
 //            
 //        }];
-        [self.navigationController presentViewController:self.playerController animated:YES completion:^{
+        [self.navigationController presentViewController:playercontroller animated:YES completion:^{
             
         }];
-        [self.playerController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
+        [playercontroller playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
     }else{
         [Utility errorAlert:@"没有发现要播放的视频文件"];
     }
@@ -463,30 +458,66 @@
         Section *s = [[Section alloc] init];
         SectionModel *ssm = [s getSectionModelWithSid:sectionID];
         ssm.lessonId = self.lessonModel.lessonId;
-        self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
-        self.playerController.delegate = self;
-        [self.playerController playMovieWithSectionModel:ssm withFileType:MPMovieSourceTypeFile];
+        LHLMoviePlayViewController* playercontroller = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
+        playercontroller.delegate = self;
+        [playercontroller playMovieWithSectionModel:ssm withFileType:MPMovieSourceTypeFile];
 //        AppDelegate *app = [AppDelegate sharedInstance];
-//        [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
+//        [app.lessonViewCtrol presentViewController:playercontroller animated:YES completion:^{
 //            
 //        }];
-        [self.navigationController presentViewController:self.playerController animated:YES completion:^{
+        [self.navigationController presentViewController:playercontroller animated:YES completion:^{
             
         }];
     }
 }
 
-#pragma mark-- LessonInfoInterfaceDelegate加载课程详细信息 ,播放完成后回调
+#pragma mark --
+
+
+#pragma mark-- LessonInfoInterfaceDelegate加载课程详细信息,播放完成后回调,点击笔记后回调
 -(void)getLessonInfoDidFinished:(LessonModel*)lesson{
     dispatch_async(dispatch_get_main_queue(), ^{
+//        self.lessonModel = lesson;
         [self reloadLessonData:lesson];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
+        if(self.isClickingNoteTitle){
+            self.isClickingNoteTitle = NO;
+            LHLMoviePlayViewController *movieController =  [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
+            movieController.delegate = self;
+            SectionModel *section = [[Section defaultSection] getSectionModelWithSid:self.playNoteModel.noteSectionId];
+            [self presentViewController:movieController animated:YES completion:^{
+                
+            }];
+            if (section) {
+                [movieController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
+            }else{
+                SectionModel *tempSection = nil;
+                BOOL isReturn = NO;
+                for (chapterModel *chapter in self.lessonModel.chapterList) {
+                    for (SectionModel *sec in chapter.sectionList) {
+                        if ([sec.sectionId isEqualToString:self.playNoteModel.noteSectionId]) {
+                            tempSection = sec;
+                            isReturn = YES;
+                        }
+                    }
+                    if (isReturn) {
+                        break;
+                    }
+                }
+                [movieController playMovieWithSectionModel:tempSection?:section withFileType:MPMovieSourceTypeStreaming];
+            }
+        }
     });
 }
 -(void)getLessonInfoDidFailed:(NSString *)errorMsg{
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Utility errorAlert:errorMsg];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        self.isClickingNoteTitle = NO;
+        [Utility errorAlert:errorMsg];
+    });
+    
 }
+
 
 #pragma mark DRMoviePlayViewControllerDelegate 提交笔记成功
 -(void)lhlMoviePlayerViewController:(LHLMoviePlayViewController *)playerController commitNotesSuccess:(NSString *)noteText andTime:(NSString *)noteTime{
@@ -507,7 +538,16 @@
 
 #pragma mark Section_NoteViewControllerDelegate选中一条笔记
 -(void)section_NoteViewController:(Section_NoteViewController_iPhone *)controller didClickedNoteCellWithObj:(NoteModel *)noteModel{
-    [self playVideo:Nil];
+//    [self playVideo:Nil];
+    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+        [Utility errorAlert:@"暂无网络!"];
+    }else {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self.playNoteModel = noteModel;
+        self.isClickingNoteTitle = YES;
+        UserModel *user = [[CaiJinTongManager shared] user];
+        [self.lessonInterface downloadLessonInfoWithLessonId:self.lessonModel.lessonId withUserId:user.userId];
+    }
 }
 
 #pragma mark property
