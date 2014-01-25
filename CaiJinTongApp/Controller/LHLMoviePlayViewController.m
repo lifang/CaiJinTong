@@ -7,6 +7,7 @@
 //
 
 #import "LHLMoviePlayViewController.h"
+#import "UploadImageDataInterface.h"
 #define MOVIE_CURRENT_PLAY_TIME_OBSERVE @"movieCurrentPlayTimeObserve"
 @interface LHLMoviePlayViewController ()<LHLTakingMovieNoteViewControllerDelegate,LHLCommitQuestionViewControllerDelegate>
 @property (nonatomic,strong) MPMoviePlayerController *moviePlayer;
@@ -22,6 +23,7 @@
 @property (nonatomic, assign) long  long studyTime;//学习时间
 @property (nonatomic,strong) NSTimer *studyTimer;
 @property (nonatomic,assign) BOOL chapterDismissByItself;
+@property (nonatomic, strong)  UIButton *cutScreenButton;//截屏
 @end
 
 @implementation LHLMoviePlayViewController
@@ -200,6 +202,7 @@
             LHLCommitQuestionViewController *commitQuestionVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLCommitQuestionViewController"];
             commitQuestionVC.view.frame = (CGRect){0,0,IP5(516, 435),255};
             commitQuestionVC.delegate = self;
+            self.commitQuestionVC = commitQuestionVC;
             [self presentPopupViewController:commitQuestionVC animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
                 self.myQuestionItem.isSelected = NO;
             }];
@@ -341,7 +344,7 @@
             
         case MPMoviePlaybackStatePlaying:
         {
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [MBProgressHUD hideAllHUDsForView:self.moviePlayerView animated:YES];
             [self startObservePlayBackProgressBar];
             break;
         }
@@ -353,7 +356,7 @@
             
         case MPMoviePlaybackStateInterrupted:
         {
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];
             break;
         }
             
@@ -373,16 +376,22 @@
 
 -(void)didFinishedMoviePlayerNotification:(NSNotification*)notification{//播放完成，或者错误时触发
     DLog(@"didFinishedMoviePlayerNotification:%@",[notification.userInfo  objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey]);
-    [self endObservePlayBackProgressBar];
-    [self updateMoviePlayBackProgressBar];
-    
     if ([[notification.userInfo  objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey] integerValue] == MPMovieFinishReasonPlaybackEnded) {
         self.seekSlider.value = 1;
+        if ( self.sectionModel.sectionLastPlayTime && [self.sectionModel.sectionLastPlayTime floatValue] >= self.moviePlayer.duration) {
+            self.sectionModel.sectionLastPlayTime = @"0";
+            self.moviePlayer.currentPlaybackTime = 0;
+            [self.moviePlayer play];
+            self.isPlaying = YES;
+            [self startStudyTime];
+        }
     }else
         if ([[notification.userInfo  objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey] integerValue] == MPMovieFinishReasonPlaybackError) {
             self.seekSlider.value = 0;
             [self removeMoviePlayBackNotification];
             [Utility errorAlert:@"播放文件已经损坏或是格式不支持"];
+            [self endObservePlayBackProgressBar];
+            [self updateMoviePlayBackProgressBar];
         }
 }
 
@@ -393,15 +402,22 @@
 -(void)didChangeMoviePlayerLoadStateNotification{//加载状态改变时触发：
     DLog(@"didChangeMoviePlayerLoadStateNotification:%d",self.moviePlayer.loadState);
     if (self.moviePlayer.loadState == MPMovieLoadStatePlayable) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDForView:self.moviePlayerView animated:YES];
     } else if (self.moviePlayer.loadState == MPMovieLoadStateStalled) {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];
     }else if (self.moviePlayer.loadState == MPMovieLoadStatePlaythroughOK) {
         [MBProgressHUD hideHUDForView:self.moviePlayerView animated:YES];
     }
+    
 }
 
 #pragma mark -- 提交问题
+-(void)commitQuestionControllerDidStartCutScreenButtonClicked:(LHLCommitQuestionViewController *)controller isCut:(BOOL)isCut{
+    [self.cutScreenButton setHidden:NO];
+    [self changePlayButtonStatus:NO];
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomTop];
+}
+
 -(void)commitQuestionController:(LHLCommitQuestionViewController *)controller didCommitQuestionWithTitle:(NSString *)title andText:(NSString *)text andQuestionId:(NSString *)questionId{
     self.myQuestionItem.isSelected = NO;
     if (self.isPlaying) {
@@ -410,15 +426,36 @@
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
+        UserModel *user = [[CaiJinTongManager shared] user];
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        AskQuestionInterface *askQuestionInter = [[AskQuestionInterface alloc]init];
-        self.askQuestionInterface = askQuestionInter;
-        self.askQuestionInterface.delegate = self;
-        [self.askQuestionInterface
-         getAskQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId
-         andSectionId:questionId
-         andQuestionName:title
-         andQuestionContent:text];
+        __weak LHLMoviePlayViewController *weakSelf = self;
+        [UploadImageDataInterface uploadImageWithUserId:user.userId withQuestionCategoryId:questionId withQuestionTitle:title withQuestionContent:text withUploadedData:UIImageJPEGRepresentation(controller.cutImage, 0) withSuccess:^(NSString *success) {
+            LHLMoviePlayViewController *tempSelf = weakSelf;
+            if (tempSelf) {
+                [MBProgressHUD hideHUDForView:tempSelf.view animated:YES];
+                [Utility errorAlert:@"提交问题成功"];
+                tempSelf.commitQuestionVC.titleField.text = nil;  //清空提问VC的内容
+                tempSelf.commitQuestionVC.contentField.text = nil;
+                tempSelf.commitQuestionVC.selectedQuestionId = nil;
+                tempSelf.commitQuestionVC.categoryTextField.text = nil;
+            }
+            
+        } withFailure:^(NSString *failureMsg) {
+            LHLMoviePlayViewController *tempSelf = weakSelf;
+            if (tempSelf) {
+                [MBProgressHUD hideHUDForView:tempSelf.view animated:YES];
+                [Utility errorAlert:@"提交问题失败"];
+            }
+        }];
+        
+//        AskQuestionInterface *askQuestionInter = [[AskQuestionInterface alloc]init];
+//        self.askQuestionInterface = askQuestionInter;
+//        self.askQuestionInterface.delegate = self;
+//        [self.askQuestionInterface
+//         getAskQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId
+//         andSectionId:questionId
+//         andQuestionName:title
+//         andQuestionContent:text];
     }
 }
 
@@ -497,11 +534,14 @@
 #pragma mark action
 
 -(void)playMovie{
-    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     if (!self.movieUrl) {
         return;
     }
     [self notificateBackwillBeginPlayMovie];
+    [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];
+    if (self.moviePlayer.isPreparedToPlay) {
+        [self.moviePlayer stop];
+    }
     self.moviePlayer.initialPlaybackTime = [self.sectionModel.sectionLastPlayTime floatValue];
     self.moviePlayer.movieSourceType = self.drMovieSourceType;
     if (self.drMovieSourceType == MPMovieSourceTypeFile) {
@@ -513,6 +553,9 @@
             [self.moviePlayer prepareToPlay];
             [self.moviePlayer play];
         }
+    //    [self.moviePlayer beginSeekingForward];
+    
+    //    [self.moviePlayer endSeeking];
     self.isPlaying = YES;
     [self startStudyTime];
 }
@@ -766,6 +809,39 @@
         [_moviePlayer setScalingMode:MPMovieScalingModeAspectFill];
     }
     return _moviePlayer;
+}
+
+-(UIButton *)cutScreenButton{
+    if(!_cutScreenButton){
+        _cutScreenButton  = [[UIButton alloc] initWithFrame:(CGRect){IP5(244, 200),141,80,38}];
+        [_cutScreenButton setTitle:@"点击截屏" forState:UIControlStateNormal];
+        [_cutScreenButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+        _cutScreenButton.backgroundColor = [UIColor clearColor];
+        [_cutScreenButton addTarget:self action:@selector(cutMovieScreen) forControlEvents:UIControlEventTouchUpInside];
+        [_cutScreenButton setHidden:YES];
+        [self.view addSubview:_cutScreenButton];
+    }
+    return _cutScreenButton;
+}
+
+#pragma mark 剪切图
+-(void)cutMovieScreen{
+    [self changePlayButtonStatus:NO];
+    UIImage *cutImage = [self.moviePlayer thumbnailImageAtTime:self.moviePlayer.currentPlaybackTime timeOption:MPMovieTimeOptionNearestKeyFrame];
+//    if (!self.commitQuestionVC) {
+//        DRCommitQuestionViewController *commitController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRCommitQuestionViewController"];
+//        commitController.view.frame = (CGRect){0,0,804,426};
+//        commitController.delegate = self;
+//        self.commitQuestionController = commitController;
+//    }
+    self.commitQuestionVC.cutImage = cutImage;
+    self.commitQuestionVC.isCut = NO;
+    [self presentPopupViewController:self.commitQuestionVC animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
+        self.myQuestionItem.isSelected = NO;
+    }];
+    self.isPopupChapter = NO;
+    [self.cutScreenButton setHidden:YES];
+    
 }
 
 #pragma mark --

@@ -12,6 +12,8 @@
 @interface SectionViewController_iPhone()
 @property (nonatomic,assign) BOOL isPlaying;
 @property (nonatomic,strong) LessonInfoInterface *lessonInterface;
+@property (nonatomic,strong) NoteModel *playNoteModel;
+@property (assign,nonatomic) BOOL isClickingNoteTitle;
 @end
 
 @implementation SectionViewController_iPhone
@@ -469,17 +471,53 @@
     }
 }
 
-#pragma mark-- LessonInfoInterfaceDelegate加载课程详细信息 ,播放完成后回调
+#pragma mark --
+
+
+#pragma mark-- LessonInfoInterfaceDelegate加载课程详细信息,播放完成后回调,点击笔记后回调
 -(void)getLessonInfoDidFinished:(LessonModel*)lesson{
     dispatch_async(dispatch_get_main_queue(), ^{
+//        self.lessonModel = lesson;
         [self reloadLessonData:lesson];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
+        if(self.isClickingNoteTitle){
+            self.isClickingNoteTitle = NO;
+            LHLMoviePlayViewController *movieController =  [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
+            movieController.delegate = self;
+            SectionModel *section = [[Section defaultSection] getSectionModelWithSid:self.playNoteModel.noteSectionId];
+            [self presentViewController:movieController animated:YES completion:^{
+                
+            }];
+            if (section) {
+                [movieController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
+            }else{
+                SectionModel *tempSection = nil;
+                BOOL isReturn = NO;
+                for (chapterModel *chapter in self.lessonModel.chapterList) {
+                    for (SectionModel *sec in chapter.sectionList) {
+                        if ([sec.sectionId isEqualToString:self.playNoteModel.noteSectionId]) {
+                            tempSection = sec;
+                            isReturn = YES;
+                        }
+                    }
+                    if (isReturn) {
+                        break;
+                    }
+                }
+                [movieController playMovieWithSectionModel:tempSection?:section withFileType:MPMovieSourceTypeStreaming];
+            }
+        }
     });
 }
 -(void)getLessonInfoDidFailed:(NSString *)errorMsg{
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Utility errorAlert:errorMsg];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        self.isClickingNoteTitle = NO;
+        [Utility errorAlert:errorMsg];
+    });
+    
 }
+
 
 #pragma mark DRMoviePlayViewControllerDelegate 提交笔记成功
 -(void)lhlMoviePlayerViewController:(LHLMoviePlayViewController *)playerController commitNotesSuccess:(NSString *)noteText andTime:(NSString *)noteTime{
@@ -500,7 +538,16 @@
 
 #pragma mark Section_NoteViewControllerDelegate选中一条笔记
 -(void)section_NoteViewController:(Section_NoteViewController_iPhone *)controller didClickedNoteCellWithObj:(NoteModel *)noteModel{
-    [self playVideo:Nil];
+//    [self playVideo:Nil];
+    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+        [Utility errorAlert:@"暂无网络!"];
+    }else {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self.playNoteModel = noteModel;
+        self.isClickingNoteTitle = YES;
+        UserModel *user = [[CaiJinTongManager shared] user];
+        [self.lessonInterface downloadLessonInfoWithLessonId:self.lessonModel.lessonId withUserId:user.userId];
+    }
 }
 
 #pragma mark property

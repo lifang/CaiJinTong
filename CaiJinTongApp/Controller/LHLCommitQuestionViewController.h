@@ -23,12 +23,21 @@
 - (IBAction)spaceAreaClicked:(id)sender;
 - (IBAction)cancelBtnClicked:(UIButton *)sender;
 - (IBAction)commitBtnClicked:(UIButton *)sender;
-
+@property (weak, nonatomic) IBOutlet UILabel *categoryTextField;
+/**
+ 是否开始剪切
+ */
+@property (assign,nonatomic) BOOL isCut;
+@property (strong,nonatomic) UIImage *cutImage;
+@property (strong,nonatomic) NSString *selectedQuestionId;//问题分类id
 @end
 
 @protocol LHLCommitQuestionViewControllerDelegate <NSObject>
 
 -(void)commitQuestionController:(LHLCommitQuestionViewController*)controller didCommitQuestionWithTitle:(NSString*)title andText:(NSString*)text andQuestionId:(NSString *)questionId;
 -(void)commitQuestionControllerCancel;
-
+/**
+ 开始截屏
+ */
+-(void)commitQuestionControllerDidStartCutScreenButtonClicked:(LHLCommitQuestionViewController *)controller isCut:(BOOL)isCut;
 @end

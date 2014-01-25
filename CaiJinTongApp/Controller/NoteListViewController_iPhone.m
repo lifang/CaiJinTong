@@ -64,7 +64,8 @@
     [super viewDidLoad];
     self.lhlNavigationBar.leftItem.hidden = YES;
     self.noteListTableView.frame = (CGRect){0,IP5(65, 55),320,IP5(440, 375)};
-    [self.lhlNavigationBar.rightItem setHidden:YES];
+//    [self.lhlNavigationBar.rightItem setHidden:YES];
+    [self.lhlNavigationBar.rightItem setImage:[UIImage imageNamed:@"_magnifying_glass.png"]  forState:UIControlStateNormal];
     self.lhlNavigationBar.title.text = @"我的笔记";
     self.isEditing = NO;
     self.isSearchRefreshing = NO;
@@ -443,6 +444,10 @@
 -(void)searchNoteListDataDidFinished:(NSArray *)noteList withCurrentPageIndex:(int)pageIndex withTotalCount:(int)allDataCount{
     self.isSearchRefreshing = YES;
     dispatch_async(dispatch_get_main_queue(), ^{
+        if(self.searchBar.hidden == NO){
+            [self rightItemClicked:nil];
+        }
+        self.searchBar.searchTextField.text = nil;
         if (pageIndex <= 0) {
             self.searchArray = [NSMutableArray arrayWithArray:noteList];
         }else{
@@ -459,6 +464,7 @@
 
 -(void)searchNoteListDataFailure:(NSString *)errorMsg{
     dispatch_async(dispatch_get_main_queue(), ^{
+        self.searchBar.searchTextField.text = nil;
         if (self.searchArray.count > 0) {
             
         }else{
@@ -479,11 +485,11 @@
 
 -(ChapterSearchBar_iPhone *)searchBar{
     if(!_searchBar){
-        _searchBar = [[ChapterSearchBar_iPhone alloc] initWithFrame:CGRectMake(19, IP5(95, 85), 282, 34)];
+        _searchBar = [[ChapterSearchBar_iPhone alloc] initWithFrame:CGRectMake(19, IP5(67, 57), 282, 34)];
         _searchBar.delegate = self;
         [_searchBar setHidden:YES];
         [_searchBar setAlpha:0.0];
-        [_searchBar.searchTextField setPlaceholder:@"搜索资料"];
+        [_searchBar.searchTextField setPlaceholder:@"搜索笔记"];
         [self.view addSubview:_searchBar];
     }
     return _searchBar;
@@ -573,5 +579,28 @@
     return _tipLabel;
 }
 
-#pragma mark --
+#pragma mark -- action
+-(void)rightItemClicked:(id)sender{
+    if(self.searchBar.hidden){
+        [self.searchBar setHidden:NO];
+        [UIView animateWithDuration:0.5
+                         animations:^{
+                             //                             [self.searchBar setFrame:CGRectMake(19, IP5(65, 55), 282, 34)];
+                             [self.searchBar setAlpha:1.0];
+                         }
+                         completion:nil];
+    }else{
+        [self.searchBar.searchTextField resignFirstResponder];
+        [UIView animateWithDuration:0.5
+                         animations:^{
+                             [self.searchBar setAlpha:0.0];
+                             //                             [self.searchBar setFrame:CGRectMake(19, IP5(65, 55), 1, 1)];
+                         }
+                         completion:^ void (BOOL completed){
+                             if(completed){
+                                 [self.searchBar setHidden:!self.searchBar.hidden];
+                             }
+                         }];
+    }
+}
 @end

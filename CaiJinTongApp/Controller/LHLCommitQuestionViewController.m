@@ -9,8 +9,8 @@
 #import "LHLCommitQuestionViewController.h"
 @interface LHLCommitQuestionViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *selectButton;
-@property (weak, nonatomic) IBOutlet UILabel *categoryTextField;
-@property (strong,nonatomic) NSString *selectedQuestionId;
+//@property (weak, nonatomic) IBOutlet UILabel *categoryTextField;
+- (IBAction)screenShotButtonClicked:(id)sender;
 @property (assign,nonatomic) BOOL tableVisible;
 @property (strong,nonatomic) DRTreeTableView *treeView;
 @property (strong,nonatomic) NSMutableArray *questionList;
@@ -130,6 +130,7 @@
 }
 
 - (IBAction)commitBtnClicked:(UIButton *)sender {
+    [self spaceAreaClicked:nil];
     if (self.contentField.text == nil || [[self.contentField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
         [Utility errorAlert:@"内容不能为空"];
         return;
@@ -240,6 +241,14 @@
                                  self.treeView.hidden = YES;
                              }
                          }];
+    }
+}
+
+//点击截图
+- (IBAction)screenShotButtonClicked:(id)sender {
+    self.isCut = YES;
+    if (self.delegate && [self.delegate respondsToSelector:@selector(commitQuestionControllerDidStartCutScreenButtonClicked:isCut:)]) {
+        [self.delegate commitQuestionControllerDidStartCutScreenButtonClicked:self isCut:self.isCut];
     }
 }
 
