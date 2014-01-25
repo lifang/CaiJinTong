@@ -14,6 +14,7 @@
 
 @property (nonatomic, assign) id<PlayVideoInterfaceDelegate>delegate;
 -(void)getPlayVideoInterfaceDelegateWithUserId:(NSString *)userId andSectionId:(NSString *)sectionId andTimeStart:(NSString *)timeStart;
++(id)defaultPlayVideoInterface;
 @end
 
 @protocol PlayVideoInterfaceDelegate <NSObject>
