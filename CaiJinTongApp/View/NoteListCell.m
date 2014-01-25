@@ -41,7 +41,10 @@ typedef enum {AlertType_DeleteCell = 12,AlertType_ModifyCell}AlertType;
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     NSString *oldText = [self.noteModel.noteText?:@"" stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSString *newText = [[textView.text stringByAppendingString:text]?:@"" stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    if (![oldText isEqualToString:newText]) {
+    if ([text isEqualToString:@""] && ![newText isEqualToString:@""]) {
+        newText = [textView.text stringByReplacingCharactersInRange:NSMakeRange(newText.length-1, 1) withString:@""];
+    }
+    if (![oldText isEqualToString:newText] && ![newText isEqualToString:@""]) {
          [self.commitBt setEnabled:YES];
     }else{
         [self.commitBt setEnabled:NO];

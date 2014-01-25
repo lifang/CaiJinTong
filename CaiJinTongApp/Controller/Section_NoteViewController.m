@@ -105,6 +105,22 @@
             [data addObject:note];
         }
     }
+    [data sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        NoteModel *note1 = (NoteModel*)obj1;
+        NoteModel *note2 = (NoteModel*)obj2;
+        if (note1.noteTime && note2.noteTime) {
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            dateFormatter.dateFormat = @"yyyy-MM-dd";
+            NSDate *date1 =  [dateFormatter dateFromString:note1.noteTime];
+             NSDate *date2 =  [dateFormatter dateFromString:note2.noteTime];
+            if ([date1 earlierDate:date2] == date1) {
+                return NSOrderedDescending;
+            }else{
+                return NSOrderedAscending;
+            }
+        }else
+        return NSOrderedSame;
+    }];
     _dataArray = data;
 }
 -(UILabel *)tipLabel{

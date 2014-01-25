@@ -378,7 +378,7 @@ dispatch_async(dispatch_get_main_queue(), ^{
 -(void)deleteNoteDidFinished:(NSString *)success{
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self.deleteNoteInterface.path) {
-            [self.noteDateList removeObjectAtIndex:self.deleteNoteInterface.path.row];
+            self.isSearchRefreshing?[self.searchArray removeObjectAtIndex:self.deleteNoteInterface.path.row]: [self.noteDateList removeObjectAtIndex:self.deleteNoteInterface.path.row];
             [self.noteListTableView reloadData];
         }
         [MBProgressHUD hideHUDForView:self.view animated:YES];

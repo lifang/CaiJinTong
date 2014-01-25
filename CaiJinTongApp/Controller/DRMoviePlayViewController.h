@@ -27,6 +27,7 @@
 @protocol DRMoviePlayViewControllerDelegate;
 @interface DRMoviePlayViewController : UIViewController<MovieControllerItemDelegate,DRMoviePlayerPlaybackProgressBarDelegate,CustomPlayerViewDelegate,PlayBackInterfaceDelegate,SumitNoteInterfaceDelegate,DRMoviePlayerTopBarDelegate,AskQuestionInterfaceDelegate>
 
+@property (nonatomic, strong) SectionModel *sectionModel;
 @property (weak, nonatomic) IBOutlet DRMoviePlayerTopBar *drMovieTopBar;
 @property (nonatomic, strong) SumitNoteInterface *sumitNoteInterface;
 @property (nonatomic, strong) AskQuestionInterface *askQuestionInterface;
