@@ -37,12 +37,14 @@
 
 #pragma mark ask Question提问
 - (IBAction)askQuestionBtClicked:(id)sender {
-    if (!self.askQuestionController) {
-        UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-        self.askQuestionController  = [story instantiateViewControllerWithIdentifier:@"DRAskQuestionViewController"];
-        self.askQuestionController.delegate = self;
-    }
-    
+//    if (!self.askQuestionController) {
+//        UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+//        self.askQuestionController  = [story instantiateViewControllerWithIdentifier:@"DRAskQuestionViewController"];
+//        self.askQuestionController.delegate = self;
+//    }
+    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+    self.askQuestionController  = [story instantiateViewControllerWithIdentifier:@"DRAskQuestionViewController"];
+    self.askQuestionController.delegate = self;
     [self.navigationController pushViewController:self.askQuestionController animated:YES];
 }
 
@@ -234,7 +236,7 @@
      int row = [self convertIndexpathToRow:path];
     [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
     if (question.isEditing) {
-        float sectionHeight = [self getTableViewHeaderHeightWithSection:row];
+        float sectionHeight = [self getTableViewHeaderHeightWithSection:path.section];
         CGRect sectionRect = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
         float sectionMinHeight = CGRectGetMaxY(sectionRect) - self.tableView.contentOffset.y;
         float keyheight = CGRectGetMaxY(self.tableView.frame) - sectionHeight;
@@ -262,10 +264,10 @@
 //开始编辑回答
 -(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header willBeginTypeAnswerQuestionAtIndexPath:(NSIndexPath *)path{
     int row = [self convertIndexpathToRow:path];
-    float sectionHeight = [self getTableViewHeaderHeightWithSection:row];
+    float sectionHeight = [self getTableViewHeaderHeightWithSection:path.section];
     CGRect sectionRect = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
     float sectionMinHeight = CGRectGetMaxY(sectionRect) - self.tableView.contentOffset.y;
-    float keyheight = CGRectGetMaxY(self.tableView.frame) - sectionHeight-300;
+    float keyheight = CGRectGetMaxY(self.tableView.frame) - sectionHeight-200;
     if (sectionMinHeight > keyheight) {
         [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (sectionMinHeight - keyheight)} animated:YES];
     }
@@ -538,6 +540,9 @@
         case QuestionAndAnswerMYQUESTION:
             self.drnavigationBar.titleLabel.text = @"我的提问";
             break;
+        case QuestionAndAnswerSearchQuestion:
+            self.drnavigationBar.titleLabel.text = @"搜索提问";
+            break;
         default:
             self.drnavigationBar.titleLabel.text = @"我的回答";
             break;
@@ -636,9 +641,9 @@
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             self.question_pageIndex = self.question_pageIndex+1;
             if (self.headerRefreshView.isForbidden) {//加载下一页
-                [self nextPageDataWithDataArray:chapterQuestionList withQuestionChapterID:self.chapterID withScope:QuestionAndAnswerSearchQuestion];
+                [self nextPageDataWithDataArray:chapterQuestionList withQuestionChapterID:self.chapterID withScope:self.questionAndAnswerScope];
             }else{//重新加载
-                [self reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:self.chapterID withScope:QuestionAndAnswerSearchQuestion isSearch:self.isSearch];
+                [self reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:self.chapterID withScope:self.questionAndAnswerScope isSearch:self.isSearch];
             }
             
             [self.headerRefreshView endRefreshing];

@@ -26,7 +26,6 @@
 @property (nonatomic,assign) BOOL isPopupChapter;
 @property (nonatomic,assign) BOOL isBack;//是否退出播放
 @property (nonatomic,assign) __block float currentMoviePlaterVolume;
-@property (nonatomic, strong) SectionModel *sectionModel;
 @property (nonatomic, assign) long  long studyTime;//学习时间
 @property (assign,nonatomic) MPMovieSourceType drMovieSourceType;//播放文件类型，本地还是在线视频
 @property (nonatomic, strong)  UIButton *cutScreenButton;//截屏

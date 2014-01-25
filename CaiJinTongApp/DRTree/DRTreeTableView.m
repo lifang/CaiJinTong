@@ -76,7 +76,7 @@
         [self selectedNoteAtIndexPath:indexPath withAnimation:YES];
     }
     
-    if ([note.childnotes count] > 0) {
+    if (note.childnotes && [note.childnotes count] > 0) {
         if (note.noteIsExtend) {
             if (self.delegate && [self.delegate respondsToSelector:@selector(drTreeTableView:didExtendChildTreeNode:)]) {
                 [self.delegate drTreeTableView:self didExtendChildTreeNode:note];
@@ -159,6 +159,17 @@
 
 }
 #pragma mark --
+
+-(void)closeAllNoteArr:(DRTreeNode*)childNote{
+    if (!childNote) {
+        return;
+    }
+    childNote.noteIsExtend = NO;
+    for (DRTreeNode *note in childNote.childnotes) {
+        [self closeAllNoteArr:note];
+    }
+}
+
 #pragma mark property
 -(NSMutableArray *)tableDataArr{
     if (!_tableDataArr) {
@@ -168,6 +179,12 @@
 }
 -(void)setNoteArr:(NSMutableArray *)noteArr{
     _noteArr = noteArr;
+    if (noteArr) {
+        for (DRTreeNode *note in noteArr) {
+            [self closeAllNoteArr:note];
+        }
+        
+    }
     if (noteArr) {
         self.tableDataArr = noteArr;
     }else{

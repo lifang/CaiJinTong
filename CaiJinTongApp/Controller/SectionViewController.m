@@ -15,6 +15,7 @@
 @property (nonatomic,strong) DRMoviePlayViewController *playerController;
 @property (nonatomic, strong) LessonInfoInterface *lessonInterface;//获取课程详细信息
 @property (nonatomic,assign) BOOL isPlaying;
+@property (nonatomic, strong) chapterModel *playChapter;
 @end
 
 @implementation SectionViewController
@@ -165,13 +166,13 @@
 
 #pragma mark DRMoviePlayViewControllerDelegate 提交笔记成功
 -(void)drMoviePlayerViewController:(DRMoviePlayViewController *)playerController commitNotesSuccess:(NSString *)noteText andTime:(NSString *)noteTime{
-    if (self.section_NoteView) {
-        NoteModel *note = [[NoteModel alloc] init];
-        note.noteTime = noteTime;
-        note.noteText = noteText;
-        [self.section_NoteView.dataArray insertObject:note atIndex:0];
-        [self.section_NoteView.tableViewList reloadData];
-    }
+//    if (self.section_NoteView) {
+//        NoteModel *note = [[NoteModel alloc] init];
+//        note.noteTime = noteTime;
+//        note.noteText = noteText;
+//        [self.section_NoteView.dataArray insertObject:note atIndex:0];
+//        [self.section_NoteView.tableViewList reloadData];
+//    }
 }
 
 -(LessonModel *)lessonModelForDrMoviePlayerViewController{
@@ -457,6 +458,12 @@
     }else{
         [self.playBtn setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
     }
+    self.section_ChapterView.dataArray = lesson.chapterList;
+    self.section_GradeView.dataArray = lesson.lessonCommentList;
+    self.section_NoteView.dataArray = lesson.chapterList;
+    [self.section_ChapterView.tableViewList reloadData];
+    [self.section_GradeView.tableViewList reloadData];
+    [self.section_NoteView.tableViewList reloadData];
 }
 
 - (void)initAppear {

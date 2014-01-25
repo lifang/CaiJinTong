@@ -101,15 +101,18 @@
             [self.userNameTextField resignFirstResponder];
             [self.pwdTextField resignFirstResponder];
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
-                [Utility errorAlert:@"暂无网络!"];
-            }else {
-                LogInterface *log = [[LogInterface alloc]init];
-                self.logInterface = log;
-                self.logInterface.delegate = self;
-                [self.logInterface getLogInterfaceDelegateWithName:self.userNameTextField.text andPassWord:self.pwdTextField.text];
-            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    [Utility errorAlert:@"暂无网络!"];
+                }else {
+                    LogInterface *log = [[LogInterface alloc]init];
+                    self.logInterface = log;
+                    self.logInterface.delegate = self;
+                    [self.logInterface getLogInterfaceDelegateWithName:self.userNameTextField.text andPassWord:self.pwdTextField.text];
+                }
+            });
+            
         }else{
             [Utility errorAlert:@"密码不能为空"];
         }
