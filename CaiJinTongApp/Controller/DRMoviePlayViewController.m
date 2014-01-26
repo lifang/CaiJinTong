@@ -342,7 +342,7 @@
 }
 #pragma mark --
 
-#pragma mark notification//切换视频
+#pragma mark notification//切换视频通知
 -(void)changePlayVideoOnLine:(NSNotification*)notification{
     self.isBack = NO;
     [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];
@@ -351,7 +351,8 @@
     self.drMovieSourceType = MPMovieSourceTypeStreaming;
     NSURL *url = [NSURL URLWithString:section.sectionMoviePlayURL];
     if (![self.movieUrl.absoluteString  isEqualToString:url.absoluteString]) {
-        [self playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
+//        [self playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
+        [self changeMovieContentURLWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
     }else{
         [Utility errorAlert:@"当前文件正在播放"];
         [MBProgressHUD hideAllHUDsForView:self.moviePlayerView animated:YES];
@@ -369,7 +370,8 @@
     self.drMovieSourceType = MPMovieSourceTypeFile;
     NSURL *url = [NSURL fileURLWithPath:path];
     if (![self.movieUrl.absoluteString  isEqualToString:url.absoluteString]) {
-        [self playMovieWithSectionModel:ssm withFileType:MPMovieSourceTypeFile];
+//        [self playMovieWithSectionModel:ssm withFileType:MPMovieSourceTypeFile];
+        [self changeMovieContentURLWithSectionModel:ssm withFileType:MPMovieSourceTypeFile];
     }else{
         [Utility errorAlert:@"当前文件正在播放"];
         [MBProgressHUD hideAllHUDsForView:self.moviePlayerView animated:YES];
@@ -382,18 +384,20 @@
     switch (self.moviePlayer.playbackState) {
         case MPMoviePlaybackStateStopped:
         {
+            [MBProgressHUD hideHUDForView:self.moviePlayerView animated:YES];
             break;
         }
         
         case MPMoviePlaybackStatePlaying:
         {
-            [MBProgressHUD hideAllHUDsForView:self.moviePlayerView animated:YES];
+            [MBProgressHUD hideHUDForView:self.moviePlayerView animated:YES];
             [self startObservePlayBackProgressBar];
             break;
         }
             
         case MPMoviePlaybackStatePaused:
         {
+            [MBProgressHUD hideHUDForView:self.moviePlayerView animated:YES];
             break;
         }
             
@@ -405,11 +409,13 @@
         
         case MPMoviePlaybackStateSeekingForward:
         {
+             [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];
             break;
         }
             
         case MPMoviePlaybackStateSeekingBackward:
         {
+             [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];
             break;
         }
         default:
@@ -432,6 +438,11 @@
     if ([[notification.userInfo  objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey] integerValue] == MPMovieFinishReasonPlaybackError) {
         self.seekSlider.value = 0;
         [self removeMoviePlayBackNotification];
+        
+        NSError *error = [notification.userInfo objectForKey:@"error"];
+        if ([[error.userInfo objectForKey:NSLocalizedDescriptionKey] isEqualToString:@"The Internet connection appears to be offline."]) {
+            [Utility errorAlert:@"无法连接网络"];
+        }else
         [Utility errorAlert:@"播放文件已经损坏或是格式不支持"];
         [self endObservePlayBackProgressBar];
         [self updateMoviePlayBackProgressBar];
@@ -440,6 +451,7 @@
 
 -(void)didChangeMoviePlayerURLNotification{//播放的视频url改变时触发
     DLog(@"didChangeMoviePlayerURLNotification:%@",self.moviePlayer.contentURL);
+    [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];
 }
 
 -(void)didChangeMoviePlayerLoadStateNotification{//加载状态改变时触发：
@@ -614,6 +626,8 @@
             [self exitPlayMovie];
         }
         [[Section defaultSection] addPlayTimeOffLineWithSectionId:self.sectionModel.sectionId withTimeForSecond:[NSString stringWithFormat:@"%llu",self.studyTime]];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDForView:self.moviePlayerView animated:YES];
     }else {
         //判断是否播放完毕
         //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -644,11 +658,47 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
 });
 }
 
--(void)playMovieWithSectionModel:(SectionModel*)sectionModel withFileType:(MPMovieSourceType)fileType{
-        if (!sectionModel) {
-            [Utility errorAlert:@"没有发现要播放的文件"];
-            return;
+#pragma mark 播放路径改变
+-(void)changeMovieContentURLWithSectionModel:(SectionModel*)sectionModel withFileType:(MPMovieSourceType)fileType{
+    if (!sectionModel) {
+        [Utility errorAlert:@"没有发现要播放的文件"];
+        return;
+    }
+    [self.moviePlayer stop];
+    self.sectionModel = sectionModel;
+    [self addMoviePlayBackNotification];
+    self.drMovieSourceType = fileType;
+    self.drMovieTopBar.titleLabel.text = sectionModel.sectionName;
+    SectionModel *section = [[Section defaultSection] getSectionModelWithSid:self.sectionModel.sectionId];
+    if (section && section.sectionLastPlayTime) {
+        self.sectionModel.sectionLastPlayTime = section.sectionLastPlayTime;
+    }
+    if (fileType == MPMovieSourceTypeFile) {
+        self.movieUrl = [NSURL fileURLWithPath:[CaiJinTongManager getMovieLocalPathWithSectionID:sectionModel.sectionId]];
+    }else
+        if (fileType == MPMovieSourceTypeStreaming) {
+            self.movieUrl = [NSURL URLWithString:sectionModel.sectionMoviePlayURL];
         }
+    [self notificateBackwillBeginPlayMovie];
+    [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];
+     self.moviePlayer.movieSourceType = self.drMovieSourceType;
+    [self.moviePlayer setContentURL:self.movieUrl];
+    self.moviePlayer.initialPlaybackTime = [self.sectionModel.sectionLastPlayTime floatValue];
+    if (self.moviePlayer.playbackState != MPMoviePlaybackStatePlaying) {
+        [self.moviePlayer play];
+    }
+    self.isPlaying = YES;
+    [self startStudyTime];
+}
+
+#pragma mark --
+
+#pragma mark 开始播放
+-(void)playMovieWithSectionModel:(SectionModel*)sectionModel withFileType:(MPMovieSourceType)fileType{
+    if (!sectionModel) {
+        [Utility errorAlert:@"没有发现要播放的文件"];
+        return;
+    }
     self.sectionModel = sectionModel;
     [self addMoviePlayBackNotification];
     self.drMovieSourceType = fileType;
@@ -667,6 +717,8 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
         [self playMovie];
     }
 }
+#pragma mark --
+
 
 -(void)addMoviePlayBackNotification{
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeMoviePlayerLoadStateNotification) name:MPMoviePlayerLoadStateDidChangeNotification object:nil];
@@ -835,6 +887,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [MBProgressHUD hideHUDForView:self.moviePlayerView animated:YES];
             if (self.isBack) {
                 [self exitPlayMovie];
             }
@@ -845,6 +898,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
 -(void)getPlayBackDidFailed:(NSString *)errorMsg {
     dispatch_async(dispatch_get_main_queue(), ^{
         [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDForView:self.moviePlayerView animated:YES];
         if (self.isBack) {
             [self exitPlayMovie];
         }else

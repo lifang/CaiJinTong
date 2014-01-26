@@ -392,6 +392,10 @@
 		63C7FBCC187E8B0E0051EEBE /* DownloadDataButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C7FBC8187E8B0E0051EEBE /* DownloadDataButton.m */; };
 		63C7FC20187EA9000051EEBE /* DRImageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C7FC1F187EA9000051EEBE /* DRImageButton.m */; };
 		63C7FC23187EB5A40051EEBE /* LearningMaterialCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C7FC22187EB5A40051EEBE /* LearningMaterialCell.m */; };
+		63C8A2661893BEC500C51FEA /* 1024.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C8A2621893BEC500C51FEA /* 1024.png */; };
+		63C8A2671893BEC500C51FEA /* Icon_76x76.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C8A2631893BEC500C51FEA /* Icon_76x76.png */; };
+		63C8A2681893BEC500C51FEA /* Icon_120X120.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C8A2641893BEC500C51FEA /* Icon_120X120.png */; };
+		63C8A2691893BEC500C51FEA /* Icon_152X152.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C8A2651893BEC500C51FEA /* Icon_152X152.png */; };
 		63D1B5E01867F02D00506D03 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 630B03BF1820F5BB00F72C4C /* Main_iPad.storyboard */; };
 		63D1B5E11867F02D00506D03 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 630B03BC1820F5BB00F72C4C /* Main_iPhone.storyboard */; };
 		63D284081883D5F5005D8721 /* login_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63D284071883D5F5005D8721 /* login_background@2x.png */; };
@@ -1042,6 +1046,10 @@
 		63C7FC1F187EA9000051EEBE /* DRImageButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRImageButton.m; sourceTree = "<group>"; };
 		63C7FC21187EB5A40051EEBE /* LearningMaterialCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LearningMaterialCell.h; sourceTree = "<group>"; };
 		63C7FC22187EB5A40051EEBE /* LearningMaterialCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LearningMaterialCell.m; sourceTree = "<group>"; };
+		63C8A2621893BEC500C51FEA /* 1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1024.png; sourceTree = "<group>"; };
+		63C8A2631893BEC500C51FEA /* Icon_76x76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon_76x76.png; sourceTree = "<group>"; };
+		63C8A2641893BEC500C51FEA /* Icon_120X120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon_120X120.png; sourceTree = "<group>"; };
+		63C8A2651893BEC500C51FEA /* Icon_152X152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon_152X152.png; sourceTree = "<group>"; };
 		63D284071883D5F5005D8721 /* login_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_background@2x.png"; sourceTree = "<group>"; };
 		63D284091883D636005D8721 /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x.png"; sourceTree = "<group>"; };
 		63D2840C1883D690005D8721 /* login_pwdinput.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login_pwdinput.png; sourceTree = "<group>"; };
@@ -2215,9 +2223,21 @@
 			name = LearningMatrials;
 			sourceTree = "<group>";
 		};
+		63C8A2611893BB5200C51FEA /* icon */ = {
+			isa = PBXGroup;
+			children = (
+				63C8A2621893BEC500C51FEA /* 1024.png */,
+				63C8A2631893BEC500C51FEA /* Icon_76x76.png */,
+				63C8A2641893BEC500C51FEA /* Icon_120X120.png */,
+				63C8A2651893BEC500C51FEA /* Icon_152X152.png */,
+			);
+			name = icon;
+			sourceTree = "<group>";
+		};
 		63D284051883BED5005D8721 /* newImages */ = {
 			isa = PBXGroup;
 			children = (
+				63C8A2611893BB5200C51FEA /* icon */,
 				63A77ACA1887D38800E86C73 /* notes */,
 				63A77AB91887D11300E86C73 /* downloadProgressBar */,
 				63A77AB61887D0AD00E86C73 /* leftnavigationBar */,
@@ -2451,6 +2471,7 @@
 				63D2840F1883D690005D8721 /* login_pwdinput.png in Resources */,
 				18C9313A18363B2A00FBE1A8 /* play-M.png in Resources */,
 				6395A1FC187BDD6800F304CC /* DeleteNote.geojson in Resources */,
+				63C8A2671893BEC500C51FEA /* Icon_76x76.png in Resources */,
 				18EDCC7E188CF3CB00226530 /* _money@2x.png in Resources */,
 				0EAFA0EE1822167800D01D3E /* chapterQuestion.json in Resources */,
 				63A77ACD1887D39200E86C73 /* delete@2x.png in Resources */,
@@ -2466,6 +2487,7 @@
 				639F434E18631804006FBE26 /* close@2x.png in Resources */,
 				63D2841A1883DBB3005D8721 /* navi_background@2x.png in Resources */,
 				63F1C2311884FB2B00EE711F /* navi_search_gray.png in Resources */,
+				63C8A2681893BEC500C51FEA /* Icon_120X120.png in Resources */,
 				0E9C9EF5184321E600D48781 /* down.png in Resources */,
 				18C9313B18363B2A00FBE1A8 /* play-table@2x.png in Resources */,
 				1815325618360DF40078A410 /* Q&A-myq_15@2x.png in Resources */,
@@ -2493,10 +2515,12 @@
 				0EAFA0EB1822167800D01D3E /* answerPraise.json in Resources */,
 				181532491835EA400078A410 /* pdlay-courselistd_07@2x.png in Resources */,
 				63A77ACE1887D39200E86C73 /* setting@2x.png in Resources */,
+				63C8A2691893BEC500C51FEA /* Icon_152X152.png in Resources */,
 				63A589001848445500F3B926 /* pause@2x.png in Resources */,
 				18199EFD18811C4D00377B74 /* Lesson_Item_S@2x.png in Resources */,
 				18153251183608330078A410 /* Q&A-myq_11@2x.png in Resources */,
 				0EAFA0F91822167800D01D3E /* searchLesson.json in Resources */,
+				63C8A2661893BEC500C51FEA /* 1024.png in Resources */,
 				63A77AC41887D31F00E86C73 /* excel@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
