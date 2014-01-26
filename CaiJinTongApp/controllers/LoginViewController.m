@@ -101,16 +101,11 @@
             [self.userNameTextField resignFirstResponder];
             [self.pwdTextField resignFirstResponder];
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-                    [MBProgressHUD hideHUDForView:self.view animated:YES];
-                    [Utility errorAlert:@"暂无网络!"];
-                }else {
-                    LogInterface *log = [[LogInterface alloc]init];
-                    self.logInterface = log;
-                    self.logInterface.delegate = self;
-                    [self.logInterface getLogInterfaceDelegateWithName:self.userNameTextField.text andPassWord:self.pwdTextField.text];
-                }
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                LogInterface *log = [[LogInterface alloc]init];
+                self.logInterface = log;
+                self.logInterface.delegate = self;
+                [self.logInterface getLogInterfaceDelegateWithName:self.userNameTextField.text andPassWord:self.pwdTextField.text];
             });
             
         }else{

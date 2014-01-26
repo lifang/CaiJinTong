@@ -1964,7 +1964,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <!--Navigation Controller-->
         <scene sceneID="DJv-CF-HNk">
             <objects>
-                <navigationController definesPresentationContext="YES" navigationBarHidden="YES" id="gbO-Oi-S6b" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="DRNavigationController" definesPresentationContext="YES" navigationBarHidden="YES" id="gbO-Oi-S6b" customClass="DRNavigationController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="c2p-nj-d8w">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -2283,13 +2283,6 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <image name="arrow_bottom_icon&amp;48.png" width="24" height="24"/>
         <image name="bggg.png" width="286" height="94"/>
         <image name="btn.png" width="141" height="45"/>
-        <image name="btn.png" width="141" height="45"/>
-        <image name="btn.png" width="141" height="45"/>
-        <image name="btn.png" width="141" height="45"/>
-        <image name="btn.png" width="141" height="45"/>
-        <image name="btn.png" width="141" height="45"/>
-        <image name="btn0.png" width="118" height="33"/>
-        <image name="btn0.png" width="118" height="33"/>
         <image name="btn0.png" width="118" height="33"/>
         <image name="bttn1.png" width="286" height="48"/>
         <image name="delete.png" width="21" height="21"/>
@@ -2297,12 +2290,8 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <image name="leftItemBg.png" width="24" height="24"/>
         <image name="loogoo.png" width="132" height="35"/>
         <image name="pdlay-courselistd_07.png" width="436" height="20"/>
-        <image name="pdlay-courselistd_07.png" width="436" height="20"/>
-        <image name="play-M.png" width="24" height="24"/>
         <image name="play-M.png" width="24" height="24"/>
         <image name="play-courselist_06.png" width="436" height="20"/>
-        <image name="play-courselist_06.png" width="436" height="20"/>
-        <image name="play-table.png" width="26" height="26"/>
         <image name="play-table.png" width="26" height="26"/>
         <image name="play_barBG.png" width="1024" height="69"/>
         <image name="play_chat.png" width="26" height="26"/>
@@ -2310,8 +2299,6 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <image name="play_volume.png" width="28" height="19"/>
         <image name="setting.png" width="21" height="21"/>
         <image name="zoom_icon&amp;48.png" width="24" height="24"/>
-        <image name="zoom_icon&amp;48.png" width="24" height="24"/>
-        <image name="按钮背景.png" width="220" height="50"/>
         <image name="按钮背景.png" width="220" height="50"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
