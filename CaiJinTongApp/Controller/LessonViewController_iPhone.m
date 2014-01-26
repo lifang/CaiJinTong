@@ -632,6 +632,7 @@
     return _lessonInterface;
 }
 
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
