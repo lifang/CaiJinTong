@@ -37,7 +37,7 @@
 
 - (IBAction)questionOKBtClicked:(id)sender {
     if (!self.questionTextField.text || [[self.questionTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
-        [Utility errorAlert:@"追问内容不能为空"];
+        [Utility errorAlert:@"内容不能为空"];
         return;
     }
     if (self.delegate && [self.delegate respondsToSelector:@selector(QuestionAndAnswerCell_iPhone:summitQuestion:atIndexPath:withReaskType:)]) {
