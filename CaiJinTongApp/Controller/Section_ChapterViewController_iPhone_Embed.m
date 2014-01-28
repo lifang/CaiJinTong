@@ -44,6 +44,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.tableViewList registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"header"];
 	[[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(initBtn:)
                                                  name: @"downloadStart"
@@ -109,15 +110,26 @@
     return 15.0;
 }
 
+//-(UITableViewHeaderFooterView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+//    UITableViewHeaderFooterView *header = [[UITableViewHeaderFooterView alloc] init];
+//    chapterModel *chapter = [self.dataArray objectAtIndex:section];
+//    UILabel *label = [[UILabel alloc] initWithFrame:(CGRect){0,1,276,15}];
+//    label.font = [UIFont systemFontOfSize:12];
+//    label.text = chapter.chapterName;
+//    label.textColor = [UIColor darkGrayColor];
+//    label.backgroundColor = [ UIColor lightGrayColor];
+//    [header.contentView addSubview:label];
+//    return header;
+//}
+
 -(UITableViewHeaderFooterView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UITableViewHeaderFooterView *header = [[UITableViewHeaderFooterView alloc] init];
+    UITableViewHeaderFooterView *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"header"];
     chapterModel *chapter = [self.dataArray objectAtIndex:section];
-    UILabel *label = [[UILabel alloc] initWithFrame:(CGRect){0,1,276,15}];
+    UILabel *label = header.textLabel;
     label.font = [UIFont systemFontOfSize:12];
     label.text = chapter.chapterName;
     label.textColor = [UIColor darkGrayColor];
     label.backgroundColor = [ UIColor lightGrayColor];
-    [header.contentView addSubview:label];
     return header;
 }
 
