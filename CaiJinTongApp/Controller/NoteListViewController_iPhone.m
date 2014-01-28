@@ -59,6 +59,11 @@
     [self.noteListInterface downloadNoteListWithUserId:user.userId withPageIndex:0];
 }
 
+-(void)dealloc{
+    [self.headerRefreshView free];
+    [self.footerRefreshView free];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -206,6 +211,10 @@
     [self.searchNoteInterface searchNoteListWithUserId:user.userId withSearchContent:searchText withPageIndex:0];
 }
 
+-(void)chapterSeachBar_iPhone:(ChapterSearchBar_iPhone *)searchBar clearSearchString:(NSString *)searchText{
+    self.isSearchRefreshing = NO;
+    [self.noteListTableView reloadData];
+}
 #pragma mark --
 
 #pragma mark UITableViewDelegate
@@ -398,8 +407,14 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         self.isEditing = NO;
         if (self.modifyNoteInterface.path) {
-            NoteModel *note = [self.noteDateList objectAtIndex:self.modifyNoteInterface.path.row];
-            note.noteText = self.modifyNoteInterface.modifyContent;
+            if (self.isSearchRefreshing) {
+                NoteModel *note = [self.searchArray objectAtIndex:self.modifyNoteInterface.path.row];
+                note.noteText = self.modifyNoteInterface.modifyContent;
+            }else{
+                NoteModel *note = [self.noteDateList objectAtIndex:self.modifyNoteInterface.path.row];
+                note.noteText = self.modifyNoteInterface.modifyContent;
+            }
+            
             [self.noteListTableView reloadData];
         }
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -423,7 +438,12 @@
 -(void)deleteNoteDidFinished:(NSString *)success{
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self.deleteNoteInterface.path) {
-            [self.noteDateList removeObjectAtIndex:self.deleteNoteInterface.path.row];
+            if (self.isSearchRefreshing) {
+                [self.searchArray removeObjectAtIndex:self.deleteNoteInterface.path.row];
+            }else{
+                [self.noteDateList removeObjectAtIndex:self.deleteNoteInterface.path.row];
+            }
+            
             [self.noteListTableView reloadData];
         }
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -447,7 +467,7 @@
         if(self.searchBar.hidden == NO){
             [self rightItemClicked:nil];
         }
-        self.searchBar.searchTextField.text = nil;
+//        self.searchBar.searchTextField.text = nil;
         if (pageIndex <= 0) {
             self.searchArray = [NSMutableArray arrayWithArray:noteList];
         }else{
@@ -587,6 +607,7 @@
                          animations:^{
                              //                             [self.searchBar setFrame:CGRectMake(19, IP5(65, 55), 282, 34)];
                              [self.searchBar setAlpha:1.0];
+                             [self.searchBar.searchTextField becomeFirstResponder];
                          }
                          completion:nil];
     }else{
@@ -594,6 +615,7 @@
         [UIView animateWithDuration:0.5
                          animations:^{
                              [self.searchBar setAlpha:0.0];
+                             [self.searchBar.searchTextField resignFirstResponder];
                              //                             [self.searchBar setFrame:CGRectMake(19, IP5(65, 55), 1, 1)];
                          }
                          completion:^ void (BOOL completed){

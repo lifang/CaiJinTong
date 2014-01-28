@@ -141,6 +141,8 @@
             cell.statusLab.text = @"已下载";
         }else if (sectionSave.downloadState == 2) {
             cell.statusLab.text = @"继续下载";
+        }else if (sectionSave.downloadState == 4) {
+            cell.statusLab.text = @"未下载";
         }else {
             cell.statusLab.text = @"下载";
         }

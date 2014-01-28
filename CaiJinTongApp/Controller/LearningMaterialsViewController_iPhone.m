@@ -49,6 +49,10 @@
     return self;
 }
 
+-(void)dealloc{
+    [self.footerRefreshView free];
+    [self.headerRefreshView free];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];

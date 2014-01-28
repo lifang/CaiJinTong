@@ -45,6 +45,8 @@
     UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
     self.askQuestionController  = [story instantiateViewControllerWithIdentifier:@"DRAskQuestionViewController"];
     self.askQuestionController.delegate = self;
+    MBProgressHUD *progress = [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
+    [progress hideTop:YES afterDelay:1.0];
     [self.navigationController pushViewController:self.askQuestionController animated:YES];
 }
 
@@ -133,7 +135,7 @@
     self.isSearch = YES;
      self.isReaskRefreshing = NO;
     UserModel *user = [[CaiJinTongManager shared] user];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     self.searchContent = searchText;
     self.questionAndAnswerScope = QuestionAndAnswerSearchQuestion;
     [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:user.userId andText:self.searchContent withLastQuestionId:@"0"];
@@ -252,7 +254,7 @@
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else{
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+       [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
         QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
         question.isEditing = NO;
          int row = [self convertIndexpathToRow:path];
@@ -300,7 +302,7 @@
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else{
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+       [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
         QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
         AnswerModel *answer = [question.answerList objectAtIndex:path.row];
         self.activeIndexPath = path;
@@ -313,7 +315,7 @@
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else{
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+       [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
         QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
         AnswerModel *answer = [question.answerList objectAtIndex:path.row];
         [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:reaskType andAnswerContent:questionStr andQuestionId:question.questionId andAnswerID:answer.resultId  andResultId:@"1"];
@@ -343,7 +345,7 @@
     if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
         [Utility errorAlert:@"暂无网络!"];
     }else {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+       [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
         self.activeIndexPath = path;
         AcceptAnswerInterface *acceptAnswerInter = [[AcceptAnswerInterface alloc]init];
         self.acceptAnswerInterface = acceptAnswerInter;
@@ -628,7 +630,7 @@
         self.headerRefreshView.isForbidden = NO;
         [self.footerRefreshView endRefreshing];
         self.footerRefreshView.isForbidden = NO;
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
         [Utility errorAlert:errorMsg];
     });
 }
@@ -637,7 +639,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
         dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
             self.question_pageIndex = self.question_pageIndex+1;
             if (self.headerRefreshView.isForbidden) {//加载下一页
                 [self nextPageDataWithDataArray:chapterQuestionList withQuestionChapterID:self.chapterID withScope:self.questionAndAnswerScope];
@@ -657,7 +659,7 @@
 
 #pragma mark AnswerPraiseInterfaceDelegate 赞回调
 -(void)getAnswerPraiseInfoDidFinished:(NSDictionary *)result{
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
     [Utility errorAlert:@"赞成功"];
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:self.activeIndexPath.section];
     AnswerModel *answer = [question.answerList objectAtIndex:self.activeIndexPath.row];
@@ -668,7 +670,7 @@
 }
 
 -(void)getAnswerPraiseInfoDidFailed:(NSString *)errorMsg{
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
     [Utility errorAlert:@"赞失败"];
 }
 #pragma mark --
@@ -676,12 +678,12 @@
 #pragma mark SubmitAnswerInterfaceDelegate 提交回答或者提交追问的代理
 -(void)getSubmitAnswerInfoDidFinished:(NSDictionary *)result withReaskType:(ReaskType)reask{
     self.isReaskRefreshing = YES;
+    self.tableView.contentOffset = (CGPoint){self.tableView.contentOffset.x,0};
      [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andChapterQuestionId:self.chapterID andLastQuestionID:nil];
 }
 
 -(void)getSubmitAnswerDidFailed:(NSString *)errorMsg withReaskType:(ReaskType)reask{
-
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
     [Utility errorAlert:@"提交失败"];
 }
 
@@ -704,14 +706,14 @@
                     [self changeQuestionIndexPathToAnswerIndexPath:chapterQuestionList];
                 }
                  [self.tableView reloadData];
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
                 [self.headerRefreshView endRefreshing];
                 self.headerRefreshView.isForbidden = NO;
                 [self.footerRefreshView endRefreshing];
                 self.footerRefreshView.isForbidden = NO;
             }
         });
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
     });
 }
 
@@ -721,7 +723,7 @@
         self.headerRefreshView.isForbidden = NO;
         [self.footerRefreshView endRefreshing];
         self.footerRefreshView.isForbidden = NO;
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
         [Utility errorAlert:errorMsg];
     });
 }
@@ -761,7 +763,7 @@
             }else{
                 [Utility errorAlert:@"数据为空"];
             }
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
         }
         
         [self.headerRefreshView endRefreshing];
@@ -777,7 +779,7 @@
         self.headerRefreshView.isForbidden = NO;
         [self.footerRefreshView endRefreshing];
         self.footerRefreshView.isForbidden = NO;
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
         [Utility errorAlert:errorMsg];
     });
 }
@@ -788,7 +790,7 @@
 -(void)getAcceptAnswerInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
             QuestionModel *question = [self.myQuestionArr  objectAtIndex:self.activeIndexPath.section];
             AnswerModel *answer = [question.answerList objectAtIndex:self.activeIndexPath.row];
             question.isAcceptAnswer = @"1";
@@ -801,16 +803,14 @@
 }
 -(void)getAcceptAnswerInfoDidFailed:(NSString *)errorMsg {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
         [Utility errorAlert:errorMsg];
     });
 }
 
 -(void)dealloc{
-    if (self.questionAndAnswerScope == QuestionAndAnswerALL) {
-        [self.headerRefreshView free];
-        [self.footerRefreshView free];
-    }
+    [self.headerRefreshView free];
+    [self.footerRefreshView free];
 }
 
 @end

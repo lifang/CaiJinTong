@@ -47,6 +47,11 @@
     [self.lessonListForCategory downloadLessonListForCategoryId:nil withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
 }
 
+-(void)dealloc{
+    [self.footerRefreshView free];
+    [self.headerRefreshView free];
+}
+
 - (void)viewDidLoad
 {
     self.treeViewInited = NO;
@@ -393,16 +398,10 @@
 #pragma mark lhlNavigationBar
 
 -(void)rightItemClicked:(id)sender{
-    if(!self.treeViewInited){
-        [self downloadLessonCategoryInfo];
-        [self drTreeTableView];
-        self.menuVisible = YES;
-        [self.view addSubview:self.drTreeTableView];
-        [self.drTreeTableView setBackgroundColor:[UIColor colorWithRed:6.0/255.0 green:18.0/255.0 blue:27.0/255.0 alpha:1.0]];
-        self.treeViewInited = YES;
-    }else{
-        self.menuVisible = !self.menuVisible;
+    if (self.drTreeTableView.noteArr.count <= 0) {
+         [self downloadLessonCategoryInfo];
     }
+    self.menuVisible = !self.menuVisible;
     [self.searchBar.searchTextField resignFirstResponder];
 }
 
@@ -585,6 +584,8 @@
     if (!_drTreeTableView) {
         _drTreeTableView = [[DRTreeTableView alloc] initWithFrame:CGRectMake(320,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55)) withTreeNodeArr:nil];
         _drTreeTableView.delegate = self;
+         [_drTreeTableView setBackgroundColor:[UIColor colorWithRed:6.0/255.0 green:18.0/255.0 blue:27.0/255.0 alpha:1.0]];
+        [self.view addSubview:_drTreeTableView];
     }
     return _drTreeTableView;
 }

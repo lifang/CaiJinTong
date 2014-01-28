@@ -24,12 +24,14 @@
 @property (nonatomic,assign) BOOL isHiddlePlayerControlView;
 @property (nonatomic,assign) BOOL isPlaying;
 @property (nonatomic,assign) BOOL isPopupChapter;
+@property (nonatomic,assign) BOOL isForgoundForPlayerView;//判断当前播放界面是否能和用户交互
 @property (nonatomic,assign) BOOL isBack;//是否退出播放
 @property (nonatomic,assign) __block float currentMoviePlaterVolume;
 @property (nonatomic, assign) long  long studyTime;//学习时间
 @property (assign,nonatomic) MPMovieSourceType drMovieSourceType;//播放文件类型，本地还是在线视频
 @property (nonatomic, strong)  UIButton *cutScreenButton;//截屏
 @property (nonatomic,strong) DRCommitQuestionViewController *commitQuestionController;
+@property (nonatomic,strong) MBProgressHUD *loadMovieDataProgressView;
 @end
 
 @implementation DRMoviePlayViewController
@@ -42,6 +44,7 @@
 }
 
 -(void)willDismissPopoupController{
+    self.isForgoundForPlayerView = YES;
     self.myQuestionItem.isSelected = NO;
     self.myNotesItem.isSelected = NO;
     if (self.isPlaying) {
@@ -80,30 +83,31 @@
 }
 
 #pragma mark app notification
-- (void)appWillResignActive:(UIApplication *)application
-{
-    if (self.isPlaying) {
-        [self.moviePlayer pause];
-    }
-}
 
 - (void)appDidEnterBackground:(UIApplication *)application
 {
-    if (self.isPlaying) {
+    if (self.isPlaying && self.isForgoundForPlayerView) {
         [self.moviePlayer pause];
     }
 }
 
 - (void)appWillEnterForeground:(UIApplication *)application
 {
-    if (self.isPlaying) {
+    if (self.isPlaying && self.isForgoundForPlayerView) {
         [self.moviePlayer play];
+    }
+}
+
+- (void)appWillResignActive:(UIApplication *)application
+{
+    if (self.isPlaying && self.isForgoundForPlayerView) {
+        [self.moviePlayer pause];
     }
 }
 
 - (void)appDidBecomeActive:(UIApplication *)application
 {
-    if (self.isPlaying) {
+    if (self.isPlaying && self.isForgoundForPlayerView) {
         [self.moviePlayer play];
     }
 }
@@ -118,15 +122,15 @@
 #pragma mark --
 
 -(void)addApplicationNotification{
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(appDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
 }
 - (void)viewDidLoad
@@ -141,6 +145,7 @@
     self.myQuestionItem.delegate = self;
     
     self.isPopupChapter = NO;
+    self.isForgoundForPlayerView = YES;
 //    [self addMoviePlayBackNotification];
 
 //    [self.moviePlayer play];
@@ -194,16 +199,15 @@
     
 }
 #pragma mark --
-
 -(void)dealloc{
-    [self removeMoviePlayBackNotification];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-#pragma mark MovieControllerItemDelegate
+#pragma mark MovieControllerItemDelegate选择笔记，章节和提问问题
 -(void)moviePlayBarSelected:(MovieControllerItem *)item{
     if (item == self.chapterListItem) {
         if (!self.isPopupChapter) {
@@ -226,11 +230,20 @@
 //                self.section_chapterController.dataArray = [NSMutableArray arrayWithArray:[sectionDB getChapterInfoWithSid:self.sectionSaveModel.sid]];
 //            }
             self.isPopupChapter = YES;
+            self.isForgoundForPlayerView = NO;
+            if (self.isPlaying) {
+                [self changePlayButtonStatus:NO];
+            }
         }else {
             self.isPopupChapter = NO;
+            self.isForgoundForPlayerView = YES;
+            if (self.isPlaying) {
+                [self changePlayButtonStatus:YES];
+            }
         }
     }else
     if (item == self.myQuestionItem) {
+        self.isForgoundForPlayerView = NO;
         [self changePlayButtonStatus:NO];
         DRCommitQuestionViewController *commitController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRCommitQuestionViewController"];
         commitController.view.frame = (CGRect){0,0,804,426};
@@ -242,6 +255,7 @@
         self.isPopupChapter = NO;
     }else
     if (item == self.myNotesItem) {
+        self.isForgoundForPlayerView = NO;
         [self changePlayButtonStatus:NO];
         DRTakingMovieNoteViewController *takingController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRTakingMovieNoteViewController"];
         takingController.view.frame = (CGRect){0,0,804,300};
@@ -345,7 +359,14 @@
 #pragma mark notification//切换视频通知
 -(void)changePlayVideoOnLine:(NSNotification*)notification{
     self.isBack = NO;
-    [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];
+    self.isPopupChapter = NO;
+     [self changePlayButtonStatus:YES];
+    if (self.loadMovieDataProgressView) {
+                 [self.loadMovieDataProgressView removeFromSuperview];
+                [self.loadMovieDataProgressView hide:NO];
+                self.loadMovieDataProgressView = nil;
+            }
+            self.loadMovieDataProgressView =  [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];;
     [self saveCurrentStatus];
     SectionModel *section = [notification.userInfo objectForKey:@"sectionModel"];
     self.drMovieSourceType = MPMovieSourceTypeStreaming;
@@ -360,7 +381,14 @@
 }
 
 -(void)playVideo:(NSNotification*)notification{
-    [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];
+     self.isPopupChapter = NO;
+    [self changePlayButtonStatus:YES];
+    if (self.loadMovieDataProgressView) {
+                 [self.loadMovieDataProgressView removeFromSuperview];
+                [self.loadMovieDataProgressView hide:NO];
+                self.loadMovieDataProgressView = nil;
+            }
+            self.loadMovieDataProgressView =  [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];;
     self.isBack = NO;
     [self saveCurrentStatus];
     NSString *sectionID = [notification.userInfo objectForKey:@"sectionID"];
@@ -384,38 +412,34 @@
     switch (self.moviePlayer.playbackState) {
         case MPMoviePlaybackStateStopped:
         {
-            [MBProgressHUD hideHUDForView:self.moviePlayerView animated:YES];
             break;
         }
         
         case MPMoviePlaybackStatePlaying:
         {
-            [MBProgressHUD hideHUDForView:self.moviePlayerView animated:YES];
             [self startObservePlayBackProgressBar];
             break;
         }
             
         case MPMoviePlaybackStatePaused:
         {
-            [MBProgressHUD hideHUDForView:self.moviePlayerView animated:YES];
             break;
         }
             
         case MPMoviePlaybackStateInterrupted:
         {
-            [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];
+
             break;
         }
         
         case MPMoviePlaybackStateSeekingForward:
         {
-             [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];
+
             break;
         }
             
         case MPMoviePlaybackStateSeekingBackward:
         {
-             [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];
             break;
         }
         default:
@@ -451,19 +475,31 @@
 
 -(void)didChangeMoviePlayerURLNotification{//播放的视频url改变时触发
     DLog(@"didChangeMoviePlayerURLNotification:%@",self.moviePlayer.contentURL);
-    [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];
+    if (self.loadMovieDataProgressView) {
+                 [self.loadMovieDataProgressView removeFromSuperview];
+                [self.loadMovieDataProgressView hide:NO];
+                self.loadMovieDataProgressView = nil;
+            }
+            self.loadMovieDataProgressView =  [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];;
 }
 
 -(void)didChangeMoviePlayerLoadStateNotification{//加载状态改变时触发：
     DLog(@"didChangeMoviePlayerLoadStateNotification:%d",self.moviePlayer.loadState);
-    if (self.moviePlayer.loadState == MPMovieLoadStatePlayable) {
-        [MBProgressHUD hideHUDForView:self.moviePlayerView animated:YES];
-    } else if (self.moviePlayer.loadState == MPMovieLoadStateStalled) {
-        [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];
-    }else if (self.moviePlayer.loadState == MPMovieLoadStatePlaythroughOK) {
-        [MBProgressHUD hideHUDForView:self.moviePlayerView animated:YES];
+    MPMovieLoadState state = self.moviePlayer.loadState;
+    if (state & MPMovieLoadStatePlaythroughOK) {
+        for (UIView *subView in self.moviePlayerView.subviews) {
+            if ([subView isKindOfClass:[MBProgressHUD class]]) {
+                [subView removeFromSuperview];
+            }
+        }
+    }else if (state & MPMovieLoadStateStalled){
+        if (self.loadMovieDataProgressView) {
+             [self.loadMovieDataProgressView removeFromSuperview];
+                [self.loadMovieDataProgressView hide:NO];
+            self.loadMovieDataProgressView = nil;
+        }
+        self.loadMovieDataProgressView =  [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];
     }
-    
 }
 
 #pragma mark --
@@ -593,7 +629,12 @@
         return;
     }
     [self notificateBackwillBeginPlayMovie];
-    [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];
+    if (self.loadMovieDataProgressView) {
+                 [self.loadMovieDataProgressView removeFromSuperview];
+                [self.loadMovieDataProgressView hide:NO];
+                self.loadMovieDataProgressView = nil;
+            }
+            self.loadMovieDataProgressView =  [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];;
     if (self.moviePlayer.isPreparedToPlay) {
         [self.moviePlayer stop];
     }
@@ -627,7 +668,11 @@
         }
         [[Section defaultSection] addPlayTimeOffLineWithSectionId:self.sectionModel.sectionId withTimeForSecond:[NSString stringWithFormat:@"%llu",self.studyTime]];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [MBProgressHUD hideHUDForView:self.moviePlayerView animated:YES];
+       if (self.loadMovieDataProgressView) {
+                [self.loadMovieDataProgressView removeFromSuperview];
+            [self.loadMovieDataProgressView hide:YES];
+                self.loadMovieDataProgressView = nil;
+            }
     }else {
         //判断是否播放完毕
         //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -666,6 +711,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
     }
     [self.moviePlayer stop];
     self.sectionModel = sectionModel;
+    [self removeMoviePlayBackNotification];
     [self addMoviePlayBackNotification];
     self.drMovieSourceType = fileType;
     self.drMovieTopBar.titleLabel.text = sectionModel.sectionName;
@@ -680,7 +726,12 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
             self.movieUrl = [NSURL URLWithString:sectionModel.sectionMoviePlayURL];
         }
     [self notificateBackwillBeginPlayMovie];
-    [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];
+    if (self.loadMovieDataProgressView) {
+                 [self.loadMovieDataProgressView removeFromSuperview];
+                [self.loadMovieDataProgressView hide:NO];
+                self.loadMovieDataProgressView = nil;
+            }
+            self.loadMovieDataProgressView =  [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];;
      self.moviePlayer.movieSourceType = self.drMovieSourceType;
     [self.moviePlayer setContentURL:self.movieUrl];
     self.moviePlayer.initialPlaybackTime = [self.sectionModel.sectionLastPlayTime floatValue];
@@ -700,6 +751,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
         return;
     }
     self.sectionModel = sectionModel;
+    [self removeMoviePlayBackNotification];
     [self addMoviePlayBackNotification];
     self.drMovieSourceType = fileType;
     self.drMovieTopBar.titleLabel.text = sectionModel.sectionName;
@@ -887,7 +939,11 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [MBProgressHUD hideHUDForView:self.moviePlayerView animated:YES];
+           if (self.loadMovieDataProgressView) {
+                [self.loadMovieDataProgressView removeFromSuperview];
+            [self.loadMovieDataProgressView hide:YES];
+                self.loadMovieDataProgressView = nil;
+            }
             if (self.isBack) {
                 [self exitPlayMovie];
             }
@@ -898,7 +954,11 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
 -(void)getPlayBackDidFailed:(NSString *)errorMsg {
     dispatch_async(dispatch_get_main_queue(), ^{
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [MBProgressHUD hideHUDForView:self.moviePlayerView animated:YES];
+       if (self.loadMovieDataProgressView) {
+                [self.loadMovieDataProgressView removeFromSuperview];
+            [self.loadMovieDataProgressView hide:YES];
+                self.loadMovieDataProgressView = nil;
+            }
         if (self.isBack) {
             [self exitPlayMovie];
         }else

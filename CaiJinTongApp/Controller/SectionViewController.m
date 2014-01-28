@@ -67,6 +67,10 @@
         
     }];
 }
+
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -360,7 +364,7 @@
 -(Section_NoteViewController *)section_NoteView{
     if (!_section_NoteView) {
         _section_NoteView = [self.storyboard instantiateViewControllerWithIdentifier:@"Section_NoteViewController"];
-        [self addChildViewController:_section_NoteView];
+//        [self addChildViewController:_section_NoteView];
     }
     return _section_NoteView;
 }
@@ -368,7 +372,7 @@
 -(Section_GradeViewController *)section_GradeView{
     if (!_section_GradeView) {
         _section_GradeView = [self.storyboard instantiateViewControllerWithIdentifier:@"Section_GradeViewController"];
-        [self addChildViewController:_section_GradeView];
+//        [self addChildViewController:_section_GradeView];
     }
     return _section_GradeView;
 }
@@ -376,7 +380,7 @@
 -(Section_ChapterViewController *)section_ChapterView{
     if (!_section_ChapterView) {
         _section_ChapterView =  [self.storyboard instantiateViewControllerWithIdentifier:@"Section_ChapterViewController"];
-        [self addChildViewController:_section_ChapterView];
+//        [self addChildViewController:_section_ChapterView];
     }
     return _section_ChapterView;
 }

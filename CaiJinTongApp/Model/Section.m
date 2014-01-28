@@ -295,7 +295,7 @@ static Section *defaultSection = nil;
                 ,model.fileUrl
                 ,model.playUrl
                 ,model.localFileUrl
-                ,@"0"
+                ,@"4"
                 ,[NSString stringWithFormat:@"%f", model.downloadPercent]
                 ,@"0"
                 ,@"0"
@@ -400,7 +400,7 @@ static Section *defaultSection = nil;
          ,section.sectionMovieDownloadURL
          ,section.sectionMoviePlayURL
          ,section.sectionMovieLocalURL?:@""
-         ,@"0"
+         ,@"4"
          ,@"0"
          ,@"0"
          ,section.sectionLastPlayTime

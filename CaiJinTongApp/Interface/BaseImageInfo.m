@@ -42,9 +42,6 @@
         if (url) {
             self.request = [ASIFormDataRequest requestWithURL:url];
         }
-        
-        [url release];
-        
         //设置缓存机制
         [[InterfaceCache sharedCache] setShouldRespectCacheControlHeaders:NO];
         [self.request setDownloadCache:[InterfaceCache sharedCache]];
@@ -93,8 +90,6 @@
     self.interfaceUrl = nil;
     self.headers = nil;
     self.bodys = nil;
-    
-    [super dealloc];
 }
 
 @end

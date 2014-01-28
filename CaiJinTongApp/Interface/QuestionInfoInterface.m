@@ -76,7 +76,7 @@
 }
 
 +(NSMutableArray*)getTreeNodeArrayFromArray:(NSArray*)arr{
-    return [QuestionInfoInterface getTreeNodeArrayFromArray:arr withLevel:0 withRootContentID:@"-2"];
+    return [QuestionInfoInterface getTreeNodeArrayFromArray:arr withLevel:1 withRootContentID:@"-2"];
 }
 
 +(NSMutableArray*)getTreeNodeArrayFromArray:(NSArray*)arr withLevel:(int)level withRootContentID:(NSString*)rootContentID{

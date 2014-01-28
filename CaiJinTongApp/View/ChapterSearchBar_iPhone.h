@@ -20,5 +20,5 @@
 @protocol ChapterSearchBarDelegate_iPhone <NSObject>
 
 -(void)chapterSeachBar_iPhone:(ChapterSearchBar_iPhone*)searchBar beginningSearchString:(NSString*)searchText;
-
+-(void)chapterSeachBar_iPhone:(ChapterSearchBar_iPhone*)searchBar clearSearchString:(NSString*)searchText;
 @end

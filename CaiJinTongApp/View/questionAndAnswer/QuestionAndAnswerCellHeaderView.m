@@ -149,6 +149,7 @@
 #pragma mark --
 
 -(void)willAnswerQuestionBtClicked{
+    self.answerQuestionTextField.text = @"";
     if (self.delegate && [self.delegate respondsToSelector:@selector(questionAndAnswerCellHeaderView:willAnswerQuestionAtIndexPath:)]) {
 //        [self.answerQuestionBt setUserInteractionEnabled:NO];
         if (!self.questionModel.isEditing) {

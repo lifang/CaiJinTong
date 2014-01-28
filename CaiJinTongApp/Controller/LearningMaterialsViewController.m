@@ -39,6 +39,11 @@
     return self;
 }
 
+-(void)dealloc{
+    [self.footerRefreshView free];
+    [self.headerRefreshView free];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -68,7 +73,7 @@
 -(void)drSearchBar:(DRSearchBar *)searchBar didBeginSearchText:(NSString *)searchText{
     self.isSearch = YES;
     UserModel *user = [[CaiJinTongManager shared] user];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+     [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
     self.searchContent = searchText;
     [self.searchMaterialInterface searchLearningMaterilasListWithUserId:user.userId withSearchContent:self.searchContent withPageIndex:0 withSortType:self.sortType];
 }
@@ -89,7 +94,7 @@
 - (IBAction)timeSortBtClicked:(id)sender {
     self.sortType = LearningMaterialsSortType_Date;
     UserModel *user = [[CaiJinTongManager shared] user];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+     [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
     self.isReloading = YES;
     [self.learningMaterialListInterface downloadlearningMaterilasListForCategoryId:self.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
 }
@@ -97,7 +102,7 @@
 - (IBAction)defaultSortBtClicked:(id)sender {
     UserModel *user = [[CaiJinTongManager shared] user];
     self.sortType = LearningMaterialsSortType_Default;
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+     [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
     self.isReloading = YES;
     [self.learningMaterialListInterface downloadlearningMaterilasListForCategoryId:self.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
 }
@@ -105,7 +110,7 @@
 - (IBAction)nameSortBtClicked:(id)sender {
     UserModel *user = [[CaiJinTongManager shared] user];
     self.sortType = LearningMaterialsSortType_Name;
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
     self.isReloading = YES;
     [self.learningMaterialListInterface downloadlearningMaterilasListForCategoryId:self.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
 }
@@ -200,7 +205,7 @@
             self.searchArray = [NSMutableArray arrayWithArray:learningMaterialsList];
         }
         [self.tableView reloadData];
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+         [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
         [self.headerRefreshView endRefreshing];
         [self.footerRefreshView endRefreshing];
         self.headerRefreshView.isForbidden = NO;
@@ -211,7 +216,8 @@
 
 -(void)searchLearningMaterilasListDataForCategoryFailure:(NSString *)errorMsg{
     dispatch_async(dispatch_get_main_queue(), ^{
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        
+        [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
         [self.headerRefreshView endRefreshing];
         [self.footerRefreshView endRefreshing];
         self.headerRefreshView.isForbidden = NO;
@@ -237,13 +243,13 @@
         self.headerRefreshView.isForbidden = NO;
         self.footerRefreshView.isForbidden = NO;
         self.isReloading = NO;
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+         [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
     });
 }
 
 -(void)getlearningMaterilasListDataForCategoryFailure:(NSString *)errorMsg{
 dispatch_async(dispatch_get_main_queue(), ^{
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
+     [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
     [self.headerRefreshView endRefreshing];
     [self.footerRefreshView endRefreshing];
     self.headerRefreshView.isForbidden = NO;
@@ -317,7 +323,7 @@ dispatch_async(dispatch_get_main_queue(), ^{
     _lessonCategoryId = lessonCategoryId?:@"";
     if (lessonCategoryId) {
         self.isReloading = YES;
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+         [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
         UserModel *user = [[CaiJinTongManager shared] user];
         [self.learningMaterialListInterface downloadlearningMaterilasListForCategoryId:self.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
     }

@@ -846,33 +846,31 @@
 
 //组合所有问答分类，我的提问问答分类，我的回答分类
 -(NSMutableArray*)togetherAllQuestionCategorys{
-    //如果只有一个接口返回数据,则先返回nil,等所有接口都返回数据以后才返回数据
-    if(self.myQuestionNodesOK && self.otherQuestionNodesOK){
-        //所有问答列表
-        DRTreeNode *question = [[DRTreeNode alloc] init];
-        question.noteContentID = @"-2";
-        question.noteContentName = @"所有问答";
-        question.childnotes = self.allQuestionCategoryArr;
-        
-        //我的提问列表
-        DRTreeNode *myQuestion = [[DRTreeNode alloc] init];
-        myQuestion.noteContentID = @"-1";
-        myQuestion.noteContentName = @"我的提问";
-        myQuestion.childnotes = self.myQuestionCategoryArr;
-        //我的回答列表
-        DRTreeNode *myAnswer = [[DRTreeNode alloc] init];
-        myAnswer.noteContentID = @"-3";
-        myAnswer.noteContentName = @"我的回答";
-        myAnswer.childnotes = self.myAnswerCategoryArr;
-        //我的问答
-        DRTreeNode *my = [[DRTreeNode alloc] init];
-        my.noteContentID = @"-4";
-        my.noteContentName = @"我的问答";
-        my.childnotes = @[myQuestion,myAnswer];
-        
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        return [NSMutableArray arrayWithArray:@[question,my]];
-    }else return nil;
+    //我的提问列表
+    DRTreeNode *myQuestion = [[DRTreeNode alloc] init];
+    myQuestion.noteContentID = @"-1";
+    myQuestion.noteContentName = @"我的提问";
+    myQuestion.childnotes = self.myQuestionCategoryArr;
+    myQuestion.noteLevel = 1;
+    //所有问答列表
+    DRTreeNode *question = [[DRTreeNode alloc] init];
+    question.noteContentID = @"-2";
+    question.noteContentName = @"所有问答";
+    question.childnotes = self.allQuestionCategoryArr;
+    question.noteLevel = 0;
+    //我的回答列表
+    DRTreeNode *myAnswer = [[DRTreeNode alloc] init];
+    myAnswer.noteContentID = @"-3";
+    myAnswer.noteContentName = @"我的回答";
+    myAnswer.childnotes = self.myAnswerCategoryArr;
+    myAnswer.noteLevel = 1;
+    //我的问答
+    DRTreeNode *my = [[DRTreeNode alloc] init];
+    my.noteContentID = @"-4";
+    my.noteContentName = @"我的问答";
+    my.childnotes = @[myQuestion,myAnswer];
+    my.noteLevel = 0;
+    return [NSMutableArray arrayWithArray:@[question,my]];
 }
 
 #pragma mark DRTreeTableViewDelegate //选择一个分类
@@ -976,6 +974,7 @@
 #pragma mark SubmitAnswerInterfaceDelegate 提交回答或者提交追问的代理
 -(void)getSubmitAnswerInfoDidFinished:(NSDictionary *)result withReaskType:(ReaskType)reask{
     self.isReaskRefreshing = YES;
+    self.tableView.contentOffset = (CGPoint){self.tableView.contentOffset.x,0};
     [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andChapterQuestionId:self.chapterID andLastQuestionID:nil];
 }
 
@@ -994,6 +993,7 @@
 -(void)getMyQuestionCategoryDataDidFinishedWithMyAnswerCategorynodes:(NSArray *)myAnswerCategoryNotes withMyQuestionCategorynodes:(NSArray *)myQuestionCategoryNotes{
     dispatch_async(dispatch_get_main_queue(), ^{
 //        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         self.myAnswerCategoryArr = myAnswerCategoryNotes;
         self.myQuestionCategoryArr = myQuestionCategoryNotes;
         self.myQuestionNodesOK = YES;
@@ -1003,7 +1003,7 @@
 
 -(void)getMyQuestionCategoryDataFailure:(NSString *)errorMsg{
     dispatch_async(dispatch_get_main_queue(), ^{
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         [Utility errorAlert:errorMsg];
     });
 }
@@ -1012,6 +1012,7 @@
 -(void)getQuestionInfoDidFinished:(NSArray *)questionCategoryArr {
     dispatch_async(dispatch_get_main_queue(), ^{
 //        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         self.allQuestionCategoryArr = questionCategoryArr;
         [[CaiJinTongManager shared] setQuestionCategoryArr:questionCategoryArr] ;
         self.otherQuestionNodesOK = YES;
@@ -1020,7 +1021,7 @@
 }
 -(void)getQuestionInfoDidFailed:(NSString *)errorMsg {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         [Utility errorAlert:errorMsg];
     });
 }
@@ -1216,10 +1217,8 @@
 }
 
 -(void)dealloc{
-    if (self.questionScope == QuestionAndAnswerALL) {
-        [self.headerRefreshView free];
-        [self.footerRefreshView free];
-    }
+    [self.headerRefreshView free];
+    [self.footerRefreshView free];
 }
 
 @end

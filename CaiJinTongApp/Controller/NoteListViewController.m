@@ -58,6 +58,11 @@
     [self.noteListInterface downloadNoteListWithUserId:user.userId withPageIndex:0];
 }
 
+-(void)dealloc{
+    [self.headerRefreshView free];
+    [self.footerRefreshView free];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

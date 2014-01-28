@@ -54,7 +54,7 @@ typedef enum {
 @property (nonatomic, strong) DRNavigationController *questionNavigationController;
 @property (nonatomic, strong) DRNavigationController *noteListNavigationController;
 @property (nonatomic, strong) DRNavigationController *learningMaterialNavigationController;
-@property (nonatomic, strong) UIViewController *didAppearController;//已经在右边显示的controller
+@property (nonatomic, strong) DRNavigationController *didAppearController;//已经在右边显示的controller
 //组合所有问答分类，我的提问问答分类，我的回答分类
 -(NSMutableArray*)togetherAllQuestionCategorys;
 @end
@@ -182,6 +182,7 @@ typedef enum {
     if (self.didAppearController == self.noteListNavigationController) {
         return;
     }
+    [self.didAppearController popToRootViewControllerAnimated:YES];
     [self removeFromRootController:self.didAppearController];
     self.didAppearController = self.noteListNavigationController;
     [self addToRootController:self.noteListNavigationController];
@@ -196,6 +197,7 @@ typedef enum {
     if (self.didAppearController == self.learningMaterialNavigationController) {
         return;
     }
+    [self.didAppearController popToRootViewControllerAnimated:YES];
     [self removeFromRootController:self.didAppearController];
     self.didAppearController = self.learningMaterialNavigationController;
     [self addToRootController:self.learningMaterialNavigationController];
@@ -231,6 +233,7 @@ typedef enum {
     if (self.didAppearController == self.lessonNavigationController) {
         return;
     }
+    [self.didAppearController popToRootViewControllerAnimated:YES];
     [self removeFromRootController:self.didAppearController];
     self.didAppearController = self.lessonNavigationController;
     [self addToRootController:self.lessonNavigationController];
@@ -247,6 +250,7 @@ typedef enum {
         return;
     }
     [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
+    [self.didAppearController popToRootViewControllerAnimated:YES];
     [self removeFromRootController:self.didAppearController];
     self.didAppearController = self.questionNavigationController;
     [self addToRootController:self.questionNavigationController];
@@ -373,23 +377,25 @@ typedef enum {
     myQuestion.noteContentID = @"-1";
     myQuestion.noteContentName = @"我的提问";
     myQuestion.childnotes = self.myQuestionCategoryArr;
+    myQuestion.noteLevel = 1;
     //所有问答列表
     DRTreeNode *question = [[DRTreeNode alloc] init];
     question.noteContentID = @"-2";
     question.noteContentName = @"所有问答";
     question.childnotes = self.allQuestionCategoryArr;
-    
+    question.noteLevel = 0;
     //我的回答列表
     DRTreeNode *myAnswer = [[DRTreeNode alloc] init];
     myAnswer.noteContentID = @"-3";
     myAnswer.noteContentName = @"我的回答";
     myAnswer.childnotes = self.myAnswerCategoryArr;
+    myAnswer.noteLevel = 1;
     //我的问答
     DRTreeNode *my = [[DRTreeNode alloc] init];
     my.noteContentID = @"-4";
     my.noteContentName = @"我的问答";
     my.childnotes = @[myQuestion,myAnswer];
-    
+    my.noteLevel = 0;
     return [NSMutableArray arrayWithArray:@[question,my]];
 }
 
@@ -429,6 +435,7 @@ typedef enum {
     if (_myQAVC) {
         self.myQAVC.isSearch = NO;
     }
+    [self.didAppearController popToRootViewControllerAnimated:YES];
     UserModel *user = [[CaiJinTongManager shared] user];
     if (self.listType == LESSON_LIST) {
         [self.lessonNavigationController popToRootViewControllerAnimated:YES];
@@ -686,12 +693,13 @@ typedef enum {
 #pragma mark MyQuestionCategatoryInterfaceDelegate 获取我的问答分类接口
 -(void)getMyQuestionCategoryDataDidFinishedWithMyAnswerCategorynodes:(NSArray *)myAnswerCategoryNotes withMyQuestionCategorynodes:(NSArray *)myQuestionCategoryNotes{
     dispatch_async(dispatch_get_main_queue(), ^{
-        [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
+        
         self.myAnswerCategoryArr = myAnswerCategoryNotes;
         self.myQuestionCategoryArr = myQuestionCategoryNotes;
         if (self.listType == QUEATION_LIST) {
             self.drTreeTableView.noteArr = [self togetherAllQuestionCategorys];
         }
+        [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
     });
 }
 
@@ -733,11 +741,11 @@ typedef enum {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
         dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
             [self.myQAVC reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope isSearch:NO];
 //            [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
 //                
 //            }];
+            [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
         });
     });
 }
@@ -755,9 +763,10 @@ typedef enum {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
         dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
+           
             self.myQAVC.searchQuestionText = self.searchText.text;
  [self.myQAVC reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:self.questionAndSwerRequestID withScope:QuestionAndAnswerSearchQuestion isSearch:NO];
+             [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
 //            [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
 //                
 //            }];
@@ -770,12 +779,13 @@ typedef enum {
 #pragma mark--QuestionInfoInterfaceDelegate 获取所有问答分类信息
 -(void)getQuestionInfoDidFinished:(NSArray *)questionCategoryArr {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
+       
         self.allQuestionCategoryArr = questionCategoryArr;
         [[CaiJinTongManager shared] setQuestionCategoryArr:questionCategoryArr] ;
         if (self.listType == QUEATION_LIST) {
             self.drTreeTableView.noteArr = [self togetherAllQuestionCategorys];
         }
+         [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
     });
 }
 -(void)getQuestionInfoDidFailed:(NSString *)errorMsg {
@@ -791,8 +801,8 @@ typedef enum {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
         dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
  [self.myQAVC reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope isSearch:NO];
+            [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
 //            [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{
 //                
 //            }];
