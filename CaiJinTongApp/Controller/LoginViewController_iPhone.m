@@ -23,6 +23,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSString *userName = [[NSUserDefaults standardUserDefaults] stringForKey:kUserName];
+    NSString *pwd = [[NSUserDefaults standardUserDefaults] stringForKey:kPassword];
+    self.accountLabel.text = userName?:@"";
+    self.passwordTextField.text = pwd?:@"";
     //压缩图片
     UIImage *bgImage = [[UIImage imageNamed:@"_loginBG.png"] scaleToSize:CGSizeMake(320, SCREEN_HEIGHT)];
     self.view.backgroundColor = [UIColor colorWithPatternImage:bgImage];
@@ -98,7 +102,8 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            
+            [[NSUserDefaults standardUserDefaults] setValue:self.accountLabel.text forKey:kUserName];
+            [[NSUserDefaults standardUserDefaults] setValue:self.passwordTextField.text forKey:kPassword];
             LHLTabBarController *mainController = [[LHLTabBarController alloc] init];
             
             [self.navigationController pushViewController:mainController animated:YES];
