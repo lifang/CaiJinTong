@@ -164,6 +164,8 @@
 //播放接口
 
 -(void)playVideo:(id)sender{
+    NSLog(@"%@",NSStringFromCGRect(self.slideSwitchView.frame));
+    
     self.isPlaying = YES;
     LHLMoviePlayViewController* playercontroller = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
     playercontroller.delegate = self;
@@ -687,8 +689,6 @@
         _slideSwitchView = [[SUNSlideSwitchView_iPhone alloc] initWithFrame:CGRectMake(0, 0 ,320,IP5(400, 335))];
         _slideSwitchView.slideSwitchViewDelegate = self;
         
-        [_slideSwitchView setBackgroundColor:[UIColor blueColor]];
-        
         _slideSwitchView.backgroundColor = [UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:232.0/255.0 alpha:1.0];
         //3个选项卡
         _slideSwitchView.tabItemNormalColor = [SUNSlideSwitchView_iPhone colorFromHexRGB:@"868686"];
@@ -696,7 +696,6 @@
         _slideSwitchView.shadowImage = [[UIImage imageNamed:@"play-courselist_0df3"]
                                             stretchableImageWithLeftCapWidth:59.0f topCapHeight:0.0f];
         
-        //    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
         
         //章节页面
         //    self.section_ChapterView = [story instantiateViewControllerWithIdentifier:@"Section_ChapterViewController_iPhone"];
