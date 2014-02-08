@@ -73,7 +73,7 @@
 }
 
 +(NSMutableArray*)getTreeNodeArrayFromArray:(NSArray*)arr withRootContentID:(NSString*)rootContentID{
-    return [MyQuestionCategatoryInterface getTreeNodeArrayFromArray:arr withLevel:0 withRootContentID:rootContentID];
+    return [MyQuestionCategatoryInterface getTreeNodeArrayFromArray:arr withLevel:2 withRootContentID:rootContentID];
 }
 
 +(NSMutableArray*)getTreeNodeArrayFromArray:(NSArray*)arr withLevel:(int)level withRootContentID:(NSString*)rootContentID{

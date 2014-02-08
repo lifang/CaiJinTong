@@ -146,6 +146,10 @@
     [_scrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
 }
 
+-(void)dealloc{
+    [self free];
+}
+
 - (void)free
 {
     [_scrollView removeObserver:self forKeyPath:@"contentOffset" context:nil];

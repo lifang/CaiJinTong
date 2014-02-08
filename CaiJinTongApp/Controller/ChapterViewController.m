@@ -27,6 +27,7 @@
 @property (nonatomic,strong) MJRefreshHeaderView *headerRefreshView;
 @property (nonatomic,strong) MJRefreshFooterView *footerRefreshView;
 @property (nonatomic,strong) NSString *searchContent;//搜索之前字符串
+@property (nonatomic,strong) SectionViewController *sectionViewController;
 @end
 
 @implementation ChapterViewController
@@ -68,6 +69,11 @@
     self.footerRefreshView.isForbidden = NO;
 }
 
+-(void)dealloc{
+    [self.footerRefreshView free];
+    [self.headerRefreshView free];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -81,20 +87,16 @@
 -(void)reloadDataWithDataArray:(NSArray*)data withCategoryId:(NSString*)lessonCategoryId isSearch:(BOOL)isSearch{
     self.isSearch = isSearch;
     self.lessonCategoryId = lessonCategoryId;
-    DLog(@"count = %d",data.count);
+//    DLog(@"count = %d,cell count:%d",data.count,self.collectionView.subviews.count);
     self.dataArray = [NSMutableArray arrayWithArray:data];
-    dispatch_async(dispatch_get_main_queue(),  ^{
-        [self.collectionView reloadData];
-    });
+     [self.collectionView reloadData];
 }
 
 //加载下一页数据
 -(void)loadNextPageDataWithDataArray:(NSArray*)data withCategoryId:(NSString*)lessonCategoryId{
     DLog(@"count = %d",data.count);
     [self.dataArray addObjectsFromArray:data];
-    dispatch_async(dispatch_get_main_queue(),  ^{
-        [self.collectionView reloadData];
-    });
+    [self.collectionView reloadData];
 }
 
 
@@ -108,7 +110,7 @@
 #pragma mark action
 //加载课程详细信息
 -(void)getLessonInfoWithLessonId:(NSString*)lessonId{
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
     UserModel *user = [[CaiJinTongManager shared] user];
     [self.lessonInterface downloadLessonInfoWithLessonId:lessonId withUserId:user.userId];
 }
@@ -118,7 +120,7 @@
 -(void)drSearchBar:(DRSearchBar *)searchBar didBeginSearchText:(NSString *)searchText{
     self.isSearch = YES;
     UserModel *user = [[CaiJinTongManager shared] user];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+   [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
     self.searchContent = searchText;
     [self.searchLessonInterface getSearchLessonInterfaceDelegateWithUserId:user.userId andText:self.searchContent withPageIndex:0 withSortType:self.sortType];
 }
@@ -132,7 +134,7 @@
 #pragma mark sort 排序
 - (IBAction)studyProgressSortBtClicked:(id)sender {
     self.sortType = LESSONSORTTYPE_ProgressStudy;
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+   [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
     UserModel *user = [[CaiJinTongManager shared] user];
     if (self.isSearch) {
         [self.searchLessonInterface getSearchLessonInterfaceDelegateWithUserId:user.userId andText:self.searchContent withPageIndex:0 withSortType:self.sortType];
@@ -144,7 +146,7 @@
 }
 - (IBAction)defaultSortBtClicked:(id)sender {
     self.sortType = LESSONSORTTYPE_CurrentStudy;
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+   [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
     UserModel *user = [[CaiJinTongManager shared] user];
     if (self.isSearch) {
         [self.searchLessonInterface getSearchLessonInterfaceDelegateWithUserId:user.userId andText:self.searchContent withPageIndex:0 withSortType:self.sortType];
@@ -156,7 +158,7 @@
 }
 - (IBAction)nameSortBtClicked:(id)sender {
     self.sortType = LESSONSORTTYPE_LessonName;
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
     UserModel *user = [[CaiJinTongManager shared] user];
     if (self.isSearch) {
         [self.searchLessonInterface getSearchLessonInterfaceDelegateWithUserId:user.userId andText:self.searchContent withPageIndex:0 withSortType:self.sortType];
@@ -173,7 +175,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         LessonModel *lesson = (LessonModel *)result;
         dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+             [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];;
             UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
             SectionViewController *sectionView = [story instantiateViewControllerWithIdentifier:@"SectionViewController"];
             sectionView.lessonModel = lesson;
@@ -183,7 +185,7 @@
 }
 -(void)getSectionInfoDidFailed:(NSString *)errorMsg {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+         [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];;
         [Utility errorAlert:errorMsg];
     });
 }
@@ -284,16 +286,16 @@
 #pragma mark-- LessonInfoInterfaceDelegate加载课程详细信息
 -(void)getLessonInfoDidFinished:(LessonModel*)lesson{
     dispatch_async(dispatch_get_main_queue(), ^{
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
         UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-        SectionViewController *sectionView = [story instantiateViewControllerWithIdentifier:@"SectionViewController"];
-        sectionView.lessonModel = lesson;
-        [self.navigationController pushViewController:sectionView animated:YES];
+        self.sectionViewController = [story instantiateViewControllerWithIdentifier:@"SectionViewController"];
+        self.sectionViewController.lessonModel = lesson;
+        [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
+        [self.navigationController pushViewController:self.sectionViewController animated:YES];
     });
 }
 -(void)getLessonInfoDidFailed:(NSString *)errorMsg{
     dispatch_async(dispatch_get_main_queue(), ^{
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+         [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];;
         [Utility errorAlert:errorMsg];
     });
    
@@ -309,7 +311,7 @@
         }else{
             [self  reloadDataWithDataArray:lessonList withCategoryId:self.lessonCategoryId isSearch:self.isSearch];
         }
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
         [self.headerRefreshView endRefreshing];
         self.headerRefreshView.isForbidden = NO;
         [self.footerRefreshView endRefreshing];
@@ -319,7 +321,7 @@
 
 -(void)getLessonListDataForCategoryFailure:(NSString *)errorMsg{
     dispatch_async(dispatch_get_main_queue(), ^{
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
         [self.headerRefreshView endRefreshing];
         self.headerRefreshView.isForbidden = NO;
         [self.footerRefreshView endRefreshing];
@@ -338,7 +340,7 @@
         }else{
             [self  reloadDataWithDataArray:lessonList withCategoryId:self.lessonCategoryId isSearch:self.isSearch];
         }
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
         [self.headerRefreshView endRefreshing];
         self.headerRefreshView.isForbidden = NO;
         [self.footerRefreshView endRefreshing];
@@ -348,7 +350,7 @@
 
 -(void)getSearchLessonListDataForCategoryFailure:(NSString *)errorMsg{
     dispatch_async(dispatch_get_main_queue(), ^{
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
         [self.headerRefreshView endRefreshing];
         self.headerRefreshView.isForbidden = NO;
         [self.footerRefreshView endRefreshing];
@@ -382,7 +384,7 @@
     [self initButton:button withCollectionHeaderView:toolbar];
     self.sortType = LESSONSORTTYPE_CurrentStudy;
     UserModel *user = [[CaiJinTongManager shared] user];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+   [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
     [self.lessonListForCategory downloadLessonListForCategoryId:self.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
 }
 //学习进度
@@ -393,7 +395,7 @@
     [self initButton:button withCollectionHeaderView:toolbar];
     self.sortType = LESSONSORTTYPE_ProgressStudy;
     UserModel *user = [[CaiJinTongManager shared] user];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+   [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
     [self.lessonListForCategory downloadLessonListForCategoryId:self.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
 }
 //名称(A-Z)
@@ -404,7 +406,7 @@
     [self initButton:button withCollectionHeaderView:toolbar];
     self.sortType = LESSONSORTTYPE_LessonName;
     UserModel *user = [[CaiJinTongManager shared] user];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+   [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
     [self.lessonListForCategory downloadLessonListForCategoryId:self.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
 }
 

@@ -64,14 +64,19 @@
 {
     _holding = NO;
     DLog(@"end");
+    if (background_task != UIBackgroundTaskInvalid) {
+        UIApplication *application = [UIApplication sharedApplication];
+        [application endBackgroundTask:background_task];
+        background_task = UIBackgroundTaskInvalid;
+    }
 }
-
+ static UIBackgroundTaskIdentifier background_task;
 - (void)run
 {
     UIApplication *application = [UIApplication sharedApplication];
-    __block UIBackgroundTaskIdentifier background_task;
+    
     background_task = [application beginBackgroundTaskWithExpirationHandler: ^ {
-        [self hold];
+//        [self hold];
         [application endBackgroundTask: background_task];
         background_task = UIBackgroundTaskInvalid;
     }];

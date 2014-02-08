@@ -24,6 +24,7 @@
 @property (nonatomic,strong) NSTimer *studyTimer;
 @property (nonatomic,assign) BOOL chapterDismissByItself;
 @property (nonatomic, strong)  UIButton *cutScreenButton;//截屏
+@property (nonatomic,assign) BOOL isForgoundForPlayerView;//判断当前播放界面是否能和用户交互
 @end
 
 @implementation LHLMoviePlayViewController
@@ -49,11 +50,18 @@
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
 }
 -(void)willDismissPopoupController{
+    self.isForgoundForPlayerView = YES;
     self.myQuestionItem.isSelected = NO;
     self.myNotesItem.isSelected = NO;
     if (self.isPlaying) {
-        
-        [self.moviePlayer play];
+        if (self.commitQuestionVC) {
+            if (!self.commitQuestionVC.isCut) {
+                [self changePlayButtonStatus:YES];
+                self.commitQuestionVC = nil;
+            }
+        }else{
+            [self changePlayButtonStatus:YES];
+        }
     }
 }
 
@@ -69,28 +77,28 @@
 #pragma mark app notification
 - (void)appWillResignActive:(UIApplication *)application
 {
-    if (self.isPlaying) {
+    if (self.isPlaying && self.isForgoundForPlayerView) {
         [self.moviePlayer pause];
     }
 }
 
 - (void)appDidEnterBackground:(UIApplication *)application
 {
-    if (self.isPlaying) {
+    if (self.isPlaying&& self.isForgoundForPlayerView) {
         [self.moviePlayer pause];
     }
 }
 
 - (void)appWillEnterForeground:(UIApplication *)application
 {
-    if (self.isPlaying) {
+    if (self.isPlaying&& self.isForgoundForPlayerView) {
         [self.moviePlayer play];
     }
 }
 
 - (void)appDidBecomeActive:(UIApplication *)application
 {
-    if (self.isPlaying) {
+    if (self.isPlaying&& self.isForgoundForPlayerView) {
         [self.moviePlayer play];
     }
 }
@@ -105,14 +113,14 @@
 #pragma mark --
 
 -(void)addApplicationNotification{
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(appDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
 }
@@ -127,6 +135,7 @@
     self.myQuestionItem.delegate = self;
     
     self.isPopupChapter = NO;
+    self.isForgoundForPlayerView = YES;
     self.chapterDismissByItself = NO;
 //    [self addMoviePlayBackNotification];
     
@@ -161,7 +170,7 @@
 }
 
 -(void)dealloc{
-    [self removeMoviePlayBackNotification];
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
 }
 - (void)didReceiveMemoryWarning
 {
@@ -192,13 +201,16 @@
             [self.section_chapterController.tableViewList reloadData];
 //            }
             self.isPopupChapter = YES;
+            self.isForgoundForPlayerView = NO;
         }else {
             self.isPopupChapter = NO;
+            self.isForgoundForPlayerView = YES;
         }
     }else
         if (item == self.myQuestionItem) {
             self.chapterDismissByItself = NO;
             self.isPopupChapter = NO;
+            self.isForgoundForPlayerView = NO;
             LHLCommitQuestionViewController *commitQuestionVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLCommitQuestionViewController"];
             commitQuestionVC.view.frame = (CGRect){0,0,IP5(516, 435),255};
             commitQuestionVC.delegate = self;
@@ -211,6 +223,7 @@
             if (item == self.myNotesItem) {
                 self.chapterDismissByItself = NO;
                 self.isPopupChapter = NO;
+                self.isForgoundForPlayerView = NO;
                 LHLTakingMovieNoteViewController *takingMovieNotesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLTakingMovieNoteViewController"];
                 takingMovieNotesVC.view.frame = (CGRect){0,0,IP5(516, 435),255};
                 takingMovieNotesVC.delegate = self;
@@ -501,6 +514,7 @@
     [self.section_chapterController willMoveToParentViewController:nil];
     [self.section_chapterController removeFromParentViewController];
     [self.section_chapterController.view removeFromSuperview];
+    [self.section_chapterController.view setHidden:YES];
 //    [self.navigationController popViewControllerAnimated:YES];
 //    [self.moviePlayer stop];
 //    self.moviePlayer = nil;
@@ -608,6 +622,7 @@
         return;
     }
     self.sectionModel = sectionModel;
+    [self removeMoviePlayBackNotification];
     [self addMoviePlayBackNotification];
     self.drMovieSourceType = fileType;
     self.drMovieTopBar.titleLabel.text = sectionModel.sectionName;

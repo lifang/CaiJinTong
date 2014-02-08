@@ -17,7 +17,7 @@
 + (void)initialize
 {
     //设置appstore上评分
-    [iRate sharedInstance].appStoreID = 355313284;
+    [iRate sharedInstance].appStoreID = 808095971;
     [iRate sharedInstance].messageTitle = @"应用打分";
     [iRate sharedInstance].message = @"喜欢这个app，就去打个分吧，或者给我们一些宝贵的建议吧";
     [iRate sharedInstance].cancelButtonLabel = @"取消";
@@ -31,7 +31,7 @@
     [iVersion sharedInstance].ignoreButtonLabel = NSLocalizedString(@"取消", @"iVersion ignore button");
     [iVersion sharedInstance].remindButtonLabel = NSLocalizedString(@"下次再说", @"iVersion remind button");
     [iVersion sharedInstance].downloadButtonLabel = NSLocalizedString(@"下载", @"iVersion download button");
-    [iVersion sharedInstance].appStoreID = 355313284;
+    [iVersion sharedInstance].appStoreID = 808095971;
     [iVersion sharedInstance].checkAtLaunch = YES;
 }
 

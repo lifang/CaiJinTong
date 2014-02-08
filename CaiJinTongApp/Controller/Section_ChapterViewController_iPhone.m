@@ -143,7 +143,9 @@
             cell.statusLab.text = @"已下载";
         }else if (sectionSave.downloadState == 2) {
             cell.statusLab.text = @"继续下载";
-        }else {
+        }else if (sectionSave.downloadState == 4) {
+            cell.statusLab.text = @"未下载";
+        }else  {
             cell.statusLab.text = @"下载";
         }
         cell.sliderFrontView.frame = CGRectMake(0, 33, CAPTER_CELL_WIDTH * sectionSave.downloadPercent, 15);

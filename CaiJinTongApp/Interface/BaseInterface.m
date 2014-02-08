@@ -34,7 +34,7 @@
         DLog(@"url:%@",self.interfaceUrl);
         NSMutableString *urlStr = [NSMutableString stringWithFormat:@"%@",self.interfaceUrl];
         //url含中文转化UTF8
-        urlStr = (NSMutableString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+        urlStr = (__bridge_transfer NSMutableString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
                                                                             (CFStringRef)urlStr,
                                                                             NULL,
                                                                             NULL,
@@ -43,9 +43,6 @@
         if (url) {
             self.request = [ASIHTTPRequest requestWithURL:url];
         }
-        
-        [url release];
-        
         //设置缓存机制
         [[InterfaceCache sharedCache] setShouldRespectCacheControlHeaders:NO];
         [self.request setDownloadCache:[InterfaceCache sharedCache]];
@@ -77,7 +74,7 @@
         DLog(@"url:%@",self.interfaceUrl);
         NSMutableString *urlStr = [NSMutableString stringWithFormat:@"%@",self.interfaceUrl];
         //url含中文转化UTF8
-        urlStr = (NSMutableString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+        urlStr = (__bridge_transfer NSMutableString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
                                                                         (CFStringRef)urlStr,
                                                                         NULL,
                                                                         NULL,
@@ -86,9 +83,6 @@
         if (url) {
             self.request = [ASIHTTPRequest requestWithURL:url];
         }
-        
-        [url release];
-        
         //设置缓存机制
         [[InterfaceCache sharedCache] setShouldRespectCacheControlHeaders:NO];
         [self.request setDownloadCache:[InterfaceCache sharedCache]];
@@ -140,8 +134,6 @@
     self.interfaceUrl = nil;
     self.headers = nil;
     self.bodys = nil;
-    
-    [super dealloc];
 }
 
 @end

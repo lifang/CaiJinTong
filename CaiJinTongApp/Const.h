@@ -40,6 +40,8 @@ typedef enum {LESSONSORTTYPE_CurrentStudy,
 
 #define kUsingTestData 0//使用json测试数据
 
+#define kUserName @"kUserName"
+#define kPassword @"kPassword"
 #define kLogin @"/chapters/user_round"
 #define kIndex @"/orders/index_list"
 #define kSearchCar @"/orders/search_car"

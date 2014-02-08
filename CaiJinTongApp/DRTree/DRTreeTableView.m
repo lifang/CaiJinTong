@@ -170,6 +170,18 @@
     }
 }
 
+/**
+ 转换node树形结构到tableview Data Arr
+ */
+-(void)insertNodeDataArr:(NSArray*)nodeArr intoTableDataArr:(NSMutableArray*)tableDataArr{
+    for (DRTreeNode *node in nodeArr) {
+        [tableDataArr addObject:node];
+        if (node.noteIsExtend && node.childnotes.count > 0) {
+            [self insertNodeDataArr:node.childnotes intoTableDataArr:tableDataArr];
+        }
+    }
+}
+
 #pragma mark property
 -(NSMutableArray *)tableDataArr{
     if (!_tableDataArr) {
@@ -179,14 +191,15 @@
 }
 -(void)setNoteArr:(NSMutableArray *)noteArr{
     _noteArr = noteArr;
+    //    if (noteArr) {
+    //        for (DRTreeNode *note in noteArr) {
+    //            [self closeAllNoteArr:note];
+    //        }
+    //
+    //    }
     if (noteArr) {
-        for (DRTreeNode *note in noteArr) {
-            [self closeAllNoteArr:note];
-        }
-        
-    }
-    if (noteArr) {
-        self.tableDataArr = noteArr;
+         self.tableDataArr = [NSMutableArray array];
+        [self insertNodeDataArr:noteArr intoTableDataArr:self.tableDataArr];
     }else{
         [self.tableDataArr removeAllObjects];
     }

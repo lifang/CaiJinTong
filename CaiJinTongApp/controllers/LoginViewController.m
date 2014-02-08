@@ -35,6 +35,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSString *userName = [[NSUserDefaults standardUserDefaults] stringForKey:kUserName];
+    NSString *pwd = [[NSUserDefaults standardUserDefaults] stringForKey:kPassword];
+    self.userNameTextField.text = userName?:@"";
+    self.pwdTextField.text = pwd?:@"";
     self.inputView.layer.borderWidth = 2;
     self.inputView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     NSString *text = @"找回密码";
@@ -144,6 +148,9 @@
         [CaiJinTongManager shared].user = user;
         
         dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [[NSUserDefaults standardUserDefaults] setValue:self.userNameTextField.text forKey:kUserName];
+            [[NSUserDefaults standardUserDefaults] setValue:self.pwdTextField.text forKey:kPassword];
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
             LessonViewController *lessonView = [story instantiateViewControllerWithIdentifier:@"LessonViewController"];

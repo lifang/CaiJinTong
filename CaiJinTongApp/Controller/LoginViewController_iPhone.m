@@ -23,6 +23,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSString *userName = [[NSUserDefaults standardUserDefaults] stringForKey:kUserName];
+    NSString *pwd = [[NSUserDefaults standardUserDefaults] stringForKey:kPassword];
+    self.accountLabel.text = userName?:@"";
+    self.passwordTextField.text = pwd?:@"";
     //压缩图片
     UIImage *bgImage = [[UIImage imageNamed:@"_loginBG.png"] scaleToSize:CGSizeMake(320, SCREEN_HEIGHT)];
     self.view.backgroundColor = [UIColor colorWithPatternImage:bgImage];
@@ -54,15 +58,11 @@
     NSString *regexCall = @"(\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*)|(1[0-9]{10})";
     NSPredicate *predicateCall = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",regexCall];
     if ([predicateCall evaluateWithObject:self.accountLabel.text]) {
-        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-            [Utility errorAlert:@"暂无网络!"];
-        }else {
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            LogInterface *log = [[LogInterface alloc]init];
-            self.logInterface = log;
-            self.logInterface.delegate = self;
-            [self.logInterface getLogInterfaceDelegateWithName:self.accountLabel.text andPassWord:self.passwordTextField.text];
-        }
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        LogInterface *log = [[LogInterface alloc]init];
+        self.logInterface = log;
+        self.logInterface.delegate = self;
+        [self.logInterface getLogInterfaceDelegateWithName:self.accountLabel.text andPassWord:self.passwordTextField.text];
     }else {
         [Utility errorAlert:@"请输入正确的手机号码或邮箱!"];
     }
@@ -102,7 +102,8 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            
+            [[NSUserDefaults standardUserDefaults] setValue:self.accountLabel.text forKey:kUserName];
+            [[NSUserDefaults standardUserDefaults] setValue:self.passwordTextField.text forKey:kPassword];
             LHLTabBarController *mainController = [[LHLTabBarController alloc] init];
             
             [self.navigationController pushViewController:mainController animated:YES];

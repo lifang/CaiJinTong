@@ -26,6 +26,7 @@
 }
 
 -(void)dealloc{
+    [self.footerRefreshView free];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 - (void)viewDidLoad

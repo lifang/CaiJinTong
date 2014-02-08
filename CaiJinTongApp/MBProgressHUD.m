@@ -154,7 +154,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	if (hud != nil) {
 		hud.removeFromSuperViewOnHide = YES;
 		[hud hide:animated];
-        [[[AppDelegate sharedInstance] alertViewArray] removeLastObject];
+        [[[AppDelegate sharedInstance] alertViewArray] removeObject:hud];
 		return YES;
 	}
 	return NO;
@@ -311,6 +311,25 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 - (void)hide:(BOOL)animated afterDelay:(NSTimeInterval)delay {
 	[self performSelector:@selector(hideDelayed:) withObject:[NSNumber numberWithBool:animated] afterDelay:delay];
+}
+
+- (void)hideTop:(BOOL)animated afterDelay:(NSTimeInterval)delay{
+    [self performSelector:@selector(hideTopDelayed:) withObject:[NSNumber numberWithBool:animated] afterDelay:delay];
+}
+
+-(void)hideTopDelayed:(NSNumber *)animated{
+    MBProgressHUD *removeAlert = nil;
+    for (MBProgressHUD *alertView  in [[AppDelegate sharedInstance] alertViewArray]) {
+        if (alertView == self) {
+            removeAlert = alertView;
+            alertView.removeFromSuperViewOnHide = YES;
+            [alertView hide:[animated boolValue]];
+            break;
+        }
+    }
+    if (removeAlert) {
+        [[[AppDelegate sharedInstance] alertViewArray] removeObject:removeAlert];
+    }
 }
 
 - (void)hideDelayed:(NSNumber *)animated {

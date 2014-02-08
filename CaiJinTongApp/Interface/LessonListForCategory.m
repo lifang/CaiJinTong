@@ -38,7 +38,6 @@
 
     self.baseDelegate = self;
     self.headers = reqheaders;
-    
     [self connect];
 }
 
