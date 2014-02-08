@@ -67,6 +67,8 @@
  */
 + (UIColor *)colorFromHexRGB:(NSString *)inColorString;
 
+- (void)selectNameButton:(UIButton *)sender;
+
 @end
 
 @protocol SUNSlideSwitchView_iPhoneDelegate <NSObject>

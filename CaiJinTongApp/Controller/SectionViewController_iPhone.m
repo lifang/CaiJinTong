@@ -7,9 +7,18 @@
 //
 
 #import "SectionViewController_iPhone.h"
+#import "UIImage+Scale.h"
 #define PLACEHOLD(string) (string.length < 1 || !string) ? @"(资料暂缺)" : string
 
 @interface SectionViewController_iPhone()
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+//@property (weak, nonatomic) IBOutlet UIView *switchButtonView;
+//- (IBAction)sectionChapterBtnClicked:(id)sender;
+//- (IBAction)sectionCommentButtonClicked:(id)sender;
+//- (IBAction)sectionNoteButtonClicked:(id)sender;
+//@property (weak, nonatomic) IBOutlet UIButton *chapterBtn;
+//@property (weak, nonatomic) IBOutlet UIButton *commentBtn;
+//@property (weak, nonatomic) IBOutlet UIButton *noteBtn;
 @property (nonatomic,assign) BOOL isPlaying;
 @property (nonatomic,strong) LessonInfoInterface *lessonInterface;
 @property (nonatomic,strong) NoteModel *playNoteModel;
@@ -17,6 +26,7 @@
 @end
 
 @implementation SectionViewController_iPhone
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,11 +37,46 @@
     return self;
 }
 
+//-(void)testMethod{
+//    [self.switchButtonView removeFromSuperview];
+//    self.switchButtonView = nil;
+//    self.switchButtonView = self.slideSwitchView.topScrollView;
+//    [self.view addSubview:self.switchButtonView];
+//}
+
 //调用本View时要先指定要显示的self.lessonModel
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     [self.lhlNavigationBar.rightItem setHidden:YES];
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
+    
+//    [self.switchButtonView setBackgroundColor:[UIColor colorWithRed:14.0/255.0 green:50.0/255.0 blue:84.0/255.0 alpha:1.0]];
+    if(IS_4_INCH){
+        [self.tableView setFrame:(CGRect){0,65,320,440}];
+    }else{
+        [self.tableView setFrame:(CGRect){0,55,320,375}];
+    }
+    
+    
+    
+//    UIImage *img1 = [[UIImage imageNamed:@"_play_15.png"] scaleToSize:(CGSize){26,26}];
+//    UIImage *img2 = [[UIImage imageNamed:@"comment_3.png"] scaleToSize:(CGSize){26,26}];
+//    UIImage *img3 = [[UIImage imageNamed:@"_play_12.png"] scaleToSize:(CGSize){26,26}];
+//    [self.chapterBtn setImage:img1 forState:UIControlStateNormal];
+//    [self.commentBtn setImage:img2 forState:UIControlStateNormal];
+//    [self.commentBtn setAlpha:0.5];
+//    [self.noteBtn setImage:img3 forState:UIControlStateNormal];
+//    [self.noteBtn setAlpha:0.5];
+    
+//    [self testMethod];
+    
+    UIView *bottomBarView = self.slideSwitchView.topScrollView;
+    bottomBarView.frame = (CGRect){0,IP5(505, 430),320,IP5(63, 50)};
+    [self.view addSubview:bottomBarView];
+    
+    
     //打分之后提交
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(refeshScore:)
@@ -43,8 +88,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(gotoMoviePlayWithSid:)
                                                  name:@"gotoMoviePlay" object:nil];
-    [self initAppear];
-    [self initAppear_slide];
 }
 -(void)refeshScore:(NSNotification *)notification {
     NSDictionary *dic = notification.object;
@@ -211,21 +254,21 @@
 #pragma mark -- init
 
 //界面上半部分
-- (void)initAppear {
+- (void)initAppearForView:(UIView *)view {
     if (self.lessonModel) {
         //访问view属性,激活view
-        NSLog(@"%f",self.view.frame.origin.x);
+//        NSLog(@"%f",self.view.frame.origin.x);
         
         //bar标题
         self.lhlNavigationBar.title.text = self.lessonModel.lessonName;
         
         //封面
-        SectionCustomView_iPhone *sv = [[SectionCustomView_iPhone alloc]initWithFrame:CGRectMake(18, IP5(75, 60), 125, 125) andLesson:self.lessonModel andItemLabel:0];
+        SectionCustomView_iPhone *sv = [[SectionCustomView_iPhone alloc]initWithFrame:CGRectMake(18, 5, 125, 125) andLesson:self.lessonModel andItemLabel:0];
         self.sectionView = sv;
         
-        [self.view addSubview:self.sectionView];
+        [view addSubview:self.sectionView];
         //显示分数
-        CustomLabel_iPhone *scoreLabel = [[CustomLabel_iPhone alloc]initWithFrame:CGRectMake(245, IP5(80, 65), 55, 55)];
+        CustomLabel_iPhone *scoreLabel = [[CustomLabel_iPhone alloc]initWithFrame:CGRectMake(245, 10, 55, 55)];
         scoreLabel.backgroundColor = [UIColor colorWithRed:12.0/255.0 green:58.0/255.0 blue:94.0/255.0 alpha:1.0f];
         scoreLabel.text =[NSString stringWithFormat:@"%.1f",[self.lessonModel.lessonScore floatValue]];
         scoreLabel.layer.cornerRadius = 12;
@@ -233,11 +276,11 @@
         [scoreLabel setFont:[UIFont systemFontOfSize:38] fromIndex:0 length:1];
         [scoreLabel setFont:[UIFont systemFontOfSize:20] fromIndex:1 length:2];
         self.scoreLab = scoreLabel;
-        [self.view addSubview:self.scoreLab];
+        [view addSubview:self.scoreLab];
         scoreLabel = nil;
         
         //显示参数
-        CGFloat labelTop = IP5(145, 125);
+        CGFloat labelTop = 75;
         CGFloat labelSpace = IP5(3, 2);
         //标题
         UILabel *nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(152, labelTop, 165, 30)];
@@ -246,7 +289,7 @@
         nameLabel.font = [UIFont systemFontOfSize:15];
         nameLabel.text =[NSString stringWithFormat:@"名称：%@",PLACEHOLD( self.lessonModel.lessonName)];
         self.nameLab = nameLabel;
-        [self.view addSubview:self.nameLab];
+        [view addSubview:self.nameLab];
         nameLabel = nil;
         labelTop +=self.nameLab.frame.size.height+labelSpace;
         //讲师
@@ -256,11 +299,10 @@
         teacherLabel.font = [UIFont systemFontOfSize:15];
         teacherLabel.text =[NSString stringWithFormat:@"讲师：%@",PLACEHOLD(self.lessonModel.lessonTeacherName)];
         self.teacherlab = teacherLabel;
-        [self.view addSubview:self.teacherlab];
+        [view addSubview:self.teacherlab];
         teacherLabel = nil;
         labelTop +=self.teacherlab.frame.size.height+labelSpace;
         //简介
-//        if (self.lessonModel.lessonDetailInfo.length >0) {
             UIFont *aFont = [UIFont systemFontOfSize:15];
             CGSize size = [self.lessonModel.lessonDetailInfo sizeWithFont:aFont constrainedToSize:CGSizeMake(285, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
             CGFloat hh = 0;  //infoLabel的height
@@ -277,7 +319,7 @@
                 self.infoLab = infoLabel;
                 [self.scrollView addSubview:self.infoLab];
                 self.scrollView.contentSize = CGSizeMake(280,self.infoLab.frame.size.height);
-                [self.view addSubview:self.scrollView];
+                [view addSubview:self.scrollView];
                 infoLabel = nil;
                 labelTop +=self.scrollView.frame.size.height+labelSpace;
             }else {
@@ -293,11 +335,10 @@
                 infoLabel.font = aFont;
                 infoLabel.text =[NSString stringWithFormat:@"简介：%@",PLACEHOLD(self.lessonModel.lessonDetailInfo)];
                 self.infoLab = infoLabel;
-                [self.view addSubview:self.infoLab];
+                [view addSubview:self.infoLab];
                 infoLabel = nil;
                 labelTop +=self.infoLab.frame.size.height+labelSpace;
             }
-//        }
         
         //时长
         UILabel *lastLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, labelTop, 140, 30)];
@@ -309,7 +350,7 @@
         lessonDuration = [lessonDuration stringByReplacingOccurrencesOfString:@"小时" withString:@"h"];
         lastLabel.text =[NSString stringWithFormat:@"时长:%@",lessonDuration];
         self.lastLab = lastLabel;
-        [self.view addSubview:self.lastLab];
+        [view addSubview:self.lastLab];
         lastLabel = nil;
 //        labelTop +=self.lastLab.frame.size.height+labelSpace;
         //已学习
@@ -324,7 +365,7 @@
         studyProgress = [studyProgress stringByReplacingOccurrencesOfString:@"小时" withString:@"h"];
         studyLabel.text =[NSString stringWithFormat:@"已学习：%@",PLACEHOLD(studyProgress)];
         self.studyLab = studyLabel;
-        [self.view addSubview:self.studyLab];
+        [view addSubview:self.studyLab];
         studyLabel = nil;
         labelTop += self.studyLab.frame.size.height + labelSpace;
         
@@ -347,56 +388,56 @@
         [palyButton addTarget:self action:@selector(playVideo:) forControlEvents:UIControlEventTouchUpInside];
         [palyButton setBackgroundImage:[[UIImage imageNamed:@"btn0.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 6)] forState:UIControlStateNormal];
         self.playBtn = palyButton;
-        [self.view addSubview:self.playBtn];
+        [view addSubview:self.playBtn];
         palyButton = nil;
     }
 }
 
 //界面下半部分
-- (void)initAppear_slide{
-    if(!(IS_4_INCH)){
-        //43为上半部分减少的高度 , 88 - 43 = 5 + 40
-        self.slideSwitchView.frame = CGRectMake(0, 357 - 43 , 320, 211 - 40);
-    }
-    self.slideSwitchView.backgroundColor = [UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:232.0/255.0 alpha:1.0];
-    //3个选项卡
-    self.slideSwitchView.tabItemNormalColor = [SUNSlideSwitchView_iPhone colorFromHexRGB:@"868686"];
-    self.slideSwitchView.tabItemSelectedColor = [UIColor darkGrayColor];
-    self.slideSwitchView.shadowImage = [[UIImage imageNamed:@"play-courselist_0df3"]
-                                        stretchableImageWithLeftCapWidth:59.0f topCapHeight:0.0f];
-    
-//    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
-    
-    //章节页面
-//    self.section_ChapterView = [story instantiateViewControllerWithIdentifier:@"Section_ChapterViewController_iPhone"];
-    [self.section_ChapterView.view frame];
-    [self.section_ChapterView.tableViewList setFrame:CGRectMake(22, 0, 276, self.slideSwitchView.frame.size.height - IP5(63, 53))];
-    self.section_ChapterView.title = @"章节目录";
-    self.section_ChapterView.lessonId = self.lessonModel.lessonId;
-    self.section_ChapterView.dataArray = self.lessonModel.chapterList;
-    self.section_ChapterView.isMovieView = NO;
-    
-    //评价页面
-    AppDelegate *app = [AppDelegate sharedInstance];
-    if (app.isLocal == NO) {
-        self.section_GradeView.title = @"打分";
-        self.section_GradeView.dataArray = [NSMutableArray arrayWithArray:self.lessonModel.lessonCommentList];
-        self.section_GradeView.isGrade = [self.lessonModel.lessonIsScored intValue];
-        self.section_GradeView.lessonId = self.lessonModel.lessonId;
-        if(self.section_GradeView.dataArray.count > 0){
-            self.section_GradeView.nowPage = 1;
-        }
-    }
-    
-    //笔记页面
-    [self.section_NoteView.view setFrame:CGRectMake(0, 0, 320, IP5(568, 480))];
-    self.section_NoteView.title = @"笔记";
-    self.section_NoteView.delegate = self;
-    [self.section_NoteView.tableViewList setFrame:CGRectMake(22, 0, 276, self.slideSwitchView.frame.size.height - IP5(63, 53))];
-    self.section_NoteView.dataArray = [NSMutableArray arrayWithArray:self.lessonModel.chapterList];
-    
-    [self.slideSwitchView buildUI];
-}
+//- (void)initAppear_slide{
+//    if(!(IS_4_INCH)){
+//        //43为上半部分减少的高度 , 88 - 43 = 5 + 40
+//        self.slideSwitchView.frame = CGRectMake(0, 357 - 43 , 320, 211 - 40);
+//    }
+//    self.slideSwitchView.backgroundColor = [UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:232.0/255.0 alpha:1.0];
+//    //3个选项卡
+//    self.slideSwitchView.tabItemNormalColor = [SUNSlideSwitchView_iPhone colorFromHexRGB:@"868686"];
+//    self.slideSwitchView.tabItemSelectedColor = [UIColor darkGrayColor];
+//    self.slideSwitchView.shadowImage = [[UIImage imageNamed:@"play-courselist_0df3"]
+//                                        stretchableImageWithLeftCapWidth:59.0f topCapHeight:0.0f];
+//    
+////    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+//    
+//    //章节页面
+////    self.section_ChapterView = [story instantiateViewControllerWithIdentifier:@"Section_ChapterViewController_iPhone"];
+//    [self.section_ChapterView.view frame];
+//    [self.section_ChapterView.tableViewList setFrame:CGRectMake(22, 0, 276, self.slideSwitchView.frame.size.height - IP5(63, 53))];
+//    self.section_ChapterView.title = @"章节目录";
+//    self.section_ChapterView.lessonId = self.lessonModel.lessonId;
+//    self.section_ChapterView.dataArray = self.lessonModel.chapterList;
+//    self.section_ChapterView.isMovieView = NO;
+//    
+//    //评价页面
+//    AppDelegate *app = [AppDelegate sharedInstance];
+//    if (app.isLocal == NO) {
+//        self.section_GradeView.title = @"打分";
+//        self.section_GradeView.dataArray = [NSMutableArray arrayWithArray:self.lessonModel.lessonCommentList];
+//        self.section_GradeView.isGrade = [self.lessonModel.lessonIsScored intValue];
+//        self.section_GradeView.lessonId = self.lessonModel.lessonId;
+//        if(self.section_GradeView.dataArray.count > 0){
+//            self.section_GradeView.nowPage = 1;
+//        }
+//    }
+//    
+//    //笔记页面
+//    [self.section_NoteView.view setFrame:CGRectMake(0, 0, 320, IP5(568, 480))];
+//    self.section_NoteView.title = @"笔记";
+//    self.section_NoteView.delegate = self;
+//    [self.section_NoteView.tableViewList setFrame:CGRectMake(22, 0, 276, self.slideSwitchView.frame.size.height - IP5(63, 53))];
+//    self.section_NoteView.dataArray = [NSMutableArray arrayWithArray:self.lessonModel.chapterList];
+//    
+//    [self.slideSwitchView buildUI];
+//}
 
 #pragma mark -- PlayVideoInterfaceDelegate
 -(void)getPlayVideoInfoDidFinished {
@@ -473,6 +514,96 @@
 
 #pragma mark --
 
+#pragma mark -- UITableView DataSource
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 2;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    switch(indexPath.row){
+        case 0:
+        {
+            UIFont *aFont = [UIFont systemFontOfSize:15];
+            CGSize size = [self.lessonModel.lessonDetailInfo sizeWithFont:aFont constrainedToSize:CGSizeMake(285, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
+            CGFloat hh = 0;  //infoLabel的height
+            if (size.height-60>0){
+                hh = 60;
+            }else {
+                if (size.height-60<0 && size.height-30>0) {
+                    hh = size.height;
+                }else
+                    if (size.height-30<0) {
+                        hh = 30;
+                    }
+            }
+            return hh + 225;
+        }
+            break;
+        case 1:
+        {
+            return IP5(335, 285);
+        }
+            break;
+        default:
+            break;
+    }
+    return 0;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    switch (indexPath.row) {
+        case 0:
+        {
+            [self initAppearForView:cell.contentView];
+//            [cell.contentView setBackgroundColor:[UIColor redColor]];
+        }
+            break;
+        case 1:
+        {
+            [cell.contentView addSubview:self.slideSwitchView];
+        }
+            break;
+        default:
+            break;
+    }
+    return cell;
+}
+
+#pragma mark --
+
+#pragma mark -- UITableView Delegate
+
+#pragma mark --
+
+#pragma mark IBActions
+
+//- (IBAction)sectionChapterBtnClicked:(id)sender {
+//    ((UIButton *)sender).tag = 100;
+//    [self.slideSwitchView selectNameButton:sender];
+//    self.chapterBtn.alpha = 1.0;
+//    self.commentBtn.alpha = 0.5;
+//    self.noteBtn.alpha = 0.5;
+//}
+//
+//- (IBAction)sectionCommentButtonClicked:(id)sender {
+//    ((UIButton *)sender).tag = 101;
+//    [self.slideSwitchView selectNameButton:sender];
+//    self.chapterBtn.alpha = 0.5;
+//    self.commentBtn.alpha = 1.0;
+//    self.noteBtn.alpha = 0.5;
+//}
+//
+//- (IBAction)sectionNoteButtonClicked:(id)sender {
+//    ((UIButton *)sender).tag = 102;
+//    [self.slideSwitchView selectNameButton:sender];
+//    self.chapterBtn.alpha = 0.5;
+//    self.commentBtn.alpha = 0.5;
+//    self.noteBtn.alpha = 1.0;
+//}
+
+
+#pragma mark --
 
 #pragma mark-- LessonInfoInterfaceDelegate加载课程详细信息,播放完成后回调,点击笔记后回调
 -(void)getLessonInfoDidFinished:(LessonModel*)lesson{
@@ -551,6 +682,56 @@
 }
 
 #pragma mark property
+-(SUNSlideSwitchView_iPhone *)slideSwitchView{
+    if(!_slideSwitchView){
+        _slideSwitchView = [[SUNSlideSwitchView_iPhone alloc] initWithFrame:CGRectMake(0, 0 ,320,IP5(400, 335))];
+        _slideSwitchView.slideSwitchViewDelegate = self;
+        
+        [_slideSwitchView setBackgroundColor:[UIColor blueColor]];
+        
+        _slideSwitchView.backgroundColor = [UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:232.0/255.0 alpha:1.0];
+        //3个选项卡
+        _slideSwitchView.tabItemNormalColor = [SUNSlideSwitchView_iPhone colorFromHexRGB:@"868686"];
+        _slideSwitchView.tabItemSelectedColor = [UIColor darkGrayColor];
+        _slideSwitchView.shadowImage = [[UIImage imageNamed:@"play-courselist_0df3"]
+                                            stretchableImageWithLeftCapWidth:59.0f topCapHeight:0.0f];
+        
+        //    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+        
+        //章节页面
+        //    self.section_ChapterView = [story instantiateViewControllerWithIdentifier:@"Section_ChapterViewController_iPhone"];
+        [self.section_ChapterView.view frame];
+        [self.section_ChapterView.tableViewList setFrame:CGRectMake(22, 0, 276, _slideSwitchView.frame.size.height - IP5(63, 53))];
+        self.section_ChapterView.title = @"章节目录";
+        self.section_ChapterView.lessonId = self.lessonModel.lessonId;
+        self.section_ChapterView.dataArray = self.lessonModel.chapterList;
+        self.section_ChapterView.isMovieView = NO;
+        
+        //评价页面
+        AppDelegate *app = [AppDelegate sharedInstance];
+        if (app.isLocal == NO) {
+            self.section_GradeView.title = @"打分";
+            self.section_GradeView.dataArray = [NSMutableArray arrayWithArray:self.lessonModel.lessonCommentList];
+            self.section_GradeView.isGrade = [self.lessonModel.lessonIsScored intValue];
+            self.section_GradeView.lessonId = self.lessonModel.lessonId;
+            if(self.section_GradeView.dataArray.count > 0){
+                self.section_GradeView.nowPage = 1;
+            }
+        }
+        
+        //笔记页面
+        [self.section_NoteView.view setFrame:CGRectMake(0, 0, 320, IP5(568, 480))];
+        self.section_NoteView.title = @"笔记";
+        self.section_NoteView.delegate = self;
+        [self.section_NoteView.tableViewList setFrame:CGRectMake(22, 0, 276, _slideSwitchView.frame.size.height - IP5(63, 53))];
+        self.section_NoteView.dataArray = [NSMutableArray arrayWithArray:self.lessonModel.chapterList];
+        
+        [_slideSwitchView buildUI];
+    }
+//    [_slideSwitchView.topScrollView setHidden:YES];
+    return _slideSwitchView;
+}
+
 //setter自动转换LessonModel参数为Section
 -(void)setSection:(SectionModel *)section{
     if([section isKindOfClass:[LessonModel class]]){
@@ -597,5 +778,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 
 @end

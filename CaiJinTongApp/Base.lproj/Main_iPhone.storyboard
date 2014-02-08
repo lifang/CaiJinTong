@@ -116,20 +116,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view autoresizesSubviews="NO" clipsSubviews="YES" contentMode="scaleToFill" id="USC-aE-Lad" customClass="SUNSlideSwitchView_iPhone">
-                                <rect key="frame" x="0.0" y="357" width="320" height="211"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="-22" maxX="0.0" maxY="22"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="k8T-pT-hRl">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="486"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <outlet property="slideSwitchViewDelegate" destination="LqH-YZ-yPx" id="4ub-zH-Ygv"/>
+                                    <outlet property="dataSource" destination="LqH-YZ-yPx" id="wv3-gf-Rzt"/>
+                                    <outlet property="delegate" destination="LqH-YZ-yPx" id="6uk-kM-CPK"/>
                                 </connections>
-                            </view>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <outlet property="slideSwitchView" destination="USC-aE-Lad" id="f5J-66-6ut"/>
+                        <outlet property="tableView" destination="k8T-pT-hRl" id="Y1R-8P-CVH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qd8-7p-yAG" userLabel="First Responder" sceneMemberID="firstResponder"/>
