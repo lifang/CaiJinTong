@@ -505,6 +505,9 @@
 -(void)getSearchLessonListDataForCategoryDidFinished:(NSArray *)lessonList withCurrentPageIndex:(int)pageIndex withTotalCount:(int)allDataCount{
     self.isSearch = YES;
     self.oldSearchText = self.searchBar.searchTextField.text;
+    [self.lhlNavigationBar.title setFont:[UIFont systemFontOfSize:20]];
+    [self.lhlNavigationBar.title setNumberOfLines:1];
+    self.lhlNavigationBar.title.text = @"搜索";
     dispatch_async(dispatch_get_main_queue(), ^{
         if (pageIndex > 0) {
             [self loadNextPageDataWithDataArray:lessonList withCategoryId:self.lessonListForCategory.lessonCategoryId];
@@ -541,6 +544,16 @@
     UserModel *user = [[CaiJinTongManager shared] user];
     [self.lessonListForCategory downloadLessonListForCategoryId:selectedNote.noteContentID withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
     self.menuVisible = NO;
+    
+    //界面标题显示为所选择的分类
+    if(selectedNote.noteContentName.length > 10){
+        [self.lhlNavigationBar.title setFont:[UIFont systemFontOfSize:14]];
+        [self.lhlNavigationBar.title setNumberOfLines:2];
+    }else{
+        [self.lhlNavigationBar.title setFont:[UIFont systemFontOfSize:20]];
+        [self.lhlNavigationBar.title setNumberOfLines:1];
+    }
+    self.lhlNavigationBar.title.text = selectedNote.noteContentName;
 }
 
 -(BOOL)drTreeTableView:(DRTreeTableView *)treeView isExtendChildSelectedTreeNode:(DRTreeNode *)selectedNote{
@@ -553,6 +566,16 @@
     self.searchBar.searchTextField.text = nil;
     UserModel *user = [[CaiJinTongManager shared] user];
     [self.lessonListForCategory downloadLessonListForCategoryId:extendNote.noteContentID withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
+    
+    //界面标题显示为所选择的分类
+    if(extendNote.noteContentName.length > 10){
+        [self.lhlNavigationBar.title setFont:[UIFont systemFontOfSize:14]];
+        [self.lhlNavigationBar.title setNumberOfLines:2];
+    }else{
+        [self.lhlNavigationBar.title setFont:[UIFont systemFontOfSize:20]];
+        [self.lhlNavigationBar.title setNumberOfLines:1];
+    }
+    self.lhlNavigationBar.title.text = extendNote.noteContentName;
 }
 
 -(void)drTreeTableView:(DRTreeTableView*)treeView didCloseChildTreeNode:(DRTreeNode*)extendNote{

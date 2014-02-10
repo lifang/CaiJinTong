@@ -37,11 +37,17 @@
     return self;
 }
 
-//-(void)testMethod{
-//    [self.switchButtonView removeFromSuperview];
-//    self.switchButtonView = nil;
-//    self.switchButtonView = self.slideSwitchView.topScrollView;
-//    [self.view addSubview:self.switchButtonView];
+//-(void)makeKVO{
+//    [self.section_ChapterView.tableViewList addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
+//}
+//
+//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+//    if([keyPath isEqualToString:@"contentOffset"]){
+//        NSValue *newOne = [change objectForKey:@"new"];
+//        void * point = NULL;
+//        [newOne getValue:point];
+//        NSLog(@"%@",point);
+//    }
 //}
 
 //调用本View时要先指定要显示的self.lessonModel
@@ -59,23 +65,12 @@
         [self.tableView setFrame:(CGRect){0,55,320,375}];
     }
     
-    
-    
-//    UIImage *img1 = [[UIImage imageNamed:@"_play_15.png"] scaleToSize:(CGSize){26,26}];
-//    UIImage *img2 = [[UIImage imageNamed:@"comment_3.png"] scaleToSize:(CGSize){26,26}];
-//    UIImage *img3 = [[UIImage imageNamed:@"_play_12.png"] scaleToSize:(CGSize){26,26}];
-//    [self.chapterBtn setImage:img1 forState:UIControlStateNormal];
-//    [self.commentBtn setImage:img2 forState:UIControlStateNormal];
-//    [self.commentBtn setAlpha:0.5];
-//    [self.noteBtn setImage:img3 forState:UIControlStateNormal];
-//    [self.noteBtn setAlpha:0.5];
-    
-//    [self testMethod];
-    
     UIView *bottomBarView = self.slideSwitchView.topScrollView;
     bottomBarView.frame = (CGRect){0,IP5(505, 430),320,IP5(63, 50)};
     [self.view addSubview:bottomBarView];
     
+    //监控滑动行为
+//    [self makeKVO];
     
     //打分之后提交
     [[NSNotificationCenter defaultCenter] addObserver:self

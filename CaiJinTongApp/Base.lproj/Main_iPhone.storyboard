@@ -793,6 +793,10 @@
                                     <action selector="screenShotButtonClicked:" destination="sos-KO-9xw" eventType="touchUpInside" id="axA-ny-jy6"/>
                                 </connections>
                             </button>
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="YWg-G9-OrN">
+                                <rect key="frame" x="20" y="192" width="95" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -807,6 +811,8 @@
                         <outlet property="categoryTextField" destination="O0J-rH-RJA" id="R68-eZ-ihu"/>
                         <outlet property="commitBtn" destination="CTs-69-apu" id="IOx-KH-0Xa"/>
                         <outlet property="contentField" destination="z8n-UZ-4we" id="eu0-m1-ye9"/>
+                        <outlet property="screenShotBtn" destination="RS1-md-cjf" id="TvV-fA-h3i"/>
+                        <outlet property="screenShotImageView" destination="YWg-G9-OrN" id="ecZ-3i-1kK"/>
                         <outlet property="selectButton" destination="tle-IC-ZDf" id="5jq-vl-8uR"/>
                         <outlet property="titleField" destination="7Z8-FC-8UT" id="y3U-iU-ldx"/>
                     </connections>

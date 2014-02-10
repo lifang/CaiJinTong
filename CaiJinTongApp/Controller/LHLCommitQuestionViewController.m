@@ -11,6 +11,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *selectButton;
 //@property (weak, nonatomic) IBOutlet UILabel *categoryTextField;
 - (IBAction)screenShotButtonClicked:(id)sender;
+@property (weak, nonatomic) IBOutlet UIImageView *screenShotImageView;
 @property (assign,nonatomic) BOOL tableVisible;
 @property (strong,nonatomic) DRTreeTableView *treeView;
 @property (strong,nonatomic) NSMutableArray *questionList;
@@ -246,7 +247,7 @@
 
 //点击截图
 - (IBAction)screenShotButtonClicked:(id)sender {
-    self.isCut = YES;
+//    self.isCut = YES;
     if (self.delegate && [self.delegate respondsToSelector:@selector(commitQuestionControllerDidStartCutScreenButtonClicked:isCut:)]) {
         [self.delegate commitQuestionControllerDidStartCutScreenButtonClicked:self isCut:self.isCut];
     }
@@ -307,6 +308,18 @@
         [Utility errorAlert:errorMsg];
     });
     
+}
+
+#pragma mark --
+#pragma mark property
+
+-(void)setCutImage:(UIImage *)image{
+    if(image){
+        _cutImage = image;
+        self.screenShotImageView.hidden = NO;
+        self.screenShotImageView.image = image;
+        self.screenShotBtn.hidden = YES;
+    }
 }
 
 #pragma mark --
