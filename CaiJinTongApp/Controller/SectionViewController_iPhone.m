@@ -306,7 +306,7 @@
             if (size.height-60>0){
                 hh = 60;
                 self.scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(20, labelTop, 285, hh)];
-                self.scrollView.delegate = self;
+//                self.scrollView.delegate = self;
                 UILabel *infoLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 285, size.height)];
                 infoLabel.backgroundColor = [UIColor clearColor];
                 infoLabel.textColor = [UIColor darkGrayColor];
@@ -755,6 +755,7 @@
     if (!_section_ChapterView) {
         _section_ChapterView =  [self.storyboard instantiateViewControllerWithIdentifier:@"Section_ChapterViewController_iPhone"];
         [self addChildViewController:_section_ChapterView];
+//        _section_ChapterView.tableViewList.delegate = self;
     }
     return _section_ChapterView;
 }

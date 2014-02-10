@@ -256,7 +256,6 @@
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="VKg-c6-Nnj" id="ruz-GJ-SZ9"/>
-                                    <outlet property="delegate" destination="VKg-c6-Nnj" id="Af8-WA-olj"/>
                                 </connections>
                             </tableView>
                         </subviews>
