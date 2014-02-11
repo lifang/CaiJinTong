@@ -19,7 +19,7 @@
     [reqheaders setValue:[NSString stringWithFormat:@"%@",questionName] forKey:@"title"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",content] forKey:@"content"];
 //    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=askQuestion&userId=17079&sectionId=42&title=ios接口测试&content=IOS接口测试测试";
-    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=askQuestion&userId=%@&sectionId=%@&title=%@&content=%@",kHost,userId,sectionId,questionName,content];
+    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=askQuestion",kHost];
     self.baseDelegate = self;
     self.headers = reqheaders;
     
@@ -50,13 +50,21 @@
                 }else {
                     [self.delegate getAskQuestionDidFailed:@"请求失败!"];
                 }
+            }else {
+                [self.delegate getAskQuestionDidFailed:@"请求失败!"];
             }
+        }else {
+            [self.delegate getAskQuestionDidFailed:@"请求失败!"];
         }
     }else {
         [self.delegate getAskQuestionDidFailed:@"请求失败!"];
     }
 }
+
+
 -(void)requestIsFailed:(NSError *)error{
-    [self.delegate getAskQuestionDidFailed:@"请求失败!"];
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate getAskQuestionDidFailed:tipMsg];
+    }];
 }
 @end

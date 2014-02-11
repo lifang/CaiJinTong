@@ -24,13 +24,16 @@
     [reqheaders setValue:[NSString stringWithFormat:@"%@",md5Key] forKey:@"token"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",theName] forKey:@"userName"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",thePassWord] forKey:@"passWord"];
-
+#if kRunScopeTest
+    self.interfaceUrl = @"http://i-finance365-com-5we3gmhhky2y.runscope.net/_3G/LogIn";
+#else
     self.interfaceUrl = @"http://i.finance365.com/_3G/LogIn";
+#endif
 //    self.interfaceUrl = [NSString stringWithFormat:@"http://i.finance365.com/_3G/LogIn?timespan=%@&token=%@&userName=%@&passWord=%@",timespan,md5Key,theName,thePassWord];
     self.baseDelegate = self;
     self.headers = reqheaders;
     
-    [self connect];
+    [self connectLogin];
 }
 
 #pragma mark - BaseInterfaceDelegate
@@ -51,12 +54,8 @@
                         @catch (NSException *exception) {
                             [self.delegate getLogInfoDidFailed:@"登录失败!"];
                         }
-                    }else if ([[jsonData objectForKey:@"Status"]intValue] == 3) {
-                        [self.delegate getLogInfoDidFailed:@"请求过期!"];
-                    }else if ([[jsonData objectForKey:@"Status"]intValue] == 2) {
-                        [self.delegate getLogInfoDidFailed:[jsonData objectForKey:@"Msg"]];
                     }else{
-                        [self.delegate getLogInfoDidFailed:@"登录失败!"];
+                        [self.delegate getLogInfoDidFailed:@"服务器连接失败，请稍后再试!"];
                     }
                 }else {
                     [self.delegate getLogInfoDidFailed:@"登录失败!"];
@@ -65,6 +64,8 @@
                 [self.delegate getLogInfoDidFailed:@"服务器连接失败，请稍后再试!"];
             }
         }else{
+            NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            NSLog(@"%@",str);
             [self.delegate getLogInfoDidFailed:@"服务器连接失败，请稍后再试!"];
         }
     }else {
@@ -72,7 +73,12 @@
     }
 }
 -(void)requestIsFailed:(NSError *)error{
-    [self.delegate getLogInfoDidFailed:@"登录失败!"];
+    NSLog(@"%@",error);
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate getLogInfoDidFailed:tipMsg];
+    }];
+//    [self.delegate getLogInfoDidFailed:@"登录失败!"];
 }
+
 
 @end

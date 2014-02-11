@@ -120,6 +120,8 @@
                                 }else{
                                     [self.delegate getChapterQuestionInfoDidFailed:@"没有相关数据!"];
                                 }
+                            }else {
+                                [self.delegate getChapterQuestionInfoDidFailed:[jsonData objectForKey:@"Msg"]];
                             }
                         }
                         @catch (NSException *exception) {
@@ -141,8 +143,11 @@
         [self.delegate getChapterQuestionInfoDidFailed:@"加载失败!"];
     }
 }
+
 -(void)requestIsFailed:(NSError *)error{
-    [self.delegate getChapterQuestionInfoDidFailed:@"加载失败!"];
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate getChapterQuestionInfoDidFailed:tipMsg];
+    }];
 }
 @end
 

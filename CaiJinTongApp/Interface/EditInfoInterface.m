@@ -54,22 +54,27 @@
                         @catch (NSException *exception) {
                             [self.delegate getEditInfoDidFailed:@"登录失败!"];
                         }
-                    }else if ([[jsonData objectForKey:@"Status"]intValue] == 3) {
-                        [self.delegate getEditInfoDidFailed:@"请求过期!"];
+                    }else {
+                        [self.delegate getEditInfoDidFailed:@"登陆服务器失败!"];
                     }
                 }else {
                     [self.delegate getEditInfoDidFailed:@"登录失败!"];
                 }
+            }else {
+                [self.delegate getEditInfoDidFailed:@"登录失败!"];
             }
+        }else {
+            [self.delegate getEditInfoDidFailed:@"登录失败!"];
         }
     }else {
         [self.delegate getEditInfoDidFailed:@"登录失败!"];
     }
 }
+
 -(void)requestIsFailed:(NSError *)error{
-    [self.delegate getEditInfoDidFailed:@"登录失败!"];
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate getEditInfoDidFailed:tipMsg];
+    }];
 }
-
-
 
 @end

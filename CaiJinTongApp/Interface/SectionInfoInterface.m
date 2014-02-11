@@ -138,7 +138,11 @@
         [self.delegate getSectionInfoDidFailed:@"获取视频详细信息失败!"];
     }
 }
+
+
 -(void)requestIsFailed:(NSError *)error{
-    [self.delegate getSectionInfoDidFailed:@"获取视频详细信息失败!"];
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate getSectionInfoDidFailed:tipMsg];
+    }];
 }
 @end

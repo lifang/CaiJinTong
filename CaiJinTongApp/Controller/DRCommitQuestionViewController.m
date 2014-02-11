@@ -13,6 +13,7 @@ static CGRect tableFrame;
 @interface DRCommitQuestionViewController ()
 @property (nonatomic,assign) BOOL dropdownmenuSelected;
 @property (nonatomic,strong) DRTreeTableView *categoryTreeTableView;
+@property (weak, nonatomic) IBOutlet UIImageView *cutImageView;
 @property (nonatomic, strong) QuestionInfoInterface *questionInfoInterface;//获取所有问答分类
 @end
 
@@ -48,7 +49,8 @@ static CGRect tableFrame;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.cutImageView.image = nil;
+    [self.cutImageView setHidden:NO];
     self.dropdownmenuSelected = NO;
     [self.dropDownBt setImageEdgeInsets:UIEdgeInsetsMake(10, 400, 10, 50)];
     [self.dropDownBt setTitleEdgeInsets:UIEdgeInsetsMake(10, 5, 10,15)];
@@ -162,6 +164,19 @@ static CGRect tableFrame;
 -(BOOL)drTreeTableView:(DRTreeTableView *)treeView isExtendChildSelectedTreeNode:(DRTreeNode *)selectedNote{
     return YES;
 }
+
+-(void)drTreeTableView:(DRTreeTableView *)treeView didCloseChildTreeNode:(DRTreeNode *)extendNote{
+    
+}
+
+-(void)drTreeTableView:(DRTreeTableView *)treeView didExtendChildTreeNode:(DRTreeNode *)extendNote{
+    self.selectedQuestionCategoryId = extendNote.noteContentID;
+    [self.dropDownBt setTitle:extendNote.noteContentName forState:UIControlStateNormal];
+    if (extendNote.childnotes.count <= 0) {
+        self.dropdownmenuSelected = !self.dropdownmenuSelected;
+    }
+}
+
 #pragma mark --
 
 #pragma mark--QuestionInfoInterfaceDelegate 获取所有问答分类信息
@@ -209,8 +224,11 @@ static CGRect tableFrame;
 //点击截图
 - (IBAction)scanScreenBtClicked:(id)sender {
     self.isCut = YES;
-    if (self.delegate && [self.delegate respondsToSelector:@selector(commitQuestionControllerDidStartCutScreenButtonClicked:isCut:)]) {
-        [self.delegate commitQuestionControllerDidStartCutScreenButtonClicked:self isCut:self.isCut];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(commitQuestionControllerDidStartCutScreenButtonClicked:)]) {
+        self.cutImageView.image = [self.delegate commitQuestionControllerDidStartCutScreenButtonClicked:self];
+        if (self.cutImageView.image) {
+            [sender setHidden:YES];
+        }
     }
 }
 

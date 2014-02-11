@@ -101,8 +101,11 @@
         [self.delegate searchNoteListDataFailure:@"搜索笔记列表失败"];
     }
 }
--(void)requestIsFailed:(NSError *)error{
-    [self.delegate searchNoteListDataFailure:@"搜索笔记列表失败"];
-}
 
+
+-(void)requestIsFailed:(NSError *)error{
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate searchNoteListDataFailure:tipMsg];
+    }];
+}
 @end

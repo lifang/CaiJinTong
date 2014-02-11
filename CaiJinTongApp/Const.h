@@ -33,12 +33,17 @@ typedef enum {LESSONSORTTYPE_CurrentStudy,
 #define POPOUCHANGEVIEWFRAME @"popouChangeViewFrame"
 //#define kHost @"http://wmi.finance365.com/api/ios.ashx"
 #define kImageHost @"http://lms.finance365.com"
-#define kHost @"http://lms.finance365.com/api/ios.ashx"
 //#define kSummitQuestHost  @"http://lms.finance365.com/api/ios.ashx"
 //#define kQuestHost  kHost
 #define kDomain @"http://116.255.135.175:3004"
 
 #define kUsingTestData 0//使用json测试数据
+#define kRunScopeTest 0//是否使用runcope工具测试api
+#if kRunScopeTest
+#define kHost @"http://lms-finance365-com-5we3gmhhky2y.runscope.net/api/ios.ashx"
+#else
+#define kHost @"http://lms.finance365.com/api/ios.ashx"
+#endif
 
 #define kUserName @"kUserName"
 #define kPassword @"kPassword"

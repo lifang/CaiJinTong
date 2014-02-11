@@ -441,6 +441,8 @@
             }else if (self.questionAndAnswerScope == QuestionAndAnswerSearchQuestion){
                 QuestionModel *question = [self.myQuestionArr lastObject];
                 [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:user.userId andText:self.searchQuestionText withLastQuestionId:question.questionId];
+            }else{
+                [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:user.userId andChapterQuestionId:@"0" andLastQuestionID:lastQuestionID];
             }
 }
 
@@ -618,6 +620,9 @@
 #pragma mark DRAskQuestionViewControllerDelegate 提问问题成功时回调
 -(void)askQuestionViewControllerDidAskingSuccess:(DRAskQuestionViewController *)controller{
     self.isReaskRefreshing = YES;
+    if (self.delegate && [self.delegate respondsToSelector:@selector(myQuestionAndAnswerControllerAskQuestionFinished)]) {
+        [self.delegate myQuestionAndAnswerControllerAskQuestionFinished];
+    }
      [self requestNewPageDataWithLastQuestionID:nil];
 }
 #pragma mark --

@@ -65,8 +65,11 @@
         [self.delegate getLearningMatarilasCategoryDataFailure:@"获取课程分类列表失败!"];
     }
 }
+
 -(void)requestIsFailed:(NSError *)error{
-    [self.delegate getLearningMatarilasCategoryDataFailure:@"获取课程分类列表失败!"];;
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate getLearningMatarilasCategoryDataFailure:tipMsg];
+    }];
 }
 
 +(NSMutableArray*)getTreeNodeArrayFromArray:(NSArray*)arr{

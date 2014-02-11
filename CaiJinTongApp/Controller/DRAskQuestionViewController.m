@@ -79,6 +79,18 @@ static BOOL tableVisible;
 -(BOOL)drTreeTableView:(DRTreeTableView *)treeView isExtendChildSelectedTreeNode:(DRTreeNode *)selectedNote{
     return YES;
 }
+
+-(void)drTreeTableView:(DRTreeTableView *)treeView didCloseChildTreeNode:(DRTreeNode *)extendNote{
+
+}
+
+-(void)drTreeTableView:(DRTreeTableView *)treeView didExtendChildTreeNode:(DRTreeNode *)extendNote{
+    self.selectedQuestionCategoryId = extendNote.noteContentID;
+    [self.dropDownBt setTitle:extendNote.noteContentName forState:UIControlStateNormal];
+    if (extendNote.childnotes.count <= 0) {
+        self.dropdownmenuSelected = !self.dropdownmenuSelected;
+    }
+}
 #pragma mark --
 
 -(void)drnavigationBarRightItemClicked:(id)sender{

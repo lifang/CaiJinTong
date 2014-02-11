@@ -52,20 +52,26 @@
                         @catch (NSException *exception) {
                             [self.delegate getFindPassWordInfoDidFailed:@"加载失败!"];
                         }
-                    }else if ([[jsonData objectForKey:@"Status"]intValue] == 3) {
-                        [self.delegate getFindPassWordInfoDidFailed:@"请求过期!"];
+                    }else {
+                        [self.delegate getFindPassWordInfoDidFailed:@"登陆服务器失败!"];
                     }
                 }else {
                     [self.delegate getFindPassWordInfoDidFailed:@"加载失败!"];
                 }
+            }else {
+                [self.delegate getFindPassWordInfoDidFailed:@"加载失败!"];
             }
+        }else {
+            [self.delegate getFindPassWordInfoDidFailed:@"加载失败!"];
         }
     }else {
         [self.delegate getFindPassWordInfoDidFailed:@"加载失败!"];
     }
 }
--(void)requestIsFailed:(NSError *)error{
-    [self.delegate getFindPassWordInfoDidFailed:@"加载失败!"];
-}
 
+-(void)requestIsFailed:(NSError *)error{
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate getFindPassWordInfoDidFailed:tipMsg];
+    }];
+}
 @end

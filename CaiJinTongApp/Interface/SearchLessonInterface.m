@@ -98,11 +98,13 @@
         [self.delegate getSearchLessonListDataForCategoryFailure:@"搜索课程失败!"];
     }
 }
+
+
 -(void)requestIsFailed:(NSError *)error{
-    [self.delegate getSearchLessonListDataForCategoryFailure:@"搜索课程失败!"];
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate getSearchLessonListDataForCategoryFailure:tipMsg];
+    }];
 }
-
-
 
 //-(void)parseResult:(ASIHTTPRequest *)request{
 //    NSDictionary *resultHeaders = [[request responseHeaders] allKeytoLowerCase];

@@ -94,7 +94,10 @@
         [self.delegate getSubmitAnswerDidFailed:@"提交信息失败" withReaskType:self.reaskType];
     }
 }
+
 -(void)requestIsFailed:(NSError *)error{
-    [self.delegate getSubmitAnswerDidFailed:@"提交信息失败" withReaskType:self.reaskType];
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate getSubmitAnswerDidFailed:tipMsg withReaskType:self.reaskType];
+    }];
 }
 @end

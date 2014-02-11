@@ -21,7 +21,6 @@
 #import "UIImageView+WebCache.h"
 #import "SDImageCache.h"
 #import "SettingViewController.h"
-#import "MyQuestionAndAnswerViewController.h"
 #import "LearningMaterialsViewController.h"
 #import "NoteListViewController.h"
 #define LESSON_HEADER_IDENTIFIER @"lessonHeader"
@@ -399,6 +398,15 @@ typedef enum {
     return [NSMutableArray arrayWithArray:@[question,my]];
 }
 
+
+#pragma mark MyQuestionAndAnswerViewControllerDelegate提问问题成功时调用
+-(void)myQuestionAndAnswerControllerAskQuestionFinished{
+    [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
+    UserModel *user = [[CaiJinTongManager shared] user];
+    [self.myQuestionCategatoryInterface downloadMyQuestionCategoryDataWithUserId:user.userId];
+}
+#pragma mark --
+
 #pragma mark DRTreeTableViewDelegate //选择一个分类
 
 -(void)drTreeTableView:(DRTreeTableView *)treeView didCloseChildTreeNode:(DRTreeNode *)extendNote{
@@ -509,6 +517,7 @@ typedef enum {
 -(MyQuestionAndAnswerViewController *)myQAVC{
     if (!_myQAVC) {
         _myQAVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
+        _myQAVC.delegate = self;
     }
     return _myQAVC;
 }

@@ -80,13 +80,21 @@
                 }else {
                     [self.delegate getChapterInfoDidFailed:@"获取章节列表失败!"];
                 }
+            }else {
+                [self.delegate getChapterInfoDidFailed:@"获取章节列表失败!"];
             }
+        }else {
+            [self.delegate getChapterInfoDidFailed:@"获取章节列表失败!"];
         }
     }else {
         [self.delegate getChapterInfoDidFailed:@"获取章节列表失败!"];
     }
 }
+
+
 -(void)requestIsFailed:(NSError *)error{
-    [self.delegate getChapterInfoDidFailed:@"获取章节列表失败!"];
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate getChapterInfoDidFailed:tipMsg];
+    }];
 }
 @end

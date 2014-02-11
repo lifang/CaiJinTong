@@ -61,8 +61,11 @@
         [self.delegate getPlayBackDidFailed:@""];
     }
 }
--(void)requestIsFailed:(NSError *)error{
-    [self.delegate getPlayBackDidFailed:@""];
-}
 
+
+-(void)requestIsFailed:(NSError *)error{
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate getPlayBackDidFailed:tipMsg];
+    }];
+}
 @end

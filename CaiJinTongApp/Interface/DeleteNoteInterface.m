@@ -70,8 +70,10 @@
         [self.delegate deleteNoteFailure:@"删除笔记失败"];
     }
 }
--(void)requestIsFailed:(NSError *)error{
-    [self.delegate deleteNoteFailure:@"删除笔记失败"];
-}
 
+-(void)requestIsFailed:(NSError *)error{
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate deleteNoteFailure:tipMsg];
+    }];
+}
 @end

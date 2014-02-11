@@ -42,7 +42,7 @@
         self.cellFlagLabel.textColor = [UIColor whiteColor];
         self.cellFlagLabel.textAlignment = NSTextAlignmentRight;
 //        self.cellFlagLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleBottomMargin;
-        [self addSubview:self.cellFlagLabel];
+//        [self addSubview:self.cellFlagLabel];
         
     }
     return self;

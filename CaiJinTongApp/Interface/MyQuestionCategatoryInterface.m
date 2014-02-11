@@ -68,8 +68,11 @@
         [self.delegate getMyQuestionCategoryDataFailure:@"加载我的问答分类失败"];
     }
 }
+
 -(void)requestIsFailed:(NSError *)error{
-    [self.delegate getMyQuestionCategoryDataFailure:@"加载我的问答分类失败"];
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate getMyQuestionCategoryDataFailure:tipMsg];
+    }];
 }
 
 +(NSMutableArray*)getTreeNodeArrayFromArray:(NSArray*)arr withRootContentID:(NSString*)rootContentID{

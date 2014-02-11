@@ -232,25 +232,10 @@
 }
 
 + (NSString *)getNowDateFromatAnDate {
-    NSDate *anyDate = [NSDate date];
-    //设置源日期时区
-    NSTimeZone* sourceTimeZone = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
-    //设置转换后的目标日期时区
-    NSTimeZone* destinationTimeZone = [NSTimeZone localTimeZone];
-    //得到源日期与世界标准时间的偏移量
-    NSInteger sourceGMTOffset = [sourceTimeZone secondsFromGMTForDate:anyDate];
-    //目标日期与本地时区的偏移量
-    NSInteger destinationGMTOffset = [destinationTimeZone secondsFromGMTForDate:anyDate];
-    //得到时间偏移量的差值
-    NSTimeInterval interval = destinationGMTOffset - sourceGMTOffset;
-    //转为现在时间
-    NSDate* destinationDateNow = [[NSDate alloc] initWithTimeInterval:interval sinceDate:anyDate];
-    //转为string
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
-    NSString *timeString = [dateFormatter stringFromDate:destinationDateNow];
-    
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"Asia/Shanghai"]];
+    NSString *timeString = [dateFormatter stringFromDate:[NSDate date]];
     return timeString;
 }
 
@@ -262,4 +247,53 @@
         view.backgroundColor = [UIColor colorWithPatternImage:Image(str7)];
     }
 }
+
++(BOOL)requestFailure:(NSError*)error tipMessageBlock:(void(^)(NSString *tipMsg))msg{
+    if (!error) {
+        msg(@"无法连接服务器");
+        return NO;
+    }
+    NSString *tip = [error.userInfo objectForKey:@"NSLocalizedDescription"];
+    if (!tip) {
+        msg(@"无法连接服务器");
+        return NO;
+    }
+    
+    if ([tip isEqualToString:@"The request timed out"]) {
+        msg(@"连接网络失败");
+        return YES;
+    }
+    
+    if ([tip isEqualToString:@"A connection failure occurred"]) {
+        msg(@"当前网络不可用");
+        return YES;
+    }
+    
+    if ([tip isEqualToString:@"Could not connect to the server."]) {
+        msg(@"无法连接服务器");
+        return YES;
+    }
+    if ([tip isEqualToString:@"Expected status code in (200-299)"]) {
+        msg(@"无法连接服务器");
+        return YES;
+    }
+    if ([tip isEqualToString:@"The network connection was lost."]) {
+        msg(@"无法连接服务器");
+        return YES;
+    }
+    
+    if ([tip isEqualToString:@"未能连接到服务器。"]) {
+        msg(@"未能连接到服务器");
+        return YES;
+    }
+    
+    if ([tip isEqualToString:@"似乎已断开与互联网的连接。"]) {
+        msg(@"无法连接网络");
+        return YES;
+    }
+    
+    msg(@"无法连接服务器");
+    return NO;
+}
+
 @end

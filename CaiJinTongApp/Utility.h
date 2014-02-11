@@ -10,6 +10,7 @@
 
 #import "AnswerModel.h"
 @interface Utility : NSObject
++(BOOL)requestFailure:(NSError*)error tipMessageBlock:(void(^)(NSString *tipMsg))msg;
 + (UIImage *)getNormalImage:(UIView *)view;
 + (NSString *)isExistenceNetwork;
 + (NSString *)createMD5:(NSString *)params;

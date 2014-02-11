@@ -166,7 +166,10 @@
         [self.delegate getUserQuestionInfoDidFailed:@"加载失败!"];
     }
 }
+
 -(void)requestIsFailed:(NSError *)error{
-    [self.delegate getUserQuestionInfoDidFailed:@"加载失败!"];
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate getUserQuestionInfoDidFailed:tipMsg];
+    }];
 }
 @end

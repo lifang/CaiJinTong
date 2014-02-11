@@ -99,8 +99,10 @@
         [self.delegate getNoteListDataFailure:@"获取笔记列表失败"];
     }
 }
--(void)requestIsFailed:(NSError *)error{
-    [self.delegate getNoteListDataFailure:@"获取笔记列表失败"];
-}
 
+-(void)requestIsFailed:(NSError *)error{
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate getNoteListDataFailure:tipMsg];
+    }];
+}
 @end

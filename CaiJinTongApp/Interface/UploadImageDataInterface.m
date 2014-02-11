@@ -19,8 +19,12 @@ static UploadImageDataInterface *defaultUploadImage;
     return defaultUploadImage;
 }
 +(void)uploadImageWithUserId:(NSString*)userId withQuestionCategoryId:(NSString*)categoryId withQuestionTitle:(NSString*)questionTitle withQuestionContent:(NSString*)questionContent withUploadedData:(NSData*)uploadData withSuccess:(void (^)(NSString *success))success withFailure:(void (^)(NSString *failureMsg))failure{
+
+#if kRunScopeTest
+    ASIFormDataRequest* request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://lms-finance365-com-5we3gmhhky2y.runscope.net/api/iosuploadify.aspx"]];
+#else
     ASIFormDataRequest* request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://lms.finance365.com/api/iosuploadify.aspx"]];
-    
+#endif
     [request addPostValue:@"asihttp.png" forKey:@"name"];
     [request addPostValue:userId?:@"" forKey:@"userId"];
     [request addPostValue:categoryId?:@"" forKey:@"sectionId"];

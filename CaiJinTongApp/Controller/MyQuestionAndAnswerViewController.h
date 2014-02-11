@@ -13,7 +13,7 @@
 
 #import "AcceptAnswerInterface.h"
 #import "MJRefresh.h"
-
+@protocol MyQuestionAndAnswerViewControllerDelegate;
 @interface MyQuestionAndAnswerViewController : DRNaviGationBarController<UITableViewDataSource,UITableViewDelegate,QuestionAndAnswerCellDelegate,QuestionAndAnswerCellHeaderViewDelegate,AcceptAnswerInterfaceDelegate,MJRefreshBaseViewDelegate,QuestionListInterfaceDelegate,GetUserQuestionInterfaceDelegate,SubmitAnswerInterfaceDelegate,AnswerPraiseInterfaceDelegate,DRAskQuestionViewControllerDelegate,SearchQuestionInterfaceDelegate,DRAttributeStringViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *noticeBarView;
@@ -26,7 +26,14 @@
 @property (strong,nonatomic) NSString *chapterID;
 @property (strong,nonatomic) NSString *searchQuestionText;
 @property (nonatomic,assign) BOOL isSearch;//判断是否是搜索
+@property (weak,nonatomic) id<MyQuestionAndAnswerViewControllerDelegate> delegate;
 - (IBAction)noticeHideBtnClick:(id)sender;
 //scope :设置问题的范围，我的回答，我的提问，所有回答
 -(void)reloadDataWithDataArray:(NSArray*)data  withQuestionChapterID:(NSString*)chapterID withScope:(QuestionAndAnswerScope)scope isSearch:(BOOL)isSearch;
+@end
+
+@protocol MyQuestionAndAnswerViewControllerDelegate <NSObject>
+
+-(void)myQuestionAndAnswerControllerAskQuestionFinished;
+
 @end

@@ -96,8 +96,11 @@
         [self.delegate getLessonListDataForCategoryFailure:@"获取课程列表失败!"];
     }
 }
+
 -(void)requestIsFailed:(NSError *)error{
-    [self.delegate getLessonListDataForCategoryFailure:@"获取课程列表失败!"];
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate getLessonListDataForCategoryFailure:tipMsg];
+    }];
 }
 
 @end

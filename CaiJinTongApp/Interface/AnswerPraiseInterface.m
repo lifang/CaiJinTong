@@ -59,9 +59,14 @@
     }else {
         [self.delegate getAnswerPraiseInfoDidFailed:@"提交失败"];
     }
+    }else {
+        [self.delegate getAnswerPraiseInfoDidFailed:@"提交失败"];
+    }
 }
-}
+
 -(void)requestIsFailed:(NSError *)error{
-    [self.delegate getAnswerPraiseInfoDidFailed:@"提交失败"];
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate getAnswerPraiseInfoDidFailed:tipMsg];
+    }];
 }
 @end

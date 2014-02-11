@@ -71,8 +71,12 @@
         [self.delegate getQuestionInfoDidFailed:@"加载所有问答失败"];
     }
 }
+
+
 -(void)requestIsFailed:(NSError *)error{
-    [self.delegate getQuestionInfoDidFailed:@"加载所有问答失败"];
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate getQuestionInfoDidFailed:tipMsg];
+    }];
 }
 
 +(NSMutableArray*)getTreeNodeArrayFromArray:(NSArray*)arr{

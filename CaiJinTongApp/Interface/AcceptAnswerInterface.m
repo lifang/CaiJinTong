@@ -20,7 +20,7 @@
     [reqheaders setValue:[NSString stringWithFormat:@"%@",answerID] forKey:@"answerId"];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",correctAnswerID] forKey:@"resultId"];
 //    http://wmi.finance365.com/api/ios.ashx?active=acceptAnswer&userId=17079&questionId=1263&answerId=20744&resultId=1647
-    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=acceptAnswer&userId=%@&questionId=%@&answerId=%@&resultId=%@",kHost,userId,questionId,answerID,correctAnswerID];
+    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=acceptAnswer",kHost];
     
     self.baseDelegate = self;
     self.headers = reqheaders;
@@ -54,6 +54,8 @@
     }
 }
 -(void)requestIsFailed:(NSError *)error{
-    
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate getAcceptAnswerInfoDidFailed:tipMsg];
+    }];
 }
 @end

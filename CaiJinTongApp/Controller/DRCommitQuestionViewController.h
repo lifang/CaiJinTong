@@ -49,5 +49,5 @@
 /**
  开始截屏
  */
--(void)commitQuestionControllerDidStartCutScreenButtonClicked:(DRCommitQuestionViewController*)controller isCut:(BOOL)isCut;
+-(UIImage*)commitQuestionControllerDidStartCutScreenButtonClicked:(DRCommitQuestionViewController*)controller;
 @end

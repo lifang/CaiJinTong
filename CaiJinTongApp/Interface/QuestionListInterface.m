@@ -22,13 +22,11 @@
     if (chapterQuestionId) {
         [reqheaders setValue:[NSString stringWithFormat:@"%@",chapterQuestionId] forKey:@"categoryId"];
     }
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",lastQuestionID] forKey:@"feedbackId"];
-//        http://wmi.finance365.com/api/ios.ashx?active=chapterQuestion&userId=18769&categoryId=58&feedbackId=1844
     if (lastQuestionID) {
-            self.interfaceUrl = [NSString stringWithFormat:@"%@?active=chapterQuestion&userId=%@&categoryId=%@&feedbackId=%@",kHost,userId,chapterQuestionId,lastQuestionID];
-    }else{
-        self.interfaceUrl = [NSString stringWithFormat:@"%@?active=chapterQuestion&userId=%@&categoryId=%@",kHost,userId,chapterQuestionId];
+         [reqheaders setValue:[NSString stringWithFormat:@"%@",lastQuestionID] forKey:@"feedbackId"];
     }
+//        http://wmi.finance365.com/api/ios.ashx?active=chapterQuestion&userId=18769&categoryId=58&feedbackId=1844
+self.interfaceUrl = [NSString stringWithFormat:@"%@?active=chapterQuestion",kHost];
 
 
     self.baseDelegate = self;
@@ -240,7 +238,11 @@
 //        [self.delegate getQuestionListInfoDidFailed:@"加载失败!"];
 //    }
 //}
+
+
 -(void)requestIsFailed:(NSError *)error{
-    [self.delegate getQuestionListInfoDidFailed:@"加载失败!"];
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate getQuestionListInfoDidFailed:tipMsg];
+    }];
 }
 @end

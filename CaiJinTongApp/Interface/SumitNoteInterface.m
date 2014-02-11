@@ -21,7 +21,7 @@
     [reqheaders setValue:[NSString stringWithFormat:@"%@",noteTime] forKey:@"noteTime"];
 
 //   self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=submitNote&userId=17082&sectionId=2690&noteText=做笔记";
-    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=submitNote&userId=%@&sectionId=%@&noteText=%@",kHost,userId,sectionId,noteText];
+    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=submitNote",kHost];
     self.baseDelegate = self;
     self.headers = reqheaders;
     
@@ -52,13 +52,21 @@
                 }else {
                     [self.delegate getSumitNoteDidFailed:@"连接失败!"];
                 }
+            }else {
+                [self.delegate getSumitNoteDidFailed:@"连接失败!"];
             }
+        }else {
+            [self.delegate getSumitNoteDidFailed:@"连接失败!"];
         }
     }else {
         [self.delegate getSumitNoteDidFailed:@"连接失败!"];
     }
 }
+
+
 -(void)requestIsFailed:(NSError *)error{
-    [self.delegate getSumitNoteDidFailed:@"连接失败!"];
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate getSumitNoteDidFailed:tipMsg];
+    }];
 }
 @end

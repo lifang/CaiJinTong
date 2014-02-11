@@ -58,14 +58,21 @@ static PlayVideoInterface *defaultPlayVideoInter = nil;
                 }else {
                     [self.delegate getPlayVideoInfoDidFailed:@"加载数据失败!"];
                 }
+            }else {
+                [self.delegate getPlayVideoInfoDidFailed:@"加载数据失败!"];
             }
+        }else {
+            [self.delegate getPlayVideoInfoDidFailed:@"加载数据失败!"];
         }
     }else {
         [self.delegate getPlayVideoInfoDidFailed:@"加载数据失败!"];
     }
 }
--(void)requestIsFailed:(NSError *)error{
-    [self.delegate getPlayVideoInfoDidFailed:@"加载数据失败!"];
-}
 
+
+-(void)requestIsFailed:(NSError *)error{
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate getPlayVideoInfoDidFailed:tipMsg];
+    }];
+}
 @end

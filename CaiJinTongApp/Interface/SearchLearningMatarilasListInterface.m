@@ -144,9 +144,12 @@
         [self.delegate searchLearningMaterilasListDataForCategoryFailure:@"搜索学习资料列表失败!"];
     }
 }
--(void)requestIsFailed:(NSError *)error{
-    [self.delegate searchLearningMaterilasListDataForCategoryFailure:@"搜索学习资料列表失败!"];
-}
 
+
+-(void)requestIsFailed:(NSError *)error{
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate searchLearningMaterilasListDataForCategoryFailure:tipMsg];
+    }];
+}
 @end
 

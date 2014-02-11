@@ -26,9 +26,11 @@
 -(void)modifyNoteWithUserId:(NSString*)userId withNoteId:(NSString*)noteId withNoteContent:(NSString*)noteContent{
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
+    [reqheaders setValue:[NSString stringWithFormat:@"%@",noteId] forKey:@"noteId"];
+    [reqheaders setValue:[NSString stringWithFormat:@"%@",noteContent] forKey:@"noteContent"];
     self.modifyContent = noteContent;
     //http://lms.finance365.com/api/ios.ashx?active=modifyNote&userId=17082&noteId=123&noteContent=jhdhffjiofj
-    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=modifyNote&userId=%@&noteId=%@&noteContent=%@",kHost,userId,noteId,noteContent];
+    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=modifyNote",kHost];
     self.baseDelegate = self;
     self.headers = reqheaders;
     
@@ -73,8 +75,10 @@
         [self.delegate modifyNoteFailure:@"修改笔记失败"];
     }
 }
--(void)requestIsFailed:(NSError *)error{
-    [self.delegate modifyNoteFailure:@"修改笔记失败"];
-}
 
+-(void)requestIsFailed:(NSError *)error{
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate modifyNoteFailure:tipMsg];
+    }];
+}
 @end

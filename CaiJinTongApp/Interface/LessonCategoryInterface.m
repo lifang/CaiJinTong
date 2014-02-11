@@ -14,7 +14,7 @@
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     
 //    http://lms.finance365.com/api/ios.ashx?active=lessonCategory&userId=17082
-    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=lessonCategory&userId=%@",kHost,userId];
+   self.interfaceUrl = [NSString stringWithFormat:@"%@?active=lessonCategory&userId=%@",kHost,userId];
     self.baseDelegate = self;
     self.headers = reqheaders;
     
@@ -65,10 +65,13 @@
         [self.delegate getLessonCategoryDataFailure:@"获取课程分类列表失败!"];
     }
 }
--(void)requestIsFailed:(NSError *)error{
-    [self.delegate getLessonCategoryDataFailure:@"获取课程分类列表失败!"];;
-}
 
+
+-(void)requestIsFailed:(NSError *)error{
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate getLessonCategoryDataFailure:tipMsg];
+    }];
+}
 +(NSMutableArray*)getTreeNodeArrayFromArray:(NSArray*)arr{
     return [LessonCategoryInterface getTreeNodeArrayFromArray:arr withLevel:0 withRootContentID:nil];
 }

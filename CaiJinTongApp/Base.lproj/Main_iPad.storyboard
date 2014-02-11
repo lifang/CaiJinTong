@@ -443,7 +443,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NUM" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ffP-lq-o1O">
-                                                                    <rect key="frame" x="0.0" y="40.000000030100352" width="52" height="10"/>
+                                                                    <rect key="frame" x="0.0" y="40" width="52" height="10.000000045603521"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                                                     <color key="backgroundColor" red="0.72549021244049072" green="0.31372550129890442" blue="0.070588238537311554" alpha="1" colorSpace="deviceRGB"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
@@ -582,7 +582,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sort.png" id="olg-se-KfB">
-                                                        <rect key="frame" x="74.000000268220901" y="6" width="15" height="19"/>
+                                                        <rect key="frame" x="74.000000898460399" y="6" width="15" height="19"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                                     </imageView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="6On-T2-Zrl">
@@ -618,7 +618,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sort.png" id="btf-7b-LN2">
-                                                        <rect key="frame" x="72.000000214576716" y="6" width="15" height="19"/>
+                                                        <rect key="frame" x="72.000000736602843" y="6" width="15" height="19"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                                     </imageView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="fbI-lW-QxS">
@@ -1106,7 +1106,7 @@
                                                         </connections>
                                                     </button>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="hPI-XB-wGH">
-                                                        <rect key="frame" x="88.000003140584738" y="18" width="374" height="34"/>
+                                                        <rect key="frame" x="88.000000532935616" y="18" width="374" height="34"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <connections>
@@ -1290,6 +1290,11 @@
                                 <rect key="frame" x="0.0" y="0.0" width="804" height="423"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="08b-bD-k3W" userLabel="cutImageView">
+                                        <rect key="frame" x="601" y="10" width="114" height="70"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </imageView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="标题" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lQZ-OE-hcS">
                                         <rect key="frame" x="30" y="87" width="34" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1387,7 +1392,8 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <state key="normal" title="点击截屏">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
                                             <action selector="scanScreenBtClicked:" destination="AgX-5c-jeX" eventType="touchUpInside" id="cjh-q7-ZK5"/>
@@ -1413,6 +1419,7 @@
                         <outlet property="commitBtn" destination="OXr-o7-M44" id="NfY-Fj-azv"/>
                         <outlet property="commitTimeLabel" destination="Qby-pk-nPd" id="9Ak-Bq-wYX"/>
                         <outlet property="contentField" destination="T1i-cc-FVg" id="Zeb-lV-Jqk"/>
+                        <outlet property="cutImageView" destination="08b-bD-k3W" id="6dc-Ga-4fn"/>
                         <outlet property="dropDownBt" destination="QfB-h1-dyQ" id="Hiq-es-DBs"/>
                         <outlet property="titleField" destination="mbA-2u-I23" id="95d-sN-e6i"/>
                     </connections>

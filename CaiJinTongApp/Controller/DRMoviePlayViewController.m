@@ -29,7 +29,6 @@
 @property (nonatomic,assign) __block float currentMoviePlaterVolume;
 @property (nonatomic, assign) long  long studyTime;//学习时间
 @property (assign,nonatomic) MPMovieSourceType drMovieSourceType;//播放文件类型，本地还是在线视频
-@property (nonatomic, strong)  UIButton *cutScreenButton;//截屏
 @property (nonatomic,strong) DRCommitQuestionViewController *commitQuestionController;
 @property (nonatomic,strong) MBProgressHUD *loadMovieDataProgressView;
 @end
@@ -169,35 +168,8 @@
     [self.volumeSlider setThumbImage:[UIImage imageNamed:@"play-courselist_03.png"] forState:UIControlStateNormal];
     
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
-    
-    self.cutScreenButton  = [[UIButton alloc] initWithFrame:(CGRect){450,300,100,44}];
-    [self.cutScreenButton setTitle:@"点击截屏" forState:UIControlStateNormal];
-    [self.cutScreenButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    self.cutScreenButton.backgroundColor = [UIColor clearColor];
-    [self.cutScreenButton addTarget:self action:@selector(cutMovieScreen) forControlEvents:UIControlEventTouchUpInside];
-    [self.cutScreenButton setHidden:YES];
-    [self.view addSubview:self.cutScreenButton];
 }
 
-#pragma mark 剪切图
--(void)cutMovieScreen{
-    [self changePlayButtonStatus:NO];
-    UIImage *cutImage = [self.moviePlayer thumbnailImageAtTime:self.moviePlayer.currentPlaybackTime timeOption:MPMovieTimeOptionNearestKeyFrame];
-    if (!self.commitQuestionController) {
-        DRCommitQuestionViewController *commitController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRCommitQuestionViewController"];
-        commitController.view.frame = (CGRect){0,0,804,426};
-        commitController.delegate = self;
-        self.commitQuestionController = commitController;
-    }
-    self.commitQuestionController.cutImage = cutImage;
-    self.commitQuestionController.isCut = NO;
-    [self presentPopupViewController:self.commitQuestionController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
-        self.myQuestionItem.isSelected = NO;
-    }];
-    self.isPopupChapter = NO;
-    [self.cutScreenButton setHidden:YES];
-    
-}
 #pragma mark --
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -506,10 +478,9 @@
 
 
 #pragma mark -- 提交问题
-
--(void)commitQuestionControllerDidStartCutScreenButtonClicked:(DRCommitQuestionViewController *)controller isCut:(BOOL)isCut{
-    [self.cutScreenButton setHidden:NO];
-    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomTop];
+-(UIImage *)commitQuestionControllerDidStartCutScreenButtonClicked:(DRCommitQuestionViewController *)controller{
+ UIImage *cutImage = [self.moviePlayer thumbnailImageAtTime:self.moviePlayer.currentPlaybackTime timeOption:MPMovieTimeOptionNearestKeyFrame];
+    return cutImage;
 }
 
 -(void)commitQuestionController:(DRCommitQuestionViewController *)controller didCommitQuestionWithTitle:(NSString *)title andText:(NSString *)text andQuestionId:(NSString *)questionId{
@@ -907,7 +878,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
         [self.moviePlayerView addSubview:_moviePlayer.view];
         [self.moviePlayerView sendSubviewToBack:_moviePlayer.view];
         
-        [_moviePlayer setScalingMode:MPMovieScalingModeAspectFill];
+        [_moviePlayer setScalingMode:MPMovieScalingModeAspectFit];
     }
     return _moviePlayer;
 }

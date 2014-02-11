@@ -69,7 +69,10 @@
         [self.delegate getGradeInfoDidFailed:@"打分失败!"];
     }
 }
+
 -(void)requestIsFailed:(NSError *)error{
-    [self.delegate getGradeInfoDidFailed:@"打分失败!"];
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate getGradeInfoDidFailed:tipMsg];
+    }];
 }
 @end

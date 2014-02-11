@@ -68,13 +68,15 @@
                                 if (section) {
                                     [self.delegate getCommentListInfoDidFinished:section];
                                 }
+                            }else {
+                                [self.delegate getCommentListInfoDidFailed:@"加载失败!"];
                             }
                         }
                         @catch (NSException *exception) {
                             [self.delegate getCommentListInfoDidFailed:@"加载失败!"];
                         }
                     }else
-                        if ([[jsonData objectForKey:@"Status"]intValue] == 0){
+                        {
                             [self.delegate getCommentListInfoDidFailed:[jsonData objectForKey:@"Msg"]];
                         }
                 }else {
@@ -90,7 +92,10 @@
         [self.delegate getCommentListInfoDidFailed:@"加载失败!"];
     }
 }
+
 -(void)requestIsFailed:(NSError *)error{
-    [self.delegate getCommentListInfoDidFailed:@"加载失败!"];
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate getCommentListInfoDidFailed:tipMsg];
+    }];
 }
 @end

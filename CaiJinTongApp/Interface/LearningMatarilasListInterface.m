@@ -146,9 +146,11 @@
         [self.delegate getlearningMaterilasListDataForCategoryFailure:@"获取资料列表失败!"];
     }
 }
--(void)requestIsFailed:(NSError *)error{
-    [self.delegate getlearningMaterilasListDataForCategoryFailure:@"获取资料列表失败!"];
-}
 
+-(void)requestIsFailed:(NSError *)error{
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate getlearningMaterilasListDataForCategoryFailure:tipMsg];
+    }];
+}
 @end
 

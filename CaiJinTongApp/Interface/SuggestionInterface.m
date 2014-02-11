@@ -52,14 +52,21 @@
                 }else {
                     [self.delegate getSuggestionInfoDidFailed:@"上传失败"];
                 }
+            }else {
+                [self.delegate getSuggestionInfoDidFailed:@"上传失败"];
             }
+        }else {
+            [self.delegate getSuggestionInfoDidFailed:@"上传失败"];
         }
     }else {
         [self.delegate getSuggestionInfoDidFailed:@"上传失败"];
     }
 }
--(void)requestIsFailed:(NSError *)error{
-    [self.delegate getSuggestionInfoDidFailed:@"上传失败"];
-}
 
+
+-(void)requestIsFailed:(NSError *)error{
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate getSuggestionInfoDidFailed:tipMsg];
+    }];
+}
 @end

@@ -145,8 +145,11 @@
         [self.delegate getSearchQuestionInfoDidFailed:@"搜索失败!"];
     }
 }
--(void)requestIsFailed:(NSError *)error{
-    [self.delegate getSearchQuestionInfoDidFailed:@"搜索失败!"];
-}
 
+
+-(void)requestIsFailed:(NSError *)error{
+    [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+        [self.delegate getSearchQuestionInfoDidFailed:tipMsg];
+    }];
+}
 @end
