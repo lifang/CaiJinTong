@@ -16,6 +16,7 @@
 #import "UIImageView+WebCache.h"
 #import "SDImageCache.h"
 #import "CollectionHeader.h"
+#import "DRImageButton.h"
 
 #define ItemWidth 250
 #define ItemWidthSpace 23
@@ -28,6 +29,7 @@
 @property (nonatomic,strong) MJRefreshFooterView *footerRefreshView;
 @property (nonatomic,strong) NSString *searchContent;//搜索之前字符串
 @property (nonatomic,strong) SectionViewController *sectionViewController;
+@property (strong, nonatomic) IBOutletCollection(DRImageButton) NSArray *drImageButtons;
 @end
 
 @implementation ChapterViewController
@@ -142,7 +144,7 @@
         
         [self.lessonListForCategory downloadLessonListForCategoryId:self.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
     }
-    
+    [self sortButtnHighlight:(UIButton *)sender];
 }
 - (IBAction)defaultSortBtClicked:(id)sender {
     self.sortType = LESSONSORTTYPE_CurrentStudy;
@@ -154,7 +156,7 @@
         
         [self.lessonListForCategory downloadLessonListForCategoryId:self.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
     }
-    
+    [self sortButtnHighlight:(UIButton *)sender];
 }
 - (IBAction)nameSortBtClicked:(id)sender {
     self.sortType = LESSONSORTTYPE_LessonName;
@@ -165,6 +167,28 @@
     }else{
         
         [self.lessonListForCategory downloadLessonListForCategoryId:self.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
+    }
+    [self sortButtnHighlight:(UIButton *)sender];
+}
+
+-(void)sortButtnHighlight:(UIButton *)sender{
+    DRImageButton *drImageButton = (DRImageButton *)[sender superview];
+    for(DRImageButton *btn in self.drImageButtons){
+        if ([btn isEqual:drImageButton]) {
+            [btn setBackgroundColor:[UIColor colorWithRed:102.0/255.0 green:204.0/255.0 blue:255.0/255.0 alpha:1.0]];
+            for(UIView *subview in btn.subviews){
+                if([subview isKindOfClass:[UILabel class]]){
+                    ((UILabel *)subview).textColor = [UIColor whiteColor];
+                }
+            }
+        }else{
+            [btn setBackgroundColor:[UIColor colorWithRed:223.0/255.0 green:224.0/255.0 blue:224.0/255.0 alpha:1.0]];
+            for(UIView *subview in btn.subviews){
+                if([subview isKindOfClass:[UILabel class]]){
+                    ((UILabel *)subview).textColor = [UIColor lightGrayColor];
+                }
+            }
+        }
     }
 }
 
@@ -346,6 +370,7 @@
         [self.footerRefreshView endRefreshing];
         self.footerRefreshView.isForbidden = NO;
     });
+    self.drnavigationBar.titleLabel.text = @"搜索";
 }
 
 -(void)getSearchLessonListDataForCategoryFailure:(NSString *)errorMsg{

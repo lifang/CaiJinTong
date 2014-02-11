@@ -7,11 +7,13 @@
 //
 
 #import "LearningMaterialsViewController.h"
+#import "DRImageButton.h"
 /*
  显示资料列表
  */
 @interface LearningMaterialsViewController ()
 - (IBAction)timeSortBtClicked:(id)sender;
+@property (strong, nonatomic) IBOutletCollection(DRImageButton) NSArray *drImageButtons;
 - (IBAction)defaultSortBtClicked:(id)sender;
 - (IBAction)nameSortBtClicked:(id)sender;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -97,6 +99,7 @@
      [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
     self.isReloading = YES;
     [self.learningMaterialListInterface downloadlearningMaterilasListForCategoryId:self.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
+    [self sortButtnHighlight:(UIButton *)sender];
 }
 
 - (IBAction)defaultSortBtClicked:(id)sender {
@@ -105,6 +108,7 @@
      [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
     self.isReloading = YES;
     [self.learningMaterialListInterface downloadlearningMaterilasListForCategoryId:self.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
+    [self sortButtnHighlight:(UIButton *)sender];
 }
 
 - (IBAction)nameSortBtClicked:(id)sender {
@@ -113,7 +117,30 @@
     [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
     self.isReloading = YES;
     [self.learningMaterialListInterface downloadlearningMaterilasListForCategoryId:self.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
+    [self sortButtnHighlight:(UIButton *)sender];
 }
+
+-(void)sortButtnHighlight:(UIButton *)sender{
+    DRImageButton *drImageButton = (DRImageButton *)[sender superview];
+    for(DRImageButton *btn in self.drImageButtons){
+        if ([btn isEqual:drImageButton]) {
+            [btn setBackgroundColor:[UIColor colorWithRed:102.0/255.0 green:204.0/255.0 blue:255.0/255.0 alpha:1.0]];
+            for(UIView *subview in btn.subviews){
+                if([subview isKindOfClass:[UILabel class]]){
+                    ((UILabel *)subview).textColor = [UIColor whiteColor];
+                }
+            }
+        }else{
+            [btn setBackgroundColor:[UIColor colorWithRed:223.0/255.0 green:224.0/255.0 blue:224.0/255.0 alpha:1.0]];
+            for(UIView *subview in btn.subviews){
+                if([subview isKindOfClass:[UILabel class]]){
+                    ((UILabel *)subview).textColor = [UIColor lightGrayColor];
+                }
+            }
+        }
+    }
+}
+
 #pragma mark --
 
 #pragma mark UITableViewDelegate
@@ -212,6 +239,7 @@
         self.footerRefreshView.isForbidden = NO;
         self.isReloading = NO;
     });
+    self.drnavigationBar.titleLabel.text = @"搜索";
 }
 
 -(void)searchLearningMaterilasListDataForCategoryFailure:(NSString *)errorMsg{

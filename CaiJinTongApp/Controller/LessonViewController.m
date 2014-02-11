@@ -431,9 +431,11 @@ typedef enum {
     }
     if (_learningMaterialsController) {
         self.learningMaterialsController.isSearch =  NO;
+        self.learningMaterialsController.drnavigationBar.titleLabel.text = selectedNote.noteContentName;
     }
     if (_myQAVC) {
         self.myQAVC.isSearch = NO;
+        self.myQAVC.drnavigationBar.titleLabel.text = selectedNote.noteContentName;
     }
     [self.didAppearController popToRootViewControllerAnimated:YES];
     UserModel *user = [[CaiJinTongManager shared] user];
@@ -479,6 +481,7 @@ typedef enum {
                 [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
                 [self.learningMatarilasListInterface downloadlearningMaterilasListForCategoryId:selectedNote.noteContentID withUserId:user.userId withPageIndex:0 withSortType:LearningMaterialsSortType_Default];
             }
+    self.chapterView.drnavigationBar.titleLabel.text = selectedNote.noteContentName;
 }
 #pragma mark --
 
