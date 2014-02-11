@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="gbO-Oi-S6b">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="gbO-Oi-S6b">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <scenes>
         <!--Lesson View Controller i Phone - 视频-->
@@ -116,20 +116,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view autoresizesSubviews="NO" clipsSubviews="YES" contentMode="scaleToFill" id="USC-aE-Lad" customClass="SUNSlideSwitchView_iPhone">
-                                <rect key="frame" x="0.0" y="357" width="320" height="211"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="-22" maxX="0.0" maxY="22"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="k8T-pT-hRl">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="486"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <outlet property="slideSwitchViewDelegate" destination="LqH-YZ-yPx" id="4ub-zH-Ygv"/>
+                                    <outlet property="dataSource" destination="LqH-YZ-yPx" id="wv3-gf-Rzt"/>
+                                    <outlet property="delegate" destination="LqH-YZ-yPx" id="6uk-kM-CPK"/>
                                 </connections>
-                            </view>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <outlet property="slideSwitchView" destination="USC-aE-Lad" id="f5J-66-6ut"/>
+                        <outlet property="tableView" destination="k8T-pT-hRl" id="Y1R-8P-CVH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qd8-7p-yAG" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -256,7 +256,6 @@
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="VKg-c6-Nnj" id="ruz-GJ-SZ9"/>
-                                    <outlet property="delegate" destination="VKg-c6-Nnj" id="Af8-WA-olj"/>
                                 </connections>
                             </tableView>
                         </subviews>
@@ -793,6 +792,10 @@
                                     <action selector="screenShotButtonClicked:" destination="sos-KO-9xw" eventType="touchUpInside" id="axA-ny-jy6"/>
                                 </connections>
                             </button>
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="YWg-G9-OrN">
+                                <rect key="frame" x="20" y="192" width="95" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -807,6 +810,8 @@
                         <outlet property="categoryTextField" destination="O0J-rH-RJA" id="R68-eZ-ihu"/>
                         <outlet property="commitBtn" destination="CTs-69-apu" id="IOx-KH-0Xa"/>
                         <outlet property="contentField" destination="z8n-UZ-4we" id="eu0-m1-ye9"/>
+                        <outlet property="screenShotBtn" destination="RS1-md-cjf" id="TvV-fA-h3i"/>
+                        <outlet property="screenShotImageView" destination="YWg-G9-OrN" id="ecZ-3i-1kK"/>
                         <outlet property="selectButton" destination="tle-IC-ZDf" id="5jq-vl-8uR"/>
                         <outlet property="titleField" destination="7Z8-FC-8UT" id="y3U-iU-ldx"/>
                     </connections>

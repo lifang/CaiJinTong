@@ -26,7 +26,8 @@ static CGRect frame;
 - (void)initValues
 {
     kHeightOfTopScrollView = IP5(63.0f, 53.0f);
-    frame = IP5(self.bounds, CGRectMake(0, 314, 320, 166));
+//    frame = IP5(self.bounds, CGRectMake(0, 314, 320, 166));
+    frame = IP5(self.bounds,self.bounds);
     //创建顶部可滑动的tab
     _topScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,frame.size.height - kHeightOfTopScrollView, frame.size.width, kHeightOfTopScrollView)];
     _topScrollView.delegate = self;

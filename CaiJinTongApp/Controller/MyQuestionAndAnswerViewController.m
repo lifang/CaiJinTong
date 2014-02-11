@@ -658,6 +658,7 @@
             self.footerRefreshView.isForbidden = NO;
         });
     });
+    self.drnavigationBar.titleLabel.text = @"搜索";
 }
 #pragma mark --
 

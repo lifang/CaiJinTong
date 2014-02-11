@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UITextView *contentField;  //主文本框
 @property (weak, nonatomic) IBOutlet UIButton *commitBtn;
 @property (weak, nonatomic) IBOutlet UIButton *cancelBtn;
+@property (weak, nonatomic) IBOutlet UIButton *screenShotBtn;
 @property (weak,nonatomic) id<LHLCommitQuestionViewControllerDelegate> delegate;
 
 @property (nonatomic, strong) QuestionInfoInterface *questionInfoInterface;

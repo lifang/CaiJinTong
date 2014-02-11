@@ -426,9 +426,10 @@
 
 #pragma mark -- 提交问题
 -(void)commitQuestionControllerDidStartCutScreenButtonClicked:(LHLCommitQuestionViewController *)controller isCut:(BOOL)isCut{
-    [self.cutScreenButton setHidden:NO];
-    [self changePlayButtonStatus:NO];
-    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomTop];
+//    [self.cutScreenButton setHidden:NO];
+//    [self changePlayButtonStatus:NO];
+//    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomTop];
+    [self cutMovieScreen];
 }
 
 -(void)commitQuestionController:(LHLCommitQuestionViewController *)controller didCommitQuestionWithTitle:(NSString *)title andText:(NSString *)text andQuestionId:(NSString *)questionId{
@@ -821,7 +822,7 @@
         [self.moviePlayerView addSubview:_moviePlayer.view];
         [self.moviePlayerView sendSubviewToBack:_moviePlayer.view];
         
-        [_moviePlayer setScalingMode:MPMovieScalingModeAspectFill];
+        [_moviePlayer setScalingMode:MPMovieScalingModeAspectFit];
     }
     return _moviePlayer;
 }
@@ -841,7 +842,7 @@
 
 #pragma mark 剪切图
 -(void)cutMovieScreen{
-    [self changePlayButtonStatus:NO];
+//    [self changePlayButtonStatus:NO];
     UIImage *cutImage = [self.moviePlayer thumbnailImageAtTime:self.moviePlayer.currentPlaybackTime timeOption:MPMovieTimeOptionNearestKeyFrame];
 //    if (!self.commitQuestionVC) {
 //        DRCommitQuestionViewController *commitController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRCommitQuestionViewController"];
@@ -850,12 +851,12 @@
 //        self.commitQuestionController = commitController;
 //    }
     self.commitQuestionVC.cutImage = cutImage;
-    self.commitQuestionVC.isCut = NO;
-    [self presentPopupViewController:self.commitQuestionVC animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
-        self.myQuestionItem.isSelected = NO;
-    }];
-    self.isPopupChapter = NO;
-    [self.cutScreenButton setHidden:YES];
+//    self.commitQuestionVC.isCut = NO;
+//    [self presentPopupViewController:self.commitQuestionVC animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
+//        self.myQuestionItem.isSelected = NO;
+//    }];
+//    self.isPopupChapter = NO;
+//    [self.cutScreenButton setHidden:YES];
     
 }
 
