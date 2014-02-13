@@ -75,6 +75,11 @@
     if (self.contentField.text == nil || [[self.contentField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
         [Utility errorAlert:@"内容不能为空"];
     }else {
+        if (self.contentField.text.length > 500) {
+            [Utility errorAlert:@"字数不能超过500"];
+            return;
+        }
+        
         [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopTop];
         if (self.delegate && [self.delegate respondsToSelector:@selector(takingMovieNoteController:commitNote: andTime:)]) {
             [self.delegate takingMovieNoteController:self commitNote:self.contentField.text andTime:self.noteTimeLabel.text];

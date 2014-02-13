@@ -157,6 +157,10 @@ typedef enum {AlertType_DeleteCell = 12,AlertType_ModifyCell}AlertType;
 }
 
 - (IBAction)commitBtClicked:(id)sender {
+    if (!self.noteContentTextView.text || self.noteContentTextView.text.length > 500) {
+        [Utility errorAlert:@"字数不能超过500"];
+        return;
+    }
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"确认修改" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确认",@"取消", nil];
     alert.tag = AlertType_ModifyCell;
     [alert show];

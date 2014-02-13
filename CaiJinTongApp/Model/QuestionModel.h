@@ -14,6 +14,7 @@
 @property (nonatomic, strong) NSString *questionName;//问题名称
 @property (nonatomic, strong) NSString *askerId;//提问者id
 @property (nonatomic, strong) NSString *askImg;//提问者头像
+@property (nonatomic, strong) NSString *attachmentFileUrl;//附件url
 
 @property (nonatomic, strong) NSString *askerNick;//提问者昵称
 @property (nonatomic, strong) NSString *askTime;//提问时间

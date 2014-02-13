@@ -10,7 +10,15 @@
 #import "HTMLParser.h"
 #import "AnswerModel.h"
 #import "QuestionModel.h"
-typedef enum {DRURLFileType_IMAGR,DRURLFileType_WORD,DRURLFileType_PDF,DRURLFileType_OTHER}DRURLFileType;
+typedef enum {
+    DRURLFileType_IMAGR,
+    DRURLFileType_WORD,
+    DRURLFileType_PDF,
+    DRURLFileType_OTHER,
+    DRURLFileType_GIF,//动画图
+    DRURLFileType_TEXT,
+    DRURLFileType_PPT
+}DRURLFileType;
 @protocol DRAttributeStringViewDelegate;
 @interface DRAttributeStringView : UIView
 @property (strong,nonatomic) AnswerModel *answerModel;

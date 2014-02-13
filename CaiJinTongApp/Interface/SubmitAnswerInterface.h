@@ -15,6 +15,7 @@
 @property (nonatomic, assign) id<SubmitAnswerInterfaceDelegate>delegate;
 @property (nonatomic, assign) ReaskType reaskType;
 //resultId:resultId=0 表示回答 resultId大于0 表示追问
+//type: 1:表示添加追问  3：表示修改追问 type=2：表示回复或者修改回复
 -(void)getSubmitAnswerInterfaceDelegateWithUserId:(NSString *)userId andReaskTyep:(ReaskType)reask  andAnswerContent:(NSString *)answerContent andQuestionId:(NSString *)questionId andAnswerID:(NSString*)answerID andResultId:(NSString *)resultId;
 
 @end

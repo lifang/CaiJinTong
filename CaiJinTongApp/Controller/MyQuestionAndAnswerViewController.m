@@ -189,8 +189,16 @@
 
 #pragma mark DRAttributeStringViewDelegate用户点击图片内容时调用
 -(void)drAttributeStringView:(DRAttributeStringView *)attriView clickedFileURL:(NSURL *)url withFileType:(DRURLFileType)fileType{
+    if (fileType == DRURLFileType_OTHER) {
+        [Utility errorAlert:@"无法打开文件，请到电脑上查看"];
+        return;
+    }
+    [self scanImageFromImageUrl:url];
+}
+
+-(void)scanImageFromImageUrl:(NSURL*)imageURL{
     if (!self.modelController) {
-       self.modelController = [[UIViewController alloc] init];
+        self.modelController = [[UIViewController alloc] init];
     }
     for (UIView *subView in self.modelController.view.subviews) {
         [subView removeFromSuperview];
@@ -200,7 +208,7 @@
     self.modelController.view.frame = (CGRect){0,0,800,700};
     webView.frame = (CGRect){0,0,800,700};
     webView.scalesPageToFit = YES;
-    [webView loadRequest:[NSURLRequest requestWithURL:url]];
+    [webView loadRequest:[NSURLRequest requestWithURL:imageURL]];
     [self presentPopupViewController:self.modelController animationType:MJPopupViewAnimationSlideTopTop isAlignmentCenter:YES dismissed:^{
         
     }];
@@ -208,19 +216,22 @@
 #pragma mark --
 
 #pragma mark QuestionAndAnswerCellHeaderViewDelegate
--(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header didIsExtendQuestionContent:(BOOL)isExtend atIndexPath:(NSIndexPath *)path{
-//    QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
-//    question.isExtend = isExtend;
-    int row = [self convertIndexpathToRow:path];
-    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+-(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header scanAttachmentFileAtIndexPath:(NSIndexPath *)path{
+    QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
+    NSString *extension = [[question.attachmentFileUrl pathExtension] lowercaseString];
+        if ([extension isEqualToString:@"png"]
+            || [extension isEqualToString:@"jpg"]
+            || [extension isEqualToString:@"jpeg"]
+            || [extension isEqualToString:@"pdf"]
+            || [extension isEqualToString:@"word"]
+            || [extension isEqualToString:@"txt"]
+            || [extension isEqualToString:@"ppt"]
+            || [extension isEqualToString:@"gif"]) {
+          [self scanImageFromImageUrl:[NSURL URLWithString:question.attachmentFileUrl]];
+        }else{
+            [Utility errorAlert:@"无法打开，请到电脑上打开使用"];
+        }
 }
-
--(BOOL)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header isExtendAtIndexPath:(NSIndexPath *)path{
-//    QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
-//    return question.isExtend;
-     return YES;
-}
-
 -(float)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header headerHeightAtIndexPath:(NSIndexPath *)path{
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
     CGRect rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:QUESTIONHEARD_VIEW_WIDTH];
@@ -684,8 +695,10 @@
 #pragma mark SubmitAnswerInterfaceDelegate 提交回答或者提交追问的代理
 -(void)getSubmitAnswerInfoDidFinished:(NSDictionary *)result withReaskType:(ReaskType)reask{
     self.isReaskRefreshing = YES;
-    self.tableView.contentOffset = (CGPoint){self.tableView.contentOffset.x,0};
-     [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andChapterQuestionId:self.chapterID andLastQuestionID:nil];
+//    self.tableView.contentOffset = (CGPoint){self.tableView.contentOffset.x,0};
+//     [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andChapterQuestionId:self.chapterID andLastQuestionID:nil];
+    [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
+    [Utility errorAlert:@"提交成功"];
 }
 
 -(void)getSubmitAnswerDidFailed:(NSString *)errorMsg withReaskType:(ReaskType)reask{

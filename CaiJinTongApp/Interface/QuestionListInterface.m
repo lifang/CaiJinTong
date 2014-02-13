@@ -59,6 +59,7 @@ self.interfaceUrl = [NSString stringWithFormat:@"%@?active=chapterQuestion",kHos
                                         NSDictionary *question_dic = [array_chapterQuestionList objectAtIndex:i];
                                         QuestionModel *question = [[QuestionModel alloc]init];
                                         question.questionId = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"questionId"]];
+                                        question.attachmentFileUrl = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"extUrl"]];
                                         question.questionName = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"questionName"]];
                                         question.askerId = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"askerId"]];
                                         question.askImg = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"askImg"]];

@@ -45,7 +45,10 @@
 - (void)free
 {
     [super free];
-    [_scrollView removeObserver:self forKeyPath:@"contentSize" context:nil];
+    if (_scrollView) {
+        [_scrollView removeObserver:self forKeyPath:@"contentSize" context:nil];
+    }
+    
 }
 
 #pragma mark 监听UIScrollView的属性
