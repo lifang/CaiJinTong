@@ -249,13 +249,12 @@
      int row = [self convertIndexpathToRow:path];
     [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
     if (question.isEditing) {
-        float sectionHeight = [self getTableViewHeaderHeightWithSection:path.section];
         CGRect sectionRect = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
-        float sectionMinHeight = CGRectGetMaxY(sectionRect) - self.tableView.contentOffset.y;
-        float keyheight = CGRectGetMaxY(self.tableView.frame) - sectionHeight;
-        if (sectionMinHeight > keyheight) {
-            [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (sectionMinHeight - keyheight)} animated:YES];
+        float sectionMinHeight = self.tableView.frame.size.height - (CGRectGetMaxY(sectionRect) - self.tableView.contentOffset.y);
+        if (350 >= sectionMinHeight) {
+            [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (350 - sectionMinHeight)} animated:YES];
         }
+//        [header.answerQuestionTextField becomeFirstResponder];
     }
 
 }
@@ -276,14 +275,13 @@
 
 //开始编辑回答
 -(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header willBeginTypeAnswerQuestionAtIndexPath:(NSIndexPath *)path{
-    int row = [self convertIndexpathToRow:path];
-    float sectionHeight = [self getTableViewHeaderHeightWithSection:path.section];
-    CGRect sectionRect = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
-    float sectionMinHeight = CGRectGetMaxY(sectionRect) - self.tableView.contentOffset.y;
-    float keyheight = CGRectGetMaxY(self.tableView.frame) - sectionHeight-200;
-    if (sectionMinHeight > keyheight) {
-        [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (sectionMinHeight - keyheight)} animated:YES];
-    }
+//    int row = [self convertIndexpathToRow:path];
+//    CGRect sectionRect = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+//    float sectionMinHeight = self.tableView.frame.size.height - (CGRectGetMaxY(sectionRect) - self.tableView.contentOffset.y);
+//    if (300 >= sectionMinHeight) {
+//        [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (300 - sectionMinHeight)} animated:YES];
+//    }
+
 
 }
 #pragma mark --
@@ -301,10 +299,9 @@
 -(void)questionAndAnswerCell:(QuestionAndAnswerCell *)cell willBeginTypeQuestionTextFieldAtIndexPath:(NSIndexPath *)path{
     int row = [self convertIndexpathToRow:path];
     CGRect cellRect = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
-    float cellmaxHeight = CGRectGetMaxY(cellRect) - self.tableView.contentOffset.y;
-    float keyheight = CGRectGetMaxY(self.tableView.frame) - 450;
-    if (cellmaxHeight > keyheight) {
-        [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (cellmaxHeight - keyheight)} animated:YES];
+    float cellMinHeight = self.tableView.frame.size.height - (CGRectGetMaxY(cellRect) - self.tableView.contentOffset.y);
+    if (400 > cellMinHeight) {
+        [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (400 - cellMinHeight)} animated:YES];
     }
 }
 
@@ -341,10 +338,9 @@
     [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
     if (answer.isEditing) {
         CGRect cellRect = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
-        float cellmaxHeight = CGRectGetMaxY(cellRect) - self.tableView.contentOffset.y;
-        float keyheight = CGRectGetMaxY(self.tableView.frame) - 450;
-        if (cellmaxHeight > keyheight) {
-            [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (cellmaxHeight - keyheight)} animated:YES];
+        float cellMinHeight = self.tableView.frame.size.height - (CGRectGetMaxY(cellRect) - self.tableView.contentOffset.y);
+        if (400 > cellMinHeight) {
+            [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (400 - cellMinHeight)} animated:YES];
         }
     }
     

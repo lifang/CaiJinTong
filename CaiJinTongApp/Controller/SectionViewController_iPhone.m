@@ -11,7 +11,7 @@
 #define PLACEHOLD(string) (string.length < 1 || !string) ? @"(资料暂缺)" : string
 
 @interface SectionViewController_iPhone()
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet SplitLessonTableView *tableView;
 //@property (weak, nonatomic) IBOutlet UIView *switchButtonView;
 //- (IBAction)sectionChapterBtnClicked:(id)sender;
 //- (IBAction)sectionCommentButtonClicked:(id)sender;
@@ -54,10 +54,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     [self.lhlNavigationBar.rightItem setHidden:YES];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
-    
+    self.tableView.tag = LessonViewTagType_lessonRootScrollViewTag;
 //    [self.switchButtonView setBackgroundColor:[UIColor colorWithRed:14.0/255.0 green:50.0/255.0 blue:84.0/255.0 alpha:1.0]];
     if(IS_4_INCH){
         [self.tableView setFrame:(CGRect){0,65,320,440}];
@@ -211,6 +210,7 @@
         } else if (number == 1) {
             return self.section_GradeView;
         } else if (number == 2) {
+            self.section_NoteView.tableViewList.tag = LessonViewTagType_noteTableViewTag;
             return self.section_NoteView;
         } else {
             return nil;
@@ -573,9 +573,7 @@
 
 #pragma mark --
 
-#pragma mark -- UITableView Delegate
 
-#pragma mark --
 
 #pragma mark IBActions
 
@@ -703,6 +701,7 @@
         self.section_ChapterView.title = @"章节目录";
         self.section_ChapterView.lessonId = self.lessonModel.lessonId;
         self.section_ChapterView.dataArray = self.lessonModel.chapterList;
+        self.section_ChapterView.tableViewList.tag = LessonViewTagType_chapterTableViewTag;
         self.section_ChapterView.isMovieView = NO;
         
         //评价页面
@@ -712,6 +711,7 @@
             self.section_GradeView.dataArray = [NSMutableArray arrayWithArray:self.lessonModel.lessonCommentList];
             self.section_GradeView.isGrade = [self.lessonModel.lessonIsScored intValue];
             self.section_GradeView.lessonId = self.lessonModel.lessonId;
+            self.section_GradeView.tableViewList.tag = LessonViewTagType_commentTableViewTag;
             if(self.section_GradeView.dataArray.count > 0){
                 self.section_GradeView.nowPage = 1;
             }
@@ -722,6 +722,7 @@
         self.section_NoteView.title = @"笔记";
         self.section_NoteView.delegate = self;
         [self.section_NoteView.tableViewList setFrame:CGRectMake(22, 0, 276, _slideSwitchView.frame.size.height - IP5(63, 53))];
+        self.section_NoteView.tableViewList.tag = LessonViewTagType_noteTableViewTag;
         self.section_NoteView.dataArray = [NSMutableArray arrayWithArray:self.lessonModel.chapterList];
         
         [_slideSwitchView buildUI];

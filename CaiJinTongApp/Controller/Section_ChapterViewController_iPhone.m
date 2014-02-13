@@ -15,6 +15,7 @@
 #define CAPTER_CELL_WIDTH 277
 @interface Section_ChapterViewController_iPhone ()
 @property (nonatomic,strong) UILabel *tipLabel;
+@property (nonatomic,assign) CGPoint lastContentOffset;
 @end
 @implementation Section_ChapterViewController_iPhone
 
@@ -44,6 +45,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.tableViewList.tag = LessonViewTagType_chapterTableViewTag;
+    self.tableViewList.delegate = self;
 	[[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(initBtn:)
                                                  name: @"downloadStart"
@@ -88,6 +91,35 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark -- UITableView scrollViewDelegate
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    self.lastContentOffset = scrollView.contentOffset;
+     [scrollView setScrollEnabled:YES];
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+     [scrollView setScrollEnabled:YES];
+}
+
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+   
+    UITableView *parentTableView = (UITableView*)[self.parentViewController.view viewWithTag:LessonViewTagType_lessonRootScrollViewTag];
+    if (self.lastContentOffset.y > scrollView.contentOffset.y) {//向下
+        if (parentTableView && scrollView.contentOffset.y <= 0) {
+            [scrollView setScrollEnabled:NO];
+            [parentTableView setContentOffset:(CGPoint){0,0} animated:YES];
+        }
+    }else{//向上
+        if (parentTableView && parentTableView.contentOffset.y <= 0) {
+            [scrollView setScrollEnabled:NO];
+            [parentTableView setContentOffset:(CGPoint){0,160} animated:YES];
+        }
+    }
+
+}
+#pragma mark --
+
 #pragma mark -- tableViewDelegate
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     if (!self.dataArray || self.dataArray.count <= 0) {

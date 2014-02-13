@@ -13,6 +13,7 @@
 @interface Section_GradeViewController_iPhone ()
 @property (nonatomic,strong) UILabel *tipLabel;
 @property (nonatomic,strong) MJRefreshFooterView *footerRefreshView;
+@property (nonatomic,assign) CGPoint lastContentOffset;
 @end
 
 @implementation Section_GradeViewController_iPhone
@@ -32,6 +33,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.tableViewList.tag = LessonViewTagType_commentTableViewTag;
+    self.tableViewList.delegate = self;
     [self.footerRefreshView endRefreshing];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sunsliderScrollWillBeginDragging) name:@"SUNSlideScrollWillDraggingNotification" object:nil];
     [self displayView];
@@ -124,6 +127,38 @@ static NSString *timespan = nil;
         }
     }
 }
+
+#pragma mark -- UITableView scrollViewDelegate
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    self.lastContentOffset = scrollView.contentOffset;
+    [scrollView setScrollEnabled:YES];
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    [scrollView setScrollEnabled:YES];
+    if (scrollView == self.tableViewList) {
+        [self.textView resignFirstResponder];
+    }
+}
+
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    
+    UITableView *parentTableView = (UITableView*)[self.parentViewController.view viewWithTag:LessonViewTagType_lessonRootScrollViewTag];
+    if (self.lastContentOffset.y > scrollView.contentOffset.y) {//向下
+        if (parentTableView && scrollView.contentOffset.y <= 0) {
+            [scrollView setScrollEnabled:NO];
+            [parentTableView setContentOffset:(CGPoint){0,0} animated:YES];
+        }
+    }else{//向上
+        if (parentTableView && parentTableView.contentOffset.y <= 0) {
+            [scrollView setScrollEnabled:NO];
+            [parentTableView setContentOffset:(CGPoint){0,160} animated:YES];
+        }
+    }
+    
+}
+#pragma mark --
+
 #pragma mark-- UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -174,12 +209,6 @@ static NSString *timespan = nil;
     [self.dataArray insertObject:model atIndex:0];
     [self.tableViewList reloadData];
     [Utility errorAlert:@"提交评论成功"];
-}
-
--(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (scrollView == self.tableViewList) {
-        [self.textView resignFirstResponder];
-    }
 }
 
 #pragma mark MJRefreshBaseViewDelegate 分页加载

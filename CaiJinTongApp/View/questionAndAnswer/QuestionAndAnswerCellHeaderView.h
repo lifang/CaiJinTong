@@ -20,6 +20,7 @@
 @interface QuestionAndAnswerCellHeaderView : UITableViewCell<UITextViewDelegate>
 @property (strong,nonatomic) NSIndexPath *path;
 @property (nonatomic,strong) DRAttributeStringView *questionContentAttributeView;
+@property (nonatomic,strong) UITextView *answerQuestionTextField;//回答输入框
 @property (weak,nonatomic) id <QuestionAndAnswerCellHeaderViewDelegate> delegate;
 @property (assign,nonatomic) QuestionAndAnswerScope *scope;//判断是回答还是追问
 -(void)setQuestionModel:(QuestionModel*)question withQuestionAndAnswerScope:(QuestionAndAnswerScope)scope;

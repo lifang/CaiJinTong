@@ -37,7 +37,7 @@
 -(void)saveSectionModelFinishedDateWithSectionModel:(SectionModel*)section withLessonId:(NSString*)lessonId;//保存最近播放结束时间
 -(void)addPlayTimeOffLineWithSectionId:(NSString*)sectionId withTimeForSecond:(NSString*)playTime;//追加离线播放时长
 -(void)updatePlayDateOffLineWithSectionId:(NSString*)sectionId;//重新计算离线播放时间点
--(NSString*)selectTotalPlayDateOffLineWithSectionId:(NSString*)sectionId;//计算第一次离线播放时间点＋离线播放时长
+//-(NSString*)selectTotalPlayDateOffLineWithSectionId:(NSString*)sectionId;//计算第一次离线播放时间点＋离线播放时长
 -(NSString*)selectTotalPlayTimeOffLineWithSectionId:(NSString*)sectionId;//查询总时间
 
 -(SectionSaveModel *)getDataWithSid:(NSString *) sid;

@@ -8,7 +8,7 @@
 
 #import "DRAttributeStringView.h"
 #import <CoreGraphics/CoreGraphics.h>
-#import "ASIDownloadCache.h"
+#import "SDWebImageManager.h"
 #define LINE_PADDING PAD(5,3)
 #define IMAGE_WIDTH PAD(300,200)
 #define IMAGE_HEIGHT PAD(200,150)
@@ -28,67 +28,32 @@
 #define ReAnswer_Content_Color [UIColor grayColor]
 #define ReAnswer_Title_Color [UIColor lightGrayColor]
 
-@interface DRAttributeImageView:UIImageView
+@interface DRAttributeImageView:UIImageView<SDWebImageManagerDelegate>
 @property (nonatomic,strong) NSURL *imageURL;
 @property (nonatomic,assign)DRURLFileType  urlFileType;
-@property (nonatomic,strong) UIActivityIndicatorView *progress;
 @end
 
 @implementation DRAttributeImageView
+#pragma mark SDWebImageManagerDelegate
+-(void)webImageManager:(SDWebImageManager *)imageManager didFailWithError:(NSError *)error{
+    [self setUserInteractionEnabled:NO];
+    self.image = [UIImage imageNamed:@"logo.png"];
+}
+
+-(void)webImageManager:(SDWebImageManager *)imageManager didFinishWithImage:(UIImage *)image{
+    [self setUserInteractionEnabled:YES];
+    self.image = image;
+}
+#pragma mark --
 
 -(void)setImageURL:(NSURL *)imageURL{
     _imageURL = imageURL;
     if (imageURL) {
-        __block  ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:imageURL];
-        [request setDownloadCache:[ASIDownloadCache sharedCache]];
-        [request setCacheStoragePolicy:ASICacheForSessionDurationCacheStoragePolicy];
-        [request setCachePolicy:ASIAskServerIfModifiedWhenStaleCachePolicy];
-        __weak ASIHTTPRequest *weakRequest = request;
-        __weak DRAttributeImageView *weakSelf = self;
-        self.progress.center = (CGPoint){self.frame.size.width/2,self.frame.size.height/2};
-        [self.progress startAnimating];
-        [request setCompletionBlock:^{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                DRAttributeImageView *tempSelf = weakSelf;
-                ASIHTTPRequest *tempRequest = weakRequest;
-                if (tempSelf) {
-                    [tempSelf.progress stopAnimating];
-                    [tempSelf setUserInteractionEnabled:YES];
-                    if (tempRequest) {
-                        tempSelf.image =  [UIImage imageWithData:[tempRequest responseData]];
-                    }else{
-                        tempSelf.image = [UIImage imageNamed:@"logo.png"];
-                    }
-                    
-                }
-            });
-        }];
-        
-        [request setFailedBlock:^{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                DRAttributeImageView *tempSelf = weakSelf;
-                if (tempSelf) {
-                    [tempSelf.progress stopAnimating];
-                    tempSelf.image = [UIImage imageNamed:@"logo.png"];
-                    [tempSelf setUserInteractionEnabled:NO];
-                }
-            });
-        }];
-        [request startAsynchronous];
+         self.image = [UIImage imageNamed:@"logo.png"];
+        [[SDWebImageManager sharedManager] downloadWithURL:imageURL delegate:self];
     }
 }
-#pragma mark property
--(UIActivityIndicatorView *)progress{
-    if (!_progress) {
-        _progress = [[UIActivityIndicatorView alloc] initWithFrame:self.frame];
-        _progress.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleWidth;
-        _progress.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
-        _progress.hidesWhenStopped = YES;
-        [self addSubview:_progress];
-    }
-    return _progress;
-}
-#pragma mark --
+
 @end
 typedef enum {
     DrawingContextType_QuestionContent,

@@ -421,6 +421,7 @@
 		63D284171883D9AD005D8721 /* navi_search_gray.png in Resources */ = {isa = PBXBuildFile; fileRef = 63D284131883D9AD005D8721 /* navi_search_gray.png */; };
 		63D284181883D9AD005D8721 /* navi_tag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63D284141883D9AD005D8721 /* navi_tag@2x.png */; };
 		63D2841A1883DBB3005D8721 /* navi_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63D284191883DBB3005D8721 /* navi_background@2x.png */; };
+		63D2B73518ACC25E00B81AD6 /* SplitLessonTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D2B73418ACC25E00B81AD6 /* SplitLessonTableView.m */; };
 		63D43108186A7C78004A786A /* LessonListForCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D43107186A7C78004A786A /* LessonListForCategory.m */; };
 		63D4310C186AC8E5004A786A /* MyQuestionCategatoryInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D4310B186AC8E5004A786A /* MyQuestionCategatoryInterface.m */; };
 		63E6A90F185B341800D809A6 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E6A90E185B341800D809A6 /* CoreMedia.framework */; };
@@ -1086,6 +1087,8 @@
 		63D284131883D9AD005D8721 /* navi_search_gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navi_search_gray.png; sourceTree = "<group>"; };
 		63D284141883D9AD005D8721 /* navi_tag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navi_tag@2x.png"; sourceTree = "<group>"; };
 		63D284191883DBB3005D8721 /* navi_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navi_background@2x.png"; sourceTree = "<group>"; };
+		63D2B73318ACC25E00B81AD6 /* SplitLessonTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplitLessonTableView.h; sourceTree = "<group>"; };
+		63D2B73418ACC25E00B81AD6 /* SplitLessonTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplitLessonTableView.m; sourceTree = "<group>"; };
 		63D43106186A7C78004A786A /* LessonListForCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LessonListForCategory.h; sourceTree = "<group>"; };
 		63D43107186A7C78004A786A /* LessonListForCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonListForCategory.m; sourceTree = "<group>"; };
 		63D4310A186AC8E5004A786A /* MyQuestionCategatoryInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyQuestionCategatoryInterface.h; sourceTree = "<group>"; };
@@ -1838,6 +1841,8 @@
 				18199F021881305800377B74 /* LHLTabBarItem.m */,
 				183F491A1887864D007D5474 /* NoteListCell_iPhone.h */,
 				183F491B1887864D007D5474 /* NoteListCell_iPhone.m */,
+				63D2B73318ACC25E00B81AD6 /* SplitLessonTableView.h */,
+				63D2B73418ACC25E00B81AD6 /* SplitLessonTableView.m */,
 			);
 			name = View_iPhone;
 			sourceTree = "<group>";
@@ -2733,6 +2738,7 @@
 				18199F031881305800377B74 /* LHLTabBarItem.m in Sources */,
 				0EA36ED2182C8E4F0074D67B /* CustomLabel.m in Sources */,
 				0EA7EF8D1827805D00C47F69 /* SectionInfoInterface.m in Sources */,
+				63D2B73518ACC25E00B81AD6 /* SplitLessonTableView.m in Sources */,
 				0EA36ED7182CB5570074D67B /* CustomTextView.m in Sources */,
 				1864A83C1875383A00B26024 /* Section_ChapterViewController_iPhone_Embed.m in Sources */,
 				18A77073187FCC6000DAE6A6 /* InfoViewController_iPhone.m in Sources */,

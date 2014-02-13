@@ -20,7 +20,7 @@
 @property (nonatomic,strong) UIView *lineView;
 @property (nonatomic,strong) UIButton *answerQuestionBt;//回答按钮
 @property (nonatomic,strong) UIView *summitQuestionAnswerBackView;
-@property (nonatomic,strong) UITextView *answerQuestionTextField;//回答输入框
+
 @property (nonatomic,strong) UIButton *submitAnswerBt;//提交回答
 @property (nonatomic,strong) UIButton *attachmentButton;//附件
 @property (nonatomic,strong) QuestionModel *questionModel;

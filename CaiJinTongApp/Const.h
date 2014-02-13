@@ -94,3 +94,25 @@ typedef enum {LESSONSORTTYPE_CurrentStudy,
 #import "SearchQuestionInterface.h"//搜索问题
 #import "AskQuestionInterface.h"//提交问题
 #import "SuggestionInterface.h"//提交建议
+
+/*!
+ *课程详细信息Controller下的viewtag
+ */
+typedef enum {
+    /*!
+     顶层控制整个界面的scrollView
+     */
+    LessonViewTagType_lessonRootScrollViewTag = 9550,
+    /*!
+     章节对应tableView
+     */
+    LessonViewTagType_chapterTableViewTag,
+    /*!
+     笔记对应的tableView
+     */
+    LessonViewTagType_noteTableViewTag,
+    /*!
+     评论对应的tableView
+     */
+    LessonViewTagType_commentTableViewTag,
+}LessonViewTagType;

@@ -30,6 +30,7 @@
 @property (nonatomic,strong) MJRefreshHeaderView *headerRefreshView;
 @property (nonatomic,strong) MJRefreshFooterView *footerRefreshView;
 @property (nonatomic,assign) BOOL isSearchRefreshing;//判断是否是搜索
+@property (nonatomic, strong) NoteListCell *editListCell;
 @end
 
 @implementation NoteListViewController
@@ -146,6 +147,7 @@
 
 -(void)noteListCell:(NoteListCell*)cell didTypeTextViewAtCellAtIndexPath:(NSIndexPath*)path{//开始输入
     CGRect cellRect = [self.noteListTableView rectForRowAtIndexPath:path];
+    self.editListCell = cell;
     float maxCellY = CGRectGetMaxY(cellRect) - self.noteListTableView.contentOffset.y;
     float scrollHeight = 500 - (CGRectGetMaxY(self.noteListTableView.frame) - maxCellY) ;
     if (CGRectGetMaxY(self.noteListTableView.frame) - maxCellY < 500) {
@@ -225,6 +227,14 @@
 
 #pragma mark --
 
+#pragma mark scrollView delegate
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    if (self.editListCell) {
+        [self.editListCell.noteContentTextView resignFirstResponder];
+        self.editListCell = nil;
+    }
+}
+#pragma mark --
 
 #pragma mark DRSearchBarDelegate搜索
 -(void)drSearchBar:(DRSearchBar *)searchBar didBeginSearchText:(NSString *)searchText{

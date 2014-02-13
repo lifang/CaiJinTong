@@ -598,9 +598,11 @@
         self.playBackInterface.delegate = self;
         NSString *totalTime = [[Section defaultSection] selectTotalPlayTimeOffLineWithSectionId:self.sectionModel.sectionId];
         if (totalTime && ![totalTime isEqualToString:@"0"]) {
-            timespan = [[Section defaultSection] selectTotalPlayDateOffLineWithSectionId:self.sectionModel.sectionId];
+            //            timespan = [[Section defaultSection] selectTotalPlayDateOffLineWithSectionId:self.sectionModel.sectionId];
+            timespan = [NSString stringWithFormat:@"%llu",totalTime.intValue+self.studyTime];
         }else{
-            timespan = [Utility getNowDateFromatAnDate];
+            //            timespan = [Utility getNowDateFromatAnDate];
+            timespan = [NSString stringWithFormat:@"%llu",self.studyTime];
         }
         NSString *status = self.seekSlider.value >= 1?@"completed": @"incomplete";
         [self.playBackInterface getPlayBackInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionModel.sectionId andTimeEnd:timespan andStatus:status];

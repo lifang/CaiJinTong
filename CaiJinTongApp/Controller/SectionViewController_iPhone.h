@@ -17,6 +17,7 @@
 #import "CommentModel.h"
 #import "LHLMoviePlayViewController.h"
 #import "LessonModel+toSection.h"
+#import "SplitLessonTableView.h"
 
 @interface SectionViewController_iPhone : LHLNavigationBarViewController<SUNSlideSwitchView_iPhoneDelegate,UIScrollViewDelegate,LHLMoviePlayViewControllerDelegate,PlayVideoInterfaceDelegate,LessonInfoInterfaceDelegate,Section_NoteViewControllerDelegate,UITableViewDataSource,UITableViewDelegate>
 
