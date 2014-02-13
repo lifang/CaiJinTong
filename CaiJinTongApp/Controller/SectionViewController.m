@@ -513,14 +513,20 @@
         nameLabel = nil;
         labelTop +=self.nameLab.frame.size.height+labelSpace ;
         //简介
-        self.detailInfoTextView = [[UITextView alloc] initWithFrame:(CGRect){270, labelTop - 10, width, 100}];
+        if(platform >= 7.0){
+            self.detailInfoTextView = [[UITextView alloc] initWithFrame:(CGRect){270, labelTop - 10, width, 100}];
+        }else{
+            self.detailInfoTextView = [[UITextView alloc] initWithFrame:(CGRect){267, labelTop - 10, width, 100}];
+        }
+        
         [self.detailInfoTextView setEditable:NO];
         [self.detailInfoTextView setFont:[UIFont boldSystemFontOfSize:16]];
         [self.detailInfoTextView setTextColor:[UIColor grayColor]];
         self.detailInfoTextView.backgroundColor = [UIColor clearColor];
         self.detailInfoTextView.text = [NSString stringWithFormat:@"简介:%@",self.lessonModel.lessonDetailInfo?:@""];
         [self.view addSubview:self.detailInfoTextView];
-         CGSize size = [Utility getTextSizeWithString:self.lessonModel.lessonDetailInfo withFont:[UIFont boldSystemFontOfSize:16] withWidth:width];
+//         CGSize size = [Utility getTextSizeWithString:self.lessonModel.lessonDetailInfo withFont:[UIFont boldSystemFontOfSize:16] withWidth:width];
+        CGSize size = [Utility getTextSizeWithString:self.detailInfoTextView.text withFont:[UIFont boldSystemFontOfSize:16] withWidth:width];
         if (size.height > 100) {
             labelTop += 100 +labelSpace;
         }else{

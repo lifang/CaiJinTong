@@ -157,8 +157,8 @@
         [Utility errorAlert:@"内容不能为空"];
         return;
     }
-    if(noteContent.length > 120){
-        [Utility errorAlert:@"内容请勿超过120个字符"];
+    if(noteContent.length > 500){
+        [Utility errorAlert:@"内容请勿超过500个字符"];
         return;
     }
     NoteModel *note = self.isSearchRefreshing ?[self.searchArray objectAtIndex:path.row] : [self.noteDateList objectAtIndex:path.row];

@@ -94,19 +94,43 @@
     });
 }
 -(void)reloadLessonData:(LessonModel *)lesson{
-    //封面
-    [self.sectionView refreshDataWithLesson:lesson];
-    
-    //显示分数
-    int grade = self.lessonModel.lessonIsScored.intValue;
-    if(grade > 0){
-        self.scoreLab.text = [NSString stringWithFormat:@"%.1f",[lesson.lessonScore floatValue]];
-    }else{
-        self.scoreLab.text = [NSString stringWithFormat:@"%.1f",0.0];
-    }
-    //标题
-    self.nameLab.text =[NSString stringWithFormat:@"名称:%@",PLACEHOLD(lesson.lessonName)];
-    //    self.nameLab.frame = (CGRect){275, labelTop, width, 30};
+    dispatch_async(dispatch_get_main_queue(), ^{
+        //封面
+        [self.sectionView refreshDataWithLesson:lesson];
+        
+        //显示分数
+        int grade = self.lessonModel.lessonIsScored.intValue;
+        if(grade > 0){
+            self.scoreLab.text = [NSString stringWithFormat:@"%.1f",[lesson.lessonScore floatValue]];
+        }else{
+            self.scoreLab.text = [NSString stringWithFormat:@"%.1f",0.0];
+        }
+        //标题
+        self.nameLab.text =[NSString stringWithFormat:@"名称:%@",PLACEHOLD(lesson.lessonName)];
+        //    self.nameLab.frame = (CGRect){275, labelTop, width, 30};
+        
+        //讲师
+        self.teacherlab.text =[NSString stringWithFormat:@"讲师:%@",PLACEHOLD(lesson.lessonTeacherName)];
+        
+        //时长
+        NSString *lessonDuration = [self.lessonModel.lessonDuration stringByReplacingOccurrencesOfString:@"分" withString:@"´"];
+        lessonDuration = [lessonDuration stringByReplacingOccurrencesOfString:@"秒" withString:@"〞"];
+        lessonDuration = [lessonDuration stringByReplacingOccurrencesOfString:@"小时" withString:@"h"];
+        self.lastLab.text =[NSString stringWithFormat:@"时长:%@",lessonDuration];
+        
+        //已学习
+        NSString *studyProgress = [self.lessonModel.lessonStudyTime stringByReplacingOccurrencesOfString:@"分" withString:@"´"];
+        studyProgress = [studyProgress stringByReplacingOccurrencesOfString:@"秒" withString:@"〞"];
+        studyProgress = [studyProgress stringByReplacingOccurrencesOfString:@"小时" withString:@"h"];
+        self.studyLab.text =[NSString stringWithFormat:@"已学习:%@",PLACEHOLD(studyProgress)];
+        
+        //播放按钮
+        if (!lesson.lessonStudyTime || [lesson.lessonStudyTime isEqualToString:@"0"]) {
+            [self.playBtn setTitle:NSLocalizedString(@"开始学习", @"button") forState:UIControlStateNormal];
+        }else{
+            [self.playBtn setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
+        }
+    });
     
     //简介
 //    self.detailInfoTextView.text = [NSString stringWithFormat:@"简介:%@",lesson.lessonDetailInfo?:@""];
@@ -118,27 +142,7 @@
 //        labelTop += size.height +labelSpace;
 //    }
     
-    //讲师
-    self.teacherlab.text =[NSString stringWithFormat:@"讲师:%@",PLACEHOLD(lesson.lessonTeacherName)];
     
-    //时长
-    NSString *lessonDuration = [self.lessonModel.lessonDuration stringByReplacingOccurrencesOfString:@"分" withString:@"´"];
-    lessonDuration = [lessonDuration stringByReplacingOccurrencesOfString:@"秒" withString:@"〞"];
-    lessonDuration = [lessonDuration stringByReplacingOccurrencesOfString:@"小时" withString:@"h"];
-    self.lastLab.text =[NSString stringWithFormat:@"时长:%@",lessonDuration];
-    
-    //已学习
-    NSString *studyProgress = [self.lessonModel.lessonStudyTime stringByReplacingOccurrencesOfString:@"分" withString:@"´"];
-    studyProgress = [studyProgress stringByReplacingOccurrencesOfString:@"秒" withString:@"〞"];
-    studyProgress = [studyProgress stringByReplacingOccurrencesOfString:@"小时" withString:@"h"];
-    self.studyLab.text =[NSString stringWithFormat:@"已学习:%@",PLACEHOLD(studyProgress)];
-    
-    //播放按钮
-    if (!lesson.lessonStudyTime || [lesson.lessonStudyTime isEqualToString:@"0"]) {
-        [self.playBtn setTitle:NSLocalizedString(@"开始学习", @"button") forState:UIControlStateNormal];
-    }else{
-        [self.playBtn setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
-    }
 }
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -605,7 +609,7 @@
 #pragma mark-- LessonInfoInterfaceDelegate加载课程详细信息,播放完成后回调,点击笔记后回调
 -(void)getLessonInfoDidFinished:(LessonModel*)lesson{
     dispatch_async(dispatch_get_main_queue(), ^{
-//        self.lessonModel = lesson;
+        self.lessonModel = lesson;
         [self reloadLessonData:lesson];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         if(self.isClickingNoteTitle){

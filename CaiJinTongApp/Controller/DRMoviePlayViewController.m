@@ -337,8 +337,8 @@
                  [self.loadMovieDataProgressView removeFromSuperview];
                 [self.loadMovieDataProgressView hide:NO];
                 self.loadMovieDataProgressView = nil;
-            }
-            self.loadMovieDataProgressView =  [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];;
+    }
+    self.loadMovieDataProgressView =  [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];;
     [self saveCurrentStatus];
     SectionModel *section = [notification.userInfo objectForKey:@"sectionModel"];
     self.drMovieSourceType = MPMovieSourceTypeStreaming;
@@ -471,7 +471,14 @@
             self.loadMovieDataProgressView = nil;
         }
         self.loadMovieDataProgressView =  [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];
-    }
+    }else
+        if (state & MPMovieLoadStatePlayable) {
+            for (UIView *subView in self.moviePlayerView.subviews) {
+                if ([subView isKindOfClass:[MBProgressHUD class]]) {
+                    [subView removeFromSuperview];
+                }
+            }
+        }
 }
 
 #pragma mark --
@@ -935,6 +942,8 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
         }else
             if (![errorMsg isEqualToString:@""]) {
                 [Utility errorAlert:errorMsg];
+            }else{
+                [Utility errorAlert:@"获取视频回放信息失败!"];
             }
         
     });
@@ -955,7 +964,11 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
 -(void)getSumitNoteDidFailed:(NSString *)errorMsg {
     dispatch_async(dispatch_get_main_queue(), ^{
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [Utility errorAlert:errorMsg];
+        if (![errorMsg isEqualToString:@""]) {
+            [Utility errorAlert:errorMsg];
+        }else{
+            [Utility errorAlert:@"笔记提交失败!"];
+        }
     });
 }
 #pragma mark -- AskQuestionInterfaceDelegate
@@ -970,7 +983,11 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
 -(void)getAskQuestionDidFailed:(NSString *)errorMsg {
     dispatch_async(dispatch_get_main_queue(), ^{
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [Utility errorAlert:errorMsg];
+        if (![errorMsg isEqualToString:@""]) {
+            [Utility errorAlert:errorMsg];
+        }else{
+            [Utility errorAlert:@"提问提交失败!"];
+        }
     });
 }
 @end

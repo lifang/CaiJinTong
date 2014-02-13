@@ -326,8 +326,8 @@ static BOOL tableVisible;
 }
 
 -(void)drTreeTableView:(DRTreeTableView*)treeView didExtendChildTreeNode:(DRTreeNode*)extendNote{
-    self.selectedQuestionId = extendNote.noteContentID;
-    self.selectedQuestionName.text = extendNote.noteContentName;
+//    self.selectedQuestionId = extendNote.noteContentID;
+//    self.selectedQuestionName.text = extendNote.noteContentName;
 }
 
 -(void)drTreeTableView:(DRTreeTableView*)treeView didCloseChildTreeNode:(DRTreeNode*)extendNote{

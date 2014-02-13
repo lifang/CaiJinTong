@@ -87,6 +87,10 @@
 }
 
 - (IBAction)commitBtnClicked:(UIButton *)sender {
+    if ([self.contentField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 500) {
+        [Utility errorAlert:@"笔记长度不能超过500字!"];
+        return;
+    }
     if (self.contentField.text == nil || [[self.contentField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
         [Utility errorAlert:@"内容不能为空"];
     }else {
