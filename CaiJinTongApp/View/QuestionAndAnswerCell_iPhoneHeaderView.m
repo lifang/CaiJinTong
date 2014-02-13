@@ -22,6 +22,7 @@
 @property (nonatomic,strong) UIView *summitQuestionAnswerBackView;
 @property (nonatomic,strong) UITextView *answerQuestionTextField;//回答输入框
 @property (nonatomic,strong) UIButton *submitAnswerBt;//提交回答
+@property (nonatomic,strong) UIButton *attachmentBtn;//附件按钮
 @end
 
 @implementation QuestionAndAnswerCell_iPhoneHeaderView
@@ -61,6 +62,11 @@
         self.questionFlowerLabel.textAlignment = NSTextAlignmentLeft;
         self.questionFlowerLabel.textColor = [UIColor darkGrayColor];
         [self.backgroundView addSubview:self.questionFlowerLabel];
+        
+        //附件按钮
+        self.attachmentBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.attachmentBtn.backgroundColor = [UIColor clearColor];
+        [self.backgroundView addSubview:self.attachmentBtn];
         
         self.questionContentAttributeView = [[DRAttributeStringView alloc] init];
         [self.backgroundView addSubview:self.questionContentAttributeView];
@@ -190,6 +196,7 @@
     self.questionFlowerImageView.frame = (CGRect){CGRectGetMaxX(self.questionDateLabel.frame)+TEXT_PADDING,topY,HEADER_TEXT_HEIGHT/2,HEADER_TEXT_HEIGHT/2};
     
     self.questionFlowerLabel.frame = (CGRect){CGRectGetMaxX(self.questionFlowerImageView.frame)+TEXT_PADDING,topY,[Utility getTextSizeWithString:self.questionFlowerLabel.text withFont:self.questionFlowerLabel.font].width,textHeight};
+    self.attachmentBtn.frame = (CGRect){CGRectGetMaxX(self.questionFlowerLabel.frame)+TEXT_PADDING,topY,HEADER_TEXT_HEIGHT/2,HEADER_TEXT_HEIGHT/2};
     
     
 //    self.answerQuestionBt.frame = (CGRect){CGRectGetMaxX(self.questionFlowerLabel.frame),2,100,HEADER_TEXT_HEIGHT};
