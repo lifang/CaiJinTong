@@ -36,6 +36,5 @@
 -(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView*)header willBeginTypeAnswerQuestionAtIndexPath:(NSIndexPath*)path;
 
 -(float)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView*)header headerHeightAtIndexPath:(NSIndexPath*)path;
--(BOOL)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView*)header isExtendAtIndexPath:(NSIndexPath*)path;
--(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView*)header didIsExtendQuestionContent:(BOOL)isExtend atIndexPath:(NSIndexPath*)path;
+-(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView*)header scanAttachmentFileAtIndexPath:(NSIndexPath*)path;
 @end

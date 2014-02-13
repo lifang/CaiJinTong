@@ -85,11 +85,7 @@ static BOOL tableVisible;
 }
 
 -(void)drTreeTableView:(DRTreeTableView *)treeView didExtendChildTreeNode:(DRTreeNode *)extendNote{
-    self.selectedQuestionCategoryId = extendNote.noteContentID;
-    [self.dropDownBt setTitle:extendNote.noteContentName forState:UIControlStateNormal];
-    if (extendNote.childnotes.count <= 0) {
-        self.dropdownmenuSelected = !self.dropdownmenuSelected;
-    }
+
 }
 #pragma mark --
 

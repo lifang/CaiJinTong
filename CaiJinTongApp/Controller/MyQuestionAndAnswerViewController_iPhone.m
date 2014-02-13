@@ -178,6 +178,10 @@
 
 #pragma mark DRAttributeStringViewDelegate用户点击图片内容时调用
 -(void)drAttributeStringView:(DRAttributeStringView *)attriView clickedFileURL:(NSURL *)url withFileType:(DRURLFileType)fileType{
+    if (fileType == DRURLFileType_OTHER) {
+        [Utility errorAlert:@"无法打开文件，请到电脑上查看"];
+        return;
+    }
     if (!self.modelController) {
         self.modelController = [[UIViewController alloc] init];
     }

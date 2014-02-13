@@ -170,11 +170,6 @@ static CGRect tableFrame;
 }
 
 -(void)drTreeTableView:(DRTreeTableView *)treeView didExtendChildTreeNode:(DRTreeNode *)extendNote{
-    self.selectedQuestionCategoryId = extendNote.noteContentID;
-    [self.dropDownBt setTitle:extendNote.noteContentName forState:UIControlStateNormal];
-    if (extendNote.childnotes.count <= 0) {
-        self.dropdownmenuSelected = !self.dropdownmenuSelected;
-    }
 }
 
 #pragma mark --
@@ -224,10 +219,19 @@ static CGRect tableFrame;
 //点击截图
 - (IBAction)scanScreenBtClicked:(id)sender {
     self.isCut = YES;
+    self.cutImage = nil;
     if (self.delegate && [self.delegate respondsToSelector:@selector(commitQuestionControllerDidStartCutScreenButtonClicked:)]) {
-        self.cutImageView.image = [self.delegate commitQuestionControllerDidStartCutScreenButtonClicked:self];
+        
+        self.cutImage = [self.delegate commitQuestionControllerDidStartCutScreenButtonClicked:self];
+        self.cutImageView.image = self.cutImage;
         if (self.cutImageView.image) {
             [sender setHidden:YES];
+        }else{
+            MBProgressHUD *progress = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            progress.labelText = @"无法截取视频，请查看播放的视频是否正确";
+            progress.mode = MBProgressHUDModeText;
+            progress.removeFromSuperViewOnHide = YES;
+            [progress hide:YES afterDelay:2.0];
         }
     }
 }

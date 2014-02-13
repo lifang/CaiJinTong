@@ -22,7 +22,7 @@
 @property (nonatomic,strong) UIView *summitQuestionAnswerBackView;
 @property (nonatomic,strong) UITextView *answerQuestionTextField;//回答输入框
 @property (nonatomic,strong) UIButton *submitAnswerBt;//提交回答
-@property (nonatomic,strong) UIButton *scanMoreBt;//显示更多
+@property (nonatomic,strong) UIButton *attachmentButton;//附件
 @property (nonatomic,strong) QuestionModel *questionModel;
 @end
 
@@ -62,6 +62,12 @@
         self.questionFlowerLabel.textAlignment = NSTextAlignmentLeft;
         self.questionFlowerLabel.textColor = [UIColor darkGrayColor];
         [self.backgroundView addSubview:self.questionFlowerLabel];
+        
+        self.attachmentButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [self.attachmentButton setTitle:@"点击查看附件" forState:UIControlStateNormal];
+        //        [self.scanMoreBt setBackgroundColor:[UIColor clearColor]];
+        [self.attachmentButton addTarget:self action:@selector(scanQuestionAttachmentBtClicked) forControlEvents:UIControlEventTouchUpInside];
+        [self.backgroundView addSubview:self.attachmentButton];
         
         self.questionContentAttributeView = [[DRAttributeStringView alloc] init];
         [self.backgroundView addSubview:self.questionContentAttributeView];
@@ -106,20 +112,19 @@
         [self.submitAnswerBt setTitle:@"提交回答" forState:UIControlStateNormal];
         [self.summitQuestionAnswerBackView addSubview:self.submitAnswerBt];
         
-        self.scanMoreBt = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [self.scanMoreBt setTitle:@"点击显示更多..." forState:UIControlStateNormal];
-        [self.scanMoreBt setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-        //        [self.scanMoreBt setBackgroundColor:[UIColor clearColor]];
-        [self.scanMoreBt addTarget:self action:@selector(scanQuestionContentBtClicked) forControlEvents:UIControlEventTouchUpInside];
-//        [self.backgroundView addSubview:self.scanMoreBt];
+//        self.scanMoreBt = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+//        [self.scanMoreBt setTitle:@"点击显示更多..." forState:UIControlStateNormal];
+//        [self.scanMoreBt setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+//        //        [self.scanMoreBt setBackgroundColor:[UIColor clearColor]];
+//        [self.scanMoreBt addTarget:self action:@selector(scanQuestionContentBtClicked) forControlEvents:UIControlEventTouchUpInside];
+////        [self.backgroundView addSubview:self.scanMoreBt];
     }
     return self;
 }
 
--(void)scanQuestionContentBtClicked{
-    BOOL isExtend  = [self.delegate questionAndAnswerCellHeaderView:self isExtendAtIndexPath:self.path];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(questionAndAnswerCellHeaderView:didIsExtendQuestionContent:atIndexPath:)]) {
-        [self.delegate questionAndAnswerCellHeaderView:self didIsExtendQuestionContent:!isExtend atIndexPath:self.path];
+-(void)scanQuestionAttachmentBtClicked{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(questionAndAnswerCellHeaderView:scanAttachmentFileAtIndexPath:)]) {
+        [self.delegate questionAndAnswerCellHeaderView:self scanAttachmentFileAtIndexPath:self.path];
     }
 }
 
@@ -202,6 +207,12 @@
     self.questionContentAttributeView.questionModel = question;
 //    [self.questionFlowerBt setUserInteractionEnabled:NO];
     [self.summitQuestionAnswerBackView setHidden:!question.isEditing];
+    
+    if (!question.attachmentFileUrl || [question.attachmentFileUrl isEqualToString:@""] || ![question.attachmentFileUrl pathExtension] || [[question.attachmentFileUrl pathExtension] isEqualToString:@""]) {
+        [self.attachmentButton setHidden:YES];
+    }else{
+        [self.attachmentButton setHidden:NO];
+    }
     [self setNeedsLayout];
 }
 
@@ -221,7 +232,7 @@
 //    self.questionFlowerBt.frame = (CGRect){CGRectGetMinX(self.questionFlowerImageView.frame)-TEXT_PADDING*5,topY,CGRectGetMaxX(self.questionFlowerLabel.frame) -CGRectGetMinX(self.questionFlowerImageView.frame) +50,textHeight};
 
     self.answerQuestionBt.frame = (CGRect){CGRectGetMaxX(self.questionFlowerLabel.frame),5,100,HEADER_TEXT_HEIGHT};
-    
+    self.attachmentButton.frame = (CGRect){CGRectGetMaxX(self.frame)-150,5,100,HEADER_TEXT_HEIGHT};
     self.questionImg.frame = (CGRect){TEXT_PADDING*2+2,HEADER_TEXT_HEIGHT+2,20,20};
 //    float contentWidth = CGRectGetWidth(self.frame)-CGRectGetMaxX(self.questionImg.frame)-TEXT_PADDING*2;
     float height = [self.delegate questionAndAnswerCellHeaderView:self headerHeightAtIndexPath:self.path];
@@ -238,11 +249,8 @@
 //        [self.scanMoreBt setHidden:YES];
 //    }
     self.questionContentAttributeView.frame = (CGRect){CGRectGetMaxX(self.questionImg.frame),HEADER_TEXT_HEIGHT,QUESTIONHEARD_VIEW_WIDTH,height};
-    
-    self.scanMoreBt.frame = (CGRect){CGRectGetWidth(self.frame)-170,CGRectGetMaxY(self.questionContentAttributeView.frame)+TEXT_PADDING,150,40};
-    
     if (!self.summitQuestionAnswerBackView.isHidden) {
-        self.summitQuestionAnswerBackView.frame = (CGRect){TEXT_PADDING*2,CGRectGetMaxY(self.scanMoreBt.frame)+TEXT_PADDING,QUESTIONHEARD_VIEW_WIDTH,QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT-TEXT_PADDING};
+        self.summitQuestionAnswerBackView.frame = (CGRect){TEXT_PADDING*2,CGRectGetMaxY(self.questionContentAttributeView.frame)+TEXT_PADDING,QUESTIONHEARD_VIEW_WIDTH,QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT-TEXT_PADDING};
         self.answerQuestionTextField.frame = (CGRect){0,0,QUESTIONHEARD_VIEW_WIDTH,80};
         self.submitAnswerBt.frame = (CGRect){QUESTIONHEARD_VIEW_WIDTH/2-50,90,100,30};
     }

@@ -8,9 +8,12 @@
 
 #import "DRAttributeStringView.h"
 #import <CoreGraphics/CoreGraphics.h>
+#import "ASIDownloadCache.h"
 #define LINE_PADDING PAD(5,3)
 #define IMAGE_WIDTH PAD(300,200)
 #define IMAGE_HEIGHT PAD(200,150)
+#define FLAG_HEIGHT PAD(44,44)
+
 #define Question_Content_Font [UIFont systemFontOfSize:PAD(22,14)]
 #define Answer_Content_Font [UIFont systemFontOfSize:PAD(22,14)]
 #define Reask_Content_Font [UIFont systemFontOfSize:PAD(22,14)]
@@ -37,8 +40,12 @@
     _imageURL = imageURL;
     if (imageURL) {
         __block  ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:imageURL];
+        [request setDownloadCache:[ASIDownloadCache sharedCache]];
+        [request setCacheStoragePolicy:ASICacheForSessionDurationCacheStoragePolicy];
+        [request setCachePolicy:ASIAskServerIfModifiedWhenStaleCachePolicy];
         __weak ASIHTTPRequest *weakRequest = request;
         __weak DRAttributeImageView *weakSelf = self;
+        self.progress.center = (CGPoint){self.frame.size.width/2,self.frame.size.height/2};
         [self.progress startAnimating];
         [request setCompletionBlock:^{
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -49,6 +56,8 @@
                     [tempSelf setUserInteractionEnabled:YES];
                     if (tempRequest) {
                         tempSelf.image =  [UIImage imageWithData:[tempRequest responseData]];
+                    }else{
+                        tempSelf.image = [UIImage imageNamed:@"logo.png"];
                     }
                     
                 }
@@ -57,9 +66,12 @@
         
         [request setFailedBlock:^{
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.progress stopAnimating];
-                self.image = [UIImage imageNamed:@"logo.png"];
-                [self setUserInteractionEnabled:NO];
+                DRAttributeImageView *tempSelf = weakSelf;
+                if (tempSelf) {
+                    [tempSelf.progress stopAnimating];
+                    tempSelf.image = [UIImage imageNamed:@"logo.png"];
+                    [tempSelf setUserInteractionEnabled:NO];
+                }
             });
         }];
         [request startAsynchronous];
@@ -70,7 +82,7 @@
     if (!_progress) {
         _progress = [[UIActivityIndicatorView alloc] initWithFrame:self.frame];
         _progress.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleWidth;
-        _progress.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+        _progress.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
         _progress.hidesWhenStopped = YES;
         [self addSubview:_progress];
     }
@@ -308,6 +320,14 @@ typedef enum {
             }
         }else
         if ([node.tagName isEqualToString:@"p"]) {
+            for (HTMLNode *child in node.children) {
+                if ([child.tagName isEqualToString:@"img"]) {
+                    NSString *imageUrl = [child getAttributeNamed:@"src"];
+                    if (imageUrl) {
+                        startRect = [self drawImage:imageUrl withStartPoint:(CGPoint){CGRectGetMinX(startRect),CGRectGetMaxY(startRect)+LINE_PADDING}];
+                    }
+                }
+            }
             if (node.contents) {
                 startRect = [self drawContentString:node.contents withStartPoint:(CGPoint){CGRectGetMinX(startRect),CGRectGetMaxY(startRect)+LINE_PADDING} withContentType:type];
             }
@@ -324,25 +344,51 @@ typedef enum {
 }
 
 -(CGRect)drawImage:(NSString*)imageUrl withStartPoint:(CGPoint)startPoint{
-    CGRect rect = (CGRect){self.frame.size.width/2 - IMAGE_WIDTH/2,startPoint.y,IMAGE_WIDTH,IMAGE_HEIGHT};
+    CGRect rect = (CGRect){self.frame.size.width/2 - FLAG_HEIGHT/2,startPoint.y,FLAG_HEIGHT,FLAG_HEIGHT};;
+    NSString *extension = [[imageUrl pathExtension] lowercaseString];
+
     DRAttributeImageView *imageView = [[DRAttributeImageView alloc] initWithFrame:rect];
-    imageView.imageURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kImageHost,imageUrl]];
+    if (!extension) {
+        imageView.image = [UIImage imageNamed:@"Q&A-myq_15.png"];
+        imageView.urlFileType = DRURLFileType_OTHER;
+    }else
+    if ([extension isEqualToString:@"png"] || [extension isEqualToString:@"jpg"] || [extension isEqualToString:@"jpeg"]) {
+        imageView.frame = (CGRect){self.frame.size.width/2 - IMAGE_WIDTH/2,startPoint.y,IMAGE_WIDTH,IMAGE_HEIGHT};
+        imageView.imageURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kImageHost,imageUrl]];
+        imageView.urlFileType = DRURLFileType_IMAGR;
+    }else
+    if ([extension isEqualToString:@"pdf"]) {
+        imageView.image = [UIImage imageNamed:@"pdf.png"];
+        imageView.urlFileType = DRURLFileType_PDF;
+    }else
+    if ([extension isEqualToString:@"word"]) {
+        imageView.image = [UIImage imageNamed:@"word.png"];
+        imageView.urlFileType = DRURLFileType_WORD;
+    }else
+    if ([extension isEqualToString:@"txt"]) {
+        imageView.image = [UIImage imageNamed:@"text.png"];
+        imageView.urlFileType = DRURLFileType_TEXT;
+    }else
+    if ([extension isEqualToString:@"ppt"]) {
+        imageView.image = [UIImage imageNamed:@"ppt.png"];
+        imageView.urlFileType = DRURLFileType_PPT;
+    }else
+        if ([extension isEqualToString:@"gif"]) {
+        imageView.imageURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kImageHost,imageUrl]];
+        imageView.urlFileType = DRURLFileType_GIF;
+    }else{
+        imageView.image = [UIImage imageNamed:@"Q&A-myq_15.png"];
+        imageView.urlFileType = DRURLFileType_OTHER;
+    }
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickedImageView:)];
     [imageView addGestureRecognizer:tap];
     [self addSubview:imageView];
-    if ([[[imageUrl pathExtension] lowercaseString] isEqualToString:@"pdf"]) {
-        imageView.urlFileType = DRURLFileType_PDF;
-    }else
-        if ([[[imageUrl pathExtension] lowercaseString] isEqualToString:@"word"]) {
-            imageView.urlFileType = DRURLFileType_WORD;
-        }else
-            if ([[[imageUrl pathExtension] lowercaseString] isEqualToString:@"png"] || [[[imageUrl pathExtension] lowercaseString] isEqualToString:@"jpg"] || [[[imageUrl pathExtension] lowercaseString] isEqualToString:@"jpeg"]) {
-                imageView.urlFileType = DRURLFileType_IMAGR;
-            }else{
-                imageView.urlFileType = DRURLFileType_OTHER;
-            }
-
-    return (CGRect){startPoint,IMAGE_WIDTH,IMAGE_HEIGHT};
+    
+    if (imageView.urlFileType == DRURLFileType_IMAGR) {
+        return (CGRect){startPoint,IMAGE_WIDTH,IMAGE_HEIGHT};
+    }else{
+        return (CGRect){startPoint,FLAG_HEIGHT,FLAG_HEIGHT};
+    }
 }
 
 -(CGRect)drawContentString:(NSString*)htmlString withStartPoint:(CGPoint)startPoint withContentType:(DrawingContextType)type{
@@ -517,10 +563,40 @@ typedef enum {
         if ([node.tagName isEqualToString:@"img"]) {
             NSString *imageUrl = [node getAttributeNamed:@"src"];
             if (imageUrl) {
-                startRect = (CGRect){CGRectGetMinX(startRect),CGRectGetMaxY(startRect)+LINE_PADDING + IMAGE_HEIGHT};
+                NSString *extension = [[imageUrl pathExtension] lowercaseString];
+                if (extension) {
+                    if ([extension isEqualToString:@"png"] || [extension isEqualToString:@"jpg"] || [extension isEqualToString:@"jpeg"]) {
+                        startRect = (CGRect){CGRectGetMinX(startRect),CGRectGetMaxY(startRect)+LINE_PADDING + IMAGE_HEIGHT};
+                    }else{
+                        startRect = (CGRect){CGRectGetMinX(startRect),CGRectGetMaxY(startRect)+LINE_PADDING + FLAG_HEIGHT};
+                    }
+                }else{
+                    startRect = (CGRect){CGRectGetMinX(startRect),CGRectGetMaxY(startRect)+LINE_PADDING + FLAG_HEIGHT};
+                }
+                
+                
             }
         }else
             if ([node.tagName isEqualToString:@"p"]) {
+                for (HTMLNode *child in node.children) {
+                    if ([child.tagName isEqualToString:@"img"]) {
+                        NSString *imageUrl = [child getAttributeNamed:@"src"];
+                        if (imageUrl) {
+                            NSString *extension = [[imageUrl pathExtension] lowercaseString];
+                            if (extension) {
+                                if ([extension isEqualToString:@"png"] || [extension isEqualToString:@"jpg"] || [extension isEqualToString:@"jpeg"]) {
+                                    startRect = (CGRect){CGRectGetMinX(startRect),CGRectGetMaxY(startRect)+LINE_PADDING + IMAGE_HEIGHT};
+                                }else{
+                                    startRect = (CGRect){CGRectGetMinX(startRect),CGRectGetMaxY(startRect)+LINE_PADDING + FLAG_HEIGHT};
+                                }
+                            }else{
+                                startRect = (CGRect){CGRectGetMinX(startRect),CGRectGetMaxY(startRect)+LINE_PADDING + FLAG_HEIGHT};
+                            }
+                            
+                            
+                        }
+                    }
+                }
                 if (node.contents) {
                     startRect = [DRAttributeStringView drawContentString:node.contents withStartPoint:(CGPoint){CGRectGetMinX(startRect),CGRectGetMaxY(startRect)+LINE_PADDING} withWidth:width withContentType:type];
                 }

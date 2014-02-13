@@ -804,7 +804,7 @@ typedef enum {
     dispatch_async(dispatch_get_main_queue(), ^{
         
         [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
-        self.listType = LESSON_LIST;
+//        self.listType = LESSON_LIST;
         [Utility errorAlert:errorMsg];
     });
 }

@@ -39,7 +39,7 @@ typedef void (^BeginRefreshingBlock)(MJRefreshBaseView *refreshView);
     // 父控件
     __weak UIScrollView *_scrollView;
     // 代理
-    __weak id<MJRefreshBaseViewDelegate> _delegate;
+     __unsafe_unretained id<MJRefreshBaseViewDelegate> _delegate;
     // 回调
     BeginRefreshingBlock _beginRefreshingBlock;
     
@@ -72,7 +72,7 @@ typedef void (^BeginRefreshingBlock)(MJRefreshBaseView *refreshView);
 // 回调
 @property (nonatomic, copy) BeginRefreshingBlock beginRefreshingBlock;
 // 代理
-@property (nonatomic, weak) id<MJRefreshBaseViewDelegate> delegate;
+@property (nonatomic, assign) id<MJRefreshBaseViewDelegate> delegate;
 // 设置要显示的父控件
 @property (nonatomic, weak) IBOutlet UIScrollView *scrollView;
 @property (nonatomic,assign) BOOL isForbidden;//禁止加载
