@@ -108,6 +108,7 @@
         [Utility errorAlert:@"暂无网络!"];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     }else {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         QuestionInfoInterface *questionInfoInter = [[QuestionInfoInterface alloc]init];
         self.questionInfoInterface = questionInfoInter;
         self.questionInfoInterface.delegate = self;
@@ -996,12 +997,15 @@
 #pragma mark --MyQuestionCategatoryInterfaceDelegate 获取我的问答分类接口  ---有效接口1
 -(void)getMyQuestionCategoryDataDidFinishedWithMyAnswerCategorynodes:(NSArray *)myAnswerCategoryNotes withMyQuestionCategorynodes:(NSArray *)myQuestionCategoryNotes{
     dispatch_async(dispatch_get_main_queue(), ^{
-//        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+//        [MBProgressHUD hideHUDForView:self.view animated:YES];
         self.myAnswerCategoryArr = myAnswerCategoryNotes;
         self.myQuestionCategoryArr = myQuestionCategoryNotes;
         self.myQuestionNodesOK = YES;
-        self.drTreeTableView.noteArr = [self togetherAllQuestionCategorys];
+        if(self.myQuestionNodesOK && self.otherQuestionNodesOK){
+            self.drTreeTableView.noteArr = [self togetherAllQuestionCategorys];
+        }
+        
     });
 }
 
@@ -1015,12 +1019,14 @@
 #pragma mark --QuestionInfoInterfaceDelegate 获取所有问答分类信息     ---有效接口2
 -(void)getQuestionInfoDidFinished:(NSArray *)questionCategoryArr {
     dispatch_async(dispatch_get_main_queue(), ^{
-//        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+//        [MBProgressHUD hideHUDForView:self.view animated:YES];
         self.allQuestionCategoryArr = questionCategoryArr;
         [[CaiJinTongManager shared] setQuestionCategoryArr:questionCategoryArr] ;
         self.otherQuestionNodesOK = YES;
-        self.drTreeTableView.noteArr = [self togetherAllQuestionCategorys];
+        if(self.myQuestionNodesOK && self.otherQuestionNodesOK){
+            self.drTreeTableView.noteArr = [self togetherAllQuestionCategorys];
+        }
     });
 }
 -(void)getQuestionInfoDidFailed:(NSString *)errorMsg {

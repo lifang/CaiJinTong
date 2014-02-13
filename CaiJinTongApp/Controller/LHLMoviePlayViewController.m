@@ -340,6 +340,10 @@
     self.drMovieSourceType = MPMovieSourceTypeStreaming;
     NSURL *url = [NSURL URLWithString:section.sectionMoviePlayURL];
     if (![self.movieUrl.absoluteString  isEqualToString:url.absoluteString]) {
+        //菜单消失
+        if(self.isPopupChapter){
+            self.isPopupChapter = NO;
+        }
         [self playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
     }else{
         [Utility errorAlert:@"当前文件正在播放"];
@@ -424,7 +428,7 @@
     
 }
 
-#pragma mark -- 提交问题
+#pragma mark -- 提交问题代理
 -(void)commitQuestionControllerDidStartCutScreenButtonClicked:(LHLCommitQuestionViewController *)controller isCut:(BOOL)isCut{
 //    [self.cutScreenButton setHidden:NO];
 //    [self changePlayButtonStatus:NO];
