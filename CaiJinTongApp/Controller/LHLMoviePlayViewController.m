@@ -428,7 +428,7 @@
     
 }
 
-#pragma mark -- 提交问题
+#pragma mark -- 提交问题代理
 -(void)commitQuestionControllerDidStartCutScreenButtonClicked:(LHLCommitQuestionViewController *)controller isCut:(BOOL)isCut{
 //    [self.cutScreenButton setHidden:NO];
 //    [self changePlayButtonStatus:NO];
