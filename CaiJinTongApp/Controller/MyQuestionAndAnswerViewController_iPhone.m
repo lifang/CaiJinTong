@@ -198,7 +198,42 @@
     }];
 }
 
+-(void)scanImageFromImageUrl:(NSURL*)imageURL{
+    if (!self.modelController) {
+        self.modelController = [[UIViewController alloc] init];
+    }
+    for (UIView *subView in self.modelController.view.subviews) {
+        [subView removeFromSuperview];
+    }
+    UIWebView *webView = [[UIWebView alloc] init];
+    [self.modelController.view addSubview:webView];
+    self.modelController.view.frame = (CGRect){0,0,300,225};
+    webView.frame = (CGRect){0,0,300,255};
+    webView.scalesPageToFit = YES;
+    [webView loadRequest:[NSURLRequest requestWithURL:imageURL]];
+    [self presentPopupViewController:self.modelController animationType:MJPopupViewAnimationSlideTopTop isAlignmentCenter:YES dismissed:^{
+        
+    }];
+}
+
 #pragma mark QuestionAndAnswerCell_iPhoneHeaderViewDelegate
+-(void)questionAndAnswerCell_iPhoneHeaderView:(QuestionAndAnswerCell_iPhoneHeaderView *)header scanAttachmentFileAtIndexPath:(NSIndexPath *)path{
+//    QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
+    QuestionModel *question = [self questionForIndexPath:path];
+    NSString *extension = [[question.attachmentFileUrl pathExtension] lowercaseString];
+    if ([extension isEqualToString:@"png"]
+        || [extension isEqualToString:@"jpg"]
+        || [extension isEqualToString:@"jpeg"]
+        || [extension isEqualToString:@"pdf"]
+        || [extension isEqualToString:@"word"]
+        || [extension isEqualToString:@"txt"]
+        || [extension isEqualToString:@"ppt"]
+        || [extension isEqualToString:@"gif"]) {
+        [self scanImageFromImageUrl:[NSURL URLWithString:question.attachmentFileUrl]];
+    }else{
+        [Utility errorAlert:@"无法打开，请到电脑上打开使用"];
+    }
+}
 -(float)questionAndAnswerCell_iPhoneHeaderView:(QuestionAndAnswerCell_iPhoneHeaderView *)header headerHeightAtIndexPath:(NSIndexPath *)path{
     QuestionModel *question = [self questionForIndexPath:path];
     CGRect rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:QUESTIONHEARD_VIEW_WIDTH];

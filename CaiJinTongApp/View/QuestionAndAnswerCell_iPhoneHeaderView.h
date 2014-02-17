@@ -35,4 +35,5 @@
 -(void)questionAndAnswerCell_iPhoneHeaderView:(QuestionAndAnswerCell_iPhoneHeaderView*)header willBeginTypeAnswerQuestionAtIndexPath:(NSIndexPath*)path;
 
 -(float)questionAndAnswerCell_iPhoneHeaderView:(QuestionAndAnswerCell_iPhoneHeaderView*)header headerHeightAtIndexPath:(NSIndexPath*)path;
+-(void)questionAndAnswerCell_iPhoneHeaderView:(QuestionAndAnswerCell_iPhoneHeaderView*)header scanAttachmentFileAtIndexPath:(NSIndexPath*)path;
 @end
