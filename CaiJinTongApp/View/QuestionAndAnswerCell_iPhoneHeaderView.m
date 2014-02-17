@@ -64,20 +64,18 @@
         [self.backgroundView addSubview:self.questionFlowerLabel];
         
         //附件按钮
-        self.attachmentBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.attachmentBtn.backgroundColor = [UIColor clearColor];
+        self.attachmentBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+//        self.attachmentBtn.backgroundColor = [UIColor redColor];
+        [self.attachmentBtn.layer setBorderWidth:0.6];
+        [self.attachmentBtn.layer setBorderColor:[UIColor grayColor].CGColor];
+        [self.attachmentBtn.layer setCornerRadius:2.0];
+        self.attachmentBtn.titleLabel.font = [UIFont systemFontOfSize:9];
+        [self.attachmentBtn setTitle:@"附件" forState:UIControlStateNormal];
+        [self.attachmentBtn addTarget:self action:@selector(scanQuestionAttachmentBtClicked) forControlEvents:UIControlEventTouchUpInside];
         [self.backgroundView addSubview:self.attachmentBtn];
         
         self.questionContentAttributeView = [[DRAttributeStringView alloc] init];
         [self.backgroundView addSubview:self.questionContentAttributeView];
-//        self.questionContentTextField = [[UITextView alloc] init];
-//        self.questionContentTextField.backgroundColor = [UIColor clearColor];
-//        self.questionContentTextField.font = [UIFont systemFontOfSize:TEXT_FONT_SIZE+4];
-//        self.questionContentTextField.textColor = [UIColor blueColor];
-//        self.questionContentTextField.textAlignment = NSTextAlignmentLeft;
-//        [self.questionContentTextField setUserInteractionEnabled:NO];
-//        self.questionContentTextField.contentInset = UIEdgeInsetsMake(-10,-5,0,0);
-//        [self.backgroundView addSubview:self.questionContentTextField];
         
         self.questionImg = [[UIImageView alloc] init];
         self.questionImg.image = [UIImage imageNamed:@"Q&A-myq_15.png"];
@@ -118,6 +116,12 @@
         [self.summitQuestionAnswerBackView addSubview:self.submitAnswerBt];
     }
     return self;
+}
+
+-(void)scanQuestionAttachmentBtClicked{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(questionAndAnswerCell_iPhoneHeaderView:scanAttachmentFileAtIndexPath:)]) {
+        [self.delegate questionAndAnswerCell_iPhoneHeaderView:self scanAttachmentFileAtIndexPath:self.path];
+    }
 }
 
 -(void)flowerBtClicked{
@@ -179,6 +183,12 @@
     self.questionContentAttributeView.questionModel = question;
     //    [self.questionFlowerBt setUserInteractionEnabled:NO];
     [self.summitQuestionAnswerBackView setHidden:!question.isEditing];
+    
+    if (!question.attachmentFileUrl || [question.attachmentFileUrl isEqualToString:@""] || ![question.attachmentFileUrl pathExtension] || [[question.attachmentFileUrl pathExtension] isEqualToString:@""]) {
+        [self.attachmentBtn setHidden:YES];
+    }else{
+        [self.attachmentBtn setHidden:NO];
+    }
     [self setNeedsLayout];
 }
 
@@ -196,16 +206,18 @@
     self.questionFlowerImageView.frame = (CGRect){CGRectGetMaxX(self.questionDateLabel.frame)+TEXT_PADDING,topY,HEADER_TEXT_HEIGHT/2,HEADER_TEXT_HEIGHT/2};
     
     self.questionFlowerLabel.frame = (CGRect){CGRectGetMaxX(self.questionFlowerImageView.frame)+TEXT_PADDING,topY,[Utility getTextSizeWithString:self.questionFlowerLabel.text withFont:self.questionFlowerLabel.font].width,textHeight};
-    self.attachmentBtn.frame = (CGRect){CGRectGetMaxX(self.questionFlowerLabel.frame)+TEXT_PADDING,topY,HEADER_TEXT_HEIGHT/2,HEADER_TEXT_HEIGHT/2};
+    self.attachmentBtn.frame = (CGRect){CGRectGetMaxX(self.questionFlowerLabel.frame)+TEXT_PADDING,topY,HEADER_TEXT_HEIGHT,HEADER_TEXT_HEIGHT/2};
     
     
 //    self.answerQuestionBt.frame = (CGRect){CGRectGetMaxX(self.questionFlowerLabel.frame),2,100,HEADER_TEXT_HEIGHT};
     
     //第二行,问题
     self.questionImg.frame = (CGRect){0,HEADER_TEXT_HEIGHT+2,14,14};
-//    self.questionContentTextField.frame = (CGRect){CGRectGetMaxX(self.questionImg.frame),HEADER_TEXT_HEIGHT,QUESTIONHEARD_VIEW_WIDTH+TEXT_PADDING*2,[Utility getTextSizeWithString:self.questionContentTextField.text withFont:self.questionContentTextField.font withWidth:QUESTIONHEARD_VIEW_WIDTH + TEXT_PADDING * 2].height};
     float height = [self.delegate questionAndAnswerCell_iPhoneHeaderView:self headerHeightAtIndexPath:self.path];
-    self.questionContentAttributeView.frame = (CGRect){CGRectGetMaxX(self.questionImg.frame),HEADER_TEXT_HEIGHT,QUESTIONHEARD_VIEW_WIDTH,height};
+    
+    //到底是其本身显示出界,还是frame尺寸不够?
+    self.questionContentAttributeView.frame = (CGRect){CGRectGetMaxX(self.questionImg.frame),HEADER_TEXT_HEIGHT,QUESTIONHEARD_VIEW_WIDTH - 8,height};
+    self.questionContentAttributeView.backgroundColor = [UIColor lightGrayColor];
     
     self.answerQuestionBt.frame = self.questionContentAttributeView.frame;
     [self bringSubviewToFront:self.answerQuestionBt];
