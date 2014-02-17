@@ -24,7 +24,7 @@
 @property (assign, nonatomic) NSInteger question_pageIndex;
 @property (assign, nonatomic) NSInteger question_pageCount;
 @property (strong,nonatomic) NSString *chapterID;
-@property (strong,nonatomic) NSString *searchQuestionText;
+//@property (strong,nonatomic) NSString *searchQuestionText;
 @property (nonatomic,assign) BOOL isSearch;//判断是否是搜索
 @property (weak,nonatomic) id<MyQuestionAndAnswerViewControllerDelegate> delegate;
 - (IBAction)noticeHideBtnClick:(id)sender;

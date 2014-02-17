@@ -776,7 +776,6 @@ typedef enum {
         NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
         dispatch_async(dispatch_get_main_queue(), ^{
            
-            self.myQAVC.searchQuestionText = self.searchText.text;
  [self.myQAVC reloadDataWithDataArray:chapterQuestionList withQuestionChapterID:self.questionAndSwerRequestID withScope:QuestionAndAnswerSearchQuestion isSearch:NO];
              [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
 //            [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:NO dismissed:^{

@@ -21,6 +21,7 @@
 @property (nonatomic,strong) LHLCommitQuestionViewController *commitQuestionVC;
 @property (nonatomic,strong) LHLTakingMovieNoteViewController *takingMovieNotesVC;
 @property (nonatomic, assign) long  long studyTime;//学习时间
+@property (nonatomic, strong) NSString *startPlayDate;//学习时间
 @property (nonatomic,strong) NSTimer *studyTimer;
 @property (nonatomic,assign) BOOL chapterDismissByItself;
 @property (nonatomic, strong)  UIButton *cutScreenButton;//截屏
@@ -422,7 +423,7 @@
         [MBProgressHUD hideHUDForView:self.moviePlayerView animated:YES];
     } else if (self.moviePlayer.loadState == MPMovieLoadStateStalled) {
         [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];
-    }else if (self.moviePlayer.loadState == MPMovieLoadStatePlaythroughOK) {
+    }else if (self.moviePlayer.loadState == MPMovieLoadStatePlaythroughOK ) {
         [MBProgressHUD hideHUDForView:self.moviePlayerView animated:YES];
     }
     
@@ -556,7 +557,7 @@
     if (!self.movieUrl) {
         return;
     }
-    [self notificateBackwillBeginPlayMovie];
+//    [self notificateBackwillBeginPlayMovie];
     [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];
     if (self.moviePlayer.isPreparedToPlay) {
         [self.moviePlayer stop];
@@ -576,6 +577,8 @@
     
     //    [self.moviePlayer endSeeking];
     self.isPlaying = YES;
+    self.startPlayDate = [Utility getNowDateFromatAnDate];
+    self.studyTime = 0;
     [self startStudyTime];
 }
 
@@ -605,7 +608,7 @@
             timespan = [NSString stringWithFormat:@"%llu",self.studyTime];
         }
         NSString *status = self.seekSlider.value >= 1?@"completed": @"incomplete";
-        [self.playBackInterface getPlayBackInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionModel.sectionId andTimeEnd:timespan andStatus:status];
+        [self.playBackInterface getPlayBackInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionModel.sectionId andTimeEnd:timespan andStatus:status andStartPlayDate:self.startPlayDate];
     }
 }
 
@@ -685,9 +688,13 @@
 }
 
 -(void)updateStudyTimeValue{
-    self.studyTime +=30;
+    
+    [self performSelectorOnMainThread:@selector(updateStudyTimeValueMain) withObject:nil waitUntilDone:YES];
 }
 
+-(void)updateStudyTimeValueMain{
+    self.studyTime +=30;
+}
 /**
  改变播放状态
  */
@@ -722,7 +729,6 @@
 }
 //结束记时
 -(void)endStudyTime{
-    self.studyTime = 0;
     if (self.studyTimer) {
         [self.studyTimer invalidate];
         self.studyTimer = nil;

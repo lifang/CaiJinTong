@@ -27,7 +27,8 @@
 @property (nonatomic,assign) BOOL isForgoundForPlayerView;//判断当前播放界面是否能和用户交互
 @property (nonatomic,assign) BOOL isBack;//是否退出播放
 @property (nonatomic,assign) __block float currentMoviePlaterVolume;
-@property (nonatomic, assign) long  long studyTime;//学习时间
+@property (nonatomic, assign) __block long long studyTime;//学习时间
+@property (nonatomic, strong) NSString *startPlayDate;//开始播放学习时间
 @property (assign,nonatomic) MPMovieSourceType drMovieSourceType;//播放文件类型，本地还是在线视频
 @property (nonatomic,strong) DRCommitQuestionViewController *commitQuestionController;
 @property (nonatomic,strong) MBProgressHUD *loadMovieDataProgressView;
@@ -436,12 +437,21 @@
         [self removeMoviePlayBackNotification];
         
         NSError *error = [notification.userInfo objectForKey:@"error"];
-        if ([[error.userInfo objectForKey:NSLocalizedDescriptionKey] isEqualToString:@"The Internet connection appears to be offline."]) {
-            [Utility errorAlert:@"无法连接网络"];
-        }else
-        [Utility errorAlert:@"播放文件已经损坏或是格式不支持"];
-        [self endObservePlayBackProgressBar];
-        [self updateMoviePlayBackProgressBar];
+        if (![Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+            [Utility errorAlert:tipMsg];
+        }]) {
+           
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self endObservePlayBackProgressBar];
+            [self updateMoviePlayBackProgressBar];
+            if (self.loadMovieDataProgressView) {
+                [self.loadMovieDataProgressView removeFromSuperview];
+                [self.loadMovieDataProgressView hide:NO];
+                self.loadMovieDataProgressView = nil;
+            }
+        });
+        
     }
 }
 
@@ -458,27 +468,20 @@
 -(void)didChangeMoviePlayerLoadStateNotification{//加载状态改变时触发：
     DLog(@"didChangeMoviePlayerLoadStateNotification:%d",self.moviePlayer.loadState);
     MPMovieLoadState state = self.moviePlayer.loadState;
-    if (state & MPMovieLoadStatePlaythroughOK) {
+    if ((state & MPMovieLoadStatePlaythroughOK) | (state & MPMovieLoadStatePlayable)) {
         for (UIView *subView in self.moviePlayerView.subviews) {
             if ([subView isKindOfClass:[MBProgressHUD class]]) {
                 [subView removeFromSuperview];
             }
         }
-    }else if (state & MPMovieLoadStateStalled){
+    }else{
         if (self.loadMovieDataProgressView) {
              [self.loadMovieDataProgressView removeFromSuperview];
                 [self.loadMovieDataProgressView hide:NO];
             self.loadMovieDataProgressView = nil;
         }
         self.loadMovieDataProgressView =  [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];
-    }else
-        if (state & MPMovieLoadStatePlayable) {
-            for (UIView *subView in self.moviePlayerView.subviews) {
-                if ([subView isKindOfClass:[MBProgressHUD class]]) {
-                    [subView removeFromSuperview];
-                }
-            }
-        }
+    }
 }
 
 #pragma mark --
@@ -606,7 +609,7 @@
     if (!self.movieUrl) {
         return;
     }
-    [self notificateBackwillBeginPlayMovie];
+//    [self notificateBackwillBeginPlayMovie];
     if (self.loadMovieDataProgressView) {
                  [self.loadMovieDataProgressView removeFromSuperview];
                 [self.loadMovieDataProgressView hide:NO];
@@ -631,6 +634,8 @@
     
 //    [self.moviePlayer endSeeking];
     self.isPlaying = YES;
+    self.startPlayDate = [Utility getNowDateFromatAnDate];
+    self.studyTime = 0;
     [self startStudyTime];
 }
 
@@ -666,7 +671,7 @@
              timespan = [NSString stringWithFormat:@"%llu",self.studyTime];
         }
         NSString *status = self.seekSlider.value >= 1?@"completed": @"incomplete";
-        [self.playBackInterface getPlayBackInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionModel.sectionId andTimeEnd:timespan andStatus:status];
+        [self.playBackInterface getPlayBackInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionModel.sectionId andTimeEnd:timespan andStatus:status andStartPlayDate:self.startPlayDate];
     }
 }
 
@@ -705,7 +710,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
         if (fileType == MPMovieSourceTypeStreaming) {
             self.movieUrl = [NSURL URLWithString:sectionModel.sectionMoviePlayURL];
         }
-    [self notificateBackwillBeginPlayMovie];
+//    [self notificateBackwillBeginPlayMovie];
     if (self.loadMovieDataProgressView) {
                  [self.loadMovieDataProgressView removeFromSuperview];
                 [self.loadMovieDataProgressView hide:NO];
@@ -719,6 +724,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
         [self.moviePlayer play];
     }
     self.isPlaying = YES;
+    self.startPlayDate = [Utility getNowDateFromatAnDate];
     [self startStudyTime];
 }
 
@@ -770,7 +776,12 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
 }
 
 -(void)updateStudyTimeValue{
-    self.studyTime +=30;
+    
+    [self performSelectorOnMainThread:@selector(updateStudyTimeValueMain) withObject:nil waitUntilDone:NO];
+}
+
+-(void)updateStudyTimeValueMain{
+    self.studyTime +=10;
 }
 
 //开始学习记时
@@ -779,7 +790,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
         [self.studyTimer invalidate];
         self.studyTimer = nil;
     }
-    self.studyTimer = [NSTimer timerWithTimeInterval:30 target:self selector:@selector(updateStudyTimeValue) userInfo:nil repeats:YES];
+    self.studyTimer = [NSTimer timerWithTimeInterval:10 target:self selector:@selector(updateStudyTimeValue) userInfo:nil repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:self.studyTimer forMode:NSDefaultRunLoopMode];
     [self.studyTimer fire];
 }
@@ -792,7 +803,6 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
 }
 //结束记时
 -(void)endStudyTime{
-    self.studyTime = 0;
     if (self.studyTimer) {
         [self.studyTimer invalidate];
         self.studyTimer = nil;

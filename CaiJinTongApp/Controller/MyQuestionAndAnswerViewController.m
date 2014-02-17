@@ -137,6 +137,7 @@
     UserModel *user = [[CaiJinTongManager shared] user];
     
     self.searchContent = searchText;
+    [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
     self.questionAndAnswerScope = QuestionAndAnswerSearchQuestion;
     [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:user.userId andText:self.searchContent withLastQuestionId:@"0"];
 }
@@ -447,7 +448,7 @@
                 [self.userQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:user.userId andIsMyselfQuestion:@"0" andLastQuestionID:lastQuestionID withCategoryId:self.chapterID];
             }else if (self.questionAndAnswerScope == QuestionAndAnswerSearchQuestion){
                 QuestionModel *question = [self.myQuestionArr lastObject];
-                [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:user.userId andText:self.searchQuestionText withLastQuestionId:question.questionId];
+                [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:user.userId andText:self.searchContent withLastQuestionId:question.questionId];
             }else{
                 [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:user.userId andChapterQuestionId:@"0" andLastQuestionID:lastQuestionID];
             }

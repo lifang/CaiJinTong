@@ -268,7 +268,7 @@
         return YES;
     }
     
-    if ([tip isEqualToString:@"A connection failure occurred"]) {
+    if ([tip isEqualToString:@"A connection failure occurred"] || [tip isEqualToString:@"The Internet connection appears to be offline."]) {
         msg(@"当前网络不可用");
         return YES;
     }
