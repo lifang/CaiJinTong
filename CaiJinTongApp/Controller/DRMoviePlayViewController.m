@@ -586,6 +586,7 @@
 -(void)drMoviePlayerTopBarbackItemClicked:(DRMoviePlayerTopBar *)topBar{
     self.isBack = YES;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self.moviePlayer stop];
      [self saveCurrentStatus];
 }
 #pragma mark --
