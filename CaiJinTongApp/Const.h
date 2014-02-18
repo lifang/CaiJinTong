@@ -38,7 +38,7 @@ typedef enum {LESSONSORTTYPE_CurrentStudy,
 #define kDomain @"http://116.255.135.175:3004"
 
 #define kUsingTestData 0//使用json测试数据
-#define kRunScopeTest 0//是否使用runcope工具测试api
+#define kRunScopeTest 1//是否使用runcope工具测试api
 #if kRunScopeTest
 #define kHost @"http://lms-finance365-com-5we3gmhhky2y.runscope.net/api/ios.ashx"
 #else
