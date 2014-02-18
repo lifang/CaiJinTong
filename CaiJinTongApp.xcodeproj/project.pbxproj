@@ -333,6 +333,7 @@
 		632403F218989F0F00F31309 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 632403EE18989F0F00F31309 /* Default-Landscape@2x~ipad.png */; };
 		632403F318989F0F00F31309 /* Default~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 632403EF18989F0F00F31309 /* Default~ipad.png */; };
 		632403F418989F0F00F31309 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 632403F018989F0F00F31309 /* Default-Portrait@2x~ipad.png */; };
+		6325015518B33CDA00966E18 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6325015418B33CDA00966E18 /* AudioToolbox.framework */; };
 		633003391845F81200F7838D /* radio_checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 633003351845F81200F7838D /* radio_checked.png */; };
 		6330033A1845F81200F7838D /* radio_checked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 633003361845F81200F7838D /* radio_checked@2x.png */; };
 		6330033B1845F81200F7838D /* radio_unchecked.png in Resources */ = {isa = PBXBuildFile; fileRef = 633003371845F81200F7838D /* radio_unchecked.png */; };
@@ -425,7 +426,6 @@
 		63D43108186A7C78004A786A /* LessonListForCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D43107186A7C78004A786A /* LessonListForCategory.m */; };
 		63D4310C186AC8E5004A786A /* MyQuestionCategatoryInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D4310B186AC8E5004A786A /* MyQuestionCategatoryInterface.m */; };
 		63E6A90F185B341800D809A6 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E6A90E185B341800D809A6 /* CoreMedia.framework */; };
-		63E6A911185B348700D809A6 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E6A910185B348700D809A6 /* AudioToolbox.framework */; };
 		63F1C2301884FB2B00EE711F /* navi_search_blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F1C22B1884FB2B00EE711F /* navi_search_blue@2x.png */; };
 		63F1C2311884FB2B00EE711F /* navi_search_gray.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F1C22C1884FB2B00EE711F /* navi_search_gray.png */; };
 		63F1C2321884FB2B00EE711F /* searchBar_Backview.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F1C22D1884FB2B00EE711F /* searchBar_Backview.png */; };
@@ -968,6 +968,7 @@
 		632403EE18989F0F00F31309 /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
 		632403EF18989F0F00F31309 /* Default~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default~ipad.png"; sourceTree = "<group>"; };
 		632403F018989F0F00F31309 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
+		6325015418B33CDA00966E18 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		633003351845F81200F7838D /* radio_checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio_checked.png; sourceTree = "<group>"; };
 		633003361845F81200F7838D /* radio_checked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "radio_checked@2x.png"; sourceTree = "<group>"; };
 		633003371845F81200F7838D /* radio_unchecked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio_unchecked.png; sourceTree = "<group>"; };
@@ -1094,7 +1095,6 @@
 		63D4310A186AC8E5004A786A /* MyQuestionCategatoryInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyQuestionCategatoryInterface.h; sourceTree = "<group>"; };
 		63D4310B186AC8E5004A786A /* MyQuestionCategatoryInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyQuestionCategatoryInterface.m; sourceTree = "<group>"; };
 		63E6A90E185B341800D809A6 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
-		63E6A910185B348700D809A6 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		63F1C22B1884FB2B00EE711F /* navi_search_blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navi_search_blue@2x.png"; sourceTree = "<group>"; };
 		63F1C22C1884FB2B00EE711F /* navi_search_gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navi_search_gray.png; sourceTree = "<group>"; };
 		63F1C22D1884FB2B00EE711F /* searchBar_Backview.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = searchBar_Backview.png; sourceTree = "<group>"; };
@@ -1107,9 +1107,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6325015518B33CDA00966E18 /* AudioToolbox.framework in Frameworks */,
 				633F6C901865802A00E322C9 /* CoreData.framework in Frameworks */,
 				0EDF4E03182102AB007161E0 /* Security.framework in Frameworks */,
-				63E6A911185B348700D809A6 /* AudioToolbox.framework in Frameworks */,
 				63E6A90F185B341800D809A6 /* CoreMedia.framework in Frameworks */,
 				0E9C9EFD184343F700D48781 /* AssetsLibrary.framework in Frameworks */,
 				0EA36ED4182C8E930074D67B /* CoreText.framework in Frameworks */,
@@ -1939,8 +1939,8 @@
 		630B03A91820F5BB00F72C4C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6325015418B33CDA00966E18 /* AudioToolbox.framework */,
 				633F6C8F1865802A00E322C9 /* CoreData.framework */,
-				63E6A910185B348700D809A6 /* AudioToolbox.framework */,
 				63E6A90E185B341800D809A6 /* CoreMedia.framework */,
 				0E9C9EFC184343F700D48781 /* AssetsLibrary.framework */,
 				0EA36ED3182C8E930074D67B /* CoreText.framework */,
@@ -2396,6 +2396,14 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = david;
 				TargetAttributes = {
+					630B03A61820F5BB00F72C4C = {
+						DevelopmentTeam = 3NW6BHU5W5;
+						SystemCapabilities = {
+							com.apple.InterAppAudio = {
+								enabled = 0;
+							};
+						};
+					};
 					630B03CA1820F5BC00F72C4C = {
 						TestTargetID = 630B03A61820F5BB00F72C4C;
 					};
@@ -2981,7 +2989,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Sen Ye (FE46ZS29LM)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sen Ye (FE46ZS29LM)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_INPUT_FILETYPE = sourcecode.c.objc;
@@ -3022,7 +3030,7 @@
 				INFOPLIST_FILE = "CaiJinTongApp/CaiJinTongApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "914EB56E-B46E-4512-A620-A900F6797910";
+				PROVISIONING_PROFILE = "83978C48-40D4-4AF8-B5E2-EAA6761176BE";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};

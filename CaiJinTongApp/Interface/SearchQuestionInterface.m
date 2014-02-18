@@ -91,6 +91,9 @@
                                                     answer.pageCount =[[answer_dic objectForKey:@"pageCount"]intValue];
                                                     
                                                     //添加追问
+//                                                    AID：追问回复的编号，，Answer：追问回复的内容，addMemberID：追问人的编号 ，ZID：追问的编号 addQuestion：追问的内容
+//                                                    AgreeStatus：0:表示学员未采纳答案 1：表示学员采纳答案  2：表示老师采纳答案 3：表示学员和老师有采纳答案
+//                                                    当要追问的时候传AID ，对追问回复传ZID 
                                                     NSArray *reaskArray = [answer_dic objectForKey:@"addList"];
                                                     NSMutableArray *reaskModelArr = [NSMutableArray array];
                                                     for (NSDictionary *reaskDic in reaskArray) {

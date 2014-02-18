@@ -111,7 +111,7 @@
         if (answer.reaskModelArray.count > 0) {
             Reaskmodel *reask = [answer.reaskModelArray lastObject];
             //            if (reask.reAnswerID && ![reask.reAnswerID isEqualToString:@""] && ![reask.reAnswerID isEqualToString:@"<null>"] ) {
-            if (reask.reAnswerID && ![reask.reAnswerID isEqualToString:@""]) {
+            if (reask.reAnswerContent && ![reask.reAnswerContent isEqualToString:@""]) {
                 //追问
                 [self.reaskBt setTitle:@"追问" forState:UIControlStateNormal];
                 self.reaskType = ReaskType_Reask;
@@ -133,7 +133,7 @@
             if (answer.reaskModelArray.count > 0) {
                 //有追问
                 Reaskmodel *reask = [answer.reaskModelArray lastObject];
-                if (reask.reAnswerID && ![reask.reAnswerID isEqualToString:@""]) {
+                if (reask.reAnswerContent && ![reask.reAnswerContent isEqualToString:@""]) {
                     //修改回复
                     [self.reaskBt setTitle:@"修改回复" forState:UIControlStateNormal];
                     self.reaskType = ReaskType_ModifyAnswer;

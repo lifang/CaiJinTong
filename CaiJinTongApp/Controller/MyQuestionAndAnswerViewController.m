@@ -327,7 +327,18 @@
        [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
         QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
         AnswerModel *answer = [question.answerList objectAtIndex:path.row];
-        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:reaskType andAnswerContent:questionStr andQuestionId:question.questionId andAnswerID:answer.resultId  andResultId:@"1"];
+        NSString *answerID = @"";
+        Reaskmodel *reask = answer.reaskModelArray?[answer.reaskModelArray lastObject]:nil;
+        if (reaskType == ReaskType_Reask || reaskType == ReaskType_ModifyReask) {
+            if (reask && ![reask.reAnswerID isEqualToString:@""]) {
+                answerID = reask.reAnswerID;
+            }
+        }else{
+            if (reask && ![reask.reaskID isEqualToString:@""]) {
+                answerID = reask.reaskID;
+            }
+        }
+        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:reaskType andAnswerContent:questionStr andQuestionId:question.questionId andAnswerID:answerID  andResultId:@"1"];
     }
 }
 

@@ -19,7 +19,8 @@
     self.reaskType = reask;
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     
-    http://lms.finance365.com/api/ios.ashx?active=submitAddAnswer&userId=18676&type=3&id=1950&content=aaaaasaddsadsadsad&fid=2120
+//    http://lms.finance365.com/api/ios.ashx?active=submitAddAnswer&userId=18676&type=3&id=1950&content=aaaaasaddsadsadsad&fid=2120
+//   追问：id字段传 AID ，回复追问的时候： id字段传ZID  FID是问题的编号
     switch (self.reaskType) {
         case ReaskType_AnswerForReasking://回复
         {
@@ -64,6 +65,7 @@
             //    http://lms.finance365.com/api/ios.ashx?active=submitAnswer&userId=17079&answerContent=%E5%9B%9E%E7%AD%94%E6%B5%8B%E8%AF%95&questionId=1592&resultId=0
             [reqheaders setValue:[NSString stringWithFormat:@"%@",answerContent] forKey:@"answerContent"];
             [reqheaders setValue:[NSString stringWithFormat:@"%@",questionId] forKey:@"questionId"];
+            [reqheaders setValue:@"0" forKey:@"resultId"];
             self.interfaceUrl = [NSString stringWithFormat:@"%@?active=submitAnswer",kHost];
         }
             break;
