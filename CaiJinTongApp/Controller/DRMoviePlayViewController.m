@@ -468,7 +468,7 @@
 -(void)didChangeMoviePlayerLoadStateNotification{//加载状态改变时触发：
     DLog(@"didChangeMoviePlayerLoadStateNotification:%d",self.moviePlayer.loadState);
     MPMovieLoadState state = self.moviePlayer.loadState;
-    if ((state & MPMovieLoadStatePlaythroughOK) | (state & MPMovieLoadStatePlayable)) {
+    if ((state & MPMovieLoadStatePlaythroughOK) || (state & MPMovieLoadStatePlayable)) {
         for (UIView *subView in self.moviePlayerView.subviews) {
             if ([subView isKindOfClass:[MBProgressHUD class]]) {
                 [subView removeFromSuperview];
@@ -695,10 +695,10 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
         [Utility errorAlert:@"没有发现要播放的文件"];
         return;
     }
-    [self.moviePlayer stop];
+    [self.moviePlayer stop];    
     self.sectionModel = sectionModel;
-    [self removeMoviePlayBackNotification];
-    [self addMoviePlayBackNotification];
+//    [self removeMoviePlayBackNotification];
+//    [self addMoviePlayBackNotification];
     self.drMovieSourceType = fileType;
     self.drMovieTopBar.titleLabel.text = sectionModel.sectionName;
     SectionModel *section = [[Section defaultSection] getSectionModelWithSid:self.sectionModel.sectionId];
