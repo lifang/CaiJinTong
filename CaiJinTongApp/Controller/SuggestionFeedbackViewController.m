@@ -33,7 +33,8 @@
     [self.drnavigationBar.navigationRightItem setTitle:@"返回" forState:UIControlStateNormal];
     [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     self.drnavigationBar.titleLabel.text = @"意见反馈";
-    
+    [self.drnavigationBar setBackgroundColor:[UIColor clearColor]];
+    [self.drnavigationBar.searchBar setHidden:YES];
     self.backgroundForTextView.frame = CGRectMake(20, 55, 360, 181);
     self.backgroundForTextView.borderStyle = UITextBorderStyleRoundedRect;
     [self.backgroundForTextView setEnabled:NO];
