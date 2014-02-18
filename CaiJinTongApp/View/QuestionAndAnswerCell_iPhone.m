@@ -42,6 +42,7 @@
     }
     if (self.delegate && [self.delegate respondsToSelector:@selector(QuestionAndAnswerCell_iPhone:summitQuestion:atIndexPath:withReaskType:)]) {
         [self.delegate QuestionAndAnswerCell_iPhone:self summitQuestion:self.questionTextField.text atIndexPath:self.path withReaskType:self.reaskType];
+        self.questionTextField.text = @"";
     }
 }
 //采纳答案
