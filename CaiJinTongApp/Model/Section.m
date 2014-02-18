@@ -435,14 +435,14 @@ static Section *defaultSection = nil;
 -(float)getContentLengthBySid:(NSString *)sid {
     FMResultSet * rs = [self.db executeQuery:@"select downloadState ,contentLength from Section where sid = ?", sid];
     
-    float downloadPercent = 0;
+    float contentLength = 0;
     if ([rs next]) {
         
-        downloadPercent = [rs doubleForColumn:@"contentLength"];
+        contentLength = [rs doubleForColumn:@"contentLength"];
     }
     
     [rs close];
-    return downloadPercent;
+    return contentLength;
 }
 -(BOOL)updateContentLength:(double)length BySid:(NSString *)sid {
     return [self.db executeUpdate:@"update Section set contentLength = ? where sid= ?",[NSString stringWithFormat:@"%f", length],sid];

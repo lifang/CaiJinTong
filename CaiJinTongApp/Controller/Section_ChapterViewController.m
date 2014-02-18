@@ -147,6 +147,7 @@
             cell.statusLab.text = @"下载";
         }
         cell.sliderFrontView.frame = CGRectMake(47, 73, CAPTER_CELL_WIDTH * sectionSave.downloadPercent, 33);
+        cell.lengthLab.text = @"";
         if (contentlength>0) {
             cell.lengthLab.text = [NSString stringWithFormat:@"%.2fM/%.2fM",contentlength*sectionSave.downloadPercent,contentlength];
         }
@@ -155,7 +156,6 @@
         sectionSave.name = section.sectionName;
         sectionSave.lessonId = self.lessonId;
         cell.btn.buttonModel = sectionSave;
-        
     }else {
         sectionSave = [[SectionSaveModel alloc]init];
         sectionSave.sid = section.sectionId;

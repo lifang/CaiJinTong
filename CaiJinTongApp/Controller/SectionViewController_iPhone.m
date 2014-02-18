@@ -650,13 +650,13 @@
 
 
 #pragma mark DRMoviePlayViewControllerDelegate 提交笔记成功
--(void)lhlMoviePlayerViewController:(LHLMoviePlayViewController *)playerController commitNotesSuccess:(NSString *)noteText andTime:(NSString *)noteTime{
+-(void)lhlMoviePlayerViewController:(LHLMoviePlayViewController *)playerController commitNotesSuccess:(NSString *)noteText andNoteSectionName:(NSString *)noteSectionName andTime:(NSString *)noteTime{
     if (self.section_NoteView) {
         NoteModel *note = [[NoteModel alloc] init];
         note.noteTime = noteTime;
         note.noteText = noteText;
         note.noteChapterName = self.lessonModel.lessonName;
-//        note.noteSectionName = ;
+        note.noteSectionName = noteSectionName;
         [self.section_NoteView.dataArray insertObject:note atIndex:0];
         [self.section_NoteView.tableViewList reloadData];
     }

@@ -977,8 +977,8 @@
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             [Utility errorAlert:@"笔记提交成功"];
             //前一个view笔记里面加上刚提交的笔记
-            if (self.delegate && [self.delegate respondsToSelector:@selector(lhlMoviePlayerViewController:commitNotesSuccess:andTime:)]) {
-                [self.delegate lhlMoviePlayerViewController:self commitNotesSuccess:self.commitNoteText andTime:self.commitNoteTime];
+            if (self.delegate && [self.delegate respondsToSelector:@selector(lhlMoviePlayerViewController:commitNotesSuccess:andNoteSectionName:andTime:)]) {
+                [self.delegate lhlMoviePlayerViewController:self commitNotesSuccess:self.commitNoteText andNoteSectionName:self.sectionModel.sectionName andTime:self.commitNoteTime];
             }
         });
     });

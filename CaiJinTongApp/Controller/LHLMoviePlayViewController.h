@@ -79,6 +79,6 @@
 
 @protocol LHLMoviePlayViewControllerDelegate <NSObject>
 
--(void)lhlMoviePlayerViewController:(LHLMoviePlayViewController*)playerController commitNotesSuccess:(NSString*)noteText andTime:(NSString *)noteTime;
+-(void)lhlMoviePlayerViewController:(LHLMoviePlayViewController*)playerController commitNotesSuccess:(NSString*)noteText andNoteSectionName:(NSString *)noteSectionName andTime:(NSString *)noteTime;
 -(LessonModel*)lessonModelForDrMoviePlayerViewController;
 @end
