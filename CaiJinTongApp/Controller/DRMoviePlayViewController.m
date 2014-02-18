@@ -468,7 +468,7 @@
 -(void)didChangeMoviePlayerLoadStateNotification{//加载状态改变时触发：
     DLog(@"didChangeMoviePlayerLoadStateNotification:%d",self.moviePlayer.loadState);
     MPMovieLoadState state = self.moviePlayer.loadState;
-    if ((state & MPMovieLoadStatePlaythroughOK)) {
+    if ((state & MPMovieLoadStatePlaythroughOK) || (state & MPMovieLoadStatePlayable)) {
         for (UIView *subView in self.moviePlayerView.subviews) {
             if ([subView isKindOfClass:[MBProgressHUD class]]) {
                 [subView removeFromSuperview];
