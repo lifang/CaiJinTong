@@ -208,7 +208,7 @@
     UIWebView *webView = [[UIWebView alloc] init];
     [self.modelController.view addSubview:webView];
     self.modelController.view.frame = (CGRect){0,0,300,225};
-    webView.frame = (CGRect){0,0,300,255};
+    webView.frame = (CGRect){0,0,300,225};
     webView.scalesPageToFit = YES;
     [webView loadRequest:[NSURLRequest requestWithURL:imageURL]];
     [self presentPopupViewController:self.modelController animationType:MJPopupViewAnimationSlideTopTop isAlignmentCenter:YES dismissed:^{

@@ -27,7 +27,7 @@
 -(void)changeState:(NSNotification *)info {   //通知回调方法
     SectionSaveModel *sectionSave = (SectionSaveModel *)[info.userInfo objectForKey:@"SectionSaveModel"];
     if ([self.sid isEqualToString:sectionSave.sid]) {
-        [self.playBt setHidden:sectionSave.downloadState == 1];
+        [self.playBt setHidden:sectionSave.downloadState == 1]; //下载完毕
         self.pv = sectionSave.downloadPercent;
         self.sliderFrontView.frame = CGRectMake(0, 33, self.contentView.frame.size.width * self.pv, 15);
         //查询数据库

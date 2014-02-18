@@ -65,12 +65,15 @@
         
         //附件按钮
         self.attachmentBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//        self.attachmentBtn.backgroundColor = [UIColor redColor];
-        [self.attachmentBtn.layer setBorderWidth:0.6];
-        [self.attachmentBtn.layer setBorderColor:[UIColor grayColor].CGColor];
-        [self.attachmentBtn.layer setCornerRadius:2.0];
-        self.attachmentBtn.titleLabel.font = [UIFont systemFontOfSize:9];
+        self.attachmentBtn.backgroundColor = [UIColor clearColor];
+        if(platform >= 7.0){
+            [self.attachmentBtn.layer setBorderWidth:0.6];
+            [self.attachmentBtn.layer setBorderColor:[UIColor grayColor].CGColor];
+            [self.attachmentBtn.layer setCornerRadius:2.0];
+        }
+        self.attachmentBtn.titleLabel.font = [UIFont systemFontOfSize:10];
         [self.attachmentBtn setTitle:@"附件" forState:UIControlStateNormal];
+        [self.attachmentBtn.titleLabel setTextColor:[UIColor blueColor]];
         [self.attachmentBtn addTarget:self action:@selector(scanQuestionAttachmentBtClicked) forControlEvents:UIControlEventTouchUpInside];
         [self.backgroundView addSubview:self.attachmentBtn];
         

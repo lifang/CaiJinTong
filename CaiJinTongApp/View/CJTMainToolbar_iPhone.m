@@ -63,7 +63,7 @@
         //名称(A-Z)
         UIButton *nameBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         nameBtn.frame = CGRectMake(leftButtonX, BUTTON_Y, NAME_BUTTON_WIDTH, BUTTON_HEIGHT);
-        [nameBtn setTitle:NSLocalizedString(@"名称(A-Z)", @"button") forState:UIControlStateNormal];
+        [nameBtn setTitle:NSLocalizedString(@"按编号", @"button") forState:UIControlStateNormal];
         nameBtn.tag = NAME_TAG;
 		[nameBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [nameBtn addTarget:self action:@selector(nameButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
