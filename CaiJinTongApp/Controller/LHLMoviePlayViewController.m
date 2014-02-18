@@ -410,6 +410,9 @@
             [Utility errorAlert:@"播放文件已经损坏或是格式不支持"];
             [self endObservePlayBackProgressBar];
             [self updateMoviePlayBackProgressBar];
+            [self.moviePlayer stop];
+        }else{
+            [self.moviePlayer stop];
         }
 }
 

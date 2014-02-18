@@ -96,7 +96,7 @@
         }
         
         [rs close];
- 
+        DLog(@"%@",self.dbPath);
     }
     return self;
 }
