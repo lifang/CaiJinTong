@@ -98,6 +98,7 @@
         [rs close];
         DLog(@"%@",self.dbPath);
     }
+    NSLog(@"%@",self.dbPath);
     return self;
 }
 //添加不用备份的属性5.0.1

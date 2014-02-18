@@ -339,7 +339,7 @@
                 [self.loadMovieDataProgressView hide:NO];
                 self.loadMovieDataProgressView = nil;
     }
-    self.loadMovieDataProgressView =  [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];;
+    self.loadMovieDataProgressView =  [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];
     [self saveCurrentStatus];
     SectionModel *section = [notification.userInfo objectForKey:@"sectionModel"];
     self.drMovieSourceType = MPMovieSourceTypeStreaming;
