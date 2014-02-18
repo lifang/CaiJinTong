@@ -685,6 +685,9 @@
 }
 
 -(QuestionModel *)questionForIndexPath:(NSIndexPath *) indexPath{ //根据indexPath获得其相应的question对象
+    if(self.myQuestionArr.count == 1){
+        return self.myQuestionArr[0];
+    }
     for(int i = 1 ; i < self.questionIndexesArray.count;i ++){
         NSString *index = self.questionIndexesArray[i];
         if(index.integerValue > indexPath.row){
@@ -862,6 +865,7 @@
                 self.getUserQuestionInterface = [[GetUserQuestionInterface alloc] init];
                 self.getUserQuestionInterface.delegate = self;
                 self.questionScope = QuestionAndAnswerMYQUESTION;
+                self.chapterID = node.noteContentID;
                 //                    NSMutableArray *array = [TestModelData getQuestion];
                 //                    [self.myQAVC reloadDataWithDataArray:array withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
                 [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -874,6 +878,7 @@
                 self.getUserQuestionInterface.delegate = self;
                 //请求我的回答
                 self.questionScope = QuestionAndAnswerMYANSWER;
+                self.chapterID = node.noteContentID;
                 [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                 [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"1" andLastQuestionID:nil withCategoryId:node.noteContentID];
             }
@@ -1032,12 +1037,12 @@
 #pragma mark --MyQuestionCategatoryInterfaceDelegate 获取我的问答分类接口  ---有效接口1
 -(void)getMyQuestionCategoryDataDidFinishedWithMyAnswerCategorynodes:(NSArray *)myAnswerCategoryNotes withMyQuestionCategorynodes:(NSArray *)myQuestionCategoryNotes{
     dispatch_async(dispatch_get_main_queue(), ^{
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 //        [MBProgressHUD hideHUDForView:self.view animated:YES];
         self.myAnswerCategoryArr = myAnswerCategoryNotes;
         self.myQuestionCategoryArr = myQuestionCategoryNotes;
         self.myQuestionNodesOK = YES;
         if(self.myQuestionNodesOK && self.otherQuestionNodesOK){
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
             self.drTreeTableView.noteArr = [self togetherAllQuestionCategorys];
         }
         
@@ -1054,12 +1059,12 @@
 #pragma mark --QuestionInfoInterfaceDelegate 获取所有问答分类信息     ---有效接口2
 -(void)getQuestionInfoDidFinished:(NSArray *)questionCategoryArr {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 //        [MBProgressHUD hideHUDForView:self.view animated:YES];
         self.allQuestionCategoryArr = questionCategoryArr;
         [[CaiJinTongManager shared] setQuestionCategoryArr:questionCategoryArr] ;
         self.otherQuestionNodesOK = YES;
         if(self.myQuestionNodesOK && self.otherQuestionNodesOK){
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
             self.drTreeTableView.noteArr = [self togetherAllQuestionCategorys];
         }
     });

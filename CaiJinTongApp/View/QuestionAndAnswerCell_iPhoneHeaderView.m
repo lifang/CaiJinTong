@@ -158,6 +158,7 @@
         [self.answerQuestionBt setHidden:NO];
         [self.summitQuestionAnswerBackView setHidden:YES];
         [self.delegate questionAndAnswerCell_iPhoneHeaderView:self didAnswerQuestionAtIndexPath:self.path withAnswer:self.answerQuestionTextField.text];
+        self.answerQuestionTextField.text = @"";
     }
 }
 
