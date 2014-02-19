@@ -236,7 +236,7 @@
 }
 -(float)questionAndAnswerCell_iPhoneHeaderView:(QuestionAndAnswerCell_iPhoneHeaderView *)header headerHeightAtIndexPath:(NSIndexPath *)path{
     QuestionModel *question = [self questionForIndexPath:path];
-    CGRect rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:kQUESTIONHEARD_VIEW_WIDTH -100 ];
+    CGRect rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:kQUESTIONHEARD_VIEW_WIDTH-6];
     return rect.size.height;
 }
 
@@ -657,10 +657,10 @@
     if([self cellIsHeader:path.row]){  //如果是问题本身(header)
         CGRect rect;
         if (question.isEditing) {
-            rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:kQUESTIONHEARD_VIEW_WIDTH];
+            rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:kQUESTIONHEARD_VIEW_WIDTH-6];
             return rect.size.height + kHEADER_TEXT_HEIGHT + kTEXT_PADDING + kQUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT;
         }else{
-            rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:kQUESTIONHEARD_VIEW_WIDTH] ;
+            rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:kQUESTIONHEARD_VIEW_WIDTH-6] ;
             return rect.size.height + kHEADER_TEXT_HEIGHT + kTEXT_PADDING ;
         }
 //        if (question.isEditing) {
