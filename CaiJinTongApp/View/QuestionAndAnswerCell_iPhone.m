@@ -132,7 +132,7 @@
                 if (reask.reAnswerContent && ![reask.reAnswerContent isEqualToString:@""]) {
                     //修改回复
                     [self.reaskBt setTitle:@"修改回复" forState:UIControlStateNormal];
-                    self.reaskType = ReaskType_ModifyAnswer;
+                    self.reaskType = ReaskType_AnswerForReasking;
                 }else{
                     //对追问进行回复
                     [self.reaskBt setTitle:@"回复" forState:UIControlStateNormal];

@@ -34,7 +34,8 @@
     [_scrollView removeObserver:self forKeyPath:@"contentSize" context:nil];
     // 2.监听contentSize
     [scrollView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew context:nil];
-    
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adjustFrameWhenKeyboardUP) name:UIKeyboardWillShowNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adjustFrame) name:UIKeyboardWillHideNotification object:nil];
     // 3.父类的方法
     [super setScrollView:scrollView];
     
@@ -48,7 +49,7 @@
     if (_scrollView) {
         [_scrollView removeObserver:self forKeyPath:@"contentSize" context:nil];
     }
-    
+//    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark 监听UIScrollView的属性
@@ -68,6 +69,22 @@
     CGFloat contentHeight = _scrollView.contentSize.height;
     // 表格的高度
     CGFloat scrollHeight = _scrollView.frame.size.height;
+    CGFloat y = MAX(contentHeight, scrollHeight);
+    // 设置边框
+    self.frame = CGRectMake(0, y, _scrollView.frame.size.width, kViewHeight);
+    
+    // 挪动标签的位置
+    CGPoint center = _statusLabel.center;
+    center.y = _arrowImage.center.y;
+    _statusLabel.center = center;
+}
+
+- (void)adjustFrameWhenKeyboardUP
+{
+    // 内容的高度
+    CGFloat contentHeight = _scrollView.contentSize.height+500;
+    // 表格的高度
+    CGFloat scrollHeight = _scrollView.frame.size.height+500;
     CGFloat y = MAX(contentHeight, scrollHeight);
     // 设置边框
     self.frame = CGRectMake(0, y, _scrollView.frame.size.width, kViewHeight);

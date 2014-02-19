@@ -41,7 +41,7 @@
                                 questionCategory = [MyQuestionCategatoryInterface getTreeNodeArrayFromArray:[dictionary objectForKey:@"mycategoryList"] withRootContentID:@"-1"];
                             }
                             
-                            NSArray *myAnswerCategoryArr = [MyQuestionCategatoryInterface getTreeNodeArrayFromArray:[jsonData objectForKey:@"myanswercategoryList"] withRootContentID:@"-3"];
+                            NSArray *myAnswerCategoryArr = [MyQuestionCategatoryInterface getTreeNodeArrayFromArray:[dictionary objectForKey:@"myanswercategoryList"] withRootContentID:@"-3"];
                             if (self.delegate && [self.delegate respondsToSelector:@selector(getMyQuestionCategoryDataDidFinishedWithMyAnswerCategorynodes:withMyQuestionCategorynodes:)]) {
                                 [self.delegate getMyQuestionCategoryDataDidFinishedWithMyAnswerCategorynodes:myAnswerCategoryArr withMyQuestionCategorynodes:questionCategory];
                             }

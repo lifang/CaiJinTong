@@ -39,7 +39,8 @@ typedef void (^BeginRefreshingBlock)(MJRefreshBaseView *refreshView);
     // 父控件
     __weak UIScrollView *_scrollView;
     // 代理
-     __unsafe_unretained id<MJRefreshBaseViewDelegate> _delegate;
+     __unsafe_unretained
+    id<MJRefreshBaseViewDelegate> _delegate;
     // 回调
     BeginRefreshingBlock _beginRefreshingBlock;
     
