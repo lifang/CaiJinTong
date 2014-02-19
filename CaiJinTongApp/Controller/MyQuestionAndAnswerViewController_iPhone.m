@@ -236,7 +236,7 @@
 }
 -(float)questionAndAnswerCell_iPhoneHeaderView:(QuestionAndAnswerCell_iPhoneHeaderView *)header headerHeightAtIndexPath:(NSIndexPath *)path{
     QuestionModel *question = [self questionForIndexPath:path];
-    CGRect rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:QUESTIONHEARD_VIEW_WIDTH];
+    CGRect rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:kQUESTIONHEARD_VIEW_WIDTH -100 ];
     return rect.size.height;
 }
 
@@ -255,9 +255,9 @@
         CGPoint offset = self.tableView.contentOffset;//当前窗口的偏移值
         CGRect rowFrame = [self.tableView rectForRowAtIndexPath:path];//当前row的位置
         CGFloat rowHeight = rowFrame.size.height;//row高度,其中回答模块高度87
-        CGFloat aY = CGRectGetMaxY(rowFrame) - QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT;//回答模块的上沿坐标
-        CGFloat aHeight = QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT + 246.0 - IP5(63, 50);//上沿坐标的理想高度(相对tableView下沿)
-        CGFloat bHeight = self.tableView.frame.size.height - (rowFrame.origin.y - offset.y + rowHeight - QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT);//当前上沿的高度(相对tableView下沿)
+        CGFloat aY = CGRectGetMaxY(rowFrame) - kQUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT;//回答模块的上沿坐标
+        CGFloat aHeight = kQUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT + 246.0 - IP5(63, 50);//上沿坐标的理想高度(相对tableView下沿)
+        CGFloat bHeight = self.tableView.frame.size.height - (rowFrame.origin.y - offset.y + rowHeight - kQUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT);//当前上沿的高度(相对tableView下沿)
         CGFloat toOffsetY = offset.y + (aHeight - bHeight);//理想高度时的窗口Y偏移值
         [UIView animateWithDuration:0.5 animations:^{
             if(self.tableView.contentSize.height > self.tableView.frame.size.height){
@@ -308,7 +308,7 @@
     QuestionModel *question = [self questionForIndexPath:path];
     AnswerModel *answer = [question.answerList objectAtIndex:[self answerForCellIndexPath:path]];
     
-    CGRect rect = [DRAttributeStringView boundsRectWithAnswer:answer withWidth:QUESTIONANDANSWER_CELL_WIDTH];
+    CGRect rect = [DRAttributeStringView boundsRectWithAnswer:answer withWidth:lQUESTIONANDANSWER_CELL_WIDTH];
     return rect.size.height;
 }
 
@@ -657,11 +657,11 @@
     if([self cellIsHeader:path.row]){  //如果是问题本身(header)
         CGRect rect;
         if (question.isEditing) {
-            rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:QUESTIONHEARD_VIEW_WIDTH];
-            return rect.size.height + HEADER_TEXT_HEIGHT + TEXT_PADDING + QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT;
+            rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:kQUESTIONHEARD_VIEW_WIDTH];
+            return rect.size.height + kHEADER_TEXT_HEIGHT + kTEXT_PADDING + kQUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT;
         }else{
-            rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:QUESTIONHEARD_VIEW_WIDTH] ;
-            return rect.size.height + HEADER_TEXT_HEIGHT + TEXT_PADDING ;
+            rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:kQUESTIONHEARD_VIEW_WIDTH] ;
+            return rect.size.height + kHEADER_TEXT_HEIGHT + kTEXT_PADDING ;
         }
 //        if (question.isEditing) {
 //            return  [Utility getTextSizeWithString:question.questionName withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+4] withWidth:QUESTIONHEARD_VIEW_WIDTH + TEXT_PADDING * 2].height + TEXT_HEIGHT + QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT;
@@ -674,11 +674,11 @@
     }
     AnswerModel *answer = [question.answerList objectAtIndex:[self answerForCellIndexPath:path]];
     float questionTextFieldHeight = answer.isEditing?87:0;
-    CGRect rect = [DRAttributeStringView boundsRectWithAnswer:answer withWidth:QUESTIONANDANSWER_CELL_WIDTH];
+    CGRect rect = [DRAttributeStringView boundsRectWithAnswer:answer withWidth:lQUESTIONANDANSWER_CELL_WIDTH];
     if (platform >= 7.0) {
-        return rect.size.height + TEXT_PADDING*5+ questionTextFieldHeight;
+        return rect.size.height + lTEXT_PADDING*5+ questionTextFieldHeight;
     }else{
-        return rect.size.height + TEXT_PADDING*5+ questionTextFieldHeight;
+        return rect.size.height + lTEXT_PADDING*5+ questionTextFieldHeight;
     }
 }
 
@@ -1275,6 +1275,10 @@
             [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchBar.searchTextField.text withLastQuestionId:nil];//@"0"
         }
     }
+}
+
+-(void)chapterSeachBar_iPhone:(ChapterSearchBar_iPhone *)searchBar clearSearchString:(NSString *)searchText{
+    //留空
 }
 
 -(void)dealloc{

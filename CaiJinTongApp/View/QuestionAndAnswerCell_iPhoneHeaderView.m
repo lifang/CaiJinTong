@@ -36,7 +36,7 @@
         
         self.questionNameLabel = [[UILabel alloc] init];
         self.questionNameLabel.backgroundColor = [UIColor clearColor];
-        self.questionNameLabel.font = TEXT_FONT;
+        self.questionNameLabel.font = kTEXT_FONT;
         self.questionNameLabel.textColor = [UIColor blackColor];
         self.questionNameLabel.textAlignment = NSTextAlignmentLeft;
         self.questionNameLabel.textColor = [UIColor darkGrayColor];
@@ -44,7 +44,7 @@
         
         self.questionDateLabel = [[UILabel alloc] init];
         self.questionDateLabel.backgroundColor = [UIColor clearColor];
-        self.questionDateLabel.font = TEXT_FONT;
+        self.questionDateLabel.font = kTEXT_FONT;
         self.questionDateLabel.textColor = [UIColor blackColor];
         self.questionDateLabel.textAlignment = NSTextAlignmentLeft;
         self.questionDateLabel.textColor = [UIColor darkGrayColor];
@@ -57,7 +57,7 @@
         
         self.questionFlowerLabel = [[UILabel alloc] init];
         self.questionFlowerLabel.backgroundColor = [UIColor clearColor];
-        self.questionFlowerLabel.font = TEXT_FONT;
+        self.questionFlowerLabel.font = kTEXT_FONT;
         self.questionFlowerLabel.textColor = [UIColor blackColor];
         self.questionFlowerLabel.textAlignment = NSTextAlignmentLeft;
         self.questionFlowerLabel.textColor = [UIColor darkGrayColor];
@@ -90,7 +90,7 @@
         self.answerQuestionBt.backgroundColor = [UIColor clearColor];
 //        [self.answerQuestionBt setTitle:@"回答" forState:UIControlStateNormal];
         [self.answerQuestionBt setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-        [self.answerQuestionBt.titleLabel setFont:TEXT_FONT];
+        [self.answerQuestionBt.titleLabel setFont:kTEXT_FONT];
         [self.answerQuestionBt addTarget:self action:@selector(willAnswerQuestionBtClicked) forControlEvents:UIControlEventTouchUpInside];
         [self.backgroundView addSubview:self.answerQuestionBt];
         
@@ -199,28 +199,29 @@
 -(void)layoutSubviews{
     self.backgroundView.frame = self.bounds;
     
-    self.lineView.frame = (CGRect){TEXT_PADDING*2,0,QUESTIONHEARD_VIEW_WIDTH,1};
+    self.lineView.frame = (CGRect){kTEXT_PADDING*2,0,kQUESTIONHEARD_VIEW_WIDTH,1};
     
     //第一行
     float topY = 5;
-    float textHeight = HEADER_TEXT_HEIGHT-10;
+    float textHeight = kHEADER_TEXT_HEIGHT-10;
     self.questionNameLabel.frame = (CGRect){0,topY,[Utility getTextSizeWithString:self.questionNameLabel.text withFont:self.questionNameLabel.font].width,textHeight};
-    self.questionDateLabel.frame = (CGRect){CGRectGetMaxX(self.questionNameLabel.frame)+TEXT_PADDING,topY,[Utility getTextSizeWithString:self.questionDateLabel.text withFont:self.questionNameLabel.font].width,textHeight};
+    self.questionDateLabel.frame = (CGRect){CGRectGetMaxX(self.questionNameLabel.frame)+kTEXT_PADDING,topY,[Utility getTextSizeWithString:self.questionDateLabel.text withFont:self.questionNameLabel.font].width,textHeight};
     
-    self.questionFlowerImageView.frame = (CGRect){CGRectGetMaxX(self.questionDateLabel.frame)+TEXT_PADDING,topY,HEADER_TEXT_HEIGHT/2,HEADER_TEXT_HEIGHT/2};
+    self.questionFlowerImageView.frame = (CGRect){CGRectGetMaxX(self.questionDateLabel.frame)+kTEXT_PADDING,topY,kHEADER_TEXT_HEIGHT/2,kHEADER_TEXT_HEIGHT/2};
     
-    self.questionFlowerLabel.frame = (CGRect){CGRectGetMaxX(self.questionFlowerImageView.frame)+TEXT_PADDING,topY,[Utility getTextSizeWithString:self.questionFlowerLabel.text withFont:self.questionFlowerLabel.font].width,textHeight};
-    self.attachmentBtn.frame = (CGRect){CGRectGetMaxX(self.questionFlowerLabel.frame)+TEXT_PADDING,topY,HEADER_TEXT_HEIGHT,HEADER_TEXT_HEIGHT/2};
+    self.questionFlowerLabel.frame = (CGRect){CGRectGetMaxX(self.questionFlowerImageView.frame)+kTEXT_PADDING,topY,[Utility getTextSizeWithString:self.questionFlowerLabel.text withFont:self.questionFlowerLabel.font].width,textHeight};
+    self.attachmentBtn.frame = (CGRect){CGRectGetMaxX(self.questionFlowerLabel.frame)+kTEXT_PADDING,topY,kHEADER_TEXT_HEIGHT,kHEADER_TEXT_HEIGHT/2};
     
     
 //    self.answerQuestionBt.frame = (CGRect){CGRectGetMaxX(self.questionFlowerLabel.frame),2,100,HEADER_TEXT_HEIGHT};
     
     //第二行,问题
-    self.questionImg.frame = (CGRect){0,HEADER_TEXT_HEIGHT+2,14,14};
+    self.questionImg.frame = (CGRect){0,kHEADER_TEXT_HEIGHT+2,14,14};
     float height = [self.delegate questionAndAnswerCell_iPhoneHeaderView:self headerHeightAtIndexPath:self.path];
     
     //到底是其本身显示出界,还是frame尺寸不够?
-    self.questionContentAttributeView.frame = (CGRect){CGRectGetMaxX(self.questionImg.frame),HEADER_TEXT_HEIGHT,QUESTIONHEARD_VIEW_WIDTH - 8,height};
+//    self.questionContentAttributeView.frame = (CGRect){CGRectGetMaxX(self.questionImg.frame),kHEADER_TEXT_HEIGHT,kQUESTIONHEARD_VIEW_WIDTH - 8,height};
+    self.questionContentAttributeView.frame = (CGRect){CGRectGetMaxX(self.questionImg.frame),kHEADER_TEXT_HEIGHT,kQUESTIONHEARD_VIEW_WIDTH -6,height};
     self.questionContentAttributeView.backgroundColor = [UIColor lightGrayColor];
     
     self.answerQuestionBt.frame = self.questionContentAttributeView.frame;
@@ -228,9 +229,9 @@
     NSLog(@"按钮%@,绘图%@",NSStringFromCGRect(self.answerQuestionBt.frame),NSStringFromCGRect(self.questionContentAttributeView.frame));
     //回答
     if (!self.summitQuestionAnswerBackView.isHidden) {
-        self.summitQuestionAnswerBackView.frame = (CGRect){TEXT_PADDING*2,CGRectGetMaxY(self.questionContentAttributeView.frame)+TEXT_PADDING,QUESTIONHEARD_VIEW_WIDTH,QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT - TEXT_PADDING};
-        self.answerQuestionTextField.frame = (CGRect){0,0,QUESTIONHEARD_VIEW_WIDTH,60};
-        self.submitAnswerBt.frame = (CGRect){QUESTIONHEARD_VIEW_WIDTH-105,65,95,27};
+        self.summitQuestionAnswerBackView.frame = (CGRect){kTEXT_PADDING*2,CGRectGetMaxY(self.questionContentAttributeView.frame)+kTEXT_PADDING,kQUESTIONHEARD_VIEW_WIDTH,kQUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT - kTEXT_PADDING};
+        self.answerQuestionTextField.frame = (CGRect){0,0,kQUESTIONHEARD_VIEW_WIDTH,60};
+        self.submitAnswerBt.frame = (CGRect){kQUESTIONHEARD_VIEW_WIDTH-105,65,95,27};
     }
 }
 @end

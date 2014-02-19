@@ -9,12 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "QuestionModel.h"
 #import "DRAttributeStringView.h"
-#define TEXT_FONT_SIZE 12
-#define TEXT_FONT [UIFont systemFontOfSize:TEXT_FONT_SIZE]
-#define TEXT_PADDING 5
-#define HEADER_TEXT_HEIGHT 28
-#define QUESTIONHEARD_VIEW_WIDTH 271
-#define QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT 97
+#define kTEXT_FONT_SIZE 12
+#define kTEXT_FONT [UIFont systemFontOfSize:TEXT_FONT_SIZE]
+#define kTEXT_PADDING 5
+#define kHEADER_TEXT_HEIGHT 28
+#define kQUESTIONHEARD_VIEW_WIDTH 271
+#define kQUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT 97
 @protocol QuestionAndAnswerCell_iPhoneHeaderViewDelegate;
 @interface QuestionAndAnswerCell_iPhoneHeaderView : UITableViewCell<UITextViewDelegate>
 @property (strong,nonatomic) NSIndexPath *path;

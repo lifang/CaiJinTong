@@ -133,8 +133,8 @@
         UserModel *user = [[UserModel alloc] init];
 //        user.userId = [NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]];
         
-        if ([self.userNameTextField.text isEqualToString:@"18621607181"]) {
-            user.userId = @"17082";
+        if ([self.userNameTextField.text isEqualToString:@"18621607181"]) {//付正煜的账号
+            user.userId = @"17082";//袁强的id
             [CaiJinTongManager shared].userId = @"17082";
         }else{
             user.userId = @"18676";
