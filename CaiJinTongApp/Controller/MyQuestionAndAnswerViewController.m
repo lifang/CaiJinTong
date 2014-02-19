@@ -270,7 +270,7 @@
         question.isEditing = NO;
          int row = [self convertIndexpathToRow:path];
         [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:ReaskType_None andAnswerContent:text andQuestionId:question.questionId andAnswerID:nil  andResultId:@"0"];
+        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:ReaskType_None andAnswerContent:text andQuestionId:question.questionId andAnswerID:nil  andResultId:@"0" andIndexPath:path];
     }
 }
 
@@ -338,7 +338,7 @@
                 answerID = reask.reaskID;
             }
         }
-        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:reaskType andAnswerContent:questionStr andQuestionId:question.questionId andAnswerID:answerID  andResultId:@"1"];
+        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:reaskType andAnswerContent:questionStr andQuestionId:question.questionId andAnswerID:answerID  andResultId:@"1" andIndexPath:path];
     }
 }
 
@@ -701,12 +701,24 @@
 #pragma mark --
 
 #pragma mark SubmitAnswerInterfaceDelegate 提交回答或者提交追问的代理
--(void)getSubmitAnswerInfoDidFinished:(NSDictionary *)result withReaskType:(ReaskType)reask{
-    self.isReaskRefreshing = YES;
+-(void)getSubmitAnswerInfoDidFinished:(NSMutableArray *)result withReaskType:(ReaskType)reask andIndexPath:(NSIndexPath *)path{
+//    self.isReaskRefreshing = YES;
 //    self.tableView.contentOffset = (CGPoint){self.tableView.contentOffset.x,0};
 //     [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andChapterQuestionId:self.chapterID andLastQuestionID:nil];
     [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
     [Utility errorAlert:@"提交成功"];
+    QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
+    AnswerModel *answer = [question.answerList objectAtIndex:path.row];
+    answer.isEditing = NO;
+    question.isEditing = NO;
+    question.answerList = result;
+    [self changeQuestionIndexPathToAnswerIndexPath:self.myQuestionArr];
+    int row = [self convertIndexpathToRow:path];
+    NSMutableArray *indexPathArr = [NSMutableArray array];
+    for (int index = 1; index <= result.count; index++) {
+        [indexPathArr addObject:[NSIndexPath indexPathForRow:row+index inSection:0]];
+    }
+    [self.tableView reloadRowsAtIndexPaths:indexPathArr withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 -(void)getSubmitAnswerDidFailed:(NSString *)errorMsg withReaskType:(ReaskType)reask{

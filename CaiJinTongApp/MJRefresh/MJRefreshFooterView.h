@@ -8,4 +8,5 @@
 
 #import "MJRefreshBaseView.h"
 @interface MJRefreshFooterView : MJRefreshBaseView
+- (void)adjustFrameWhenKeyboardUP;
 @end

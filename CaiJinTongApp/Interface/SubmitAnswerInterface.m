@@ -13,9 +13,9 @@
 
 @implementation SubmitAnswerInterface
 //answerID:一个答案的id
--(void)getSubmitAnswerInterfaceDelegateWithUserId:(NSString *)userId andReaskTyep:(ReaskType)reask andAnswerContent:(NSString *)answerContent andQuestionId:(NSString *)questionId andAnswerID:(NSString*)answerID andResultId:(NSString *)resultId {
+-(void)getSubmitAnswerInterfaceDelegateWithUserId:(NSString *)userId andReaskTyep:(ReaskType)reask andAnswerContent:(NSString *)answerContent andQuestionId:(NSString *)questionId andAnswerID:(NSString*)answerID andResultId:(NSString *)resultId andIndexPath:(NSIndexPath*)path{
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
-    
+    self.path = path;
     self.reaskType = reask;
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
     
@@ -89,7 +89,54 @@
                 DLog(@"data = %@",jsonData);
                 if (jsonData) {
                     if ([[jsonData objectForKey:@"Status"]intValue] == 1) {
-                        [self.delegate getSubmitAnswerInfoDidFinished:nil withReaskType:self.reaskType];
+                        NSDictionary *resultsDic = [jsonData objectForKey:@"ReturnObject"];
+                        if (resultsDic && resultsDic.count > 0) {
+                            NSArray *answerArr = [resultsDic objectForKey:@"AnswerQuestionList"];
+                            if (answerArr && answerArr.count > 0) {
+                                NSMutableArray *answerModelList = [NSMutableArray array];
+                                for (NSDictionary *answer_dic in answerArr) {
+                                    AnswerModel *answer = [[AnswerModel alloc]init];
+                                    answer.resultId =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"resultId"]];
+                                    answer.answerTime =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"answerTime"]];
+                                    answer.answerId =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"answerId"]];
+                                    answer.answerNick =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"answerNick"]];
+                                    answer.isPraised = [NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"isParise"]];
+                                    answer.answerPraiseCount =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"answerPraiseCount"]];
+                                    answer.IsAnswerAccept =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"IsAnswerAccept"]];
+                                    answer.answerContent =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"answerContent"]];
+                                    //                                                    answer.askPeopleId =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"askPeopleId"]];
+                                    //                                                    answer.askPeopleNick =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"askPeopleNick"]];????
+                                    answer.pageIndex =[[answer_dic objectForKey:@"pageIndex"]intValue];
+                                    answer.pageCount =[[answer_dic objectForKey:@"pageCount"]intValue];
+                                    
+                                    //添加追问
+                                    NSArray *reaskArray = [answer_dic objectForKey:@"addList"];
+                                    NSMutableArray *reaskModelArr = [NSMutableArray array];
+                                    for (NSDictionary *reaskDic in reaskArray) {
+                                        Reaskmodel *reask = [[Reaskmodel alloc] init];
+                                        reask.reaskID = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"ZID"]];
+                                        reask.reaskContent = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"addQuestion"]];
+                                        reask.reaskDate = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"CreateDate"]];
+                                        reask.reaskingAnswerID = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"addMemberID"]];
+                                        //对追问的回复
+                                        reask.reAnswerID = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"AID"]];
+                                        reask.reAnswerContent = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"Answer"]];
+                                        reask.reAnswerIsAgree = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"AgreeStatus"]];
+                                        reask.reAnswerIsTeacher = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"IsTeacher"]];
+                                        reask.reAnswerNickName = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"TeacherName"]];
+                                        [reaskModelArr addObject:reask];
+                                    }
+                                    answer.reaskModelArray = reaskModelArr;
+                                    
+                                    [answerModelList addObject:answer];
+                                }
+                                 [self.delegate getSubmitAnswerInfoDidFinished:answerModelList withReaskType:self.reaskType andIndexPath:self.path];
+                            }else {
+                                [self.delegate getSubmitAnswerDidFailed:@"提交信息失败" withReaskType:self.reaskType];
+                            }
+                        }else {
+                            [self.delegate getSubmitAnswerDidFailed:@"提交信息失败" withReaskType:self.reaskType];
+                        }
                     }else {
                         [self.delegate getSubmitAnswerDidFailed:@"提交信息失败" withReaskType:self.reaskType];
                     }

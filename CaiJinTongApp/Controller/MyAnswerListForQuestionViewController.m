@@ -106,7 +106,7 @@
 //        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:ReaskType_None  andAnswerContent:text andQuestionId:self.questionModel.questionId andResultId:@"0"];
         
         AnswerModel *answer = [self.questionModel.answerList objectAtIndex:path.row];
-        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:ReaskType_None andAnswerContent:text andQuestionId:self.questionModel.questionId andAnswerID:answer.resultId  andResultId:@"0"];
+        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:ReaskType_None andAnswerContent:text andQuestionId:self.questionModel.questionId andAnswerID:answer.resultId  andResultId:@"0" andIndexPath:path];
     }
     
 }
@@ -156,7 +156,7 @@
 //        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:reaskType andAnswerContent:questionStr andQuestionId:self.questionModel.questionId andResultId:@"1"];
         
         AnswerModel *answer = [self.questionModel.answerList objectAtIndex:path.row];
-        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:reaskType andAnswerContent:questionStr andQuestionId:self.questionModel.questionId andAnswerID:answer.resultId  andResultId:@"1"];
+        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:reaskType andAnswerContent:questionStr andQuestionId:self.questionModel.questionId andAnswerID:answer.resultId  andResultId:@"1" andIndexPath:path];
     }
 }
 
@@ -371,7 +371,7 @@
 #pragma mark --
 
 #pragma mark SubmitAnswerInterfaceDelegate 提交回答或者提交追问的代理
--(void)getSubmitAnswerInfoDidFinished:(NSDictionary *)result withReaskType:(ReaskType)reask{
+-(void)getSubmitAnswerInfoDidFinished:(NSMutableArray *)result withReaskType:(ReaskType)reask andIndexPath:(NSIndexPath *)path{
     dispatch_async(dispatch_get_main_queue(), ^{
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         [Utility errorAlert:@"提交成功"];
