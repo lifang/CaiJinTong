@@ -1032,14 +1032,23 @@
     [MBProgressHUD hideHUDForView:self.view animated:YES];
      [Utility errorAlert:@"提交成功"];
     
-    
-//    self.isReaskRefreshing = YES;
-//    self.tableView.contentOffset = (CGPoint){self.tableView.contentOffset.x,0};
-//    [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andChapterQuestionId:self.chapterID andLastQuestionID:nil];
+    QuestionModel *question = [self questionForIndexPath:path];
+    AnswerModel *answer = [question.answerList objectAtIndex:[self answerForCellIndexPath:path]];
+    answer.isEditing = NO;
+    question.isEditing = NO;
+    question.answerList = result;
+//    [self changeQuestionIndexPathToAnswerIndexPath:self.myQuestionArr];
+//    int row = [self convertIndexpathToRow:path];
+//    NSMutableArray *indexPathArr = [NSMutableArray array];
+//    for (int index = 1; index <= result.count; index++) {
+//        [indexPathArr addObject:[NSIndexPath indexPathForRow:row+index inSection:0]];
+//    }
+//    NSArray *indexPathArr = [NSArray arrayWithObject:path];
+//    [self.tableView reloadRowsAtIndexPaths:indexPathArr withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView reloadData];
 }
 
 -(void)getSubmitAnswerDidFailed:(NSString *)errorMsg withReaskType:(ReaskType)reask{
-    
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Utility errorAlert:@"提交失败"];
 }
