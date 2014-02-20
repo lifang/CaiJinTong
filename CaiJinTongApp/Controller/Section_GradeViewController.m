@@ -82,19 +82,23 @@ static NSString *timespan = nil;
     if (self.textView.text.length==0) {
         [Utility errorAlert:@"说点什么吧..."];
     }else {
-        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-            [Utility errorAlert:@"暂无网络!"];
-        }else {
-            timespan = [Utility getNowDateFromatAnDate];//提交时间
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            GradeInterface *gradeInter = [[GradeInterface alloc]init];
-            self.gradeInterface = gradeInter;
-            self.gradeInterface.delegate = self;
-            [self.gradeInterface getGradeInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId
-                                                        andSectionId:self.lessonId
-                                                            andScore:[NSString stringWithFormat:@"%d",self.starRatingView.score]
-                                                          andContent:self.textView.text];
-        }
+        
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+            if ([networkStatus isEqualToString:@"NotReachable"]) {
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [Utility errorAlert:@"暂无网络"];
+            }else{
+                timespan = [Utility getNowDateFromatAnDate];//提交时间
+                GradeInterface *gradeInter = [[GradeInterface alloc]init];
+                self.gradeInterface = gradeInter;
+                self.gradeInterface.delegate = self;
+                [self.gradeInterface getGradeInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId
+                                                            andSectionId:self.lessonId
+                                                                andScore:[NSString stringWithFormat:@"%d",self.starRatingView.score]
+                                                              andContent:self.textView.text];
+            }
+        }];
     }
 }
 #pragma mark-- UITableViewDelegate 
@@ -162,16 +166,20 @@ static NSString *timespan = nil;
 
 //评论的分页加载
 -(void)loadMore {
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
-    }else {
-        self.nowPage +=1;
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        CommentListInterface *commentList = [[CommentListInterface alloc]init];
-        self.commentInterface = commentList;
-        self.commentInterface.delegate = self;
-        [self.commentInterface getGradeInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.lessonId andPageIndex:self.nowPage];
-    }
+    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([networkStatus isEqualToString:@"NotReachable"]) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [Utility errorAlert:@"暂无网络"];
+        }else{
+            self.nowPage +=1;
+            CommentListInterface *commentList = [[CommentListInterface alloc]init];
+            self.commentInterface = commentList;
+            self.commentInterface.delegate = self;
+            [self.commentInterface getGradeInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.lessonId andPageIndex:self.nowPage];
+        }
+    }];
 }
 
 #pragma mark Notification

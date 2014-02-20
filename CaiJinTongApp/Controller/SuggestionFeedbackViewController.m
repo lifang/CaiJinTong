@@ -69,15 +69,19 @@
         [Utility errorAlert:@"请输入您宝贵的意见"];
     }else {
         [self.contentTextView resignFirstResponder];
-        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-            [Utility errorAlert:@"暂无网络!"];
-        }else {
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            SuggestionInterface *suggestionInter = [[SuggestionInterface alloc]init];
-            self.suggestionInterface = suggestionInter;
-            self.suggestionInterface.delegate = self;
-            [self.suggestionInterface getAskQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSuggestionContent:self.contentTextView.text];
-        }
+        
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+            if ([networkStatus isEqualToString:@"NotReachable"]) {
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [Utility errorAlert:@"暂无网络"];
+            }else{
+                SuggestionInterface *suggestionInter = [[SuggestionInterface alloc]init];
+                self.suggestionInterface = suggestionInter;
+                self.suggestionInterface.delegate = self;
+                [self.suggestionInterface getAskQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSuggestionContent:self.contentTextView.text];
+            }
+        }];
     }
     
 }

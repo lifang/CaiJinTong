@@ -7,6 +7,7 @@
 //
 
 #import "BaseInterface.h"
+#import "IndexPathModel.h"
 @protocol SubmitAnswerInterfaceDelegate;
 /*
  *提交追问或者回答
@@ -14,10 +15,10 @@
 @interface SubmitAnswerInterface : BaseInterface<BaseInterfaceDelegate>
 @property (nonatomic, assign) id<SubmitAnswerInterfaceDelegate>delegate;
 @property (nonatomic, assign) ReaskType reaskType;
-@property (nonatomic,strong) NSIndexPath *path;
+@property (nonatomic,strong) IndexPathModel *path;
 //resultId:resultId=0 表示回答 resultId大于0 表示追问
 //type: 1:表示添加追问  3：表示修改追问 type=2：表示回复或者修改回复
--(void)getSubmitAnswerInterfaceDelegateWithUserId:(NSString *)userId andReaskTyep:(ReaskType)reask  andAnswerContent:(NSString *)answerContent andQuestionId:(NSString *)questionId andAnswerID:(NSString*)answerID andResultId:(NSString *)resultId andIndexPath:(NSIndexPath*)path;
+-(void)getSubmitAnswerInterfaceDelegateWithUserId:(NSString *)userId andReaskTyep:(ReaskType)reask  andAnswerContent:(NSString *)answerContent andQuestionId:(NSString *)questionId andAnswerID:(NSString*)answerID andResultId:(NSString *)resultId andIndexPath:(IndexPathModel*)path;
 
 @end
 
@@ -25,7 +26,7 @@
 /*
  *@brief 提交追问或者回答回调方法
  */
--(void)getSubmitAnswerInfoDidFinished:(NSMutableArray *)result withReaskType:(ReaskType)reask andIndexPath:(NSIndexPath*)path;
+-(void)getSubmitAnswerInfoDidFinished:(NSMutableArray *)result withReaskType:(ReaskType)reask andIndexPath:(IndexPathModel*)path;
 -(void)getSubmitAnswerDidFailed:(NSString *)errorMsg withReaskType:(ReaskType)reask;
 @end
 

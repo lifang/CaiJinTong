@@ -12,7 +12,15 @@
 @interface Utility : NSObject
 +(BOOL)requestFailure:(NSError*)error tipMessageBlock:(void(^)(NSString *tipMsg))msg;
 + (UIImage *)getNormalImage:(UIView *)view;
-+ (NSString *)isExistenceNetwork;
+//+ (NSString *)isExistenceNetwork;
+/**
+ * @brief
+ *
+ * @param
+ *
+ * @return networkStatus :ReachableViaWWAN：三G网络，ReachableViaWiFi：wifi网络，NotReachable：无网络
+ */
++(void)judgeNetWorkStatus:(void (^)(NSString*networkStatus))networkStatus;
 + (NSString *)createMD5:(NSString *)params;
 + (NSDictionary *)initWithJSONFile:(NSString *)jsonPath;
 + (NSString *)getNowDateFromatAnDate;

@@ -131,15 +131,15 @@
 -(void)getLogInfoDidFinished:(NSDictionary *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         UserModel *user = [[UserModel alloc] init];
-//        user.userId = [NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]];
+        user.userId = [NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]];
         
-        if ([self.userNameTextField.text isEqualToString:@"18621607181"]) {
-            user.userId = @"17082";
-            [CaiJinTongManager shared].userId = @"17082";
-        }else{
-            user.userId = @"18676";
-            [CaiJinTongManager shared].userId = @"18676";
-        }
+//        if ([self.userNameTextField.text isEqualToString:@"18621607181"]) {
+//            user.userId = @"17082";
+//            [CaiJinTongManager shared].userId = @"17082";
+//        }else{
+//            user.userId = @"18676";
+//            [CaiJinTongManager shared].userId = @"18676";
+//        }
         user.userName = [NSString stringWithFormat:@"%@",[result objectForKey:@"name"]];
         user.email = [NSString stringWithFormat:@"%@",[result objectForKey:@"email"]];
         user.mobile = [NSString stringWithFormat:@"%@",[result objectForKey:@"mobile"]];
@@ -149,7 +149,7 @@
         user.userImg = [NSString stringWithFormat:@"%@",[result objectForKey:@"userImg"]];
         user.nickName = [NSString stringWithFormat:@"%@",[result objectForKey:@"nickname"]];
         [CaiJinTongManager shared].user = user;
-        
+        [[CaiJinTongManager shared] setUserId:user.userId];
         dispatch_async(dispatch_get_main_queue(), ^{
             
             [[NSUserDefaults standardUserDefaults] setValue:self.userNameTextField.text forKey:kUserName];

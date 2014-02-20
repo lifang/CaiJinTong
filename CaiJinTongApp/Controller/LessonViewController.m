@@ -83,26 +83,33 @@ typedef enum {
 
 //获取我的问答分类信息
 -(void)getMyQuestionCategoryList{
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
-    }else {
-        [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
-        UserModel *user = [[CaiJinTongManager shared] user];
-        [self.myQuestionCategatoryInterface downloadMyQuestionCategoryDataWithUserId:user.userId];
-    }
+     [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([networkStatus isEqualToString:@"NotReachable"]) {
+            [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
+            [Utility errorAlert:@"暂无网络"];
+        }else{
+            UserModel *user = [[CaiJinTongManager shared] user];
+            [self.myQuestionCategatoryInterface downloadMyQuestionCategoryDataWithUserId:user.userId];
+        }
+    }];
 }
 
 //获取所有问答分类信息
 -(void)getQuestionInfo  {
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
-    }else {
-        [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
-        QuestionInfoInterface *questionInfoInter = [[QuestionInfoInterface alloc]init];
-        self.questionInfoInterface = questionInfoInter;
-        self.questionInfoInterface.delegate = self;
-        [self.questionInfoInterface getQuestionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId];
-    }
+
+    [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([networkStatus isEqualToString:@"NotReachable"]) {
+            [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
+            [Utility errorAlert:@"暂无网络"];
+        }else{
+            QuestionInfoInterface *questionInfoInter = [[QuestionInfoInterface alloc]init];
+            self.questionInfoInterface = questionInfoInter;
+            self.questionInfoInterface.delegate = self;
+            [self.questionInfoInterface getQuestionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId];
+        }
+    }];
 }
 
 -(void)hiddleSearchKeyboard{
@@ -253,20 +260,21 @@ typedef enum {
     [self removeFromRootController:self.didAppearController];
     self.didAppearController = self.questionNavigationController;
     [self addToRootController:self.questionNavigationController];
-    
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
-        [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
-    }else {
-        QuestionInfoInterface *questionInfoInter = [[QuestionInfoInterface alloc]init];
-        self.questionInfoInterface = questionInfoInter;
-        self.questionInfoInterface.delegate = self;
-        [self.questionInfoInterface getQuestionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId];
-        
-        [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
-        UserModel *user = [[CaiJinTongManager shared] user];
-        [self.myQuestionCategatoryInterface downloadMyQuestionCategoryDataWithUserId:user.userId];
-    }
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([networkStatus isEqualToString:@"NotReachable"]) {
+            [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
+            [Utility errorAlert:@"暂无网络"];
+        }else{
+            QuestionInfoInterface *questionInfoInter = [[QuestionInfoInterface alloc]init];
+            self.questionInfoInterface = questionInfoInter;
+            self.questionInfoInterface.delegate = self;
+            [self.questionInfoInterface getQuestionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId];
+            
+            [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
+            UserModel *user = [[CaiJinTongManager shared] user];
+            [self.myQuestionCategatoryInterface downloadMyQuestionCategoryDataWithUserId:user.userId];
+        }
+    }];
     
 }
 
@@ -274,24 +282,27 @@ typedef enum {
     if (self.searchText.text.length == 0) {
         [Utility errorAlert:@"请输入搜索内容!"];
     }else {
-        [self.searchText resignFirstResponder];
-        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-            [Utility errorAlert:@"暂无网络!"];
-        }else {
-            self.isSearching = YES;
-            [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
-            if (self.listType == LESSON_LIST) {
-                [self.lessonNavigationController popToRootViewControllerAnimated:YES];
-                SearchLessonInterface *searchLessonInter = [[SearchLessonInterface alloc]init];
-                self.searchLessonInterface = searchLessonInter;
-                self.searchLessonInterface.delegate = self;
-                [self.searchLessonInterface getSearchLessonInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchText.text withPageIndex:0 withSortType:LESSONSORTTYPE_CurrentStudy];
+        [self.searchText resignFirstResponder];        
+        [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
+        [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+            if ([networkStatus isEqualToString:@"NotReachable"]) {
+                [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
+                [Utility errorAlert:@"暂无网络"];
             }else{
-                [self.questionNavigationController popToRootViewControllerAnimated:YES];
-                 [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
-                [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchText.text withLastQuestionId:@"0"];
+                self.isSearching = YES;
+                if (self.listType == LESSON_LIST) {
+                    [self.lessonNavigationController popToRootViewControllerAnimated:YES];
+                    SearchLessonInterface *searchLessonInter = [[SearchLessonInterface alloc]init];
+                    self.searchLessonInterface = searchLessonInter;
+                    self.searchLessonInterface.delegate = self;
+                    [self.searchLessonInterface getSearchLessonInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchText.text withPageIndex:0 withSortType:LESSONSORTTYPE_CurrentStudy];
+                }else{
+                    [self.questionNavigationController popToRootViewControllerAnimated:YES];
+                    [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchText.text withLastQuestionId:@"0"];
+                }
             }
-        }
+        }];
+        
     }
 }
 
@@ -320,10 +331,13 @@ typedef enum {
 #pragma mark --
 
 -(void)reLoadQuestionWithQuestionScope:(QuestionAndAnswerScope)scope withTreeNode:(DRTreeNode*)node{
-        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-            [Utility errorAlert:@"暂无网络!"];
-        }else {
-//             [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
+    
+    [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([networkStatus isEqualToString:@"NotReachable"]) {
+            [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
+            [Utility errorAlert:@"暂无网络"];
+        }else{
             self.questionAndSwerRequestID = node.noteContentID;
             switch (scope) {
                 case QuestionAndAnswerALL:
@@ -333,9 +347,6 @@ typedef enum {
                     self.chapterQuestionInterface.delegate = self;
                     self.questionAndSwerRequestID = node.noteContentID;
                     self.questionScope = QuestionAndAnswerALL;
-//                    NSMutableArray *array = [TestModelData getQuestion];
-//                    [self.myQAVC reloadDataWithDataArray:array withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
-                    [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
                     [self.chapterQuestionInterface getChapterQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andChapterQuestionId:node.noteContentID];
                 }
                     break;
@@ -345,9 +356,6 @@ typedef enum {
                     self.getUserQuestionInterface = [[GetUserQuestionInterface alloc] init];
                     self.getUserQuestionInterface.delegate = self;
                     self.questionScope = QuestionAndAnswerMYQUESTION;
-//                    NSMutableArray *array = [TestModelData getQuestion];
-//                    [self.myQAVC reloadDataWithDataArray:array withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
-                    [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
                     [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"0" andLastQuestionID:nil withCategoryId:node.noteContentID];
                 }
                     break;
@@ -357,16 +365,14 @@ typedef enum {
                     self.getUserQuestionInterface.delegate = self;
                     //请求我的回答
                     self.questionScope = QuestionAndAnswerMYANSWER;
-//                    NSMutableArray *array = [TestModelData getQuestion];
-//                    [self.myQAVC reloadDataWithDataArray:array withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
-                    [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
                     [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"1" andLastQuestionID:nil withCategoryId:node.noteContentID];
                 }
                     break;
                 default:
                     break;
             }
-    }
+        }
+    }];
 }
 
 //组合所有问答分类，我的提问问答分类，我的回答分类

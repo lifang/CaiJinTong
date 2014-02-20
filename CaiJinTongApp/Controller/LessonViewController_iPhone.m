@@ -106,12 +106,15 @@
 
 //加载初始数据
 -(void) initData{
-    if([[Utility isExistenceNetwork] isEqualToString:@"NotReachable"]){
-        [Utility errorAlert:@"暂无网络!"];
-    }else{
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        [self.lessonListForCategory downloadLessonListForCategoryId:nil withUserId:[CaiJinTongManager shared].userId withPageIndex:0 withSortType:self.sortType];
-    }
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([networkStatus isEqualToString:@"NotReachable"]) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [Utility errorAlert:@"暂无网络"];
+        }else{
+            [self.lessonListForCategory downloadLessonListForCategoryId:nil withUserId:[CaiJinTongManager shared].userId withPageIndex:0 withSortType:self.sortType];
+        }
+    }];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -175,13 +178,17 @@
 
 - (void) cellClicked:(id)sender{
     [self.searchBar.searchTextField resignFirstResponder];
-    if([[Utility isExistenceNetwork] isEqualToString:@"NotReachable"]){
-        [Utility errorAlert:@"暂无网络!"];
-    }else{
-        UserModel *user = [[CaiJinTongManager shared] user];
-        [self.lessonInterface downloadLessonInfoWithLessonId:((SectionCustomView_iPhone *)sender).sectionId withUserId:user.userId]; //sectionId即为lessonId的值
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    }
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([networkStatus isEqualToString:@"NotReachable"]) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [Utility errorAlert:@"暂无网络"];
+        }else{
+            UserModel *user = [[CaiJinTongManager shared] user];
+            [self.lessonInterface downloadLessonInfoWithLessonId:((SectionCustomView_iPhone *)sender).sectionId withUserId:user.userId]; //sectionId即为lessonId的值
+        }
+    }];
+    
     self.menuVisible = NO;
 }
 
@@ -376,15 +383,18 @@
         [Utility errorAlert:@"请输入搜索内容!"];
     }else {
         [self.searchBar resignFirstResponder];
-        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-            [Utility errorAlert:@"暂无网络!"];
-        }else {
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            SearchLessonInterface *searchLessonInter = [[SearchLessonInterface alloc]init];
-            self.searchInterface = searchLessonInter;
-            self.searchInterface.delegate = self;
-            [self.searchInterface getSearchLessonInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:[self.searchBar.searchTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] withPageIndex:0 withSortType:self.sortType];
-        }
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+            if ([networkStatus isEqualToString:@"NotReachable"]) {
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [Utility errorAlert:@"暂无网络"];
+            }else{
+                SearchLessonInterface *searchLessonInter = [[SearchLessonInterface alloc]init];
+                self.searchInterface = searchLessonInter;
+                self.searchInterface.delegate = self;
+                [self.searchInterface getSearchLessonInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:[self.searchBar.searchTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] withPageIndex:0 withSortType:self.sortType];
+            }
+        }];
     }
 }
 

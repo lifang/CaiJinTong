@@ -504,14 +504,18 @@
         [Utility errorAlert:@"请输入搜索内容!"];
     }else {
         [self.searchBar.searchTextField resignFirstResponder];
-        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-            [Utility errorAlert:@"暂无网络!"];
-        }else {
-            //            self.isSearching = YES;
-            [self searchButtonClicked:nil];
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            [self.searchMaterialInterface searchLearningMaterilasListWithUserId:[CaiJinTongManager shared].userId withSearchContent:self.searchBar.searchTextField.text withPageIndex:0 withSortType:self.sortType];
-        }
+        
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+            if ([networkStatus isEqualToString:@"NotReachable"]) {
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [Utility errorAlert:@"暂无网络"];
+            }else{
+                //            self.isSearching = YES;
+                [self searchButtonClicked:nil];
+                [self.searchMaterialInterface searchLearningMaterilasListWithUserId:[CaiJinTongManager shared].userId withSearchContent:self.searchBar.searchTextField.text withPageIndex:0 withSortType:self.sortType];
+            }
+        }];
     }
 }
 

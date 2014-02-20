@@ -18,7 +18,6 @@
 #import "SearchLessonInterface.h"
 #import "LHLNavigationBarViewController.h"
 #import "SectionViewController_iPhone.h"
-#import "MenuTableViewController.h"
 #import "MJRefresh.h"
 typedef enum{
     recent = 1,
@@ -39,7 +38,6 @@ typedef enum{
 @property (strong,nonatomic) NSArray *nameArray;//名称排序
 
 @property (strong,nonatomic) SectionCustomView_iPhone *sectionCustomView;
-@property (strong,nonatomic) MenuTableViewController *menu;//侧边栏
 @property (nonatomic) BOOL menuVisible;
 
 @property (strong,nonatomic) ChapterInfoInterface *chapterInterface;

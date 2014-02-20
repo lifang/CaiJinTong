@@ -98,9 +98,9 @@
                                 material.materialCreateDate = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialCreateDate"]];
                                 material.materialFileDownloadURL = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialFileDownloadURL"]];
                                 material.materialFileSize = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialFileSize"]];
-                                if (material.materialFileSize) {
-                                    material.materialFileSize = [Utility convertFileSizeUnitWithBytes:material.materialFileSize];
-                                }
+//                                if (material.materialFileSize) {
+//                                    material.materialFileSize = [Utility convertFileSizeUnitWithBytes:material.materialFileSize];
+//                                }
                                 [materialsList addObject:material];
                             }
                             if (materialsList.count > 0) {

@@ -11,7 +11,6 @@
 #import "QuestionAndAnswerCell_iPhoneHeaderView.h"
 #import "LHLAskQuestionViewController.h"
 #import "LHLNavigationBarViewController.h"
-#import "MenuQuestionTableViewController.h"
 #import "AcceptAnswerInterface.h"
 #import "MJRefresh.h"
 #import "ChapterSearchBar_iPhone.h"
@@ -28,7 +27,6 @@
 @property (strong,nonatomic) NSString *chapterID;
 @property (nonatomic,assign) QuestionAndAnswerScope questionScope;//当前页面的问题类型
 @property (strong,nonatomic) GetUserQuestionInterface *getUserQuestionInterface;
-@property (nonatomic,strong) MenuQuestionTableViewController *menu;//问题分类菜单
 @property (nonatomic,assign) BOOL menuVisible;//菜单是否可见
 @property (nonatomic,weak) id lhlTabBarController;
 - (IBAction)noticeHideBtnClick:(id)sender;

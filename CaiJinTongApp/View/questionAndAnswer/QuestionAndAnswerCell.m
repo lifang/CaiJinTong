@@ -45,6 +45,7 @@
         [Utility errorAlert:@"追问内容不能为空"];
         return;
     }
+    [self.questionTextField resignFirstResponder];
     if (self.delegate && [self.delegate respondsToSelector:@selector(questionAndAnswerCell:summitQuestion:atIndexPath:withReaskType:)]) {
         [self.delegate questionAndAnswerCell:self summitQuestion:self.questionTextField.text atIndexPath:self.path withReaskType:self.reaskType];
     }

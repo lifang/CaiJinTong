@@ -13,7 +13,7 @@
 
 @implementation SubmitAnswerInterface
 //answerID:一个答案的id
--(void)getSubmitAnswerInterfaceDelegateWithUserId:(NSString *)userId andReaskTyep:(ReaskType)reask andAnswerContent:(NSString *)answerContent andQuestionId:(NSString *)questionId andAnswerID:(NSString*)answerID andResultId:(NSString *)resultId andIndexPath:(NSIndexPath*)path{
+-(void)getSubmitAnswerInterfaceDelegateWithUserId:(NSString *)userId andReaskTyep:(ReaskType)reask andAnswerContent:(NSString *)answerContent andQuestionId:(NSString *)questionId andAnswerID:(NSString*)answerID andResultId:(NSString *)resultId andIndexPath:(IndexPathModel*)path{
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     self.path = path;
     self.reaskType = reask;

@@ -86,16 +86,19 @@
     [self.textField2 resignFirstResponder];
     [self.textField4 resignFirstResponder];
     self.navigationItem.leftBarButtonItem = nil;
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
-    }else {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        
-        EditInfoInterface *chapterInter = [[EditInfoInterface alloc]init];
-        self.editInfoInterface = chapterInter;
-        self.editInfoInterface.delegate = self;
-        [self.editInfoInterface getEditInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andBirthday:self.textField2.text andSex:self.sexStr andAddress:self.textField4.text withNickName:self.textField1.text];
-    }
+    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([networkStatus isEqualToString:@"NotReachable"]) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [Utility errorAlert:@"暂无网络"];
+        }else{
+            EditInfoInterface *chapterInter = [[EditInfoInterface alloc]init];
+            self.editInfoInterface = chapterInter;
+            self.editInfoInterface.delegate = self;
+            [self.editInfoInterface getEditInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andBirthday:self.textField2.text andSex:self.sexStr andAddress:self.textField4.text withNickName:self.textField1.text];
+        }
+    }];
 }
 
 -(void)textEdited:(id)sender {
