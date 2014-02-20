@@ -18,7 +18,7 @@
 /*
  课程列表
  */
-@interface ChapterViewController : DRNaviGationBarController <UIScrollViewDelegate,CJTMainToolbarDelegate, SectionInfoInterfaceDelegate,ChapterInfoInterfaceDelegate,SearchLessonInterfaceDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,CollectionHeaderDelegate,LessonListForCategoryDelegate,MJRefreshBaseViewDelegate,LessonInfoInterfaceDelegate>
+@interface ChapterViewController : DRNaviGationBarController <UIScrollViewDelegate,CJTMainToolbarDelegate, SectionInfoInterfaceDelegate,SearchLessonInterfaceDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,CollectionHeaderDelegate,LessonListForCategoryDelegate,MJRefreshBaseViewDelegate,LessonInfoInterfaceDelegate>
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UILabel *titleBarLabel;
 @property (nonatomic, strong) CJTMainToolbar *mainToolBar;

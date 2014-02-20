@@ -34,6 +34,7 @@
 }
 
 - (IBAction)answerBtClicked:(id)sender {
+    self.questionTextField.text = @"";
     if (self.delegate && [self.delegate respondsToSelector:@selector(questionAndAnswerCell:isHiddleQuestionView:atIndexPath:)]) {
         [self.delegate questionAndAnswerCell:self isHiddleQuestionView:self.questionBackgroundView.isHidden atIndexPath:self.path];
     }

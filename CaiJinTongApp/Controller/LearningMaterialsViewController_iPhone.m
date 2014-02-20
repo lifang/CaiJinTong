@@ -519,5 +519,8 @@
     }
 }
 
+-(void)chapterSeachBar_iPhone:(ChapterSearchBar_iPhone*)searchBar clearSearchString:(NSString*)searchText{
+
+}
 #pragma mark --
 @end

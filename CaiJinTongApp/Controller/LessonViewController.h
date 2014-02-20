@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ChapterInfoInterface.h"
 #import "SearchLessonInterface.h"
 #import "QuestionInfoInterface.h"
 #import "GetUserQuestionInterface.h"
@@ -20,7 +19,7 @@
 #import "LearningMatarilasCategoryInterface.h"
 #import "LearningMatarilasListInterface.h"
 #import "MyQuestionAndAnswerViewController.h"
-@interface LessonViewController : UIViewController<UISearchBarDelegate,ChapterInfoInterfaceDelegate,UITextFieldDelegate,SearchLessonInterfaceDelegate,QuestionInfoInterfaceDelegate,ChapterQuestionInterfaceDelegate,UIScrollViewDelegate,GetUserQuestionInterfaceDelegate,SearchQuestionInterfaceDelegate,UITextFieldDelegate,DRTreeTableViewDelegate,LessonCategoryInterfaceDelegate,LessonListForCategoryDelegate,MyQuestionCategatoryInterfaceDelegate,LearningMatarilasCategoryInterfaceDelegate,LearningMatarilasListInterfaceDelegate,MyQuestionAndAnswerViewControllerDelegate>
+@interface LessonViewController : UIViewController<UISearchBarDelegate,UITextFieldDelegate,SearchLessonInterfaceDelegate,QuestionInfoInterfaceDelegate,ChapterQuestionInterfaceDelegate,UIScrollViewDelegate,GetUserQuestionInterfaceDelegate,SearchQuestionInterfaceDelegate,UITextFieldDelegate,DRTreeTableViewDelegate,LessonCategoryInterfaceDelegate,LessonListForCategoryDelegate,MyQuestionCategatoryInterfaceDelegate,LearningMatarilasCategoryInterfaceDelegate,LearningMatarilasListInterfaceDelegate,MyQuestionAndAnswerViewControllerDelegate>
 
 @property (nonatomic, strong) SearchLessonInterface *searchLessonInterface;
 @property (weak, nonatomic) IBOutlet UIButton *editBtn;

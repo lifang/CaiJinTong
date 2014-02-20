@@ -398,6 +398,9 @@
     }
 }
 
+-(void)chapterSeachBar_iPhone:(ChapterSearchBar_iPhone*)searchBar clearSearchString:(NSString*)searchText{
+
+}
 #pragma mark -- 页面布局
 //collection重载数据
 -(void)displayNewView {
