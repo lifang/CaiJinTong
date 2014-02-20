@@ -358,7 +358,7 @@
             
             QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
             AnswerModel *answer = [question.answerList objectAtIndex:path.row];
-            NSString *answerID = answer.answerId;
+            NSString *answerID = answer.resultId;
             [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:reaskType andAnswerContent:questionStr andQuestionId:question.questionId andAnswerID:answerID  andResultId:@"1" andIndexPath:path];
         }
     }];

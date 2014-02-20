@@ -132,7 +132,6 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         UserModel *user = [[UserModel alloc] init];
         user.userId = [NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]];
-        
 //        if ([self.userNameTextField.text isEqualToString:@"18621607181"]) {
 //            user.userId = @"17082";
 //            [CaiJinTongManager shared].userId = @"17082";

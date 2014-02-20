@@ -11,9 +11,9 @@
 #import "DRAttributeStringView.h"
 //#define TEXT_FONT_SIZE 10
 //#define TEXT_FONT [UIFont systemFontOfSize:TEXT_FONT_SIZE]
-#define TEXT_PADDING 5
-#define TEXT_HEIGHT 30
-#define  QUESTIONANDANSWER_CELL_WIDTH 265
+#define lTEXT_PADDING 5
+#define lTEXT_HEIGHT 30
+#define  lQUESTIONANDANSWER_CELL_WIDTH 265
 @protocol QuestionAndAnswerCell_iPhoneDelegate;
 @interface QuestionAndAnswerCell_iPhone : UITableViewCell<UITextViewDelegate>
 @property (weak,nonatomic) IBOutlet id<QuestionAndAnswerCell_iPhoneDelegate> delegate;

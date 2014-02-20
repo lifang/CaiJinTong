@@ -22,7 +22,7 @@
 //    http://lms.finance365.com/api/ios.ashx?active=submitAddAnswer&userId=18676&type=3&id=1950&content=aaaaasaddsadsadsad&fid=2120
 //   追问：id字段传 AID ，回复追问的时候： id字段传ZID  FID是问题的编号
     switch (self.reaskType) {
-        case ReaskType_AnswerForReasking://回复
+        case ReaskType_AnswerForReasking://回复追问
         {
             [reqheaders setValue:[NSString stringWithFormat:@"2"] forKey:@"type"];
             [reqheaders setValue:[NSString stringWithFormat:@"%@",answerContent] forKey:@"content"];

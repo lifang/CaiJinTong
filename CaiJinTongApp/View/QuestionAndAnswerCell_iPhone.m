@@ -179,20 +179,20 @@
     //第一行
     self.qTitleNameLabel.frame = (CGRect){0,0,[Utility getTextSizeWithString:self.qTitleNameLabel.text withFont:self.qTitleNameLabel.font].width,CGRectGetHeight(self.qTitleNameLabel.frame)};
     
-    self.qDateLabel.frame = (CGRect){CGRectGetMaxX(self.qTitleNameLabel.frame)+TEXT_PADDING,0,[Utility getTextSizeWithString:self.qDateLabel.text withFont:self.qDateLabel.font].width,CGRectGetHeight(self.qDateLabel.frame)};
+    self.qDateLabel.frame = (CGRect){CGRectGetMaxX(self.qTitleNameLabel.frame)+lTEXT_PADDING,0,[Utility getTextSizeWithString:self.qDateLabel.text withFont:self.qDateLabel.font].width,CGRectGetHeight(self.qDateLabel.frame)};
     
-    self.qflowerImageView.frame = (CGRect){CGRectGetMaxX(self.qDateLabel.frame)+TEXT_PADDING,4,CGRectGetHeight(self.qflowerImageView.frame),CGRectGetHeight(self.qflowerImageView.frame)};
+    self.qflowerImageView.frame = (CGRect){CGRectGetMaxX(self.qDateLabel.frame)+lTEXT_PADDING,4,CGRectGetHeight(self.qflowerImageView.frame),CGRectGetHeight(self.qflowerImageView.frame)};
     
-    self.qflowerLabel.frame = (CGRect){CGRectGetMaxX(self.qflowerImageView.frame)+TEXT_PADDING,0,[Utility getTextSizeWithString:self.qflowerLabel.text withFont:self.qflowerLabel.font].width,CGRectGetHeight(self.qflowerLabel.frame)};
+    self.qflowerLabel.frame = (CGRect){CGRectGetMaxX(self.qflowerImageView.frame)+lTEXT_PADDING,0,[Utility getTextSizeWithString:self.qflowerLabel.text withFont:self.qflowerLabel.font].width,CGRectGetHeight(self.qflowerLabel.frame)};
     
 //    self.acceptAnswerBt.frame = (CGRect){CGRectGetMaxX(self.qflowerLabel.frame)+TEXT_PADDING,0,self.acceptAnswerBt.frame.size};
     
-    self.qflowerBt.frame = (CGRect){CGRectGetMinX(self.qflowerImageView.frame)-TEXT_PADDING,0,CGRectGetMaxX(self.qflowerLabel.frame) - CGRectGetMinX(self.qflowerImageView.frame)+TEXT_PADDING*2,CGRectGetHeight(self.qTitleNameLabel.frame)};
+    self.qflowerBt.frame = (CGRect){CGRectGetMinX(self.qflowerImageView.frame)-lTEXT_PADDING,0,CGRectGetMaxX(self.qflowerLabel.frame) - CGRectGetMinX(self.qflowerImageView.frame)+lTEXT_PADDING*2,CGRectGetHeight(self.qTitleNameLabel.frame)};
     
 
     //回答的正文
     float cellHeight = [self.delegate QuestionAndAnswerCell_iPhone:self getCellheightAtIndexPath:self.path];
-    self.answerAttributeTextView.frame = (CGRect){self.answerAttributeTextView.frame.origin,QUESTIONANDANSWER_CELL_WIDTH,cellHeight};
+    self.answerAttributeTextView.frame = (CGRect){self.answerAttributeTextView.frame.origin,lQUESTIONANDANSWER_CELL_WIDTH,cellHeight};
 //    self.answerBt.frame = (CGRect){0,0,self.answerAttributeTextView.frame.size};
     self.answerBt.frame = self.answerAttributeTextView.frame;
     DLog(@"self.answerBt.frame : %f %f %f %f",self.answerBt.frame.origin.x,self.answerBt.frame.origin.y,self.answerBt.frame.size.width,self.answerBt.frame.size.height);
