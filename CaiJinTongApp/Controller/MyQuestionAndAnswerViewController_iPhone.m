@@ -268,6 +268,12 @@
                     [self.tableView setContentOffset:(CGPoint){offset.x,toOffsetY}];
                 }
             }
+        } completion:^(BOOL finished) {
+            //上移结束之后 ,弹出键盘
+            if (question.isEditing) {
+                QuestionAndAnswerCell_iPhoneHeaderView *cell = (QuestionAndAnswerCell_iPhoneHeaderView *)[self.tableView cellForRowAtIndexPath:path];
+                [cell.answerQuestionTextField becomeFirstResponder];
+            }
         }];
     }
 }
@@ -282,9 +288,6 @@
         question.isEditing = NO;
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
         
-        //回答问题为什么需要一个answer?我删了
-//        AnswerModel *answer = [question.answerList objectAtIndex:[self answerForCellIndexPath:path]];
-//        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:ReaskType_None andAnswerContent:text andQuestionId:question.questionId andAnswerID:answer.resultId  andResultId:@"0"];
         [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:ReaskType_None andAnswerContent:text andQuestionId:question.questionId andAnswerID:0  andResultId:@"0" andIndexPath:path];
     }
 }
@@ -344,21 +347,21 @@
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         QuestionModel *question = [self questionForIndexPath:path];
         AnswerModel *answer = [question.answerList objectAtIndex:[self answerForCellIndexPath:path]];
-        NSString *answerID = @"";
-        Reaskmodel *reask = answer.reaskModelArray?[answer.reaskModelArray lastObject]:nil;
-        if (reaskType == ReaskType_Reask || reaskType == ReaskType_ModifyReask) {
-            if (reask && ![reask.reAnswerID isEqualToString:@""]) {
-                answerID = reask.reAnswerID;
-            }
-        }else{
-            if (reask && ![reask.reaskID isEqualToString:@""]) {
-                answerID = reask.reaskID;
-            }
-        }
-        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:reaskType andAnswerContent:questionStr andQuestionId:question.questionId andAnswerID:answerID  andResultId:@"1" andIndexPath:path];
+//        NSString *answerID = @"";
+//        Reaskmodel *reask = answer.reaskModelArray?[answer.reaskModelArray lastObject]:nil;
+//        if (reaskType == ReaskType_Reask || reaskType == ReaskType_ModifyReask || reaskType ==ReaskType_AnswerForReasking) {  //追问,修改追问,回复追问
+//            if (reask && ![reask.reAnswerID isEqualToString:@""]) {
+//                answerID = reask.reAnswerID;
+//            }
+//        }else{
+//            if (reask && ![reask.reaskID isEqualToString:@""]) {
+//                answerID = reask.reaskID;
+//            }
+//        }
+//        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:reaskType andAnswerContent:questionStr andQuestionId:question.questionId andAnswerID:answerID  andResultId:@"1" andIndexPath:path];
+        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:reaskType andAnswerContent:questionStr andQuestionId:question.questionId andAnswerID:answer.resultId  andResultId:@"1" andIndexPath:path];
     }
 }
-
 //点击cell触发
 -(void)QuestionAndAnswerCell_iPhone:(QuestionAndAnswerCell_iPhone *)cell isHiddleQuestionView:(BOOL)isHiddle atIndexPath:(NSIndexPath *)path{
     QuestionModel *question = [self questionForIndexPath:path];
@@ -383,6 +386,12 @@
                     //如果剩余内容高度足够,且ay比理想位置低,则移动到理想位置
                     [self.tableView setContentOffset:(CGPoint){offset.x,toOffsetY}];
                 }
+            }
+        } completion:^(BOOL finished) {
+            //上移结束之后 ,弹出键盘
+            if (answer.isEditing) {
+                QuestionAndAnswerCell_iPhone *cell = (QuestionAndAnswerCell_iPhone *)[self.tableView cellForRowAtIndexPath:path];
+                [cell.questionTextField becomeFirstResponder];
             }
         }];
     }
@@ -425,6 +434,7 @@
     return 1;
 }
 
+//直接从self.myQuestionArr中刷新新的数据
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSInteger index = 0;
     if(!self.questionIndexesArray){
@@ -1033,10 +1043,12 @@
      [Utility errorAlert:@"提交成功"];
     
     QuestionModel *question = [self questionForIndexPath:path];
-    AnswerModel *answer = [question.answerList objectAtIndex:[self answerForCellIndexPath:path]];
-    answer.isEditing = NO;
-    question.isEditing = NO;
     question.answerList = result;
+    question.isEditing = NO;
+    if(![self cellIsHeader:path.row]){
+        AnswerModel *answer = [question.answerList objectAtIndex:[self answerForCellIndexPath:path]];
+        answer.isEditing = NO;
+    }
 //    [self changeQuestionIndexPathToAnswerIndexPath:self.myQuestionArr];
 //    int row = [self convertIndexpathToRow:path];
 //    NSMutableArray *indexPathArr = [NSMutableArray array];

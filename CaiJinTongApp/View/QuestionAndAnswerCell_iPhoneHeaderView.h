@@ -21,6 +21,7 @@
 @property (weak,nonatomic) id <QuestionAndAnswerCell_iPhoneHeaderViewDelegate> delegate;
 @property (assign,nonatomic) QuestionAndAnswerScope *scope;//判断是回答还是追问
 @property (nonatomic,strong) DRAttributeStringView *questionContentAttributeView;  //问题主体内容绘制view
+@property (nonatomic,strong) UITextView *answerQuestionTextField;//回答输入框
 -(void)setQuestionModel:(QuestionModel*)question withQuestionAndAnswerScope:(QuestionAndAnswerScope)scope;
 @end
 
