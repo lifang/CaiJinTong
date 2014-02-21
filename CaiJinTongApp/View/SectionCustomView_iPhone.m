@@ -59,7 +59,7 @@
             if (!xx) {
                 xx = 0;
             }
-        self.pv.value = xx*0.01;
+        self.pv.value = xx;
             self.progressLabel.text = [NSString stringWithFormat:@"学习进度:%.2f%%",xx];
             self.progressLabel.textAlignment = NSTextAlignmentLeft;
             self.progressLabel.backgroundColor = [UIColor clearColor];
