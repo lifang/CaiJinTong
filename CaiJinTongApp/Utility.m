@@ -9,8 +9,18 @@
 #import "Utility.h"
 #import <objc/runtime.h>
 #import <CommonCrypto/CommonDigest.h>
+@interface Utility()
+@property (nonatomic,strong) UIAlertView *alert;
+@end
 @implementation Utility
-
++(Utility*)defaultUtility{
+    static Utility *defaultUti = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        defaultUti = [[Utility alloc] init];
+    });
+    return defaultUti;
+}
 
 + (UIImage *)getNormalImage:(UIView *)view{
     float width = [UIScreen mainScreen].bounds.size.width;
@@ -26,7 +36,15 @@
 }
 
 + (void)errorAlert:(NSString *)message {
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"财金通提示" message:message delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+    if (!message || [message isEqualToString:@""]) {
+        return;
+    }
+    if ([Utility defaultUtility].alert != nil) {
+        UIAlertView *alert = [Utility defaultUtility].alert;
+        [alert dismissWithClickedButtonIndex:0 animated:NO];
+    }
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"财金通提示" message:message delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+    [[Utility defaultUtility] setAlert:alert];
     [alert show];
 }
 //+ (NSString *)isExistenceNetwork {

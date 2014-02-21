@@ -30,14 +30,14 @@
     
      //学习进度
     CGFloat xx = [lesson.lessonStudyProgress floatValue];
-    if ( xx > 1.0) {
-        xx=1.0;
+    if ( xx > 100) {
+        xx=100;
     }
     if (!xx) {
         xx = 0;
     }
-    self.pv.progress = xx;
-    self.progressLabel.text = [NSString stringWithFormat:@"学习进度:%.2f%%",xx*100];
+    self.pv.progress = xx*0.01;
+    self.progressLabel.text = [NSString stringWithFormat:@"学习进度:%.2f%%",xx];
     
     
 }
@@ -73,20 +73,20 @@
         //学习进度
         CJTSlider *pVV = [[CJTSlider alloc] initWithFrame:CGRectMake(-2, self.frame.size.height+itemLabel-30, self.frame.size.width+4, 37)];
         CGFloat xx = [lesson.lessonStudyProgress floatValue];
-        if ( xx > 1.0) {
-            xx=1.0;
+        if ( xx > 100) {
+            xx=100;
         }
         if (!xx) {
             xx = 0;
         }
-        pVV.progress = xx;
+        pVV.progress = xx*0.01;
         self.pv =pVV;
         
         [self addSubview:self.pv];
          pVV = nil;
         
         UILabel *progressLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, self.frame.size.height+itemLabel-28, self.frame.size.width, 30)];
-        progressLabel.text = [NSString stringWithFormat:@"学习进度:%.2f%%",xx*100];
+        progressLabel.text = [NSString stringWithFormat:@"学习进度:%.2f%%",xx];
         progressLabel.textAlignment = NSTextAlignmentLeft;
         progressLabel.backgroundColor = [UIColor clearColor];
         self.progressLabel = progressLabel;

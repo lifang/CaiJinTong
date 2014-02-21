@@ -99,9 +99,10 @@ typedef enum {AlertType_DeleteCell = 12,AlertType_ModifyCell}AlertType;
     NSString *title = [NSString stringWithFormat:@"%@(%@) : %@",noteObj.noteLessonName,noteObj.noteChapterName,noteObj.noteSectionName];
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:title];
     [string addAttribute:NSFontAttributeName value:self.noteTitleLabel.font range:NSMakeRange(0, string.length)];
-    NSRange lessonRange = NSMakeRange(0, [title rangeOfString:noteObj.noteSectionName].location);
+    NSRange lessonRange = NSMakeRange(0, noteObj.noteLessonName.length+noteObj.noteChapterName.length+3);
     [string addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:lessonRange];
-    [string addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor] range:NSMakeRange([title rangeOfString:noteObj.noteSectionName].location,string.length - [title rangeOfString:noteObj.noteSectionName].location)];
+    int lenght = string.length-lessonRange.length >0?(string.length-lessonRange.length):0;
+    [string addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor] range:NSMakeRange(lessonRange.length,lenght)];
     return string;
 }
 -(NSAttributedString*)getFlagAttributedString:(int)row{
