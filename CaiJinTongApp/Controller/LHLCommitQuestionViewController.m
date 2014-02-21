@@ -140,6 +140,10 @@
         [Utility errorAlert:@"内容不能为空"];
         return;
     }
+    if (self.titleField.text == nil || [[self.titleField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
+        [Utility errorAlert:@"标题不能为空"];
+        return;
+    }
     if([[self.categoryTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@"点击选择提问类型"]){
         [Utility errorAlert:@"请先选择一个提问分类!"];
         return;

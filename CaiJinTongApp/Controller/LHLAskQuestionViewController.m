@@ -273,7 +273,10 @@ static BOOL tableVisible;
     [self.questionContentTextView resignFirstResponder];
     NSString *questionTitle = self.questionTitleTextField.text?[self.questionTitleTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]:@"";
     NSString *questionContent = self.questionContentTextView.text?[self.questionContentTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]:@"";
-    
+    if (questionTitle == nil || [[questionTitle stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
+        [Utility errorAlert:@"标题不能为空"];
+        return;
+    }
     if (self.selectedQuestionId != nil && ![questionContent isEqualToString:@""] && ![questionTitle isEqualToString:@""]&& ![self.selectedQuestionName.text isEqualToString:@"点击按钮选择一个类型:"]){
         
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
