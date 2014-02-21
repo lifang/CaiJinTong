@@ -208,6 +208,11 @@ static BOOL tableVisible;
 - (IBAction)keyboardFuckOff:(id)sender {
     [self.questionTitleTextField resignFirstResponder];
     [self.questionContentTextView resignFirstResponder];
+    [UIView animateWithDuration:0.5 animations:^{
+        self.view.frame = (CGRect){self.view.frame.origin.x,0,self.view.frame.size};
+    } completion:^(BOOL finished) {
+        
+    }];
     [self inputBegin:nil];
 }
 
@@ -250,6 +255,11 @@ static BOOL tableVisible;
 #pragma mark --text View delegate
 - (BOOL) textViewShouldBeginEditing:(UITextView *)textView{
     [self inputBegin:nil];
+    [UIView animateWithDuration:0.5 animations:^{
+        self.view.frame = (CGRect){self.view.frame.origin.x,-110,self.view.frame.size};
+    } completion:^(BOOL finished) {
+        
+    }];
     return YES;
 }
 

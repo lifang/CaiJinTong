@@ -62,11 +62,14 @@
 -(void)dealloc{
     [self.headerRefreshView free];
     [self.footerRefreshView free];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
     self.lhlNavigationBar.leftItem.hidden = YES;
     self.noteListTableView.frame = (CGRect){0,IP5(65, 55),320,IP5(440, 375)};
 //    [self.lhlNavigationBar.rightItem setHidden:YES];
@@ -166,6 +169,7 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.modifyNoteInterface.path = path;
     [self.modifyNoteInterface modifyNoteWithUserId:user.userId withNoteId:note.noteId withNoteContent:noteContent];
+    [self scrollViewWillBeginDragging:nil];
 }
 
 -(void)NoteListCell_iPhone:(NoteListCell_iPhone*)cell cancelModifyCellAtIndexPath:(NSIndexPath*)path withNoteContent:(NSString*)noteContent{
@@ -174,24 +178,32 @@
     [self.noteListTableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
+//点击输入时触发
 -(void)NoteListCell_iPhone:(NoteListCell_iPhone *)cell textViewShouldBeginEditing:(UITextView *)textView{
     self.theEdtingTextView = textView;
     
     //键盘弹出界面上移调整
 //    NoteListCell_iPhone *cell = (NoteListCell_iPhone *)[self.noteListTableView cellForRowAtIndexPath:self.editPath];
-    CGFloat cellY = cell.frame.origin.y;
+//    CGFloat cellY = cell.frame.origin.y;
+    CGFloat cellMaxY = CGRectGetMaxY(cell.frame);//cell的下沿坐标
     CGFloat contentOffsetY = self.noteListTableView.contentOffset.y;
-    if(cellY - contentOffsetY > 0){
+    if (cellMaxY - contentOffsetY > self.noteListTableView.frame.size.height -206) {
         [UIView animateWithDuration:0.3 animations:^{
-            self.distanceOfTheViewMoved = cellY - contentOffsetY < 190 ?:190;
-            if(SCREEN_HEIGHT -  (cellY - contentOffsetY) < 180){
-                self.noteListTableView.contentOffset = CGPointMake(self.noteListTableView.contentOffset.x, contentOffsetY + 40);
-            }
-            self.view.frame = (CGRect){self.view.frame.origin.x,self.view.frame.origin.y - self.distanceOfTheViewMoved,self.view.frame.size};
+            [self.noteListTableView setContentOffset:(CGPoint){0,cellMaxY - self.noteListTableView.frame.size.height}];
+            self.view.frame = (CGRect){self.view.frame.origin.x,-206,self.view.frame.size};
         }];
-    }else{
-        self.distanceOfTheViewMoved = -1; // -1代表未移动
     }
+//    if(cellY - contentOffsetY > 0){
+//        [UIView animateWithDuration:0.3 animations:^{
+//            self.distanceOfTheViewMoved = cellY - contentOffsetY < 190 ?:190;
+//            if(SCREEN_HEIGHT -  (cellY - contentOffsetY) < 180){
+//                self.noteListTableView.contentOffset = CGPointMake(self.noteListTableView.contentOffset.x, contentOffsetY + 40);
+//            }
+//            self.view.frame = (CGRect){self.view.frame.origin.x,self.view.frame.origin.y - self.distanceOfTheViewMoved,self.view.frame.size};
+//        }];
+//    }else{
+//        self.distanceOfTheViewMoved = -1; // -1代表未移动
+//    }
 }
 
 -(void)NoteListCell_iPhone:(NoteListCell_iPhone *)cell textViewDidEndEditing:(UITextView *)textView{
@@ -600,6 +612,14 @@
 }
 
 #pragma mark -- action
+//键盘消失时触发 (即textView resignFirstResponder时)
+-(void)keyboardWillHide:(NSNotification *)notification{
+    [UIView animateWithDuration:0.5 animations:^{
+        self.view.frame = (CGRect){0,0,self.view.frame.size};
+    } completion:^(BOOL finished) {
+        
+    }];
+}
 -(void)rightItemClicked:(id)sender{
     if(self.searchBar.hidden){
         [self.searchBar setHidden:NO];
