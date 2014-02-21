@@ -582,23 +582,23 @@
     return _searchQuestionInterface;
 }
 
--(void)setQuestionAndAnswerScope:(QuestionAndAnswerScope)questionAndAnswerScope{
-    _questionAndAnswerScope = questionAndAnswerScope;
-    switch (questionAndAnswerScope) {
-        case QuestionAndAnswerALL:
-            self.drnavigationBar.titleLabel.text = @"所有问答";
-            break;
-        case QuestionAndAnswerMYQUESTION:
-            self.drnavigationBar.titleLabel.text = @"我的提问";
-            break;
-        case QuestionAndAnswerSearchQuestion:
-            self.drnavigationBar.titleLabel.text = @"搜索提问";
-            break;
-        default:
-            self.drnavigationBar.titleLabel.text = @"我的回答";
-            break;
-    }
-}
+//-(void)setQuestionAndAnswerScope:(QuestionAndAnswerScope)questionAndAnswerScope{
+//    _questionAndAnswerScope = questionAndAnswerScope;
+//    switch (questionAndAnswerScope) {
+//        case QuestionAndAnswerALL:
+//            self.drnavigationBar.titleLabel.text = @"所有问答";
+//            break;
+//        case QuestionAndAnswerMYQUESTION:
+//            self.drnavigationBar.titleLabel.text = @"我的提问";
+//            break;
+//        case QuestionAndAnswerSearchQuestion:
+//            self.drnavigationBar.titleLabel.text = @"搜索提问";
+//            break;
+//        default:
+//            self.drnavigationBar.titleLabel.text = @"我的回答";
+//            break;
+//    }
+//}
 
 -(AnswerPraiseInterface *)answerPraiseinterface{
     if (!_answerPraiseinterface) {

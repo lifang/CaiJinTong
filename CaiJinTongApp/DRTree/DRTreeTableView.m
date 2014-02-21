@@ -24,6 +24,7 @@
 @interface DRTreeTableView()
 @property (nonatomic,strong) TreeTableView *tableView;
 @property (nonatomic,strong) NSMutableArray *tableDataArr;//用于显示的note数据
+@property (nonatomic,strong) NSIndexPath *selectedPath;
 @end
 @implementation DRTreeTableView
 
@@ -68,25 +69,32 @@
 
 #pragma mark UITableViewDelegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    self.selectedPath = nil;
     DRTreeNode *note = [self.tableDataArr objectAtIndex:indexPath.row];
     if (self.delegate && [self.delegate respondsToSelector:@selector(drTreeTableView:isExtendChildSelectedTreeNode:)]) {
          self.isExtendChildNode = [self.delegate drTreeTableView:self isExtendChildSelectedTreeNode:note];
     }
     if (self.isExtendChildNode) {
-        [self selectedNoteAtIndexPath:indexPath withAnimation:YES];
+        [self selectedNoteAtIndexPath:indexPath withAnimation:NO];
     }
     
+    [tableView reloadData];
+    DRTreeCell *cell = (DRTreeCell*)[tableView cellForRowAtIndexPath:indexPath];
     if (note.childnotes && [note.childnotes count] > 0) {
+        
         if (note.noteIsExtend) {
+            [cell setBackgroundColor:[UIColor lightGrayColor]];
             if (self.delegate && [self.delegate respondsToSelector:@selector(drTreeTableView:didExtendChildTreeNode:)]) {
                 [self.delegate drTreeTableView:self didExtendChildTreeNode:note];
             }
         }else{
+            [cell setBackgroundColor:[UIColor clearColor]];
             if (self.delegate && [self.delegate respondsToSelector:@selector(drTreeTableView:didCloseChildTreeNode:)]) {
                 [self.delegate drTreeTableView:self didCloseChildTreeNode:note];
             }
         }
     }else{
+        [cell setBackgroundColor:[UIColor lightGrayColor]];
         if (self.delegate && [self.delegate respondsToSelector:@selector(drTreeTableView:didSelectedTreeNode:)]) {
             [self.delegate drTreeTableView:self didSelectedTreeNode:note];
         }
@@ -120,6 +128,31 @@
     return self.tableDataArr.count;
 }
 
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (self.selectedPath && indexPath.row > self.selectedPath.row) {
+        DRTreeNode *node = [self.tableDataArr objectAtIndex:self.selectedPath.row];
+        if (indexPath.row <= self.selectedPath.row+node.childnotes.count) {
+            CGRect selectRect = [tableView rectForRowAtIndexPath:self.selectedPath];
+            CGRect cellRect = cell.frame;
+            cell.frame = selectRect;
+            [UIView animateWithDuration:0.3 animations:^{
+                cell.frame = cellRect;
+            } completion:^(BOOL finished) {
+                cell.frame = cellRect;
+            }];
+        }else{
+            CGRect cellRect = cell.frame;
+            CGRect startRect = (CGRect){cellRect.origin,cellRect.size.width,cellRect.size.height - CGRectGetHeight(cellRect)*node.childnotes.count};
+            cell.frame = startRect;
+            [UIView animateWithDuration:0.3 animations:^{
+                cell.frame = cellRect;
+            } completion:^(BOOL finished) {
+                cell.frame = cellRect;
+            }];
+        }
+    }
+}
 #pragma mark --
 
 #pragma mark action
@@ -131,9 +164,9 @@
         }
     }
     note.noteIsExtend = NO;
-    int noteIndex = [self.tableDataArr indexOfObject:note];
+//    int noteIndex = [self.tableDataArr indexOfObject:note];
     [self.tableDataArr removeObject:note];
-    [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:noteIndex inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+//    [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:noteIndex inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 -(void)selectedNoteAtIndexPath:(NSIndexPath*)path withAnimation:(BOOL)isAnimation{
    
@@ -146,15 +179,16 @@
             }
         }else{
             selectedNote.noteIsExtend = YES;
+            self.selectedPath = path;
             [self.tableDataArr insertObjects:selectedNote.childnotes atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(path.row+1, selectedNote.childnotes.count)]];
-            NSMutableArray *insertPath = [NSMutableArray array];
-            for (int row = path.row+1; row < selectedNote.childnotes.count+path.row+1; row++) {
-                [insertPath addObject:[NSIndexPath indexPathForRow:row inSection:0]];
-            }
-            [self.tableView insertRowsAtIndexPaths:insertPath withRowAnimation:UITableViewRowAnimationAutomatic];
+//            NSMutableArray *insertPath = [NSMutableArray array];
+//            for (int row = path.row+1; row < selectedNote.childnotes.count+path.row+1; row++) {
+//                [insertPath addObject:[NSIndexPath indexPathForRow:row inSection:0]];
+//            }
+//            [self.tableView insertRowsAtIndexPaths:insertPath withRowAnimation:UITableViewRowAnimationAutomatic];
             
         }
-        [self.tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
+//        [self.tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
 
 }

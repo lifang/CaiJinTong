@@ -698,7 +698,8 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
         [Utility errorAlert:@"没有发现要播放的文件"];
         return;
     }
-    [self.moviePlayer stop];    
+    [self.moviePlayer stop];
+    [self.moviePlayer setContentURL:nil];
     self.sectionModel = sectionModel;
 //    [self removeMoviePlayBackNotification];
 //    [self addMoviePlayBackNotification];
