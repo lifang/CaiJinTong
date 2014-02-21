@@ -13,7 +13,7 @@
  *提交追问或者回答
  */
 @interface SubmitAnswerInterface : BaseInterface<BaseInterfaceDelegate>
-@property (nonatomic, assign) id<SubmitAnswerInterfaceDelegate>delegate;
+@property (nonatomic, weak) id<SubmitAnswerInterfaceDelegate>delegate;
 @property (nonatomic, assign) ReaskType reaskType;
 @property (nonatomic,strong) IndexPathModel *path;
 //resultId:resultId=0 表示回答 resultId大于0 表示追问
