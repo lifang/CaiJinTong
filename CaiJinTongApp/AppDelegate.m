@@ -57,6 +57,7 @@
     UserModel *user = [[UserModel alloc] init];
     user.userId = @"17082";
     [[CaiJinTongManager shared] setUser:user];
+    self.window.backgroundColor = [UIColor colorWithRed:233.0/255.0 green:233.0/255.0 blue:233.0/255.0 alpha:1.0];
     return YES;
 }
 //连接改变

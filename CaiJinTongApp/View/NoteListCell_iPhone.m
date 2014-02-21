@@ -38,6 +38,7 @@ typedef enum {AlertType_DeleteCell = 12,AlertType_ModifyCell}AlertType;
 }
 
 #pragma mark UITextViewDelegate
+//在文本改变时,判断是否要enable提交按钮
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     NSString *oldText = [self.noteModel.noteText?:@"" stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSString *newText = [[textView.text stringByAppendingString:text]?:@"" stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -77,7 +78,7 @@ typedef enum {AlertType_DeleteCell = 12,AlertType_ModifyCell}AlertType;
     if (alertView.tag == AlertType_ModifyCell) {
         if (buttonIndex == 0) {
             if (self.delegate && [self.delegate respondsToSelector:@selector(NoteListCell_iPhone:didModifyCellAtIndexPath:withNoteContent:)]) {
-                [self.delegate NoteListCell_iPhone:self didModifyCellAtIndexPath:self.path withNoteContent:self.noteContentTextView.text];
+                [self.delegate NoteListCell_iPhone:self didModifyCellAtIndexPath:self.path withNoteContent:[self.noteContentTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
             }
         }
     }else
