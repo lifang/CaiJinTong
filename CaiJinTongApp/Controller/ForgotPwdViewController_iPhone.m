@@ -45,16 +45,20 @@
 -(void)commitBtnClicked{
     NSString *regexCall = @"(\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*)|(1[0-9]{10})";
     NSPredicate *predicateCall = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",regexCall];
-    if ([predicateCall evaluateWithObject:self.email.text]) {
-        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-            [Utility errorAlert:@"暂无网络!"];
-        }else {
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            FindPassWordInterface *fpw = [[FindPassWordInterface alloc]init];
-            self.fpwInterface = fpw;
-            self.fpwInterface.delegate = self;
-            [self.fpwInterface getFindPassWordInterfaceDelegateWithName:self.email.text];
-        }
+    if ([predicateCall evaluateWithObject:self.email.text]) {        
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+            if ([networkStatus isEqualToString:@"NotReachable"]) {
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [Utility errorAlert:@"暂无网络"];
+            }else{
+                FindPassWordInterface *fpw = [[FindPassWordInterface alloc]init];
+                self.fpwInterface = fpw;
+                self.fpwInterface.delegate = self;
+                [self.fpwInterface getFindPassWordInterfaceDelegateWithName:self.email.text];
+            }
+        }];
+        
     }else {
         [Utility errorAlert:@"请输入正确的手机号码或邮箱!"];
     }

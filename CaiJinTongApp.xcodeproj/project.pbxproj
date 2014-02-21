@@ -268,10 +268,8 @@
 		18C9313B18363B2A00FBE1A8 /* play-table@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18C9312A18363B2A00FBE1A8 /* play-table@2x.png */; };
 		18C9314018363B9C00FBE1A8 /* DRCommitQuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C9313D18363B9C00FBE1A8 /* DRCommitQuestionViewController.m */; };
 		18C9314118363B9C00FBE1A8 /* DRTakingMovieNoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C9313F18363B9C00FBE1A8 /* DRTakingMovieNoteViewController.m */; };
-		18E0D75C185025AE001A6667 /* MenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E0D75B185025AE001A6667 /* MenuTableViewController.m */; };
 		18E0D75F1850296D001A6667 /* MenuTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E0D75E1850296D001A6667 /* MenuTableCell.m */; };
 		18E0D762185040BA001A6667 /* LessonListHeaderView_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E0D761185040BA001A6667 /* LessonListHeaderView_iPhone.m */; };
-		18E0D765185077D5001A6667 /* MenuQuestionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E0D764185077D5001A6667 /* MenuQuestionTableViewController.m */; };
 		18E32E081831FDF900041B8A /* btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E32E021831FDF900041B8A /* btn@2x.png */; };
 		18EA125318459A4500F12D8B /* TextFieldForSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EA125218459A4500F12D8B /* TextFieldForSearchBar.m */; };
 		18EA12551845BF7000F12D8B /* barbg.png in Resources */ = {isa = PBXBuildFile; fileRef = 18EA12541845BF7000F12D8B /* barbg.png */; };
@@ -352,7 +350,6 @@
 		6376B3061839E62F0015C537 /* line2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6376B3051839E62F0015C537 /* line2@2x.png */; };
 		63841CF31838A60100E3FA9E /* DRNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63841CF21838A60100E3FA9E /* DRNavigationController.m */; };
 		63921AE418644221006627B2 /* LHLTestJSON.json in Resources */ = {isa = PBXBuildFile; fileRef = 63921AE318644221006627B2 /* LHLTestJSON.json */; };
-		6392BFEE1852CA2F00F68671 /* MyAnswerListForQuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6392BFED1852CA2F00F68671 /* MyAnswerListForQuestionViewController.m */; };
 		6393B739188A1C13000D667B /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6393B738188A1C13000D667B /* MBProgressHUD.m */; };
 		6393B73B188A2B74000D667B /* inputBackView@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6393B73A188A2B74000D667B /* inputBackView@2x.png */; };
 		6393B73D188A2D86000D667B /* email@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6393B73C188A2D86000D667B /* email@2x.png */; };
@@ -396,6 +393,7 @@
 		63A77ACE1887D39200E86C73 /* setting@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63A77ACC1887D39200E86C73 /* setting@2x.png */; };
 		63A77AD01887EC1500E86C73 /* loginOk@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63A77ACF1887EC1500E86C73 /* loginOk@2x.png */; };
 		63AB496C18862F60004E0824 /* DRSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AB496B18862F60004E0824 /* DRSearchBar.m */; };
+		63ABEB1518B5A6260015DE23 /* IndexPathModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 63ABEB1418B5A6260015DE23 /* IndexPathModel.m */; };
 		63AFEF90187CFF480094C8B2 /* LearningMaterialsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AFEF8F187CFF480094C8B2 /* LearningMaterialsViewController.m */; };
 		63B710FB1844A16100A61B14 /* iVersion.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 63B710F81844A16100A61B14 /* iVersion.bundle */; };
 		63B710FC1844A16100A61B14 /* iVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B710FA1844A16100A61B14 /* iVersion.m */; };
@@ -865,14 +863,10 @@
 		18C9313D18363B9C00FBE1A8 /* DRCommitQuestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRCommitQuestionViewController.m; sourceTree = "<group>"; };
 		18C9313E18363B9C00FBE1A8 /* DRTakingMovieNoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRTakingMovieNoteViewController.h; sourceTree = "<group>"; };
 		18C9313F18363B9C00FBE1A8 /* DRTakingMovieNoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRTakingMovieNoteViewController.m; sourceTree = "<group>"; };
-		18E0D75A185025AE001A6667 /* MenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableViewController.h; sourceTree = "<group>"; };
-		18E0D75B185025AE001A6667 /* MenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuTableViewController.m; sourceTree = "<group>"; };
 		18E0D75D1850296D001A6667 /* MenuTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableCell.h; sourceTree = "<group>"; };
 		18E0D75E1850296D001A6667 /* MenuTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuTableCell.m; sourceTree = "<group>"; };
 		18E0D760185040BA001A6667 /* LessonListHeaderView_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LessonListHeaderView_iPhone.h; sourceTree = "<group>"; };
 		18E0D761185040BA001A6667 /* LessonListHeaderView_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonListHeaderView_iPhone.m; sourceTree = "<group>"; };
-		18E0D763185077D5001A6667 /* MenuQuestionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuQuestionTableViewController.h; sourceTree = "<group>"; };
-		18E0D764185077D5001A6667 /* MenuQuestionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuQuestionTableViewController.m; sourceTree = "<group>"; };
 		18E32E021831FDF900041B8A /* btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "btn@2x.png"; path = "login-images/btn@2x.png"; sourceTree = "<group>"; };
 		18EA125118459A4500F12D8B /* TextFieldForSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextFieldForSearchBar.h; sourceTree = "<group>"; };
 		18EA125218459A4500F12D8B /* TextFieldForSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextFieldForSearchBar.m; sourceTree = "<group>"; };
@@ -993,8 +987,6 @@
 		63841CF11838A60100E3FA9E /* DRNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRNavigationController.h; sourceTree = "<group>"; };
 		63841CF21838A60100E3FA9E /* DRNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRNavigationController.m; sourceTree = "<group>"; };
 		63921AE318644221006627B2 /* LHLTestJSON.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LHLTestJSON.json; sourceTree = "<group>"; };
-		6392BFEC1852CA2F00F68671 /* MyAnswerListForQuestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAnswerListForQuestionViewController.h; sourceTree = "<group>"; };
-		6392BFED1852CA2F00F68671 /* MyAnswerListForQuestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAnswerListForQuestionViewController.m; sourceTree = "<group>"; };
 		6393B737188A1C13000D667B /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		6393B738188A1C13000D667B /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		6393B73A188A2B74000D667B /* inputBackView@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "inputBackView@2x.png"; sourceTree = "<group>"; };
@@ -1050,6 +1042,8 @@
 		63A77ACF1887EC1500E86C73 /* loginOk@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loginOk@2x.png"; sourceTree = "<group>"; };
 		63AB496A18862F60004E0824 /* DRSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRSearchBar.h; sourceTree = "<group>"; };
 		63AB496B18862F60004E0824 /* DRSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRSearchBar.m; sourceTree = "<group>"; };
+		63ABEB1318B5A6260015DE23 /* IndexPathModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndexPathModel.h; sourceTree = "<group>"; };
+		63ABEB1418B5A6260015DE23 /* IndexPathModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndexPathModel.m; sourceTree = "<group>"; };
 		63AFEF8E187CFF480094C8B2 /* LearningMaterialsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LearningMaterialsViewController.h; sourceTree = "<group>"; };
 		63AFEF8F187CFF480094C8B2 /* LearningMaterialsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LearningMaterialsViewController.m; sourceTree = "<group>"; };
 		63B710F81844A16100A61B14 /* iVersion.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = iVersion.bundle; sourceTree = "<group>"; };
@@ -1422,8 +1416,6 @@
 				630CB0771828943D002FD462 /* DRMoviePlayViewController.m */,
 				631227DE182B384B00530CC3 /* MyQuestionAndAnswerViewController.h */,
 				631227DF182B384B00530CC3 /* MyQuestionAndAnswerViewController.m */,
-				6392BFEC1852CA2F00F68671 /* MyAnswerListForQuestionViewController.h */,
-				6392BFED1852CA2F00F68671 /* MyAnswerListForQuestionViewController.m */,
 				0EB849311835DE2700C97030 /* SettingViewController.h */,
 				0EB849321835DE2700C97030 /* SettingViewController.m */,
 				0E9C9EF118431A5300D48781 /* InfoViewController.h */,
@@ -1566,6 +1558,8 @@
 				185780DD187282210070CB0D /* LessonModel+toSection.m */,
 				6395A1E5187BCA2000F304CC /* LearningMaterials.h */,
 				6395A1E6187BCA2000F304CC /* LearningMaterials.m */,
+				63ABEB1318B5A6260015DE23 /* IndexPathModel.h */,
+				63ABEB1418B5A6260015DE23 /* IndexPathModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1762,10 +1756,6 @@
 				18046A93184884D300EB8BDA /* Section_GradeViewController_iPhone.m */,
 				18046A951848850700EB8BDA /* Section_NoteViewController_iPhone.h */,
 				18046A961848850700EB8BDA /* Section_NoteViewController_iPhone.m */,
-				18E0D75A185025AE001A6667 /* MenuTableViewController.h */,
-				18E0D75B185025AE001A6667 /* MenuTableViewController.m */,
-				18E0D763185077D5001A6667 /* MenuQuestionTableViewController.h */,
-				18E0D764185077D5001A6667 /* MenuQuestionTableViewController.m */,
 				1812A4D01851791F009B3D5D /* LoginViewController_iPhone.h */,
 				1812A4D11851791F009B3D5D /* LoginViewController_iPhone.m */,
 				1812A4D91851A1B7009B3D5D /* ForgotPwdViewController_iPhone.h */,
@@ -2725,12 +2715,10 @@
 				18046A881848315D00EB8BDA /* CustomLabel_iPhone.m in Sources */,
 				184317371855652200ABEFD3 /* LHLMoviePlayViewController.m in Sources */,
 				0E9DA3B9183F568D000A5995 /* ASINetworkQueue.m in Sources */,
-				6392BFEE1852CA2F00F68671 /* MyAnswerListForQuestionViewController.m in Sources */,
 				18046A971848850800EB8BDA /* Section_NoteViewController_iPhone.m in Sources */,
 				630B03BB1820F5BB00F72C4C /* AppDelegate.m in Sources */,
 				1812A4E61851CB89009B3D5D /* MyQuestionAndAnswerViewController_iPhone.m in Sources */,
 				187CE7C51883CC6200D65660 /* NoteListInterface.m in Sources */,
-				18E0D765185077D5001A6667 /* MenuQuestionTableViewController.m in Sources */,
 				639F435018631804006FBE26 /* DRTreeNode.m in Sources */,
 				0EA7EF4C18238DF600C47F69 /* AnswerModel.m in Sources */,
 				0EA7EF1918234A7500C47F69 /* CommentListInterface.m in Sources */,
@@ -2785,7 +2773,6 @@
 				0EA7EF2818234CDC00C47F69 /* ChapterQuestionInterface.m in Sources */,
 				0EAFA11A18223FC500D01D3E /* CJTMainToolbar.m in Sources */,
 				631227E4182B409F00530CC3 /* QuestionAndAnswerCell.m in Sources */,
-				18E0D75C185025AE001A6667 /* MenuTableViewController.m in Sources */,
 				633BE0751872D76400CAA04B /* DRAttributeStringView.m in Sources */,
 				639F434F18631804006FBE26 /* DRTreeCell.m in Sources */,
 				631227E7182B40EB00530CC3 /* QuestionAndAnswerCellHeaderView.m in Sources */,
@@ -2845,6 +2832,7 @@
 				0EAD1F6F182B24B100204FC3 /* FMDatabase.m in Sources */,
 				0EA7EF5E1823AE1800C47F69 /* AskQuestionInterface.m in Sources */,
 				0EAD1F83182B7D8C00204FC3 /* Section_GradeCell.m in Sources */,
+				63ABEB1518B5A6260015DE23 /* IndexPathModel.m in Sources */,
 				0E9DA3BA183F568D000A5995 /* ASIWebPageRequest.m in Sources */,
 				0EA7EF7B182748BB00C47F69 /* SDWebImageDecoder.m in Sources */,
 				0EA7EF1618234A0400C47F69 /* GradeInterface.m in Sources */,
@@ -3030,7 +3018,7 @@
 				INFOPLIST_FILE = "CaiJinTongApp/CaiJinTongApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "83978C48-40D4-4AF8-B5E2-EAA6761176BE";
+				PROVISIONING_PROFILE = "EBBAEB3F-1180-4C33-B542-2F14E3EC9CF9";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};

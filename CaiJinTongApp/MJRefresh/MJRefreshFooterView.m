@@ -34,8 +34,8 @@
     [_scrollView removeObserver:self forKeyPath:@"contentSize" context:nil];
     // 2.监听contentSize
     [scrollView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew context:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adjustFrameWhenKeyboardUP) name:UIKeyboardWillShowNotification object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adjustFrame) name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adjustFrameWhenKeyboardUP) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adjustFrameWhenKeyboardDOWN) name:UIKeyboardWillHideNotification object:nil];
     // 3.父类的方法
     [super setScrollView:scrollView];
     
@@ -49,12 +49,15 @@
     if (_scrollView) {
         [_scrollView removeObserver:self forKeyPath:@"contentSize" context:nil];
     }
-//    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark 监听UIScrollView的属性
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
+    if (self.isNotObserve) {
+        return;
+    }
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     
     if ([@"contentSize" isEqualToString:keyPath]) {
@@ -79,8 +82,20 @@
     _statusLabel.center = center;
 }
 
+- (void)adjustFrameWhenKeyboardDOWN{
+    float height = self.scrollView.contentSize.height - CGRectGetHeight(self.scrollView.frame);
+    float offset = self.scrollView.contentOffset.y - height;
+    if (offset > 0) {
+        [self.scrollView setContentOffset:(CGPoint){self.scrollView.contentOffset.x,height>0?height:0} animated:NO];
+    }
+    [self adjustFrame];
+    self.isNotObserve = NO;
+}
+
+
 - (void)adjustFrameWhenKeyboardUP
 {
+    self.isNotObserve = YES;
     // 内容的高度
     CGFloat contentHeight = _scrollView.contentSize.height+500;
     // 表格的高度

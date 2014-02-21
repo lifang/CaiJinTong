@@ -7,6 +7,7 @@
 //
 
 #import "MyQuestionAndAnswerViewController_iPhone.h"
+#import "IndexPathModel.h"
 @interface MyQuestionAndAnswerViewController_iPhone ()
 @property (nonatomic,strong) NSMutableArray *myQuestionArr;
 @property (nonatomic,strong) NSMutableArray *questionIndexesArray;//问题序号数组 ,储存所有Header的row值
@@ -104,22 +105,25 @@
 
 //获取问题tableView所需的数据
 -(void)getQuestionCategoryNodes{
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-    }else {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        QuestionInfoInterface *questionInfoInter = [[QuestionInfoInterface alloc]init];
-        self.questionInfoInterface = questionInfoInter;
-        self.questionInfoInterface.delegate = self;
-        self.otherQuestionNodesOK = NO;
-        [self.questionInfoInterface getQuestionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId];
-        
-        UserModel *user = [[CaiJinTongManager shared] user];
-        self.myQuestionNodesOK = NO;
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        [self.myQuestionCategatoryInterface downloadMyQuestionCategoryDataWithUserId:user.userId];
-    }
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([networkStatus isEqualToString:@"NotReachable"]) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [Utility errorAlert:@"暂无网络"];
+        }else{
+            QuestionInfoInterface *questionInfoInter = [[QuestionInfoInterface alloc]init];
+            self.questionInfoInterface = questionInfoInter;
+            self.questionInfoInterface.delegate = self;
+            self.otherQuestionNodesOK = NO;
+            [self.questionInfoInterface getQuestionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId];
+            
+            UserModel *user = [[CaiJinTongManager shared] user];
+            self.myQuestionNodesOK = NO;
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            [self.myQuestionCategatoryInterface downloadMyQuestionCategoryDataWithUserId:user.userId];
+        }
+    }];
+
 }
 
 #pragma mark 测试数据
@@ -280,16 +284,18 @@
 
 //提交问题的答案
 -(void)questionAndAnswerCell_iPhoneHeaderView:(QuestionAndAnswerCell_iPhoneHeaderView *)header didAnswerQuestionAtIndexPath:(NSIndexPath *)path withAnswer:(NSString *)text{
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
-    }else{
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        QuestionModel *question = [self questionForIndexPath:path];
-        question.isEditing = NO;
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
-        
-        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:ReaskType_None andAnswerContent:text andQuestionId:question.questionId andAnswerID:0  andResultId:@"0" andIndexPath:path];
-    }
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([networkStatus isEqualToString:@"NotReachable"]) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [Utility errorAlert:@"暂无网络"];
+        }else{
+            QuestionModel *question = [self questionForIndexPath:path];
+            question.isEditing = NO;
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:path.section] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:ReaskType_None andAnswerContent:text andQuestionId:question.questionId andAnswerID:0  andResultId:@"0" andIndexPath:[IndexPathModel initWithRow:path.row withSection:path.section]];
+        }
+    }];
 }
 
 //开始编辑回答
@@ -328,39 +334,34 @@
 
 -(void)QuestionAndAnswerCell_iPhone:(QuestionAndAnswerCell_iPhone *)cell flowerAnswerAtIndexPath:(NSIndexPath *)path{
     //    answer.isPraised = YES;
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
-    }else{
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        QuestionModel *question = [self questionForIndexPath:path];
-        AnswerModel *answer = [question.answerList objectAtIndex:[self answerForCellIndexPath:path]];
-        self.activeIndexPath = path;
-        [self.answerPraiseinterface getAnswerPraiseInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andQuestionId:question.questionId andResultId:answer.resultId];
-    }
+    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([networkStatus isEqualToString:@"NotReachable"]) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [Utility errorAlert:@"暂无网络"];
+        }else{
+            QuestionModel *question = [self questionForIndexPath:path];
+            AnswerModel *answer = [question.answerList objectAtIndex:[self answerForCellIndexPath:path]];
+            self.activeIndexPath = path;
+            [self.answerPraiseinterface getAnswerPraiseInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andQuestionId:question.questionId andResultId:answer.resultId];
+        }
+    }];
 }
 
 //追问
 -(void)QuestionAndAnswerCell_iPhone:(QuestionAndAnswerCell_iPhone *)cell summitQuestion:(NSString *)questionStr atIndexPath:(NSIndexPath *)path withReaskType:(ReaskType)reaskType{
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
-    }else{
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        QuestionModel *question = [self questionForIndexPath:path];
-        AnswerModel *answer = [question.answerList objectAtIndex:[self answerForCellIndexPath:path]];
-//        NSString *answerID = @"";
-//        Reaskmodel *reask = answer.reaskModelArray?[answer.reaskModelArray lastObject]:nil;
-//        if (reaskType == ReaskType_Reask || reaskType == ReaskType_ModifyReask || reaskType ==ReaskType_AnswerForReasking) {  //追问,修改追问,回复追问
-//            if (reask && ![reask.reAnswerID isEqualToString:@""]) {
-//                answerID = reask.reAnswerID;
-//            }
-//        }else{
-//            if (reask && ![reask.reaskID isEqualToString:@""]) {
-//                answerID = reask.reaskID;
-//            }
-//        }
-//        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:reaskType andAnswerContent:questionStr andQuestionId:question.questionId andAnswerID:answerID  andResultId:@"1" andIndexPath:path];
-        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:reaskType andAnswerContent:questionStr andQuestionId:question.questionId andAnswerID:answer.resultId  andResultId:@"1" andIndexPath:path];
-    }
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([networkStatus isEqualToString:@"NotReachable"]) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [Utility errorAlert:@"暂无网络"];
+        }else{
+            QuestionModel *question = [self questionForIndexPath:path];
+            AnswerModel *answer = [question.answerList objectAtIndex:[self answerForCellIndexPath:path]];
+            [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:reaskType andAnswerContent:questionStr andQuestionId:question.questionId andAnswerID:answer.resultId  andResultId:@"1" andIndexPath:[IndexPathModel initWithRow:path.row withSection:path.section]];
+        }
+    }];
 }
 //点击cell触发
 -(void)QuestionAndAnswerCell_iPhone:(QuestionAndAnswerCell_iPhone *)cell isHiddleQuestionView:(BOOL)isHiddle atIndexPath:(NSIndexPath *)path{
@@ -401,16 +402,20 @@
 -(void)QuestionAndAnswerCell_iPhone:(QuestionAndAnswerCell_iPhone *)cell acceptAnswerAtIndexPath:(NSIndexPath *)path{
     QuestionModel *question = [self questionForIndexPath:path];
     AnswerModel *answer = [question.answerList objectAtIndex:[self answerForCellIndexPath:path]];
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
-    }else {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        self.activeIndexPath = path;
-        AcceptAnswerInterface *acceptAnswerInter = [[AcceptAnswerInterface alloc]init];
-        self.acceptAnswerInterface = acceptAnswerInter;
-        self.acceptAnswerInterface.delegate = self;
-        [self.acceptAnswerInterface getAcceptAnswerInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andQuestionId:question.questionId andAnswerID:answer.answerId andCorrectAnswerID:answer.resultId];
-    }
+    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([networkStatus isEqualToString:@"NotReachable"]) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [Utility errorAlert:@"暂无网络"];
+        }else{
+            self.activeIndexPath = path;
+            AcceptAnswerInterface *acceptAnswerInter = [[AcceptAnswerInterface alloc]init];
+            self.acceptAnswerInterface = acceptAnswerInter;
+            self.acceptAnswerInterface.delegate = self;
+            [self.acceptAnswerInterface getAcceptAnswerInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andQuestionId:question.questionId andAnswerID:answer.answerId andCorrectAnswerID:answer.resultId];
+        }
+    }];
 }
 #pragma mark --
 
@@ -863,51 +868,53 @@
 
 #pragma mark
 -(void)reLoadQuestionWithQuestionScope:(QuestionAndAnswerScope)scope withTreeNode:(DRTreeNode*)node{
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
-    }else {
-        self.questionAndSwerRequestID = node.noteContentID;
-        switch (scope) {
-            case QuestionAndAnswerALL:
-            {
-                QuestionListInterface *chapterInter = [[QuestionListInterface alloc]init];
-                self.questionListInterface = chapterInter;
-                self.questionListInterface.delegate = self;
-                self.questionAndSwerRequestID = node.noteContentID;
-                self.chapterID = node.noteContentID;
-                self.questionScope = QuestionAndAnswerALL;
-                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andChapterQuestionId:self.chapterID andLastQuestionID:nil];
+    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([networkStatus isEqualToString:@"NotReachable"]) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [Utility errorAlert:@"暂无网络"];
+        }else{
+            self.questionAndSwerRequestID = node.noteContentID;
+            switch (scope) {
+                case QuestionAndAnswerALL:
+                {
+                    QuestionListInterface *chapterInter = [[QuestionListInterface alloc]init];
+                    self.questionListInterface = chapterInter;
+                    self.questionListInterface.delegate = self;
+                    self.questionAndSwerRequestID = node.noteContentID;
+                    self.chapterID = node.noteContentID;
+                    self.questionScope = QuestionAndAnswerALL;
+                    [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andChapterQuestionId:self.chapterID andLastQuestionID:nil];
+                }
+                    break;
+                case QuestionAndAnswerMYQUESTION:
+                {
+                    //请求我的提问
+                    self.getUserQuestionInterface = [[GetUserQuestionInterface alloc] init];
+                    self.getUserQuestionInterface.delegate = self;
+                    self.questionScope = QuestionAndAnswerMYQUESTION;
+                    self.chapterID = node.noteContentID;
+                    //                    NSMutableArray *array = [TestModelData getQuestion];
+                    //                    [self.myQAVC reloadDataWithDataArray:array withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
+                    [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"0" andLastQuestionID:nil withCategoryId:node.noteContentID];
+                }
+                    break;
+                case QuestionAndAnswerMYANSWER:
+                {
+                    self.getUserQuestionInterface = [[GetUserQuestionInterface alloc] init];
+                    self.getUserQuestionInterface.delegate = self;
+                    //请求我的回答
+                    self.questionScope = QuestionAndAnswerMYANSWER;
+                    self.chapterID = node.noteContentID;
+                    [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"1" andLastQuestionID:nil withCategoryId:node.noteContentID];
+                }
+                    break;
+                default:
+                    break;
             }
-                break;
-            case QuestionAndAnswerMYQUESTION:
-            {
-                //请求我的提问
-                self.getUserQuestionInterface = [[GetUserQuestionInterface alloc] init];
-                self.getUserQuestionInterface.delegate = self;
-                self.questionScope = QuestionAndAnswerMYQUESTION;
-                self.chapterID = node.noteContentID;
-                //                    NSMutableArray *array = [TestModelData getQuestion];
-                //                    [self.myQAVC reloadDataWithDataArray:array withQuestionChapterID:self.questionAndSwerRequestID withScope:self.questionScope];
-                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"0" andLastQuestionID:nil withCategoryId:node.noteContentID];
-            }
-                break;
-            case QuestionAndAnswerMYANSWER:
-            {
-                self.getUserQuestionInterface = [[GetUserQuestionInterface alloc] init];
-                self.getUserQuestionInterface.delegate = self;
-                //请求我的回答
-                self.questionScope = QuestionAndAnswerMYANSWER;
-                self.chapterID = node.noteContentID;
-                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"1" andLastQuestionID:nil withCategoryId:node.noteContentID];
-            }
-                break;
-            default:
-                break;
         }
-    }
+    }];
 }
 
 //组合所有问答分类，我的提问问答分类，我的回答分类
@@ -1038,15 +1045,15 @@
 #pragma mark --
 
 #pragma mark SubmitAnswerInterfaceDelegate 提交回答或者提交追问的代理
--(void)getSubmitAnswerInfoDidFinished:(NSMutableArray *)result withReaskType:(ReaskType)reask andIndexPath:(NSIndexPath *)path{
+-(void)getSubmitAnswerInfoDidFinished:(NSMutableArray *)result withReaskType:(ReaskType)reask andIndexPath:(IndexPathModel *)path{
     [MBProgressHUD hideHUDForView:self.view animated:YES];
      [Utility errorAlert:@"提交成功"];
     
-    QuestionModel *question = [self questionForIndexPath:path];
+    QuestionModel *question = [self questionForIndexPath:[NSIndexPath indexPathForRow:path.row inSection:path.section]];
     question.answerList = result;
     question.isEditing = NO;
     if(![self cellIsHeader:path.row]){
-        AnswerModel *answer = [question.answerList objectAtIndex:[self answerForCellIndexPath:path]];
+        AnswerModel *answer = [question.answerList objectAtIndex:[self answerForCellIndexPath:[NSIndexPath indexPathForRow:path.row inSection:path.section]]];
         answer.isEditing = NO;
     }
 //    [self changeQuestionIndexPathToAnswerIndexPath:self.myQuestionArr];
@@ -1291,14 +1298,18 @@
         [Utility errorAlert:@"请输入搜索内容!"];
     }else {
         [self.searchBar.searchTextField resignFirstResponder];
-        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-            [Utility errorAlert:@"暂无网络!"];
-        }else {
-//            self.isSearching = YES;
-            [self showSearchBar];
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchBar.searchTextField.text withLastQuestionId:nil];//@"0"
-        }
+        
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+            if ([networkStatus isEqualToString:@"NotReachable"]) {
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [Utility errorAlert:@"暂无网络"];
+            }else{
+                //            self.isSearching = YES;
+                [self showSearchBar];
+                [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchBar.searchTextField.text withLastQuestionId:nil];//@"0"
+            }
+        }];
     }
 }
 

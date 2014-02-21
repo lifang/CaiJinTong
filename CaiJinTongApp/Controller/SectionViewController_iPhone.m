@@ -147,13 +147,16 @@
     [super viewDidAppear:animated];
     if (self.isPlaying) {
         //根据sectionID获取单个视频的详细信息
-        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-            [Utility errorAlert:@"暂无网络!"];
-        }else {
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            UserModel *user = [[CaiJinTongManager shared] user];
-            [self.lessonInterface downloadLessonInfoWithLessonId:self.lessonModel.lessonId withUserId:user.userId];
-        }
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+            if ([networkStatus isEqualToString:@"NotReachable"]) {
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [Utility errorAlert:@"暂无网络"];
+            }else{
+                UserModel *user = [[CaiJinTongManager shared] user];
+                [self.lessonInterface downloadLessonInfoWithLessonId:self.lessonModel.lessonId withUserId:user.userId];
+            }
+        }];
     }
     self.isPlaying = NO;
 }
@@ -669,15 +672,18 @@
 #pragma mark Section_NoteViewControllerDelegate选中一条笔记
 -(void)section_NoteViewController:(Section_NoteViewController_iPhone *)controller didClickedNoteCellWithObj:(NoteModel *)noteModel{
 //    [self playVideo:Nil];
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
-    }else {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        self.playNoteModel = noteModel;
-        self.isClickingNoteTitle = YES;
-        UserModel *user = [[CaiJinTongManager shared] user];
-        [self.lessonInterface downloadLessonInfoWithLessonId:self.lessonModel.lessonId withUserId:user.userId];
-    }
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([networkStatus isEqualToString:@"NotReachable"]) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [Utility errorAlert:@"暂无网络"];
+        }else{
+            self.playNoteModel = noteModel;
+            self.isClickingNoteTitle = YES;
+            UserModel *user = [[CaiJinTongManager shared] user];
+            [self.lessonInterface downloadLessonInfoWithLessonId:self.lessonModel.lessonId withUserId:user.userId];
+        }
+    }];
 }
 
 #pragma mark property

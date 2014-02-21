@@ -7,6 +7,7 @@
 //
 
 #import "MyQuestionAndAnswerViewController.h"
+#import "IndexPathModel.h"
 @interface MyQuestionAndAnswerViewController ()
 @property (nonatomic,strong) NSMutableArray *myQuestionArr;
 @property (nonatomic,strong) MJRefreshHeaderView *headerRefreshView;
@@ -16,7 +17,7 @@
 @property (nonatomic,strong) SubmitAnswerInterface *submitAnswerInterface;//提交回答或者是提交追问
 @property (nonatomic,strong)  AnswerPraiseInterface *answerPraiseinterface;//提交赞接口
 @property (nonatomic,strong) SearchQuestionInterface *searchQuestionInterface;//搜索问答接口
-@property (nonatomic,strong) NSIndexPath *activeIndexPath;//正在处理中的cell
+@property (nonatomic,strong) IndexPathModel *activeIndexPath;//正在处理中的cell
 @property (nonatomic,assign) BOOL isReaskRefreshing;//判断是追问刷新还是上拉下拉刷新
 @property (nonatomic,strong) DRAskQuestionViewController *askQuestionController;
 @property (nonatomic,strong) UIViewController *modelController;
@@ -59,15 +60,23 @@
 
 #pragma mark 转换question indexpath成answer indexpath
 -(void)changeQuestionIndexPathToAnswerIndexPath:(NSArray*)questionArr{
-    int section = 0;
-    int row = 0;
-    int index = 0;
+    NSInteger section = 0;
+    NSInteger row = 0;
+    NSInteger index = 0;
     NSMutableDictionary *indexPathDic = [NSMutableDictionary dictionary];
+//    for (QuestionModel *question  in questionArr) {
+//        row = -1;
+//        [indexPathDic setValue:[NSIndexPath indexPathForRow:row++ inSection:section] forKey:[NSString stringWithFormat:@"%d",index++]];
+//        for (AnswerModel *answer in question.answerList) {
+//            [indexPathDic setValue:[NSIndexPath indexPathForRow:row++ inSection:section] forKey:[NSString stringWithFormat:@"%d",index++]];
+//        }
+//        section++;
+//    }
     for (QuestionModel *question  in questionArr) {
         row = -1;
-        [indexPathDic setValue:[NSIndexPath indexPathForRow:row++ inSection:section] forKey:[NSString stringWithFormat:@"%d",index++]];
+        [indexPathDic setValue:[IndexPathModel initWithRow:row++ withSection:section] forKey:[NSString stringWithFormat:@"%d",index++]];
         for (AnswerModel *answer in question.answerList) {
-            [indexPathDic setValue:[NSIndexPath indexPathForRow:row++ inSection:section] forKey:[NSString stringWithFormat:@"%d",index++]];
+            [indexPathDic setValue:[IndexPathModel initWithRow:row++ withSection:section] forKey:[NSString stringWithFormat:@"%d",index++]];
         }
         section++;
     }
@@ -101,13 +110,30 @@
 }
 
 
--(int)convertIndexpathToRow:(NSIndexPath*)path{//bug
-    NSArray *allkeys = [self.indexRowPathDic allKeysForObject:path];
+//-(int)convertIndexpathToRow:(NSIndexPath*)path{//bug
+//    NSArray *allkeys = [self.indexRowPathDic allKeysForObject:path];
+//    int row = -1;
+//    for (NSString *key in allkeys) {
+//        if ([self.indexRowPathDic objectForKey:key] == path) {
+//            row = key.intValue;
+//            break;  
+//        }
+//    }
+//    if (row < 0) {
+//        NSLog(@"@#############$@@@@@@@@@@row is less 0");
+//        return 0;
+//    }
+//    return row;
+//}
+
+-(int)convertIndexpathToRow:(IndexPathModel*)path{//bug
     int row = -1;
-    for (NSString *key in allkeys) {
-        if ([self.indexRowPathDic objectForKey:key] == path) {
+    NSArray *allKeys =  [self.indexRowPathDic allKeys];
+    for (NSString *key in allKeys) {
+        IndexPathModel *tempPath = [self.indexRowPathDic objectForKey:key];
+        if (tempPath.section == path.section && tempPath.row == path.row) {
             row = key.intValue;
-            break;  
+            break;
         }
     }
     if (row < 0) {
@@ -217,7 +243,7 @@
 #pragma mark --
 
 #pragma mark QuestionAndAnswerCellHeaderViewDelegate
--(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header scanAttachmentFileAtIndexPath:(NSIndexPath *)path{
+-(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header scanAttachmentFileAtIndexPath:(IndexPathModel *)path{
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
     NSString *extension = [[question.attachmentFileUrl pathExtension] lowercaseString];
         if ([extension isEqualToString:@"png"]
@@ -233,144 +259,147 @@
             [Utility errorAlert:@"无法打开，请到电脑上打开使用"];
         }
 }
--(float)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header headerHeightAtIndexPath:(NSIndexPath *)path{
+-(float)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header headerHeightAtIndexPath:(IndexPathModel *)path{
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
     CGRect rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:QUESTIONHEARD_VIEW_WIDTH];
     return rect.size.height;
 }
 
 //赞问题
--(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header flowerQuestionAtIndexPath:(NSIndexPath *)path{
+-(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header flowerQuestionAtIndexPath:(IndexPathModel *)path{
 
 }
 //将要点击回答问题按钮
--(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header willAnswerQuestionAtIndexPath:(NSIndexPath *)path{
+-(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header willAnswerQuestionAtIndexPath:(IndexPathModel *)path{
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
     question.isEditing = !question.isEditing;
      int row = [self convertIndexpathToRow:path];
     [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-    if (question.isEditing) {
-        CGRect sectionRect = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
-        float sectionMinHeight = self.tableView.frame.size.height - (CGRectGetMaxY(sectionRect) - self.tableView.contentOffset.y);
-        if (350 >= sectionMinHeight) {
-            [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (350 - sectionMinHeight)} animated:YES];
-        }
-//        [header.answerQuestionTextField becomeFirstResponder];
-    }
-
 }
 
 //提交问题的答案
--(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header didAnswerQuestionAtIndexPath:(NSIndexPath *)path withAnswer:(NSString *)text{
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
-    }else{
-       [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
-        QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
-        question.isEditing = NO;
-         int row = [self convertIndexpathToRow:path];
-        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:ReaskType_None andAnswerContent:text andQuestionId:question.questionId andAnswerID:nil  andResultId:@"0" andIndexPath:path];
-    }
+-(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header didAnswerQuestionAtIndexPath:(IndexPathModel *)path withAnswer:(NSString *)text{
+    [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([networkStatus isEqualToString:@"NotReachable"]) {
+            [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
+            [Utility errorAlert:@"暂无网络"];
+        }else{
+            
+            QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
+            question.isEditing = NO;
+            int row = [self convertIndexpathToRow:path];
+            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:ReaskType_None andAnswerContent:text andQuestionId:question.questionId andAnswerID:nil  andResultId:@"0" andIndexPath:path];
+        }
+    }];
 }
 
 //开始编辑回答
--(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header willBeginTypeAnswerQuestionAtIndexPath:(NSIndexPath *)path{
-//    int row = [self convertIndexpathToRow:path];
-//    CGRect sectionRect = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
-//    float sectionMinHeight = self.tableView.frame.size.height - (CGRectGetMaxY(sectionRect) - self.tableView.contentOffset.y);
-//    if (300 >= sectionMinHeight) {
-//        [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (300 - sectionMinHeight)} animated:YES];
-//    }
-
-
+-(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView *)header willBeginTypeAnswerQuestionAtIndexPath:(IndexPathModel *)path{
+    int row = [self convertIndexpathToRow:path];
+    CGRect sectionRect = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+    float sectionMinHeight = self.tableView.frame.size.height - (CGRectGetMaxY(sectionRect) - self.tableView.contentOffset.y);
+    
+    if (350 >= sectionMinHeight) {
+//        [self.footerRefreshView adjustFrameWhenKeyboardUP];
+        [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (350 - sectionMinHeight)} animated:YES];
+    }
 }
 #pragma mark --
 
 #pragma mark QuestionAndAnswerCellDelegate
 
 
--(float)questionAndAnswerCell:(QuestionAndAnswerCell *)cell getCellheightAtIndexPath:(NSIndexPath *)path{
+-(float)questionAndAnswerCell:(QuestionAndAnswerCell *)cell getCellheightAtIndexPath:(IndexPathModel *)path{
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
     AnswerModel *answer = [question.answerList objectAtIndex:path.row];
     CGRect rect = [DRAttributeStringView boundsRectWithAnswer:answer withWidth:QUESTIONANDANSWER_CELL_WIDTH];
     return rect.size.height;
 }
 
--(void)questionAndAnswerCell:(QuestionAndAnswerCell *)cell willBeginTypeQuestionTextFieldAtIndexPath:(NSIndexPath *)path{
+-(void)questionAndAnswerCell:(QuestionAndAnswerCell *)cell willBeginTypeQuestionTextFieldAtIndexPath:(IndexPathModel *)path{
     int row = [self convertIndexpathToRow:path];
     CGRect cellRect = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
     float cellMinHeight = self.tableView.frame.size.height - (CGRectGetMaxY(cellRect) - self.tableView.contentOffset.y);
     if (400 > cellMinHeight) {
+        [self.footerRefreshView adjustFrameWhenKeyboardUP];
         [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (400 - cellMinHeight)} animated:YES];
+        
     }
+    
 }
 
--(void)questionAndAnswerCell:(QuestionAndAnswerCell *)cell flowerAnswerAtIndexPath:(NSIndexPath *)path{
+-(void)questionAndAnswerCell:(QuestionAndAnswerCell *)cell flowerAnswerAtIndexPath:(IndexPathModel *)path{
 //    answer.isPraised = YES;
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
-    }else{
-       [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
-        QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
-        AnswerModel *answer = [question.answerList objectAtIndex:path.row];
-        self.activeIndexPath = path;
-        [self.answerPraiseinterface getAnswerPraiseInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andQuestionId:question.questionId andResultId:answer.resultId];
-    }
+    [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([networkStatus isEqualToString:@"NotReachable"]) {
+            [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
+            [Utility errorAlert:@"暂无网络"];
+        }else{
+            QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
+            AnswerModel *answer = [question.answerList objectAtIndex:path.row];
+            self.activeIndexPath = path;
+            [self.answerPraiseinterface getAnswerPraiseInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andQuestionId:question.questionId andResultId:answer.resultId];
+        }
+    }];
 }
 
 //追问
--(void)questionAndAnswerCell:(QuestionAndAnswerCell *)cell summitQuestion:(NSString *)questionStr atIndexPath:(NSIndexPath *)path withReaskType:(ReaskType)reaskType{
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
-    }else{
-       [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
-        QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
-        AnswerModel *answer = [question.answerList objectAtIndex:path.row];
-        NSString *answerID = @"";
-        Reaskmodel *reask = answer.reaskModelArray?[answer.reaskModelArray lastObject]:nil;
-        if (reaskType == ReaskType_Reask || reaskType == ReaskType_ModifyReask) {
-            if (reask && ![reask.reAnswerID isEqualToString:@""]) {
-                answerID = reask.reAnswerID;
-            }
+-(void)questionAndAnswerCell:(QuestionAndAnswerCell *)cell summitQuestion:(NSString *)questionStr atIndexPath:(IndexPathModel *)path withReaskType:(ReaskType)reaskType{
+    
+    [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([networkStatus isEqualToString:@"NotReachable"]) {
+            [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
+            [Utility errorAlert:@"暂无网络"];
         }else{
-            if (reask && ![reask.reaskID isEqualToString:@""]) {
-                answerID = reask.reaskID;
-            }
+            
+            QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
+            AnswerModel *answer = [question.answerList objectAtIndex:path.row];
+            NSString *answerID = answer.resultId;
+            [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:reaskType andAnswerContent:questionStr andQuestionId:question.questionId andAnswerID:answerID  andResultId:@"1" andIndexPath:path];
         }
-        [self.submitAnswerInterface getSubmitAnswerInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andReaskTyep:reaskType andAnswerContent:questionStr andQuestionId:question.questionId andAnswerID:answerID  andResultId:@"1" andIndexPath:path];
-    }
+    }];
+
 }
 
--(void)questionAndAnswerCell:(QuestionAndAnswerCell *)cell isHiddleQuestionView:(BOOL)isHiddle atIndexPath:(NSIndexPath *)path{
+-(void)questionAndAnswerCell:(QuestionAndAnswerCell *)cell isHiddleQuestionView:(BOOL)isHiddle atIndexPath:(IndexPathModel *)path{
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
     AnswerModel *answer = [question.answerList objectAtIndex:path.row];
     answer.isEditing = isHiddle;
     int row = [self convertIndexpathToRow:path];
     [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-    if (answer.isEditing) {
-        CGRect cellRect = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
-        float cellMinHeight = self.tableView.frame.size.height - (CGRectGetMaxY(cellRect) - self.tableView.contentOffset.y);
-        if (400 > cellMinHeight) {
-            [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (400 - cellMinHeight)} animated:YES];
-        }
-    }
+//    if (answer.isEditing) {
+//        CGRect cellRect = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+//        float cellMinHeight = self.tableView.frame.size.height - (CGRectGetMaxY(cellRect) - self.tableView.contentOffset.y);
+//        if (400 > cellMinHeight) {
+//            [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (400 - cellMinHeight)} animated:YES];
+//        }
+//        [self.footerRefreshView adjustFrameWhenKeyboardUP];
+//    }
     
 }
 #pragma mark -- 采纳答案
--(void)questionAndAnswerCell:(QuestionAndAnswerCell *)cell acceptAnswerAtIndexPath:(NSIndexPath *)path{
+-(void)questionAndAnswerCell:(QuestionAndAnswerCell *)cell acceptAnswerAtIndexPath:(IndexPathModel *)path{
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
     AnswerModel *answer = [question.answerList objectAtIndex:path.row];
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
-    }else {
-       [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
-        self.activeIndexPath = path;
-        AcceptAnswerInterface *acceptAnswerInter = [[AcceptAnswerInterface alloc]init];
-        self.acceptAnswerInterface = acceptAnswerInter;
-        self.acceptAnswerInterface.delegate = self;
-        [self.acceptAnswerInterface getAcceptAnswerInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andQuestionId:question.questionId andAnswerID:answer.answerId andCorrectAnswerID:answer.resultId];
-    }
+    
+    [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([networkStatus isEqualToString:@"NotReachable"]) {
+            [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
+            [Utility errorAlert:@"暂无网络"];
+        }else{
+            
+            self.activeIndexPath = path;
+            AcceptAnswerInterface *acceptAnswerInter = [[AcceptAnswerInterface alloc]init];
+            self.acceptAnswerInterface = acceptAnswerInter;
+            self.acceptAnswerInterface.delegate = self;
+            [self.acceptAnswerInterface getAcceptAnswerInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andQuestionId:question.questionId andAnswerID:answer.answerId andCorrectAnswerID:answer.resultId];
+        }
+    }];
 }
 #pragma mark --
 
@@ -386,7 +415,7 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSIndexPath *path  = [self.indexRowPathDic objectForKey:[NSString stringWithFormat:@"%d",indexPath.row]];
+    IndexPathModel *path  = [self.indexRowPathDic objectForKey:[NSString stringWithFormat:@"%d",indexPath.row]];
     if (path.row < 0) {//问题
         QuestionAndAnswerCellHeaderView *header = (QuestionAndAnswerCellHeaderView*)[tableView dequeueReusableCellWithIdentifier:@"questionCell"];
         QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
@@ -415,7 +444,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSIndexPath *path  = [self.indexRowPathDic objectForKey:[NSString stringWithFormat:@"%d",indexPath.row]];
+    IndexPathModel *path  = [self.indexRowPathDic objectForKey:[NSString stringWithFormat:@"%d",indexPath.row]];
     if (path.row < 0) {
         return [self getTableViewHeaderHeightWithSection:path.section];
     }else{
@@ -511,7 +540,7 @@
 //    }
 //}
 
--(float)getTableViewRowHeightWithIndexPath:(NSIndexPath*)path{
+-(float)getTableViewRowHeightWithIndexPath:(IndexPathModel*)path{
     NSLog(@"%d,%d",path.section,path.row);
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
     if (question.answerList == nil || [question.answerList count] <= 0) {
@@ -701,24 +730,17 @@
 #pragma mark --
 
 #pragma mark SubmitAnswerInterfaceDelegate 提交回答或者提交追问的代理
--(void)getSubmitAnswerInfoDidFinished:(NSMutableArray *)result withReaskType:(ReaskType)reask andIndexPath:(NSIndexPath *)path{
+-(void)getSubmitAnswerInfoDidFinished:(NSMutableArray *)result withReaskType:(ReaskType)reask andIndexPath:(IndexPathModel *)path{
 //    self.isReaskRefreshing = YES;
 //    self.tableView.contentOffset = (CGPoint){self.tableView.contentOffset.x,0};
 //     [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andChapterQuestionId:self.chapterID andLastQuestionID:nil];
     [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
     [Utility errorAlert:@"提交成功"];
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
-    AnswerModel *answer = [question.answerList objectAtIndex:path.row];
-    answer.isEditing = NO;
     question.isEditing = NO;
     question.answerList = result;
     [self changeQuestionIndexPathToAnswerIndexPath:self.myQuestionArr];
-    int row = [self convertIndexpathToRow:path];
-    NSMutableArray *indexPathArr = [NSMutableArray array];
-    for (int index = 1; index <= result.count; index++) {
-        [indexPathArr addObject:[NSIndexPath indexPathForRow:row+index inSection:0]];
-    }
-    [self.tableView reloadRowsAtIndexPaths:indexPathArr withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView reloadData];
 }
 
 -(void)getSubmitAnswerDidFailed:(NSString *)errorMsg withReaskType:(ReaskType)reask{

@@ -499,35 +499,30 @@
         [self changePlayButtonStatus:YES];
     }
 
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
-    }else {
-        UserModel *user = [[CaiJinTongManager shared] user];
-         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        __weak DRMoviePlayViewController *weakSelf = self;
-        [UploadImageDataInterface uploadImageWithUserId:user.userId withQuestionCategoryId:questionId withQuestionTitle:title withQuestionContent:text withUploadedData:UIImageJPEGRepresentation(controller.cutImage, 0) withSuccess:^(NSString *success) {
-            DRMoviePlayViewController *tempSelf = weakSelf;
-            if (tempSelf) {
-                [MBProgressHUD hideHUDForView:tempSelf.view animated:YES];
-                [Utility errorAlert:@"提交问题成功"];
-            }
-            
-        } withFailure:^(NSString *failureMsg) {
-            DRMoviePlayViewController *tempSelf = weakSelf;
-            if (tempSelf) {
-                [MBProgressHUD hideHUDForView:tempSelf.view animated:YES];
-                [Utility errorAlert:@"提交问题失败"];
-            }
-        }];
-//        if (controller.cutImage) {//上传图片
-//
-//        }else{
-//            AskQuestionInterface *askQuestionInter = [[AskQuestionInterface alloc]init];
-//            self.askQuestionInterface = askQuestionInter;
-//            self.askQuestionInterface.delegate = self;
-//            [self.askQuestionInterface getAskQuestionInterfaceDelegateWithUserId:user.userId andSectionId:questionId andQuestionName:title andQuestionContent:text];
-//        }
-    }
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([networkStatus isEqualToString:@"NotReachable"]) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [Utility errorAlert:@"暂无网络"];
+        }else{
+            UserModel *user = [[CaiJinTongManager shared] user];
+            __weak DRMoviePlayViewController *weakSelf = self;
+            [UploadImageDataInterface uploadImageWithUserId:user.userId withQuestionCategoryId:questionId withQuestionTitle:title withQuestionContent:text withUploadedData:UIImageJPEGRepresentation(controller.cutImage, 0) withSuccess:^(NSString *success) {
+                DRMoviePlayViewController *tempSelf = weakSelf;
+                if (tempSelf) {
+                    [MBProgressHUD hideHUDForView:tempSelf.view animated:YES];
+                    [Utility errorAlert:@"提交问题成功"];
+                }
+                
+            } withFailure:^(NSString *failureMsg) {
+                DRMoviePlayViewController *tempSelf = weakSelf;
+                if (tempSelf) {
+                    [MBProgressHUD hideHUDForView:tempSelf.view animated:YES];
+                    [Utility errorAlert:@"提交问题失败"];
+                }
+            }];
+        }
+    }];
 }
 
 -(void)commitQuestionControllerCancel{
@@ -547,19 +542,23 @@
     if (self.isPlaying) {
         [self changePlayButtonStatus:YES];
     }
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
-    }else {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        SumitNoteInterface *sumitNoteInter = [[SumitNoteInterface alloc]init];
-        self.sumitNoteInterface = sumitNoteInter;
-        self.sumitNoteInterface.delegate = self;
-        [self.sumitNoteInterface
-         getSumitNoteInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId
-         andSectionId:self.sectionModel.sectionId
-         andNoteTime:noteTime
-         andNoteText:text];
-    }
+    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([networkStatus isEqualToString:@"NotReachable"]) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [Utility errorAlert:@"暂无网络"];
+        }else{
+            SumitNoteInterface *sumitNoteInter = [[SumitNoteInterface alloc]init];
+            self.sumitNoteInterface = sumitNoteInter;
+            self.sumitNoteInterface.delegate = self;
+            [self.sumitNoteInterface
+             getSumitNoteInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId
+             andSectionId:self.sectionModel.sectionId
+             andNoteTime:noteTime
+             andNoteText:text];
+        }
+    }];
 }
 
 -(void)takingMovieNoteControllerCancel{
@@ -643,38 +642,41 @@
 
 -(void)saveCurrentStatus{
     [self  endStudyTime];
-    NSString *timespan = [NSString stringWithFormat:@"%.2f",self.moviePlayer.currentPlaybackTime];
+    __block NSString *timespan = [NSString stringWithFormat:@"%.2f",self.moviePlayer.currentPlaybackTime];
     self.sectionModel.sectionFinishedDate = [Utility getNowDateFromatAnDate];
     self.sectionModel.sectionLastPlayTime = timespan;
     [[Section defaultSection] saveSectionModelFinishedDateWithSectionModel:self.sectionModel withLessonId:self.sectionModel.lessonId];
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        if (self.isBack) {
-            [self exitPlayMovie];
-        }
-        [[Section defaultSection] addPlayTimeOffLineWithSectionId:self.sectionModel.sectionId withTimeForSecond:[NSString stringWithFormat:@"%llu",self.studyTime]];
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-       if (self.loadMovieDataProgressView) {
+    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([networkStatus isEqualToString:@"NotReachable"]) {
+            if (self.isBack) {
+                [self exitPlayMovie];
+            }
+            [[Section defaultSection] addPlayTimeOffLineWithSectionId:self.sectionModel.sectionId withTimeForSecond:[NSString stringWithFormat:@"%llu",self.studyTime]];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            if (self.loadMovieDataProgressView) {
                 [self.loadMovieDataProgressView removeFromSuperview];
-            [self.loadMovieDataProgressView hide:YES];
+                [self.loadMovieDataProgressView hide:YES];
                 self.loadMovieDataProgressView = nil;
             }
-    }else {
-        //判断是否播放完毕
-        //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        PlayBackInterface *playBackInter = [[PlayBackInterface alloc]init];
-        self.playBackInterface = playBackInter;
-        self.playBackInterface.delegate = self;
-        NSString *totalTime = [[Section defaultSection] selectTotalPlayTimeOffLineWithSectionId:self.sectionModel.sectionId];
-        if (totalTime && ![totalTime isEqualToString:@"0"]) {
-//            timespan = [[Section defaultSection] selectTotalPlayDateOffLineWithSectionId:self.sectionModel.sectionId];
-            timespan = [NSString stringWithFormat:@"%llu",totalTime.intValue+self.studyTime];
-        }else{
-//            timespan = [Utility getNowDateFromatAnDate];
-             timespan = [NSString stringWithFormat:@"%llu",self.studyTime];
+        }else {
+            //判断是否播放完毕
+            PlayBackInterface *playBackInter = [[PlayBackInterface alloc]init];
+            self.playBackInterface = playBackInter;
+            self.playBackInterface.delegate = self;
+            NSString *totalTime = [[Section defaultSection] selectTotalPlayTimeOffLineWithSectionId:self.sectionModel.sectionId];
+            if (totalTime && ![totalTime isEqualToString:@"0"]) {
+                //            timespan = [[Section defaultSection] selectTotalPlayDateOffLineWithSectionId:self.sectionModel.sectionId];
+                timespan = [NSString stringWithFormat:@"%llu",totalTime.intValue+self.studyTime];
+            }else{
+                //            timespan = [Utility getNowDateFromatAnDate];
+                timespan = [NSString stringWithFormat:@"%llu",self.studyTime];
+            }
+            NSString *status = self.seekSlider.value >= 1?@"completed": @"incomplete";
+            [self.playBackInterface getPlayBackInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionModel.sectionId andTimeEnd:timespan andStatus:status andStartPlayDate:self.startPlayDate];
         }
-        NSString *status = self.seekSlider.value >= 1?@"completed": @"incomplete";
-        [self.playBackInterface getPlayBackInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionModel.sectionId andTimeEnd:timespan andStatus:status andStartPlayDate:self.startPlayDate];
-    }
+    }];
 }
 
 //告诉后台将要开始播放

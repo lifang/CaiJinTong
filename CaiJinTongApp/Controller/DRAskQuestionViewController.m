@@ -156,15 +156,19 @@ static BOOL tableVisible;
     }
     
     if (self.selectedQuestionCategoryId != nil && ![self.dropDownBt.titleLabel.text isEqualToString:DROPDOWNMENU_TITLE]){
-        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-            [Utility errorAlert:@"暂无网络!"];
-        }else {
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            AskQuestionInterface *askQuestionInter = [[AskQuestionInterface alloc]init];
-            self.askQuestionInterface = askQuestionInter;
-            self.askQuestionInterface.delegate = self;
-            [self.askQuestionInterface getAskQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.selectedQuestionCategoryId andQuestionName:questionTitle andQuestionContent:questionContent];
-        }
+        
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+            if ([networkStatus isEqualToString:@"NotReachable"]) {
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [Utility errorAlert:@"暂无网络"];
+            }else{
+                AskQuestionInterface *askQuestionInter = [[AskQuestionInterface alloc]init];
+                self.askQuestionInterface = askQuestionInter;
+                self.askQuestionInterface.delegate = self;
+                [self.askQuestionInterface getAskQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.selectedQuestionCategoryId andQuestionName:questionTitle andQuestionContent:questionContent];
+            }
+        }];
     }else{
         [Utility errorAlert:@"请选择一个问题类型!"];
     }

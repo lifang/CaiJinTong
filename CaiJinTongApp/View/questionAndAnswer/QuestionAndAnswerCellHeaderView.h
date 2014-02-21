@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "QuestionModel.h"
 #import "DRAttributeStringView.h"
+#import "IndexPathModel.h"
 #define TEXT_FONT_SIZE 14
 #define TEXT_FONT [UIFont systemFontOfSize:TEXT_FONT_SIZE]
 #define TEXT_PADDING 10
@@ -18,7 +19,7 @@
 #define ContentMinHeight 210
 @protocol QuestionAndAnswerCellHeaderViewDelegate;
 @interface QuestionAndAnswerCellHeaderView : UITableViewCell<UITextViewDelegate>
-@property (strong,nonatomic) NSIndexPath *path;
+@property (strong,nonatomic) IndexPathModel *path;
 @property (nonatomic,strong) DRAttributeStringView *questionContentAttributeView;
 @property (nonatomic,strong) UITextView *answerQuestionTextField;//回答输入框
 @property (weak,nonatomic) id <QuestionAndAnswerCellHeaderViewDelegate> delegate;
@@ -28,14 +29,14 @@
 
 @protocol QuestionAndAnswerCellHeaderViewDelegate <NSObject>
 
--(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView*)header flowerQuestionAtIndexPath:(NSIndexPath*)path;
+-(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView*)header flowerQuestionAtIndexPath:(IndexPathModel*)path;
 
--(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView*)header willAnswerQuestionAtIndexPath:(NSIndexPath*)path;
+-(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView*)header willAnswerQuestionAtIndexPath:(IndexPathModel*)path;
 
--(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView*)header didAnswerQuestionAtIndexPath:(NSIndexPath*)path withAnswer:(NSString*)text;
+-(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView*)header didAnswerQuestionAtIndexPath:(IndexPathModel*)path withAnswer:(NSString*)text;
 
--(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView*)header willBeginTypeAnswerQuestionAtIndexPath:(NSIndexPath*)path;
+-(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView*)header willBeginTypeAnswerQuestionAtIndexPath:(IndexPathModel*)path;
 
--(float)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView*)header headerHeightAtIndexPath:(NSIndexPath*)path;
--(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView*)header scanAttachmentFileAtIndexPath:(NSIndexPath*)path;
+-(float)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView*)header headerHeightAtIndexPath:(IndexPathModel*)path;
+-(void)questionAndAnswerCellHeaderView:(QuestionAndAnswerCellHeaderView*)header scanAttachmentFileAtIndexPath:(IndexPathModel*)path;
 @end

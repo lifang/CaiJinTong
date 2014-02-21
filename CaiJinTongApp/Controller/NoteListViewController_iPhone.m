@@ -124,15 +124,18 @@
 
 #pragma mark NoteListCell_iPhoneDelegate
 -(void)NoteListCell_iPhone:(NoteListCell_iPhone *)cell playTitleBtClickedAtIndexPath:(NSIndexPath *)path{
-    if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-        [Utility errorAlert:@"暂无网络!"];
-    }else {
-        NoteModel *note = self.isSearchRefreshing ? [self.searchArray objectAtIndex:path.row]: [self.noteDateList objectAtIndex:path.row];
-        self.playNoteModel = note;
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        UserModel *user = [[CaiJinTongManager shared] user];
-        [self.lessonInterface downloadLessonInfoWithLessonId:note.noteLessonId withUserId:user.userId];
-    }
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([networkStatus isEqualToString:@"NotReachable"]) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [Utility errorAlert:@"暂无网络"];
+        }else{
+            NoteModel *note = self.isSearchRefreshing ? [self.searchArray objectAtIndex:path.row]: [self.noteDateList objectAtIndex:path.row];
+            self.playNoteModel = note;
+            UserModel *user = [[CaiJinTongManager shared] user];
+            [self.lessonInterface downloadLessonInfoWithLessonId:note.noteLessonId withUserId:user.userId];
+        }
+    }];
 }
 
 -(void)NoteListCell_iPhone:(NoteListCell_iPhone *)cell willDeleteCellAtIndexPath:(NSIndexPath *)path{

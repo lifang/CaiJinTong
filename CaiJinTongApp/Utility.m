@@ -29,8 +29,26 @@
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"财金通提示" message:message delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
     [alert show];
 }
-+ (NSString *)isExistenceNetwork {
-    NSString *str = nil;
+//+ (NSString *)isExistenceNetwork {
+//    NSString *str = nil;
+//	Reachability *r = [Reachability reachabilityWithHostName:@"lms.finance365.com"];
+//    switch ([r currentReachabilityStatus]) {
+//        case NotReachable:
+//			str = @"NotReachable";
+//            break;
+//        case ReachableViaWWAN:
+//			str = @"ReachableViaWWAN";
+//            break;
+//        case ReachableViaWiFi:
+//			str = @"ReachableViaWiFi";
+//            break;
+//    }
+//    return str;
+//}
+
++(void)judgeNetWorkStatus:(void (^)(NSString*networkStatus))networkStatus{
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    NSString *str = @"NotReachable";
 	Reachability *r = [Reachability reachabilityWithHostName:@"lms.finance365.com"];
     switch ([r currentReachabilityStatus]) {
         case NotReachable:
@@ -43,9 +61,11 @@
 			str = @"ReachableViaWiFi";
             break;
     }
-    return str;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        networkStatus(str);
+    });
+});
 }
-
 +(NSAttributedString*)getTextSizeWithAnswerModel:(AnswerModel*)answer withFont:(UIFont*)font withWidth:(float)width{
     if (answer.answerContent && font) {
         NSMutableString *content = [NSMutableString stringWithFormat:@"     %@",answer.answerContent?:@""];

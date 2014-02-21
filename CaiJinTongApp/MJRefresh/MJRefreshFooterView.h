@@ -8,5 +8,14 @@
 
 #import "MJRefreshBaseView.h"
 @interface MJRefreshFooterView : MJRefreshBaseView
+@property (assign,nonatomic) BOOL isNotObserve;
+/**
+ * @brief 重新调整底部进度条
+ *
+ * @param
+ *
+ * @return
+ */
 - (void)adjustFrameWhenKeyboardUP;
+- (void)adjustFrameWhenKeyboardDOWN;
 @end

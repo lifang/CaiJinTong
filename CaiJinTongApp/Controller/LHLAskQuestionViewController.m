@@ -29,15 +29,20 @@ static BOOL tableVisible;
     if([CaiJinTongManager shared].question.count > 0){
         self.questionList = [NSMutableArray arrayWithArray:[CaiJinTongManager shared].question];
     }else{
-        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-            [Utility errorAlert:@"暂无网络!"];
-        }else {
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            QuestionInfoInterface *questionInfoInter = [[QuestionInfoInterface alloc]init];
-            self.questionInfoInterface = questionInfoInter;
-            self.questionInfoInterface.delegate = self;
-            [self.questionInfoInterface getQuestionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId];
-        }
+        
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+            if ([networkStatus isEqualToString:@"NotReachable"]) {
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [Utility errorAlert:@"暂无网络"];
+            }else{
+                QuestionInfoInterface *questionInfoInter = [[QuestionInfoInterface alloc]init];
+                self.questionInfoInterface = questionInfoInter;
+                self.questionInfoInterface.delegate = self;
+                [self.questionInfoInterface getQuestionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId];
+            }
+        }];
+
     }
 }
 
@@ -270,15 +275,19 @@ static BOOL tableVisible;
     NSString *questionContent = self.questionContentTextView.text?[self.questionContentTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]:@"";
     
     if (self.selectedQuestionId != nil && ![questionContent isEqualToString:@""] && ![questionTitle isEqualToString:@""]&& ![self.selectedQuestionName.text isEqualToString:@"点击按钮选择一个类型:"]){
-        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-            [Utility errorAlert:@"暂无网络!"];
-        }else {
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            AskQuestionInterface *askQuestionInter = [[AskQuestionInterface alloc]init];
-            self.askQuestionInterface = askQuestionInter;
-            self.askQuestionInterface.delegate = self;
-            [self.askQuestionInterface getAskQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.selectedQuestionId andQuestionName:questionTitle andQuestionContent:questionContent];
-        }
+        
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+            if ([networkStatus isEqualToString:@"NotReachable"]) {
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [Utility errorAlert:@"暂无网络"];
+            }else{
+                AskQuestionInterface *askQuestionInter = [[AskQuestionInterface alloc]init];
+                self.askQuestionInterface = askQuestionInter;
+                self.askQuestionInterface.delegate = self;
+                [self.askQuestionInterface getAskQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.selectedQuestionId andQuestionName:questionTitle andQuestionContent:questionContent];
+            }
+        }];
     }else{
         [Utility errorAlert:@"请选择一个问题类型!"];
     }

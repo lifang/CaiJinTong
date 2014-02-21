@@ -102,15 +102,19 @@
     if([CaiJinTongManager shared].question.count > 0){
         self.questionList = [NSMutableArray arrayWithArray:[CaiJinTongManager shared].question];
     }else{
-        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-            [Utility errorAlert:@"暂无网络!"];
-        }else {
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            QuestionInfoInterface *questionInfoInter = [[QuestionInfoInterface alloc]init];
-            self.questionInfoInterface = questionInfoInter;
-            self.questionInfoInterface.delegate = self;
-            [self.questionInfoInterface getQuestionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId];
-        }
+        
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+            if ([networkStatus isEqualToString:@"NotReachable"]) {
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [Utility errorAlert:@"暂无网络"];
+            }else{
+                QuestionInfoInterface *questionInfoInter = [[QuestionInfoInterface alloc]init];
+                self.questionInfoInterface = questionInfoInter;
+                self.questionInfoInterface.delegate = self;
+                [self.questionInfoInterface getQuestionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId];
+            }
+        }];
     }
 }
 
