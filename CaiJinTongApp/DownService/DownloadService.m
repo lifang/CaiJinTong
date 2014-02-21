@@ -152,8 +152,8 @@
         }
     }
     //删除
-    [[Section defaultSection] updateTheStateWithSid:nm.sid andDownloadState:4];
-
+//    [[Section defaultSection] updateTheStateWithSid:nm.sid andDownloadState:4];
+    [[Section defaultSection] deleteDataWithSid:nm.sid];
 
     //删除Document下的残留
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -171,6 +171,7 @@
     //send notification
     [[NSNotificationCenter defaultCenter] postNotificationName:@"removeDownLoad" object:nil];
 }
+
 //停止下载
 -(void)stopTask:(SectionSaveModel *)nm {
     //判断当前下载任务是否已经在下载队列中

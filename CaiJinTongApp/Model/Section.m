@@ -459,7 +459,7 @@ static Section *defaultSection = nil;
     [(NSOperationQueue*)queue cancelAllOperations];
     for (SectionModel *sectionModel in [[Section defaultSection] getAllSection]) {
         NSString *path = [CaiJinTongManager getMovieLocalPathWithSectionID:sectionModel.sectionId];
-        if ([fileManager isExecutableFileAtPath:path] && [fileManager fileExistsAtPath:path]) {
+        if ([fileManager fileExistsAtPath:path]) {
             if (error) {
                 [fileManager removeItemAtPath:path error:nil];
             }else{
@@ -476,7 +476,7 @@ static Section *defaultSection = nil;
     for (LearningMaterials *material in allMaterialArr) {
         NSString *path = material.materialFileLocalPath;
         if (path) {
-            if ([fileManager isExecutableFileAtPath:path] && [fileManager fileExistsAtPath:path]) {
+            if ([fileManager fileExistsAtPath:path]) {
                 if (materialError) {
                     [fileManager removeItemAtPath:path error:nil];
                 }else{
