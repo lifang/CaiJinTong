@@ -24,6 +24,7 @@
         [self.networkQueue setRequestDidFinishSelector:@selector(requestFinished:)];
         [self.networkQueue setQueueDidFinishSelector:@selector(queueFinished:)];
         [self.networkQueue setShowAccurateProgress:YES];
+        [self.networkQueue setMaxConcurrentOperationCount:1];
         [self.networkQueue go];
     }
     return self;
