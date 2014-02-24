@@ -9,7 +9,6 @@
 #import "BaseInterface.h"
 #import "NSDictionary+AllKeytoLowerCase.h"
 #import "InterfaceCache.h"
-
 @implementation BaseInterface
 @synthesize baseDelegate = _baseDelegate , request = _request;
 @synthesize interfaceUrl = _interfaceUrl , headers = _headers , bodys = _bodys;
