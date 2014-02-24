@@ -38,7 +38,6 @@
 #pragma mark Action Methods
 
 - (IBAction)keyboardGoAway:(id)sender {
-    [self.userName resignFirstResponder];
     [self.email resignFirstResponder];
 }
 

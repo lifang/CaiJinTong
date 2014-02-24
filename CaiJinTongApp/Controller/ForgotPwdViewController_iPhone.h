@@ -10,7 +10,6 @@
 #import "LHLNavigationBarViewController.h"
 #import "FindPassWordInterface.h"
 @interface ForgotPwdViewController_iPhone : LHLNavigationBarViewController<FindPassWordInterfaceDelegate>
-@property (weak, nonatomic) IBOutlet UITextField *userName;
 @property (weak, nonatomic) IBOutlet UITextField *email;
 @property (weak, nonatomic) IBOutlet UIButton *commitBtn;
 - (IBAction)keyboardGoAway:(id)sender;
