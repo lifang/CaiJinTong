@@ -38,7 +38,7 @@
 +(AppDelegate *)sharedInstance {
     return (AppDelegate *)[[UIApplication sharedApplication] delegate];
 }
-- (void)showRootView {
+- (void)showRootView { 
     
 }
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
