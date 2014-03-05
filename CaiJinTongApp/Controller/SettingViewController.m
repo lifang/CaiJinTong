@@ -11,7 +11,7 @@
 #import "InfoViewController.h"
 #import "UIImageView+WebCache.h"
 #import "SDImageCache.h"
-
+#import "ASINetworkQueue.h"
 #define Info_HEADER_IDENTIFIER @"infoheader"
 @interface SettingViewController ()
 
@@ -258,6 +258,12 @@ NSString *appleID = @"6224939";
 -(void)infoCellView:(InfoCell*)header {
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
     AppDelegate *app = [AppDelegate sharedInstance];
+    if (app.mDownloadService && app.mDownloadService.networkQueue) {
+        ASINetworkQueue *queue = app.mDownloadService.networkQueue;
+        if (queue.operationCount > 0) {
+            [queue cancelAllOperations];
+        }
+    }
     [app.lessonViewCtrol.navigationController popToRootViewControllerAnimated:NO];
 }
 

@@ -55,7 +55,7 @@
                             [self.delegate getLogInfoDidFailed:@"登录失败!"];
                         }
                     }else{
-                        [self.delegate getLogInfoDidFailed:@"服务器连接失败，请稍后再试!"];
+                        [self.delegate getLogInfoDidFailed:[jsonData objectForKey:@"Msg"]];
                     }
                 }else {
                     [self.delegate getLogInfoDidFailed:@"登录失败!"];

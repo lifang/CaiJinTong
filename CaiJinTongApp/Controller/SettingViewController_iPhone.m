@@ -11,7 +11,7 @@
 #import "InfoViewController_iPhone.h"
 #import "UIImageView+WebCache.h"
 #import "SDImageCache.h"
-
+#import "ASINetworkQueue.h"
 #define Info_HEADER_IDENTIFIER @"infoheader"
 @interface SettingViewController_iPhone ()
 
@@ -267,7 +267,13 @@ NSString *appleID_ = @"6224939";
 #pragma mark -- cellDelegate
 -(void)infoCellView:(InfoCell*)header {
     [self.navigationController popViewControllerAnimated:YES];
-//    AppDelegate *app = [AppDelegate sharedInstance];
+    AppDelegate *app = [AppDelegate sharedInstance];
+    if (app.mDownloadService && app.mDownloadService.networkQueue) {
+        ASINetworkQueue *queue = app.mDownloadService.networkQueue;
+        if (queue.operationCount > 0) {
+            [queue cancelAllOperations];
+        }
+    }
 //    [app.lessonViewCtrol.navigationController popToRootViewControllerAnimated:NO];
 }
 

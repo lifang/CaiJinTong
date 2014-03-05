@@ -105,21 +105,23 @@
 
 //获取问题tableView所需的数据
 -(void)getQuestionCategoryNodes{
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
         if ([networkStatus isEqualToString:@"NotReachable"]) {
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+//            [MBProgressHUD hideHUDForView:self.view animated:YES];
             [Utility errorAlert:@"暂无网络"];
         }else{
             QuestionInfoInterface *questionInfoInter = [[QuestionInfoInterface alloc]init];
             self.questionInfoInterface = questionInfoInter;
             self.questionInfoInterface.delegate = self;
             self.otherQuestionNodesOK = NO;
+            [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
             [self.questionInfoInterface getQuestionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId];
             
             UserModel *user = [[CaiJinTongManager shared] user];
             self.myQuestionNodesOK = NO;
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
+//            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             [self.myQuestionCategatoryInterface downloadMyQuestionCategoryDataWithUserId:user.userId];
         }
     }];
@@ -1084,8 +1086,9 @@
         self.myAnswerCategoryArr = myAnswerCategoryNotes;
         self.myQuestionCategoryArr = myQuestionCategoryNotes;
         self.myQuestionNodesOK = YES;
+        [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
         if(self.myQuestionNodesOK && self.otherQuestionNodesOK){
-            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+//            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
             self.drTreeTableView.noteArr = [self togetherAllQuestionCategorys];
         }
         
@@ -1094,7 +1097,7 @@
 
 -(void)getMyQuestionCategoryDataFailure:(NSString *)errorMsg{
     dispatch_async(dispatch_get_main_queue(), ^{
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
         [Utility errorAlert:errorMsg];
     });
 }
@@ -1106,15 +1109,16 @@
         self.allQuestionCategoryArr = questionCategoryArr;
         [[CaiJinTongManager shared] setQuestionCategoryArr:questionCategoryArr] ;
         self.otherQuestionNodesOK = YES;
+        [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
         if(self.myQuestionNodesOK && self.otherQuestionNodesOK){
-            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+//            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
             self.drTreeTableView.noteArr = [self togetherAllQuestionCategorys];
         }
     });
 }
 -(void)getQuestionInfoDidFailed:(NSString *)errorMsg {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
         [Utility errorAlert:errorMsg];
     });
 }
