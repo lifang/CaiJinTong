@@ -52,7 +52,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     if(!self.isRequesting){
-        [self makeTestData];
+        [self makeNewData];
     }
 }
 
@@ -99,38 +99,36 @@
     
     self.questionIndexesArray = [NSMutableArray arrayWithCapacity:5];
     
-    //测试数据
-    [self makeTestData];
+    //数据
+    [self makeNewData];
 }
 
 //获取问题tableView所需的数据
 -(void)getQuestionCategoryNodes{
-//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
     [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
         if ([networkStatus isEqualToString:@"NotReachable"]) {
-//            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
             [Utility errorAlert:@"暂无网络"];
         }else{
             QuestionInfoInterface *questionInfoInter = [[QuestionInfoInterface alloc]init];
             self.questionInfoInterface = questionInfoInter;
             self.questionInfoInterface.delegate = self;
             self.otherQuestionNodesOK = NO;
-            [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
             [self.questionInfoInterface getQuestionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId];
             
             UserModel *user = [[CaiJinTongManager shared] user];
             self.myQuestionNodesOK = NO;
             [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
-//            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             [self.myQuestionCategatoryInterface downloadMyQuestionCategoryDataWithUserId:user.userId];
         }
     }];
-
+    
 }
 
-#pragma mark 测试数据
+#pragma mark 数据
 
--(void)makeTestData{
+-(void)makeNewData{
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     //此接口property及其代理+回调方法也删掉
     self.getUserQuestionInterface = [[GetUserQuestionInterface alloc] init];
@@ -534,7 +532,7 @@
 -(void)rightItemClicked:(id)sender{
     [self.searchBar.searchTextField resignFirstResponder];
     
-    if(!self.drTreeTableView){
+    if((!self.drTreeTableView || self.drTreeTableView.noteArr.count < 1) && self.menuVisible != YES){
         _drTreeTableView = [[DRTreeTableView alloc] initWithFrame:CGRectMake(120,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55)) withTreeNodeArr:nil];
         _drTreeTableView.delegate = self;
         [self.view addSubview:_drTreeTableView];
@@ -1082,13 +1080,11 @@
 #pragma mark --MyQuestionCategatoryInterfaceDelegate 获取我的问答分类接口  ---有效接口1
 -(void)getMyQuestionCategoryDataDidFinishedWithMyAnswerCategorynodes:(NSArray *)myAnswerCategoryNotes withMyQuestionCategorynodes:(NSArray *)myQuestionCategoryNotes{
     dispatch_async(dispatch_get_main_queue(), ^{
-//        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
         self.myAnswerCategoryArr = myAnswerCategoryNotes;
         self.myQuestionCategoryArr = myQuestionCategoryNotes;
         self.myQuestionNodesOK = YES;
-        [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
         if(self.myQuestionNodesOK && self.otherQuestionNodesOK){
-//            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
             self.drTreeTableView.noteArr = [self togetherAllQuestionCategorys];
         }
         
@@ -1105,13 +1101,11 @@
 #pragma mark --QuestionInfoInterfaceDelegate 获取所有问答分类信息     ---有效接口2
 -(void)getQuestionInfoDidFinished:(NSArray *)questionCategoryArr {
     dispatch_async(dispatch_get_main_queue(), ^{
-//        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
         self.allQuestionCategoryArr = questionCategoryArr;
         [[CaiJinTongManager shared] setQuestionCategoryArr:questionCategoryArr] ;
         self.otherQuestionNodesOK = YES;
-        [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
         if(self.myQuestionNodesOK && self.otherQuestionNodesOK){
-//            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
             self.drTreeTableView.noteArr = [self togetherAllQuestionCategorys];
         }
     });

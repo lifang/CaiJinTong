@@ -472,7 +472,7 @@
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         self.lessonListForCategory.currentPageIndex = 0;
         self.isSearch = NO;
-        [self setMenuVisible:NO];
+//        [self setMenuVisible:NO];
         [self reloadDataWithDataArray:lessonList withCategoryId:self.lessonListForCategory.lessonCategoryId];
     });
 }

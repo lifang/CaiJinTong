@@ -195,7 +195,6 @@
 		1812A4DF1851B2F5009B3D5D /* 按钮背景@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1812A4DE1851B2F5009B3D5D /* 按钮背景@2x.png */; };
 		1812A4E11851B647009B3D5D /* leftItemBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1812A4E01851B647009B3D5D /* leftItemBg@2x.png */; };
 		1812A4E31851B80D009B3D5D /* rightItemBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1812A4E21851B80D009B3D5D /* rightItemBg@2x.png */; };
-		1812A4E61851CB89009B3D5D /* MyQuestionAndAnswerViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 1812A4E51851CB89009B3D5D /* MyQuestionAndAnswerViewController_iPhone.m */; };
 		1812A4E91851D1AA009B3D5D /* QuestionAndAnswerCell_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 1812A4E81851D1AA009B3D5D /* QuestionAndAnswerCell_iPhone.m */; };
 		181532431835BDAB0078A410 /* course-mycourse_03@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 181532421835BDAB0078A410 /* course-mycourse_03@2x.png */; };
 		181532451835CD3D0078A410 /* btn0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 181532441835CD3D0078A410 /* btn0@2x.png */; };
@@ -233,7 +232,6 @@
 		18491C4F1834C7C3003C82E4 /* s@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18491C4E1834C7C3003C82E4 /* s@2x.png */; };
 		18491C511834C92C003C82E4 /* ss@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18491C501834C92C003C82E4 /* ss@2x.png */; };
 		184E115A1855A81500A81E6E /* QuestionAndAnswerCell_iPhoneHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E11591855A81500A81E6E /* QuestionAndAnswerCell_iPhoneHeaderView.m */; };
-		184F8AA818432D0000A2FEB4 /* LessonViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 184F8AA718432D0000A2FEB4 /* LessonViewController_iPhone.m */; };
 		184F8AAF18434A3200A2FEB4 /* LHLNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 184F8AAE18434A3200A2FEB4 /* LHLNavigationBar.m */; };
 		185780DE187282210070CB0D /* LessonModel+toSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 185780DD187282210070CB0D /* LessonModel+toSection.m */; };
 		1864A83C1875383A00B26024 /* Section_ChapterViewController_iPhone_Embed.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864A83B1875383A00B26024 /* Section_ChapterViewController_iPhone_Embed.m */; };
@@ -339,6 +337,8 @@
 		633003981846022500F7838D /* SexRadioView.m in Sources */ = {isa = PBXBuildFile; fileRef = 633003971846022500F7838D /* SexRadioView.m */; };
 		6334F29618C6D1E900515A3F /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6334F29518C6D1E900515A3F /* logo@2x.png */; };
 		6334F29818C6D22000515A3F /* loogoo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6334F29718C6D22000515A3F /* loogoo@2x.png */; };
+		6334F29B18C70B7D00515A3F /* MyQuestionAndAnswerViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334F29918C70B7D00515A3F /* MyQuestionAndAnswerViewController_iPhone.m */; };
+		6334F29C18C70B7D00515A3F /* LessonViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334F29A18C70B7D00515A3F /* LessonViewController_iPhone.m */; };
 		633BE0711872D70000CAA04B /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 633BE06E1872D70000CAA04B /* HTMLNode.m */; };
 		633BE0721872D70000CAA04B /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 633BE0701872D70000CAA04B /* HTMLParser.m */; };
 		633BE0751872D76400CAA04B /* DRAttributeStringView.m in Sources */ = {isa = PBXBuildFile; fileRef = 633BE0741872D76400CAA04B /* DRAttributeStringView.m */; };
@@ -759,7 +759,6 @@
 		1812A4E01851B647009B3D5D /* leftItemBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "leftItemBg@2x.png"; sourceTree = "<group>"; };
 		1812A4E21851B80D009B3D5D /* rightItemBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rightItemBg@2x.png"; sourceTree = "<group>"; };
 		1812A4E41851CB89009B3D5D /* MyQuestionAndAnswerViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyQuestionAndAnswerViewController_iPhone.h; sourceTree = "<group>"; };
-		1812A4E51851CB89009B3D5D /* MyQuestionAndAnswerViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyQuestionAndAnswerViewController_iPhone.m; sourceTree = "<group>"; };
 		1812A4E71851D1AA009B3D5D /* QuestionAndAnswerCell_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionAndAnswerCell_iPhone.h; sourceTree = "<group>"; };
 		1812A4E81851D1AA009B3D5D /* QuestionAndAnswerCell_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionAndAnswerCell_iPhone.m; sourceTree = "<group>"; };
 		181532421835BDAB0078A410 /* course-mycourse_03@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "course-mycourse_03@2x.png"; sourceTree = "<group>"; };
@@ -811,7 +810,6 @@
 		184E11581855A81500A81E6E /* QuestionAndAnswerCell_iPhoneHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionAndAnswerCell_iPhoneHeaderView.h; sourceTree = "<group>"; };
 		184E11591855A81500A81E6E /* QuestionAndAnswerCell_iPhoneHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionAndAnswerCell_iPhoneHeaderView.m; sourceTree = "<group>"; };
 		184F8AA618432D0000A2FEB4 /* LessonViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LessonViewController_iPhone.h; sourceTree = "<group>"; };
-		184F8AA718432D0000A2FEB4 /* LessonViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonViewController_iPhone.m; sourceTree = "<group>"; };
 		184F8AAD18434A3200A2FEB4 /* LHLNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LHLNavigationBar.h; sourceTree = "<group>"; };
 		184F8AAE18434A3200A2FEB4 /* LHLNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LHLNavigationBar.m; sourceTree = "<group>"; };
 		185780DC187282210070CB0D /* LessonModel+toSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LessonModel+toSection.h"; sourceTree = "<group>"; };
@@ -972,6 +970,8 @@
 		633003971846022500F7838D /* SexRadioView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SexRadioView.m; sourceTree = "<group>"; };
 		6334F29518C6D1E900515A3F /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x.png"; sourceTree = "<group>"; };
 		6334F29718C6D22000515A3F /* loogoo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loogoo@2x.png"; sourceTree = "<group>"; };
+		6334F29918C70B7D00515A3F /* MyQuestionAndAnswerViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyQuestionAndAnswerViewController_iPhone.m; sourceTree = "<group>"; };
+		6334F29A18C70B7D00515A3F /* LessonViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonViewController_iPhone.m; sourceTree = "<group>"; };
 		633BE06D1872D70000CAA04B /* HTMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLNode.h; sourceTree = "<group>"; };
 		633BE06E1872D70000CAA04B /* HTMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLNode.m; sourceTree = "<group>"; };
 		633BE06F1872D70000CAA04B /* HTMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLParser.h; sourceTree = "<group>"; };
@@ -1744,7 +1744,7 @@
 			isa = PBXGroup;
 			children = (
 				184F8AA618432D0000A2FEB4 /* LessonViewController_iPhone.h */,
-				184F8AA718432D0000A2FEB4 /* LessonViewController_iPhone.m */,
+				6334F29A18C70B7D00515A3F /* LessonViewController_iPhone.m */,
 				18F28C101847249C00692F90 /* LHLNavigationBarViewController.h */,
 				18F28C111847249C00692F90 /* LHLNavigationBarViewController.m */,
 				18F28C13184738B300692F90 /* SectionViewController_iPhone.h */,
@@ -1762,7 +1762,7 @@
 				1812A4D91851A1B7009B3D5D /* ForgotPwdViewController_iPhone.h */,
 				1812A4DA1851A1B7009B3D5D /* ForgotPwdViewController_iPhone.m */,
 				1812A4E41851CB89009B3D5D /* MyQuestionAndAnswerViewController_iPhone.h */,
-				1812A4E51851CB89009B3D5D /* MyQuestionAndAnswerViewController_iPhone.m */,
+				6334F29918C70B7D00515A3F /* MyQuestionAndAnswerViewController_iPhone.m */,
 				184317351855652200ABEFD3 /* LHLMoviePlayViewController.h */,
 				184317361855652200ABEFD3 /* LHLMoviePlayViewController.m */,
 				18F2FE95185846410006AF11 /* LHLCommitQuestionViewController.h */,
@@ -2625,7 +2625,6 @@
 				0EA7EF551823ACCC00C47F69 /* SumitNoteInterface.m in Sources */,
 				184E115A1855A81500A81E6E /* QuestionAndAnswerCell_iPhoneHeaderView.m in Sources */,
 				18F2FE9A18584A990006AF11 /* LHLTakingMovieNoteViewController.m in Sources */,
-				184F8AA818432D0000A2FEB4 /* LessonViewController_iPhone.m in Sources */,
 				0EA7EF8A1827792A00C47F69 /* SectionCustomView.m in Sources */,
 				0EAFA12C18224C2700D01D3E /* LessonViewController.m in Sources */,
 				6395A1F0187BD3F600F304CC /* SearchLearningMatarilasListInterface.m in Sources */,
@@ -2717,7 +2716,6 @@
 				0E9DA3B9183F568D000A5995 /* ASINetworkQueue.m in Sources */,
 				18046A971848850800EB8BDA /* Section_NoteViewController_iPhone.m in Sources */,
 				630B03BB1820F5BB00F72C4C /* AppDelegate.m in Sources */,
-				1812A4E61851CB89009B3D5D /* MyQuestionAndAnswerViewController_iPhone.m in Sources */,
 				187CE7C51883CC6200D65660 /* NoteListInterface.m in Sources */,
 				639F435018631804006FBE26 /* DRTreeNode.m in Sources */,
 				0EA7EF4C18238DF600C47F69 /* AnswerModel.m in Sources */,
@@ -2764,9 +2762,11 @@
 				18046A9A1848880B00EB8BDA /* LHLCollectionViewCell.m in Sources */,
 				0EA2A91D1828847E003D152E /* pinyin.c in Sources */,
 				0EAD1F71182B24B100204FC3 /* FMDatabasePool.m in Sources */,
+				6334F29C18C70B7D00515A3F /* LessonViewController_iPhone.m in Sources */,
 				0E9DA3C3183F568D000A5995 /* ASIS3BucketObject.m in Sources */,
 				0E9DA3B8183F568D000A5995 /* ASIInputStream.m in Sources */,
 				0E52672C1829EE990009E535 /* DownLoadInformView.m in Sources */,
+				6334F29B18C70B7D00515A3F /* MyQuestionAndAnswerViewController_iPhone.m in Sources */,
 				0EA7EF7F182748BB00C47F69 /* UIButton+WebCache.m in Sources */,
 				18199EF51881070600377B74 /* CustomTabbarController.m in Sources */,
 				6395A1E7187BCA2000F304CC /* LearningMaterials.m in Sources */,
