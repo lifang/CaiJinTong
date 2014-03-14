@@ -50,14 +50,16 @@
     LessonViewController_iPhone *lessonVC = [story instantiateViewControllerWithIdentifier:@"LessonViewController_iPhone"];
     [VCs addObject:lessonVC];
     
-    MyQuestionAndAnswerViewController_iPhone *myQAVC = [story instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController_iPhone"];
-    [VCs addObject:myQAVC];
+    NoteListViewController_iPhone *vc = [story instantiateViewControllerWithIdentifier:@"NoteListViewController_iPhone"];
+    [VCs addObject:vc];
     
     LearningMaterialsViewController_iPhone *lMVC = [story instantiateViewControllerWithIdentifier:@"LearningMaterialsViewController_iPhone"];
     [VCs addObject:lMVC];
     
-    NoteListViewController_iPhone *vc = [story instantiateViewControllerWithIdentifier:@"NoteListViewController_iPhone"];
-    [VCs addObject:vc];
+   
+    
+    MyQuestionAndAnswerViewController_iPhone *myQAVC = [story instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController_iPhone"];
+    [VCs addObject:myQAVC];
     
     SettingViewController_iPhone *settingVC = [story instantiateViewControllerWithIdentifier:@"SettingViewController_iPhone"];
     [VCs addObject:settingVC];
@@ -85,7 +87,7 @@
             title = @"课程";
             image = [UIImage imageNamed:@"play_0h5.png"];
             break;
-        case 1:
+        case 3:
             title = @"问答";
             image = [UIImage imageNamed:@"_play_09.png"];
             break;
@@ -93,7 +95,7 @@
             title = @"资料";
             image = [UIImage imageNamed:@"material.png"];
             break;
-        case 3:
+        case 1:
             title = @"笔记";
             image = [UIImage imageNamed:@"play_note.png"];
             break;

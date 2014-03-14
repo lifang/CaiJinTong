@@ -72,10 +72,8 @@
 - (IBAction)spaceAreaClicked:(id)sender {
     [self.contentField resignFirstResponder];
     [UIView animateWithDuration:0.3 animations:^{
-        self.view.frame = self.frame;
-        self.contentField.frame = self.contentTextViewFrame;
-        self.cancelBtn.frame = (CGRect){self.cancelBtn.frame.origin.x,self.buttonY,self.cancelBtn.frame.size};
-        self.commitBtn.frame = (CGRect){self.commitBtn.frame.origin.x,self.buttonY,self.commitBtn.frame.size};
+//        self.view.frame = (CGRect){self.view.frame.origin,self.view.frame.size.width,120};
+        self.view.center = (CGPoint){self.view.center.x,150};
     }];
 }
 
@@ -102,22 +100,29 @@
 }
 
 #pragma mark UITextField delegate
+//-(BOOL)textViewShouldBeginEditing:(UITextView *)textView{
+//    if(!self.originsRecorded){
+//        self.frame = self.view.frame;
+//        self.contentTextViewFrame = self.contentField.frame;
+//        self.buttonY = self.cancelBtn.frame.origin.y;
+//    }
+//    [UIView animateWithDuration:0.3 animations:^{
+//        CGRect frame = self.view.frame;
+//        self.view.frame = (CGRect){frame.origin.x,-20,frame.size.width,frame.size.height - 45};
+//        frame = self.contentField.frame;
+//        self.contentField.frame = (CGRect){frame.origin,frame.size.width,120};
+//        CGFloat buttonY = CGRectGetMaxY(self.contentField.frame) + 3;
+//        self.cancelBtn.frame = (CGRect){self.cancelBtn.frame.origin.x,buttonY,self.cancelBtn.frame.size};
+//        self.commitBtn.frame = (CGRect){self.commitBtn.frame.origin.x,buttonY,self.commitBtn.frame.size};
+//    }];
+//    return YES;
+//}
+
 -(BOOL)textViewShouldBeginEditing:(UITextView *)textView{
-    if(!self.originsRecorded){
-        self.frame = self.view.frame;
-        self.contentTextViewFrame = self.contentField.frame;
-        self.buttonY = self.cancelBtn.frame.origin.y;
-    }
     [UIView animateWithDuration:0.3 animations:^{
-        CGRect frame = self.view.frame;
-        self.view.frame = (CGRect){frame.origin.x,-20,frame.size.width,frame.size.height - 45};
-        frame = self.contentField.frame;
-        self.contentField.frame = (CGRect){frame.origin,frame.size.width,120};
-        CGFloat buttonY = CGRectGetMaxY(self.contentField.frame) + 3;
-        self.cancelBtn.frame = (CGRect){self.cancelBtn.frame.origin.x,buttonY,self.cancelBtn.frame.size};
-        self.commitBtn.frame = (CGRect){self.commitBtn.frame.origin.x,buttonY,self.commitBtn.frame.size};
+        self.view.frame = (CGRect){self.view.frame.origin,self.view.frame.size.width,120};
+        self.view.center = (CGPoint){self.view.center.x,CGRectGetHeight(self.view.frame)/2};
     }];
     return YES;
 }
-
 @end

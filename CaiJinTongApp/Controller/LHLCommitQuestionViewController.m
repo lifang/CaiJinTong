@@ -19,6 +19,7 @@
 @property (assign,nonatomic) CGRect tableFrame;  //table初始坐标
 @property (assign,nonatomic) CGRect defaultFrame;
 @property (assign,nonatomic) BOOL subViewsMoved;
+@property (nonatomic,assign) CGRect normalRect;
 @end
 
 @implementation LHLCommitQuestionViewController
@@ -86,7 +87,6 @@
     [self.treeView.layer setBorderColor:[UIColor blackColor].CGColor];
     [self.treeView.layer setBorderWidth:0.5];
     self.tableVisible = NO;
-    
     //响应键盘出现/消失事件
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
@@ -122,9 +122,10 @@
 - (IBAction)spaceAreaClicked:(id)sender {
     [self.titleField resignFirstResponder];
     [self.contentField resignFirstResponder];
-    if(self.tableVisible){
+    if (self.tableVisible) {
         [self showSelectTable];
     }
+    
 }
 
 - (IBAction)cancelBtnClicked:(UIButton *)sender {
@@ -173,9 +174,6 @@
     NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
     NSTimeInterval animationDuration;
     [animationDurationValue getValue:&animationDuration];
-    
-    // Animate the resize of the text view's frame in sync with the keyboard's appearance.
-    [self moveInputBarWithKeyboardHeight:keyboardRect.size.height withDuration:animationDuration];
     if (self.tableVisible) {
         [self showSelectTable];
     }
@@ -185,7 +183,7 @@
 -(void) moveInputBarWithKeyboardHeight:(CGFloat)height withDuration:(NSTimeInterval)animationDuration{
     [UIView animateWithDuration:animationDuration animations:^{
         self.defaultFrame = self.view.frame;
-        [self.view setFrame:CGRectMake(29, 0, IP5(516, 435), 255)];
+        [self.view setFrame:CGRectMake(CGRectGetMinX(self.view.frame), 0, IP5(516, 435), CGRectGetHeight(self.view.frame))];
         if(self.contentField.isFirstResponder && !self.subViewsMoved){
             NSArray *subViews = [self.view subviews];
             for(UIView *child in subViews){
@@ -195,7 +193,7 @@
                 }else if([child isKindOfClass:[UIButton class]]){
                     [child setFrame:CGRectMake(frame.origin.x, frame.origin.y - 115, frame.size.width, frame.size.height)];
                 }else{
-                    [child setFrame:CGRectMake(frame.origin.x, frame.origin.y - 65, frame.size.width, frame.size.height)];
+                    [child setFrame:CGRectMake(frame.origin.x, frame.origin.y - 75, frame.size.width, frame.size.height)];
                 }
             }
             self.subViewsMoved = YES;
@@ -204,52 +202,40 @@
 }
 
 -(void) keyboardWillHide:(NSNotification *)notification{
-    NSDictionary *userInfo = [notification userInfo];
-    NSValue *aValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
-    NSTimeInterval animationDuration;
-    [aValue getValue:&animationDuration];
-    [UIView animateWithDuration:animationDuration animations:^{
-        [self.view setFrame:self.defaultFrame];
-        if(self.subViewsMoved){
-            NSArray *subViews = [self.view subviews];
-            for(UIView *child in subViews){
-                CGRect frame = child.frame;
-                if([child isKindOfClass:[UITextView class]]){
-                    [child setFrame:CGRectMake(frame.origin.x, frame.origin.y + 65, frame.size.width, 99)];
-                }else if([child isKindOfClass:[UIButton class]]){
-                    [child setFrame:CGRectMake(frame.origin.x, frame.origin.y + 115, frame.size.width, frame.size.height)];
-                }else{
-                    [child setFrame:CGRectMake(frame.origin.x, frame.origin.y + 65, frame.size.width, frame.size.height)];
-                }
-            }
-            self.subViewsMoved = NO;
-        }
-    }];
+    [UIView animateWithDuration:0.3 delay:0.0
+                        options: UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                         self.view.center = (CGPoint){self.view.center.x, [UIScreen mainScreen].bounds.size.height/2-80};
+                         self.tableVisible = NO;
+                     }
+                     completion:^(BOOL finished) {
+                         if(finished){
+                             self.treeView.hidden = YES;
+                         }
+                     }];
 }
 
 #pragma mark button methods
 //显示/隐藏提问类型table
 -(void)showSelectTable{
     if(!self.tableVisible){
-        [self spaceAreaClicked:nil];//便于触发点击事件
         self.treeView.hidden = NO;
+        [self.view setUserInteractionEnabled:NO];
         [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationOptionBeginFromCurrentState animations:^{
-            [self.treeView setFrame:CGRectMake(self.tableFrame.origin.x, self.tableFrame.origin.y, self.tableFrame.size.width, self.tableFrame.size.height + 170)];
+            self.treeView.frame = (CGRect){CGRectGetMinX(self.categoryTextField.frame),CGRectGetMaxY(self.categoryTextField.frame),self.view.frame.size.width- CGRectGetMinX(self.categoryTextField.frame)*2,500};
             self.tableVisible = YES;
         }
-                         completion:nil];
-    }else{
-        [UIView animateWithDuration:0.3 delay:0.0
-                            options: UIViewAnimationOptionBeginFromCurrentState
-                         animations:^{
-                             [self.treeView setFrame:CGRectMake(self.tableFrame.origin.x, self.tableFrame.origin.y, self.tableFrame.size.width, self.tableFrame.size.height)];
-                             self.tableVisible = NO;
-                         }
                          completion:^(BOOL finished) {
-                             if(finished){
-                                 self.treeView.hidden = YES;
-                             }
+                             [self.view setUserInteractionEnabled:YES];
                          }];
+    }else{
+        [self.view setUserInteractionEnabled:NO];
+        [UIView animateWithDuration:0.3 animations:^{
+            [self.treeView setHidden:YES];
+        } completion:^(BOOL finished) {
+            [self.view setUserInteractionEnabled:YES];
+            self.tableVisible = NO;
+        }];
     }
 }
 
@@ -331,11 +317,33 @@
 }
 
 #pragma mark --
-#pragma mark TestView Delegate
+#pragma mark TextView Delegate
 -(void)textViewDidBeginEditing:(UITextView *)textView{
-    [self moveInputBarWithKeyboardHeight:1 withDuration:0.5];
+    [UIView animateWithDuration:0.3 delay:0.0
+                        options: UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                         self.view.frame = (CGRect){CGRectGetMinX(self.view.frame),-75,self.view.frame.size};
+                     }
+                     completion:^(BOOL finished) {
+                         if(finished){
+                         }
+                     }];
 }
+#pragma mark --
 
+#pragma mark textfieldDelegate
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
+    [UIView animateWithDuration:0.3 delay:0.0
+                        options: UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                         self.view.frame = (CGRect){CGRectGetMinX(self.view.frame),-35,self.view.frame.size};
+                     }
+                     completion:^(BOOL finished) {
+                         if(finished){
+                         }
+                     }];
+}
+#pragma mark --
 -(void)dealloc{
     
 }

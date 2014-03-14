@@ -12,6 +12,9 @@
 @interface Utility : NSObject
 +(Utility*)defaultUtility;
 
+///把秒数转换成时间字符串，如：61 => 1'1"
++(NSString*)formateDateStringWithSecond:(int)second;
+
 +(BOOL)requestFailure:(NSError*)error tipMessageBlock:(void(^)(NSString *tipMsg))msg;
 + (UIImage *)getNormalImage:(UIView *)view;
 //+ (NSString *)isExistenceNetwork;

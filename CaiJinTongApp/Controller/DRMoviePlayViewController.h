@@ -26,7 +26,11 @@
 
 @protocol DRMoviePlayViewControllerDelegate;
 @interface DRMoviePlayViewController : UIViewController<MovieControllerItemDelegate,DRMoviePlayerPlaybackProgressBarDelegate,CustomPlayerViewDelegate,PlayBackInterfaceDelegate,SumitNoteInterfaceDelegate,DRMoviePlayerTopBarDelegate,AskQuestionInterfaceDelegate>
+@property (weak, nonatomic) IBOutlet UILabel *timeTotalLabel;
+@property (weak, nonatomic) IBOutlet UIView *volumeAndTrackProgressBackView;
 
+@property (weak, nonatomic) IBOutlet UIView *volumeBackView;
+@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (nonatomic, strong) SectionModel *sectionModel;
 @property (weak, nonatomic) IBOutlet DRMoviePlayerTopBar *drMovieTopBar;
 @property (nonatomic, strong) SumitNoteInterface *sumitNoteInterface;

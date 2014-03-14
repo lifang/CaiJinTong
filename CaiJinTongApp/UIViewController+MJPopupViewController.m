@@ -108,6 +108,14 @@ static void * const keypath = (void*)&keypath;
             
         }
     }
+    UIView *view1 = [self.view viewWithTag:7792];
+    UIView *view2 = [self.view viewWithTag:7793];
+    if (view1) {
+        [view1 resignFirstResponder];
+    }
+    if (view2) {
+        [view2 resignFirstResponder];
+    }
     if ([self respondsToSelector:@selector(willDismissPopoupController)]) {
         [self performSelector:@selector(willDismissPopoupController) withObject:nil];
     }

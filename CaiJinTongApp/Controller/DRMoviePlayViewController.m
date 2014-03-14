@@ -15,6 +15,7 @@
 #import "Section.h"
 #import "LessonModel.h"
 #import "UploadImageDataInterface.h"
+#import "UIView+Rotate.h"
 #define MOVIE_CURRENT_PLAY_TIME_OBSERVE @"movieCurrentPlayTimeObserve"
 @interface DRMoviePlayViewController ()<DRTakingMovieNoteViewControllerDelegate,DRCommitQuestionViewControllerDelegate>
 @property (nonatomic,strong) MPMoviePlayerController *moviePlayer;
@@ -141,6 +142,8 @@
                                              selector:@selector(playVideo:) name:@"gotoMoviePlayMovie" object:nil];
     [self addApplicationNotification];
     [super viewDidLoad];
+    
+    [self.volumeBackView setHidden:YES];
     self.myNotesItem.delegate = self;
     self.myQuestionItem.delegate = self;
     
@@ -169,6 +172,8 @@
     [self.volumeSlider setThumbImage:[UIImage imageNamed:@"play-courselist_03.png"] forState:UIControlStateNormal];
     
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
+    
+    self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,1024-50};
 }
 
 #pragma mark --
@@ -273,6 +278,21 @@
 //        [self.moviePlayer beginSeekingBackward];
 //    }
     self.moviePlayer.currentPlaybackTime = playBack;
+    self.timeLabel.text = [NSString stringWithFormat:@"%@",[Utility formateDateStringWithSecond:playBack]];
+    self.timeTotalLabel.text = [NSString stringWithFormat:@"%@",[Utility formateDateStringWithSecond:self.moviePlayer.duration]];
+    UIImageView *thubImageView = [self.seekSlider.subviews lastObject];
+    float x = CGRectGetMinX([self.seekSlider convertRect:thubImageView.frame toView:self.volumeAndTrackProgressBackView])+10;
+    CGSize totoalSize = [self.timeTotalLabel.text sizeWithFont:self.timeTotalLabel.font];
+    CGSize size = [self.timeLabel.text sizeWithFont:self.timeLabel.font];
+    float left = CGRectGetMaxX(self.timeTotalLabel.frame) - totoalSize.width;
+    float right = CGRectGetMinX(self.seekSlider.frame)+x +size.width;
+    if (right > left) {
+        x =CGRectGetMaxX(self.timeTotalLabel.frame) - totoalSize.width - size.width;
+    }else{
+        x = CGRectGetMinX(self.seekSlider.frame)+x - size.width/2;
+    }
+    self.timeLabel.frame = (CGRect){x,self.timeLabel.frame.origin.y,self.timeLabel.frame.size};
+
 }
 
 - (IBAction)volumeSliderTouchChangeValue:(id)sender {
@@ -281,17 +301,21 @@
 }
 
 - (IBAction)volumeBtClicked:(id)sender {
-    MPMusicPlayerController *mpc = [MPMusicPlayerController applicationMusicPlayer];
-    NSLog(@"%f,%f",mpc.volume,self.currentMoviePlaterVolume);
-    if (mpc.volume < 0.00000001) {
-        mpc.volume = self.currentMoviePlaterVolume;
-        [(UIButton*)sender setBackgroundImage:[UIImage imageNamed:@"play_volume.png"] forState:UIControlStateNormal];
+    if (self.volumeBackView.isHidden) {
+        [self.volumeBackView setHidden:NO];
+        self.volumeBackView.alpha = 0;
+        CGRect rect =[self.volumeAndTrackProgressBackView convertRect:((UIButton*)sender).frame toView:self.view];
+        [self.volumeBackView rotate90DegreeTopRect:CGRectOffset(rect, 0, 20) withFinished:^{
+            
+        }];
     }else{
-        [(UIButton*)sender setBackgroundImage:[UIImage imageNamed:@"pause.png"] forState:UIControlStateNormal];
-        self.currentMoviePlaterVolume = mpc.volume;
-        mpc.volume = 0;
+        [UIView animateWithDuration:0.5 animations:^{
+            self.volumeBackView.alpha = 0;
+        } completion:^(BOOL finished) {
+            [self.volumeBackView setHidden:YES];
+        }];
     }
-    [self updateVolumeSlider];
+
 }
 
 #pragma mark CustomPlayerViewDelegate
@@ -826,6 +850,22 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
 
 -(void)updateMoviePlayBackProgressBar{
     self.seekSlider.value = (double)self.moviePlayer.currentPlaybackTime/self.moviePlayer.duration;
+    self.timeLabel.text = [NSString stringWithFormat:@"%@",[Utility formateDateStringWithSecond:self.moviePlayer.currentPlaybackTime]];
+    self.timeTotalLabel.text = [NSString stringWithFormat:@"%@",[Utility formateDateStringWithSecond:self.moviePlayer.duration]];
+    
+    UIImageView *thubImageView = [self.seekSlider.subviews lastObject];
+    float x = CGRectGetMinX([self.seekSlider convertRect:thubImageView.frame toView:self.volumeAndTrackProgressBackView])+10;
+    CGSize totoalSize = [self.timeTotalLabel.text sizeWithFont:self.timeTotalLabel.font];
+    CGSize size = [self.timeLabel.text sizeWithFont:self.timeLabel.font];
+    float left = CGRectGetMaxX(self.timeTotalLabel.frame) - totoalSize.width;
+    float right = CGRectGetMinX(self.seekSlider.frame)+x +size.width;
+    if (right > left) {
+        x =CGRectGetMaxX(self.timeTotalLabel.frame) - totoalSize.width - size.width;
+    }else{
+        x = CGRectGetMinX(self.seekSlider.frame)+x - size.width/2;
+    }
+    self.timeLabel.frame = (CGRect){x,self.timeLabel.frame.origin.y,self.timeLabel.frame.size};
+    
 }
 -(void)endObservePlayBackProgressBar{
     if (self.timer) {
@@ -881,13 +921,14 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
                 self.isPopupChapter = NO;
                 self.chapterListItem.isSelected = YES;
             }
-            self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,768+50};
+            [self.volumeBackView setHidden:YES];
+            self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,768+40};
             self.drMovieTopBar.center = (CGPoint){self.movieplayerControlBackView.center.x,-20};
         }else{
             if (self.chapterListItem.isSelected) {
                 self.isPopupChapter = YES;
             }
-            self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,768-50};
+            self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,768-37};
             self.drMovieTopBar.center = (CGPoint){self.movieplayerControlBackView.center.x,20};
             NSLog(@"%@",NSStringFromCGRect(self.movieplayerControlBackView.frame));
         }

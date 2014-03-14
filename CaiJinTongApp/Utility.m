@@ -22,6 +22,63 @@
     return defaultUti;
 }
 
++(NSString*)formateDateStringWithSecond:(int)second{
+    if (second <=0) {
+        return @"00:00";
+    }
+    if (second >= MAXFLOAT) {
+        return @"00:00";
+    }
+    int temp = second;
+    int level = 2;
+    NSMutableString *date = [[NSMutableString alloc] init];
+    while (level > 0) {
+        if (temp/(int)pow(60, level) <= 0) {
+            level--;
+            continue;
+        }
+        switch (level) {
+            case 2:
+            {
+                if (temp < 10) {
+                    [date appendFormat:@"0%d:",temp/(int)pow(60, level)];
+                }else{
+                    [date appendFormat:@"%d:",temp/(int)pow(60, level)];
+                }
+            }
+                break;
+            case 1:
+            {
+                if (temp < 10) {
+                     [date appendFormat:@"0%d:",temp/(int)pow(60, level)];
+                }else{
+                     [date appendFormat:@"%d:",temp/(int)pow(60, level)];
+                }
+            }
+                break;
+            default:
+                break;
+        }
+        temp = temp%(int)pow(60, level);
+        level--;
+    }
+    if (date.length <= 0) {
+        if (temp < 10) {
+            [date appendFormat:@"00:0%d",temp];
+        }else{
+            [date appendFormat:@"00:%d",temp];
+        }
+    }else{
+        if (temp < 10) {
+            [date appendFormat:@"0%d",temp];
+        }else{
+            [date appendFormat:@"%d",temp];
+        }
+    }
+    return date.lowercaseString;
+}
+
+
 + (UIImage *)getNormalImage:(UIView *)view{
     float width = [UIScreen mainScreen].bounds.size.width;
     float height = [UIScreen mainScreen].bounds.size.height;

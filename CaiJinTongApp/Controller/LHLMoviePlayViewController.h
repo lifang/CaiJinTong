@@ -33,7 +33,11 @@
 
 @protocol LHLMoviePlayViewControllerDelegate;
 @interface LHLMoviePlayViewController : UIViewController<MovieControllerItemDelegate,DRMoviePlayerPlaybackProgressBarDelegate,CustomPlayerViewDelegate,PlayBackInterfaceDelegate,SumitNoteInterfaceDelegate,DRMoviePlayerTopBarDelegate,AskQuestionInterfaceDelegate>
+@property (weak, nonatomic) IBOutlet UILabel *timeTotalLabel;
+@property (weak, nonatomic) IBOutlet UIView *volumeAndTrackProgressBackView;
+@property (weak, nonatomic) IBOutlet UIView *volumeBackView;
 
+@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet DRMoviePlayerTopBar *drMovieTopBar;
 @property (weak, nonatomic) IBOutlet CustomPlayerView *moviePlayerView;
 @property (weak, nonatomic) IBOutlet UIButton *playBt;

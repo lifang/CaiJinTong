@@ -8,6 +8,7 @@
 
 #import "LHLMoviePlayViewController.h"
 #import "UploadImageDataInterface.h"
+#import "UIView+Rotate.h"
 #define MOVIE_CURRENT_PLAY_TIME_OBSERVE @"movieCurrentPlayTimeObserve"
 @interface LHLMoviePlayViewController ()<LHLTakingMovieNoteViewControllerDelegate,LHLCommitQuestionViewControllerDelegate>
 @property (nonatomic,strong) MPMoviePlayerController *moviePlayer;
@@ -153,19 +154,13 @@
 //    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     [self.moviePlayerControlBackDownView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"play_barBG.png"]]];
-    UIImage *maximukmTrackImage = [[UIImage imageNamed:@"play_black.png"] scaleToSize:CGSizeMake(572, 8)];
-    UIImage *minimukmTrackImage = [[UIImage imageNamed:@"play_bluetiao.png"] scaleToSize:CGSizeMake(572, 8)];
-    UIImage *thumbImage = [[UIImage imageNamed:@"play_movieSlider.png"] scaleToSize:CGSizeMake(26, 7)];
-    [self.seekSlider setMaximumTrackImage:maximukmTrackImage forState:UIControlStateNormal];
-    [self.seekSlider setMinimumTrackImage:minimukmTrackImage forState:UIControlStateNormal];
-    [self.seekSlider setThumbImage:thumbImage forState:UIControlStateNormal];
+    [self.seekSlider setMaximumTrackImage:[UIImage imageNamed:@"play_black_iphone.png"] forState:UIControlStateNormal];
+    [self.seekSlider setMinimumTrackImage:[UIImage imageNamed:@"play_bluetiao_iphone.png"] forState:UIControlStateNormal];
+    [self.seekSlider setThumbImage:[UIImage imageNamed:@"play_movieSlider_iphone.png"] forState:UIControlStateNormal];
     
-    maximukmTrackImage = [[UIImage imageNamed:@"_play_24.png"] scaleToSize:CGSizeMake(228, 6)];
-    minimukmTrackImage = [[UIImage imageNamed:@"_play_18.png"] scaleToSize:CGSizeMake(228,6)];
-    thumbImage = [[UIImage imageNamed:@"_play_27.png"] scaleToSize:CGSizeMake(10, 10)];
-    [self.volumeSlider setMaximumTrackImage:maximukmTrackImage forState:UIControlStateNormal];
-    [self.volumeSlider setMinimumTrackImage:minimukmTrackImage forState:UIControlStateNormal];
-    [self.volumeSlider setThumbImage:thumbImage forState:UIControlStateNormal];
+    [self.volumeSlider setMaximumTrackImage:[UIImage imageNamed:@"_play_24.png"] forState:UIControlStateNormal];
+    [self.volumeSlider setMinimumTrackImage:[UIImage imageNamed:@"_play_18.png"] forState:UIControlStateNormal];
+    [self.volumeSlider setThumbImage:[UIImage imageNamed:@"_play_27.png"] forState:UIControlStateNormal];
     
     [self.playBt setBackgroundImage:[UIImage imageNamed:@"play_paused.png"] forState:UIControlStateNormal];
     self.section_ChapterView.alpha = 0.9;
@@ -214,7 +209,7 @@
             self.isPopupChapter = NO;
             self.isForgoundForPlayerView = NO;
             LHLCommitQuestionViewController *commitQuestionVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLCommitQuestionViewController"];
-            commitQuestionVC.view.frame = (CGRect){0,0,IP5(516, 435),255};
+            commitQuestionVC.view.frame = (CGRect){0,0,IP5(516, 435),200};
             commitQuestionVC.delegate = self;
             self.commitQuestionVC = commitQuestionVC;
             [self presentPopupViewController:commitQuestionVC animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
@@ -227,7 +222,7 @@
                 self.isPopupChapter = NO;
                 self.isForgoundForPlayerView = NO;
                 LHLTakingMovieNoteViewController *takingMovieNotesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLTakingMovieNoteViewController"];
-                takingMovieNotesVC.view.frame = (CGRect){0,0,IP5(516, 435),255};
+                takingMovieNotesVC.view.frame = (CGRect){0,0,IP5(516, 435),120};
                 takingMovieNotesVC.delegate = self;
                 [self presentPopupViewController:takingMovieNotesVC animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
                     self.myNotesItem.isSelected = NO;
@@ -256,6 +251,22 @@
     double playBack = self.moviePlayer.duration*((UISlider*)sender).value;
     DLog(@"%f,%f",self.moviePlayer.duration,((UISlider*)sender).value);
     self.moviePlayer.currentPlaybackTime = playBack;
+    
+    self.moviePlayer.currentPlaybackTime = playBack;
+    self.timeLabel.text = [NSString stringWithFormat:@"%@",[Utility formateDateStringWithSecond:playBack]];
+    self.timeTotalLabel.text = [NSString stringWithFormat:@"%@",[Utility formateDateStringWithSecond:self.moviePlayer.duration]];
+    UIImageView *thubImageView = [self.seekSlider.subviews lastObject];
+    float x = CGRectGetMinX([self.seekSlider convertRect:thubImageView.frame toView:self.volumeAndTrackProgressBackView])+10;
+    CGSize totoalSize = [self.timeTotalLabel.text sizeWithFont:self.timeTotalLabel.font];
+    CGSize size = [self.timeLabel.text sizeWithFont:self.timeLabel.font];
+    float left = CGRectGetMaxX(self.timeTotalLabel.frame) - totoalSize.width;
+    float right = CGRectGetMinX(self.seekSlider.frame)+x +size.width;
+    if (right > left) {
+        x =CGRectGetMaxX(self.timeTotalLabel.frame) - totoalSize.width - size.width;
+    }else{
+        x = CGRectGetMinX(self.seekSlider.frame)+x - size.width/2;
+    }
+    self.timeLabel.frame = (CGRect){x,self.timeLabel.frame.origin.y,self.timeLabel.frame.size};
 }
 
 - (IBAction)volumeSliderTouchChangeValue:(id)sender {
@@ -266,17 +277,21 @@
 }
 
 - (IBAction)volumeBtClicked:(id)sender {
-    MPMusicPlayerController *mpc = [MPMusicPlayerController applicationMusicPlayer];
-    NSLog(@"%f,%f",mpc.volume,self.currentMoviePlaterVolume);
-    if (mpc.volume < 0.00000001) {
-        mpc.volume = self.currentMoviePlaterVolume;
-        [(UIButton*)sender setBackgroundImage:[UIImage imageNamed:@"_play_22.png"] forState:UIControlStateNormal];
+    if (self.volumeBackView.isHidden) {
+        [self.volumeBackView setHidden:NO];
+        self.volumeBackView.alpha = 0;
+        CGRect rect =[self.volumeAndTrackProgressBackView convertRect:((UIButton*)sender).frame toView:self.view];
+        [self.volumeBackView rotate90DegreeTopRect:CGRectOffset(rect, 0, 13) withFinished:^{
+            
+        }];
     }else{
-        [(UIButton*)sender setBackgroundImage:[UIImage imageNamed:@"pause.png"] forState:UIControlStateNormal];
-        self.currentMoviePlaterVolume = mpc.volume;
-        mpc.volume = 0;
+        [UIView animateWithDuration:0.5 animations:^{
+            self.volumeBackView.alpha = 0;
+        } completion:^(BOOL finished) {
+            [self.volumeBackView setHidden:YES];
+        }];
     }
-    [self updateVolumeSlider];
+    
 }
 
 #pragma mark CustomPlayerViewDelegate
@@ -417,7 +432,12 @@
         if ([[notification.userInfo  objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey] integerValue] == MPMovieFinishReasonPlaybackError) {
             self.seekSlider.value = 0;
             [self removeMoviePlayBackNotification];
-            [Utility errorAlert:@"播放文件已经损坏或是格式不支持"];
+            NSError *error = [notification.userInfo objectForKey:@"error"];
+            if (![Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+                [Utility errorAlert:tipMsg];
+            }]) {
+                
+            }
             [self endObservePlayBackProgressBar];
             [self updateMoviePlayBackProgressBar];
             [self.moviePlayer stop];
@@ -771,6 +791,21 @@
 
 -(void)updateMoviePlayBackProgressBar{
     self.seekSlider.value = (double)self.moviePlayer.currentPlaybackTime/self.moviePlayer.duration;
+    self.timeLabel.text = [NSString stringWithFormat:@"%@",[Utility formateDateStringWithSecond:self.moviePlayer.currentPlaybackTime]];
+    self.timeTotalLabel.text = [NSString stringWithFormat:@"%@",[Utility formateDateStringWithSecond:self.moviePlayer.duration]];
+    
+    UIImageView *thubImageView = [self.seekSlider.subviews lastObject];
+    float x = CGRectGetMinX([self.seekSlider convertRect:thubImageView.frame toView:self.volumeAndTrackProgressBackView])+10;
+    CGSize totoalSize = [self.timeTotalLabel.text sizeWithFont:self.timeTotalLabel.font];
+    CGSize size = [self.timeLabel.text sizeWithFont:self.timeLabel.font];
+    float left = CGRectGetMaxX(self.timeTotalLabel.frame) - totoalSize.width;
+    float right = CGRectGetMinX(self.seekSlider.frame)+x +size.width;
+    if (right > left) {
+        x =CGRectGetMaxX(self.timeTotalLabel.frame) - totoalSize.width - size.width;
+    }else{
+        x = CGRectGetMinX(self.seekSlider.frame)+x - size.width/2;
+    }
+    self.timeLabel.frame = (CGRect){x,self.timeLabel.frame.origin.y,self.timeLabel.frame.size};
 }
 -(void)endObservePlayBackProgressBar{
     if (self.timer) {
@@ -871,6 +906,7 @@
                 self.isPopupChapter = NO;
                 self.chapterListItem.isSelected = YES;
             }
+            [self.volumeBackView setHidden:YES];
             self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,320+22.5};
             self.drMovieTopBar.center = (CGPoint){self.movieplayerControlBackView.center.x,-15};
         }else{
@@ -881,7 +917,7 @@
             }else{
                 self.drMovieTopBar.center = (CGPoint){self.movieplayerControlBackView.center.x,15};
             }
-            self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,320-22.5};
+            self.movieplayerControlBackView.center = (CGPoint){self.movieplayerControlBackView.center.x,320-28};
             
             NSLog(@"%@",NSStringFromCGRect(self.movieplayerControlBackView.frame));
         }
