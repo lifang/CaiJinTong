@@ -256,7 +256,7 @@
     self.timeLabel.text = [NSString stringWithFormat:@"%@",[Utility formateDateStringWithSecond:playBack]];
     self.timeTotalLabel.text = [NSString stringWithFormat:@"%@",[Utility formateDateStringWithSecond:self.moviePlayer.duration]];
     UIImageView *thubImageView = [self.seekSlider.subviews lastObject];
-    float x = CGRectGetMinX([self.seekSlider convertRect:thubImageView.frame toView:self.volumeAndTrackProgressBackView])+10;
+    float x = CGRectGetMinX([self.seekSlider convertRect:thubImageView.frame toView:self.volumeAndTrackProgressBackView])+4;
     CGSize totoalSize = [self.timeTotalLabel.text sizeWithFont:self.timeTotalLabel.font];
     CGSize size = [self.timeLabel.text sizeWithFont:self.timeLabel.font];
     float left = CGRectGetMaxX(self.timeTotalLabel.frame) - totoalSize.width;
@@ -795,7 +795,7 @@
     self.timeTotalLabel.text = [NSString stringWithFormat:@"%@",[Utility formateDateStringWithSecond:self.moviePlayer.duration]];
     
     UIImageView *thubImageView = [self.seekSlider.subviews lastObject];
-    float x = CGRectGetMinX([self.seekSlider convertRect:thubImageView.frame toView:self.volumeAndTrackProgressBackView])+10;
+    float x = CGRectGetMinX([self.seekSlider convertRect:thubImageView.frame toView:self.volumeAndTrackProgressBackView])+4;
     CGSize totoalSize = [self.timeTotalLabel.text sizeWithFont:self.timeTotalLabel.font];
     CGSize size = [self.timeLabel.text sizeWithFont:self.timeLabel.font];
     float left = CGRectGetMaxX(self.timeTotalLabel.frame) - totoalSize.width;
