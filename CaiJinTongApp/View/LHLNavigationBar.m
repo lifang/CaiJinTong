@@ -7,7 +7,7 @@
 //
 
 #import "LHLNavigationBar.h"
-#define Y (IS_4_INCH ? 8 : 0)
+#define Y (IS_4_INCH ? 0 :0)
 @implementation LHLNavigationBar
 
 - (id)initWithFrame:(CGRect)frame

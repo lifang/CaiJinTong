@@ -70,8 +70,9 @@
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
+    [self.lhlNavigationBar.rightItem setHidden:YES];
     self.lhlNavigationBar.leftItem.hidden = YES;
-    self.noteListTableView.frame = (CGRect){0,IP5(65, 55),320,IP5(440, 375)};
+//    self.noteListTableView.frame = (CGRect){0,IP5(65, 55),320,IP5(440, 375)};
 //    [self.lhlNavigationBar.rightItem setHidden:YES];
     [self.lhlNavigationBar.rightItem setImage:[UIImage imageNamed:@"_magnifying_glass.png"]  forState:UIControlStateNormal];
     self.lhlNavigationBar.title.text = @"我的笔记";
@@ -79,6 +80,8 @@
     self.isSearchRefreshing = NO;
     [self.headerRefreshView endRefreshing];
     [self.footerRefreshView endRefreshing];
+    [self.view addSubview:self.searchBar];
+//    self.noteListTableView.frame = CGRectMake(0,IP5(166, 144), 320,IP5(339, 286) );
 	// Do any additional setup after loading the view.
 }
 
@@ -520,12 +523,12 @@
 
 -(ChapterSearchBar_iPhone *)searchBar{
     if(!_searchBar){
-        _searchBar = [[ChapterSearchBar_iPhone alloc] initWithFrame:CGRectMake(19, IP5(67, 57), 282, 34)];
+        _searchBar = [[ChapterSearchBar_iPhone alloc] initWithFrame:CGRectMake(19, IP5(63, 63), 282, 34)];
         _searchBar.delegate = self;
-        [_searchBar setHidden:YES];
-        [_searchBar setAlpha:0.0];
+//        [_searchBar setHidden:NO];
+//        [_searchBar setAlpha:1.0];
         [_searchBar.searchTextField setPlaceholder:@"搜索笔记"];
-        [self.view addSubview:_searchBar];
+//        [self.view addSubview:_searchBar];
     }
     return _searchBar;
 }
@@ -624,6 +627,7 @@
     }];
 }
 -(void)rightItemClicked:(id)sender{
+    return;
     if(self.searchBar.hidden){
         [self.searchBar setHidden:NO];
         [UIView animateWithDuration:0.5

@@ -20,7 +20,17 @@
     if ([[CaiJinTongManager shared]  isLoadLargeImage]) {
      [self setImageWithURL:url placeholderImage:placeholder options:0];
     }else{
-        self.image = placeholder;
+        __block UIImageView *weakSelf = self;
+        [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+            UIImageView *tempSelf = weakSelf;
+            if (tempSelf) {
+                if ([networkStatus isEqualToString:@"ReachableViaWiFi"]) {
+                    [tempSelf setImageWithURL:url placeholderImage:placeholder options:0];
+                }else{
+                    tempSelf.image = placeholder;
+                }
+            }
+        }];
     }
     
 }

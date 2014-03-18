@@ -27,14 +27,13 @@
 @property (nonatomic,strong) NSString *searchContent;
 
 @property (nonatomic,strong) SearchLearningMatarilasListInterface *searchMaterialInterface;
-@property (nonatomic,strong) LearningMatarilasListInterface *learningMaterialListInterface;
-
+@property (nonatomic,strong) LearningMatarilasCategoryInterface *learningMatarilasCategoryInterface;//加载资料分类
+@property (nonatomic,strong) LearningMatarilasListInterface *learningMaterialListInterface;//加载资料列表
 @property (nonatomic,strong) MJRefreshHeaderView *headerRefreshView;
 @property (nonatomic,strong) MJRefreshFooterView *footerRefreshView;
 
 @property (nonatomic,assign) BOOL menuVisible;//显示/隐藏选择列表
 @property (nonatomic,strong) DRTreeTableView *treeView; //选择分类的列表
-@property (nonatomic,strong) LessonCategoryInterface *lessonCategoryInterface;
 @property (nonatomic,strong) ChapterSearchBar_iPhone *searchBar; //搜罗栏
 @end
 
@@ -63,6 +62,8 @@
     //此处_lessonCategoryId改为要初始显示的分类Id
     [self.learningMaterialListInterface downloadlearningMaterilasListForCategoryId:_lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
     [self setSubview];
+    [self.view addSubview:self.searchBar];
+    self.lhlNavigationBar.leftItem.hidden = YES;
 }
 
 -(void)setSubview{
@@ -70,11 +71,11 @@
     for (DRImageButton *btn in self.sortButtons) {
         [btn.layer setCornerRadius:3.0];
     }
-    [self.titleBar setFrame:(CGRect){0,IP5(67,57),320,30}];
-    [self.tableView setFrame:(CGRect){0,IP5(100, 90),320,IP5(405, 340) - 3}];
+//    [self.titleBar setFrame:(CGRect){0,IP5(67,57),320,30}];
+//    [self.tableView setFrame:(CGRect){0,IP5(100, 90),320,IP5(405, 340) - 3}];
     
-    [self.searchButton.layer setCornerRadius:3.0];
-    [self.searchButton addTarget:self action:@selector(searchButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.searchButton.layer setCornerRadius:3.0];
+//    [self.searchButton addTarget:self action:@selector(searchButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.headerRefreshView endRefreshing];
     [self.footerRefreshView endRefreshing];
@@ -153,10 +154,11 @@
     [self.searchBar.searchTextField resignFirstResponder];
 }
 
-//获取课程分类信息
 -(void)downloadLessonCategoryInfo{
+    //加载资料分类
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [self.lessonCategoryInterface downloadLessonCategoryDataWithUserId:[CaiJinTongManager shared].userId];
+    UserModel *user = [[CaiJinTongManager shared] user];
+    [self.learningMatarilasCategoryInterface downloadLearningMatarilasCategoryDataWithUserId:user.userId];
 }
 
 -(void)searchButtonClicked:(UIButton *)sender{
@@ -192,9 +194,9 @@
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
     [self setMenuVisible:NO];
-    if(!self.searchBar.hidden){
-        [self searchButtonClicked:nil];
-    }
+//    if(!self.searchBar.hidden){
+//        [self searchButtonClicked:nil];
+//    }
     [self.searchBar.searchTextField resignFirstResponder];
 }
 
@@ -354,12 +356,12 @@
 #pragma mark property
 -(ChapterSearchBar_iPhone *)searchBar{
     if(!_searchBar){
-        _searchBar = [[ChapterSearchBar_iPhone alloc] initWithFrame:CGRectMake(19, IP5(95, 85), 282, 34)];
+        _searchBar = [[ChapterSearchBar_iPhone alloc] initWithFrame:CGRectMake(19, IP5(63, 63), 282, 34)];
         _searchBar.delegate = self;
-        [_searchBar setHidden:YES];
-        [_searchBar setAlpha:0.0];
+//        [_searchBar setHidden:YES];
+//        [_searchBar setAlpha:0.0];
         [_searchBar.searchTextField setPlaceholder:@"搜索资料"];
-        [self.view addSubview:_searchBar];
+//        [self.view addSubview:_searchBar];
     }
     return _searchBar;
 }
@@ -437,12 +439,12 @@
     }
 }
 
--(LessonCategoryInterface *)lessonCategoryInterface{
-    if(!_lessonCategoryInterface){
-        _lessonCategoryInterface = [LessonCategoryInterface new];
-        _lessonCategoryInterface.delegate = self;
+-(LearningMatarilasCategoryInterface *)learningMatarilasCategoryInterface{
+    if (!_learningMatarilasCategoryInterface) {
+        _learningMatarilasCategoryInterface = [[LearningMatarilasCategoryInterface alloc] init];
+        _learningMatarilasCategoryInterface.delegate = self;
     }
-    return _lessonCategoryInterface;
+    return _learningMatarilasCategoryInterface;
 }
 
 -(DRTreeTableView *)treeView{
@@ -457,22 +459,24 @@
 
 #pragma mark --
 
-#pragma mark LessonCategoryInterfaceDelegate获取课程分类信息
--(void)getLessonCategoryDataDidFinished:(NSArray *)categoryNotes{
+
+#pragma mark LearningMatarilasCategoryInterfaceDelegate加载资料分类列表
+-(void)getLearningMatarilasCategoryDataDidFinished:(NSArray *)categoryLearningMatarilas{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.treeView.noteArr = [NSMutableArray arrayWithArray:categoryNotes];
+            self.treeView.noteArr = [NSMutableArray arrayWithArray:categoryLearningMatarilas];
             [MBProgressHUD hideHUDForView:self.view animated:YES];
         });
     });
 }
 
--(void)getLessonCategoryDataFailure:(NSString *)errorMsg{
+-(void)getLearningMatarilasCategoryDataFailure:(NSString *)errorMsg{
     dispatch_async(dispatch_get_main_queue(), ^{
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         [Utility errorAlert:errorMsg];
     });
 }
+#pragma mark --
 
 #pragma mark DRTreeTableViewDelegate //选择一个分类
 -(void)drTreeTableView:(DRTreeTableView *)treeView didSelectedTreeNode:(DRTreeNode *)selectedNote{

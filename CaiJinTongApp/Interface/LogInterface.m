@@ -41,6 +41,7 @@
     NSDictionary *resultHeaders = [[request responseHeaders] allKeytoLowerCase];
     if (resultHeaders) {
         NSData *data = [[NSData alloc]initWithData:[request responseData]];
+//        NSLog(@"%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
         id jsonObject=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
         if (jsonObject !=nil) {
             if ([jsonObject isKindOfClass:[NSDictionary class]]) {

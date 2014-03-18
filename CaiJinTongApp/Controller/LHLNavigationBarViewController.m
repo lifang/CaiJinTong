@@ -7,7 +7,7 @@
 //
 
 #import "LHLNavigationBarViewController.h"
-#define BAR_HEIGHT (IS_4_INCH ? 65 : 55)
+#define BAR_HEIGHT (IS_4_INCH ? 55 : 55)
 
 @interface LHLNavigationBarViewController ()
 

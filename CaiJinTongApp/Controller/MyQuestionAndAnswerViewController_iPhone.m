@@ -64,6 +64,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.lhlNavigationBar.leftItem.hidden = YES;
     //临时,搜索按钮
     CGPoint center = self.lhlNavigationBar.leftItem.center;
     self.showSearchBarBtn = [UIButton buttonWithType:UIButtonTypeCustom ];
@@ -78,12 +79,12 @@
 //    [self.showSearchBarBtn.layer setBorderColor:[UIColor whiteColor].CGColor];
 //    [self.showSearchBarBtn.layer setBorderWidth:1.5];
 //    [self.showSearchBarBtn.layer setCornerRadius:4.0];
-    [self.lhlNavigationBar addSubview:self.showSearchBarBtn];
+//    [self.lhlNavigationBar addSubview:self.showSearchBarBtn];
     
     [self.headerRefreshView endRefreshing];//instance refresh view
     [self.footerRefreshView endRefreshing];
     [self.tableView registerClass:[QuestionAndAnswerCell_iPhoneHeaderView class] forCellReuseIdentifier:@"header"];
-    [self.tableView setFrame: CGRectMake(20,CGRectGetMaxY(self.noticeBarView.frame) + 5,281,IP5(568, 480) - CGRectGetMaxY(self.noticeBarView.frame) - 5 - self.tabBarController.tabBar.frame.size.height)];
+//    [self.tableView setFrame: CGRectMake(20,CGRectGetMaxY(self.noticeBarView.frame) + 5,281,IP5(568, 480) - CGRectGetMaxY(self.noticeBarView.frame) - 5 - self.tabBarController.tabBar.frame.size.height)];
     
     //提问按钮
     if(!self.askQuestionBtn){
@@ -101,6 +102,8 @@
     
     //数据
     [self makeNewData];
+    
+    [self.view addSubview:self.searchBar];
 }
 
 //获取问题tableView所需的数据
@@ -427,9 +430,9 @@
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
     [self keyboardDismiss];
     self.menuVisible = NO;
-    if(self.searchBar.alpha > 0.999){
-        [self showSearchBar];
-    }
+//    if(self.searchBar.alpha > 0.999){
+//        [self showSearchBar];
+//    }
 }
 
 #pragma mark --
@@ -504,6 +507,7 @@
 #pragma mark action  动作
 //显示/隐藏搜索栏
 -(void)showSearchBar{
+    return;
     if(self.searchBar.hidden){
         if(self.menuVisible){
             self.menuVisible = NO;
@@ -560,9 +564,9 @@
     _menuVisible = menuVisible;
     [UIView animateWithDuration:0.3 animations:^{
         if(menuVisible){
-            if(self.searchBar.hidden == NO){
-                [self showSearchBar];
-            }
+//            if(self.searchBar.hidden == NO){
+//                [self showSearchBar];
+//            }
             [self keyboardDismiss];
             self.drTreeTableView.frame = CGRectMake(120,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55));
         }else{
@@ -746,12 +750,12 @@
 #pragma mark property
 -(ChapterSearchBar_iPhone *)searchBar{
     if(!_searchBar){
-        _searchBar = [[ChapterSearchBar_iPhone alloc] initWithFrame:CGRectMake(19, IP5(65, 55), 282, 34)];
+        _searchBar = [[ChapterSearchBar_iPhone alloc] initWithFrame:CGRectMake(19, IP5(63, 63), 282, 34)];
         _searchBar.delegate = self;
-        [_searchBar setHidden:YES];
-        [_searchBar setAlpha:0.0];
+//        [_searchBar setHidden:YES];
+//        [_searchBar setAlpha:0.0];
         [_searchBar.searchTextField setPlaceholder:@"搜索问题"];
-        [self.view addSubview:_searchBar];
+//        [self.view addSubview:_searchBar];
     }
     return _searchBar;
 }

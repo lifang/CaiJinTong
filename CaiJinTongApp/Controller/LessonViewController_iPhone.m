@@ -67,14 +67,14 @@
     [self setTabBar];
     if(!self.searchBar){
         self.searchBar = [[ChapterSearchBar_iPhone alloc] init];
-        self.searchBar.frame = CGRectMake(19, IP5(78, 63), 282, 34);
+        self.searchBar.frame = CGRectMake(19, IP5(63, 63), 282, 34);
         [self.view addSubview:self.searchBar];
         self.searchBar.delegate = self;
         self.isSearch = NO;
     }
     self.isRefreshing = NO;
     
-    CJTMainToolbar_iPhone *mainBar = [[CJTMainToolbar_iPhone alloc]initWithFrame:CGRectMake (19, IP5(125, 105), 281, IP5(40, 35))];
+    CJTMainToolbar_iPhone *mainBar = [[CJTMainToolbar_iPhone alloc]initWithFrame:CGRectMake (19, IP5(105, 105), 281, IP5(40, 35))];
 	self.mainToolBar = mainBar;
     self.mainToolBar.delegate = self;
     [self.view addSubview:self.mainToolBar];
@@ -84,7 +84,7 @@
 
 //collectionView加载设置
 -(void)setCollectionView{
-    self.collectionView.frame = CGRectMake(0,IP5(166, 144), 320,IP5(339, 286) ) ;
+    self.collectionView.frame = CGRectMake(0,IP5(150, 144), 320,IP5(350, 286) ) ;
     [self.collectionView setPagingEnabled:NO];
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;

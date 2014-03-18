@@ -613,33 +613,6 @@
         self.lessonModel = lesson;
         [self reloadLessonData:lesson];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        if(self.isClickingNoteTitle){
-            self.isClickingNoteTitle = NO;
-            LHLMoviePlayViewController *movieController =  [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
-            movieController.delegate = self;
-            SectionModel *section = [[Section defaultSection] getSectionModelWithSid:self.playNoteModel.noteSectionId];
-            [self presentViewController:movieController animated:YES completion:^{
-                
-            }];
-            if (section) {
-                [movieController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
-            }else{
-                SectionModel *tempSection = nil;
-                BOOL isReturn = NO;
-                for (chapterModel *chapter in self.lessonModel.chapterList) {
-                    for (SectionModel *sec in chapter.sectionList) {
-                        if ([sec.sectionId isEqualToString:self.playNoteModel.noteSectionId]) {
-                            tempSection = sec;
-                            isReturn = YES;
-                        }
-                    }
-                    if (isReturn) {
-                        break;
-                    }
-                }
-                [movieController playMovieWithSectionModel:tempSection?:section withFileType:MPMovieSourceTypeStreaming];
-            }
-        }
     });
 }
 -(void)getLessonInfoDidFailed:(NSString *)errorMsg{
@@ -671,19 +644,31 @@
 
 #pragma mark Section_NoteViewControllerDelegate选中一条笔记
 -(void)section_NoteViewController:(Section_NoteViewController_iPhone *)controller didClickedNoteCellWithObj:(NoteModel *)noteModel{
-//    [self playVideo:Nil];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
-        if ([networkStatus isEqualToString:@"NotReachable"]) {
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [Utility errorAlert:@"暂无网络"];
-        }else{
-            self.playNoteModel = noteModel;
-            self.isClickingNoteTitle = YES;
-            UserModel *user = [[CaiJinTongManager shared] user];
-            [self.lessonInterface downloadLessonInfoWithLessonId:self.lessonModel.lessonId withUserId:user.userId];
+    
+    self.isPlaying = YES;
+    SectionModel *section = nil;
+    for (chapterModel *chapter in self.lessonModel.chapterList) {
+        if ([chapter.chapterId isEqualToString:noteModel.noteChapterId]) {
+            for (SectionModel *sec in chapter.sectionList) {
+                if ([sec.sectionId isEqualToString:noteModel.noteSectionId]) {
+                    section = sec;
+                    break;
+                }
+            }
+            break;
         }
-    }];
+    }
+    if (section && section.sectionMoviePlayURL) {
+        //播放接口
+        section.lessonId = self.lessonModel.lessonId;
+        LHLMoviePlayViewController *movieController =  [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
+        movieController.delegate = self;
+        [self presentViewController:movieController animated:YES completion:^{
+        }];
+         [movieController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
+    }else{
+        [Utility errorAlert:@"没有发现要播放的视频文件"];
+    }
 }
 
 #pragma mark property

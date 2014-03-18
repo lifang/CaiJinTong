@@ -182,7 +182,7 @@
     }
     self.questionNameLabel.text = question.askerNick;
     self.questionDateLabel.text = [NSString stringWithFormat:@"发表于%@",question.askTime];
-    self.questionFlowerLabel.text = question.praiseCount;
+    self.questionFlowerLabel.text = [NSString stringWithFormat:@"%d",question.answerList.count];
     self.questionContentAttributeView.questionModel = question;
     //    [self.questionFlowerBt setUserInteractionEnabled:NO];
     [self.summitQuestionAnswerBackView setHidden:!question.isEditing];
