@@ -236,9 +236,11 @@
     webView.frame = (CGRect){0,0,800,700};
     webView.scalesPageToFit = YES;
     [webView loadRequest:[NSURLRequest requestWithURL:imageURL]];
-    [self presentPopupViewController:self.modelController animationType:MJPopupViewAnimationSlideTopTop isAlignmentCenter:YES dismissed:^{
+    self.modelController.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentViewController:self.modelController animated:YES completion:^{
         
     }];
+
 }
 #pragma mark --
 

@@ -196,9 +196,11 @@
     self.modelController.view.frame = (CGRect){0,0,300,IP5(548, 460)};
     webView.frame = (CGRect){0,0,300,IP5(548, 460)};
     [webView loadRequest:[NSURLRequest requestWithURL:url]];
-    [self presentPopupViewController:self.modelController animationType:MJPopupViewAnimationSlideTopTop isAlignmentCenter:YES dismissed:^{
+    self.modelController.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentViewController:self.modelController animated:YES completion:^{
         
     }];
+
 }
 
 -(void)scanImageFromImageUrl:(NSURL*)imageURL{
@@ -214,9 +216,12 @@
     webView.frame = (CGRect){0,0,300,225};
     webView.scalesPageToFit = YES;
     [webView loadRequest:[NSURLRequest requestWithURL:imageURL]];
-    [self presentPopupViewController:self.modelController animationType:MJPopupViewAnimationSlideTopTop isAlignmentCenter:YES dismissed:^{
+    
+    self.modelController.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentViewController:self.modelController animated:YES completion:^{
         
     }];
+
 }
 
 #pragma mark QuestionAndAnswerCell_iPhoneHeaderViewDelegate

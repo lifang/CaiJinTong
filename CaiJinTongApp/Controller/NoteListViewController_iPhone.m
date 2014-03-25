@@ -48,9 +48,6 @@
     
 }
 
--(void)willDismissPopoupController{//当要退出当前界面时调用
-    
-}
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];

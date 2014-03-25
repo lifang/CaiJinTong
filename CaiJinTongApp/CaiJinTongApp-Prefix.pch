@@ -17,7 +17,6 @@
 #import "Const.h"
 #import "Utility.h"
 #import "CaiJinTongManager.h"
-#import "UIViewController+MJPopupViewController.h"
 #import "MBProgressHUD.h"
 #import "DRNavigationController.h"
 #import "iVersion.h"

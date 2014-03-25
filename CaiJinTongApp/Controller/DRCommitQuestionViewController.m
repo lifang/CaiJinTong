@@ -118,7 +118,10 @@ static CGRect tableFrame;
 }
 
 - (IBAction)cancelBtnClicked:(UIButton *)sender {
-    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopTop];
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+    
     if (self.delegate && [self.delegate respondsToSelector:@selector(commitQuestionControllerCancel)]) {
         [self.delegate commitQuestionControllerCancel];
     }
@@ -141,7 +144,9 @@ static CGRect tableFrame;
     }
     
     if (self.selectedQuestionCategoryId != nil && ![self.dropDownBt.titleLabel.text isEqualToString:DROPDOWNMENU_TITLE]){
-        [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopTop];
+        [self dismissViewControllerAnimated:YES completion:^{
+            
+        }];
         if (self.delegate && [self.delegate respondsToSelector:@selector(commitQuestionController:didCommitQuestionWithTitle:andText:andQuestionId:)]) {
             [self.delegate commitQuestionController:self didCommitQuestionWithTitle:self.titleField.text andText:self.contentField.text andQuestionId:self.selectedQuestionCategoryId];
         }

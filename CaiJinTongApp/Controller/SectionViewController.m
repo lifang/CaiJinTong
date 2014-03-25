@@ -33,9 +33,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
--(void)willDismissPopoupController{
-    
-}
+
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];

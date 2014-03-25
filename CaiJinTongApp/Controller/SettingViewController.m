@@ -30,14 +30,8 @@ NSString *appleID = @"6224939";
     return self;
 }
 -(void)drnavigationBarRightItemClicked:(id)sender{
-    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
 }
 
--(void)willDismissPopoupController{
-    CGPoint offset = self.tableView.contentOffset;
-    [self.tableView setContentOffset:offset animated:NO];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"SettingViewControllerDismiss" object:nil];
-}
 
 - (void)viewDidLoad
 {
@@ -261,7 +255,12 @@ NSString *appleID = @"6224939";
 #pragma mark --
 #pragma mark -- cellDelegate
 -(void)infoCellView:(InfoCell*)header {
-    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
+    CGPoint offset = self.tableView.contentOffset;
+    [self.tableView setContentOffset:offset animated:NO];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"SettingViewControllerDismiss" object:nil];
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
     AppDelegate *app = [AppDelegate sharedInstance];
     if (app.mDownloadService && app.mDownloadService.networkQueue) {
         ASINetworkQueue *queue = app.mDownloadService.networkQueue;

@@ -44,21 +44,7 @@
     }
 }
 
--(void)willDismissPopoupController{
-    self.isForgoundForPlayerView = YES;
-    self.myQuestionItem.isSelected = NO;
-    self.myNotesItem.isSelected = NO;
-    if (self.isPlaying) {
-        if (self.commitQuestionController) {
-            if (!self.commitQuestionController.isCut) {
-                [self changePlayButtonStatus:YES];
-                self.commitQuestionController = nil;
-            }
-        }else{
-            [self changePlayButtonStatus:YES];
-        }
-    }
-}
+
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
 }
@@ -227,8 +213,9 @@
         commitController.view.frame = (CGRect){0,0,804,426};
         commitController.delegate = self;
         self.commitQuestionController = commitController;
-        [self presentPopupViewController:commitController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
-            self.myQuestionItem.isSelected = NO;
+        commitController.modalPresentationStyle = UIModalPresentationFormSheet;
+        [self presentViewController:commitController animated:YES completion:^{
+             self.myQuestionItem.isSelected = NO;
         }];
         self.isPopupChapter = NO;
     }else
@@ -238,7 +225,8 @@
         DRTakingMovieNoteViewController *takingController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRTakingMovieNoteViewController"];
         takingController.view.frame = (CGRect){0,0,804,300};
         takingController.delegate = self;
-        [self presentPopupViewController:takingController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
+        takingController.modalPresentationStyle = UIModalPresentationFormSheet;
+        [self presentViewController:takingController animated:YES completion:^{
             self.myNotesItem.isSelected = NO;
         }];
         self.isPopupChapter = NO;
@@ -601,6 +589,20 @@
     [self.section_chapterController willMoveToParentViewController:nil];
     [self.section_chapterController removeFromParentViewController];
     [self.section_chapterController.view removeFromSuperview];
+    
+    self.isForgoundForPlayerView = YES;
+    self.myQuestionItem.isSelected = NO;
+    self.myNotesItem.isSelected = NO;
+    if (self.isPlaying) {
+        if (self.commitQuestionController) {
+            if (!self.commitQuestionController.isCut) {
+                [self changePlayButtonStatus:YES];
+                self.commitQuestionController = nil;
+            }
+        }else{
+            [self changePlayButtonStatus:YES];
+        }
+    }
     [self dismissViewControllerAnimated:YES completion:^{
         [self.moviePlayer stop];
         self.moviePlayer = nil;

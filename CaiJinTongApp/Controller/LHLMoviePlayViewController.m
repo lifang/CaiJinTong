@@ -52,21 +52,7 @@
     [super viewDidDisappear:animated];
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
 }
--(void)willDismissPopoupController{
-    self.isForgoundForPlayerView = YES;
-    self.myQuestionItem.isSelected = NO;
-    self.myNotesItem.isSelected = NO;
-    if (self.isPlaying) {
-        if (self.commitQuestionVC) {
-            if (!self.commitQuestionVC.isCut) {
-                [self changePlayButtonStatus:YES];
-                self.commitQuestionVC = nil;
-            }
-        }else{
-            [self changePlayButtonStatus:YES];
-        }
-    }
-}
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -217,8 +203,9 @@
 //                self.myQuestionItem.isSelected = NO;
 //            }];
 //            self.commitQuestionVC.view.backgroundColor = [UIColor clearColor];
-            [self presentPopupViewController:commitQuestionVC animationType:MJPopupViewAnimationFade isAlignmentCenter:YES dismissed:^{
-                self.myQuestionItem.isSelected = NO;
+            commitQuestionVC.modalPresentationStyle = UIModalPresentationFormSheet;
+            [self presentViewController:commitQuestionVC animated:YES completion:^{
+                
             }];
             [self changePlayButtonStatus:NO];
         }else
@@ -229,9 +216,11 @@
                 LHLTakingMovieNoteViewController *takingMovieNotesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLTakingMovieNoteViewController"];
                 takingMovieNotesVC.view.frame = (CGRect){0,0,IP5(516, 435),120};
                 takingMovieNotesVC.delegate = self;
-                [self presentPopupViewController:takingMovieNotesVC animationType:MJPopupViewAnimationFade isAlignmentCenter:YES dismissed:^{
-                    self.myNotesItem.isSelected = NO;
+                takingMovieNotesVC.modalPresentationStyle = UIModalPresentationFormSheet;
+                [self presentViewController:takingMovieNotesVC animated:YES completion:^{
+                    
                 }];
+            
                 [self changePlayButtonStatus:NO];
             }
 }
@@ -562,6 +551,21 @@
 //    [self.navigationController popViewControllerAnimated:YES];
 //    [self.moviePlayer stop];
 //    self.moviePlayer = nil;
+    
+    self.isForgoundForPlayerView = YES;
+    self.myQuestionItem.isSelected = NO;
+    self.myNotesItem.isSelected = NO;
+    if (self.isPlaying) {
+        if (self.commitQuestionVC) {
+            if (!self.commitQuestionVC.isCut) {
+                [self changePlayButtonStatus:YES];
+                self.commitQuestionVC = nil;
+            }
+        }else{
+            [self changePlayButtonStatus:YES];
+        }
+    }
+    
     [self dismissViewControllerAnimated:YES completion:^{
         [self.moviePlayer stop];
         self.moviePlayer = nil;

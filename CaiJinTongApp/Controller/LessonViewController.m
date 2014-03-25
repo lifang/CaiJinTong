@@ -330,7 +330,9 @@ typedef enum {
     DRNavigationController *navControl = [[DRNavigationController alloc]initWithRootViewController:settingView];
     navControl.view.frame = (CGRect){184,250,400,500};
     [navControl setNavigationBarHidden:YES];
-    [self presentPopupViewController:navControl animationType:MJPopupViewAnimationSlideRightLeft isAlignmentCenter:YES dismissed:^{
+    navControl.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentViewController:navControl animated:YES completion:^{
+        
     }];
 }
 #pragma mark UITextFieldDelegate

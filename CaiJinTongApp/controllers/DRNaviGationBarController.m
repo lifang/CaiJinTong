@@ -22,10 +22,6 @@
     }
     return self;
 }
-//当popoup view退出当前界面时调用
--(void)willDismissPopoupController{
-
-}
 
 - (void)viewDidLoad
 {

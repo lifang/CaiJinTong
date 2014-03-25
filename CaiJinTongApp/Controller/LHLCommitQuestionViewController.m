@@ -133,7 +133,9 @@
 }
 
 - (IBAction)cancelBtnClicked:(UIButton *)sender {
-    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationFade];
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
     if (self.delegate && [self.delegate respondsToSelector:@selector(commitQuestionControllerCancel)]) {
         [self.delegate commitQuestionControllerCancel];
     }
@@ -153,7 +155,9 @@
         [Utility errorAlert:@"请先选择一个提问分类!"];
         return;
     }
-    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationFade];
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
     if (self.delegate && [self.delegate respondsToSelector:@selector(commitQuestionController:didCommitQuestionWithTitle:andText:andQuestionId:)]) {
         [self.delegate commitQuestionController:self didCommitQuestionWithTitle:self.titleField.text andText:self.contentField.text andQuestionId:self.selectedQuestionId];//42为"综合问题"的分类编号
     }

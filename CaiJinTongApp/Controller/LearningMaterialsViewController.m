@@ -193,7 +193,8 @@
         [webController.view addSubview:webView];
         webController.view.frame = (CGRect){0,0,800,700};
         [webView loadRequest:[NSURLRequest requestWithURL:[[NSURL alloc] initFileURLWithPath:material.materialFileLocalPath]]];
-        [self presentPopupViewController:webController animationType:MJPopupViewAnimationSlideTopTop isAlignmentCenter:YES dismissed:^{
+        webController.modalPresentationStyle = UIModalPresentationFormSheet;
+        [self presentViewController:webController animated:YES completion:^{
             
         }];
     }

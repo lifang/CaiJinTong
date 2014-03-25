@@ -65,7 +65,9 @@
 }
 
 - (IBAction)cancelBtnClicked:(UIButton *)sender {
-    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopTop];
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
     if (self.delegate && [self.delegate respondsToSelector:@selector(takingMovieNoteControllerCancel)]) {
         [self.delegate takingMovieNoteControllerCancel];
     }
@@ -80,7 +82,9 @@
             return;
         }
         
-        [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopTop];
+        [self dismissViewControllerAnimated:YES completion:^{
+            
+        }];
         if (self.delegate && [self.delegate respondsToSelector:@selector(takingMovieNoteController:commitNote: andTime:)]) {
             [self.delegate takingMovieNoteController:self commitNote:self.contentField.text andTime:self.noteTimeLabel.text];
         }
