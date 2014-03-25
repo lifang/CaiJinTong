@@ -93,6 +93,7 @@
     });
 }
 -(void)reloadLessonData:(LessonModel *)lesson{
+    self.lessonModel = lesson;
     dispatch_async(dispatch_get_main_queue(), ^{
         //封面
         [self.sectionView refreshDataWithLesson:lesson];
@@ -129,6 +130,12 @@
         }else{
             [self.playBtn setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
         }
+        
+        self.section_NoteView.dataArray = [NSMutableArray arrayWithArray:self.lessonModel.chapterList];
+        [self.section_NoteView.tableViewList reloadData];
+        
+//        self.section_GradeView.dataArray = [NSMutableArray arrayWithArray:self.lessonModel.lessonCommentList];
+//        [self.section_GradeView.tableViewList reloadData];
     });
     
     //简介

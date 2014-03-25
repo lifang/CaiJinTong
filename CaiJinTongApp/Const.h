@@ -12,7 +12,8 @@ typedef  enum  {//问答类型
     QuestionAndAnswerALL = 1,
     QuestionAndAnswerMYQUESTION,
     QuestionAndAnswerMYANSWER,
-    QuestionAndAnswerSearchQuestion
+    QuestionAndAnswerSearchQuestion,
+    QuestionAndAnswerDefault
 } QuestionAndAnswerScope;
 
 typedef enum {//追问类型

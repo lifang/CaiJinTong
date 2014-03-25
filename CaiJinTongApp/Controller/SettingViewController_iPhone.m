@@ -44,7 +44,7 @@ NSString *appleID_ = @"6224939";
 {
     [super viewDidLoad];
     [self.lhlNavigationBar.rightItem setHidden:YES];
-    [self.lhlNavigationBar.leftItem setHidden:YES];
+    [self.lhlNavigationBar.leftItem setHidden:NO];
     self.lhlNavigationBar.title.text = @"设置";
     
     [self.tableView setFrame:CGRectMake(0, IP5(65, 55), 320,IP5(440, 375))];
@@ -127,8 +127,10 @@ NSString *appleID_ = @"6224939";
                 case 1:
                     cell.textLabel.text = @"清理缓存";
                     break;
-                case 2:
-                    cell.textLabel.text = @"版本检测";
+                case 2:{
+                    iVersion *version = [iVersion sharedInstance];
+                    cell.textLabel.text = [NSString stringWithFormat:@"版本检测           最新版本v%@",version.applicationVersion];
+                }
                     break;
                     
                 default:
@@ -180,6 +182,7 @@ NSString *appleID_ = @"6224939";
                 case 1:
                 {
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"清除缓存，会删除所有已经下载的视频文件。" delegate:self cancelButtonTitle:@"确认删除" otherButtonTitles:@"取消", nil];
+                    alert.tag = 100;
                     [alert show];
                     [[SDImageCache sharedImageCache]clearMemory];
                     [[SDImageCache sharedImageCache]clearDisk];
@@ -240,11 +243,13 @@ NSString *appleID_ = @"6224939";
 #pragma mark iVersionDelegate
 -(void)iVersionDidNotDetectNewVersion{
     iVersion *version = [iVersion sharedInstance];
-    ((UITableViewCell *)self.tableView.visibleCells[3]).textLabel.text = [NSString stringWithFormat:@"版本检测                                        最新版本%@",version.applicationVersion];
+    UITableViewCell *cell =  [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:1]];
+    cell.textLabel.text = [NSString stringWithFormat:@"版本检测           最新版本v%@",version.applicationVersion];
 }
 
 -(void)iVersionDidDetectNewVersion:(NSString *)version details:(NSString *)versionDetails{
-    ((UITableViewCell *)self.tableView.visibleCells[3]).textLabel.text = [NSString stringWithFormat:@"版本检测                                            最新版本%@",version];
+    UITableViewCell *cell =  [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:1]];
+    cell.textLabel.text = [NSString stringWithFormat:@"版本检测           最新版本v%@",version];
 }
 
 -(void)iVersionVersionCheckDidFailWithError:(NSError *)error{
@@ -255,26 +260,32 @@ NSString *appleID_ = @"6224939";
 
 #pragma mark UIAlertViewDelegate
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == 0) {
+    if (buttonIndex == 0 && alertView.tag == 100) {
         [Section clearAllDownloadedSectionWithSuccess:^{
             [Utility errorAlert:@"清除缓存成功"];
         } withFailure:^(NSString *errorString) {
             [Utility errorAlert:@"清除缓存过程出现错误"];
         }];
     }
+    if (alertView.tag == 101 && buttonIndex == 0) {
+        AppDelegate *app = [AppDelegate sharedInstance];
+        if (app.mDownloadService && app.mDownloadService.networkQueue) {
+            ASINetworkQueue *queue = app.mDownloadService.networkQueue;
+            if (queue.operationCount > 0) {
+                [queue cancelAllOperations];
+            }
+        }
+        [self.navigationController dismissViewControllerAnimated:YES completion:^{
+            
+        }];
+    }
 }
 #pragma mark --
 #pragma mark -- cellDelegate
 -(void)infoCellView:(InfoCell*)header {
-    [self.navigationController popViewControllerAnimated:YES];
-    AppDelegate *app = [AppDelegate sharedInstance];
-    if (app.mDownloadService && app.mDownloadService.networkQueue) {
-        ASINetworkQueue *queue = app.mDownloadService.networkQueue;
-        if (queue.operationCount > 0) {
-            [queue cancelAllOperations];
-        }
-    }
-//    [app.lessonViewCtrol.navigationController popToRootViewControllerAnimated:NO];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"确认退出" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:@"取消", nil];
+    alert.tag = 101;
+    [alert show];
 }
 
 #pragma mark -- suggestion feedback view

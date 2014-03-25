@@ -140,8 +140,12 @@
         self.fileDownloadStatus = DownloadStatus_Downloaded;
         UserModel *user = [[CaiJinTongManager shared] user];
         self.materialModel.materialFileDownloadStaus = DownloadStatus_Downloaded;
+        self.materialModel.materialSearchCount = [notification.userInfo objectForKey:@"downloadCount"];
+        
         self.materialModel.materialFileLocalPath = [notification.userInfo objectForKey:URLLocalPath];
+        
         [[Section defaultSection] updateLeariningMaterial:self.materialModel withUserId:user.userId];
+        [self setLearningMaterialData:self.materialModel];
     }
 }
 -(void)didFailureDownloadFile:(NSNotification*)notification{

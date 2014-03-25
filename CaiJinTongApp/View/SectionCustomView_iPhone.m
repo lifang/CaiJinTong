@@ -41,7 +41,7 @@
             imageViewC = nil;
             
             //视频进度条
-            self.pv = [[UISlider alloc] initWithFrame:CGRectMake(-2, imageViewFrame.size.height-16, imageViewFrame.size.width+4, 16)];
+            self.pv = [[UISlider alloc] initWithFrame:CGRectMake(-2, imageViewFrame.size.height-22, imageViewFrame.size.width+4, 20)];
             UIImage *frontImage = [[UIImage imageNamed:@"progressBar-front.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0) resizingMode:UIImageResizingModeStretch];
             UIImage *backgroundImage = [[UIImage imageNamed:@"progressBar-background.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0) resizingMode:UIImageResizingModeStretch];
             [self.pv setMinimumTrackImage:frontImage forState:UIControlStateNormal];
@@ -60,7 +60,7 @@
                 xx = 0;
             }
         self.pv.value = xx;
-            self.progressLabel.text = [NSString stringWithFormat:@"学习进度:%.2f%%",xx];
+            self.progressLabel.text = [NSString stringWithFormat:@"完成进度:%.2f%%",xx];
             self.progressLabel.textAlignment = NSTextAlignmentLeft;
             self.progressLabel.backgroundColor = [UIColor clearColor];
             [self.imageView addSubview:self.pv];
@@ -101,7 +101,7 @@
         xx = 0;
     }
     self.pv.value = xx;
-    self.progressLabel.text = [NSString stringWithFormat:@"学习进度:%.2f%%",xx];
+    self.progressLabel.text = [NSString stringWithFormat:@"完成进度:%.2f%%",xx];
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",lesson.lessonImageURL]];
     [self.imageView setImageWithURL:url placeholderImage:Image(@"_money.png")];

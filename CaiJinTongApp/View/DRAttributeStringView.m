@@ -326,7 +326,7 @@ typedef enum {
         imageView.image = [UIImage imageNamed:@"pdf.png"];
         imageView.urlFileType = DRURLFileType_PDF;
     }else
-    if ([extension isEqualToString:@"word"]) {
+    if ([extension isEqualToString:@"doc"] || [extension isEqualToString:@"docx"]) {
         imageView.image = [UIImage imageNamed:@"word.png"];
         imageView.urlFileType = DRURLFileType_WORD;
     }else

@@ -117,7 +117,10 @@ NSString *appleID = @"6224939";
                     cell.textLabel.text = @"清理缓存";
                     break;
                 case 2:
-                    cell.textLabel.text = @"版本检测";
+                {
+                    iVersion *version = [iVersion sharedInstance];
+                    cell.textLabel.text = [NSString stringWithFormat:@"版本检测           最新版本v%@",version.applicationVersion];
+                }
                     break;
                     
                 default:
@@ -230,11 +233,13 @@ NSString *appleID = @"6224939";
 #pragma mark iVersionDelegate
 -(void)iVersionDidNotDetectNewVersion{
     iVersion *version = [iVersion sharedInstance];
- ((UITableViewCell *)self.tableView.visibleCells[3]).textLabel.text = [NSString stringWithFormat:@"版本检测                                        最新版本%@",version.applicationVersion];
+    UITableViewCell *cell =  [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:1]];
+    cell.textLabel.text = [NSString stringWithFormat:@"版本检测           最新版本v%@",version.applicationVersion];
 }
 
 -(void)iVersionDidDetectNewVersion:(NSString *)version details:(NSString *)versionDetails{
- ((UITableViewCell *)self.tableView.visibleCells[3]).textLabel.text = [NSString stringWithFormat:@"版本检测                                            最新版本%@",version];
+    UITableViewCell *cell =  [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:1]];
+    cell.textLabel.text = [NSString stringWithFormat:@"版本检测           最新版本v%@",version];
 }
 
 -(void)iVersionVersionCheckDidFailWithError:(NSError *)error{
@@ -264,7 +269,7 @@ NSString *appleID = @"6224939";
             [queue cancelAllOperations];
         }
     }
-    [app.lessonViewCtrol.navigationController popToRootViewControllerAnimated:NO];
+    [app.lessonViewCtrol.navigationController popToRootViewControllerAnimated:YES];
 }
 
 #pragma mark -- suggestion feedback view

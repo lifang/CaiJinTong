@@ -12,6 +12,12 @@
 @interface Utility : NSObject
 +(Utility*)defaultUtility;
 
+///过滤json数据，可能出现<NULL>,null,等等情况
++(NSString *)filterValue:(NSString*)value;
+
+///异步请求网络数据
++(void)requestDataWithASIRequest:(ASIHTTPRequest*)request withSuccess:(void (^)(NSDictionary *dicData))success withFailure:(void (^)(NSError *error))failure;
+
 ///把秒数转换成时间字符串，如：61 => 1'1"
 +(NSString*)formateDateStringWithSecond:(int)second;
 

@@ -52,7 +52,7 @@
         //学习进度
         UIButton *progressBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         progressBtn.frame = CGRectMake(leftButtonX, BUTTON_Y, PROGRESS_BUTTON_WIDTH, BUTTON_HEIGHT);
-        [progressBtn setTitle:NSLocalizedString(@"学习进度", @"button") forState:UIControlStateNormal];
+        [progressBtn setTitle:NSLocalizedString(@"完成进度", @"button") forState:UIControlStateNormal];
         progressBtn.tag = PROGRESS_TAG;
 		[progressBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [progressBtn addTarget:self action:@selector(progressButtonTapped:) forControlEvents:UIControlEventTouchUpInside];

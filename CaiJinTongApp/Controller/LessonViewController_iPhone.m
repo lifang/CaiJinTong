@@ -468,7 +468,7 @@
         return;
     }
     dispatch_async(dispatch_get_main_queue(), ^{    //因选择分类被调用
-        self.lhlNavigationBar.leftItem.hidden = YES;
+//        self.lhlNavigationBar.leftItem.hidden = YES;
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         self.lessonListForCategory.currentPageIndex = 0;
         self.isSearch = NO;
@@ -480,7 +480,7 @@
 -(void)getLessonListDataForCategoryFailure:(NSString *)errorMsg{
     self.isLoading = NO;
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.lhlNavigationBar.leftItem.hidden = YES;
+//        self.lhlNavigationBar.leftItem.hidden = YES;
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         if(self.isRefreshing){
             [self.headerRefreshView endRefreshing];

@@ -469,6 +469,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [self endObservePlayBackProgressBar];
             [self updateMoviePlayBackProgressBar];
+            [self endStudyTime];
             if (self.loadMovieDataProgressView) {
                 [self.loadMovieDataProgressView removeFromSuperview];
                 [self.loadMovieDataProgressView hide:NO];
@@ -810,7 +811,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
 }
 
 -(void)updateStudyTimeValueMain{
-    self.studyTime +=10;
+    self.studyTime +=1;
 }
 
 //开始学习记时
@@ -819,7 +820,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
         [self.studyTimer invalidate];
         self.studyTimer = nil;
     }
-    self.studyTimer = [NSTimer timerWithTimeInterval:10 target:self selector:@selector(updateStudyTimeValue) userInfo:nil repeats:YES];
+    self.studyTimer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(updateStudyTimeValue) userInfo:nil repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:self.studyTimer forMode:NSDefaultRunLoopMode];
     [self.studyTimer fire];
 }
@@ -887,6 +888,15 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
 #pragma mark --
 
 #pragma mark property
+
+-(void)setMovieUrl:(NSURL *)movieUrl{
+    if (movieUrl && [[NSString stringWithFormat:@"flv"] isEqualToString:[[movieUrl absoluteString] pathExtension]] ) {
+        NSString *path = movieUrl.absoluteString;
+        _movieUrl = [NSURL URLWithString:[path stringByReplacingCharactersInRange:NSMakeRange(path.length - 3, 3) withString:@"mp4"]];
+    }else{
+        _movieUrl = movieUrl;
+    }
+}
 
 -(void)setIsPopupChapter:(BOOL)isPopupChapter{
     _isPopupChapter = isPopupChapter;

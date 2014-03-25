@@ -9,7 +9,7 @@
 #import "MyQuestionAndAnswerViewController.h"
 #import "IndexPathModel.h"
 @interface MyQuestionAndAnswerViewController ()
-@property (nonatomic,strong) NSMutableArray *myQuestionArr;
+
 @property (nonatomic,strong) MJRefreshHeaderView *headerRefreshView;
 @property (nonatomic,strong) MJRefreshFooterView *footerRefreshView;
 @property (nonatomic,strong) QuestionListInterface *questionListInterface;//所有问题的分页加载
@@ -250,7 +250,8 @@
             || [extension isEqualToString:@"jpg"]
             || [extension isEqualToString:@"jpeg"]
             || [extension isEqualToString:@"pdf"]
-            || [extension isEqualToString:@"word"]
+            || [extension isEqualToString:@"doc"]
+            || [extension isEqualToString:@"docx"]
             || [extension isEqualToString:@"txt"]
             || [extension isEqualToString:@"ppt"]
             || [extension isEqualToString:@"gif"]) {

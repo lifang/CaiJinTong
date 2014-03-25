@@ -18,7 +18,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *noticeBarView;
 @property (weak, nonatomic) IBOutlet UIImageView *noticeBarImageView;
-
+@property (nonatomic,strong) NSMutableArray *myQuestionArr;
 @property (nonatomic, strong) AcceptAnswerInterface *acceptAnswerInterface;
 @property (assign,nonatomic) QuestionAndAnswerScope questionAndAnswerScope;
 @property (assign, nonatomic) NSInteger question_pageIndex;

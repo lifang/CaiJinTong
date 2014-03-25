@@ -209,10 +209,15 @@
             self.isPopupChapter = NO;
             self.isForgoundForPlayerView = NO;
             LHLCommitQuestionViewController *commitQuestionVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLCommitQuestionViewController"];
-            commitQuestionVC.view.frame = (CGRect){0,0,IP5(516, 435),200};
+            commitQuestionVC.view.frame = (CGRect){0,0,IP5(516, 435),280};
             commitQuestionVC.delegate = self;
             self.commitQuestionVC = commitQuestionVC;
-            [self presentPopupViewController:commitQuestionVC animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
+            self.commitQuestionVC.modalPresentationStyle = UIModalPresentationFormSheet;
+//            [self presentViewController:self.commitQuestionVC animated:YES completion:^{
+//                self.myQuestionItem.isSelected = NO;
+//            }];
+//            self.commitQuestionVC.view.backgroundColor = [UIColor clearColor];
+            [self presentPopupViewController:commitQuestionVC animationType:MJPopupViewAnimationFade isAlignmentCenter:YES dismissed:^{
                 self.myQuestionItem.isSelected = NO;
             }];
             [self changePlayButtonStatus:NO];
@@ -224,7 +229,7 @@
                 LHLTakingMovieNoteViewController *takingMovieNotesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLTakingMovieNoteViewController"];
                 takingMovieNotesVC.view.frame = (CGRect){0,0,IP5(516, 435),120};
                 takingMovieNotesVC.delegate = self;
-                [self presentPopupViewController:takingMovieNotesVC animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
+                [self presentPopupViewController:takingMovieNotesVC animationType:MJPopupViewAnimationFade isAlignmentCenter:YES dismissed:^{
                     self.myNotesItem.isSelected = NO;
                 }];
                 [self changePlayButtonStatus:NO];
@@ -736,7 +741,7 @@
 }
 
 -(void)updateStudyTimeValueMain{
-    self.studyTime +=30;
+    self.studyTime +=1;
 }
 /**
  改变播放状态
@@ -759,7 +764,7 @@
         [self.studyTimer invalidate];
         self.studyTimer = nil;
     }
-    self.studyTimer = [NSTimer timerWithTimeInterval:30 target:self selector:@selector(updateStudyTimeValue) userInfo:nil repeats:YES];
+    self.studyTimer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(updateStudyTimeValue) userInfo:nil repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:self.studyTimer forMode:NSDefaultRunLoopMode];
     [self.studyTimer fire];
 }
@@ -867,6 +872,15 @@
 
 #pragma mark property
 
+-(void)setMovieUrl:(NSURL *)movieUrl{
+    if (movieUrl && [[NSString stringWithFormat:@"flv"] isEqualToString:[[movieUrl absoluteString] pathExtension]] ) {
+        NSString *path = movieUrl.absoluteString;
+        _movieUrl = [NSURL URLWithString:[path stringByReplacingCharactersInRange:NSMakeRange(path.length - 3, 3) withString:@"mp4"]];
+    }else{
+        _movieUrl = movieUrl;
+    }
+}
+
 -(void)setIsPopupChapter:(BOOL)isPopupChapter{
     _isPopupChapter = isPopupChapter;
     if (self.section_chapterController) {
@@ -972,7 +986,6 @@
 }
 
 #pragma mark --
-
 - (BOOL)shouldAutorotate {
     UIInterfaceOrientation interface = [[UIApplication sharedApplication] statusBarOrientation];
     if (!UIInterfaceOrientationIsLandscape(interface)) {

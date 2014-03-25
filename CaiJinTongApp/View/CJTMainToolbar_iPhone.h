@@ -17,7 +17,9 @@
 @end
 
 @interface CJTMainToolbar_iPhone : UIView
-
+@property (strong,nonatomic) UIButton *recentBt;
+@property (strong,nonatomic) UIButton *progressBt;
+@property (strong,nonatomic) UIButton *nameBt;
 @property (nonatomic, assign) id <CJTMainToolbar_iPhoneDelegate> delegate;
 
 - (void)hideToolbar;

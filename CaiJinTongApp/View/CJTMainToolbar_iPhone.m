@@ -45,18 +45,20 @@
 		recentPlayBtn.titleLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
         DLog(@"%f大大大大大大大",FONT_SIZE);
 		recentPlayBtn.autoresizingMask = UIViewAutoresizingNone;
+        self.recentBt = recentPlayBtn;
 		[self addSubview:recentPlayBtn];
         
         leftButtonX = leftButtonX +BUTTON_SPACE+RECENT_BUTTON_WIDTH;
         //学习进度
         UIButton *progressBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         progressBtn.frame = CGRectMake(leftButtonX, BUTTON_Y, PROGRESS_BUTTON_WIDTH, BUTTON_HEIGHT);
-        [progressBtn setTitle:NSLocalizedString(@"学习进度", @"button") forState:UIControlStateNormal];
+        [progressBtn setTitle:NSLocalizedString(@"完成进度", @"button") forState:UIControlStateNormal];
         progressBtn.tag = PROGRESS_TAG;
 		[progressBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [progressBtn addTarget:self action:@selector(progressButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
 		progressBtn.titleLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
 		progressBtn.autoresizingMask = UIViewAutoresizingNone;
+        self.progressBt = progressBtn;
 		[self addSubview:progressBtn];
         
         leftButtonX = leftButtonX +BUTTON_SPACE + PROGRESS_BUTTON_WIDTH;
@@ -69,6 +71,7 @@
         [nameBtn addTarget:self action:@selector(nameButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
 		nameBtn.titleLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
 		nameBtn.autoresizingMask = UIViewAutoresizingNone;
+        self.nameBt = nameBtn;
 		[self addSubview:nameBtn];
     }
     return self;
@@ -111,14 +114,23 @@
 
 - (void)recentButtonTapped:(UIButton *)button
 {
-	[_delegate tappedInToolbar:self recentButton:button];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(tappedInToolbar:recentButton:)]) {
+        [self.delegate tappedInToolbar:self recentButton:button];
+    }
+//	[_delegate tappedInToolbar:self recentButton:button];
 }
 - (void)progressButtonTapped:(UIButton *)button
 {
-	[_delegate tappedInToolbar:self progressButton:button];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(tappedInToolbar:progressButton:)]) {
+        [self.delegate tappedInToolbar:self progressButton:button];
+    }
+//	[_delegate tappedInToolbar:self progressButton:button];
 }
 - (void)nameButtonTapped:(UIButton *)button
 {
-	[_delegate tappedInToolbar:self nameButton:button];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(tappedInToolbar:nameButton:)]) {
+        [self.delegate tappedInToolbar:self nameButton:button];
+    }
+//	[_delegate tappedInToolbar:self nameButton:button];
 }
 @end

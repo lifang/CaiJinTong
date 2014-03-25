@@ -35,6 +35,7 @@
         [self.lhlNavigationBar.rightItem addTarget:self action:@selector(rightItemClicked:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:self.lhlNavigationBar];
     }
+    [self.lhlNavigationBar.leftItem setHidden:NO];
 }
 
 -(void)rightItemClicked:(id)sender{

@@ -24,7 +24,7 @@
     }
     float width = CGRectGetWidth(self.imageBackView.frame)*xx*0.01;
     self.progressTrackImageView.frame = (CGRect){0,CGRectGetMinY(self.progressTrackImageView.frame),width,CGRectGetHeight(self.progressTrackImageView.frame)};
-    self.progressLabel.text = [NSString stringWithFormat:@"学习进度 : %0.2f%%",xx];
+    self.progressLabel.text = [NSString stringWithFormat:@"完成进度 : %0.2f%%",xx];
 }
 
 /*

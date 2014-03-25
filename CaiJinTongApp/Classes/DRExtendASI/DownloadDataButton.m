@@ -7,7 +7,7 @@
 //
 
 #import "DownloadDataButton.h"
-
+#import "UpdateDownloadTimesInfo.h"
 @interface DownloadDataButton()
 @property (nonatomic,assign) long long fileTotalSize;
 @property (nonatomic,strong) UIProgressView *progressView;
@@ -227,10 +227,34 @@
 -(void)requestDidFinished:(ASIHTTPRequest*)request{
     if ([[request.userInfo objectForKey:URLKey] isEqualToString:self.downloadFileURL.absoluteString]) {
         self.downloadFileStatus = DownloadDataButtonStatus_Downloaded;
-        if (self.alert) {
-            [self.alert dismissWithClickedButtonIndex:1 animated:YES];
+        
+        if (self.materialModel) {
+            CaiJinTongManager *app = [CaiJinTongManager shared];
+            __weak DownloadDataButton *weakSelf = self;
+            [UpdateDownloadTimesInfo downloadDownloadTimesWithUserId:app.user.userId withLearningMatearilId:self.materialModel.materialId withSuccess:^(int downloadCount) {
+                DownloadDataButton *tempSelf = weakSelf;
+                if (tempSelf) {
+                    if (tempSelf.alert) {
+                        [tempSelf.alert dismissWithClickedButtonIndex:1 animated:YES];
+                    }
+                    [[NSNotificationCenter defaultCenter] postNotificationName:DownloadDataButton_Notification_DidFinished object:nil userInfo:@{URLKey: tempSelf.downloadFileURL.absoluteString?:@"",URLLocalPath:self.localPath?:@"",@"downloadCount":[NSString stringWithFormat:@"%d",downloadCount]}];
+                }
+            } withError:^(NSError *error) {
+                DownloadDataButton *tempSelf = weakSelf;
+                if (tempSelf) {
+                    if (tempSelf.alert) {
+                        [tempSelf.alert dismissWithClickedButtonIndex:1 animated:YES];
+                    }
+                    int downloadTime = tempSelf.materialModel.materialSearchCount?tempSelf.materialModel.materialSearchCount.intValue:0;
+                    [[NSNotificationCenter defaultCenter] postNotificationName:DownloadDataButton_Notification_DidFinished object:nil userInfo:@{URLKey: tempSelf.downloadFileURL.absoluteString?:@"",URLLocalPath:self.localPath?:@"",@"downloadCount":[NSString stringWithFormat:@"%d",downloadTime+1]}];
+                }
+            }];
+        }else{
+            if (self.alert) {
+                [self.alert dismissWithClickedButtonIndex:1 animated:YES];
+            }
+            [[NSNotificationCenter defaultCenter] postNotificationName:DownloadDataButton_Notification_DidFinished object:nil userInfo:@{URLKey: self.downloadFileURL.absoluteString?:@"",URLLocalPath:self.localPath?:@""}];
         }
-        [[NSNotificationCenter defaultCenter] postNotificationName:DownloadDataButton_Notification_DidFinished object:nil userInfo:@{URLKey: self.downloadFileURL.absoluteString?:@"",URLLocalPath:self.localPath?:@""}];
     }
     
 }

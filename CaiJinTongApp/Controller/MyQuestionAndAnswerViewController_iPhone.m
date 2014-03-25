@@ -29,8 +29,6 @@
 @property (nonatomic, strong) NSArray *myAnswerCategoryArr;//我的回答分类信息
 @property (nonatomic,strong) NSString *questionAndSwerRequestID;//请求问题列表ID
 //@property (nonatomic, strong) ChapterQuestionInterface *chapterQuestionInterface;//点击列表之后请求问答信息的接口
-@property (nonatomic,assign) BOOL myQuestionNodesOK; //我的问答加载完毕
-@property (nonatomic,assign) BOOL otherQuestionNodesOK;  //其他问答类型加载完毕
 @property (nonatomic,strong) SearchQuestionInterface *searchQuestionInterface;//搜索问答接口
 @property (nonatomic,strong) UIViewController *modelController; //点击图片显示的VC
 @property (nonatomic,strong) ChapterSearchBar_iPhone *searchBar;//搜索栏+按钮
@@ -64,7 +62,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.lhlNavigationBar.leftItem.hidden = YES;
+//    self.lhlNavigationBar.leftItem.hidden = YES;
     //临时,搜索按钮
     CGPoint center = self.lhlNavigationBar.leftItem.center;
     self.showSearchBarBtn = [UIButton buttonWithType:UIButtonTypeCustom ];
@@ -117,11 +115,9 @@
             QuestionInfoInterface *questionInfoInter = [[QuestionInfoInterface alloc]init];
             self.questionInfoInterface = questionInfoInter;
             self.questionInfoInterface.delegate = self;
-            self.otherQuestionNodesOK = NO;
             [self.questionInfoInterface getQuestionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId];
             
             UserModel *user = [[CaiJinTongManager shared] user];
-            self.myQuestionNodesOK = NO;
             [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
             [self.myQuestionCategatoryInterface downloadMyQuestionCategoryDataWithUserId:user.userId];
         }
@@ -232,7 +228,8 @@
         || [extension isEqualToString:@"jpg"]
         || [extension isEqualToString:@"jpeg"]
         || [extension isEqualToString:@"pdf"]
-        || [extension isEqualToString:@"word"]
+        || [extension isEqualToString:@"doc"]
+        || [extension isEqualToString:@"docx"]
         || [extension isEqualToString:@"txt"]
         || [extension isEqualToString:@"ppt"]
         || [extension isEqualToString:@"gif"]) {
@@ -1087,10 +1084,7 @@
         [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
         self.myAnswerCategoryArr = myAnswerCategoryNotes;
         self.myQuestionCategoryArr = myQuestionCategoryNotes;
-        self.myQuestionNodesOK = YES;
-        if(self.myQuestionNodesOK && self.otherQuestionNodesOK){
-            self.drTreeTableView.noteArr = [self togetherAllQuestionCategorys];
-        }
+        self.drTreeTableView.noteArr = [self togetherAllQuestionCategorys];
         
     });
 }
@@ -1108,10 +1102,7 @@
         [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
         self.allQuestionCategoryArr = questionCategoryArr;
         [[CaiJinTongManager shared] setQuestionCategoryArr:questionCategoryArr] ;
-        self.otherQuestionNodesOK = YES;
-        if(self.myQuestionNodesOK && self.otherQuestionNodesOK){
-            self.drTreeTableView.noteArr = [self togetherAllQuestionCategorys];
-        }
+        self.drTreeTableView.noteArr = [self togetherAllQuestionCategorys];
     });
 }
 -(void)getQuestionInfoDidFailed:(NSString *)errorMsg {

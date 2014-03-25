@@ -8,7 +8,7 @@
 
 #import "LearningMaterialsViewController_iPhone.h"
 #import "DRImageButton.h"
-
+#import "CJTMainToolbar_iPhone.h"
 /*
  显示资料列表
  */
@@ -35,6 +35,8 @@
 @property (nonatomic,assign) BOOL menuVisible;//显示/隐藏选择列表
 @property (nonatomic,strong) DRTreeTableView *treeView; //选择分类的列表
 @property (nonatomic,strong) ChapterSearchBar_iPhone *searchBar; //搜罗栏
+
+@property (nonatomic,strong) CJTMainToolbar_iPhone *mainToolBar;
 @end
 
 @implementation LearningMaterialsViewController_iPhone
@@ -63,7 +65,22 @@
     [self.learningMaterialListInterface downloadlearningMaterilasListForCategoryId:_lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
     [self setSubview];
     [self.view addSubview:self.searchBar];
-    self.lhlNavigationBar.leftItem.hidden = YES;
+//    self.lhlNavigationBar.leftItem.hidden = YES;
+    
+    CJTMainToolbar_iPhone *mainBar = [[CJTMainToolbar_iPhone alloc]initWithFrame:CGRectMake (19, IP5(105, 105), 281, IP5(40, 35))];
+	self.mainToolBar = mainBar;
+//    self.mainToolBar.delegate = self;
+    [self.view addSubview:self.mainToolBar];
+    [self.mainToolBar.recentBt setTitle:@"时间" forState:UIControlStateNormal];
+    self.mainToolBar.recentBt.center = (CGPoint){self.mainToolBar.recentBt.center.x-25,self.mainToolBar.recentBt.center.y};
+    [self.mainToolBar.progressBt setTitle:@"文件名称" forState:UIControlStateNormal];
+    self.mainToolBar.progressBt.center = (CGPoint){self.mainToolBar.progressBt.center.x-25,self.mainToolBar.progressBt.center.y};
+    [self.mainToolBar.nameBt setTitle:@"默认排序" forState:UIControlStateNormal];
+    self.mainToolBar.nameBt.center = (CGPoint){self.mainToolBar.nameBt.center.x-10,self.mainToolBar.nameBt.center.y};
+    [self.mainToolBar.recentBt addTarget:self action:@selector(timeSortBtClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [self.mainToolBar.progressBt addTarget:self action:@selector(nameSortBtClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [self.mainToolBar.nameBt addTarget:self action:@selector(defaultSortBtClicked:) forControlEvents:UIControlEventTouchUpInside];
+//    self.mainToolBar
 }
 
 -(void)setSubview{
@@ -90,7 +107,7 @@
 }
 
 #pragma mark sort排序
-- (IBAction)timeSortBtClicked:(id)sender {
+- (void)timeSortBtClicked:(id)sender {
     [self dealingButtonImg:sender];
     
     self.isSearch = NO;
@@ -101,7 +118,7 @@
     [self.learningMaterialListInterface downloadlearningMaterilasListForCategoryId:self.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
 }
 
-- (IBAction)defaultSortBtClicked:(id)sender {
+- (void)defaultSortBtClicked:(id)sender {
     [self dealingButtonImg:sender];
     
     self.isSearch = NO;
@@ -112,7 +129,7 @@
     [self.learningMaterialListInterface downloadlearningMaterilasListForCategoryId:self.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
 }
 
-- (IBAction)nameSortBtClicked:(id)sender {
+- (void)nameSortBtClicked:(id)sender {
     [self dealingButtonImg:sender];
     
     self.isSearch = NO;
@@ -123,14 +140,19 @@
     [self.learningMaterialListInterface downloadlearningMaterilasListForCategoryId:self.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
 }
 
--(void)dealingButtonImg:(id)sender{
-    //箭头显示
-    for(DRImageButton *imgBtn in self.sortButtons){
-        imgBtn.titleImageView.image = nil;
+-(void)dealingButtonImg:(UIButton*)sender{
+    [sender setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    NSArray *subViews = [self.mainToolBar subviews];
+    if (subViews.count>0) {
+        for (UIView *vv in subViews) {
+            if ([vv isKindOfClass:[UIButton class]]) {
+                UIButton *btn = (UIButton *)vv;
+                if (![btn isEqual:sender]) {
+                    [btn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+                }
+            }
+        }
     }
-    UIButton *btn = (UIButton *)sender;
-    DRImageButton *imgBtn = (DRImageButton *)btn.superview;
-    imgBtn.titleImageView.image = [UIImage imageNamed:@"arrow_bottom_icon&48.png"];
 }
 
 #pragma mark --

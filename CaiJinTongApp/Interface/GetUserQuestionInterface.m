@@ -26,9 +26,19 @@
     //isMyselfQuestion=1 我回答过的问题
 //    self.interfaceUrl = [NSString stringWithFormat:@"http://lms.finance365.com/api/ios.ashx?active=getUserQuestion&userId=17079&isMyselfQuestion=%@",isMyselfQuestion];
     if (lastQuestionID) {
-        self.interfaceUrl = [NSString stringWithFormat:@"%@?active=getUserQuestion&userId=%@&isMyselfQuestion=%@&feedbackId=%@&categoryId=%@",kHost,userId,isMyselfQuestion,lastQuestionID,categoryId];
+        if (categoryId) {
+            self.interfaceUrl = [NSString stringWithFormat:@"%@?active=getUserQuestion&userId=%@&isMyselfQuestion=%@&feedbackId=%@&categoryId=%@",kHost,userId,isMyselfQuestion,lastQuestionID,categoryId];
+        }else{
+        self.interfaceUrl = [NSString stringWithFormat:@"%@?active=getUserQuestion&userId=%@&isMyselfQuestion=%@&feedbackId=%@",kHost,userId,isMyselfQuestion,lastQuestionID];
+        }
+        
     }else{
-    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=getUserQuestion&userId=%@&isMyselfQuestion=%@&categoryId=%@",kHost,userId,isMyselfQuestion,categoryId];
+        if (categoryId) {
+            self.interfaceUrl = [NSString stringWithFormat:@"%@?active=getUserQuestion&userId=%@&isMyselfQuestion=%@&categoryId=%@",kHost,userId,isMyselfQuestion,categoryId];
+        }else{
+            self.interfaceUrl = [NSString stringWithFormat:@"%@?active=getUserQuestion&userId=%@&isMyselfQuestion=%@",kHost,userId,isMyselfQuestion];
+        }
+    
     }
     
     self.baseDelegate = self;

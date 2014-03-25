@@ -211,6 +211,12 @@ typedef enum {
     [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
     UserModel *user = [[CaiJinTongManager shared] user];
     [self.learningMatarilasCategoryInterface downloadLearningMatarilasCategoryDataWithUserId:user.userId];
+    
+    if (self.learningMaterialsController.dataArray.count <= 0) {
+        [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
+        [self.learningMatarilasListInterface downloadlearningMaterilasListForCategoryId:nil withUserId:user.userId withPageIndex:0 withSortType:LearningMaterialsSortType_Default];
+    }
+
 }
 
 -(void)removeFromRootController:(UIViewController*)controller{
@@ -273,6 +279,13 @@ typedef enum {
             [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
             UserModel *user = [[CaiJinTongManager shared] user];
             [self.myQuestionCategatoryInterface downloadMyQuestionCategoryDataWithUserId:user.userId];
+            
+            if (self.myQAVC.myQuestionArr.count <= 0) {
+                [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
+                self.questionScope = QuestionAndAnswerDefault;
+                [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"0" andLastQuestionID:nil withCategoryId:@"0"];
+            }
+            
         }
     }];
     
@@ -353,16 +366,12 @@ typedef enum {
                 case QuestionAndAnswerMYQUESTION:
                 {
                     //请求我的提问
-                    self.getUserQuestionInterface = [[GetUserQuestionInterface alloc] init];
-                    self.getUserQuestionInterface.delegate = self;
                     self.questionScope = QuestionAndAnswerMYQUESTION;
                     [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"0" andLastQuestionID:nil withCategoryId:node.noteContentID];
                 }
                     break;
                 case QuestionAndAnswerMYANSWER:
                 {
-                    self.getUserQuestionInterface = [[GetUserQuestionInterface alloc] init];
-                    self.getUserQuestionInterface.delegate = self;
                     //请求我的回答
                     self.questionScope = QuestionAndAnswerMYANSWER;
                     [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"1" andLastQuestionID:nil withCategoryId:node.noteContentID];
@@ -670,6 +679,14 @@ typedef enum {
             break;
     }
     _listType = listType;
+}
+
+-(GetUserQuestionInterface *)getUserQuestionInterface{
+    if (!_getUserQuestionInterface) {
+        _getUserQuestionInterface = [[GetUserQuestionInterface alloc] init];
+        _getUserQuestionInterface.delegate = self;
+    }
+    return _getUserQuestionInterface;
 }
 #pragma mark --
 

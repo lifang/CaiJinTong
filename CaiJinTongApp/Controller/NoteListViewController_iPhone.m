@@ -71,7 +71,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
     [self.lhlNavigationBar.rightItem setHidden:YES];
-    self.lhlNavigationBar.leftItem.hidden = YES;
+//    self.lhlNavigationBar.leftItem.hidden = YES;
 //    self.noteListTableView.frame = (CGRect){0,IP5(65, 55),320,IP5(440, 375)};
 //    [self.lhlNavigationBar.rightItem setHidden:YES];
     [self.lhlNavigationBar.rightItem setImage:[UIImage imageNamed:@"_magnifying_glass.png"]  forState:UIControlStateNormal];

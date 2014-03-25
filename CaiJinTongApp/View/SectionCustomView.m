@@ -37,7 +37,7 @@
         xx = 0;
     }
     self.pv.progress = xx*0.01;
-    self.progressLabel.text = [NSString stringWithFormat:@"学习进度:%.2f%%",xx];
+    self.progressLabel.text = [NSString stringWithFormat:@"完成进度:%.2f%%",xx];
     
     
 }
@@ -86,7 +86,7 @@
          pVV = nil;
         
         UILabel *progressLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, self.frame.size.height+itemLabel-28, self.frame.size.width, 30)];
-        progressLabel.text = [NSString stringWithFormat:@"学习进度:%.2f%%",xx];
+        progressLabel.text = [NSString stringWithFormat:@"完成进度:%.2f%%",xx];
         progressLabel.textAlignment = NSTextAlignmentLeft;
         progressLabel.backgroundColor = [UIColor clearColor];
         self.progressLabel = progressLabel;

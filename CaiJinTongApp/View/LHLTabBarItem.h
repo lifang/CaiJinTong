@@ -12,6 +12,8 @@
 @property (strong,nonatomic) UIImageView *imageView;
 @property (strong,nonatomic) UILabel *titleLabel;
 @property (assign,nonatomic) BOOL selected;
+///是否可以改变tabbar
+@property (assign,nonatomic) BOOL isChanged;
 @property (nonatomic,strong) id<LHLTabBarItemDelegate> delegate;
 
 -(LHLTabBarItem *) initWithTitle:(NSString *) title andImage:(UIImage *) image;

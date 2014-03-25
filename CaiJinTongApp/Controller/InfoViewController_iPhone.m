@@ -42,7 +42,7 @@
         self.sexStr = [sex isEqualToString:@"男"]?@"1":@"0";
     }];
     [self.sexSelectedView addSubview:self.sexRadio];
-    self.textField1.text = [CaiJinTongManager shared].user.userName;
+    self.textField1.text = [CaiJinTongManager shared].user.nickName;
     self.textField4.text = [CaiJinTongManager shared].user.address;
     
     self.textField4.layer.masksToBounds = YES;

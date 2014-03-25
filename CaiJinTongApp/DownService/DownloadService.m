@@ -75,6 +75,7 @@
                 }
             }
             NSString *urlString = [NSString stringWithFormat:@"%@",sectionSave.fileUrl];
+//            NSString *urlString = [NSString stringWithFormat:@"http://lms.finance365.com/api/ios.ashx?active=downloadfile&filepath=6/336/3385/20130806112515631.mp4&speed=10224"];
             urlString = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
                                                                                               (CFStringRef)urlString,
                                                                                               NULL,

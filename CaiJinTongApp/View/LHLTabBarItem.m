@@ -30,7 +30,7 @@
     
     [self.imageView setBackgroundColor:[UIColor clearColor]];
     self.imageView.image = image;
-    self.imageView.alpha = 0.5;
+//    self.imageView.alpha = 1.0;
     [self.imageView setUserInteractionEnabled:YES];
     [self setUserInteractionEnabled:YES];
     //单指单击
@@ -62,7 +62,7 @@
 #pragma mark -- property
 -(UIImageView *)imageView{
     if(!_imageView){
-        _imageView = [UIImageView new];
+        _imageView = [[UIImageView alloc] init];
         [self addSubview:_imageView];
     }
     return _imageView;
@@ -77,7 +77,11 @@
 }
 
 -(void)setSelected:(BOOL)selected{
-    self.imageView.alpha = selected ? 1.0 : 0.5;
+    if (selected) {
+        self.alpha = 1.0;
+    }else{
+        self.alpha = 0.5;
+    }
     _selected = selected;
 }
 

@@ -7,7 +7,7 @@
 //
 
 #import "LoginViewController_iPhone.h"
-
+#import "StudySummaryViewController_iphone.h"
 
 @implementation LoginViewController_iPhone
 
@@ -105,12 +105,18 @@
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             [[NSUserDefaults standardUserDefaults] setValue:self.accountLabel.text forKey:kUserName];
             [[NSUserDefaults standardUserDefaults] setValue:self.passwordTextField.text forKey:kPassword];
-            LHLTabBarController *mainController = [[LHLTabBarController alloc] init];
+//            LHLTabBarController *mainController = [[LHLTabBarController alloc] init];
+//            
+//            [self.navigationController pushViewController:mainController animated:YES];
+//            AppDelegate* appDelegate = [AppDelegate sharedInstance];
+//            appDelegate.lessonViewCtrol = self.lessonView;
             
-            [self.navigationController pushViewController:mainController animated:YES];
-            AppDelegate* appDelegate = [AppDelegate sharedInstance];
-            appDelegate.lessonViewCtrol = self.lessonView;
-            
+            StudySummaryViewController_iphone *studySummaryController = [self.storyboard instantiateViewControllerWithIdentifier:@"StudySummaryViewController_iphone"];
+            UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:studySummaryController];
+            [navi setNavigationBarHidden:YES];
+            [self presentViewController:navi animated:YES completion:^{
+                
+            }];
         });
     });
 }

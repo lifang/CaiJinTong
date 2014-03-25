@@ -32,6 +32,12 @@
     
     [self loadViewControllers];
     [self generateTabBarItems];
+    if (self.selectedIndex < 3) {
+        self.lhlTabBar.selectedIndex = self.selectedIndex;
+    }else if (self.selectedIndex > 3){
+        self.lhlTabBar.selectedIndex = self.selectedIndex+1;
+    }
+    
     
 }
 
@@ -74,8 +80,12 @@
         LHLTabBarItem *item = [self createItem:i];
         [items addObject:item];
     }
+    LHLTabBarItem *fakeItem = [[LHLTabBarItem alloc] initWithTitle:@"学习" andImage:[UIImage imageNamed:@"lessons.png"]];
+    fakeItem.tag = 86;
+//    fakeItem.imageView.alpha = 1.0;
+    fakeItem.delegate = self;
+    [items insertObject:fakeItem atIndex:3];
     self.lhlTabBar.items = [NSMutableArray arrayWithArray:items];
-    self.lhlTabBar.fakeItem.delegate = self;
 }
 
 //生成一个tabBarItem
@@ -107,13 +117,13 @@
             break;
     }
     LHLTabBarItem *item = [[LHLTabBarItem alloc] initWithTitle:title andImage:image];
-    item.imageView.tag = index;
+//    item.imageView.tag = index;
     item.delegate = self;
     return item;
 }
 
 -(void)backButtonClicked:(UIButton *)sender{
-    _backButton.hidden = YES;
+//    _backButton.hidden = YES;
     self.selectedIndex = 0;
     [self.lhlTabBar layoutItems_fake];
 }
@@ -124,36 +134,52 @@
 -(LHLTabBar *) lhlTabBar{
     if(!_lhlTabBar){
         _lhlTabBar = [[LHLTabBar alloc] initWithFrame:(CGRect){0, CGRectGetHeight(self.view.frame) - IP5(63, 50), 320, IP5(63, 50)}];
+        _lhlTabBar.clipsToBounds = YES;
     }
     return _lhlTabBar;
 }
 
 #pragma mark --
+
+-(void)selectedAtIndexItem:(int)index{
+    self.selectedIndex = index>= self.childViewControllers.count? (self.childViewControllers.count-1):index;
+    if (index < 3) {
+         self.lhlTabBar.selectedIndex = index;
+    }else{
+        self.lhlTabBar.selectedIndex = index+1;
+    }
+   [self.lhlTabBar layoutItemsWithIndex:self.lhlTabBar.selectedIndex];
+}
+
 #pragma mark -- LHLTabBarItemDelegate
 -(void)tabBarItemSelected:(LHLTabBarItem *) sender{
-    if(sender.tag == 86){
-        if(!_backButton){
-            _backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            _backButton.frame = CGRectMake(0,  IP5(6, 4) , 50, 50);
-            [_backButton addTarget:self action:@selector(backButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-            [_backButton setImage:[UIImage imageNamed:@"_back.png"] forState:UIControlStateNormal];
-            [self.view addSubview:_backButton];
+    if (sender.tag == 0) {
+        if (sender.selected) {
+             [self.lhlTabBar layoutItems];
+//            LHLTabBarItem *item1 = [self.lhlTabBar.items objectAtIndex:3];
+//            item1.alpha = 1.0;
+        }else{
+            self.lhlTabBar.selectedIndex = sender.tag;
+            LHLTabBarItem *item2 = [self.lhlTabBar.items objectAtIndex:0];
+            item2.selected = YES;
+            self.selectedIndex = 0;
         }
-        _backButton.hidden = NO;
+    }else
+    if (sender.tag == 3) {
+         [self.lhlTabBar layoutItems];
+        self.lhlTabBar.selectedIndex = sender.tag;
+        LHLTabBarItem *item2 = [self.lhlTabBar.items objectAtIndex:0];
+        item2.selected = YES;
         self.selectedIndex = 0;
-        self.lhlTabBar.selectedIndex = 0;
-        [self.lhlTabBar layoutItems];
-        return;
+    }else{
+        self.lhlTabBar.selectedIndex = sender.tag;
+        if (sender.tag < 3) {
+            self.selectedIndex = sender.tag;
+        }else
+            if (sender.tag > 3) {
+                self.selectedIndex = sender.tag-1;
+            }
     }
-    if(sender.imageView.tag == 0 && self.lhlTabBar.selectedIndex == 0){
-        [self.lhlTabBar layoutItems_fake];
-        self.backButton.hidden = YES;
-    }
-    self.selectedIndex = sender.imageView.tag;
-    self.lhlTabBar.selectedIndex = sender.imageView.tag;
-//    if(sender.imageView.tag > 2){
-//        [self.lhlTabBar layoutItems_fake];
-//    }
 }
 
 

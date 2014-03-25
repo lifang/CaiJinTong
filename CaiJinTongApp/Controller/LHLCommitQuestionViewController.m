@@ -20,6 +20,7 @@
 @property (assign,nonatomic) CGRect defaultFrame;
 @property (assign,nonatomic) BOOL subViewsMoved;
 @property (nonatomic,assign) CGRect normalRect;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @end
 
 @implementation LHLCommitQuestionViewController
@@ -35,8 +36,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.scrollView.contentSize = (CGSize){IP5(516, 435),CGRectGetWidth(self.view.frame)+100};
     self.subViewsMoved = NO;
     self.contentField.delegate = self;
+    
+//    self.view.backgroundColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.3];
     
     UIImage *btnImageHighlighted = [[UIImage imageNamed:@"btn0.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 6) resizingMode:UIImageResizingModeStretch];
     UIImage *btnImageNormal = [[UIImage imageNamed:@"btn1.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 6) resizingMode:UIImageResizingModeStretch];
@@ -86,6 +90,7 @@
     [self.treeView.layer setCornerRadius:8];
     [self.treeView.layer setBorderColor:[UIColor blackColor].CGColor];
     [self.treeView.layer setBorderWidth:0.5];
+    [self.view bringSubviewToFront:self.treeView];
     self.tableVisible = NO;
     //响应键盘出现/消失事件
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
@@ -125,11 +130,10 @@
     if (self.tableVisible) {
         [self showSelectTable];
     }
-    
 }
 
 - (IBAction)cancelBtnClicked:(UIButton *)sender {
-    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopTop];
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationFade];
     if (self.delegate && [self.delegate respondsToSelector:@selector(commitQuestionControllerCancel)]) {
         [self.delegate commitQuestionControllerCancel];
     }
@@ -149,7 +153,7 @@
         [Utility errorAlert:@"请先选择一个提问分类!"];
         return;
     }
-    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopTop];
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationFade];
     if (self.delegate && [self.delegate respondsToSelector:@selector(commitQuestionController:didCommitQuestionWithTitle:andText:andQuestionId:)]) {
         [self.delegate commitQuestionController:self didCommitQuestionWithTitle:self.titleField.text andText:self.contentField.text andQuestionId:self.selectedQuestionId];//42为"综合问题"的分类编号
     }
@@ -174,9 +178,9 @@
     NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
     NSTimeInterval animationDuration;
     [animationDurationValue getValue:&animationDuration];
-    if (self.tableVisible) {
-        [self showSelectTable];
-    }
+//    if (self.tableVisible) {
+//        [self showSelectTable];
+//    }
 }
 
 //本view上移,view中所有控件上移
@@ -205,12 +209,12 @@
     [UIView animateWithDuration:0.3 delay:0.0
                         options: UIViewAnimationOptionBeginFromCurrentState
                      animations:^{
-                         self.view.center = (CGPoint){self.view.center.x, [UIScreen mainScreen].bounds.size.height/2-80};
-                         self.tableVisible = NO;
+                         self.scrollView.contentOffset = (CGPoint){0,0};
+//                         self.tableVisible = NO;
                      }
                      completion:^(BOOL finished) {
                          if(finished){
-                             self.treeView.hidden = YES;
+//                             self.treeView.hidden = YES;
                          }
                      }];
 }
@@ -218,11 +222,14 @@
 #pragma mark button methods
 //显示/隐藏提问类型table
 -(void)showSelectTable{
+    [self.titleField resignFirstResponder];
+    [self.contentField resignFirstResponder];
     if(!self.tableVisible){
         self.treeView.hidden = NO;
         [self.view setUserInteractionEnabled:NO];
+        [self.view bringSubviewToFront:self.treeView];
         [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationOptionBeginFromCurrentState animations:^{
-            self.treeView.frame = (CGRect){CGRectGetMinX(self.categoryTextField.frame),CGRectGetMaxY(self.categoryTextField.frame),self.view.frame.size.width- CGRectGetMinX(self.categoryTextField.frame)*2,500};
+            self.treeView.frame = (CGRect){CGRectGetMinX(self.categoryTextField.frame),CGRectGetMaxY(self.categoryTextField.frame),self.view.frame.size.width- CGRectGetMinX(self.categoryTextField.frame)*2,200};
             self.tableVisible = YES;
         }
                          completion:^(BOOL finished) {
@@ -322,7 +329,7 @@
     [UIView animateWithDuration:0.3 delay:0.0
                         options: UIViewAnimationOptionBeginFromCurrentState
                      animations:^{
-                         self.view.frame = (CGRect){CGRectGetMinX(self.view.frame),-75,self.view.frame.size};
+                         [self.scrollView setContentOffset:(CGPoint){0,100}];
                      }
                      completion:^(BOOL finished) {
                          if(finished){
@@ -336,7 +343,7 @@
     [UIView animateWithDuration:0.3 delay:0.0
                         options: UIViewAnimationOptionBeginFromCurrentState
                      animations:^{
-                         self.view.frame = (CGRect){CGRectGetMinX(self.view.frame),-35,self.view.frame.size};
+                         [self.scrollView setContentOffset:(CGPoint){0,10}];
                      }
                      completion:^(BOOL finished) {
                          if(finished){
@@ -344,6 +351,23 @@
                      }];
 }
 #pragma mark --
+
+#pragma mark autorotate
+- (BOOL)shouldAutorotate {
+    return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskLandscape;
+}
+// pre-iOS 6 support
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+    return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
+}
+
+#pragma mark --
+
+
 -(void)dealloc{
     
 }
