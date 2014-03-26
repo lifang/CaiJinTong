@@ -317,6 +317,7 @@
 		631227E0182B384B00530CC3 /* MyQuestionAndAnswerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 631227DF182B384B00530CC3 /* MyQuestionAndAnswerViewController.m */; };
 		631227E4182B409F00530CC3 /* QuestionAndAnswerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 631227E3182B409F00530CC3 /* QuestionAndAnswerCell.m */; };
 		631227E7182B40EB00530CC3 /* QuestionAndAnswerCellHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 631227E6182B40EB00530CC3 /* QuestionAndAnswerCellHeaderView.m */; };
+		6313652918E2A580002C8B70 /* download@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6313652818E2A580002C8B70 /* download@2x.png */; };
 		6323875A1822056000C71535 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 632387591822056000C71535 /* LoginViewController.m */; };
 		6323875D18220E7D00C71535 /* ForgotPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6323875C18220E7D00C71535 /* ForgotPwdViewController.m */; };
 		6323876018222A1500C71535 /* DRNaviGationBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6323875F18222A1500C71535 /* DRNaviGationBarController.m */; };
@@ -967,6 +968,7 @@
 		631227E3182B409F00530CC3 /* QuestionAndAnswerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QuestionAndAnswerCell.m; path = questionAndAnswer/QuestionAndAnswerCell.m; sourceTree = "<group>"; };
 		631227E5182B40EA00530CC3 /* QuestionAndAnswerCellHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QuestionAndAnswerCellHeaderView.h; path = questionAndAnswer/QuestionAndAnswerCellHeaderView.h; sourceTree = "<group>"; };
 		631227E6182B40EB00530CC3 /* QuestionAndAnswerCellHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QuestionAndAnswerCellHeaderView.m; path = questionAndAnswer/QuestionAndAnswerCellHeaderView.m; sourceTree = "<group>"; };
+		6313652818E2A580002C8B70 /* download@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "download@2x.png"; sourceTree = "<group>"; };
 		632387581822056000C71535 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginViewController.h; path = ../controllers/LoginViewController.h; sourceTree = "<group>"; };
 		632387591822056000C71535 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginViewController.m; path = ../controllers/LoginViewController.m; sourceTree = "<group>"; };
 		6323875B18220E7D00C71535 /* ForgotPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ForgotPwdViewController.h; path = ../controllers/ForgotPwdViewController.h; sourceTree = "<group>"; };
@@ -1723,6 +1725,7 @@
 		18112DDA1886272C0025C66B /* iPhoneImg */ = {
 			isa = PBXGroup;
 			children = (
+				6313652818E2A580002C8B70 /* download@2x.png */,
 				63FB29DC18DAC7EA00D9FAF3 /* summary */,
 				63B23AF518D04901007413BA /* play_movieSlider_iphone@2x.png */,
 				63B23AF318D044DC007413BA /* play_bluetiao_iphone@2x.png */,
@@ -2564,6 +2567,7 @@
 				63D1B5E01867F02D00506D03 /* Main_iPad.storyboard in Resources */,
 				18112DF6188627450025C66B /* _play_18@2x.png in Resources */,
 				63D1B5E11867F02D00506D03 /* Main_iPhone.storyboard in Resources */,
+				6313652918E2A580002C8B70 /* download@2x.png in Resources */,
 				18F477F0183DB57000021886 /* progressBar-background.png in Resources */,
 				18024D0C1883AE0A005A9B0B /* lessons@2x.png in Resources */,
 				18C9312D18363B2A00FBE1A8 /* play_barBG@2x.png in Resources */,

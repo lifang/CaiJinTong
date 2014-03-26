@@ -21,4 +21,6 @@
 
 @property (nonatomic,strong) LogInterface *logInterface;
 @property (nonatomic,strong) LessonViewController *lessonView;
+
+@property (nonatomic,strong) UINavigationController *loginNaviController;
 @end

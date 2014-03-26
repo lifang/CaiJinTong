@@ -74,6 +74,15 @@
 //    self.lhlNavigationBar.leftItem.hidden = YES;
 //    self.noteListTableView.frame = (CGRect){0,IP5(65, 55),320,IP5(440, 375)};
 //    [self.lhlNavigationBar.rightItem setHidden:YES];
+    
+
+    
+    if (platform >= 7.0) {
+        self.noteListTableView.frame = CGRectMake(0,100, 320,IP5(400, 330) ) ;
+    }else{
+        self.noteListTableView.frame = CGRectMake(0,100, 320,IP5(450, 380) ) ;
+    }
+    
     [self.lhlNavigationBar.rightItem setImage:[UIImage imageNamed:@"_magnifying_glass.png"]  forState:UIControlStateNormal];
     self.lhlNavigationBar.title.text = @"我的笔记";
     self.isEditing = NO;

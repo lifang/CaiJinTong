@@ -20,6 +20,11 @@
     return self;
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+}
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -112,9 +117,11 @@
 //            appDelegate.lessonViewCtrol = self.lessonView;
             
             StudySummaryViewController_iphone *studySummaryController = [self.storyboard instantiateViewControllerWithIdentifier:@"StudySummaryViewController_iphone"];
-            UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:studySummaryController];
-            [navi setNavigationBarHidden:YES];
-            [self presentViewController:navi animated:YES completion:^{
+            self.loginNaviController = nil;
+            self.loginNaviController = [[UINavigationController alloc] initWithRootViewController:studySummaryController];
+            [self.loginNaviController setNavigationBarHidden:YES];
+            [self.loginNaviController setHidesBottomBarWhenPushed:YES];
+            [self presentViewController:self.loginNaviController animated:YES completion:^{
                 
             }];
         });

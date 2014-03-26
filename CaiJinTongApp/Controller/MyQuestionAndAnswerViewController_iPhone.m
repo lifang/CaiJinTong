@@ -102,6 +102,13 @@
     [self makeNewData];
     
     [self.view addSubview:self.searchBar];
+    
+    if (platform >= 7.0) {
+        self.tableView.frame = CGRectMake(0,100, 320,IP5(400, 330) ) ;
+    }else{
+        self.tableView.frame = CGRectMake(0,100, 320,IP5(400, 330) ) ;
+    }
+    
 }
 
 //获取问题tableView所需的数据

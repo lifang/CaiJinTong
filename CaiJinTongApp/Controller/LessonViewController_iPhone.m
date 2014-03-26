@@ -84,7 +84,11 @@
 
 //collectionView加载设置
 -(void)setCollectionView{
-    self.collectionView.frame = CGRectMake(0,IP5(150, 144), 320,IP5(350, 286) ) ;
+    if (platform >= 7.0) {
+        self.collectionView.frame = CGRectMake(0,IP5(150, 144), 320,IP5(350, 286) ) ;
+    }else{
+        self.collectionView.frame = CGRectMake(0,IP5(150, 144), 320,IP5(400, 330) ) ;
+    }
     [self.collectionView setPagingEnabled:NO];
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;

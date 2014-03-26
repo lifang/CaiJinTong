@@ -79,7 +79,7 @@
         self.allLessonCountLabel.text = [NSString stringWithFormat:@"课程(%d)",model.studyAllCourseCount];
         self.beginningLessonCountLabel.text = [NSString stringWithFormat:@"已学课程(%d)",model.studyBeginningCourseCount];
         self.beginningNotesLabel.text = [NSString stringWithFormat:@"我的笔记(%d)",model.studyAllNotesCount];
-        self.beginningQuestionLabel.text = [NSString stringWithFormat:@"我的问答(%d)",model.studyBeginningQuestionCount];
+        self.beginningQuestionLabel.text = [NSString stringWithFormat:@"我的问答(%d)",model.studyAllQuestionCount];
         self.beginningLearningMatarilLabel.text = [NSString stringWithFormat:@"授权资料(%d)",model.studyAllLearningMatarilCount];
     }else{
         self.allLessonCountLabel.text = @"课程(0)";

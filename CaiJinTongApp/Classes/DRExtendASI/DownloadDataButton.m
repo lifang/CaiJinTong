@@ -281,28 +281,30 @@
 -(void)setDownloadFileStatus:(DownloadDataButtonStatus)downloadFileStatus{
     _downloadFileStatus = downloadFileStatus;
     [self.progressView removeFromSuperview];
+    self.backgroundColor = [UIColor clearColor];
+    [self setTitle:@"" forState:UIControlStateNormal];
     switch (downloadFileStatus) {
         case DownloadDataButtonStatus_UnDownload:
         {
-            [self setTitle:@"点击下载" forState:UIControlStateNormal];
+//            [self setTitle:@"点击下载" forState:UIControlStateNormal];
             break;
         }
         case DownloadDataButtonStatus_Downloading:
         {
             
             [self addSubview:self.progressView];
-            [self setTitle:@"正在下载" forState:UIControlStateNormal];
+//            [self setTitle:@"正在下载" forState:UIControlStateNormal];
             break;
         }
         case DownloadDataButtonStatus_Pause:
         {
              [self addSubview:self.progressView];
-            [self setTitle:@"继续下载" forState:UIControlStateNormal];
+//            [self setTitle:@"继续下载" forState:UIControlStateNormal];
             break;
         }
         case DownloadDataButtonStatus_Downloaded:
         {
-            [self setTitle:@"下载完成" forState:UIControlStateNormal];
+//            [self setTitle:@"下载完成" forState:UIControlStateNormal];
             break;
         }
         default:

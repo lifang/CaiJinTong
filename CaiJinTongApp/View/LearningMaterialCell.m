@@ -15,7 +15,9 @@
 @property (weak, nonatomic) IBOutlet UIImageView *fileCategoryImageView;
 @property (weak, nonatomic) IBOutlet UILabel *fileSearchTimeLabel;
 @property (weak, nonatomic) IBOutlet DownloadDataButton *downloadBt;
-@property (weak, nonatomic) IBOutlet UIView *fileScanView;
+//@property (weak, nonatomic) IBOutlet UIView *fileScanView;
+@property (weak, nonatomic) IBOutlet UILabel *fileScanLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *fileScanImageView;
 @property (weak, nonatomic) IBOutlet UILabel *fileCreateDateLabel;
 @property (assign,nonatomic) DownloadStatus fileDownloadStatus;
 @property (nonatomic,strong)  LearningMaterials  *materialModel;
@@ -182,13 +184,15 @@
         case DownloadStatus_Pause:
         case DownloadStatus_Downloading:
         {
-            [self.fileScanView setHidden:YES];
+            self.fileScanImageView.image = [UIImage imageNamed:@"download.png"];
+            self.fileScanLabel.text = @"下载";
             [self.downloadBt setHidden:NO];
         }
             break;
         case DownloadStatus_Downloaded:
         {
-            [self.fileScanView setHidden:NO];
+            self.fileScanImageView.image = [UIImage imageNamed:@"zoom_icon&48@2x.png"];
+            self.fileScanLabel.text = @"查看";
             [self.downloadBt setHidden:YES];
         }
             break;
