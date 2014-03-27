@@ -443,7 +443,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NUM" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ffP-lq-o1O">
-                                                                    <rect key="frame" x="0.0" y="40.000000014901161" width="52" height="10"/>
+                                                                    <rect key="frame" x="0.0" y="40.000000030100352" width="52" height="10"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                                                     <color key="backgroundColor" red="0.72549021244049072" green="0.31372550129890442" blue="0.070588238537311554" alpha="1" colorSpace="deviceRGB"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
@@ -546,7 +546,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sort.png" id="Me5-jX-fot">
-                                                        <rect key="frame" x="52.000000369548772" y="6" width="15" height="19"/>
+                                                        <rect key="frame" x="52" y="6" width="15" height="19"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                                     </imageView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="0Q9-rX-G3b">
@@ -582,7 +582,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sort.png" id="olg-se-KfB">
-                                                        <rect key="frame" x="74.000000566578962" y="6" width="15" height="19"/>
+                                                        <rect key="frame" x="74.000000898460399" y="6" width="15" height="19"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                                     </imageView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="6On-T2-Zrl">
@@ -618,7 +618,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sort.png" id="btf-7b-LN2">
-                                                        <rect key="frame" x="72" y="6" width="15.000000214576717" height="19"/>
+                                                        <rect key="frame" x="72.000000287088852" y="6" width="15" height="19"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                                     </imageView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="fbI-lW-QxS">
@@ -691,7 +691,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="操作" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8H2-0t-3wT">
-                                                <rect key="frame" x="604.99999962871266" y="0.0" width="60" height="40"/>
+                                                <rect key="frame" x="605" y="0.0" width="60" height="40"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -808,7 +808,8 @@
                                                     <outlet property="fileCategoryImageView" destination="niD-Tk-NKx" id="tjN-Lc-Ku6"/>
                                                     <outlet property="fileCreateDateLabel" destination="Ncw-XY-iKM" id="Poa-Vc-ajM"/>
                                                     <outlet property="fileNameLabel" destination="yf7-Ku-Gqu" id="3uJ-52-0KH"/>
-                                                    <outlet property="fileScanView" destination="FhQ-HY-3Ke" id="UWg-Ph-xAr"/>
+                                                    <outlet property="fileScanImageView" destination="Vty-Sx-rdP" id="Ao4-6v-D8l"/>
+                                                    <outlet property="fileScanLabel" destination="2Wx-ai-vvq" id="e06-u1-Yvg"/>
                                                     <outlet property="fileSearchTimeLabel" destination="IMc-TM-ObL" id="2nI-Ke-Man"/>
                                                     <outlet property="fileSizeLabel" destination="KZJ-vJ-huq" id="Xlb-3v-EtR"/>
                                                     <outlet property="materialCategoryLabel" destination="cY8-d0-B7L" id="hAy-SO-nOY"/>
@@ -1053,7 +1054,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="cIP-4c-pTV">
-                                                <rect key="frame" x="25" y="7" width="112.99999999999999" height="98"/>
+                                                <rect key="frame" x="25" y="7" width="113" height="98"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             </imageView>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6BM-q3-isR">
