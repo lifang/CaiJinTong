@@ -89,6 +89,7 @@
 {
     if (self.isPlaying && self.isForgoundForPlayerView) {
         [self.moviePlayer pause];
+        [self pauseStudyTime];
     }
 }
 
@@ -96,6 +97,7 @@
 {
     if (self.isPlaying && self.isForgoundForPlayerView) {
         [self.moviePlayer play];
+        [self startStudyTime];
     }
 }
 
@@ -103,6 +105,7 @@
 {
     if (self.isPlaying && self.isForgoundForPlayerView) {
         [self.moviePlayer pause];
+         [self pauseStudyTime];
     }
 }
 
@@ -110,6 +113,7 @@
 {
     if (self.isPlaying && self.isForgoundForPlayerView) {
         [self.moviePlayer play];
+        [self startStudyTime];
     }
 }
 //程序退出

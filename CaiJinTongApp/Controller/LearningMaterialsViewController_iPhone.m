@@ -95,9 +95,9 @@
 //    [self.searchButton addTarget:self action:@selector(searchButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     if (platform >= 7.0) {
-        self.tableView.frame = CGRectMake(0,IP5(150, 144), 320,IP5(350, 286) ) ;
+        self.tableView.frame = CGRectMake(10,IP5(150, 144), 320,IP5(350, 286) ) ;
     }else{
-        self.tableView.frame = CGRectMake(0,IP5(150, 144), 320,IP5(400, 330) ) ;
+        self.tableView.frame = CGRectMake(10,IP5(150, 144), 320,IP5(400, 330) ) ;
     }
     [self.headerRefreshView endRefreshing];
     [self.footerRefreshView endRefreshing];

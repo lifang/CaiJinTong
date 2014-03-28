@@ -48,11 +48,11 @@
     return self;
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    if(!self.isRequesting){
-        [self makeNewData];
-    }
-}
+//-(void)viewWillAppear:(BOOL)animated{
+//    if(!self.isRequesting){
+//        [self makeNewData];
+//    }
+//}
 
 -(void)willDismissPopoupController{
     CGPoint offset = self.tableView.contentOffset;
@@ -104,9 +104,9 @@
     [self.view addSubview:self.searchBar];
     
     if (platform >= 7.0) {
-        self.tableView.frame = CGRectMake(0,100, 320,IP5(400, 330) ) ;
+        self.tableView.frame = CGRectMake(10,100, 320,IP5(400, 330) ) ;
     }else{
-        self.tableView.frame = CGRectMake(0,100, 320,IP5(400, 330) ) ;
+        self.tableView.frame = CGRectMake(10,100, 320,IP5(400, 330) ) ;
     }
     
 }
