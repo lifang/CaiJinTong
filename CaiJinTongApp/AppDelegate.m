@@ -12,6 +12,7 @@
 #import "iRate.h"
 #import "Section.h"
 #import "SectionSaveModel.h"
+#import "DRFMDBDatabaseToolTEST.h"
 @implementation AppDelegate
 
 + (void)initialize
@@ -43,6 +44,9 @@
 }
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [DRFMDBDatabaseToolTEST insertSectionTest];
+    return YES;
+    
     //设置是否加载图片
     BOOL isloadLargeImage = [[NSUserDefaults standardUserDefaults] boolForKey:ISLOADLARGEIMAGE_KEY];
     [[CaiJinTongManager shared] setIsLoadLargeImage:isloadLargeImage];

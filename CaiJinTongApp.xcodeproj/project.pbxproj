@@ -400,6 +400,8 @@
 		63B794E91847477100B8276A /* MJRefreshBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B794E31847477100B8276A /* MJRefreshBaseView.m */; };
 		63B794EA1847477100B8276A /* MJRefreshFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B794E51847477100B8276A /* MJRefreshFooterView.m */; };
 		63B794EB1847477100B8276A /* MJRefreshHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B794E71847477100B8276A /* MJRefreshHeaderView.m */; };
+		63B7B36C18ECFE3300F86A9B /* DRFMDBDatabaseTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B7B36B18ECFE3300F86A9B /* DRFMDBDatabaseTool.m */; };
+		63B7B36F18ED35DC00F86A9B /* DRFMDBDatabaseToolTEST.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B7B36E18ED35DC00F86A9B /* DRFMDBDatabaseToolTEST.m */; };
 		63C15C73183F54E600890086 /* DRMoviePlayerTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C15C72183F54E600890086 /* DRMoviePlayerTopBar.m */; };
 		63C46D651891110500626E21 /* UploadImageDataInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C46D641891110500626E21 /* UploadImageDataInterface.m */; };
 		63C7FBC9187E8B0E0051EEBE /* ASIHTTPRequest+DownloadData.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C7FBC2187E8B0E0051EEBE /* ASIHTTPRequest+DownloadData.m */; };
@@ -1082,6 +1084,10 @@
 		63B794E51847477100B8276A /* MJRefreshFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshFooterView.m; sourceTree = "<group>"; };
 		63B794E61847477100B8276A /* MJRefreshHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshHeaderView.h; sourceTree = "<group>"; };
 		63B794E71847477100B8276A /* MJRefreshHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshHeaderView.m; sourceTree = "<group>"; };
+		63B7B36A18ECFE3300F86A9B /* DRFMDBDatabaseTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRFMDBDatabaseTool.h; sourceTree = "<group>"; };
+		63B7B36B18ECFE3300F86A9B /* DRFMDBDatabaseTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRFMDBDatabaseTool.m; sourceTree = "<group>"; };
+		63B7B36D18ED35DC00F86A9B /* DRFMDBDatabaseToolTEST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRFMDBDatabaseToolTEST.h; sourceTree = "<group>"; };
+		63B7B36E18ED35DC00F86A9B /* DRFMDBDatabaseToolTEST.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRFMDBDatabaseToolTEST.m; sourceTree = "<group>"; };
 		63C15C71183F54E600890086 /* DRMoviePlayerTopBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DRMoviePlayerTopBar.h; path = movieCotr/DRMoviePlayerTopBar.h; sourceTree = "<group>"; };
 		63C15C72183F54E600890086 /* DRMoviePlayerTopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DRMoviePlayerTopBar.m; path = movieCotr/DRMoviePlayerTopBar.m; sourceTree = "<group>"; };
 		63C46D631891110500626E21 /* UploadImageDataInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadImageDataInterface.h; sourceTree = "<group>"; };
@@ -2033,6 +2039,7 @@
 		630B03B01820F5BB00F72C4C /* CaiJinTongApp */ = {
 			isa = PBXGroup;
 			children = (
+				63B7B36918ECFCD200F86A9B /* database */,
 				18A19C80183CA60500C11310 /* iRate */,
 				183F77AC1839B5D8004D0263 /* MBProgressHUD */,
 				639A07A01823905900B60670 /* thirty */,
@@ -2329,6 +2336,17 @@
 				63B794E71847477100B8276A /* MJRefreshHeaderView.m */,
 			);
 			path = MJRefresh;
+			sourceTree = "<group>";
+		};
+		63B7B36918ECFCD200F86A9B /* database */ = {
+			isa = PBXGroup;
+			children = (
+				63B7B36A18ECFE3300F86A9B /* DRFMDBDatabaseTool.h */,
+				63B7B36B18ECFE3300F86A9B /* DRFMDBDatabaseTool.m */,
+				63B7B36D18ED35DC00F86A9B /* DRFMDBDatabaseToolTEST.h */,
+				63B7B36E18ED35DC00F86A9B /* DRFMDBDatabaseToolTEST.m */,
+			);
+			name = database;
 			sourceTree = "<group>";
 		};
 		63C7FBC0187E8B0E0051EEBE /* DRExtendASI */ = {
@@ -2825,6 +2843,7 @@
 				63C46D651891110500626E21 /* UploadImageDataInterface.m in Sources */,
 				0EAD1F70182B24B100204FC3 /* FMResultSet.m in Sources */,
 				0E9DA3C5183F568D000A5995 /* ASIS3ObjectRequest.m in Sources */,
+				63B7B36C18ECFE3300F86A9B /* DRFMDBDatabaseTool.m in Sources */,
 				63FB2A1318DADA4C00D9FAF3 /* UIImage+DSResizeAndRound.m in Sources */,
 				18A77076187FEF7B00DAE6A6 /* SuggestionFeedbackViewController_iPhone.m in Sources */,
 				187CE7BE1883CB5E00D65660 /* DeleteNoteInterface.m in Sources */,
@@ -2921,6 +2940,7 @@
 				63FB29DB18DA954600D9FAF3 /* StudySummaryViewController_iphone.m in Sources */,
 				189ED9DD184F196B0029D8F1 /* Section_NoteCell_iPhone.m in Sources */,
 				0EDF4DF318210241007161E0 /* GTMNSString+HTML.m in Sources */,
+				63B7B36F18ED35DC00F86A9B /* DRFMDBDatabaseToolTEST.m in Sources */,
 				0EAD1F75182B24E100204FC3 /* BaseDao.m in Sources */,
 				18046A9A1848880B00EB8BDA /* LHLCollectionViewCell.m in Sources */,
 				0EA2A91D1828847E003D152E /* pinyin.c in Sources */,

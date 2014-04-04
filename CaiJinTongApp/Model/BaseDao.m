@@ -61,8 +61,19 @@
             self.db = nil;
         }
         
+        //创建课程表
+        FMResultSet *rs = [self.db executeQuery:@"select name from SQLITE_MASTER where name = 'Lesson'"];
+        
+        if (![rs next]) {
+            [rs close];
+            [self.db executeUpdate:@"CREATE TABLE Lesson (id INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE ,lessonId VARCHAR, lessonName VARCHAR,lessonCategoryId VARCHAR,lessonImageURL VARCHAR,lessonStudyProgress VARCHAR, lessonDetailInfo VARCHAR,lessonTeacherName VARCHAR,lessonDuration VARCHAR,lessonStudyTime VARCHAR,lessonScore VARCHAR,lessonIsScored VARCHAR)"];
+        }
+        
+        [rs close];
+        
+        
         //创建表section
-        FMResultSet *rs = [self.db executeQuery:@"select name from SQLITE_MASTER where name = 'Section'"];
+        rs = [self.db executeQuery:@"select name from SQLITE_MASTER where name = 'Section'"];
         
         if (![rs next]) {
             [rs close];

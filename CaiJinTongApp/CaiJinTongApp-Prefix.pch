@@ -22,6 +22,7 @@
 #import "DRNavigationController.h"
 #import "iVersion.h"
 #import "Section.h"
+#import "DRFMDBDatabaseTool.h"
 #endif
 
 typedef enum {MOVIE_FILE,MOVIE_INTERNET}MovieLocateType;
