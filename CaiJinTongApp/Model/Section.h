@@ -7,7 +7,6 @@
 //
 
 #import "BaseDao.h"
-#import "SectionSaveModel.h"
 #import "NoteModel.h"
 #import "SectionModel.h"
 #import "Section_chapterModel.h"
@@ -40,10 +39,8 @@
 //-(NSString*)selectTotalPlayDateOffLineWithSectionId:(NSString*)sectionId;//计算第一次离线播放时间点＋离线播放时长
 -(NSString*)selectTotalPlayTimeOffLineWithSectionId:(NSString*)sectionId;//查询总时间
 
--(SectionSaveModel *)getDataWithSid:(NSString *) sid;
 -(SectionModel *)getSectionModelWithSid:(NSString *) sid;//获取信息
 -(void)deleteDataWithSid:(NSString *) sid;//删除
--(BOOL)addDataWithSectionSaveModel:(SectionSaveModel *)model;
 -(BOOL)updateTheStateWithSid:(NSString *) sid andDownloadState:(NSUInteger)downloadState;//更新下载状态信息
 //-(BOOL)updateSectionModelLocalPath:(NSString*)localPath withSectionId:(NSString*)sectionId;//更新本地路径
 //更新学习时间

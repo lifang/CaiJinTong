@@ -241,29 +241,7 @@ static Section *defaultSection = nil;
 
 #pragma mark --
 
--(SectionSaveModel *)getDataWithSid:(NSString *) sid {
-    FMResultSet * rs = [self.db executeQuery:@"select id , sid , name , fileUrl , downloadState ,contentLength,percentDown,sectionStudy,sectionLastTime,sectionImg,lessonInfo,sectionTeacher from Section where sid = ?",sid];
-    
-    SectionSaveModel *nm = nil;
-    
-    if ([rs next]) {
-        nm = [[SectionSaveModel alloc] init];
-        nm.sid = [rs stringForColumn:@"sid"];
-        nm.name = [rs stringForColumn:@"name"];
-        nm.fileUrl = [rs stringForColumn:@"fileUrl"];
-        nm.downloadState = [rs intForColumn:@"downloadState"];
-        nm.downloadPercent = [rs doubleForColumn:@"percentDown"];//获取下载进度
-        nm.sectionStudy = [rs stringForColumn:@"sectionStudy"];
-        nm.sectionLastTime = [rs stringForColumn:@"sectionLastTime"];
-        
-        nm.sectionImg = [rs stringForColumn:@"sectionImg"];
-        nm.lessonInfo = [rs stringForColumn:@"lessonInfo"];
-        nm.sectionTeacher = [rs stringForColumn:@"sectionTeacher"];
-    }
-    
-    [rs close];
-    return nm;
-}
+
 
 -(SectionModel *)getSectionModelWithSid:(NSString *) sid {
     FMResultSet * rs = [self.db executeQuery:@"select * from Section where sid = ?",sid];
@@ -287,27 +265,6 @@ static Section *defaultSection = nil;
     }
 }
 
--(BOOL)addDataWithSectionSaveModel:(SectionSaveModel *)model{
-    BOOL res = [self.db executeUpdate:@"insert into Section ( sid , lessonId,name , fileUrl ,playUrl, localFileUrl,downloadState ,contentLength,percentDown,sectionStudy,sectionLastTime,sectionImg,lessonInfo,sectionTeacher,sectionFinishedDate,firstPlayOfflineDate,totalPlayOfflineTime) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
-                , model.sid
-                ,model.lessonId
-                ,model.name
-                ,model.fileUrl
-                ,model.playUrl
-                ,model.localFileUrl
-                ,@"4"
-                ,[NSString stringWithFormat:@"%f", model.downloadPercent]
-                ,@"0"
-                ,@"0"
-                ,model.sectionLastTime
-                ,model.sectionImg
-                ,model.lessonInfo
-                ,model.sectionTeacher
-                ,@""
-                ,@"0"
-                ,@"0"];
-    return res;
-}
 
 -(BOOL)updateSectionModelLocalPath:(NSString*)localPath withSectionId:(NSString*)sectionId{
     if (!localPath || sectionId) {
@@ -541,10 +498,6 @@ static Section *defaultSection = nil;
     nm.sectionMoviePlayURL = [rs stringForColumn:@"playUrl"];//在线播放地址
     nm.sectionMovieLocalURL = [rs stringForColumn:@"localFileUrl"];//本地地址
     nm.sectionLastPlayTime = [rs stringForColumn:@"sectionStudy"];//已经学习时间
-    nm.sectionLastTime = [rs stringForColumn:@"sectionLastTime"];//视频总长度
-    nm.sectionImg = [rs stringForColumn:@"sectionImg"];
-    nm.lessonInfo = [rs stringForColumn:@"lessonInfo"];
-    nm.sectionTeacher = [rs stringForColumn:@"sectionTeacher"];
     nm.sectionFinishedDate = [rs stringForColumn:@"sectionFinishedDate"];
     return nm;
 }
@@ -559,20 +512,7 @@ static Section *defaultSection = nil;
     [rs close];
     return array;
 }
--(NSArray *)getDowningInfo {
-    FMResultSet * rs = [self.db executeQuery:@"select id , sid , name , fileUrl , downloadState ,contentLength,percentDown,sectionStudy,sectionLastTime,sectionImg,lessonInfo,sectionTeacher from Section where downloadState = 0"];
-    
-    NSMutableArray *array = [NSMutableArray array];
-    while ([rs next]) {
-        SectionSaveModel *nm = [[SectionSaveModel alloc] init];
-        nm.sid = [rs stringForColumn:@"sid"];
-        nm.name = [rs stringForColumn:@"name"];
-        nm.downloadState = [rs doubleForColumn:@"downloadState"];
-        [array addObject:nm];
-    }
-    [rs close];
-    return array;
-}
+
 //笔记
 -(BOOL)addDataWithNoteModel:(NoteModel *)model andSid:(NSString *)sid{
     BOOL res = [self.db executeUpdate:@"insert into Note ( sid , noteId , noteTime , noteText) values (?,?,?,?)"

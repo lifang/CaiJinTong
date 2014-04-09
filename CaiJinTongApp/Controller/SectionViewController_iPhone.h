@@ -16,7 +16,6 @@
 #import "Section_GradeViewController_iPhone.h"
 #import "CommentModel.h"
 #import "LHLMoviePlayViewController.h"
-#import "LessonModel+toSection.h"
 #import "SplitLessonTableView.h"
 
 @interface SectionViewController_iPhone : LHLNavigationBarViewController<SUNSlideSwitchView_iPhoneDelegate,UIScrollViewDelegate,LHLMoviePlayViewControllerDelegate,PlayVideoInterfaceDelegate,LessonInfoInterfaceDelegate,Section_NoteViewControllerDelegate,UITableViewDataSource,UITableViewDelegate>
@@ -35,7 +34,6 @@
 //数据
 @property (nonatomic,strong) SectionModel *section;
 @property (nonatomic,strong) LessonModel *lessonModel;
-@property (nonatomic,strong) SectionInfoInterface *sectionInterface;
 @property (nonatomic, strong) NSString *path;
 @property (nonatomic, strong) PlayVideoInterface *playVideoInterface;
 

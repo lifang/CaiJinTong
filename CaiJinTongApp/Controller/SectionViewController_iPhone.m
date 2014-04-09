@@ -729,14 +729,6 @@
     return _slideSwitchView;
 }
 
-//setter自动转换LessonModel参数为Section
--(void)setSection:(SectionModel *)section{
-    if([section isKindOfClass:[LessonModel class]]){
-        _section = ((LessonModel *)section).toSection;
-    }else{
-        _section = section;
-    }
-}
 
 -(Section_NoteViewController_iPhone *)section_NoteView{
     if (!_section_NoteView) {

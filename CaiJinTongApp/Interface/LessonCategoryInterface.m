@@ -73,7 +73,15 @@
     }];
 }
 +(NSMutableArray*)getTreeNodeArrayFromArray:(NSArray*)arr{
-    return [LessonCategoryInterface getTreeNodeArrayFromArray:arr withLevel:0 withRootContentID:nil];
+    NSMutableArray *noteArray = [LessonCategoryInterface getTreeNodeArrayFromArray:arr withLevel:0 withRootContentID:nil];
+    [DRFMDBDatabaseTool deleteLessonCategoryListWithUserId:[CaiJinTongManager shared].user.userId withFinished:^(BOOL flag) {
+        if (flag) {
+            [DRFMDBDatabaseTool insertLessonCategoryListWithUserId:[CaiJinTongManager shared].user.userId withLessonCategoryArray:noteArray withFinished:^(BOOL flag) {
+                
+            }];
+        }
+    }];
+    return noteArray;
 }
 
 +(NSMutableArray*)getTreeNodeArrayFromArray:(NSArray*)arr withLevel:(int)level withRootContentID:(NSString*)rootContentID{

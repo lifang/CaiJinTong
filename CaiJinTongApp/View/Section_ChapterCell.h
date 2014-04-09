@@ -25,7 +25,8 @@
 @property (nonatomic, strong) IBOutlet CustomButton *btn;//下载按钮
 @property (assign,nonatomic) BOOL isMoviePlayView;
 @property (nonatomic, strong) IBOutlet UIButton *playBt;
-@property (nonatomic, strong) SectionSaveModel *sectionS;
 @property (nonatomic, strong)  SectionModel *sectionModel;
 -(IBAction)playBtClicked:(id)sender;
+
+-(void)beginReceiveNotification;
 @end

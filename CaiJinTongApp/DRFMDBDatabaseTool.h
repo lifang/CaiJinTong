@@ -43,6 +43,11 @@
 ///更新课程信息
 +(void)updateLessonObjListWithUserId:(NSString*)userId withLessonObj:(LessonModel*)lesson withFinished:(void (^)(BOOL flag))finished;
 
+
+///更新课程信息
++(void)updateLessonObjListWithUserId:(NSString*)userId withLessonObjArray:(NSArray*)lessonArray withFinished:(void (^)(BOOL flag))finished;
+
+
 ///判断当前课程是否存在
 +(void)judgeLessonIsExistWithUserId:(NSString*)userId withLessonObjId:(NSString*)lessonId withFinished:(void (^)(BOOL flag))finished;
 
@@ -103,6 +108,34 @@
 ///删除保存的小节信息
 +(void)deleteALLSectionWithUserId:(NSString*)userId withFinished:(void (^)(BOOL flag))finished;
 
+///更新小节下载状态信息
++(void)updateSectionDownloadStatusWithUserId:(NSString*)userId withSectionId:(NSString*)sectionId withDownloadStatus:(DownloadStatus)status withFinished:(void (^)(BOOL flag))finished;
+
+///更新小节已经下载大小信息
++(void)updateSectionDownloadStatusWithUserId:(NSString*)userId withSectionId:(NSString*)sectionId withFileDownloadSize:(NSString*)downloadSize  withFinished:(void (^)(BOOL flag))finished;
+
+///更新小节需要下载文件总共大小
++(void)updateSectionDownloadStatusWithUserId:(NSString*)userId withSectionId:(NSString*)sectionId withFileTotalSize:(NSString*)totalSize  withFinished:(void (^)(BOOL flag))finished;
+
+///查询数据库已经下载的视频大小
++(void)selectSectionFileSizeWithUserId:(NSString*)userId  withSectionId:(NSString*)sectionId  withFinished:(void (^)(long long totalSize,long long downloadSize))finished;
+
 ///查询数据库中小节信息,返回SectionModel数组对象
 +(void)selectSectionListWithUserId:(NSString*)userId  withChapterId:(NSString*)chapterId withLessonId:(NSString*)lessonId withFinished:(void (^)(NSArray *sectionArray,NSString *errorMsg))finished;
+
+///查询数据库中小节信息,返回SectionModel数组对象
++(void)selectSectionListWithUserId:(NSString*)userId  withSectionId:(NSString*)sectionId withLessonId:(NSString*)lessonId withFinished:(void (^)(SectionModel *section))finished;
+
+//TODO:对课程整体操作
+///插入课程LessonModel数据，包括已经下载的章节，和小节信息
++(void)insertLessonTreeDatasWithUserId:(NSString*)userId withLesson:(LessonModel*)lesson withSaveSectionId:(NSString*)sectionId withFinished:(void (^)(BOOL flag))finished;
+
+///更新课程LessonModel数据，包括已经下载的章节，和小节信息
++(void)updateLessonTreeDatasWithUserId:(NSString*)userId withLessonArray:(NSArray*)lessonArray withFinished:(void (^)(BOOL flag))finished;
+
+///删除所有的课程信息，包括章节和小节
++(void)deleteAllLessonDataWithUserId:(NSString*)userId  withFinished:(void (^)(BOOL flag))finished;
+
+///查询数据库中课程信息,返回LessonModel数组对象,包括小节，章节
++(void)selectLessonTreeDatasWithUserId:(NSString*)userId withLessonId:(NSString*)lessonId withFinished:(void (^)(LessonModel *lesson,NSString *errorMsg))finished;
 @end

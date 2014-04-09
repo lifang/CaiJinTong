@@ -128,7 +128,10 @@
                                     }
                                 }
                                 
-                                [self.delegate getLessonInfoDidFinished:lessonModel];
+                                [DRFMDBDatabaseTool updateLessonTreeDatasWithUserId:[CaiJinTongManager shared].user.userId withLessonArray:@[lessonModel] withFinished:^(BOOL flag) {
+                                     [self.delegate getLessonInfoDidFinished:lessonModel];
+                                }];
+                               
                             }else {
                                 [self.delegate getLessonInfoDidFailed:@"获取课程列表失败!"];
                             }

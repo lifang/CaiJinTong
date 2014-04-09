@@ -313,6 +313,7 @@
         UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
         self.sectionViewController = [story instantiateViewControllerWithIdentifier:@"SectionViewController"];
         self.sectionViewController.lessonModel = lesson;
+        [CaiJinTongManager shared].lesson = lesson;
         [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
         [self.navigationController pushViewController:self.sectionViewController animated:YES];
     });

@@ -52,7 +52,7 @@
                                 if (![[dictionary objectForKey:@"commentList"]isKindOfClass:[NSNull class]] && [dictionary objectForKey:@"commentList"]!=nil) {
                                     NSArray *array_comment = [dictionary objectForKey:@"commentList"];
                                     if (array_comment.count>0) {
-                                        section.commentList = [[NSMutableArray alloc]init];
+//                                        section.commentList = [[NSMutableArray alloc]init];
                                         for (int i=0; i<array_comment.count; i++) {
                                             NSDictionary *dic_comment = [array_comment objectAtIndex:i];
                                             CommentModel *comment = [[CommentModel alloc]init];
@@ -61,7 +61,7 @@
                                             comment.content = [NSString stringWithFormat:@"%@",[dic_comment objectForKey:@"content"]];
                                             comment.pageIndex = [[dic_comment objectForKey:@"pageIndex"]intValue];
                                             comment.pageCount = [[dic_comment objectForKey:@"pageCount"]intValue];
-                                            [section.commentList addObject:comment];
+//                                            [section.commentList addObject:comment];
                                         }
                                     }
                                 }

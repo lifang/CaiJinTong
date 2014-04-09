@@ -294,18 +294,19 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     
     switch (level) {
         case 0:
-            convertSize = [NSString stringWithFormat:@"%0.2fKB",lenght];
+            convertSize = [NSString stringWithFormat:@"%0.2fB",lenght];
             break;
         case 1:
-            convertSize = [NSString stringWithFormat:@"%0.2fM",lenght];
+            convertSize = [NSString stringWithFormat:@"%0.2fKB",lenght];
             break;
         case 2:
-            convertSize = [NSString stringWithFormat:@"%0.2fG",lenght];
+            convertSize = [NSString stringWithFormat:@"%0.2fM",lenght];
             break;
         case 3:
-            convertSize = [NSString stringWithFormat:@"%0.2fTB",lenght];
+            convertSize = [NSString stringWithFormat:@"%0.2fG",lenght];
             break;
         default:
+            convertSize = [NSString stringWithFormat:@"%0.2fTB",lenght];
             break;
     }
     return convertSize;

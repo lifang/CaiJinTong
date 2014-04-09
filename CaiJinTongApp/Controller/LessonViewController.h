@@ -31,7 +31,6 @@
 @property (nonatomic, strong) QuestionInfoInterface *questionInfoInterface;//获取所有问答分类
 @property (nonatomic, strong) MyQuestionCategatoryInterface *myQuestionCategatoryInterface;//获取我的提问分类
 @property (nonatomic, strong) MyQuestionCategatoryInterface *myAnswerCategatoryInterface;//获取我的回答分类
-@property (nonatomic, strong) ChapterInfoInterface *chapterInterface;
 @property (strong,nonatomic) LessonCategoryInterface *lessonCategoryInterface;//获取课程分类
 @property (strong,nonatomic) LessonListForCategory *lessonListForCategory;//根据分类获取课程列表
 @property (weak, nonatomic) IBOutlet UIView *leftBackGroundview;

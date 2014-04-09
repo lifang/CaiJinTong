@@ -71,7 +71,10 @@
                                     model.lessonStudyProgress = [NSString stringWithFormat:@"%@",[dic objectForKey:@"studyProgress"]];
                                     [lessonList addObject:model];
                                 }
-                                [self.delegate getSearchLessonListDataForCategoryDidFinished:lessonList withCurrentPageIndex:self.currentPageIndex withTotalCount:self.allDataCount];
+                                [DRFMDBDatabaseTool updateLessonObjListWithUserId:[CaiJinTongManager shared].user.userId withLessonObjArray:lessonList withFinished:^(BOOL flag) {
+                                    [self.delegate getSearchLessonListDataForCategoryDidFinished:lessonList withCurrentPageIndex:self.currentPageIndex withTotalCount:self.allDataCount];
+                                }];
+                               
                             }else {
                                 [self.delegate getSearchLessonListDataForCategoryFailure:@"搜索课程失败!"];
                             }

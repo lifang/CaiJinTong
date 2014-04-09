@@ -72,12 +72,9 @@ typedef enum {LESSONSORTTYPE_CurrentStudy,
 #define MAX_CONTENT_LENGTH  5000
 
 #import "DRTreeTableView.h"
-#import "TestModelData.h"
 #import "LogInterface.h"//登录
 #import "FindPassWordInterface.h"//找回密码
 #import "LessonInfoInterface.h"//课程信息
-#import "ChapterInfoInterface.h"//章节下视频信息
-#import "SectionInfoInterface.h"//视频详细信息
 #import "PlayVideoInterface.h"//播放视频
 #import "PlayBackInterface.h"//播放返回
 #import "GradeInterface.h"//打分或者评论

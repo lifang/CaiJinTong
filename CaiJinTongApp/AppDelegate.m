@@ -11,8 +11,8 @@
 #import "CaiJinTongManager.h"
 #import "iRate.h"
 #import "Section.h"
-#import "SectionSaveModel.h"
 #import "DRFMDBDatabaseToolTEST.h"
+#import "ASINetworkQueue.h"
 @implementation AppDelegate
 
 + (void)initialize
@@ -44,8 +44,8 @@
 }
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [DRFMDBDatabaseToolTEST insertSectionTest];
-    return YES;
+//    [DRFMDBDatabaseToolTEST insertSectionTest];
+//    return YES;
     
     //设置是否加载图片
     BOOL isloadLargeImage = [[NSUserDefaults standardUserDefaults] boolForKey:ISLOADLARGEIMAGE_KEY];
@@ -104,12 +104,16 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     //停止下载任务
-    Section *sectionDb = [[Section alloc]init];
-    NSArray *local_array = [sectionDb getDowningInfo];
-    if (local_array.count>0) {
-        for (int i=0; i<local_array.count; i++) {
-            SectionSaveModel *nm = (SectionSaveModel *)[local_array objectAtIndex:i];
-            [self.mDownloadService stopTask:nm];
+    //判断当前下载任务是否已经在下载队列中
+    ASINetworkQueue *networkQueue = self.mDownloadService.networkQueue;
+    if ([networkQueue requestsCount] > 0) {
+        NSArray *requestArray = networkQueue.operations;
+        for (NSOperation *oper in requestArray) {
+            ASIHTTPRequest *request = (ASIHTTPRequest *)oper;
+            SectionModel *section = [request.userInfo objectForKey:@"SectionSaveModel"];
+            [self.mDownloadService stopTask:section];
+            [request clearDelegatesAndCancel];
+            request = nil;
         }
     }
 }

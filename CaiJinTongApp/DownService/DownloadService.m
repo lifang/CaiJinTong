@@ -24,126 +24,108 @@
         [self.networkQueue setRequestDidFinishSelector:@selector(requestFinished:)];
         [self.networkQueue setQueueDidFinishSelector:@selector(queueFinished:)];
         [self.networkQueue setShowAccurateProgress:YES];
+//        [self.networkQueue setDownloadProgressDelegate:self];
         [self.networkQueue setMaxConcurrentOperationCount:1];
         [self.networkQueue go];
     }
     return self;
 }
-//根据数据库里面的纪录，若下载完成返回nil，其他返回model
--(SectionSaveModel *)getdataFromDB:(SectionSaveModel *)nm {
-    SectionSaveModel *sectionSave = nil;
-    Section *sectionDb = [[Section alloc]init];
-    sectionSave = [sectionDb getDataWithSid:nm.sid];
-    if (sectionSave == nil) {
-        sectionSave = [[SectionSaveModel alloc]init];
-        //新添加下载任务
-        sectionSave.sid = nm.sid;
-        sectionSave.name = nm.name;
-        sectionSave.fileUrl = nm.fileUrl;
-        sectionSave.downloadState = 0;
-        sectionSave.downloadPercent = nm.downloadPercent;
-        sectionSave.sectionLastTime = nm.sectionLastTime;
-        sectionSave.sectionStudy = @"0";
-    }else {//0:下载中 1:下载完成 2:下载停止
-        if (sectionSave.downloadState == 0) {
-            //任务下载中
-        }else if (sectionSave.downloadState == 1) {
-            //下载完成
-            sectionSave = nil;
-        }else { //if (sectionSave.downloadState == 2)
-            //下载停止
-        }
-    }
-    return sectionSave;
-}
-//添加下载任务
--(void)addDownloadTask:(SectionSaveModel *) nm {
-    if (nm) {
-        SectionSaveModel *sectionSave = [self getdataFromDB:nm];
-        if (sectionSave != nil) {
-            //判断当前下载任务是否已经在下载队列中
-            if ([self.networkQueue requestsCount] > 0) {
-                NSArray *requestArray = self.networkQueue.operations;
-                for (NSOperation *oper in requestArray) {
-                    ASIHTTPRequest *request = (ASIHTTPRequest *)oper;
-                    if ([sectionSave.sid isEqualToString:[[request.userInfo objectForKey:@"SectionSaveModel"] sid]]) {
-                        //当前任务正在执行，取消本次操作
-                        // 考虑是否需要发送nofification通知
-                        
-                        return;
-                    }
-                }
-            }
-            NSString *urlString = [NSString stringWithFormat:@"%@",sectionSave.fileUrl];
-//            NSString *urlString = [NSString stringWithFormat:@"http://lms.finance365.com/api/ios.ashx?active=downloadfile&filepath=6/336/3385/20130806112515631.mp4&speed=10224"];
-            urlString = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
-                                                                                              (CFStringRef)urlString,
-                                                                                              NULL,
-                                                                                              NULL,
-                                                                                              kCFStringEncodingUTF8));
-            
-            ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:urlString]];
-            request.delegate = self;
-            NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:sectionSave , @"SectionSaveModel", nil];
-            request.userInfo = userInfo;
-            NSString *downloadPath = [CaiJinTongManager getMovieLocalPathWithSectionID:sectionSave.sid];
-            NSString *tempPath = [CaiJinTongManager getMovieLocalTempPathWithSectionID:sectionSave.sid];
-            [request setDownloadDestinationPath:downloadPath];//下载路径
-            [request setDownloadProgressDelegate:sectionSave];//下载进度代理
-            [request setTemporaryFileDownloadPath:tempPath];//缓存路径
 
-            request.allowResumeForFileDownloads = YES;//打开断点，是否要断点续传
-            [request setShowAccurateProgress:YES];
-            
-            [[self networkQueue] addOperation:request];
-            
-            //数据库更新
-            Section *sectionDb = [[Section alloc]init];
-            [sectionDb updateTheStateWithSid:sectionSave.sid andDownloadState:0];
-//            [sectionDb updateSectionModelLocalPath:downloadPath withSectionId:sectionSave.sid];
-            //发送开始下载通知
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadStart" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:sectionSave,@"SectionSaveModel",nil]];
-        }
+//添加下载任务
+-(void)addDownloadTask:(SectionModel *)section{
+    if (!section) {
+        return;
     }
-}
-- (void)request:(ASIHTTPRequest *)request didReceiveResponseHeaders:(NSDictionary *)responseHeaders {
-    SectionSaveModel *nm = (SectionSaveModel *)[[request userInfo]objectForKey:@"SectionSaveModel"];
-    float contentLenth = [[responseHeaders objectForKey:@"Content-Length"]floatValue];
-    float length = contentLenth/1024/1024;
-    //通知  更新progress
-    Section *sectionDb = [[Section alloc]init];
-    [sectionDb updateContentLength:length BySid:nm.sid];
-}
-- (void)requestFinished:(ASIHTTPRequest *)request {
-    //更新数据库
-    SectionSaveModel *nm = (SectionSaveModel *)[request.userInfo objectForKey:@"SectionSaveModel"];
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        nm.downloadState = 1;
-       //数据库更新数据
-        Section *sectionDb = [[Section alloc]init];
-        [sectionDb updateTheStateWithSid:nm.sid andDownloadState:nm.downloadState];
-        [sectionDb updatePercentDown:1 BySid:nm.sid];
-        
-        SectionSaveModel *nn = [sectionDb getDataWithSid:nm.sid];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            //发送通知
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadFinished" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:nn,@"SectionSaveModel",nil]];
-            //... Handle success
-            
-        });
-    });
-}
-//根据VideoSaveModel删除下载任务
--(void)removeTask:(SectionSaveModel *)nm {
     //判断当前下载任务是否已经在下载队列中
     if ([self.networkQueue requestsCount] > 0) {
         NSArray *requestArray = self.networkQueue.operations;
         for (NSOperation *oper in requestArray) {
             ASIHTTPRequest *request = (ASIHTTPRequest *)oper;
-            if ([nm.sid isEqualToString:[[request.userInfo objectForKey:@"SectionSaveModel"] sid]]) {
+            if ([section.sectionId isEqualToString:[[request.userInfo objectForKey:@"SectionSaveModel"] sectionId]]) {
+                //当前任务正在执行，取消本次操作
+                // 考虑是否需要发送nofification通知
+                
+                return;
+            }
+        }
+    }
+    
+    NSString *urlString = [NSString stringWithFormat:@"%@",section.sectionMovieDownloadURL];
+    urlString = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+                                                                                      (CFStringRef)urlString,
+                                                                                      NULL,
+                                                                                      NULL,
+                                                                                      kCFStringEncodingUTF8));
+    
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:urlString]];
+    request.delegate = self;
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:section , @"SectionSaveModel", nil];
+    request.userInfo = userInfo;
+    NSString *downloadPath = [CaiJinTongManager getMovieLocalPathWithSectionID:section.sectionId];
+    NSString *tempPath = [CaiJinTongManager getMovieLocalTempPathWithSectionID:[NSString stringWithFormat:@"temp_%@",section.sectionId]];
+    [request setDownloadDestinationPath:downloadPath];//下载路径
+    [request setTemporaryFileDownloadPath:tempPath];//缓存路径
+    [request setDownloadProgressDelegate:self];
+    request.allowResumeForFileDownloads = YES;//打开断点，是否要断点续传
+    [request setShowAccurateProgress:YES];
+    
+    [[self networkQueue] addOperation:request];
+    
+    UserModel *user = [CaiJinTongManager shared].user;
+    section.sectionMovieLocalURL = downloadPath;
+    section.sectionMovieFileDownloadStatus = DownloadStatus_Downloading;
+    [DRFMDBDatabaseTool insertSectionModelObjListWithUserId:user.userId withChapterId:section.sectionChapterId withSectionModelObjArray:@[section] withFinished:^(BOOL flag) {
+        if (flag) {
+            //发送开始下载通知
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadStart" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:section,@"SectionSaveModel",nil]];
+        }
+    }];
+}
+
+- (void)request:(ASIHTTPRequest *)request didReceiveBytes:(long long)bytes{
+    SectionModel *section= (SectionModel *)[[request userInfo]objectForKey:@"SectionSaveModel"];
+    UserModel *user = [CaiJinTongManager shared].user;
+    section.sectionFileDownloadSize = [NSString stringWithFormat:@"%llu",request.totalBytesRead + request.lastBytesRead];
+    [DRFMDBDatabaseTool updateSectionDownloadStatusWithUserId:user.userId withSectionId:section.sectionId withFileDownloadSize:[NSString stringWithFormat:@"%llu",request.totalBytesRead] withFinished:^(BOOL flag) {
+        if (flag) {
+            //发送通知
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadFinished" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:section,@"SectionSaveModel",nil]];
+        }
+    }];
+}
+
+- (void)request:(ASIHTTPRequest *)request didReceiveResponseHeaders:(NSDictionary *)responseHeaders {
+    SectionModel *section= (SectionModel *)[[request userInfo]objectForKey:@"SectionSaveModel"];
+    long long contentLenth = [[responseHeaders objectForKey:@"Content-Length"]longLongValue];
+    UserModel *user = [CaiJinTongManager shared].user;
+    section.sectionFileTotalSize = [NSString stringWithFormat:@"%llu",contentLenth];
+    [DRFMDBDatabaseTool updateSectionDownloadStatusWithUserId:user.userId withSectionId:section.sectionId withFileTotalSize:[NSString stringWithFormat:@"%llu",contentLenth] withFinished:^(BOOL flag) {
+        if (flag) {
+            //发送通知
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadFinished" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:section,@"SectionSaveModel",nil]];
+        }
+    }];
+}
+- (void)requestFinished:(ASIHTTPRequest *)request {
+    //更新数据库
+    SectionModel *section= (SectionModel *)[[request userInfo]objectForKey:@"SectionSaveModel"];
+    section.sectionMovieFileDownloadStatus = DownloadStatus_Downloaded;
+    UserModel *user = [CaiJinTongManager shared].user;
+    [DRFMDBDatabaseTool updateSectionDownloadStatusWithUserId:user.userId withSectionId:section.sectionId withDownloadStatus:DownloadStatus_Downloaded withFinished:^(BOOL flag) {
+        if (flag) {
+            //发送通知
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadFinished" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:section,@"SectionSaveModel",nil]];
+        }
+    }];
+}
+//根据VideoSaveModel删除下载任务
+-(void)removeTask:(SectionModel *)section{
+    //判断当前下载任务是否已经在下载队列中
+    if ([self.networkQueue requestsCount] > 0) {
+        NSArray *requestArray = self.networkQueue.operations;
+        for (NSOperation *oper in requestArray) {
+            ASIHTTPRequest *request = (ASIHTTPRequest *)oper;
+            if ([section.sectionId isEqualToString:[[request.userInfo objectForKey:@"SectionSaveModel"] sectionId]]) {
                 //当前任务正在执行，取消本次操作
                 //todo 考虑是否需要发送nofification通知
                 [request clearDelegatesAndCancel];
@@ -153,35 +135,40 @@
             }
         }
     }
-    //删除
-//    [[Section defaultSection] updateTheStateWithSid:nm.sid andDownloadState:4];
-    [[Section defaultSection] deleteDataWithSid:nm.sid];
-
-    //删除Document下的残留
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *documentDir;
-    if (platform>5.0) {
-        documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    }else{
-        documentDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    }
     
-    NSString *tmpFilePath = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@",nm.sid]];
-    [fileManager removeItemAtPath:tmpFilePath error:nil];
-    [fileManager removeItemAtPath:[NSString stringWithFormat:@"%@.zip",tmpFilePath] error:nil];
-    [fileManager removeItemAtPath:[NSString stringWithFormat:@"%@.temp",tmpFilePath] error:nil];
-    //send notification
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"removeDownLoad" object:nil];
+    UserModel *user = [CaiJinTongManager shared].user;
+    section.sectionMovieFileDownloadStatus = DownloadStatus_UnDownload;
+    section.sectionFileDownloadSize = nil;
+    section.sectionFileTotalSize = nil;
+    [DRFMDBDatabaseTool updateSectionDownloadStatusWithUserId:user.userId withSectionId:section.sectionId withDownloadStatus:DownloadStatus_UnDownload withFinished:^(BOOL flag) {
+        if (flag) {
+            //删除Document下的残留
+            NSFileManager *fileManager = [NSFileManager defaultManager];
+            NSString *documentDir;
+            if (platform>5.0) {
+                documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+            }else{
+                documentDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+            }
+            
+            NSString *tmpFilePath = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@",section.sectionId]];
+            [fileManager removeItemAtPath:tmpFilePath error:nil];
+            [fileManager removeItemAtPath:[NSString stringWithFormat:@"%@.zip",tmpFilePath] error:nil];
+            [fileManager removeItemAtPath:[NSString stringWithFormat:@"%@.temp",tmpFilePath] error:nil];
+            //send notification
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"removeDownLoad" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:section,@"SectionSaveModel",nil]];
+        }
+    }];
 }
 
 //停止下载
--(void)stopTask:(SectionSaveModel *)nm {
+-(void)stopTask:(SectionModel *)section{
     //判断当前下载任务是否已经在下载队列中
     if ([self.networkQueue requestsCount] > 0) {
         NSArray *requestArray = self.networkQueue.operations;
         for (NSOperation *oper in requestArray) {
             ASIHTTPRequest *request = (ASIHTTPRequest *)oper;
-            if ([nm.sid isEqualToString:[[request.userInfo objectForKey:@"SectionSaveModel"] sid]]) {
+            if ([section.sectionId isEqualToString:[[request.userInfo objectForKey:@"SectionSaveModel"] sectionId]]) {
                 //当前任务正在执行，取消本次操作
                 //todo 考虑是否需要发送nofification通知
                 [request clearDelegatesAndCancel];
@@ -191,20 +178,29 @@
     }
     
     //停止下载任务
-    Section *sectionDb = [[Section alloc]init];
-    [sectionDb updateTheStateWithSid:nm.sid andDownloadState:2];
+    UserModel *user = [CaiJinTongManager shared].user;
+    section.sectionMovieFileDownloadStatus = DownloadStatus_Pause;
+    [DRFMDBDatabaseTool updateSectionDownloadStatusWithUserId:user.userId withSectionId:section.sectionId withDownloadStatus:DownloadStatus_Pause withFinished:^(BOOL flag) {
+        if (flag) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"stopDownLoad" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:section,@"SectionSaveModel",nil]];
+        }
+    }];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"stopDownLoad" object:nil];
 }
 
 
 - (void)requestFailed:(ASIHTTPRequest *)request {
     //更新数据库 下载失败
-    SectionSaveModel *nm = (SectionSaveModel *)[[request userInfo]objectForKey:@"SectionSaveModel"];
-    Section *sectionDb = [[Section alloc]init];
-    [sectionDb updateTheStateWithSid:nm.sid andDownloadState:3];
-    //发送通知
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadFailed" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:nm,@"SectionSaveModel",nil]];
+    SectionModel *section= (SectionModel *)[[request userInfo]objectForKey:@"SectionSaveModel"];
+    UserModel *user = [CaiJinTongManager shared].user;
+    section.sectionMovieFileDownloadStatus = DownloadStatus_Pause;
+    [DRFMDBDatabaseTool updateSectionDownloadStatusWithUserId:user.userId withSectionId:section.sectionId withDownloadStatus:DownloadStatus_Pause withFinished:^(BOOL flag) {
+        if (flag) {
+            //发送通知
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadFailed" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:section,@"SectionSaveModel",nil]];
+        }
+    }];
+   
 }
 - (void)queueFinished:(ASINetworkQueue *)queue {
     

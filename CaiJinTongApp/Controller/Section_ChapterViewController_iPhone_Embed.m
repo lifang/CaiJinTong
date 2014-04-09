@@ -9,7 +9,6 @@
 #import "Section_ChapterViewController_iPhone_Embed.h"
 #import "Section_ChapterCell_iPhone.h"
 #import "SectionModel.h"
-#import "SectionSaveModel.h"
 #import "Section.h"
 
 #define CAPTER_CELL_WIDTH 277
@@ -32,6 +31,8 @@
     //    self.tableViewList.center = (CGPoint){self.tableViewList.center.x-233,self.tableViewList.center.y};
     [self.tableViewList reloadData];
 }
+
+
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
@@ -45,40 +46,33 @@
 {
     [super viewDidLoad];
     [self.tableViewList registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"header"];
-	[[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(initBtn:)
-                                                 name: @"downloadStart"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(initBtn:)
-                                                 name: @"downloadFinished"
-                                               object: nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(initBtn:)
-                                                 name: @"downloadFailed"
-                                               object: nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(initBtn:)
-                                                 name:@"removeDownLoad"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(initBtn:)
-                                                 name:@"stopDownLoad"
-                                               object:nil];
-    
+
     [self.tableViewList registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"header"];
     
 }
 
-
--(void)initBtn:(NSNotification *)notification {
-    dispatch_async ( dispatch_get_main_queue (), ^{
-        [self.tableViewList reloadData];
-    });
+///从数据库中加载数据
+-(void)reloadDataFromDataBase{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    __weak Section_ChapterViewController_iPhone_Embed *weakSelf = self;
+    UserModel *user = [CaiJinTongManager shared].user;
+    
+    [DRFMDBDatabaseTool selectLessonTreeDatasWithUserId:user.userId withLessonId:self.lessonId withFinished:^(LessonModel *lesson, NSString *errorMsg) {
+        Section_ChapterViewController_iPhone_Embed *tempSelf =weakSelf;
+        if (tempSelf) {
+            if (lesson) {
+                tempSelf.dataArray = lesson.chapterList;
+            }else{
+                tempSelf.dataArray = [CaiJinTongManager shared].lesson.chapterList;
+            }
+            
+            [tempSelf.tableViewList reloadData];
+            [MBProgressHUD hideHUDForView:tempSelf.view animated:YES];
+        }
+    }];
 }
+
+
 - (void)viewDidCurrentView
 {
     DLog(@"加载为当前视图 = %@",self.title);
@@ -89,6 +83,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 #pragma mark -- tableViewDelegate
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     if (!self.dataArray || self.dataArray.count <= 0) {
@@ -143,51 +138,10 @@
     cell.nameLab.text = [NSString stringWithFormat:@"【%@】",section.sectionName];
     cell.sid = section.sectionId;
     
-    //查询数据库
-    Section *sectionDb = [[Section alloc]init];
-    SectionSaveModel *sectionSave = [sectionDb getDataWithSid:section.sectionId];
-    float contentlength = [sectionDb getContentLengthBySid:section.sectionId];
-    //进度条
-    if (sectionSave) {
-        if (sectionSave.downloadState== 0) {
-            cell.statusLab.text = @"下载中...";
-        }else if (sectionSave.downloadState== 1) {
-            cell.statusLab.text = @"已下载";
-        }else if (sectionSave.downloadState == 2) {
-            cell.statusLab.text = @"继续下载";
-        }else {
-            cell.statusLab.text = @"下载";
-        }
-        cell.sliderFrontView.frame = CGRectMake(0, 33, CAPTER_CELL_WIDTH * sectionSave.downloadPercent, 15);
-        if (contentlength>0) {
-            cell.lengthLab.text = [NSString stringWithFormat:@"%.2fM/%.2fM",contentlength*sectionSave.downloadPercent,contentlength];
-        }
-        sectionSave.fileUrl = section.sectionMovieDownloadURL;
-        sectionSave.playUrl = section.sectionMoviePlayURL;
-        sectionSave.name = section.sectionName;
-        sectionSave.lessonId = self.lessonId;
-        cell.btn.buttonModel = sectionSave;
-        
-    }else {
-        sectionSave = [[SectionSaveModel alloc]init];
-        sectionSave.sid = section.sectionId;
-        sectionSave.downloadState = 4;
-        sectionSave.name = section.sectionName;
-        sectionSave.downloadPercent = 0;
-        sectionSave.fileUrl = section.sectionMovieDownloadURL;
-        sectionSave.playUrl = section.sectionMoviePlayURL;
-        sectionSave.name = section.sectionName;
-        sectionSave.lessonId = self.lessonId;
-        cell.btn.buttonModel = sectionSave;
-        cell.sliderFrontView.frame = CGRectMake(0, 33, CAPTER_CELL_WIDTH * 0, 15);
-        cell.statusLab.text = @"未下载";
-        cell.lengthLab.text = @"";
-    }
     cell.sectionModel = section;
     cell.isMoviePlayView = self.isMovieView;
     cell.btn.isMovieView = self.isMovieView;
-    cell.sectionS = sectionSave;
-    cell.timeLab.text = section.sectionLastTime;
+    [cell beginReceiveNotification];
     return cell;
 }
 

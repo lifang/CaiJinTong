@@ -191,9 +191,9 @@ static NSString *timespan = nil;
 #pragma  mark --CommentListInterfaceDelegate
 -(void)getCommentListInfoDidFinished:(SectionModel *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        if (result.commentList.count>0) {
-            [self.dataArray addObjectsFromArray:result.commentList];
-        }
+//        if (result.commentList.count>0) {
+//            [self.dataArray addObjectsFromArray:result.commentList];
+//        }
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             [self.tableViewList reloadData];
