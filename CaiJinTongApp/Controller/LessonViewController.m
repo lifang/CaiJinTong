@@ -30,7 +30,8 @@ typedef enum {
     QUEATION_LIST,
     NOTELIST_LIST,
     LEARNINGMATERIALS_LIST,
-    SETTING
+    SETTING,
+    DOWNLOADLIST
 }TableListType;
 
 @interface LessonViewController ()
@@ -55,6 +56,13 @@ typedef enum {
 @property (nonatomic, strong) DRNavigationController *learningMaterialNavigationController;
 @property (nonatomic, strong) DRNavigationController *didAppearController;//已经在右边显示的controller
 //组合所有问答分类，我的提问问答分类，我的回答分类
+
+@property (nonatomic, strong) DRNavigationController *showDownloadDataNavigationController;
+///显示历史记录
+@property (nonatomic, strong) ShowDownloadDataViewController *showDownloadDataController;
+///新版本提示
+@property (weak, nonatomic) IBOutlet UILabel *versionnumberLabel;
+
 -(NSMutableArray*)togetherAllQuestionCategorys;
 @end
 
@@ -120,13 +128,31 @@ typedef enum {
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
+//TODO:新版本通知
+-(void)appNewVersionNotification{
+    NSString *appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+    if (![appVersion isEqualToString:[CaiJinTongManager shared].appstoreNewVersion]) {
+        [self.versionnumberLabel setHidden:NO];
+    }else{
+        [self.versionnumberLabel setHidden:YES];
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.versionnumberLabel.layer.cornerRadius = 5;
+    [self appNewVersionNotification];
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appNewVersionNotification) name:APPNEWVERSION_Notification object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hiddleSearchKeyboard) name:@"hiddleSearchKeyboardNotification" object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingViewControllerDismis) name:@"SettingViewControllerDismiss" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeLoadLessonDataFromDatabaseNotification:) name:@"LoadLocalLessonCategory" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeLoadLearningMaterialDataFromDatabaseNotification:) name:@"LoadLocalLearningMaterialCategory" object:nil];
     self.listType = LESSON_LIST;
 //    [Utility setBackgroungWithView:self.LogoImageView.superview andImage6:@"login_bg_7" andImage7:@"login_bg_7"];
     self.searchBarView.backgroundColor = [UIColor clearColor];
@@ -156,6 +182,40 @@ typedef enum {
     [self downloadLessonListForCatogory];
 }
 
+#pragma mark 加载本地存储的分类
+///从数据库中加载课程分类
+
+///从数据库中加载的信息改变通知
+-(void)changeLoadLessonDataFromDatabaseNotification:(NSNotification*)notification{
+    NSArray *lessonArray = [notification.userInfo objectForKey:LoadLocalNotificationData];
+     [DRFMDBDatabaseTool selectDownloadedMovieFileLessonCategoryListWithUserId:[CaiJinTongManager shared].user.userId withDownloadLessonArray:lessonArray withFinished:^(NSArray *treeNoteArray, NSString *errorMsg) {
+         self.drTreeTableView.noteArr = [NSMutableArray arrayWithArray:treeNoteArray];
+     }];
+}
+
+///从数据库中加载的信息改变通知
+-(void)changeLoadLearningMaterialDataFromDatabaseNotification:(NSNotification*)notification{
+    NSArray *materialArray = [notification.userInfo objectForKey:LoadLocalNotificationData];
+    [DRFMDBDatabaseTool selectDownloadedFileMaterialCategoryListWithUserId:[CaiJinTongManager shared].user.userId withDownloadMaterialArray:materialArray withFinished:^(NSArray *treeNoteArray, NSString *errorMsg) {
+        self.drTreeTableView.noteArr = [NSMutableArray arrayWithArray:treeNoteArray];
+    }];
+}
+/////从数据库中加载课程分类
+//-(void)reloadLessonCategoryFromDataBase{
+//    [DRFMDBDatabaseTool selectLessonCategoryListWithUserId:[CaiJinTongManager shared].user.userId withFinished:^(NSArray *treeNoteArray, NSString *errorMsg) {
+//        self.drTreeTableView.noteArr = [NSMutableArray arrayWithArray:treeNoteArray];
+//    }];
+//}
+//
+/////从数据库中加载资料分类
+//-(void)reloadLearningMaterialCategoryFromDataBase{
+//    [DRFMDBDatabaseTool selectMaterialCategoryListWithUserId:[CaiJinTongManager shared].user.userId withFinished:^(NSArray *treeNoteArray, NSString *errorMsg) {
+//        self.drTreeTableView.noteArr = [NSMutableArray arrayWithArray:treeNoteArray];
+//    }];
+//}
+#pragma mark --
+
+
 #pragma mark UISearchBarDelegate
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     DLog(@"警告:lessionviewcontroller searchbarSearchButtonClicked");
@@ -184,6 +244,7 @@ typedef enum {
  笔记中心
  */
 - (IBAction)noteListBtClicked:(id)sender {
+    [CaiJinTongManager shared].isShowLocalData = NO;
     self.listType = NOTELIST_LIST;
     if (self.didAppearController == self.noteListNavigationController) {
         return;
@@ -199,6 +260,7 @@ typedef enum {
  资料中心
  */
 - (IBAction)learningMaterailsBtClicked:(id)sender {
+    [CaiJinTongManager shared].isShowLocalData = NO;
     self.listType = LEARNINGMATERIALS_LIST;
     if (self.didAppearController == self.learningMaterialNavigationController) {
         return;
@@ -236,10 +298,26 @@ typedef enum {
     [self addChildViewController:controller];
     [controller didMoveToParentViewController:self];
 }
+//TODO:已经下载
+- (IBAction)scanDownloadBtClicked:(id)sender {
+    [CaiJinTongManager shared].isShowLocalData = YES;
+    self.listType = DOWNLOADLIST;
+    if (self.didAppearController == self.showDownloadDataNavigationController) {
+        return;
+    }
+    [self.didAppearController popToRootViewControllerAnimated:YES];
+    [self removeFromRootController:self.didAppearController];
+    self.didAppearController = self.showDownloadDataNavigationController;
+    [self addToRootController:self.showDownloadDataNavigationController];
+    
+    self.showDownloadDataController.isShowLesson = YES;
+    [self.showDownloadDataController reloadLessonDataFromDatabase];
+}
 /**
  课程中心
  */
 - (IBAction)lessonListBtClicked:(id)sender {
+    [CaiJinTongManager shared].isShowLocalData = NO;
     self.listType = LESSON_LIST;
 //    self.drTreeTableView.noteArr = [NSMutableArray arrayWithArray:[TestModelData getTreeNodeArrayFromArray:[TestModelData loadJSON]]];
     if (self.didAppearController == self.lessonNavigationController) {
@@ -256,6 +334,7 @@ typedef enum {
  问答中心
  */
 - (IBAction)questionListBtClicked:(id)sender {
+    [CaiJinTongManager shared].isShowLocalData = NO;
     [self.searchText resignFirstResponder];
     self.listType = QUEATION_LIST;
     if (self.didAppearController == self.questionNavigationController) {
@@ -292,6 +371,7 @@ typedef enum {
 }
 
 - (IBAction)SearchBrClicked:(id)sender {
+    [CaiJinTongManager shared].isShowLocalData = NO;
     if (self.searchText.text.length == 0) {
         [Utility errorAlert:@"请输入搜索内容!"];
     }else {
@@ -323,6 +403,7 @@ typedef enum {
  设置界面
  */
 -(IBAction)setBtnPressed:(id)sender {
+    
     [self disSelectedButtons];
     self.editBtn.alpha = 1.0;
     SettingViewController *settingView = [self.storyboard instantiateViewControllerWithIdentifier:@"SettingViewController"];
@@ -384,29 +465,33 @@ typedef enum {
     }];
 }
 
-//组合所有问答分类，我的提问问答分类，我的回答分类
+//TODO:组合所有问答分类，我的提问问答分类，我的回答分类
 -(NSMutableArray*)togetherAllQuestionCategorys{
     //我的提问列表
     DRTreeNode *myQuestion = [[DRTreeNode alloc] init];
-    myQuestion.noteContentID = @"-1";
+    myQuestion.noteContentID =[NSString stringWithFormat:@"%d",CategoryType_MyQuestion];
+    myQuestion.noteRootContentID = [NSString stringWithFormat:@"%d",CategoryType_MyQuestion];
     myQuestion.noteContentName = @"我的提问";
     myQuestion.childnotes = self.myQuestionCategoryArr;
     myQuestion.noteLevel = 1;
     //所有问答列表
     DRTreeNode *question = [[DRTreeNode alloc] init];
-    question.noteContentID = @"-2";
+    question.noteContentID = [NSString stringWithFormat:@"%d",CategoryType_AllQuestion];
+    question.noteRootContentID = [NSString stringWithFormat:@"%d",CategoryType_AllQuestion];
     question.noteContentName = @"所有问答";
     question.childnotes = self.allQuestionCategoryArr;
     question.noteLevel = 0;
     //我的回答列表
     DRTreeNode *myAnswer = [[DRTreeNode alloc] init];
-    myAnswer.noteContentID = @"-3";
+    myAnswer.noteContentID = [NSString stringWithFormat:@"%d",CategoryType_MyAnswer];
+    myAnswer.noteRootContentID = [NSString stringWithFormat:@"%d",CategoryType_MyAnswer];
     myAnswer.noteContentName = @"我的回答";
     myAnswer.childnotes = self.myAnswerCategoryArr;
     myAnswer.noteLevel = 1;
     //我的问答
     DRTreeNode *my = [[DRTreeNode alloc] init];
-    my.noteContentID = @"-4";
+    my.noteContentID = [NSString stringWithFormat:@"%d",CategoryType_MyAnswerAndQuestion];
+    my.noteRootContentID = [NSString stringWithFormat:@"%d",CategoryType_MyAnswerAndQuestion];
     my.noteContentName = @"我的问答";
     my.childnotes = @[myQuestion,myAnswer];
     my.noteLevel = 0;
@@ -449,6 +534,11 @@ typedef enum {
 }
 
 -(void)drTreeTableViewDidSelectedRowWithNote:(DRTreeNode*)selectedNote{
+    if ([CaiJinTongManager shared].isShowLocalData) {
+        [self.showDownloadDataController filterDataFromCategory:selectedNote];
+        return;
+    }
+    
     if (_chapterView) {
         self.chapterView.isSearch =  NO;
     }
@@ -471,25 +561,25 @@ typedef enum {
             {
                 [self.questionNavigationController popToRootViewControllerAnimated:YES];
                 switch ([selectedNote.noteRootContentID integerValue]) {
-                    case -2://所有问答
+                    case CategoryType_AllQuestion://所有问答
                     {
                         self.questionScope = QuestionAndAnswerALL;
                         [self reLoadQuestionWithQuestionScope:self.questionScope withTreeNode:selectedNote];
                     }
                         break;
-                    case -1://我的提问
+                    case CategoryType_MyQuestion://我的提问
                     {
                         self.questionScope = QuestionAndAnswerMYQUESTION;
                         [self reLoadQuestionWithQuestionScope:self.questionScope withTreeNode:selectedNote];
                     }
                         break;
-                    case -3://我的回答
+                    case CategoryType_MyAnswer://我的回答
                     {
                         self.questionScope = QuestionAndAnswerMYANSWER;
                         [self reLoadQuestionWithQuestionScope:self.questionScope withTreeNode:selectedNote];
                     }
                         break;
-                    case -4://我的问答
+                    case CategoryType_MyAnswerAndQuestion://我的问答
                     {
                     }
                         break;
@@ -532,6 +622,14 @@ typedef enum {
     }
     return _chapterView;
 }
+
+-(ShowDownloadDataViewController *)showDownloadDataController{
+    if (!_showDownloadDataController) {
+        _showDownloadDataController = [self.storyboard instantiateViewControllerWithIdentifier:@"ShowDownloadDataViewController"];
+    }
+    return _showDownloadDataController;
+}
+
 -(MyQuestionAndAnswerViewController *)myQAVC{
     if (!_myQAVC) {
         _myQAVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
@@ -576,6 +674,14 @@ typedef enum {
         [_lessonNavigationController setNavigationBarHidden:YES];
     }
     return _lessonNavigationController;
+}
+
+-(DRNavigationController *)showDownloadDataNavigationController{
+    if (!_showDownloadDataNavigationController) {
+        _showDownloadDataNavigationController = [[DRNavigationController alloc] initWithRootViewController:self.showDownloadDataController];
+        [_showDownloadDataNavigationController setNavigationBarHidden:YES];
+    }
+    return _showDownloadDataNavigationController;
 }
 
 -(DRNavigationController *)questionNavigationController{
@@ -641,44 +747,50 @@ typedef enum {
     self.questionListBt.alpha = 0.3;
     self.noteListBt.alpha = 0.3;
     self.learningMaterailBt.alpha = 0.3;
+    self.scanDownloadBt.alpha = 0.3;
     self.editBtn.alpha = 0.3;
 }
 
 -(void)setListType:(TableListType)listType{
     [self disSelectedButtons];
-    switch (listType) {
-        case LESSON_LIST:
-        {
-            self.lessonListTitleLabel.text = @"我的课程";
-            self.lessonListBt.alpha = 1.0;
-             break;
+    if ([CaiJinTongManager shared].isShowLocalData) {
+        self.lessonListTitleLabel.text = @"已经下载";
+        self.scanDownloadBt.alpha = 1.0;
+    }else{
+        switch (listType) {
+            case LESSON_LIST:
+            {
+                self.lessonListTitleLabel.text = @"我的课程";
+                self.lessonListBt.alpha = 1.0;
+                break;
+            }
+            case QUEATION_LIST:
+            {
+                self.lessonListTitleLabel.text = @"问答中心";
+                self.questionListBt.alpha = 1.0;
+                break;
+            }
+            case NOTELIST_LIST:
+            {
+                self.noteListBt.alpha = 1.0;
+                break;
+            }
+            case LEARNINGMATERIALS_LIST:
+            {
+                self.learningMaterailBt.alpha = 1.0;
+                self.lessonListTitleLabel.text = @"资料中心";
+                break;
+            }
+            case SETTING:
+            {
+                self.editBtn.alpha = 1.0;
+                break;
+            }
+            default:
+                break;
         }
-        case QUEATION_LIST:
-        {
-            self.lessonListTitleLabel.text = @"问答中心";
-            self.questionListBt.alpha = 1.0;
-            break;
-        }
-        case NOTELIST_LIST:
-        {
-            self.noteListBt.alpha = 1.0;
-            break;
-        }
-        case LEARNINGMATERIALS_LIST:
-        {
-            self.learningMaterailBt.alpha = 1.0;
-            self.lessonListTitleLabel.text = @"资料中心";
-            break;
-        }
-        case SETTING:
-        {
-            self.editBtn.alpha = 1.0;
-            break;
-        }
-        default:
-            break;
+        _listType = listType;
     }
-    _listType = listType;
 }
 
 -(GetUserQuestionInterface *)getUserQuestionInterface{

@@ -18,4 +18,8 @@
 @property (nonatomic, strong) NSString *address;
 @property (nonatomic, strong) NSString *userImg;
 @property (strong,nonatomic) NSString *nickName;
+///归档
+-(void)archiverUser;
+///解归档
+-(void)unarchiverUser;
 @end

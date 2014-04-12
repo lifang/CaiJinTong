@@ -19,7 +19,12 @@
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
 
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",chapterQuestionId] forKey:@"chapterQuestionId"];
+    if ([[NSString stringWithFormat:@"%d",CategoryType_AllQuestion] isEqualToString:chapterQuestionId]) {
+        
+    }else{
+        [reqheaders setValue:[NSString stringWithFormat:@"%@",chapterQuestionId] forKey:@"chapterQuestionId"];
+    }
+    
     
 //    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=chapterQuestion&userId=17079&categoryId=42";
     self.interfaceUrl = [NSString stringWithFormat:@"%@?active=chapterQuestion&userId=%@&categoryId=%@",kHost,userId,chapterQuestionId];

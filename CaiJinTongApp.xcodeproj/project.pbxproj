@@ -395,6 +395,7 @@
 		63B794EB1847477100B8276A /* MJRefreshHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B794E71847477100B8276A /* MJRefreshHeaderView.m */; };
 		63B7B36C18ECFE3300F86A9B /* DRFMDBDatabaseTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B7B36B18ECFE3300F86A9B /* DRFMDBDatabaseTool.m */; };
 		63B7B36F18ED35DC00F86A9B /* DRFMDBDatabaseToolTEST.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B7B36E18ED35DC00F86A9B /* DRFMDBDatabaseToolTEST.m */; };
+		63BBE91D18F687CC00EB9403 /* ShowDownloadDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BBE91C18F687CC00EB9403 /* ShowDownloadDataViewController.m */; };
 		63C15C73183F54E600890086 /* DRMoviePlayerTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C15C72183F54E600890086 /* DRMoviePlayerTopBar.m */; };
 		63C46D651891110500626E21 /* UploadImageDataInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C46D641891110500626E21 /* UploadImageDataInterface.m */; };
 		63C7FBC9187E8B0E0051EEBE /* ASIHTTPRequest+DownloadData.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C7FBC2187E8B0E0051EEBE /* ASIHTTPRequest+DownloadData.m */; };
@@ -1068,6 +1069,8 @@
 		63B7B36B18ECFE3300F86A9B /* DRFMDBDatabaseTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRFMDBDatabaseTool.m; sourceTree = "<group>"; };
 		63B7B36D18ED35DC00F86A9B /* DRFMDBDatabaseToolTEST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRFMDBDatabaseToolTEST.h; sourceTree = "<group>"; };
 		63B7B36E18ED35DC00F86A9B /* DRFMDBDatabaseToolTEST.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRFMDBDatabaseToolTEST.m; sourceTree = "<group>"; };
+		63BBE91B18F687CC00EB9403 /* ShowDownloadDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowDownloadDataViewController.h; sourceTree = "<group>"; };
+		63BBE91C18F687CC00EB9403 /* ShowDownloadDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowDownloadDataViewController.m; sourceTree = "<group>"; };
 		63C15C71183F54E600890086 /* DRMoviePlayerTopBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DRMoviePlayerTopBar.h; path = movieCotr/DRMoviePlayerTopBar.h; sourceTree = "<group>"; };
 		63C15C72183F54E600890086 /* DRMoviePlayerTopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DRMoviePlayerTopBar.m; path = movieCotr/DRMoviePlayerTopBar.m; sourceTree = "<group>"; };
 		63C46D631891110500626E21 /* UploadImageDataInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadImageDataInterface.h; sourceTree = "<group>"; };
@@ -1478,6 +1481,8 @@
 				63AFEF8F187CFF480094C8B2 /* LearningMaterialsViewController.m */,
 				187CE7C61883CCD800D65660 /* NoteListViewController.h */,
 				187CE7C71883CCD800D65660 /* NoteListViewController.m */,
+				63BBE91B18F687CC00EB9403 /* ShowDownloadDataViewController.h */,
+				63BBE91C18F687CC00EB9403 /* ShowDownloadDataViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2930,6 +2935,7 @@
 				63C7FC20187EA9000051EEBE /* DRImageButton.m in Sources */,
 				633003981846022500F7838D /* SexRadioView.m in Sources */,
 				183F491C1887864D007D5474 /* NoteListCell_iPhone.m in Sources */,
+				63BBE91D18F687CC00EB9403 /* ShowDownloadDataViewController.m in Sources */,
 				0E9DA3B3183F568D000A5995 /* ASIDataCompressor.m in Sources */,
 				18046A94184884D300EB8BDA /* Section_GradeViewController_iPhone.m in Sources */,
 				0EA7EF4018237A0D00C47F69 /* CommentModel.m in Sources */,
@@ -3135,7 +3141,7 @@
 				INFOPLIST_FILE = "CaiJinTongApp/CaiJinTongApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "F22B3721-95EF-4CCA-9E18-731A11A586AB";
+				PROVISIONING_PROFILE = "2DCE46FD-0447-4021-B873-6763C3647367";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -3162,7 +3168,7 @@
 				INFOPLIST_FILE = "CaiJinTongApp/CaiJinTongApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "F22B3721-95EF-4CCA-9E18-731A11A586AB";
+				PROVISIONING_PROFILE = "2DCE46FD-0447-4021-B873-6763C3647367";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};

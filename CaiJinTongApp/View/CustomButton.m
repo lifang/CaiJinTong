@@ -113,8 +113,11 @@
 
 //播放
 -(void)playVideo {
+    [DRFMDBDatabaseTool selectSectionListWithUserId:[CaiJinTongManager shared].user.userId withSectionId:self.buttonModel.sectionId withLessonId:self.buttonModel.lessonId withFinished:^(SectionModel *section) {
+        self.buttonModel.sectionMovieLocalURL = section.sectionMovieLocalURL;
+        [[NSNotificationCenter defaultCenter] postNotificationName:self.isMovieView?@"gotoMoviePlayMovie": @"gotoMoviePlay" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.buttonModel, @"sectionSaveModel",nil]];
+    }];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:self.isMovieView?@"gotoMoviePlayMovie": @"gotoMoviePlay" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.buttonModel.sectionId, @"sectionID", self.buttonModel.sectionName,@"sectionName",nil]];
 }
 
 //下载中

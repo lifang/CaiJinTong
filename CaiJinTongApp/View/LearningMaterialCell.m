@@ -73,30 +73,11 @@
     }
     
     UserModel *user = [[CaiJinTongManager shared] user];
-     DownloadStatus status = [[Section defaultSection] searchLearningMaterialsDownloadStatusWithMaterialId:learningMaterial.materialId withUserId:user.userId];
-    self.fileDownloadStatus = status;
-    DownloadDataButtonStatus downloadButtonStatus;
-    switch (status) {
-        case DownloadStatus_UnDownload:
-            downloadButtonStatus = DownloadDataButtonStatus_UnDownload;
-            break;
-        case DownloadStatus_Downloading:
-            downloadButtonStatus = DownloadDataButtonStatus_Downloading;
-            break;
-        case DownloadStatus_Downloaded:
-        {
-            downloadButtonStatus = DownloadDataButtonStatus_Downloaded;
-            learningMaterial.materialFileLocalPath = [[Section defaultSection] searchLearningMaterialsLocalPathWithMaterialId:learningMaterial.materialId withUserId:user.userId];
-            break;
-        }
-        case DownloadStatus_Pause:
-            downloadButtonStatus = DownloadDataButtonStatus_Pause;
-            break;
-        default:
-            break;
-    }
-//    [self.downloadBt setDownloadUrl:[NSURL URLWithString:learningMaterial.materialFileDownloadURL] withDownloadStatus:downloadButtonStatus withIsPostNotification:YES];
-    [self.downloadBt setDownloadLearningMaterial:learningMaterial withDownloadStatus:downloadButtonStatus withIsPostNotification:YES];
+    [DRFMDBDatabaseTool selectLearningMaterialsDownloadStatusWithUserId:user.userId withLearningMaterialsId:learningMaterial.materialId withFinished:^(DownloadStatus status) {
+        self.fileDownloadStatus = status;
+        [self.downloadBt setDownloadLearningMaterial:learningMaterial withDownloadStatus:status withIsPostNotification:YES];
+    }];
+    
     
     switch (learningMaterial.materialFileType) {
         case LearningMaterialsFileType_pdf:
@@ -133,7 +114,14 @@
         self.fileDownloadStatus = DownloadStatus_Downloading;
         UserModel *user = [[CaiJinTongManager shared] user];
         self.materialModel.materialFileDownloadStaus = DownloadStatus_Downloading;
-        [[Section defaultSection] updateLeariningMaterial:self.materialModel withUserId:user.userId];
+        self.materialModel.materialFileLocalPath = [notification.userInfo objectForKey:URLLocalPath];
+        [DRFMDBDatabaseTool insertMaterialObjListWithUserId:user.userId withMaterialObjArray:@[self.materialModel] withFinished:^(BOOL flag) {
+            [DRFMDBDatabaseTool updateMaterialObjListWithUserId:user.userId withMaterialId:self.materialModel.materialId withDownloadStatus:DownloadStatus_Downloading withFinished:^(BOOL flag) {
+                [DRFMDBDatabaseTool updateMaterialObjListWithUserId:user.userId withMaterialId:self.materialModel.materialId withLocalPath:[notification.userInfo objectForKey:URLLocalPath] withFinished:^(BOOL flag) {
+                    
+                }];
+            }];
+        }];
     }
 }
 
@@ -145,15 +133,15 @@
         self.materialModel.materialSearchCount = [notification.userInfo objectForKey:@"downloadCount"];
         
         self.materialModel.materialFileLocalPath = [notification.userInfo objectForKey:URLLocalPath];
-        
-        [[Section defaultSection] updateLeariningMaterial:self.materialModel withUserId:user.userId];
-        [self setLearningMaterialData:self.materialModel];
+        [DRFMDBDatabaseTool updateMaterialObjListWithUserId:user.userId withMaterialId:self.materialModel.materialId withDownloadStatus:DownloadStatus_Downloaded withFinished:^(BOOL flag) {
+            [self setLearningMaterialData:self.materialModel];
+        }];
     }
 }
 -(void)didFailureDownloadFile:(NSNotification*)notification{
     if ([[notification.userInfo objectForKey:URLKey] isEqualToString:self.materialModel.materialFileDownloadURL]) {
         UserModel *user = [[CaiJinTongManager shared] user];
-        if (self.downloadBt.downloadFileStatus == DownloadDataButtonStatus_Pause) {
+        if (self.downloadBt.downloadFileStatus == DownloadStatus_Pause) {
             self.fileDownloadStatus = DownloadStatus_Pause;
             self.materialModel.materialFileDownloadStaus = DownloadStatus_Pause;
         }else{
@@ -162,7 +150,8 @@
             self.materialModel.materialFileDownloadStaus = DownloadStatus_UnDownload;
         }
         
-        [[Section defaultSection] updateLeariningMaterial:self.materialModel withUserId:user.userId];
+        [DRFMDBDatabaseTool updateMaterialObjListWithUserId:user.userId withMaterialId:self.materialModel.materialId withDownloadStatus:DownloadStatus_UnDownload withFinished:^(BOOL flag) {
+        }];
     }
 }
 -(void)didPauseDownloadFile:(NSNotification*)notification{
@@ -171,7 +160,9 @@
         UserModel *user = [[CaiJinTongManager shared] user];
         self.materialModel.materialFileDownloadStaus = DownloadStatus_Pause;
         self.materialModel.materialFileLocalPath = [notification.userInfo objectForKey:URLLocalPath];
-        [[Section defaultSection] updateLeariningMaterial:self.materialModel withUserId:user.userId];
+        [DRFMDBDatabaseTool updateMaterialObjListWithUserId:user.userId withMaterialId:self.materialModel.materialId withDownloadStatus:DownloadStatus_Pause withFinished:^(BOOL flag) {
+            [self setLearningMaterialData:self.materialModel];
+        }];
     }
 }
 

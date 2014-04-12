@@ -19,7 +19,9 @@
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
-    if (chapterQuestionId) {
+    if ([[NSString stringWithFormat:@"%d",CategoryType_AllQuestion] isEqualToString:chapterQuestionId]) {
+        
+    }else{
         [reqheaders setValue:[NSString stringWithFormat:@"%@",chapterQuestionId] forKey:@"categoryId"];
     }
     if (lastQuestionID) {

@@ -35,6 +35,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    UserModel *user = [[UserModel alloc] init];
+    [user unarchiverUser];
+    if (user.userId && ![user.userId isEqualToString:@""]) {
+        [CaiJinTongManager shared].user = user;
+        [CaiJinTongManager shared].userId = user.userId;
+        UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+        LessonViewController *lessonView = [story instantiateViewControllerWithIdentifier:@"LessonViewController"];
+        [self.navigationController pushViewController:lessonView animated:YES];
+        AppDelegate* appDelegate = [AppDelegate sharedInstance];
+        appDelegate.lessonViewCtrol = lessonView;
+        return;
+    }
     NSString *userName = [[NSUserDefaults standardUserDefaults] stringForKey:kUserName];
     NSString *pwd = [[NSUserDefaults standardUserDefaults] stringForKey:kPassword];
     self.userNameTextField.text = userName?:@"";
@@ -149,6 +161,7 @@
         user.nickName = [NSString stringWithFormat:@"%@",[result objectForKey:@"nickname"]];
         [CaiJinTongManager shared].user = user;
         [[CaiJinTongManager shared] setUserId:user.userId];
+        [user archiverUser];
         dispatch_async(dispatch_get_main_queue(), ^{
             
             [[NSUserDefaults standardUserDefaults] setValue:self.userNameTextField.text forKey:kUserName];

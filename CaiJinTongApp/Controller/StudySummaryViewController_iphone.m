@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *lessonImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *noteImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *materialImageView;
+@property (weak, nonatomic) IBOutlet UILabel *versionnumberLabel;
 
 @property (nonatomic,strong) LHLTabBarController *lhltabBarController;
 - (IBAction)lessonBtClicked:(UIButton *)sender;
@@ -29,6 +30,8 @@
 - (IBAction)questionBtClicked:(id)sender;
 - (IBAction)settingBtClicked:(id)sender;
 - (IBAction)learningMaterialBtClicked:(id)sender;
+///显示已经下载
+- (IBAction)loadDownloadedDataBtClicked:(id)sender;
 
 @end
 
@@ -43,9 +46,25 @@
     return self;
 }
 
+//TODO:新版本通知
+-(void)appNewVersionNotification{
+    NSString *appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+    if (![appVersion isEqualToString:[CaiJinTongManager shared].appstoreNewVersion]) {
+        [self.versionnumberLabel setHidden:NO];
+    }else{
+        [self.versionnumberLabel setHidden:YES];
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.versionnumberLabel.layer.cornerRadius = 5;
+    [self appNewVersionNotification];
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appNewVersionNotification) name:APPNEWVERSION_Notification object:nil];
+    
     self.view.backgroundColor = [UIColor underPageBackgroundColor];
     [self addReflectionView:self.noteImageView];
     [self addReflectionView:self.lessonImageView];
@@ -130,5 +149,8 @@
 - (IBAction)learningMaterialBtClicked:(id)sender {
      [self.lhltabBarController selectedAtIndexItem:2];
     [self.navigationController pushViewController:self.lhltabBarController animated:YES];
+}
+
+- (IBAction)loadDownloadedDataBtClicked:(id)sender {
 }
 @end

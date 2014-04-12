@@ -42,7 +42,11 @@
         default:
             break;
     }
-    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=learningMaterials&userId=%@&categoryid=%@&pageIndex=%d&sortType=%@",kHost,userId,categoryId?:@"0",pageIndex+1,sort];
+    if (categoryId && ![categoryId isEqualToString:[NSString stringWithFormat:@"%d",CategoryType_ALL]]) {
+        self.interfaceUrl = [NSString stringWithFormat:@"%@?active=learningMaterials&userId=%@&categoryid=%@&pageIndex=%d&sortType=%@",kHost,userId,categoryId,pageIndex+1,sort];
+    }else{
+    self.interfaceUrl = [NSString stringWithFormat:@"%@?active=learningMaterials&userId=%@&categoryid=%@&pageIndex=%d&sortType=%@",kHost,userId,@"0",pageIndex+1,sort];
+    }
     self.baseDelegate = self;
     self.headers = reqheaders;
     
@@ -69,7 +73,8 @@
                                 LearningMaterials *material = [[LearningMaterials alloc] init];
                                 material.materialId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialId"]];
                                 material.materialName = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialName"]];
-                                material.materialLessonCategoryId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialCategoryId"]];
+                                material.materialLessonCategoryId = self.lessonCategoryId;
+//                                material.materialLessonCategoryId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialCategoryId"]];
                                 material.materialLessonCategoryName = [NSString stringWithFormat:@"%@",[dic objectForKey:@"CategoryName"]];
                                 //1:pdf，2:word，3:zip，4:ppt，5:jpg，6:text，7:其他
                                 switch ([[NSString stringWithFormat:@"%@",[dic objectForKey:@"materialFileType"]] intValue]) {
@@ -98,13 +103,12 @@
                                 material.materialCreateDate = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialCreateDate"]];
                                 material.materialFileDownloadURL = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialFileDownloadURL"]];
                                 material.materialFileSize = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialFileSize"]];
-//                                if (material.materialFileSize) {
-//                                    material.materialFileSize = [Utility convertFileSizeUnitWithBytes:material.materialFileSize];
-//                                }
                                 [materialsList addObject:material];
                             }
                             if (materialsList.count > 0) {
-                                [self.delegate getlearningMaterilasListDataForCategoryDidFinished:materialsList withCurrentPageIndex:self.currentPageIndex withTotalCount:self.allDataCount];
+                                [DRFMDBDatabaseTool updateMaterialObjListWithUserId:[CaiJinTongManager shared].user.userId  withMaterialObjArray:materialsList withFinished:^(BOOL flag) {
+                                    [self.delegate getlearningMaterilasListDataForCategoryDidFinished:materialsList withCurrentPageIndex:self.currentPageIndex withTotalCount:self.allDataCount];
+                                }];
                             }else{
                                 [self.delegate getlearningMaterilasListDataForCategoryFailure:@"没有相关资料数据!"];
                             }

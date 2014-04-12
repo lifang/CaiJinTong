@@ -34,6 +34,12 @@
         self.cellNameLabel = [[UILabel alloc] initWithFrame:(CGRect){CGRectGetMaxX(self.cellImageView.frame)+CELL_PADDING,0,CGRectGetWidth(self.frame) - CGRectGetMaxX(self.cellImageView.frame)- CELL_PADDING*2-30,self.frame.size.height}];
         self.cellNameLabel.backgroundColor = [UIColor clearColor];
          self.cellNameLabel.textColor = [UIColor whiteColor];
+        if (isPAD) {
+            [self.cellNameLabel setFont:[UIFont systemFontOfSize:12]];
+        }else{
+            [self.cellNameLabel setFont:[UIFont systemFontOfSize:10]];
+        }
+        
 //        self.cellNameLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleWidth;
         [self addSubview:self.cellNameLabel];
         
@@ -53,9 +59,12 @@
 //    CGContextRef context = UIGraphicsGetCurrentContext();
 //    CGContextSetFillColorWithColor(context, [UIColor clearColor].CGColor);
 //    CGContextFillRect(context, rect);
-    self.cellImageView.frame = (CGRect){CELL_PADDING+self.note.noteLevel*10,CGRectGetHeight(self.frame)/2-5,10,10};
-    self.cellNameLabel.frame = (CGRect){CGRectGetMaxX(self.cellImageView.frame)+CELL_PADDING,0,CGRectGetWidth(self.frame) - CGRectGetMaxX(self.cellImageView.frame)- CELL_PADDING*2-30,self.frame.size.height};
-    self.cellFlagLabel.frame = (CGRect){CGRectGetMaxX(self.cellNameLabel.frame)+CELL_PADDING,0,30,self.frame.size.height};
+//    self.cellImageView.frame = (CGRect){CELL_PADDING+self.note.noteLevel*10,CGRectGetHeight(self.frame)/2-5,10,10};
+//    self.cellNameLabel.frame = (CGRect){CGRectGetMaxX(self.cellImageView.frame)+CELL_PADDING,0,CGRectGetWidth(self.frame) - CGRectGetMaxX(self.cellImageView.frame)- CELL_PADDING*2-30,self.frame.size.height};
+//    self.cellFlagLabel.frame = (CGRect){CGRectGetMaxX(self.cellNameLabel.frame)+CELL_PADDING,0,30,self.frame.size.height};
+    
+    self.cellNameLabel.frame = (CGRect){CELL_PADDING+self.note.noteLevel*10,0,CGRectGetWidth(self.frame)- CELL_PADDING*2-40,self.frame.size.height};
+    self.cellImageView.frame = (CGRect){CGRectGetWidth(self.frame)-CELL_PADDING-20,CGRectGetHeight(self.frame)/2-5,10,10};
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {

@@ -365,28 +365,29 @@
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         LHLMoviePlayViewController *movieController =  [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
         movieController.delegate = self;
-        SectionModel *section = [[Section defaultSection] getSectionModelWithSid:self.playNoteModel.noteSectionId];
-        [self presentViewController:movieController animated:YES completion:^{
-            
-        }];
-        if (section) {
-            [movieController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
-        }else{
-            SectionModel *tempSection = nil;
-            BOOL isReturn = NO;
-            for (chapterModel *chapter in self.lessonModel.chapterList) {
-                for (SectionModel *sec in chapter.sectionList) {
-                    if ([sec.sectionId isEqualToString:self.playNoteModel.noteSectionId]) {
-                        tempSection = sec;
-                        isReturn = YES;
+        [DRFMDBDatabaseTool selectSectionListWithUserId:[CaiJinTongManager shared].user.userId withSectionId:self.playNoteModel.noteSectionId withLessonId:self.lessonModel.lessonId withFinished:^(SectionModel *section) {
+            if (section && section.sectionMovieFileDownloadStatus == DownloadStatus_Downloaded) {
+                [movieController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeFile];
+            }else{
+                SectionModel *tempSection = nil;
+                BOOL isReturn = NO;
+                for (chapterModel *chapter in self.lessonModel.chapterList) {
+                    for (SectionModel *sec in chapter.sectionList) {
+                        if ([sec.sectionId isEqualToString:self.playNoteModel.noteSectionId]) {
+                            tempSection = sec;
+                            isReturn = YES;
+                        }
+                    }
+                    if (isReturn) {
+                        break;
                     }
                 }
-                if (isReturn) {
-                    break;
-                }
+                [movieController playMovieWithSectionModel:tempSection?:section withFileType:MPMovieSourceTypeStreaming];
             }
-            [movieController playMovieWithSectionModel:tempSection?:section withFileType:MPMovieSourceTypeStreaming];
-        }
+            [self presentViewController:movieController animated:YES completion:^{
+                
+            }];
+        }];
     });
 }
 -(void)getLessonInfoDidFailed:(NSString *)errorMsg{

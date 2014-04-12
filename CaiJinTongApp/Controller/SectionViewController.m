@@ -39,12 +39,15 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    if (self.isPlaying) {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        UserModel *user = [[CaiJinTongManager shared] user];
-        [self.lessonInterface downloadLessonInfoWithLessonId:self.lessonModel.lessonId withUserId:user.userId];
+    if (![CaiJinTongManager shared].isShowLocalData) {
+        if (self.isPlaying) {
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            UserModel *user = [[CaiJinTongManager shared] user];
+            [self.lessonInterface downloadLessonInfoWithLessonId:self.lessonModel.lessonId withUserId:user.userId];
+        }
+        self.isPlaying = NO;
     }
-    self.isPlaying = NO;
+
 }
 
 -(void)keyBoardUP:(NSNotification*)notification{
@@ -111,16 +114,13 @@
     self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
     chapterModel *chapter = [self.lessonModel.chapterList firstObject];
     SectionModel *section = [chapter.sectionList firstObject];
-    SectionModel *lastplaySection = [[Section defaultSection] searchLastPlaySectionModelWithLessonId:self.lessonModel.lessonId];
-    if (lastplaySection) {
-        lastplaySection.lessonId = self.lessonModel.lessonId;
-    }
-    section.lessonId = self.lessonModel.lessonId;
-    [self.playerController playMovieWithSectionModel:lastplaySection?:section withFileType:MPMovieSourceTypeStreaming];
-    self.playerController.delegate = self;
-    AppDelegate *app = [AppDelegate sharedInstance];
-    [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
-        
+    [DRFMDBDatabaseTool selectSectionLastPlayWithUserId:[CaiJinTongManager shared].user.userId withLessonId:self.lessonModel.lessonId withFinished:^(SectionModel *lastplaySection) {
+        [self.playerController playMovieWithSectionModel:lastplaySection?:section withFileType:MPMovieSourceTypeStreaming];
+        self.playerController.delegate = self;
+        AppDelegate *app = [AppDelegate sharedInstance];
+        [app.lessonViewCtrol presentViewController:self.playerController animated:YES completion:^{
+            
+        }];
     }];
 }
 /////////
@@ -139,24 +139,33 @@
     AppDelegate *app = [AppDelegate sharedInstance];
     if (app.isLocal == NO) {
         self.section_GradeView.title = @"打分";
-        self.section_GradeView.dataArray = self.lessonModel.lessonCommentList;
-        self.section_GradeView.isGrade = [self.lessonModel.lessonIsScored intValue];
-        self.section_GradeView.lessonId = self.lessonModel.lessonId;
-        if (self.section_GradeView.dataArray.count > 0) {
-//            CommentModel *comment = (CommentModel *)[self.section_GradeView.dataArray objectAtIndex:self.section_GradeView.dataArray.count-1];
-//            self.section_GradeView.pageCount = comment.pageCount;
-            self.section_GradeView.nowPage = 1;
+        if (![CaiJinTongManager shared].isShowLocalData) {
+            self.section_GradeView.dataArray = self.lessonModel.lessonCommentList;
+            self.section_GradeView.isGrade = [self.lessonModel.lessonIsScored intValue];
+            self.section_GradeView.lessonId = self.lessonModel.lessonId;
+            if (self.section_GradeView.dataArray.count > 0) {
+                //            CommentModel *comment = (CommentModel *)[self.section_GradeView.dataArray objectAtIndex:self.section_GradeView.dataArray.count-1];
+                //            self.section_GradeView.pageCount = comment.pageCount;
+                self.section_GradeView.nowPage = 1;
+            }
+
+        }else{
+            self.section_GradeView.isGrade = 1;
         }
     }
     self.section_NoteView.title = @"笔记";
-    self.section_NoteView.dataArray = self.lessonModel.chapterList;
-    self.section_NoteView.delegate = self;
+    if (![CaiJinTongManager shared].isShowLocalData) {
+        self.section_NoteView.dataArray = self.lessonModel.chapterList;
+        self.section_NoteView.delegate = self;
+    }
+
     [self.slideSwitchView buildUI];
 }
 
 #pragma mark-- LessonInfoInterfaceDelegate加载课程详细信息 ,播放完成后回调
 -(void)getLessonInfoDidFinished:(LessonModel*)lesson{
     dispatch_async(dispatch_get_main_queue(), ^{
+        [CaiJinTongManager shared].lesson = lesson;
         [self reloadLessonData:lesson];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     });
@@ -304,12 +313,10 @@
 
 - (void)gotoMoviePlayWithSid:(NSNotification *)info {
     self.isPlaying = YES;
-    NSString *sectionID = [info.userInfo objectForKey:@"sectionID"];
-    NSString *path = [CaiJinTongManager getMovieLocalPathWithSectionID:sectionID];
-    if (path) {
+    SectionModel *section = [info.userInfo objectForKey:@"sectionSaveModel"];
+    if (section.sectionMovieLocalURL) {
         //播放接口
-        Section *s = [[Section alloc] init];
-        SectionModel *ssm = [s getSectionModelWithSid:sectionID];
+        SectionModel *ssm = [info.userInfo objectForKey:@"sectionSaveModel"];
         ssm.lessonId = self.lessonModel.lessonId;
         self.playerController = [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
         self.playerController.delegate = self;
@@ -319,6 +326,8 @@
             
         }];
         
+    }else{
+        [Utility errorAlert:@"本地数据损坏或者不存在"];
     }
 }
 
@@ -457,18 +466,17 @@
     if (labelTop <150) {
         labelTop = 200;
     }
-    self.playBtn.frame = CGRectMake(585, labelTop, 100, 35);
-    if (!lesson.lessonStudyTime || [lesson.lessonStudyTime isEqualToString:@"0"]|| [lesson.lessonStudyTime isEqualToString:@"-"]) {
-        [self.playBtn setTitle:NSLocalizedString(@"开始学习", @"button") forState:UIControlStateNormal];
-    }else{
-        [self.playBtn setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
+    if (![CaiJinTongManager shared].isShowLocalData) {
+        self.playBtn.frame = CGRectMake(585, labelTop, 100, 35);
+        if (!lesson.lessonStudyTime || [lesson.lessonStudyTime isEqualToString:@"0"]|| [lesson.lessonStudyTime isEqualToString:@"-"]) {
+            [self.playBtn setTitle:NSLocalizedString(@"开始学习", @"button") forState:UIControlStateNormal];
+        }else{
+            [self.playBtn setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
+        }
+        self.section_ChapterView.dataArray = lesson.chapterList;
+        self.section_GradeView.dataArray = lesson.lessonCommentList;
+        self.section_NoteView.dataArray = lesson.chapterList;
     }
-    self.section_ChapterView.dataArray = lesson.chapterList;
-    self.section_GradeView.dataArray = lesson.lessonCommentList;
-    self.section_NoteView.dataArray = lesson.chapterList;
-    [self.section_ChapterView.tableViewList reloadData];
-    [self.section_GradeView.tableViewList reloadData];
-    [self.section_NoteView.tableViewList reloadData];
 }
 
 - (void)initAppear {
@@ -570,20 +578,24 @@
         if (labelTop <150) {
             labelTop = 200;
         }
-        UIButton *palyButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        palyButton.frame = CGRectMake(585, labelTop, 100, 35);
-        if (!self.lessonModel.lessonStudyTime || [self.lessonModel.lessonStudyTime isEqualToString:@"0"]|| [self.lessonModel.lessonStudyTime isEqualToString:@"-"]) {
-            [palyButton setTitle:NSLocalizedString(@"开始学习", @"button") forState:UIControlStateNormal];
-        }else{
-            [palyButton setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
+        if (![CaiJinTongManager shared].isShowLocalData) {
+            UIButton *palyButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            palyButton.frame = CGRectMake(585, labelTop, 100, 35);
+            if (!self.lessonModel.lessonStudyTime || [self.lessonModel.lessonStudyTime isEqualToString:@"0"]|| [self.lessonModel.lessonStudyTime isEqualToString:@"-"]) {
+                [palyButton setTitle:NSLocalizedString(@"开始学习", @"button") forState:UIControlStateNormal];
+            }else{
+                [palyButton setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
+            }
+            [palyButton setBackgroundColor:[UIColor clearColor]];
+            [palyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [palyButton addTarget:self action:@selector(playVideo:) forControlEvents:UIControlEventTouchUpInside];
+            [palyButton setBackgroundImage:[UIImage imageNamed:@"btn0.png"] forState:UIControlStateNormal];
+            self.playBtn = palyButton;
+            [self.view addSubview:self.playBtn];
+            palyButton = nil;
         }
-        [palyButton setBackgroundColor:[UIColor clearColor]];
-		[palyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [palyButton addTarget:self action:@selector(playVideo:) forControlEvents:UIControlEventTouchUpInside];
-        [palyButton setBackgroundImage:[UIImage imageNamed:@"btn0.png"] forState:UIControlStateNormal];
-        self.playBtn = palyButton;
-        [self.view addSubview:self.playBtn];
-        palyButton = nil;
+
+
         [self displayView];
         
     }

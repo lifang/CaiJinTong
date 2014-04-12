@@ -94,7 +94,9 @@
         case DownloadStatus_Downloading:
         {
             self.statusLab.text = @"下载中...";
-            
+            AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+            DownloadService *mDownloadService = appDelegate.mDownloadService;
+            [mDownloadService addDownloadTask:_sectionModel];
         }
             
             break;

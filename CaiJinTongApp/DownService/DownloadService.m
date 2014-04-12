@@ -36,6 +36,9 @@
     if (!section) {
         return;
     }
+    if (section.sectionMovieFileDownloadStatus == DownloadStatus_Downloading) {
+        return;
+    }
     //判断当前下载任务是否已经在下载队列中
     if ([self.networkQueue requestsCount] > 0) {
         NSArray *requestArray = self.networkQueue.operations;
@@ -74,18 +77,21 @@
     UserModel *user = [CaiJinTongManager shared].user;
     section.sectionMovieLocalURL = downloadPath;
     section.sectionMovieFileDownloadStatus = DownloadStatus_Downloading;
-    [DRFMDBDatabaseTool insertSectionModelObjListWithUserId:user.userId withChapterId:section.sectionChapterId withSectionModelObjArray:@[section] withFinished:^(BOOL flag) {
-        if (flag) {
-            //发送开始下载通知
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadStart" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:section,@"SectionSaveModel",nil]];
-        }
+    [DRFMDBDatabaseTool insertLessonTreeDatasWithUserId:user.userId withLesson:[CaiJinTongManager shared].lesson withFinished:^(BOOL flag) {
+        [DRFMDBDatabaseTool updateSectionDownloadStatusWithUserId:user.userId withSectionId:section.sectionId withDownloadStatus:DownloadStatus_Downloading withFinished:^(BOOL flag) {
+            [DRFMDBDatabaseTool updateSectionMovieLocalPathWithUserId:user.userId withSectionId:section.sectionId  withLocalPath:downloadPath withFinished:^(BOOL flag) {
+                //发送开始下载通知
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadStart" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:section,@"SectionSaveModel",nil]];
+            }];
+            
+        }];
     }];
 }
 
 - (void)request:(ASIHTTPRequest *)request didReceiveBytes:(long long)bytes{
     SectionModel *section= (SectionModel *)[[request userInfo]objectForKey:@"SectionSaveModel"];
     UserModel *user = [CaiJinTongManager shared].user;
-    section.sectionFileDownloadSize = [NSString stringWithFormat:@"%llu",request.totalBytesRead + request.lastBytesRead];
+    section.sectionFileDownloadSize = [NSString stringWithFormat:@"%llu",request.totalBytesRead];
     [DRFMDBDatabaseTool updateSectionDownloadStatusWithUserId:user.userId withSectionId:section.sectionId withFileDownloadSize:[NSString stringWithFormat:@"%llu",request.totalBytesRead] withFinished:^(BOOL flag) {
         if (flag) {
             //发送通知
@@ -156,8 +162,9 @@
             [fileManager removeItemAtPath:[NSString stringWithFormat:@"%@.zip",tmpFilePath] error:nil];
             [fileManager removeItemAtPath:[NSString stringWithFormat:@"%@.temp",tmpFilePath] error:nil];
             //send notification
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"removeDownLoad" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:section,@"SectionSaveModel",nil]];
+            
         }
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"removeDownLoad" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:section,@"SectionSaveModel",nil]];
     }];
 }
 
@@ -181,9 +188,7 @@
     UserModel *user = [CaiJinTongManager shared].user;
     section.sectionMovieFileDownloadStatus = DownloadStatus_Pause;
     [DRFMDBDatabaseTool updateSectionDownloadStatusWithUserId:user.userId withSectionId:section.sectionId withDownloadStatus:DownloadStatus_Pause withFinished:^(BOOL flag) {
-        if (flag) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"stopDownLoad" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:section,@"SectionSaveModel",nil]];
-        }
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"stopDownLoad" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:section,@"SectionSaveModel",nil]];
     }];
     
 }
@@ -195,10 +200,8 @@
     UserModel *user = [CaiJinTongManager shared].user;
     section.sectionMovieFileDownloadStatus = DownloadStatus_Pause;
     [DRFMDBDatabaseTool updateSectionDownloadStatusWithUserId:user.userId withSectionId:section.sectionId withDownloadStatus:DownloadStatus_Pause withFinished:^(BOOL flag) {
-        if (flag) {
-            //发送通知
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadFailed" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:section,@"SectionSaveModel",nil]];
-        }
+        //发送通知
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadFailed" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:section,@"SectionSaveModel",nil]];
     }];
    
 }

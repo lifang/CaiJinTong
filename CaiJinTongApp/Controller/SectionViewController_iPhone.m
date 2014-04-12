@@ -179,16 +179,13 @@
     playercontroller.delegate = self;
     chapterModel *chapter = [self.lessonModel.chapterList firstObject];
     SectionModel *section = [chapter.sectionList firstObject];
-    SectionModel *lastplaySection = [[Section defaultSection] searchLastPlaySectionModelWithLessonId:self.lessonModel.lessonId];
-    if (lastplaySection) {
-        lastplaySection.lessonId = self.lessonModel.lessonId;
-    }
-    section.lessonId = self.lessonModel.lessonId;
-    [playercontroller playMovieWithSectionModel:lastplaySection?:section withFileType:MPMovieSourceTypeStreaming];
-    
-    
-    [self.navigationController presentViewController:playercontroller animated:YES completion:^{
-        
+    [DRFMDBDatabaseTool selectSectionLastPlayWithUserId:[CaiJinTongManager shared].user.userId withLessonId:[CaiJinTongManager shared].lesson.lessonId withFinished:^(SectionModel *lastplaySection) {
+        if (lastplaySection) {
+            [playercontroller playMovieWithSectionModel:lastplaySection?:section withFileType:MPMovieSourceTypeStreaming];
+        }
+        [self.navigationController presentViewController:playercontroller animated:YES completion:^{
+            
+        }];
     }];
 }
 
@@ -503,12 +500,10 @@
 
 - (void)gotoMoviePlayWithSid:(NSNotification *)info {
     self.isPlaying = YES;
-    NSString *sectionID = [info.userInfo objectForKey:@"sectionID"];
-    NSString *path = [CaiJinTongManager getMovieLocalPathWithSectionID:sectionID];
-    if (path) {
+    SectionModel *section = [info.userInfo objectForKey:@"sectionSaveModel"];
+    if (section.sectionMovieLocalURL) {
         //播放接口
-        Section *s = [[Section alloc] init];
-        SectionModel *ssm = [s getSectionModelWithSid:sectionID];
+        SectionModel *ssm = [info.userInfo objectForKey:@"sectionSaveModel"];
         ssm.lessonId = self.lessonModel.lessonId;
         LHLMoviePlayViewController* playercontroller = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
         playercontroller.delegate = self;

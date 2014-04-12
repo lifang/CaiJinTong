@@ -39,43 +39,8 @@
     [super viewDidLoad];
     
     [self.tableViewList registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"header"];
-	[[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(initBtn:)
-                                                 name: @"downloadStart"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(initBtn:)
-                                                 name: @"downloadFinished"
-                                               object: nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(initBtn:)
-                                                 name: @"downloadFailed"
-                                               object: nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(initBtn:)
-                                                 name:@"removeDownLoad"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(initBtn:)
-                                                 name:@"stopDownLoad"
-                                               object:nil];
-    
-
-    
 }
 
--(void)dealloc{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
--(void)initBtn:(NSNotification *)notification {
-    dispatch_async ( dispatch_get_main_queue (), ^{
-        [self.tableViewList reloadData];
-    });
-}
 - (void)viewDidCurrentView
 {
     DLog(@"加载为当前视图 = %@",self.title);
@@ -142,5 +107,40 @@
     }
     return _tipLabel;
 }
+
+-(SectionModel*)searchSectionModel:(LessonModel*)lesson withSectionId:(NSString*)sectionId{
+    if (!lesson || !sectionId) {
+        return nil;
+    }
+    for (chapterModel *chapter in lesson.chapterList) {
+        for (SectionModel *section in chapter.sectionList) {
+            if ([section.sectionId isEqualToString:sectionId]) {
+                return section;
+            }
+            
+        }
+    }
+    return nil;
+}
+
+-(void)setDataArray:(NSMutableArray *)dataArray{
+    _dataArray = dataArray;
+    if (dataArray && dataArray.count > 0) {
+        [DRFMDBDatabaseTool selectLessonTreeDatasWithUserId:[CaiJinTongManager shared].userId withLessonId:[CaiJinTongManager shared].lesson.lessonId withFinished:^(LessonModel *lesson, NSString *errorMsg) {
+            if (lesson && lesson.chapterList.count > 0) {
+                for (chapterModel *chapter in lesson.chapterList) {
+                    for (SectionModel *section in chapter.sectionList) {
+                        SectionModel *tempSection = [self searchSectionModel:[CaiJinTongManager shared].lesson withSectionId:section.sectionId];
+                        if (tempSection) {
+                            [tempSection copySection:section];
+                        }
+                    }
+                }
+                [self.tableViewList reloadData];
+            }
+        }];
+    }
+}
+
 #pragma mark --
 @end

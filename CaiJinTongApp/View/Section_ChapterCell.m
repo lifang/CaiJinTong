@@ -51,7 +51,9 @@
 -(void)reveiceNotification:(NSNotification*)notification{
     SectionModel *sectionModel = [notification.userInfo objectForKey:@"SectionSaveModel"];
     if (sectionModel && [sectionModel.sectionId isEqualToString:self.sectionModel.sectionId]) {
-        self.sectionModel = sectionModel;
+        if (sectionModel.sectionMovieLocalURL &&![sectionModel.sectionMovieLocalURL isEqualToString:@""]) {
+            self.sectionModel = sectionModel;
+        }
     }
 }
 
@@ -72,19 +74,20 @@
 -(void)setSectionModel:(SectionModel *)sectionModel{
     _sectionModel = sectionModel;
     self.btn.buttonModel = sectionModel;
+    self.sliderFrontView.clipsToBounds = YES;
     if (sectionModel && sectionModel.sectionMovieFileDownloadStatus == DownloadStatus_Downloaded) {
-        [self.playBt setHidden:NO];
-    }else{
         [self.playBt setHidden:YES];
+    }else{
+        [self.playBt setHidden:NO];
     }
     
     if (_sectionModel.sectionFileTotalSize && ![_sectionModel.sectionFileTotalSize isEqualToString:@""]) {
         self.lengthLab.text = [NSString stringWithFormat:@"%@/%@",[Utility convertFileSizeUnitWithBytes:_sectionModel.sectionFileDownloadSize],[Utility convertFileSizeUnitWithBytes:_sectionModel.sectionFileTotalSize]];
         long long totalSize =_sectionModel.sectionFileTotalSize.longLongValue;
         long long downloadSize =_sectionModel.sectionFileDownloadSize.longLongValue;
-        self.sliderFrontView.frame = CGRectMake(0, 33, 650 *((double)downloadSize/totalSize), 15);
+        self.sliderFrontView.frame = CGRectMake(0, 0, CGRectGetWidth(self.sliderBackView.frame) *((double)downloadSize/totalSize), CGRectGetHeight(self.sliderBackView.frame));
     }else{
-        self.sliderFrontView.frame = CGRectMake(0, 33, 0, 15);
+        self.sliderFrontView.frame = CGRectMake(0, 0, 0, CGRectGetHeight(self.sliderBackView.frame));
         self.lengthLab.text = @"";
     }
     
@@ -104,7 +107,9 @@
         case DownloadStatus_Downloading:
         {
             self.statusLab.text = @"下载中...";
-            
+            AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+            DownloadService *mDownloadService = appDelegate.mDownloadService;
+            [mDownloadService addDownloadTask:_sectionModel];
         }
             
             break;

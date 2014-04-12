@@ -74,6 +74,11 @@
 }
 +(NSMutableArray*)getTreeNodeArrayFromArray:(NSArray*)arr{
     NSMutableArray *noteArray = [LessonCategoryInterface getTreeNodeArrayFromArray:arr withLevel:0 withRootContentID:nil];
+    DRTreeNode *note = [[DRTreeNode alloc] init];
+    note.noteContentID = [NSString stringWithFormat:@"%d",CategoryType_ALL];
+    note.noteContentName = @"全部";
+    note.noteLevel = 0;
+    [noteArray insertObject:note atIndex:0];
     [DRFMDBDatabaseTool deleteLessonCategoryListWithUserId:[CaiJinTongManager shared].user.userId withFinished:^(BOOL flag) {
         if (flag) {
             [DRFMDBDatabaseTool insertLessonCategoryListWithUserId:[CaiJinTongManager shared].user.userId withLessonCategoryArray:noteArray withFinished:^(BOOL flag) {

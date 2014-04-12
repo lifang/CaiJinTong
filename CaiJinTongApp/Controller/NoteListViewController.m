@@ -305,29 +305,30 @@
         self.lessonModel = lesson;
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         DRMoviePlayViewController *movieController =  [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
-        SectionModel *section = [[Section defaultSection] getSectionModelWithSid:self.playNoteModel.noteSectionId];
-        BOOL downloadStatus = [[Section defaultSection] HasTheDataDownloadWithSid:self.playNoteModel.noteSectionId];//1 下载完成
-        [self presentViewController:movieController animated:YES completion:^{
-            
-        }];
-        if (section && downloadStatus == 1) {
-            [movieController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeFile];
-        }else{
-            SectionModel *tempSection = nil;
-            BOOL isReturn = NO;
-            for (chapterModel *chapter in self.lessonModel.chapterList) {
-                for (SectionModel *sec in chapter.sectionList) {
-                    if ([sec.sectionId isEqualToString:self.playNoteModel.noteSectionId]) {
-                        tempSection = sec;
-                        isReturn = YES;
+        [DRFMDBDatabaseTool selectSectionListWithUserId:[CaiJinTongManager shared].user.userId withSectionId:self.playNoteModel.noteSectionId withLessonId:self.lessonModel.lessonId withFinished:^(SectionModel *section) {
+            [self presentViewController:movieController animated:YES completion:^{
+                
+            }];
+            if (section && section.sectionMovieFileDownloadStatus == DownloadStatus_Downloaded) {
+                [movieController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeFile];
+            }else{
+                SectionModel *tempSection = nil;
+                BOOL isReturn = NO;
+                for (chapterModel *chapter in self.lessonModel.chapterList) {
+                    for (SectionModel *sec in chapter.sectionList) {
+                        if ([sec.sectionId isEqualToString:self.playNoteModel.noteSectionId]) {
+                            tempSection = sec;
+                            isReturn = YES;
+                        }
+                    }
+                    if (isReturn) {
+                        break;
                     }
                 }
-                if (isReturn) {
-                    break;
-                }
+                [movieController playMovieWithSectionModel:tempSection?:section withFileType:MPMovieSourceTypeStreaming];
             }
-            [movieController playMovieWithSectionModel:tempSection?:section withFileType:MPMovieSourceTypeStreaming];
-        }
+        }];
+
     });
 }
 -(void)getLessonInfoDidFailed:(NSString *)errorMsg{

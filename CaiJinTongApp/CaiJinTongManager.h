@@ -26,11 +26,16 @@
 @property (nonatomic, assign) CGFloat defaultHeight;
 @property (nonatomic, assign) CGFloat defaultLeftInset;
 @property (nonatomic, assign) BOOL isLoadLargeImage;//是否加载图片
+///服务器最新版本
+@property (nonatomic, strong)  NSString *appstoreNewVersion;
 
 ///共享的lessonModel
 @property (nonatomic, strong) LessonModel *lesson;
 ///是否显示本地保存数据
 @property (nonatomic, assign) BOOL isShowLocalData;
+
+///yes:显示本地的课程信息，NO：显示本地的资料信息
+@property (nonatomic, assign) BOOL isShowLocalLessonData;
 + (CaiJinTongManager *)shared;
 
 /** hold the thread when background task will terminate */

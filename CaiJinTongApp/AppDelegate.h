@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "DownloadService.h"
 #import "LessonViewController.h"
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+#import "iVersion.h"
+@interface AppDelegate : UIResponder <UIApplicationDelegate,iVersionDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic)  NSMutableArray *popupedControllerArr;

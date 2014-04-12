@@ -70,11 +70,12 @@
          sectionChapterId 小节对应章节id
          sectionMovieFileTotalSize 小节视频文件大小
          sectionMovieFileDownloadSize 小节视频已经下载大小
+         sectionTotalPlayOfflineTime 保存离线播放时长
          */
         rs = [db executeQuery:@"select name from SQLITE_MASTER where name = 'Section'"];
         if (![rs next]) {
             [rs close];
-            [db executeUpdate:@"CREATE TABLE Section (id INTEGER PRIMARY KEY  NOT NULL , sectionId VARCHAR, sectionName VARCHAR,lessonId VARCHAR,sectionChapterId VARCHAR,lessonCategoryId VARCHAR,sectionLastPlayTime VARCHAR,sectionMoviePlayURL TEXT,sectionMovieDownloadURL TEXT,sectionMovieLocalURL TEXT,sectionFinishedDate VARCHAR,sectionMovieFileDownloadStatus VARCHAR,sectionMovieFileTotalSize VARCHAR,sectionMovieFileDownloadSize VARCHAR,userId VARCHAR)"];
+            [db executeUpdate:@"CREATE TABLE Section (id INTEGER PRIMARY KEY  NOT NULL , sectionId VARCHAR, sectionName VARCHAR,lessonId VARCHAR,sectionChapterId VARCHAR,lessonCategoryId VARCHAR,sectionLastPlayTime VARCHAR,sectionMoviePlayURL TEXT,sectionMovieDownloadURL TEXT,sectionMovieLocalURL TEXT,sectionFinishedDate VARCHAR,sectionMovieFileDownloadStatus VARCHAR,sectionMovieFileTotalSize VARCHAR,sectionMovieFileDownloadSize VARCHAR,sectionTotalPlayOfflineTime VARCHAR,userId VARCHAR)"];
         }
         
         [rs close];
@@ -230,11 +231,81 @@
     }];
 }
 
+
+///查询数据库中课程分类信息,返回DRTreeNode数组对象
++(void)selectDownloadedMovieFileLessonCategoryListWithUserId:(NSString*)userId withDownloadLessonArray:(NSArray*)lessonArray withFinished:(void (^)(NSArray *treeNoteArray,NSString *errorMsg))finished{
+    [DRFMDBDatabaseTool selectLessonCategoryListWithUserId:userId withFinished:^(NSArray *treeNoteArray, NSString *errorMsg) {
+        if (!treeNoteArray || treeNoteArray.count <= 0) {
+            if (finished) {
+                finished(nil,@"无数据");
+            }
+            return ;
+        }
+        NSMutableArray *filterContentArray = [NSMutableArray array];
+        NSMutableArray *removeNodeArray = [NSMutableArray array];
+        for (LessonModel *lesson in lessonArray) {
+            [filterContentArray addObject:lesson.lessonCategoryId];
+        }
+        for (DRTreeNode *node in treeNoteArray) {
+            if (![DRFMDBDatabaseTool judgeTreeNodeIsExistFilterWithContentArray:filterContentArray withTreeNode:node]) {
+                [removeNodeArray addObject:node];
+                continue;
+            }else{
+                [DRFMDBDatabaseTool filterTreeNode:node withContentArray:filterContentArray];
+            }
+        }
+        NSMutableArray *resultArray = [NSMutableArray arrayWithArray:treeNoteArray];
+        [resultArray removeObjectsInArray:removeNodeArray];
+        if (finished) {
+            finished(resultArray,nil);
+        }
+    }];
+}
+
+///遍历节点
++(void)filterTreeNode:(DRTreeNode*)node withContentArray:(NSArray*)contentArray{
+    if (node && contentArray.count > 0) {
+        if (![DRFMDBDatabaseTool judgeTreeNodeIsExistFilterWithContentArray:contentArray withTreeNode:node]) {
+            node.childnotes = nil;
+        }
+        NSMutableArray *removeNodeArray = [NSMutableArray array];
+        for (DRTreeNode *child in node.childnotes) {
+            if (![DRFMDBDatabaseTool judgeTreeNodeIsExistFilterWithContentArray:contentArray withTreeNode:child]) {
+                [removeNodeArray addObject:child];
+                continue;
+            }
+            [DRFMDBDatabaseTool filterTreeNode:child withContentArray:contentArray];
+        }
+        
+        NSMutableArray *resultArray = [NSMutableArray arrayWithArray:node.childnotes];
+        [resultArray removeObjectsInArray:removeNodeArray];
+        node.childnotes = resultArray;
+    }
+}
+
+///查看节点是否存在
++(BOOL)judgeTreeNodeIsExistFilterWithContentArray:(NSArray*)contentArray withTreeNode:(DRTreeNode*)node{
+    for (NSString *contentId in contentArray) {
+        if ([contentId isEqualToString:node.noteContentID]) {
+            return YES;
+        }
+    }
+    BOOL isExist = NO;
+    for (DRTreeNode *child in node.childnotes) {
+        isExist = [DRFMDBDatabaseTool judgeTreeNodeIsExistFilterWithContentArray:contentArray withTreeNode:child];
+        if (isExist) {
+            break;
+        }
+    }
+
+    return isExist;
+}
+
 ///所有parentid相同的节点重组
 +(NSArray*)collectTreeNodeChildWithNodeArray:(NSArray*)nodeArray withNodeContentId:(NSString*)nodeContentId{
-    NSArray *childNodeArray = [nodeArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"noteParentId == %@",nodeContentId]];
+    NSArray *childNodeArray = [nodeArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.noteParentId == %@",nodeContentId]];
     for (DRTreeNode *node in childNodeArray) {
-        node.childnotes = [DRFMDBDatabaseTool collectTreeNodeChildWithNodeArray:childNodeArray withNodeContentId:node.noteContentID];
+        node.childnotes = [DRFMDBDatabaseTool collectTreeNodeChildWithNodeArray:nodeArray withNodeContentId:node.noteContentID];
     }
     return childNodeArray;
 }
@@ -468,6 +539,66 @@
     }];
 }
 
+///查询数据库中已经下载好视频信息的课程信息,返回LessonModel数组对象
++(void)selectDownloadedMovieFileLessonListWithUserId:(NSString*)userId withFinished:(void (^)(NSArray *lessonArray,NSString *errorMsg))finished{
+    DRFMDBDatabaseTool *tool = [DRFMDBDatabaseTool shareDRFMDBDatabaseTool];
+    [tool.dbQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet * rs = [db executeQuery:@"select * from Lesson where userId = ?",userId];
+        NSMutableArray *lessonArr = [NSMutableArray array];
+        //        (lessonId , lessonName ,lessonCategoryId ,lessonImageURL ,lessonStudyProgress , lessonDetailInfo ,lessonTeacherName ,lessonDuration ,lessonStudyTime ,lessonScore ,lessonIsScored ,userId )
+        while([rs next]) {
+            LessonModel *lesson = lesson = [DRFMDBDatabaseTool convertLessonObjFromResultSet:rs];
+            [lessonArr addObject:lesson];
+        }
+        [rs close];
+        NSMutableArray *saveLessonArray = [NSMutableArray array];
+        
+        for (LessonModel *lesson in lessonArr) {
+             rs = [db executeQuery:@"select * from Chapter where userId = ? and chapterLessonId=?",userId,lesson.lessonId];
+            NSMutableArray *chapterArr = [NSMutableArray array];
+            //         (chapterId , chapterName ,chapterLessonId ,userId )
+            while([rs next]) {
+                chapterModel *chapter = [[chapterModel alloc] init];
+                chapter.chapterId = [rs stringForColumn:@"chapterId"];
+                chapter.chapterName = [rs stringForColumn:@"chapterName"];
+                chapter.chapterImg = [rs stringForColumn:@"chapterImg"];
+                [chapterArr addObject:chapter];
+            }
+            NSMutableArray *chapterRemovedArr = [NSMutableArray array];
+           
+            for (chapterModel *chapter in chapterArr) {
+                rs = [db executeQuery:@"select * from Section where userId = ?  and sectionChapterId = ?",userId,chapter.chapterId];
+                NSMutableArray *sectionArr = [NSMutableArray array];
+                 BOOL isRemoveChapter = YES;
+                while([rs next]) {
+                    SectionModel *section  =  [DRFMDBDatabaseTool convertSectionFromResultSet:rs];
+                    if (section.sectionMovieFileDownloadStatus == DownloadStatus_Downloaded) {
+                        [sectionArr addObject:section];
+                        isRemoveChapter = NO;
+                    }
+                }
+                if (isRemoveChapter) {
+                    [chapterRemovedArr addObject:chapter];
+                }
+                chapter.sectionList = sectionArr;
+            }
+            
+            [chapterArr removeObjectsInArray:chapterRemovedArr];
+            
+            if (chapterArr.count > 0) {
+                lesson.chapterList = chapterArr;
+                [saveLessonArray addObject:lesson];
+            }
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (finished) {
+                finished(saveLessonArray,nil);
+            }
+        });
+    }];
+}
+
+
 +(LessonModel*)convertLessonObjFromResultSet:(FMResultSet*)rs{
     LessonModel *lesson = [[LessonModel alloc] init];
     lesson.lessonId = [rs stringForColumn:@"lessonId"];
@@ -523,6 +654,48 @@
 #pragma mark --
 
 #pragma mark 资料相关操作
+
+///查询当前资料的本地路径
++(void)selectLearningMaterialsLocalPathWithUserId:(NSString*)userId withLearningMaterialsId:(NSString*)materialId withFinished:(void (^)(NSString *materialLocalPath))finished{
+    DRFMDBDatabaseTool *tool = [DRFMDBDatabaseTool shareDRFMDBDatabaseTool];
+    [tool.dbQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet * rs = [db executeQuery:@"select fileLocalPath from LearningMaterials where userId = ? and materialId = ?",userId,materialId];
+        NSString *path = nil;
+        if ([rs next]) {
+            
+            path = [rs stringForColumn:@"fileLocalPath"];
+        }
+        
+        [rs close];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (finished) {
+                finished(path);
+            }
+        });
+    }];
+}
+
+
+///查询当前资料的下载状态
++(void)selectLearningMaterialsDownloadStatusWithUserId:(NSString*)userId withLearningMaterialsId:(NSString*)materialId withFinished:(void (^)(DownloadStatus status))finished{
+    DRFMDBDatabaseTool *tool = [DRFMDBDatabaseTool shareDRFMDBDatabaseTool];
+    [tool.dbQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet * rs = [db executeQuery:@"select fileDownloadStatus from LearningMaterials where userId = ? and materialId = ?",userId,materialId];
+        NSString *path = nil;
+        if ([rs next]) {
+            
+            path = [rs stringForColumn:@"fileDownloadStatus"];
+        }
+        
+        [rs close];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (finished) {
+                finished([DRFMDBDatabaseTool convertDownloadStatusFromString:path]);
+            }
+        });
+    }];
+}
+
 ///查询数据库中资料分类信息,返回DRTreeNode数组对象
 +(void)selectMaterialCategoryListWithUserId:(NSString*)userId withFinished:(void (^)(NSArray *treeNoteArray,NSString *errorMsg))finished{
     DRFMDBDatabaseTool *tool = [DRFMDBDatabaseTool shareDRFMDBDatabaseTool];
@@ -546,6 +719,36 @@
             }
         });
         
+    }];
+}
+
+///查询数据库中已经下载文件的资料分类信息,返回DRTreeNode数组对象
++(void)selectDownloadedFileMaterialCategoryListWithUserId:(NSString*)userId withDownloadMaterialArray:(NSArray*)materialArray withFinished:(void (^)(NSArray *treeNoteArray,NSString *errorMsg))finished{
+    [DRFMDBDatabaseTool selectMaterialCategoryListWithUserId:userId withFinished:^(NSArray *treeNoteArray, NSString *errorMsg) {
+        if (!treeNoteArray || treeNoteArray.count <= 0) {
+            if (finished) {
+                finished(nil,@"无数据");
+            }
+            return ;
+        }
+        NSMutableArray *filterContentArray = [NSMutableArray array];
+        NSMutableArray *removeNodeArray = [NSMutableArray array];
+        for (LearningMaterials *material in materialArray) {
+            [filterContentArray addObject:material.materialLessonCategoryId];
+        }
+        for (DRTreeNode *node in treeNoteArray) {
+            if (![DRFMDBDatabaseTool judgeTreeNodeIsExistFilterWithContentArray:filterContentArray withTreeNode:node]) {
+                [removeNodeArray addObject:node];
+                continue;
+            }else{
+                [DRFMDBDatabaseTool filterTreeNode:node withContentArray:filterContentArray];
+            }
+        }
+        NSMutableArray *resultArray = [NSMutableArray arrayWithArray:treeNoteArray];
+        [resultArray removeObjectsInArray:removeNodeArray];
+        if (finished) {
+            finished(resultArray,nil);
+        }
     }];
 }
 
@@ -600,13 +803,13 @@
 
 ///更新资料信息
 +(BOOL)updateMaterialObjListWithUserId:(NSString*)userId withMaterialObj:(LearningMaterials*)materials withDatabase:(FMDatabase*)db{
-    return [db executeUpdate:@"update LearningMaterials set fileLocalPath = ?,fileDownloadStatus = ? where userId = ? and materialId = ?",materials.materialFileLocalPath,[DRFMDBDatabaseTool convertDownloadStatusFromStatus:materials.materialFileDownloadStaus],userId,materials.materialId];
+    return [db executeUpdate:@"update LearningMaterials set fileSearchCount = ? where userId = ? and materialId = ?",materials.materialSearchCount,userId,materials.materialId];
 }
 
 
 ///更新资料信息
-+(void)updateMaterialObjListWithUserId:(NSString*)userId withMaterialObj:(LearningMaterials*)materials withFinished:(void (^)(BOOL flag))finished{
-    if (!materials) {
++(void)updateMaterialObjListWithUserId:(NSString*)userId withMaterialId:(NSString*)materialId withDownloadStatus:(DownloadStatus)downloadStatus withFinished:(void (^)(BOOL flag))finished{
+    if (!materialId || [materialId isEqualToString:@""]) {
         if (finished) {
             finished(NO);
         }
@@ -615,7 +818,36 @@
     DRFMDBDatabaseTool *tool = [DRFMDBDatabaseTool shareDRFMDBDatabaseTool];
     [tool.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         BOOL whoopsSomethingWrongHappened = YES;
-        whoopsSomethingWrongHappened = [DRFMDBDatabaseTool updateMaterialObjListWithUserId:userId withMaterialObj:materials withDatabase:db];
+        whoopsSomethingWrongHappened = [db executeUpdate:@"update LearningMaterials set fileDownloadStatus = ? where userId = ? and materialId = ?",[DRFMDBDatabaseTool convertDownloadStatusFromStatus:downloadStatus],userId,materialId];
+        if (!whoopsSomethingWrongHappened) {
+            *rollback = YES;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (finished) {
+                    finished(NO);
+                }
+            });
+            return;
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (finished) {
+                finished(YES);
+            }
+        });
+    }];
+}
+
+///更新资料文件本地路径
++(void)updateMaterialObjListWithUserId:(NSString*)userId withMaterialId:(NSString*)materialId withLocalPath:(NSString*)localpath withFinished:(void (^)(BOOL flag))finished{
+    if (!materialId || [materialId isEqualToString:@""] || !localpath || [localpath isEqualToString:@""]) {
+        if (finished) {
+            finished(NO);
+        }
+        return;
+    }
+    DRFMDBDatabaseTool *tool = [DRFMDBDatabaseTool shareDRFMDBDatabaseTool];
+    [tool.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        BOOL whoopsSomethingWrongHappened = YES;
+        whoopsSomethingWrongHappened = [db executeUpdate:@"update LearningMaterials set fileLocalPath = ? where userId = ? and materialId = ?",localpath,userId,materialId];
         if (!whoopsSomethingWrongHappened) {
             *rollback = YES;
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -663,6 +895,44 @@
                                                 ,[DRFMDBDatabaseTool convertMaterialFileTypeFromFileType:materials.materialFileType]
                                                 ,materials.materialSearchCount?:@""
                                                 ,materials.materialFileSize?:@""];
+            }
+            if (!whoopsSomethingWrongHappened) {
+                break;
+            }
+        }
+        if (!whoopsSomethingWrongHappened) {
+            *rollback = YES;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (finished) {
+                    finished(NO);
+                }
+            });
+            return;
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (finished) {
+                finished(YES);
+            }
+        });
+    }];
+}
+
+
+///保存资料信息列表，数组存放LearningMaterials对象,如果对象存在则修改对象
++(void)updateMaterialObjListWithUserId:(NSString*)userId withMaterialObjArray:(NSArray*)materialArray withFinished:(void (^)(BOOL flag))finished{
+    if (!materialArray || materialArray.count <= 0) {
+        if (finished) {
+            finished(NO);
+        }
+        return;
+    }
+    DRFMDBDatabaseTool *tool = [DRFMDBDatabaseTool shareDRFMDBDatabaseTool];
+    [tool.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        BOOL whoopsSomethingWrongHappened = YES;
+        for (LearningMaterials *materials in materialArray) {
+            BOOL isExist = [DRFMDBDatabaseTool materialIsExistForMaterialId:materials.materialId withUserId:userId withDatabase:db];
+            if (isExist) {
+                whoopsSomethingWrongHappened = [DRFMDBDatabaseTool updateMaterialObjListWithUserId:userId withMaterialObj:materials withDatabase:db];
             }
             if (!whoopsSomethingWrongHappened) {
                 break;
@@ -835,7 +1105,26 @@
     [tool.dbQueue inDatabase:^(FMDatabase *db) {
         FMResultSet * rs = [db executeQuery:@"select * from LearningMaterials where userId = ?",userId];
         NSMutableArray *materialArr = [NSMutableArray array];
-        //        (lessonId , lessonName ,lessonCategoryId ,lessonImageURL ,lessonStudyProgress , lessonDetailInfo ,lessonTeacherName ,lessonDuration ,lessonStudyTime ,lessonScore ,lessonIsScored ,userId )
+        while([rs next]) {
+            LearningMaterials *material  =  [DRFMDBDatabaseTool convertLearningMaterialsFromResultSet:rs];
+            [materialArr addObject:material];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (finished) {
+                finished(materialArr,nil);
+            }
+        });
+    }];
+}
+
+///查询数据库中已经下载资料的信息,返回LearningMaterials数组对象
++(void)selectDownloadedLearningMaterialsListWithUserId:(NSString*)userId  withFinished:(void (^)(NSArray *learningMaterialsArray,NSString *errorMsg))finished{
+    DRFMDBDatabaseTool *tool = [DRFMDBDatabaseTool shareDRFMDBDatabaseTool];
+    [tool.dbQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet * rs = [db executeQuery:@"select * from LearningMaterials where userId = ? and fileDownloadStatus=?"
+                            ,userId
+                            ,[DRFMDBDatabaseTool convertDownloadStatusFromStatus:DownloadStatus_Downloaded]];
+        NSMutableArray *materialArr = [NSMutableArray array];
         while([rs next]) {
             LearningMaterials *material  =  [DRFMDBDatabaseTool convertLearningMaterialsFromResultSet:rs];
             [materialArr addObject:material];
@@ -943,7 +1232,7 @@
 ///判断章节下的小节是否存在
 +(BOOL)sectionIsExistForSectionId:(NSString*)sectionId withUserId:(NSString*)userId withLessonId:(NSString*)lessonId  withDatabase:(FMDatabase*)db{
 //    (sectionId , sectionName ,lessonId ,sectionChapterId ,lessonCategoryId ,sectionLastPlayTime ,sectionMoviePlayURL ,sectionMovieDownloadURL ,sectionMovieLocalURL ,sectionFinishedDate ,sectionMovieFileDownloadStatus ,userId )
-    FMResultSet * rs = [db executeQuery:@"select sectionId from Section where userId = ? and lessonId=? and sectionId=?",userId,lessonId,sectionId];
+    FMResultSet * rs = [db executeQuery:@"select sectionId from Section where userId = ?  and sectionId=?",userId,sectionId];
     if ([rs next]) {
         [rs close];
         return YES;
@@ -1012,13 +1301,11 @@
 ///更新小节信息
 +(BOOL)updateSectionObjListWithUserId:(NSString*)userId withChapterId:(NSString*)chapterId withSectionObj:(SectionModel*)section withDatabase:(FMDatabase*)db{
 //    (sectionId , sectionName ,lessonId ,sectionChapterId ,lessonCategoryId ,sectionLastPlayTime ,sectionMoviePlayURL ,sectionMovieDownloadURL ,sectionMovieLocalURL ,sectionFinishedDate ,sectionMovieFileDownloadStatus ,userId )
-    return [db executeUpdate:@"update Section set  sectionLastPlayTime=? ,sectionMoviePlayURL=? ,sectionMovieDownloadURL=? ,sectionMovieLocalURL=? ,sectionFinishedDate=? ,sectionMovieFileDownloadStatus=? where sectionId=?  and userId=?"
+    return [db executeUpdate:@"update Section set  sectionLastPlayTime=? ,sectionMoviePlayURL=? ,sectionMovieDownloadURL=?,sectionFinishedDate=? where sectionId=?  and userId=?"
             ,section.sectionLastPlayTime
             ,section.sectionMoviePlayURL
             ,section.sectionMovieDownloadURL
-            ,section.sectionMovieLocalURL
             ,section.sectionFinishedDate
-            ,[DRFMDBDatabaseTool convertDownloadStatusFromStatus:section.sectionMovieFileDownloadStatus]
             ,section.sectionId
             ,userId];
 }
@@ -1042,10 +1329,8 @@
     [tool.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         BOOL whoopsSomethingWrongHappened = YES;
         if (status == DownloadStatus_UnDownload) {
-            whoopsSomethingWrongHappened = [db executeUpdate:@"update Section set sectionMovieFileDownloadStatus=?,sectionMovieFileTotalSize=?,sectionMovieFileDownloadSize=? where sectionId=?  and userId=?"
+            whoopsSomethingWrongHappened = [db executeUpdate:@"update Section set sectionMovieFileDownloadStatus=? where sectionId=?  and userId=?"
                                             ,[DRFMDBDatabaseTool convertDownloadStatusFromStatus:status]
-                                            ,@""
-                                            ,@""
                                             ,sectionId
                                             ,userId];
         }else{
@@ -1072,6 +1357,38 @@
     }];
 }
 
+///更新小节视频保存路径状态信息
++(void)updateSectionMovieLocalPathWithUserId:(NSString*)userId withSectionId:(NSString*)sectionId withLocalPath:(NSString *)localpath withFinished:(void (^)(BOOL flag))finished{
+    if (!localpath || [localpath isEqualToString:@""]) {
+        if (finished) {
+            finished(NO);
+        }
+        return;
+    }
+    DRFMDBDatabaseTool *tool = [DRFMDBDatabaseTool shareDRFMDBDatabaseTool];
+    [tool.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        BOOL whoopsSomethingWrongHappened = YES;
+        whoopsSomethingWrongHappened = [db executeUpdate:@"update Section set sectionMovieLocalURL=? where sectionId=?  and userId=?"
+                                        ,localpath
+                                        ,sectionId
+                                        ,userId];
+        if (!whoopsSomethingWrongHappened) {
+            *rollback = YES;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (finished) {
+                    finished(NO);
+                }
+            });
+            return;
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (finished) {
+                finished(YES);
+            }
+        });
+        
+    }];
+}
 
 ///更新小节已经下载大小信息
 +(void)updateSectionDownloadStatusWithUserId:(NSString*)userId withSectionId:(NSString*)sectionId withFileDownloadSize:(NSString*)downloadSize  withFinished:(void (^)(BOOL flag))finished{
@@ -1133,13 +1450,105 @@
     }];
 }
 
+///更新小节视频播放的结束时间和最后播放时间
++(void)updateSectionPlayDateWithUserId:(NSString*)userId withSectionId:(NSString*)sectionId withPlayTime:(NSString*)playTime withLastFinishedDate:(NSString*)lastFinishedDate  withFinished:(void (^)(BOOL flag))finished{
+    //    sectionMovieFileTotalSize 小节视频文件大小
+    //    sectionMovieFileDownloadSize 小节视频已经下载大小
+    DRFMDBDatabaseTool *tool = [DRFMDBDatabaseTool shareDRFMDBDatabaseTool];
+    [tool.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        BOOL whoopsSomethingWrongHappened = YES;
+        whoopsSomethingWrongHappened = [db executeUpdate:@"update Section set sectionLastPlayTime=?,sectionFinishedDate=? where sectionId=?  and userId=?"
+                                        ,playTime
+                                        ,lastFinishedDate
+                                        ,sectionId
+                                        ,userId];
+        
+        if (!whoopsSomethingWrongHappened) {
+            *rollback = YES;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (finished) {
+                    finished(NO);
+                }
+            });
+            return;
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (finished) {
+                finished(YES);
+            }
+        });
+        
+    }];
+}
+
+///重新计算小节视频播放的结束时间和最后播放时间
++(void)updateSectionReCalculatePlayDateWithUserId:(NSString*)userId withSectionId:(NSString*)sectionId  withFinished:(void (^)(BOOL flag))finished{
+    //    sectionMovieFileTotalSize 小节视频文件大小
+    //    sectionMovieFileDownloadSize 小节视频已经下载大小
+    DRFMDBDatabaseTool *tool = [DRFMDBDatabaseTool shareDRFMDBDatabaseTool];
+    [tool.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        BOOL whoopsSomethingWrongHappened = YES;
+        whoopsSomethingWrongHappened = [db executeUpdate:@"update Section set sectionTotalPlayOfflineTime=? where sectionId=?  and userId=?"
+                                        ,@"0"
+                                        ,sectionId
+                                        ,userId];
+        
+        if (!whoopsSomethingWrongHappened) {
+            *rollback = YES;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (finished) {
+                    finished(NO);
+                }
+            });
+            return;
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (finished) {
+                finished(YES);
+            }
+        });
+        
+    }];
+}
+
+///更新小节视频离线播放时长
++(void)updateSectionOfflinePlayTimeWithUserId:(NSString*)userId withSectionId:(NSString*)sectionId withPlayTimeOffLine:(NSString*)offlinePlayTime withFinished:(void (^)(BOOL flag))finished{
+    //    sectionMovieFileTotalSize 小节视频文件大小
+    //    sectionMovieFileDownloadSize 小节视频已经下载大小
+    DRFMDBDatabaseTool *tool = [DRFMDBDatabaseTool shareDRFMDBDatabaseTool];
+    [tool.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        BOOL whoopsSomethingWrongHappened = YES;
+        NSString *totalTime = nil;
+        FMResultSet * rs = [db executeQuery:@"select sectionTotalPlayOfflineTime from Section  where sectionId=?  and userId=?",sectionId,userId];
+        if (rs.next) {
+            totalTime = [rs stringForColumn:@"sectionTotalPlayOfflineTime"];
+        }
+        
+        whoopsSomethingWrongHappened = [db executeUpdate:@"update Section set sectionTotalPlayOfflineTime = ? where sectionId=?  and userId=?",[NSString stringWithFormat:@"%d",totalTime.intValue + offlinePlayTime.intValue], sectionId,userId];
+        
+        if (!whoopsSomethingWrongHappened) {
+            *rollback = YES;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (finished) {
+                    finished(NO);
+                }
+            });
+            return;
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (finished) {
+                finished(YES);
+            }
+        });
+        
+    }];
+}
 
 ///查询数据库已经下载的视频大小
 +(void)selectSectionFileSizeWithUserId:(NSString*)userId  withSectionId:(NSString*)sectionId  withFinished:(void (^)(long long totalSize,long long downloadSize))finished{
     DRFMDBDatabaseTool *tool = [DRFMDBDatabaseTool shareDRFMDBDatabaseTool];
     [tool.dbQueue inDatabase:^(FMDatabase *db) {
         FMResultSet * rs = [db executeQuery:@"select * from Section where userId = ?  and sectionId = ?",userId,sectionId];
-        SectionModel *section  = nil;
         __block long long totalSize = 0,downloadSize = 0;
         
         if([rs next]) {
@@ -1149,6 +1558,24 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             if (finished) {
                 finished(totalSize,downloadSize);
+            }
+        });
+    }];
+}
+
+
+///查询数据库中离线播放时间
++(void)selectSectionOfflinePlayTimeWithUserId:(NSString*)userId  withSectionId:(NSString*)sectionId  withFinished:(void (^)(NSString *offlinePlayTime))finished{
+    DRFMDBDatabaseTool *tool = [DRFMDBDatabaseTool shareDRFMDBDatabaseTool];
+    [tool.dbQueue inDatabase:^(FMDatabase *db) {
+        NSString *totalTime = nil;
+        FMResultSet * rs = [db executeQuery:@"select sectionTotalPlayOfflineTime from Section where userId = ?  and sectionId = ?",userId,sectionId];
+        if (rs.next) {
+            totalTime = [rs stringForColumn:@"sectionTotalPlayOfflineTime"];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (finished) {
+                finished(totalTime);
             }
         });
     }];
@@ -1179,7 +1606,26 @@
 +(void)selectSectionListWithUserId:(NSString*)userId  withChapterId:(NSString*)chapterId withLessonId:(NSString*)lessonId withFinished:(void (^)(NSArray *sectionArray,NSString *errorMsg))finished{
     DRFMDBDatabaseTool *tool = [DRFMDBDatabaseTool shareDRFMDBDatabaseTool];
     [tool.dbQueue inDatabase:^(FMDatabase *db) {
-        FMResultSet * rs = [db executeQuery:@"select * from Section where userId = ? and lessonId = ? and sectionChapterId = ?",userId,lessonId,chapterId];
+        FMResultSet * rs = [db executeQuery:@"select * from Section where userId = ?  and sectionChapterId = ?",userId,chapterId];
+        NSMutableArray *sectionArr = [NSMutableArray array];
+        while([rs next]) {
+            SectionModel *section  =  [DRFMDBDatabaseTool convertSectionFromResultSet:rs];
+            [sectionArr addObject:section];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (finished) {
+                finished(sectionArr,nil);
+            }
+        });
+    }];
+}
+
+
+///查询数据库中小节信息,返回SectionModel数组对象
++(void)selectSectionListWithUserId:(NSString*)userId  withFinished:(void (^)(NSArray *sectionArray,NSString *errorMsg))finished{
+    DRFMDBDatabaseTool *tool = [DRFMDBDatabaseTool shareDRFMDBDatabaseTool];
+    [tool.dbQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet * rs = [db executeQuery:@"select * from Section where userId = ?",userId];
         NSMutableArray *sectionArr = [NSMutableArray array];
         while([rs next]) {
             SectionModel *section  =  [DRFMDBDatabaseTool convertSectionFromResultSet:rs];
@@ -1197,7 +1643,7 @@
 +(void)selectSectionListWithUserId:(NSString*)userId  withSectionId:(NSString*)sectionId withLessonId:(NSString*)lessonId withFinished:(void (^)(SectionModel *section))finished{
     DRFMDBDatabaseTool *tool = [DRFMDBDatabaseTool shareDRFMDBDatabaseTool];
     [tool.dbQueue inDatabase:^(FMDatabase *db) {
-        FMResultSet * rs = [db executeQuery:@"select * from Section where userId = ? and lessonId = ? and sectionId = ?",userId,lessonId,sectionId];
+        FMResultSet * rs = [db executeQuery:@"select * from Section where userId = ? and sectionId = ?",userId,sectionId];
         SectionModel *section  = nil;
         if([rs next]) {
             section  =  [DRFMDBDatabaseTool convertSectionFromResultSet:rs];
@@ -1210,12 +1656,43 @@
     }];
 }
 
+
+///查询数据库中最近播放的小节信息,返回SectionModel数组对象
++(void)selectSectionLastPlayWithUserId:(NSString*)userId   withLessonId:(NSString*)lessonId withFinished:(void (^)(SectionModel *section))finished{
+    DRFMDBDatabaseTool *tool = [DRFMDBDatabaseTool shareDRFMDBDatabaseTool];
+    [tool.dbQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet * rs = [db executeQuery:@"select * from Section where userId = ? and lessonId =?",userId,lessonId];
+        SectionModel *resultModel = nil;
+        while ([rs next]) {
+            NSString *lastDateString = [rs stringForColumn:@"sectionFinishedDate"];
+            if ([lastDateString isEqualToString:@""]) {
+                continue;
+            }
+            if (!resultModel) {
+                resultModel = [DRFMDBDatabaseTool convertSectionFromResultSet:rs];
+            }
+            NSDate *tempDate = [Utility getDateFromDateString:lastDateString];
+            NSDate *lastDate = [Utility getDateFromDateString:resultModel.sectionFinishedDate];
+            
+            if ([tempDate compare:lastDate] == NSOrderedDescending) {
+                resultModel = [DRFMDBDatabaseTool convertSectionFromResultSet:rs];
+            }
+        }
+        [rs close];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (finished) {
+                finished(resultModel);
+            }
+        });
+    }];
+}
+
 #pragma mark --
 
 
 #pragma mark 课程的综合操作
 ///插入课程数据，包括已经下载的章节，和小节信息
-+(void)insertLessonTreeDatasWithUserId:(NSString*)userId withLesson:(LessonModel*)lesson withSaveSectionId:(NSString*)sectionId withFinished:(void (^)(BOOL flag))finished{
++(void)insertLessonTreeDatasWithUserId:(NSString*)userId withLesson:(LessonModel*)lesson  withFinished:(void (^)(BOOL flag))finished{
     if (!lesson) {
         if (finished) {
             finished(NO);
@@ -1290,41 +1767,60 @@
     }
     DRFMDBDatabaseTool *tool = [DRFMDBDatabaseTool shareDRFMDBDatabaseTool];
     [tool.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+         BOOL whoopsSomethingWrongHappened = YES;
         for (LessonModel *lesson in lessonArray) {
             if ([DRFMDBDatabaseTool lessonIsExistForLessonId:lesson.lessonId withUserId:userId withDatabase:db]) {
-                BOOL isFinised = [DRFMDBDatabaseTool updateLessonObjListWithUserId:userId withLessonObj:lesson withDatabase:db];
-                if (isFinised) {
-                    [DRFMDBDatabaseTool insertChapterListWithUserId:userId withLessonId:lesson.lessonId withLessonCategoryId:lesson.lessonCategoryId withChapterObjArray:lesson.chapterList withFinished:^(BOOL flag) {
-                        if (flag) {
-                            ///////////////
-                            BOOL whoopsSomethingWrongHappened = YES;
-                            for (chapterModel *chapter in lesson.chapterList) {
-                                for (SectionModel *section in chapter.sectionList) {
-                                    BOOL isExist = [DRFMDBDatabaseTool sectionIsExistForSectionId:section.sectionId withUserId:userId withLessonId:section.lessonId withDatabase:db];
-                                    if (isExist) {
-                                        whoopsSomethingWrongHappened = [DRFMDBDatabaseTool updateSectionObjListWithUserId:userId withChapterId:chapter.chapterId withSectionObj:section withDatabase:db];
-                                    }
-                                    if (!whoopsSomethingWrongHappened) {
-                                        break;
-                                    }
-                                }
-                                if (!whoopsSomethingWrongHappened) {
-                                    *rollback = YES;
-                                    if (finished) {
-                                        finished(NO);
-                                    }
-                                    return;
-                                }
+                whoopsSomethingWrongHappened = [DRFMDBDatabaseTool updateLessonObjListWithUserId:userId withLessonObj:lesson withDatabase:db];
+                if (whoopsSomethingWrongHappened) {
+                    FMResultSet * rs = [db executeQuery:@"select chapterId from Chapter where userId = ? and chapterLessonId=? and lessonCategoryId = ?",userId,lesson.lessonId,lesson.lessonCategoryId];
+                    if ([rs next]) {
+                        [rs close];
+                        whoopsSomethingWrongHappened = [db executeUpdate:@"delete from Chapter where userId = ? and chapterLessonId=? and lessonCategoryId = ?",userId,lesson.lessonId,lesson.lessonCategoryId];
+                    }else
+                        [rs close];
+                    for (chapterModel *chapter in lesson.chapterList) {
+                        whoopsSomethingWrongHappened = [db executeUpdate:@"insert into Chapter (chapterId,chapterName ,chapterLessonId ,lessonCategoryId,chapterImg,userId ) values (?,?,?,?,?,?)"
+                                                        ,chapter.chapterId?:@""
+                                                        ,chapter.chapterName?:@""
+                                                        ,lesson.lessonId?:@""
+                                                        ,lesson.lessonCategoryId?:@""
+                                                        ,chapter.chapterImg?:@""
+                                                        ,userId];
+                        if (!whoopsSomethingWrongHappened) {
+                            break;
+                        }
+                        
+                        for (SectionModel *section in chapter.sectionList) {
+                            BOOL isExist = [DRFMDBDatabaseTool sectionIsExistForSectionId:section.sectionId withUserId:userId withLessonId:section.lessonId withDatabase:db];
+                            if (isExist) {
+                                whoopsSomethingWrongHappened = [DRFMDBDatabaseTool updateSectionObjListWithUserId:userId withChapterId:chapter.chapterId withSectionObj:section withDatabase:db];
+                            }else{
+                                whoopsSomethingWrongHappened = [DRFMDBDatabaseTool insertSectionObjListWithUserId:userId withChapterId:chapter.chapterId  withSectionObj:section withDatabase:db];
                             }
-                            //////////////
-                        }else{
-                            *rollback = YES;
+                            if (!whoopsSomethingWrongHappened) {
+                                break;
+                            }
+                        }
+                        if (!whoopsSomethingWrongHappened) {
+                            break;
+                        }
+                    }
+                    
+                    if (!whoopsSomethingWrongHappened) {
+                        *rollback = YES;
+                        dispatch_async(dispatch_get_main_queue(), ^{
                             if (finished) {
                                 finished(NO);
                             }
-                            return ;
+                        });
+                        return;
+                    }
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        if (finished) {
+                            finished(YES);
                         }
-                    }];
+                    });
                 }else{
                     *rollback = YES;
                     dispatch_async(dispatch_get_main_queue(), ^{
@@ -1391,12 +1887,57 @@
                     }
                     chapter.sectionList = sectionArr;
                 }
+                lesson.chapterList = [NSMutableArray arrayWithArray:chapterArray];
+                if (finished) {
+                    finished(lesson,nil);
+                }
             }];
-            lesson.chapterList = [NSMutableArray arrayWithArray:chapterArray];
+            
         }];
-        if (finished) {
-            finished(lesson,nil);
+        
+    }];
+}
+
+///清理所有缓存
++(void)clearAllDownloadedDatasWithSuccess:(void(^)())success withFailure:(void(^)(NSString*errorString))failure{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    //清除下载的视频
+    AppDelegate* appDelegate = [AppDelegate sharedInstance];
+    DownloadService *mDownloadService = appDelegate.mDownloadService;
+    ASINetworkQueue *queue = mDownloadService.networkQueue;
+    [(NSOperationQueue*)queue cancelAllOperations];
+    
+    //清除本地文件
+    [DRFMDBDatabaseTool selectSectionListWithUserId:[CaiJinTongManager shared].user.userId withFinished:^(NSArray *sectionArray, NSString *errorMsg) {
+        for (SectionModel *sectionModel in sectionArray) {
+            NSString *path = [CaiJinTongManager getMovieLocalPathWithSectionID:sectionModel.sectionId];
+            if ([fileManager fileExistsAtPath:path]) {
+                 [fileManager removeItemAtPath:path error:nil];
+            }
         }
+        
+        [DRFMDBDatabaseTool selectLearningMaterialsListWithUserId:[CaiJinTongManager shared].user.userId withFinished:^(NSArray *learningMaterialsArray, NSString *errorMsg) {
+            for (LearningMaterials *material in learningMaterialsArray) {
+                NSString *path = material.materialFileLocalPath;
+                if (path) {
+                    if ([fileManager fileExistsAtPath:path]) {
+                        [fileManager removeItemAtPath:path error:nil];
+                    }
+                }
+            }
+            
+            [DRFMDBDatabaseTool deleteAllLessonDataWithUserId:[CaiJinTongManager shared].user.userId withFinished:^(BOOL flag) {
+                [DRFMDBDatabaseTool deleteLessonCategoryListWithUserId:[CaiJinTongManager shared].user.userId withFinished:^(BOOL flag) {
+                    [DRFMDBDatabaseTool deleteMaterialCategoryListWithUserId:[CaiJinTongManager shared].user.userId withFinished:^(BOOL flag) {
+                        [DRFMDBDatabaseTool deleteALLMaterialWithUserId:[CaiJinTongManager shared].user.userId withFinished:^(BOOL flag) {
+                            if (success) {
+                                success();
+                            }
+                        }];
+                    }];
+                }];
+            }];
+        }];
     }];
 }
 #pragma mark --

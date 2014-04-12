@@ -19,6 +19,7 @@
 #import "LearningMatarilasCategoryInterface.h"
 #import "LearningMatarilasListInterface.h"
 #import "MyQuestionAndAnswerViewController.h"
+#import "ShowDownloadDataViewController.h"
 @interface LessonViewController : UIViewController<UISearchBarDelegate,UITextFieldDelegate,SearchLessonInterfaceDelegate,QuestionInfoInterfaceDelegate,ChapterQuestionInterfaceDelegate,UIScrollViewDelegate,GetUserQuestionInterfaceDelegate,SearchQuestionInterfaceDelegate,UITextFieldDelegate,DRTreeTableViewDelegate,LessonCategoryInterfaceDelegate,LessonListForCategoryDelegate,MyQuestionCategatoryInterfaceDelegate,LearningMatarilasCategoryInterfaceDelegate,LearningMatarilasListInterfaceDelegate,MyQuestionAndAnswerViewControllerDelegate>
 
 @property (nonatomic, strong) SearchLessonInterface *searchLessonInterface;
@@ -39,6 +40,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *questionListBt;
 @property (weak, nonatomic) IBOutlet UIButton *noteListBt;
 @property (weak, nonatomic) IBOutlet UIButton *learningMaterailBt;
+///显示已经下载
+@property (weak, nonatomic) IBOutlet UIButton *scanDownloadBt;
 @property (weak, nonatomic) IBOutlet UILabel *lessonListTitleLabel;
 - (IBAction)lessonListBtClicked:(id)sender;
 - (IBAction)questionListBtClicked:(id)sender;

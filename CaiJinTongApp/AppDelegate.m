@@ -13,6 +13,7 @@
 #import "Section.h"
 #import "DRFMDBDatabaseToolTEST.h"
 #import "ASINetworkQueue.h"
+#define APPNEWVERSION_Notification @"APPNEWVERSION_Notification"
 @implementation AppDelegate
 
 + (void)initialize
@@ -51,6 +52,9 @@
     BOOL isloadLargeImage = [[NSUserDefaults standardUserDefaults] boolForKey:ISLOADLARGEIMAGE_KEY];
     [[CaiJinTongManager shared] setIsLoadLargeImage:isloadLargeImage];
     
+    ///设置版本检测
+    [iVersion sharedInstance].delegate = self;
+    [[iVersion sharedInstance] checkForNewVersion];
     
     //开启网络状况的监听
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
@@ -123,6 +127,27 @@
 //    NSUInteger orientations = UIInterfaceOrientationMaskAll;
 //    return orientations;
 //}
+
+
+#pragma mark iVersionDelegate
+
+- (void)iVersionDidNotDetectNewVersion{
+    [[NSNotificationCenter defaultCenter] postNotificationName:APPNEWVERSION_Notification object:nil];
+    NSString *appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+    [CaiJinTongManager shared].appstoreNewVersion = appVersion;
+}
+-(void)iVersionDidDetectNewVersion:(NSString *)version details:(NSString *)versionDetails{
+    [[NSNotificationCenter defaultCenter] postNotificationName:APPNEWVERSION_Notification object:nil];
+    [CaiJinTongManager shared].appstoreNewVersion = version;
+}
+
+-(void)iVersionVersionCheckDidFailWithError:(NSError *)error{
+    [[NSNotificationCenter defaultCenter] postNotificationName:APPNEWVERSION_Notification object:nil];
+    NSString *appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+    [CaiJinTongManager shared].appstoreNewVersion = appVersion;
+}
+#pragma mark --
+
 
 #pragma mark property
 -(NSMutableArray *)alertViewArray{

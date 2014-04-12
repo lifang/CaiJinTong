@@ -24,4 +24,7 @@
 @property (strong,nonatomic) NSMutableArray *sectionNoteList;//小节对应的笔记
 @property (assign,nonatomic) DownloadStatus sectionMovieFileDownloadStatus;
 @property (strong,nonatomic) NSString *sectionChapterId;//章节信息
+
+///复制对象，主要存储在本地的对象
+-(void)copySection:(SectionModel*)section;
 @end
