@@ -14,7 +14,7 @@
 @property (nonatomic, strong) UIImageView *imageView;//视频封面
 @property (nonatomic,strong) UISlider *pv; //视频进度
 @property (nonatomic,strong) UILabel *progressLabel;
-
+@property (strong,nonatomic) LessonModel *lesson;
 @property (strong,nonatomic) NSString *sectionId;//保存,用于点击时接口参数
 
 - (id)initWithFrame:(CGRect)frame andLesson:(LessonModel *)lesson andItemLabel:(float)itemLabel;

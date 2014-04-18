@@ -495,7 +495,7 @@ typedef enum {
     my.noteContentName = @"我的问答";
     my.childnotes = @[myQuestion,myAnswer];
     my.noteLevel = 0;
-    return [NSMutableArray arrayWithArray:@[question,my]];
+    return [NSMutableArray arrayWithArray:@[my,question]];
 }
 
 

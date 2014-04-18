@@ -35,7 +35,8 @@
 @property (nonatomic,assign) BOOL menuVisible;//显示/隐藏选择列表
 @property (nonatomic,strong) DRTreeTableView *treeView; //选择分类的列表
 @property (nonatomic,strong) ChapterSearchBar_iPhone *searchBar; //搜罗栏
-
+///无缓存数据时提示
+@property (weak, nonatomic) IBOutlet UILabel *tipLabel;
 @property (nonatomic,strong) CJTMainToolbar_iPhone *mainToolBar;
 @end
 
@@ -50,6 +51,62 @@
     return self;
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.tipLabel setHidden:YES];
+    if ([CaiJinTongManager shared].isShowLocalData) {
+        [self.lhlNavigationBar.rightItem setHidden:YES];
+        self.lhlNavigationBar.title.text = @"我的下载";
+        [self.mainToolBar setHidden:YES];
+        [self.searchBar setHidden:YES];
+        
+        if (platform >= 7.0) {
+            self.tableView.frame = CGRectMake(10,63, 300,IP5(440, 365) ) ;
+        }else{
+            self.tableView.frame = CGRectMake(10,63, 300,IP5(440, 370) ) ;
+        }
+        
+        [DRFMDBDatabaseTool selectDownloadedLearningMaterialsListWithUserId:[CaiJinTongManager shared].user.userId withFinished:^(NSArray *learningMaterialsArray, NSString *errorMsg) {
+            self.dataArray = [NSMutableArray arrayWithArray:learningMaterialsArray];
+            [self.tableView reloadData];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            if (learningMaterialsArray.count <= 0) {
+                [self.tipLabel setHidden:NO];
+            }else{
+                [self.tipLabel setHidden:YES];
+            }
+        }];
+        
+    }else{
+        [self.lhlNavigationBar.rightItem setHidden:NO];
+        self.lhlNavigationBar.title.text = @"我的课程";
+        [self.mainToolBar setHidden:NO];
+        [self.searchBar setHidden:NO];
+        
+        if (platform >= 7.0) {
+            self.tableView.frame = CGRectMake(10,IP5(150, 144), 300,IP5(350, 286) ) ;
+        }else{
+            self.tableView.frame = CGRectMake(10,IP5(150, 144), 300,IP5(360, 280) ) ;
+        }
+        
+        if (self.dataArray.count <= 0) {
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            UserModel *user = [[CaiJinTongManager shared] user];
+            //此处_lessonCategoryId改为要初始显示的分类Id
+            [self.learningMaterialListInterface downloadlearningMaterilasListForCategoryId:_lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
+        }
+    }
+    
+    self.menuVisible = NO;
+    [self.treeView setHiddleTreeTableView:!self.menuVisible withAnimation:NO];
+    
+    [self.headerRefreshView endRefreshing];
+    self.headerRefreshView.isForbidden = NO;
+    [self.footerRefreshView endRefreshing];
+    self.footerRefreshView.isForbidden = NO;
+
+}
+
 -(void)dealloc{
     [self.footerRefreshView free];
     [self.headerRefreshView free];
@@ -59,10 +116,25 @@
     [super viewDidLoad];
     self.sortType = LearningMaterialsSortType_Default;
     self.isReloading = YES;
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    UserModel *user = [[CaiJinTongManager shared] user];
-    //此处_lessonCategoryId改为要初始显示的分类Id
-    [self.learningMaterialListInterface downloadlearningMaterilasListForCategoryId:_lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
+    
+    if ([CaiJinTongManager shared].isShowLocalData) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [DRFMDBDatabaseTool selectDownloadedLearningMaterialsListWithUserId:[CaiJinTongManager shared].user.userId withFinished:^(NSArray *learningMaterialsArray, NSString *errorMsg) {
+            self.dataArray = [NSMutableArray arrayWithArray:learningMaterialsArray];
+            [self.tableView reloadData];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            if (learningMaterialsArray.count <= 0) {
+                [self.tipLabel setHidden:NO];
+            }else{
+                [self.tipLabel setHidden:YES];
+            }
+        }];
+    }else{
+        UserModel *user = [[CaiJinTongManager shared] user];
+        //此处_lessonCategoryId改为要初始显示的分类Id
+        [self.learningMaterialListInterface downloadlearningMaterilasListForCategoryId:_lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
+    }
+
     [self setSubview];
     [self.view addSubview:self.searchBar];
 //    self.lhlNavigationBar.leftItem.hidden = YES;
@@ -171,9 +243,11 @@
     if(!_treeView){
         [self treeView];
         self.menuVisible = YES;
+        [self.treeView setHiddleTreeTableView:!self.menuVisible withAnimation:YES];
         [self.view addSubview:self.treeView];
     }else{
         self.menuVisible = !self.menuVisible;
+        [self.treeView setHiddleTreeTableView:!self.menuVisible withAnimation:YES];
     }
     if(self.treeView.noteArr.count < 1){
         [self downloadLessonCategoryInfo];
@@ -221,6 +295,7 @@
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
     [self setMenuVisible:NO];
+    [self.treeView setHiddleTreeTableView:!self.menuVisible withAnimation:NO];
 //    if(!self.searchBar.hidden){
 //        [self searchButtonClicked:nil];
 //    }
@@ -409,13 +484,7 @@
 
 -(void)setMenuVisible:(BOOL)menuVisible{
     _menuVisible = menuVisible;
-    [UIView animateWithDuration:0.3 animations:^{
-        if(menuVisible){
-            self.treeView.frame = CGRectMake(120,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55));
-        }else{
-            self.treeView.frame = CGRectMake(320,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55));
-        }
-    }];
+
 }
 
 -(SearchLearningMatarilasListInterface *)searchMaterialInterface{
@@ -435,22 +504,36 @@
 }
 
 -(MJRefreshHeaderView *)headerRefreshView{
-    if (!_headerRefreshView) {
-        _headerRefreshView = [[MJRefreshHeaderView alloc] init];
-        _headerRefreshView.scrollView = self.tableView;
-        _headerRefreshView.delegate = self;
+    if ([CaiJinTongManager shared].isShowLocalData) {
+        [_headerRefreshView removeFromSuperview];
+        _headerRefreshView = nil;
+        return nil;
+    }else{
+        if (!_headerRefreshView) {
+            _headerRefreshView = [[MJRefreshHeaderView alloc] init];
+            _headerRefreshView.scrollView = self.tableView;
+            _headerRefreshView.delegate = self;
+        }
+        return _headerRefreshView;
     }
-    return _headerRefreshView;
+    
 }
 
 -(MJRefreshFooterView *)footerRefreshView{
-    if (!_footerRefreshView) {
-        _footerRefreshView = [[MJRefreshFooterView alloc] init];
-        _footerRefreshView.delegate = self;
-        _footerRefreshView.scrollView = self.tableView;
-        
+    if ([CaiJinTongManager shared].isShowLocalData) {
+        [_footerRefreshView removeFromSuperview];
+        _footerRefreshView = nil;
+        return nil;
+    }else{
+        if (!_footerRefreshView) {
+            _footerRefreshView = [[MJRefreshFooterView alloc] init];
+            _footerRefreshView.delegate = self;
+            _footerRefreshView.scrollView = self.tableView;
+            
+        }
+        return _footerRefreshView;
     }
-    return _footerRefreshView;
+    
 }
 
 -(void)setLessonCategoryId:(NSString *)lessonCategoryId{
@@ -475,13 +558,26 @@
 }
 
 -(DRTreeTableView *)treeView{
-    if(!_treeView){
-        _treeView = [[DRTreeTableView alloc] initWithFrame:CGRectMake(320,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55)) withTreeNodeArr:nil];
-        _treeView.delegate = self;
-        [_treeView setBackgroundColor:[UIColor colorWithRed:6.0/255.0 green:18.0/255.0 blue:27.0/255.0 alpha:1.0]];
-        [self.view addSubview:_treeView];
+    if ([CaiJinTongManager shared].isShowLocalData) {
+        return nil;
+    }else{
+        if(!_treeView){
+            _treeView = [[DRTreeTableView alloc] initWithFrame:CGRectMake(0,55, 320, SCREEN_HEIGHT - IP5(63, 50) - 55) withTreeNodeArr:nil];
+            _treeView.delegate = self;
+            __weak LearningMaterialsViewController_iPhone *weakSelf = self;
+            _treeView.hiddleBlock = ^(BOOL ishiddle){
+                LearningMaterialsViewController_iPhone *tempSelf = weakSelf;
+                if (tempSelf) {
+                    tempSelf.menuVisible = !ishiddle;
+                }
+                
+            };
+            //        [_treeView setBackgroundColor:[UIColor colorWithRed:6.0/255.0 green:18.0/255.0 blue:27.0/255.0 alpha:1.0]];
+            [self.view addSubview:_treeView];
+        }
+        return _treeView;
     }
-    return _treeView;
+
 }
 
 #pragma mark --
@@ -510,6 +606,7 @@
     self.isSearch = NO; // isLessonListForCategory
     self.lessonCategoryId = selectedNote.noteContentID;
     self.menuVisible = NO;
+    [self.treeView setHiddleTreeTableView:!self.menuVisible withAnimation:YES];
     self.searchBar.searchTextField.text = nil;
 }
 

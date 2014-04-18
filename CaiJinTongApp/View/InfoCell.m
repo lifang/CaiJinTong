@@ -22,8 +22,12 @@
     self = [super initWithReuseIdentifier:reuseIdentifier];
     if (self) {
         self.backgroundView = [UIView new];
-        
+        if (isPAD) {
+            self.coverBt = [[UIButton alloc] initWithFrame:CGRectMake(100, 10, 198, 35)];
+        }else{
         self.coverBt = [[UIButton alloc] initWithFrame:CGRectMake(61, 10, 198, 35)];
+        }
+        
         self.coverBt.backgroundColor = [UIColor redColor];
         [self.coverBt setTitle:@"退出" forState:UIControlStateNormal];
         [self addSubview:self.coverBt];

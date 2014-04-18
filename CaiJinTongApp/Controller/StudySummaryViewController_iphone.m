@@ -122,35 +122,92 @@
 }
 
 - (IBAction)lessonBtClicked:(UIButton *)sender {
-     [self.lhltabBarController selectedAtIndexItem:0];
-    [self.navigationController pushViewController:self.lhltabBarController animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([[NSString stringWithFormat:@"NotReachable"] isEqualToString:networkStatus]) {
+            [Utility errorAlert:@"处于离线状态，请检查网络"];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            return ;
+        }
+        [CaiJinTongManager shared].isShowLocalData = NO;
+        [self.lhltabBarController loadLocalItem:NO];
+        [self.lhltabBarController selectedAtIndexItem:0];
+        
+        [self.navigationController pushViewController:self.lhltabBarController animated:YES];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }];
 }
 
+///笔记
 - (IBAction)noteBtClicked:(id)sender {
-     [self.lhltabBarController selectedAtIndexItem:1];
-    [self.navigationController pushViewController:self.lhltabBarController animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([[NSString stringWithFormat:@"NotReachable"] isEqualToString:networkStatus]) {
+            [Utility errorAlert:@"处于离线状态，请检查网络"];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            return ;
+        }
+        [CaiJinTongManager shared].isShowLocalData = NO;
+        [self.lhltabBarController loadLocalItem:NO];
+        [self.lhltabBarController selectedAtIndexItem:1];
+        [self.navigationController pushViewController:self.lhltabBarController animated:YES];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }];
 }
 
 - (IBAction)userHeaderBtClicked:(id)sender {
+    [CaiJinTongManager shared].isShowLocalData = NO;
+    [self.lhltabBarController loadLocalItem:NO];
     InfoViewController_iPhone *userInfoController = [self.storyboard instantiateViewControllerWithIdentifier:@"InfoViewController_iPhone"];
     [self.navigationController pushViewController:userInfoController animated:YES];
 }
 
 - (IBAction)questionBtClicked:(id)sender {
-     [self.lhltabBarController selectedAtIndexItem:3];
-    [self.navigationController pushViewController:self.lhltabBarController animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([[NSString stringWithFormat:@"NotReachable"] isEqualToString:networkStatus]) {
+            [Utility errorAlert:@"处于离线状态，请检查网络"];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            return ;
+        }
+        [CaiJinTongManager shared].isShowLocalData = NO;
+        [self.lhltabBarController loadLocalItem:NO];
+        [self.lhltabBarController selectedAtIndexItem:3];
+        [self.navigationController pushViewController:self.lhltabBarController animated:YES];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }];
+
+
 }
 
 - (IBAction)settingBtClicked:(id)sender {
+    [CaiJinTongManager shared].isShowLocalData = NO;
+    [self.lhltabBarController loadLocalItem:NO];
     [self.lhltabBarController selectedAtIndexItem:4];
     [self.navigationController pushViewController:self.lhltabBarController animated:YES];
 }
 
 - (IBAction)learningMaterialBtClicked:(id)sender {
-     [self.lhltabBarController selectedAtIndexItem:2];
-    [self.navigationController pushViewController:self.lhltabBarController animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([[NSString stringWithFormat:@"NotReachable"] isEqualToString:networkStatus]) {
+            [Utility errorAlert:@"处于离线状态，请检查网络"];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            return ;
+        }
+        [CaiJinTongManager shared].isShowLocalData = NO;
+        [self.lhltabBarController loadLocalItem:NO];
+        [self.lhltabBarController selectedAtIndexItem:2];
+        [self.navigationController pushViewController:self.lhltabBarController animated:YES];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }];
 }
 
 - (IBAction)loadDownloadedDataBtClicked:(id)sender {
+    [CaiJinTongManager shared].isShowLocalData = YES;
+    [self.lhltabBarController loadLocalItem:YES];
+    [CaiJinTongManager shared].isShowLocalLessonData = YES;
+    [self.lhltabBarController selectedAtIndexItem:0];
+    [self.navigationController pushViewController:self.lhltabBarController animated:YES];
 }
 @end

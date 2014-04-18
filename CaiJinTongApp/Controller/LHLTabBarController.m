@@ -22,6 +22,22 @@
     return self;
 }
 
+///是否显示本地菜单
+-(void)loadLocalItem:(BOOL)isLocalItem{
+    self.lhlTabBar.items = nil;
+    if (isLocalItem) {
+        if ([CaiJinTongManager shared].isShowLocalData) {
+            LHLTabBarItem *lessonItem = [[LHLTabBarItem alloc] initWithTitle:@"课程" andImage:[UIImage imageNamed:@"play_0h5.png"]];
+            LHLTabBarItem *materialItem = [[LHLTabBarItem alloc] initWithTitle:@"资料" andImage:[UIImage imageNamed:@"material.png"]];
+            lessonItem.delegate = self;
+            materialItem.delegate = self;
+            self.lhlTabBar.items = [NSMutableArray arrayWithObjects:lessonItem,materialItem, nil];
+            return;
+        }
+    }else{
+        [self generateTabBarItems];
+    }
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -31,7 +47,7 @@
     [self.lhlTabBar setBackgroundColor:[UIColor colorWithRed:10.0/255.0 green:35.0/255.0 blue:56.0/255.0 alpha:1.0]];
     
     [self loadViewControllers];
-    [self generateTabBarItems];
+//    [self generateTabBarItems];
     if (self.selectedIndex < 3) {
         self.lhlTabBar.selectedIndex = self.selectedIndex;
     }else if (self.selectedIndex > 3){
@@ -153,6 +169,36 @@
 
 #pragma mark -- LHLTabBarItemDelegate
 -(void)tabBarItemSelected:(LHLTabBarItem *) sender{
+    if ([CaiJinTongManager shared].isShowLocalData) {
+        switch (sender.tag) {
+            case 0:
+            {
+                if (sender.selected) {
+                    [self.lhlTabBar layoutItems];
+                    //            LHLTabBarItem *item1 = [self.lhlTabBar.items objectAtIndex:3];
+                    //            item1.alpha = 1.0;
+                }else{
+                    self.lhlTabBar.selectedIndex = sender.tag;
+                    LHLTabBarItem *item2 = [self.lhlTabBar.items objectAtIndex:0];
+                    item2.selected = YES;
+                    self.selectedIndex = 0;
+                }
+            }
+                break;
+                
+            case 1:
+            {
+                self.lhlTabBar.selectedIndex = sender.tag;
+                 self.selectedIndex = 2;
+
+            }
+                break;
+            default:
+                break;
+        }
+        return;
+    }
+    
     if (sender.tag == 0) {
         if (sender.selected) {
              [self.lhlTabBar layoutItems];

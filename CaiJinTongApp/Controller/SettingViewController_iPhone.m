@@ -152,7 +152,7 @@ NSString *appleID_ = @"6224939";
                     cell.textLabel.text = @"清理缓存";
                     break;
                 case 2:{
-                    cell.textLabel.text = [NSString stringWithFormat:@"版本检测           版本v%@",[CaiJinTongManager shared].appstoreNewVersion];
+                    cell.textLabel.text = [NSString stringWithFormat:@"版本检测                   版本v%@",[CaiJinTongManager shared].appstoreNewVersion];
                     cell.accessoryView = self.versionnumberLabel;
                 }
                     break;

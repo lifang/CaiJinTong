@@ -56,10 +56,14 @@
     [iVersion sharedInstance].delegate = self;
     [[iVersion sharedInstance] checkForNewVersion];
     
+    if (!isPAD) {
+        [CaiJinTongManager shared].isShowLocalData = YES;
+    }
+    
     //开启网络状况的监听
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
     
-    [[Reachability reachabilityWithHostName:@"www.baidu.com"] startNotifier];  //开始监听，会启动一个run loop
+    [[Reachability reachabilityWithHostName:@"lms.finance365.com"] startNotifier];  //开始监听，会启动一个run loop
     
     self.mDownloadService = [[DownloadService alloc]init];
 //    UserModel *user = [[UserModel alloc] init];
@@ -164,4 +168,5 @@
     return _popupedControllerArr;
 }
 #pragma mark --
+
 @end

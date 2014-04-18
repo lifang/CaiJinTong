@@ -182,10 +182,8 @@
 //}
 
 +(void)judgeNetWorkStatus:(void (^)(NSString*networkStatus))networkStatus{
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     NSString *str = @"NotReachable";
-	Reachability *r = [Reachability reachabilityWithHostName:@"lms.finance365.com"];
-    switch ([r currentReachabilityStatus]) {
+    switch ([[Reachability reachabilityForInternetConnection] currentReachabilityStatus]) {
         case NotReachable:
 			str = @"NotReachable";
             break;
@@ -196,10 +194,9 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 			str = @"ReachableViaWiFi";
             break;
     }
-    dispatch_async(dispatch_get_main_queue(), ^{
+    if (networkStatus) {
         networkStatus(str);
-    });
-});
+    }
 }
 +(NSAttributedString*)getTextSizeWithAnswerModel:(AnswerModel*)answer withFont:(UIFont*)font withWidth:(float)width{
     if (answer.answerContent && font) {

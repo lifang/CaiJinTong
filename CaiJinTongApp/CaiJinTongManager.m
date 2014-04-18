@@ -17,7 +17,11 @@
     }else{
         documentDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     }
-    NSString *path = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@.temp",sectionID]];
+    documentDir = [documentDir stringByAppendingPathComponent:@"Application"];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:documentDir isDirectory:nil]) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:documentDir withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    NSString *path = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.temp",sectionID]];
     DLog(@"path = %@",path);//本地保存路径
     return path;
 }
@@ -29,7 +33,11 @@
     }else{
         documentDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     }
-    NSString *path = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@.mp4",sectionID]];
+    documentDir = [documentDir stringByAppendingPathComponent:@"Application"];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:documentDir isDirectory:nil]) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:documentDir withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    NSString *path = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.mp4",sectionID]];
     DLog(@"path = %@",path);//本地保存路径
     return path;
 }

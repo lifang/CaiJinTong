@@ -36,9 +36,7 @@
     if (!section) {
         return;
     }
-    if (section.sectionMovieFileDownloadStatus == DownloadStatus_Downloading) {
-        return;
-    }
+
     //判断当前下载任务是否已经在下载队列中
     if ([self.networkQueue requestsCount] > 0) {
         NSArray *requestArray = self.networkQueue.operations;
@@ -68,7 +66,7 @@
     NSString *tempPath = [CaiJinTongManager getMovieLocalTempPathWithSectionID:[NSString stringWithFormat:@"temp_%@",section.sectionId]];
     [request setDownloadDestinationPath:downloadPath];//下载路径
     [request setTemporaryFileDownloadPath:tempPath];//缓存路径
-    [request setDownloadProgressDelegate:self];
+//    [request setDownloadProgressDelegate:self];
     request.allowResumeForFileDownloads = YES;//打开断点，是否要断点续传
     [request setShowAccurateProgress:YES];
     
@@ -86,19 +84,32 @@
             
         }];
     }];
-}
-
-- (void)request:(ASIHTTPRequest *)request didReceiveBytes:(long long)bytes{
-    SectionModel *section= (SectionModel *)[[request userInfo]objectForKey:@"SectionSaveModel"];
-    UserModel *user = [CaiJinTongManager shared].user;
-    section.sectionFileDownloadSize = [NSString stringWithFormat:@"%llu",request.totalBytesRead];
-    [DRFMDBDatabaseTool updateSectionDownloadStatusWithUserId:user.userId withSectionId:section.sectionId withFileDownloadSize:[NSString stringWithFormat:@"%llu",request.totalBytesRead] withFinished:^(BOOL flag) {
-        if (flag) {
-            //发送通知
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadFinished" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:section,@"SectionSaveModel",nil]];
-        }
+    
+    [request setBytesReceivedBlock:^(unsigned long long size, unsigned long long total) {
+        UserModel *user = [CaiJinTongManager shared].user;
+        section.sectionFileDownloadSize = [NSString stringWithFormat:@"%llu",size];
+        section.sectionFileTotalSize = [NSString stringWithFormat:@"%llu",total];
+        [DRFMDBDatabaseTool updateSectionDownloadStatusWithUserId:user.userId withSectionId:section.sectionId withFileDownloadSize:[NSString stringWithFormat:@"%llu",size] withFinished:^(BOOL flag) {
+            if (flag) {
+                //发送通知
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadFinished" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:section,@"SectionSaveModel",nil]];
+            }
+        }];
     }];
 }
+
+
+//- (void)request:(ASIHTTPRequest *)request didReceiveBytes:(long long)bytes{
+//    SectionModel *section= (SectionModel *)[[request userInfo]objectForKey:@"SectionSaveModel"];
+//    UserModel *user = [CaiJinTongManager shared].user;
+//    section.sectionFileDownloadSize = [NSString stringWithFormat:@"%llu",request.totalBytesRead];
+//    [DRFMDBDatabaseTool updateSectionDownloadStatusWithUserId:user.userId withSectionId:section.sectionId withFileDownloadSize:[NSString stringWithFormat:@"%llu",request.totalBytesRead] withFinished:^(BOOL flag) {
+//        if (flag) {
+//            //发送通知
+//            [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadFinished" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:section,@"SectionSaveModel",nil]];
+//        }
+//    }];
+//}
 
 - (void)request:(ASIHTTPRequest *)request didReceiveResponseHeaders:(NSDictionary *)responseHeaders {
     SectionModel *section= (SectionModel *)[[request userInfo]objectForKey:@"SectionSaveModel"];
@@ -157,10 +168,11 @@
                 documentDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
             }
             
-            NSString *tmpFilePath = [documentDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/Application/%@",section.sectionId]];
-            [fileManager removeItemAtPath:tmpFilePath error:nil];
-            [fileManager removeItemAtPath:[NSString stringWithFormat:@"%@.zip",tmpFilePath] error:nil];
-            [fileManager removeItemAtPath:[NSString stringWithFormat:@"%@.temp",tmpFilePath] error:nil];
+            NSString *downloadPath = [CaiJinTongManager getMovieLocalPathWithSectionID:section.sectionId];
+            NSString *tempPath = [CaiJinTongManager getMovieLocalTempPathWithSectionID:[NSString stringWithFormat:@"temp_%@",section.sectionId]];
+            
+            [fileManager removeItemAtPath:downloadPath error:nil];
+            [fileManager removeItemAtPath:tempPath error:nil];
             //send notification
             
         }

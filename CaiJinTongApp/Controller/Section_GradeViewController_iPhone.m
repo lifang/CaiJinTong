@@ -319,13 +319,19 @@ static NSString *timespan = nil;
 #pragma mark property
 
 -(MJRefreshFooterView *)footerRefreshView{
-    if (!_footerRefreshView) {
-        _footerRefreshView = [[MJRefreshFooterView alloc] init];
-        _footerRefreshView.delegate = self;
-        _footerRefreshView.scrollView = self.tableViewList;
-        
+    if ([CaiJinTongManager shared].isShowLocalData) {
+        _footerRefreshView = nil;
+        return nil;
+    }else{
+        if (!_footerRefreshView) {
+            _footerRefreshView = [[MJRefreshFooterView alloc] init];
+            _footerRefreshView.delegate = self;
+            _footerRefreshView.scrollView = self.tableViewList;
+            
+        }
+        return _footerRefreshView;
     }
-    return _footerRefreshView;
+
 }
 
 -(UILabel *)tipLabel{

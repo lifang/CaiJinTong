@@ -59,6 +59,12 @@
     [self.tableView setContentOffset:offset animated:NO];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.menuVisible = NO;
+    [self.drTreeTableView setHiddleTreeTableView:!self.menuVisible withAnimation:NO];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -434,6 +440,7 @@
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
     [self keyboardDismiss];
     self.menuVisible = NO;
+    [self.drTreeTableView setHiddleTreeTableView:!self.menuVisible withAnimation:NO];
 //    if(self.searchBar.alpha > 0.999){
 //        [self showSearchBar];
 //    }
@@ -515,6 +522,7 @@
     if(self.searchBar.hidden){
         if(self.menuVisible){
             self.menuVisible = NO;
+            [self.drTreeTableView setHiddleTreeTableView:!self.menuVisible withAnimation:NO];
         }
         [self.searchBar setHidden:NO];
         [UIView animateWithDuration:0.5
@@ -541,14 +549,24 @@
     [self.searchBar.searchTextField resignFirstResponder];
     
     if((!self.drTreeTableView || self.drTreeTableView.noteArr.count < 1) && self.menuVisible != YES){
-        _drTreeTableView = [[DRTreeTableView alloc] initWithFrame:CGRectMake(120,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55)) withTreeNodeArr:nil];
+        _drTreeTableView = [[DRTreeTableView alloc] initWithFrame:CGRectMake(0,55, 320, SCREEN_HEIGHT - IP5(63, 50) - 55) withTreeNodeArr:nil];
         _drTreeTableView.delegate = self;
+        __weak MyQuestionAndAnswerViewController_iPhone *weakSelf = self;
+        _drTreeTableView.hiddleBlock = ^(BOOL ishiddle){
+            MyQuestionAndAnswerViewController_iPhone *tempSelf = weakSelf;
+            if (tempSelf) {
+                tempSelf.menuVisible = !ishiddle;
+            }
+            
+        };
         [self.view addSubview:_drTreeTableView];
-        [self.drTreeTableView setBackgroundColor:[UIColor colorWithRed:6.0/255.0 green:18.0/255.0 blue:27.0/255.0 alpha:1.0]];
+//        [self.drTreeTableView setBackgroundColor:[UIColor colorWithRed:6.0/255.0 green:18.0/255.0 blue:27.0/255.0 alpha:1.0]];
         [self getQuestionCategoryNodes];  //获取tree所需数据
         self.menuVisible = YES;
+        [self.drTreeTableView setHiddleTreeTableView:!self.menuVisible withAnimation:YES];
     }else{
         self.menuVisible = !self.menuVisible;
+        [self.drTreeTableView setHiddleTreeTableView:!self.menuVisible withAnimation:YES];
     }
 }
 
@@ -566,17 +584,17 @@
 
 -(void)setMenuVisible:(BOOL)menuVisible{
     _menuVisible = menuVisible;
-    [UIView animateWithDuration:0.3 animations:^{
-        if(menuVisible){
-//            if(self.searchBar.hidden == NO){
-//                [self showSearchBar];
-//            }
-            [self keyboardDismiss];
-            self.drTreeTableView.frame = CGRectMake(120,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55));
-        }else{
-            self.drTreeTableView.frame = CGRectMake(320,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55));
-        }
-    }];
+//    [UIView animateWithDuration:0.3 animations:^{
+//        if(menuVisible){
+////            if(self.searchBar.hidden == NO){
+////                [self showSearchBar];
+////            }
+//            [self keyboardDismiss];
+//            self.drTreeTableView.frame = CGRectMake(120,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55));
+//        }else{
+//            self.drTreeTableView.frame = CGRectMake(320,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55));
+//        }
+//    }];
 }
 
 -(void)keyboardDismiss{
@@ -929,53 +947,57 @@
 -(NSMutableArray*)togetherAllQuestionCategorys{
     //我的提问列表
     DRTreeNode *myQuestion = [[DRTreeNode alloc] init];
-    myQuestion.noteContentID = @"-1";
+    myQuestion.noteContentID =[NSString stringWithFormat:@"%d",CategoryType_MyQuestion];
+    myQuestion.noteRootContentID = [NSString stringWithFormat:@"%d",CategoryType_MyQuestion];
     myQuestion.noteContentName = @"我的提问";
     myQuestion.childnotes = self.myQuestionCategoryArr;
     myQuestion.noteLevel = 1;
     //所有问答列表
     DRTreeNode *question = [[DRTreeNode alloc] init];
-    question.noteContentID = @"-2";
+    question.noteContentID = [NSString stringWithFormat:@"%d",CategoryType_AllQuestion];
+    question.noteRootContentID = [NSString stringWithFormat:@"%d",CategoryType_AllQuestion];
     question.noteContentName = @"所有问答";
     question.childnotes = self.allQuestionCategoryArr;
     question.noteLevel = 0;
     //我的回答列表
     DRTreeNode *myAnswer = [[DRTreeNode alloc] init];
-    myAnswer.noteContentID = @"-3";
+    myAnswer.noteContentID = [NSString stringWithFormat:@"%d",CategoryType_MyAnswer];
+    myAnswer.noteRootContentID = [NSString stringWithFormat:@"%d",CategoryType_MyAnswer];
     myAnswer.noteContentName = @"我的回答";
     myAnswer.childnotes = self.myAnswerCategoryArr;
     myAnswer.noteLevel = 1;
     //我的问答
     DRTreeNode *my = [[DRTreeNode alloc] init];
-    my.noteContentID = @"-4";
+    my.noteContentID = [NSString stringWithFormat:@"%d",CategoryType_MyAnswerAndQuestion];
+    my.noteRootContentID = [NSString stringWithFormat:@"%d",CategoryType_MyAnswerAndQuestion];
     my.noteContentName = @"我的问答";
     my.childnotes = @[myQuestion,myAnswer];
     my.noteLevel = 0;
-    return [NSMutableArray arrayWithArray:@[question,my]];
+    return [NSMutableArray arrayWithArray:@[my,question]];
 }
 
 #pragma mark DRTreeTableViewDelegate //选择一个分类
 -(void)drTreeTableView:(DRTreeTableView *)treeView didSelectedTreeNode:(DRTreeNode *)selectedNote{
         switch ([selectedNote.noteRootContentID integerValue]) {
-            case -2://所有问答
+            case CategoryType_AllQuestion://所有问答
             {
                 self.questionScope = QuestionAndAnswerALL;
                 [self reLoadQuestionWithQuestionScope:self.questionScope withTreeNode:selectedNote];
             }
                 break;
-            case -1://我的提问
+            case CategoryType_MyQuestion://我的提问
             {
                 self.questionScope = QuestionAndAnswerMYQUESTION;
                 [self reLoadQuestionWithQuestionScope:self.questionScope withTreeNode:selectedNote];
             }
                 break;
-            case -3://我的回答
+            case CategoryType_MyAnswer://我的回答
             {
                 self.questionScope = QuestionAndAnswerMYANSWER;
                 [self reLoadQuestionWithQuestionScope:self.questionScope withTreeNode:selectedNote];
             }
                 break;
-            case -4://我的问答
+            case CategoryType_MyAnswerAndQuestion://我的问答
             {
             }
                 break;
@@ -985,6 +1007,7 @@
                 break;
         }
     self.menuVisible = NO;
+    [self.drTreeTableView setHiddleTreeTableView:!self.menuVisible withAnimation:YES];
     self.searchBar.searchTextField.text = nil;
 }
 
@@ -994,25 +1017,25 @@
 
 -(void)drTreeTableView:(DRTreeTableView*)treeView didExtendChildTreeNode:(DRTreeNode*)extendNote{
     switch ([extendNote.noteRootContentID integerValue]) {
-        case -2://所有问答
+        case CategoryType_AllQuestion://所有问答
         {
             self.questionScope = QuestionAndAnswerALL;
             [self reLoadQuestionWithQuestionScope:self.questionScope withTreeNode:extendNote];
         }
             break;
-        case -1://我的提问
+        case CategoryType_MyQuestion://我的提问
         {
             self.questionScope = QuestionAndAnswerMYQUESTION;
             [self reLoadQuestionWithQuestionScope:self.questionScope withTreeNode:extendNote];
         }
             break;
-        case -3://我的回答
+        case CategoryType_MyAnswer://我的回答
         {
             self.questionScope = QuestionAndAnswerMYANSWER;
             [self reLoadQuestionWithQuestionScope:self.questionScope withTreeNode:extendNote];
         }
             break;
-        case -4://我的问答
+        case CategoryType_MyAnswerAndQuestion://我的问答
         {
         }
             break;

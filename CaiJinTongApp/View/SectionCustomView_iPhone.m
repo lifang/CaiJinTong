@@ -85,6 +85,7 @@
 
 //更新课程名,进度,及图片 ,及sectionId
 -(void)refreshDataWithLesson:(LessonModel *)lesson{
+    self.lesson = lesson;
     self.sectionId = lesson.lessonId;
     if(!self.pv){
         DLog(@"错误!应先初始化SectionCustomView!");

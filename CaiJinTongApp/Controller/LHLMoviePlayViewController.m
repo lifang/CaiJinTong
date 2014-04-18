@@ -561,9 +561,7 @@
     [self.section_chapterController removeFromParentViewController];
     [self.section_chapterController.view removeFromSuperview];
     [self.section_chapterController.view setHidden:YES];
-//    [self.navigationController popViewControllerAnimated:YES];
-//    [self.moviePlayer stop];
-//    self.moviePlayer = nil;
+
     [self dismissViewControllerAnimated:YES completion:^{
         [self.moviePlayer stop];
         self.moviePlayer = nil;
@@ -631,40 +629,55 @@
         
     }];
     
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
-        if ([networkStatus isEqualToString:@"NotReachable"]) {
-            if (self.isBack) {
-                [self exitPlayMovie];
-            }
-            [DRFMDBDatabaseTool updateSectionOfflinePlayTimeWithUserId:[CaiJinTongManager shared].user.userId withSectionId:self.sectionModel.sectionId withPlayTimeOffLine:[NSString stringWithFormat:@"%llu",self.studyTime] withFinished:^(BOOL flag) {
-                
-            }];
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            if (self.loadMovieDataProgressView) {
-                [self.loadMovieDataProgressView removeFromSuperview];
-                [self.loadMovieDataProgressView hide:YES];
-                self.loadMovieDataProgressView = nil;
-            }
-        }else {
-            //判断是否播放完毕
-            //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            PlayBackInterface *playBackInter = [[PlayBackInterface alloc]init];
-            self.playBackInterface = playBackInter;
-            self.playBackInterface.delegate = self;
-            [DRFMDBDatabaseTool selectSectionOfflinePlayTimeWithUserId:[CaiJinTongManager shared].user.userId withSectionId:self.sectionModel.sectionId withFinished:^(NSString *offlinePlayTime) {
-                if (offlinePlayTime && ![offlinePlayTime isEqualToString:@"0"]) {
-                    //            timespan = [[Section defaultSection] selectTotalPlayDateOffLineWithSectionId:self.sectionModel.sectionId];
-                    timespan = [NSString stringWithFormat:@"%llu",offlinePlayTime.intValue+self.studyTime];
-                }else{
-                    //            timespan = [Utility getNowDateFromatAnDate];
-                    timespan = [NSString stringWithFormat:@"%llu",self.studyTime];
-                }
-                NSString *status = self.seekSlider.value >= 1?@"completed": @"incomplete";
-                [self.playBackInterface getPlayBackInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionModel.sectionId andTimeEnd:timespan andStatus:status andStartPlayDate:self.startPlayDate];
-            }];
+    if ([CaiJinTongManager shared].isShowLocalData) {
+        if (self.isBack) {
+            [self exitPlayMovie];
         }
-    }];
+        [DRFMDBDatabaseTool updateSectionOfflinePlayTimeWithUserId:[CaiJinTongManager shared].user.userId withSectionId:self.sectionModel.sectionId withPlayTimeOffLine:[NSString stringWithFormat:@"%llu",self.studyTime] withFinished:^(BOOL flag) {
+            
+        }];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        if (self.loadMovieDataProgressView) {
+            [self.loadMovieDataProgressView removeFromSuperview];
+            [self.loadMovieDataProgressView hide:YES];
+            self.loadMovieDataProgressView = nil;
+        }
+    }else{
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+            if ([networkStatus isEqualToString:@"NotReachable"]) {
+                if (self.isBack) {
+                    [self exitPlayMovie];
+                }
+                [DRFMDBDatabaseTool updateSectionOfflinePlayTimeWithUserId:[CaiJinTongManager shared].user.userId withSectionId:self.sectionModel.sectionId withPlayTimeOffLine:[NSString stringWithFormat:@"%llu",self.studyTime] withFinished:^(BOOL flag) {
+                    
+                }];
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                if (self.loadMovieDataProgressView) {
+                    [self.loadMovieDataProgressView removeFromSuperview];
+                    [self.loadMovieDataProgressView hide:YES];
+                    self.loadMovieDataProgressView = nil;
+                }
+            }else {
+                //判断是否播放完毕
+                //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                PlayBackInterface *playBackInter = [[PlayBackInterface alloc]init];
+                self.playBackInterface = playBackInter;
+                self.playBackInterface.delegate = self;
+                [DRFMDBDatabaseTool selectSectionOfflinePlayTimeWithUserId:[CaiJinTongManager shared].user.userId withSectionId:self.sectionModel.sectionId withFinished:^(NSString *offlinePlayTime) {
+                    if (offlinePlayTime && ![offlinePlayTime isEqualToString:@"0"]) {
+                        //            timespan = [[Section defaultSection] selectTotalPlayDateOffLineWithSectionId:self.sectionModel.sectionId];
+                        timespan = [NSString stringWithFormat:@"%llu",offlinePlayTime.intValue+self.studyTime];
+                    }else{
+                        //            timespan = [Utility getNowDateFromatAnDate];
+                        timespan = [NSString stringWithFormat:@"%llu",self.studyTime];
+                    }
+                    NSString *status = self.seekSlider.value >= 1?@"completed": @"incomplete";
+                    [self.playBackInterface getPlayBackInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionModel.sectionId andTimeEnd:timespan andStatus:status andStartPlayDate:self.startPlayDate];
+                }];
+            }
+        }];
+    }
 }
 
 //告诉后台将要开始播放
@@ -1008,15 +1021,15 @@
 
 #pragma mark --
 - (BOOL)shouldAutorotate {
-    UIInterfaceOrientation interface = [[UIApplication sharedApplication] statusBarOrientation];
-    if (!UIInterfaceOrientationIsLandscape(interface)) {
-        return YES;
-    }
     return YES;
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskLandscapeLeft;
+    return UIInterfaceOrientationMaskAll;
+}
+
+-(UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
+    return UIInterfaceOrientationLandscapeLeft;
 }
 // pre-iOS 6 support
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {

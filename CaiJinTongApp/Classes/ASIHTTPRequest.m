@@ -1759,7 +1759,7 @@ static NSOperationQueue *sharedQueue = nil;
 	#if NS_BLOCKS_AVAILABLE
     if (bytesReceivedBlock) {
 		unsigned long long totalSize = [self contentLength] + [self partialDownloadSize];
-		[self performBlockOnMainThread:^{ if (bytesReceivedBlock) { bytesReceivedBlock(value, totalSize); }}];
+		[self performBlockOnMainThread:^{ if (bytesReceivedBlock) { bytesReceivedBlock([self totalBytesRead]+[self partialDownloadSize], totalSize); }}];
     }
 	#endif
 	[self setLastBytesRead:bytesReadSoFar];

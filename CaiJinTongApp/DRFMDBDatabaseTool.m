@@ -7,6 +7,7 @@
 //
 
 #import "DRFMDBDatabaseTool.h"
+#import "SDImageCache.h"
 @interface DRFMDBDatabaseTool()
 @property (nonatomic,strong) FMDatabaseQueue *dbQueue;
 @property (nonatomic,strong) NSString *dbPath;
@@ -1426,6 +1427,14 @@
     //    sectionMovieFileDownloadSize 小节视频已经下载大小
     DRFMDBDatabaseTool *tool = [DRFMDBDatabaseTool shareDRFMDBDatabaseTool];
     [tool.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        FMResultSet * rs = [db executeQuery:@"select sectionMovieFileTotalSize from Section  where sectionId=?  and userId=?",sectionId,userId];
+        if ([rs next]) {
+            NSString *total = [rs stringForColumn:@"sectionMovieFileTotalSize"];
+            if (total && total.longLongValue > totalSize.longLongValue) {
+                [rs close];
+                return;
+            }
+        }
         BOOL whoopsSomethingWrongHappened = YES;
         whoopsSomethingWrongHappened = [db executeUpdate:@"update Section set sectionMovieFileTotalSize=? where sectionId=?  and userId=?"
                                         ,totalSize
@@ -1907,6 +1916,8 @@
     ASINetworkQueue *queue = mDownloadService.networkQueue;
     [(NSOperationQueue*)queue cancelAllOperations];
     
+    //清除sdWebImage缓存
+    [[SDImageCache sharedImageCache]  clearDisk];
     //清除本地文件
     [DRFMDBDatabaseTool selectSectionListWithUserId:[CaiJinTongManager shared].user.userId withFinished:^(NSArray *sectionArray, NSString *errorMsg) {
         for (SectionModel *sectionModel in sectionArray) {

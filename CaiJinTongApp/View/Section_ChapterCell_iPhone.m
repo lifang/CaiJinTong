@@ -72,9 +72,9 @@
     _sectionModel = sectionModel;
     self.btn.buttonModel = sectionModel;
     if (sectionModel && sectionModel.sectionMovieFileDownloadStatus == DownloadStatus_Downloaded) {
-        [self.playBt setHidden:NO];
-    }else{
         [self.playBt setHidden:YES];
+    }else{
+        [self.playBt setHidden:NO];
     }
     
     
