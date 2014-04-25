@@ -154,6 +154,8 @@
     [self.drnavigationBar hiddleBackButton:YES];
     self.drnavigationBar.searchBar.searchTextLabel.placeholder = @"搜索问题";
     [self.noticeBarImageView.layer setCornerRadius:4];
+    
+    [self modifyAskQuestionButton];
 }
 
 #pragma mark DRSearchBarDelegate搜索
@@ -555,6 +557,16 @@
     }else{
         float height = rect.size.height+ TEXT_HEIGHT + TEXT_PADDING+ questionTextFieldHeight;
         return height;
+    }
+}
+
+- (void)modifyAskQuestionButton{
+    if (self.askQuestionButton) {
+        [self.askQuestionButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        self.askQuestionButton.backgroundColor = [UIColor colorWithRed:154./255. green:196./255. blue:240./255. alpha:1.0];
+        self.askQuestionButton.layer.cornerRadius = 5.;
+        self.askQuestionButton.layer.borderWidth = .8;
+        self.askQuestionButton.layer.borderColor = [UIColor colorWithRed:0.406 green:0.640 blue:0.916 alpha:1.000].CGColor;
     }
 }
 

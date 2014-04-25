@@ -46,13 +46,13 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     
-    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.window.backgroundColor = [UIColor whiteColor];
-    QuestionV2ViewController *questionController = [[QuestionV2ViewController alloc] initWithNibName:@"QuestionV2ViewController" bundle:nil];
-    self.window.rootViewController = questionController;
-    [self.window makeKeyAndVisible];
-    [questionController reloadQuestionData];
-    return YES;
+//    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+//    self.window.backgroundColor = [UIColor whiteColor];
+//    QuestionV2ViewController *questionController = [[QuestionV2ViewController alloc] initWithNibName:@"QuestionV2ViewController" bundle:nil];
+//    self.window.rootViewController = questionController;
+//    [self.window makeKeyAndVisible];
+//    [questionController reloadQuestionData];
+//    return YES;
     ///////////////////以上为测试代码
     
 //    [DRFMDBDatabaseToolTEST insertSectionTest];
