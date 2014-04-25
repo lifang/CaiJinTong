@@ -28,28 +28,6 @@
 
 #endif
 
-typedef enum {MOVIE_FILE,MOVIE_INTERNET}MovieLocateType;
-
-///问答分类类别
-typedef enum:NSInteger{
-    ///全部
-    CategoryType_ALL=-5234,
-    ///所有问答
-    CategoryType_AllQuestion=-5235,
-    ///所有问答全部
-    CategoryType_AllQuestion_ALL=-5239,
-    ///我的提问
-    CategoryType_MyQuestion=-5250,
-    ///我的回答
-    CategoryType_MyAnswer=-5251,
-    ///我的提问全部
-    CategoryType_MyQuestion_ALL=-5236,
-    ///我的回答全部
-    CategoryType_MyAnswer_ALL=-5237,
-    ///我的问答
-    CategoryType_MyAnswerAndQuestion=-5238
-}CategoryType;
-
 
 //系统版本
 #define platform [[[UIDevice currentDevice] systemVersion] floatValue]

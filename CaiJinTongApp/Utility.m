@@ -22,7 +22,67 @@
     return defaultUti;
 }
 
++ (UIColor*) colorWithHex:(NSInteger)hexValue alpha:(CGFloat)alphaValue
+{
+    return [UIColor colorWithRed:((float)((hexValue & 0xFF0000) >> 16))/255.0
+                           green:((float)((hexValue & 0xFF00) >> 8))/255.0
+                            blue:((float)(hexValue & 0xFF))/255.0 alpha:alphaValue];
+}
+
++ (UIColor*) colorWithHex:(NSInteger)hexValue
+{
+    return [Utility colorWithHex:hexValue alpha:1.0];
+}
+
++ (NSString *) hexFromUIColor: (UIColor*) color {
+    if (CGColorGetNumberOfComponents(color.CGColor) < 4) {
+        const CGFloat *components = CGColorGetComponents(color.CGColor);
+        color = [UIColor colorWithRed:components[0]
+                                green:components[0]
+                                 blue:components[0]
+                                alpha:components[1]];
+    }
+    
+    if (CGColorSpaceGetModel(CGColorGetColorSpace(color.CGColor)) != kCGColorSpaceModelRGB) {
+        return [NSString stringWithFormat:@"#FFFFFF"];
+    }
+    
+    return [NSString stringWithFormat:@"#XXX", (int)((CGColorGetComponents(color.CGColor))[0]*255.0),
+            (int)((CGColorGetComponents(color.CGColor))[1]*255.0),
+            (int)((CGColorGetComponents(color.CGColor))[2]*255.0)];
+}
+
+
+///返回文件类型
++(DRURLFileType)getFileTypeWithFileExtension:(NSString*)extension{
+    if (!extension || [extension isEqualToString:@""]) {
+        return DRURLFileType_OTHER;
+    }
+    if ([extension isEqualToString:@"png"] || [extension isEqualToString:@"jpg"] || [extension isEqualToString:@"jpeg"]){
+        return DRURLFileType_IMAGR;
+    }
+    if ([extension isEqualToString:@"pdf"]) {
+        return  DRURLFileType_PDF;
+    }
+    if ([extension isEqualToString:@"doc"] || [extension isEqualToString:@"docx"]) {
+       return DRURLFileType_WORD;
+    }
+    if ([extension isEqualToString:@"txt"]) {
+        return DRURLFileType_TEXT;
+    }
+    if ([extension isEqualToString:@"ppt"]) {
+       return DRURLFileType_PPT;
+    }
+    if ([extension isEqualToString:@"gif"]) {
+        return DRURLFileType_GIF;
+    }
+    return DRURLFileType_OTHER;
+}
+
 +(NSString *)filterValue:(NSString*)filterValue{
+    if (!filterValue) {
+        return nil;
+    }
     NSString *value = [NSString stringWithFormat:@"%@",filterValue];
     if ([value isEqualToString:@""] || [value isEqualToString:@"<NULL>"] || [value isEqualToString:@"null"] || [value isEqualToString:@"<null>"]) {
         return nil;

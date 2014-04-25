@@ -12,6 +12,16 @@
 @interface Utility : NSObject
 +(Utility*)defaultUtility;
 
+#pragma mark 16进制颜色转换
+
++ (UIColor*) colorWithHex:(NSInteger)hexValue;
++ (UIColor*) colorWithHex:(NSInteger)hexValue alpha:(CGFloat)alphaValue;
++ (NSString *) hexFromUIColor: (UIColor*) color;
+
+#pragma mark --
+///返回文件类型
++(DRURLFileType)getFileTypeWithFileExtension:(NSString*)extension;
+
 ///过滤json数据，可能出现<NULL>,null,等等情况
 +(NSString *)filterValue:(NSString*)value;
 

@@ -10,6 +10,7 @@
 #import "DownloadService.h"
 #import "LessonViewController.h"
 #import "iVersion.h"
+#import "QuestionV2ViewController.h"
 @interface AppDelegate : UIResponder <UIApplicationDelegate,iVersionDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
