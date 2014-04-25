@@ -252,7 +252,7 @@
 //    }else{
 //        [self.scanMoreBt setHidden:YES];
 //    }
-    self.questionContentAttributeView.frame = (CGRect){CGRectGetMaxX(self.questionImg.frame),HEADER_TEXT_HEIGHT,QUESTIONHEARD_VIEW_WIDTH,height};
+    self.questionContentAttributeView.frame = (CGRect){CGRectGetMaxX(self.questionImg.frame) + 2,HEADER_TEXT_HEIGHT,QUESTIONHEARD_VIEW_WIDTH,height};
     if (!self.summitQuestionAnswerBackView.isHidden) {
         self.summitQuestionAnswerBackView.frame = (CGRect){TEXT_PADDING*2,CGRectGetMaxY(self.questionContentAttributeView.frame)+TEXT_PADDING,QUESTIONHEARD_VIEW_WIDTH,QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT-TEXT_PADDING};
         self.answerQuestionTextField.frame = (CGRect){0,0,QUESTIONHEARD_VIEW_WIDTH,80};

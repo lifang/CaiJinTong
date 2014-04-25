@@ -10,7 +10,7 @@
 #import "QuestionModel.h"
 #import "DRAttributeStringView.h"
 #import "IndexPathModel.h"
-#define TEXT_FONT_SIZE 14
+#define TEXT_FONT_SIZE 17
 #define TEXT_FONT [UIFont systemFontOfSize:TEXT_FONT_SIZE]
 #define TEXT_PADDING 10
 #define BUTTON_TITLE_FONT [UIFont systemFontOfSize:18.]

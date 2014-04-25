@@ -16,11 +16,11 @@
 
 #define Question_Title_Font [UIFont systemFontOfSize:PAD(22,14)]
 #define Question_Content_Font [UIFont systemFontOfSize:PAD(21,13)]
-#define Answer_Content_Font [UIFont systemFontOfSize:PAD(21,13)]
-#define Reask_Content_Font [UIFont systemFontOfSize:PAD(22,14)]
-#define Reask_Title_Font [UIFont systemFontOfSize:10]
+#define Answer_Content_Font [UIFont systemFontOfSize:PAD(19,12)]
+#define Reask_Content_Font [UIFont systemFontOfSize:PAD(19,12)]
+#define Reask_Title_Font [UIFont systemFontOfSize:13]
 #define ReAnswer_Content_Font [UIFont systemFontOfSize:PAD(22,14)]
-#define ReAnswer_Title_Font [UIFont systemFontOfSize:10]
+#define ReAnswer_Title_Font [UIFont systemFontOfSize:13]
 
 #define Question_Title_Color [UIColor colorWithRed:0.082 green:0.416 blue:0.737 alpha:1.000]
 #define Question_Content_Color [UIColor colorWithWhite:0.435 alpha:1.000]
@@ -134,7 +134,7 @@ typedef enum {
     style.alignment = NSTextAlignmentJustified;
                     style.headIndent = 0;
                     //TODO:李宏亮修改
-                    style.paragraphSpacing = 5;
+                    style.paragraphSpacing = 1;
                     style.lineSpacing = 5;
                     style.tailIndent = self.frame.size.width -startPoint.x;
                     [string addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, string.length)];
@@ -208,7 +208,7 @@ typedef enum {
     style.alignment = NSTextAlignmentJustified;
     style.headIndent = 0;
     //TODO:李宏亮修改
-    style.paragraphSpacing = 5;
+    style.paragraphSpacing = 1;
     style.lineSpacing = 5;
     style.tailIndent = self.frame.size.width-startPoint.x;
     [string addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, string.length)];
@@ -375,7 +375,7 @@ typedef enum {
     style.alignment = NSTextAlignmentJustified;
     style.headIndent = 0;
     //TODO:李宏亮修改
-    style.paragraphSpacing = 5;
+    style.paragraphSpacing = 1;
     style.lineSpacing = 5;
     style.tailIndent = self.frame.size.width -startPoint.x;
     [string addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, string.length)];
@@ -476,7 +476,7 @@ typedef enum {
     style.alignment = NSTextAlignmentJustified;
     style.headIndent = 0;
     //TODO:李宏亮修改
-    style.paragraphSpacing = 5;
+    style.paragraphSpacing = 1;
     style.lineSpacing = 5;
     style.tailIndent = width-startPoint.x;
     [string addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, string.length)];
@@ -599,7 +599,7 @@ typedef enum {
     style.alignment = NSTextAlignmentJustified;
     style.headIndent = 0;
     //TODO:李宏亮修改
-    style.paragraphSpacing = 5;
+    style.paragraphSpacing = 1;
     style.lineSpacing = 5;
     style.tailIndent = width -startPoint.x;
     [string addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, string.length)];
