@@ -7,16 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LHLNavigationBarViewController.h"
 /** DRTypeQuestionContentViewController
  *
  * 问答输入界面
  */
-@interface DRTypeQuestionContentViewController : UIViewController
+@interface DRTypeQuestionContentViewController : LHLNavigationBarViewController
 @property (weak, nonatomic) IBOutlet UIView *inputBackView;
 @property (weak, nonatomic) IBOutlet UITextView *inputTextView;
 @property (strong,nonatomic) void (^submitFinishedBlock)(NSArray *dataArray ,NSString *errorMsg);
 
 - (IBAction)submitBtClicked:(id)sender;
 
+- (IBAction)backViewBtClicked:(id)sender;
 
 @end

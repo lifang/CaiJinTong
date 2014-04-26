@@ -40,7 +40,7 @@
     }
     
     self.answerModel = answer;
-    
+    QuestionModel *question = (QuestionModel*)answer.questionModel;
     //是否隐藏图标
     if (answer.answerContentType == ReaskType_Answer || answer.answerContentType == ReaskType_ModifyAnswer) {
         [self.flagImageView setHidden:NO];
@@ -48,6 +48,20 @@
     }else{
         [self.flagImageView setHidden:YES];
         self.titleTimeLabel.frame = (CGRect){CGRectGetMinX(self.flagImageView.frame)+5,CGRectGetMinY(self.titleTimeLabel.frame),self.titleTimeLabel.frame.size};
+    }
+    
+    //只有最后一个回答才显示多功能按钮
+    if (answer.answerContentType == ReaskType_Answer) {
+        [self.moreBt setHidden:NO];
+        if ([answer.answerIsPraised isEqualToString:@"1"] && ![[CaiJinTongManager shared].user.userId isEqualToString:answer.answerUserId] &&![[CaiJinTongManager shared].user.userId isEqualToString:question.askerId]) {
+            [self.moreBt setHidden:YES];
+        }
+    }else{
+        if (answer.isLastAnswer) {
+            [self.moreBt setHidden:NO];
+        }else{
+            [self.moreBt setHidden:YES];
+        }
     }
     
     //是否标记为正确答案

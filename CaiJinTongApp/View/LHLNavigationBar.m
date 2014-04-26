@@ -17,7 +17,7 @@
         
         self.title = [[UILabel alloc] initWithFrame:CGRectMake(52, 15 + Y, 216, 35)];
         self.title.textColor = [UIColor whiteColor];
-        self.title.text = @"我是标题";
+//        self.title.text = @"我是标题";
         self.title.font = [UIFont systemFontOfSize:20];
         [self.title setTextAlignment:NSTextAlignmentCenter];
         self.title.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;

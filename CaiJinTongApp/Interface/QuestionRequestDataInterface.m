@@ -216,7 +216,7 @@
         [request setPostValue:[NSString stringWithFormat:@"%@",answerContent] forKey:@"content"];
         [request setPostValue:[NSString stringWithFormat:@"%@",questionModel.questionId] forKey:@"questionid"];
     }else
-        if (reaskType == ReaskType_Answer) {//回答
+        if (reaskType == ReaskType_Answer || reaskType == ReaskType_ModifyAnswer) {//回答
         //    http://lms.finance365.com/api/ios.ashx?active=submitAnswer&userId=17079&answerContent=%E5%9B%9E%E7%AD%94%E6%B5%8B%E8%AF%95&questionId=1592&resultId=0
             request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@?active=submitAnswer",kHost]]];
             [request setTimeOutSeconds:30];
@@ -271,7 +271,7 @@
         }
         ///////////////////begin////////////////////////////
         NSMutableArray *answerModelList = [NSMutableArray array];
-        NSArray *answerArr = [dicData objectForKey:@"AnswerQuestionList"];
+        NSArray *answerArr = [dic objectForKey:@"AnswerQuestionList"];
         for (NSDictionary *answer_dic in answerArr) {
             AnswerModel *answer = [[AnswerModel alloc]init];
             answer.answerId =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"resultId"]];
@@ -291,6 +291,7 @@
             [answerModelList addObject:answer];//添加回答
             
             NSArray *reaskArray = [answer_dic objectForKey:@"addList"];
+            AnswerModel *lastAnswer = nil;
             for (NSDictionary *reaskDic in reaskArray) {
                 //添加追问
                 AnswerModel *reaskAnswer = [[AnswerModel alloc]init];
@@ -301,8 +302,10 @@
                 reaskAnswer.answerContentType =ReaskType_Reask;
                 reaskAnswer.questionModel = questionModel;
                 reaskAnswer.isLastAnswer = NO;
+                reaskAnswer.answerIsPraised = answer.answerIsPraised;
                 reaskAnswer.answerRichContentArray = [QuestionRequestDataInterface parseHTMLContent:[NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"addQuestion"]]];
                 [answerModelList addObject:reaskAnswer];//添加追问
+                lastAnswer = reaskAnswer;
                 
                 NSString *reAnswerId = [Utility filterValue:[reaskDic objectForKey:@"AID"]];
                 if (reAnswerId && ![reAnswerId isEqualToString:@""]) {
@@ -315,10 +318,18 @@
                     reAnswer.answerUserNick = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"TeacherName"]];
                     reAnswer.questionModel = questionModel;
                     reAnswer.isLastAnswer = NO;
+                    reAnswer.answerIsPraised = answer.answerIsPraised;
                     reAnswer.answerContentType = ReaskType_AnswerForReasking;
                     reAnswer.answerRichContentArray = [QuestionRequestDataInterface parseHTMLContent:[NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"Answer"]]];
                     [answerModelList addObject:reAnswer];//添加回复
+                    lastAnswer = reAnswer;
                 }
+            }
+            
+            if (lastAnswer) {
+                lastAnswer.isLastAnswer = YES;
+            }else{
+                answer.isLastAnswer = YES;
             }
         }
         
@@ -366,6 +377,172 @@
         });
     } withFailure:failure];
 }
+
+
+//TODO::获取用户问答的分类
++(void)downloadUserQuestionCategoryWithUserId:(NSString*)userId withSuccess:(void(^)(NSArray *userQuestionCategoryArray))success withError:(void (^)(NSError *error))failure{
+    if (!userId) {
+        if (failure) {
+            failure([NSError errorWithDomain:@"" code:2001 userInfo:@{@"msg": @"请求参数不能为空"}]);
+        }
+        return;
+    }
+    __block NSArray *allQuestionTreeNodeArray = nil;//所有问答分类
+    __block NSArray *myQuestionTreeNodeArray = nil;//我的提问
+    __block NSArray *myAnswerTreeNodeArray = nil;//和我的回答分类
+    __block  NSError *allQuestionCateforyDicError = nil;//解析所有分类出错
+    __block  NSError *myQuestionCateforyDicError = nil;//解析我的分类出错
+    __block NSError *error = nil;//网络出错
+    dispatch_group_t group = dispatch_group_create();
+    
+    //加载所有分类
+    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        if (error) {
+            return ;
+        }
+        ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@?active=getQuestionCategory&userId=%@",kHost,userId]]];
+        [request startSynchronous];
+        error = request.error;
+        NSData *data = request.responseData;
+        DLog(@"%@,%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding],error);
+        if (error) {
+            return ;
+        }
+        NSError *jsonError = nil;
+        NSDictionary *dicData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
+        if (!dicData || dicData.count <= 0) {
+            allQuestionCateforyDicError = [NSError errorWithDomain:@"" code:2006 userInfo:@{@"msg":@"获取数据失败"}];
+            return ;
+        }
+        
+        //解析所有分类
+        NSString *status = [Utility filterValue:[dicData objectForKey:@"Status"]];
+        if (!status || [status isEqualToString:@"error"] || [status isEqualToString:@"0"]) {
+            allQuestionCateforyDicError = [NSError errorWithDomain:@"" code:2006 userInfo:@{@"msg": [dicData objectForKey:@"Msg"]?:@"获取数据失败"}];
+        }else{
+            NSDictionary *dictionary =[dicData objectForKey:@"ReturnObject"];
+            if (!dictionary || dictionary.count <= 0) {
+                allQuestionCateforyDicError = [NSError errorWithDomain:@"" code:2006 userInfo:@{@"msg": [dicData objectForKey:@"Msg"]?:@"获取数据失败"}];
+            }else{
+                allQuestionTreeNodeArray = [QuestionRequestDataInterface getTreeNodeArrayFromArray:[dictionary objectForKey:@"questionList"] withLevel:1 withRootContentID:[NSString stringWithFormat:@"%d",CategoryType_AllQuestion]];
+                
+            }
+        }
+        
+    });
+    
+    //加载我的分类
+    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        if (error) {
+            return ;
+        }
+        ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@?active=getMyQuestionCategory&userId=%@",kHost,userId]]];
+        [request startSynchronous];
+        error = request.error;
+        NSData *data = request.responseData;
+        DLog(@"%@,%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding],error);
+        if (error) {
+            return ;
+        }
+        NSError *jsonError = nil;
+        NSDictionary *dicData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
+        if (!dicData || dicData.count <= 0) {
+            myQuestionCateforyDicError = [NSError errorWithDomain:@"" code:2006 userInfo:@{@"msg":@"获取数据失败"}];
+            return ;
+        }
+        
+        //解析我的分类
+        NSString *status = [Utility filterValue:[dicData objectForKey:@"Status"]];
+        if (!status || [status isEqualToString:@"error"] || [status isEqualToString:@"0"]) {
+            myQuestionCateforyDicError = [NSError errorWithDomain:@"" code:2006 userInfo:@{@"msg": [dicData objectForKey:@"Msg"]?:@"获取数据失败"}];
+        }else{
+            NSDictionary *dictionary =[dicData objectForKey:@"ReturnObject"];
+            if (!dictionary || dictionary.count <= 0) {
+                myQuestionCateforyDicError = [NSError errorWithDomain:@"" code:2006 userInfo:@{@"msg": [dicData objectForKey:@"Msg"]?:@"获取数据失败"}];
+            }else{
+                myQuestionTreeNodeArray = [QuestionRequestDataInterface getTreeNodeArrayFromArray:[dictionary objectForKey:@"mycategoryList"] withLevel:2 withRootContentID:[NSString stringWithFormat:@"%d",CategoryType_MyQuestion]];
+                
+                myAnswerTreeNodeArray = [QuestionRequestDataInterface getTreeNodeArrayFromArray:[dictionary objectForKey:@"myanswercategoryList"] withLevel:2 withRootContentID:[NSString stringWithFormat:@"%d",CategoryType_MyAnswer]];
+                
+            }
+        }
+        
+    });
+    
+    //所有分类加载完后合并分类
+    dispatch_group_notify(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        if (error) {
+            [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (failure) {
+                        failure([NSError errorWithDomain:@"" code:2002 userInfo:@{@"msg": tipMsg}]);
+                    }
+                });
+            }];
+            
+            return ;
+        }
+        if (myQuestionCateforyDicError && allQuestionCateforyDicError) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (failure) {
+                    failure(myQuestionCateforyDicError?myQuestionCateforyDicError:allQuestionCateforyDicError);
+                }
+            });
+            return;
+        }
+        
+        //我的提问列表
+        DRTreeNode *myQuestion = [[DRTreeNode alloc] init];
+        myQuestion.noteContentID =[NSString stringWithFormat:@"%d",CategoryType_MyQuestion];
+        myQuestion.noteRootContentID = [NSString stringWithFormat:@"%d",CategoryType_MyQuestion];
+        myQuestion.noteContentName = @"我的提问";
+        myQuestion.childnotes = myQuestionTreeNodeArray;
+        myQuestion.noteLevel = 1;
+        //所有问答列表
+        DRTreeNode *question = [[DRTreeNode alloc] init];
+        question.noteContentID = [NSString stringWithFormat:@"%d",CategoryType_AllQuestion];
+        question.noteRootContentID = [NSString stringWithFormat:@"%d",CategoryType_AllQuestion];
+        question.noteContentName = @"所有问答";
+        question.childnotes = allQuestionTreeNodeArray;
+        question.noteLevel = 0;
+        //我的回答列表
+        DRTreeNode *myAnswer = [[DRTreeNode alloc] init];
+        myAnswer.noteContentID = [NSString stringWithFormat:@"%d",CategoryType_MyAnswer];
+        myAnswer.noteRootContentID = [NSString stringWithFormat:@"%d",CategoryType_MyAnswer];
+        myAnswer.noteContentName = @"我的回答";
+        myAnswer.childnotes = myAnswerTreeNodeArray;
+        myAnswer.noteLevel = 1;
+        //我的问答
+        DRTreeNode *my = [[DRTreeNode alloc] init];
+        my.noteContentID = [NSString stringWithFormat:@"%d",CategoryType_MyAnswerAndQuestion];
+        my.noteRootContentID = [NSString stringWithFormat:@"%d",CategoryType_MyAnswerAndQuestion];
+        my.noteContentName = @"我的问答";
+        my.childnotes = @[myQuestion,myAnswer];
+        my.noteLevel = 0;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (success) {
+                success(@[my,question]);
+            }
+        });
+    });
+
+}
+
+//TODO::解析分类树形结构
++(NSMutableArray*)getTreeNodeArrayFromArray:(NSArray*)arr withLevel:(int)level withRootContentID:(NSString*)rootContentID{
+    NSMutableArray *notes = [NSMutableArray array];
+    for (NSDictionary *dic in arr) {
+        DRTreeNode *note = [[DRTreeNode alloc] init];
+        note.noteContentID = [NSString stringWithFormat:@"%@",[dic objectForKey:@"questionID"]];
+        note.noteContentName = [NSString stringWithFormat:@"%@",[dic objectForKey:@"questionName"]];
+        note.noteLevel = level;
+        note.noteRootContentID = rootContentID;
+        note.childnotes = [QuestionRequestDataInterface getTreeNodeArrayFromArray:[dic objectForKey:@"questionNode"] withLevel:level+1 withRootContentID:note.noteRootContentID];
+        [notes addObject:note];
+    }
+    return notes;
+}
+
 
 //TODO::解析json dic
 +(NSArray*)parseJsonDicWithDic:(NSDictionary*)jsonDic{
@@ -421,6 +598,7 @@
             
            
             NSArray *reaskArray = [answer_dic objectForKey:@"addList"];
+            AnswerModel *lastAnswer = nil;
             for (NSDictionary *reaskDic in reaskArray) {
                  //添加追问
                 AnswerModel *reaskAnswer = [[AnswerModel alloc]init];
@@ -431,9 +609,11 @@
                 reaskAnswer.answerContentType =ReaskType_Reask;
                 reaskAnswer.questionModel = question;
                 reaskAnswer.isLastAnswer = NO;
+                reaskAnswer.answerIsPraised = answer.answerIsPraised;
                 reaskAnswer.answerRichContentArray = [QuestionRequestDataInterface parseHTMLContent:[NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"addQuestion"]]];
                 [resultList addObject:reaskAnswer];//添加追问
                 [question.answerList addObject:reaskAnswer];
+                lastAnswer = reaskAnswer;
                 
                 NSString *reAnswerId = [Utility filterValue:[reaskDic objectForKey:@"AID"]];
                 if (reAnswerId && ![reAnswerId isEqualToString:@""]) {
@@ -446,17 +626,20 @@
                     reAnswer.answerUserNick = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"TeacherName"]];
                     reAnswer.questionModel = question;
                     reAnswer.isLastAnswer = NO;
+                    reAnswer.answerIsPraised = answer.answerIsPraised;
                     reAnswer.answerContentType = ReaskType_AnswerForReasking;
                     reAnswer.answerRichContentArray = [QuestionRequestDataInterface parseHTMLContent:[NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"Answer"]]];
                     [resultList addObject:reAnswer];//添加回复
                     [question.answerList addObject:reAnswer];
+                    lastAnswer = reAnswer;
                 }
             }
-        }
-        
-        AnswerModel *lastAnswer = [question.answerList lastObject];
-        if (lastAnswer) {
-            lastAnswer.isLastAnswer = YES;
+            if (lastAnswer) {
+                lastAnswer.isLastAnswer = YES;
+            }else{
+                answer.isLastAnswer = YES;
+            }
+            
         }
     }
     

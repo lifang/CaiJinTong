@@ -85,7 +85,7 @@
     self.questionTimeLabel.attributedText = timeAttriString;
     
     //设置回复个数
-    self.quesstionAnswerCountLabel.text = [NSString stringWithFormat:@"回复:%@",question.questionAnswerCount?:@"0"];
+    self.quesstionAnswerCountLabel.text = [NSString stringWithFormat:@"回复:%d",question.answerList?question.answerList.count:0];
     
     //是否有附件
     if (question.attachmentFileUrl && ![question.attachmentFileUrl isEqualToString:@""]) {

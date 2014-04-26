@@ -7,7 +7,7 @@
 //
 
 #import "LHLTabBarController.h"
-
+#import "QuestionV2ViewController.h"
 @interface LHLTabBarController ()
 
 @end
@@ -80,7 +80,9 @@
     
    
     
-    MyQuestionAndAnswerViewController_iPhone *myQAVC = [story instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController_iPhone"];
+//    MyQuestionAndAnswerViewController_iPhone *myQAVC = [story instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController_iPhone"];
+//    [VCs addObject:myQAVC];
+    QuestionV2ViewController *myQAVC = [[QuestionV2ViewController alloc] initWithNibName:@"QuestionV2ViewController" bundle:nil];
     [VCs addObject:myQAVC];
     
     SettingViewController_iPhone *settingVC = [story instantiateViewControllerWithIdentifier:@"SettingViewController_iPhone"];

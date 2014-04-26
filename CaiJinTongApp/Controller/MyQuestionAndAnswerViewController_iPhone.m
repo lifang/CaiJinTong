@@ -73,23 +73,12 @@
     CGPoint center = self.lhlNavigationBar.leftItem.center;
     self.showSearchBarBtn = [UIButton buttonWithType:UIButtonTypeCustom ];
     self.showSearchBarBtn.frame = (CGRect){0,0,40,40};
-//    self.showSearchBarBtn.center = (CGPoint){center.x + 205,center.y};
     self.showSearchBarBtn.center = (CGPoint){center.x + 45,center.y};
     [self.showSearchBarBtn setImage:[UIImage imageNamed:@"_magnifying_glass.png"] forState:UIControlStateNormal];
-//    [self.showSearchBarBtn setTitle:@"搜" forState:UIControlStateNormal];
-//    [self.showSearchBarBtn.titleLabel setFont:[UIFont systemFontOfSize:19.0]];
-//    [self.showSearchBarBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.showSearchBarBtn addTarget:self action:@selector(showSearchBar) forControlEvents:UIControlEventTouchUpInside];
-//    [self.showSearchBarBtn.layer setBorderColor:[UIColor whiteColor].CGColor];
-//    [self.showSearchBarBtn.layer setBorderWidth:1.5];
-//    [self.showSearchBarBtn.layer setCornerRadius:4.0];
-//    [self.lhlNavigationBar addSubview:self.showSearchBarBtn];
-    
     [self.headerRefreshView endRefreshing];//instance refresh view
     [self.footerRefreshView endRefreshing];
     [self.tableView registerClass:[QuestionAndAnswerCell_iPhoneHeaderView class] forCellReuseIdentifier:@"header"];
-//    [self.tableView setFrame: CGRectMake(20,CGRectGetMaxY(self.noticeBarView.frame) + 5,281,IP5(568, 480) - CGRectGetMaxY(self.noticeBarView.frame) - 5 - self.tabBarController.tabBar.frame.size.height)];
-    
     //提问按钮
     if(!self.askQuestionBtn){
         self.askQuestionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
