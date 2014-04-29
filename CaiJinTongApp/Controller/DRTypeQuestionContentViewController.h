@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIView *inputBackView;
 @property (weak, nonatomic) IBOutlet UITextView *inputTextView;
 @property (strong,nonatomic) void (^submitFinishedBlock)(NSArray *dataArray ,NSString *errorMsg);
+@property (weak, nonatomic) IBOutlet UIButton *submitBt;
 
 - (IBAction)submitBtClicked:(id)sender;
 

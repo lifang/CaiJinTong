@@ -48,7 +48,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.inputTextView.layer.cornerRadius = 5;
     [self.lhlNavigationBar.rightItem setHidden:YES];
+    self.inputTextView.backgroundColor = [Utility colorWithHex:0xf8f8f8];
+    self.inputTextView.layer.borderWidth = 1;
+    self.inputTextView.layer.borderColor = [Utility colorWithHex:0xe6e6e6].CGColor;
+    self.submitBt.layer.borderWidth = 1;
+    self.submitBt.layer.borderColor = [Utility colorWithHex:0xa3cff8].CGColor;
+    [self.submitBt setBackgroundColor:[Utility colorWithHex:0xe0f0ff]];
+    [self.submitBt setTitleColor:[Utility colorWithHex:0x1d7cba] forState:UIControlStateNormal];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -81,56 +89,6 @@
                     [tempSelf dismissViewControllerAnimated:YES completion:^{
                         if (tempSelf.submitFinishedBlock) {
                             tempSelf.submitFinishedBlock(answerModelArray,nil);
-                        }
-                    }];
-                }
-            } withError:^(NSError *error) {
-                DRTypeQuestionContentViewController *tempSelf = weakSelf;
-                if (tempSelf) {
-                    [Utility errorAlert:[error.userInfo objectForKey:@"msg"]];
-                    [MBProgressHUD hideHUDForView:tempSelf.view animated:YES];
-                }
-            }];
-        }
-            break;
-        case ReaskType_AcceptAnswer://采纳回答
-        {
-            __weak DRTypeQuestionContentViewController *weakSelf = self;
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            [QuestionRequestDataInterface acceptAnswerWithUserId:[CaiJinTongManager shared].user.userId andQuestionId:[CaiJinTongManager shared].questionModel.questionId andAnswerID:[CaiJinTongManager shared].answerModel.answerUserId andCorrectAnswerID:[CaiJinTongManager shared].answerModel.answerId withSuccess:^(NSString *msg) {
-                DRTypeQuestionContentViewController *tempSelf = weakSelf;
-                if (tempSelf) {
-                    
-                    [Utility errorAlert:msg];
-                    [MBProgressHUD hideHUDForView:tempSelf.view animated:YES];
-                    [tempSelf dismissViewControllerAnimated:YES completion:^{
-                        if (tempSelf.submitFinishedBlock) {
-                            tempSelf.submitFinishedBlock(nil,nil);
-                        }
-                    }];
-                }
-            } withError:^(NSError *error) {
-                DRTypeQuestionContentViewController *tempSelf = weakSelf;
-                if (tempSelf) {
-                    [Utility errorAlert:[error.userInfo objectForKey:@"msg"]];
-                    [MBProgressHUD hideHUDForView:tempSelf.view animated:YES];
-                }
-            }];
-        }
-            break;
-        case ReaskType_Praise://赞
-        {
-            __weak DRTypeQuestionContentViewController *weakSelf = self;
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            [QuestionRequestDataInterface pariseAnswerWithUserId:[CaiJinTongManager shared].user.userId andQuestionId:[CaiJinTongManager shared].questionModel.questionId andAnswerId:[CaiJinTongManager shared].answerModel.answerUserId withSuccess:^(NSString *msg) {
-                DRTypeQuestionContentViewController *tempSelf = weakSelf;
-                if (tempSelf) {
-                    
-                    [Utility errorAlert:msg];
-                    [MBProgressHUD hideHUDForView:tempSelf.view animated:YES];
-                    [tempSelf dismissViewControllerAnimated:YES completion:^{
-                        if (tempSelf.submitFinishedBlock) {
-                            tempSelf.submitFinishedBlock(nil,nil);
                         }
                     }];
                 }

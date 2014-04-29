@@ -30,6 +30,37 @@
 @end
 @implementation DRTreeTableView
 
+///加载下拉菜单
+-(DRTreeTableView*)initWithDropDownMenuFrame:(CGRect)frame withTreeNodeArr:(NSArray*)treeNodeArr{
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.noteArr = [NSMutableArray arrayWithArray:treeNodeArr];
+        self.originRect = frame;
+        self.tableView = [[TreeTableView alloc] initWithFrame:(CGRect){0,0,frame.size.width,frame.size.height}];
+        [self.tableView setBackgroundColor:[UIColor clearColor]];
+        self.tableView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleWidth;
+        self.tableView.delegate = self;
+        self.tableView.dataSource = self;
+        [self.tableView setSeparatorColor:[UIColor clearColor]];
+        self.tableView.layer.cornerRadius = 10;
+        [self addSubview:self.tableView];
+        self.isExtendChildNode = YES;
+        self.tipLabel = [[UILabel alloc] initWithFrame:(CGRect){0,0,self.tableView.frame.size}];
+        self.tipLabel.backgroundColor = [UIColor clearColor];
+        [self.tipLabel setFont:[UIFont systemFontOfSize:20]];
+        self.tipLabel.text = @"暂无分类数据";
+        [self.tipLabel setTextColor:[UIColor lightGrayColor]];
+        [self.tableView addSubview:self.tipLabel];
+        if (self.noteArr.count > 0) {
+            [self.tipLabel setHidden:YES];
+        }else{
+            [self.tipLabel setHidden:NO];
+        }
+    }
+    return self;
+}
+
+
 -(DRTreeTableView*)initWithFrame:(CGRect)frame withTreeNodeArr:(NSArray*)treeNodeArr{
     self = [super initWithFrame:frame];
     if (self) {
@@ -53,25 +84,23 @@
     if (!isPAD) {
         self.originRect = frame;
         self.tableView = [[TreeTableView alloc] initWithFrame:(CGRect){CGRectGetWidth(self.frame),0,DRTReeWidth,frame.size.height}];
-        [self.tableView setBackgroundColor:[UIColor colorWithRed:6.0/255.0 green:18.0/255.0 blue:27.0/255.0 alpha:1.0]];
+        [self.tableView setBackgroundColor:[Utility colorWithHex:0x52abff]];
     }else{
         self.tableView = [[TreeTableView alloc] initWithFrame:(CGRect){0,0,frame.size}];
         self.tableView.backgroundColor = [UIColor clearColor];
     }
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleWidth;
-//    [self.tableView setSectionIndexBackgroundColor:[UIColor clearColor]];
-//    [self.tableView setSectionIndexTrackingBackgroundColor:[UIColor clearColor]];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.tableView setSeparatorColor:[UIColor clearColor]];
     [self addSubview:self.tableView];
     self.isExtendChildNode = YES;
-    self.tipLabel = [[UILabel alloc] initWithFrame:(CGRect){0,0,frame.size}];
+    self.tipLabel = [[UILabel alloc] initWithFrame:self.tableView.frame];
     self.tipLabel.backgroundColor = [UIColor clearColor];
     [self.tipLabel setFont:[UIFont systemFontOfSize:20]];
     self.tipLabel.text = @"暂无分类数据";
     [self.tipLabel setTextColor:[UIColor lightGrayColor]];
-    [self addSubview:self.tipLabel];
+    [self.tableView addSubview:self.tipLabel];
     if (self.noteArr.count > 0) {
         [self.tipLabel setHidden:YES];
     }else{
@@ -103,18 +132,24 @@
     if (note.childnotes && [note.childnotes count] > 0) {
         
         if (note.noteIsExtend) {
-            [cell setBackgroundColor:[UIColor lightGrayColor]];
+//            [cell setBackgroundColor:[UIColor lightGrayColor]];
+            [cell.selectedView setHidden:NO];
+            [cell.cellNameLabel setTextColor:[UIColor blackColor]];
             if (self.delegate && [self.delegate respondsToSelector:@selector(drTreeTableView:didExtendChildTreeNode:)]) {
                 [self.delegate drTreeTableView:self didExtendChildTreeNode:note];
             }
         }else{
-            [cell setBackgroundColor:[UIColor clearColor]];
+//            [cell setBackgroundColor:[UIColor clearColor]];
+            [cell.selectedView setHidden:YES];
+            [cell.cellNameLabel setTextColor:[UIColor whiteColor]];
             if (self.delegate && [self.delegate respondsToSelector:@selector(drTreeTableView:didCloseChildTreeNode:)]) {
                 [self.delegate drTreeTableView:self didCloseChildTreeNode:note];
             }
         }
     }else{
-        [cell setBackgroundColor:[UIColor lightGrayColor]];
+//        [cell setBackgroundColor:[UIColor lightGrayColor]];
+        [cell.selectedView setHidden:NO];
+        [cell.cellNameLabel setTextColor:[UIColor blackColor]];
         if (self.delegate && [self.delegate respondsToSelector:@selector(drTreeTableView:didSelectedTreeNode:)]) {
             [self.delegate drTreeTableView:self didSelectedTreeNode:note];
         }
@@ -137,11 +172,16 @@
     cell.note = note;
     [cell setNeedsDisplay];
     cell.backgroundColor = [UIColor clearColor];
+    [cell.selectedView setHidden:YES];
+    [cell.cellNameLabel setTextColor:[UIColor whiteColor]];
     return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 40;
+    if (isPAD) {
+        return 40;
+    }
+    return 20;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

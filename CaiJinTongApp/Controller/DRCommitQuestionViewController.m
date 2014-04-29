@@ -247,7 +247,8 @@ static CGRect tableFrame;
 }
 -(DRTreeTableView *)categoryTreeTableView{
     if (!_categoryTreeTableView) {
-        _categoryTreeTableView = [[DRTreeTableView alloc] initWithFrame:(CGRect){CGRectGetMinX(self.dropDownBt.frame),CGRectGetMaxY(self.dropDownBt.frame),470,300} withTreeNodeArr:nil];
+//        _categoryTreeTableView = [[DRTreeTableView alloc] initWithFrame:(CGRect){CGRectGetMinX(self.dropDownBt.frame),CGRectGetMaxY(self.dropDownBt.frame),470,300} withTreeNodeArr:nil];
+        _categoryTreeTableView = [[DRTreeTableView alloc] initWithDropDownMenuFrame:(CGRect){CGRectGetMinX(self.dropDownBt.frame),CGRectGetMaxY(self.dropDownBt.frame),470,300} withTreeNodeArr:nil];
         _categoryTreeTableView.delegate = self;
         _categoryTreeTableView.backgroundColor = [UIColor lightGrayColor];
     }

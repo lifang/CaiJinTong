@@ -86,12 +86,14 @@
     
     //设置回复个数
     self.quesstionAnswerCountLabel.text = [NSString stringWithFormat:@"回复:%d",question.answerList?question.answerList.count:0];
-    
+    CGRect rect = [self.quesstionAnswerCountLabel.text boundingRectWithSize:(CGSize){MAXFLOAT,CGRectGetHeight(self.quesstionAnswerCountLabel.frame)} options:NSStringDrawingUsesDeviceMetrics attributes:@{NSFontAttributeName: self.quesstionAnswerCountLabel.font} context:nil];
+    self.answerCountBackView.frame = (CGRect){self.answerCountBackView.frame.origin,CGRectGetMinX(self.quesstionAnswerCountLabel.frame) + rect.size.width+10,self.answerCountBackView.frame.size.height};
     //是否有附件
     if (question.attachmentFileUrl && ![question.attachmentFileUrl isEqualToString:@""]) {
-        [self.attachmentBt setHidden:NO];
+        self.attachmentBackView.frame = (CGRect){CGRectGetMaxX(self.answerCountBackView.frame),self.attachmentBackView.frame.origin.y,self.attachmentBackView.frame.size};
+        [self.attachmentBackView setHidden:NO];
     }else{
-        [self.attachmentBt setHidden:YES];
+        [self.attachmentBackView setHidden:YES];
     }
 }
 @end

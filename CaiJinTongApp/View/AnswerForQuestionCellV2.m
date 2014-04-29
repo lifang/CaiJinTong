@@ -53,15 +53,19 @@
     //只有最后一个回答才显示多功能按钮
     if (answer.answerContentType == ReaskType_Answer) {
         [self.moreBt setHidden:NO];
-        if ([answer.answerIsPraised isEqualToString:@"1"] && ![[CaiJinTongManager shared].user.userId isEqualToString:answer.answerUserId] &&![[CaiJinTongManager shared].user.userId isEqualToString:question.askerId]) {
-            [self.moreBt setHidden:YES];
-        }
-    }else{
-        if (answer.isLastAnswer) {
-            [self.moreBt setHidden:NO];
+        
+        if ([[CaiJinTongManager shared].user.userId isEqualToString:question.askerId]) {
+             //我的提问
+            
         }else{
-            [self.moreBt setHidden:YES];
+        //别人的提问
+            if ([answer.answerIsPraised isEqualToString:@"1"] && ![[CaiJinTongManager shared].user.userId isEqualToString:answer.answerUserId]) {
+                [self.moreBt setHidden:YES];
+            }
         }
+        
+    }else{
+        [self.moreBt setHidden:YES];
     }
     
     //是否标记为正确答案

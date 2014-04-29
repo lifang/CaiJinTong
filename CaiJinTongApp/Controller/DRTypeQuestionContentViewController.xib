@@ -9,6 +9,7 @@
             <connections>
                 <outlet property="inputBackView" destination="Cox-bC-2Ft" id="oPf-tL-NUB"/>
                 <outlet property="inputTextView" destination="JbA-t4-gU2" id="UwI-SW-X9q"/>
+                <outlet property="submitBt" destination="GK7-7l-AnI" id="7zb-zo-aZr"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -36,13 +37,14 @@
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="JbA-t4-gU2">
                             <rect key="frame" x="20" y="0.0" width="280" height="147"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <color key="backgroundColor" red="0.63137254899999995" green="0.63137254899999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" red="0.96862751245498657" green="0.96862751245498657" blue="0.96862751245498657" alpha="1" colorSpace="deviceRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="GK7-7l-AnI">
                             <rect key="frame" x="20" y="166" width="280" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" red="0.85882359743118286" green="0.92941182851791382" blue="1" alpha="1" colorSpace="deviceRGB"/>
                             <state key="normal" title="提交">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>

@@ -308,7 +308,8 @@
                 lastAnswer = reaskAnswer;
                 
                 NSString *reAnswerId = [Utility filterValue:[reaskDic objectForKey:@"AID"]];
-                if (reAnswerId && ![reAnswerId isEqualToString:@""]) {
+                NSString *content = [Utility filterValue:[reaskDic objectForKey:@"Answer"]];
+                if (reAnswerId && ![reAnswerId isEqualToString:@""] && content) {
                     //对追问的回复
                     AnswerModel *reAnswer = [[AnswerModel alloc]init];
                     reAnswer.answerId = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"AID"]];
@@ -317,10 +318,11 @@
                     reAnswer.answerreIsTeacher = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"IsTeacher"]];
                     reAnswer.answerUserNick = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"TeacherName"]];
                     reAnswer.questionModel = questionModel;
+                    reAnswer.answerTime = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"CreateDate"]];
                     reAnswer.isLastAnswer = NO;
                     reAnswer.answerIsPraised = answer.answerIsPraised;
                     reAnswer.answerContentType = ReaskType_AnswerForReasking;
-                    reAnswer.answerRichContentArray = [QuestionRequestDataInterface parseHTMLContent:[NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"Answer"]]];
+                    reAnswer.answerRichContentArray = [QuestionRequestDataInterface parseHTMLContent:content];
                     [answerModelList addObject:reAnswer];//添加回复
                     lastAnswer = reAnswer;
                 }
@@ -359,17 +361,6 @@
     [request setTimeOutSeconds:30];
     [request setRequestMethod:@"GET"];
     [Utility requestDataWithASIRequest:request withSuccess:^(NSDictionary *dicData) {
-        
-        NSDictionary *dic = [dicData objectForKey:@"ReturnObject"];
-        if (!dic || dic.count <= 0) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (failure) {
-                    failure([NSError errorWithDomain:@"" code:2002 userInfo:@{@"msg": @"提交数据失败"}]);
-                }
-            });
-            return ;
-        }
-        
         dispatch_async(dispatch_get_main_queue(), ^{
             if (success) {
                 success(@"赞成功");
@@ -537,7 +528,7 @@
         note.noteContentName = [NSString stringWithFormat:@"%@",[dic objectForKey:@"questionName"]];
         note.noteLevel = level;
         note.noteRootContentID = rootContentID;
-        note.childnotes = [QuestionRequestDataInterface getTreeNodeArrayFromArray:[dic objectForKey:@"questionNode"] withLevel:level+1 withRootContentID:note.noteRootContentID];
+        note.childnotes = [QuestionRequestDataInterface getTreeNodeArrayFromArray:[dic objectForKey:@"questionNode"] withLevel:level+1 withRootContentID:note.noteRootContentID]; 
         [notes addObject:note];
     }
     return notes;
@@ -566,6 +557,7 @@
         question.isAcceptAnswer = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"isAcceptAnswer"]];
         question.pageIndex =[[question_dic objectForKey:@"pageIndex"]intValue];
         question.pageCount =[[question_dic objectForKey:@"pageCount"]intValue];
+        question.questionIsExtend = NO;
         question.isPraised =[NSString stringWithFormat:@"%@",[question_dic objectForKey:@"isPraised"]];
         NSString *content = [Utility filterValue:[question_dic objectForKey:@"questionName"]];
         if (!content ||[content isEqualToString:@""]) {
@@ -593,7 +585,7 @@
             answer.questionModel = question;
             answer.isLastAnswer = NO;
             answer.answerRichContentArray = [QuestionRequestDataInterface parseHTMLContent:[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"answerContent"]]];
-            [resultList addObject:answer];//添加回答
+//            [resultList addObject:answer];//添加回答
             [question.answerList addObject:answer];
             
            
@@ -611,12 +603,13 @@
                 reaskAnswer.isLastAnswer = NO;
                 reaskAnswer.answerIsPraised = answer.answerIsPraised;
                 reaskAnswer.answerRichContentArray = [QuestionRequestDataInterface parseHTMLContent:[NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"addQuestion"]]];
-                [resultList addObject:reaskAnswer];//添加追问
+//                [resultList addObject:reaskAnswer];//添加追问
                 [question.answerList addObject:reaskAnswer];
                 lastAnswer = reaskAnswer;
                 
                 NSString *reAnswerId = [Utility filterValue:[reaskDic objectForKey:@"AID"]];
-                if (reAnswerId && ![reAnswerId isEqualToString:@""]) {
+                NSString *content = [Utility filterValue:[reaskDic objectForKey:@"Answer"]];
+                if (reAnswerId && ![reAnswerId isEqualToString:@""] && content) {
                     //对追问的回复
                     AnswerModel *reAnswer = [[AnswerModel alloc]init];
                     reAnswer.answerId = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"AID"]];
@@ -624,12 +617,13 @@
                     reAnswer.answerIsAgree = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"AgreeStatus"]];
                     reAnswer.answerreIsTeacher = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"IsTeacher"]];
                     reAnswer.answerUserNick = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"TeacherName"]];
+                    reAnswer.answerTime = [NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"CreateDate"]];
                     reAnswer.questionModel = question;
                     reAnswer.isLastAnswer = NO;
                     reAnswer.answerIsPraised = answer.answerIsPraised;
                     reAnswer.answerContentType = ReaskType_AnswerForReasking;
-                    reAnswer.answerRichContentArray = [QuestionRequestDataInterface parseHTMLContent:[NSString stringWithFormat:@"%@",[reaskDic objectForKey:@"Answer"]]];
-                    [resultList addObject:reAnswer];//添加回复
+                    reAnswer.answerRichContentArray = [QuestionRequestDataInterface parseHTMLContent:content];
+//                    [resultList addObject:reAnswer];//添加回复
                     [question.answerList addObject:reAnswer];
                     lastAnswer = reAnswer;
                 }

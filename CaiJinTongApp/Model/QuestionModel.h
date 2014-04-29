@@ -26,7 +26,8 @@
 @property (nonatomic, strong) NSString *questiontitle;
 ///存放RichContentObj，把所有html和纯文本，图片转化
 @property (nonatomic,strong) NSArray *questionRichContentArray;
-
+///是否是展开状态
+@property (nonatomic, assign) BOOL questionIsExtend;//问题id
 ///回答个数
 @property (nonatomic, strong) NSString *questionAnswerCount;
 @property (nonatomic, assign) int pageIndex;//

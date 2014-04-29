@@ -257,7 +257,8 @@
 #pragma mark TreeView
 -(DRTreeTableView *)treeView{
     if(!_treeView){
-        _treeView = [[DRTreeTableView alloc] initWithFrame:(CGRect){2,2,2,2} withTreeNodeArr:nil];
+//        _treeView = [[DRTreeTableView alloc] initWithFrame:(CGRect){2,2,2,2} withTreeNodeArr:nil];
+        _treeView = [[DRTreeTableView alloc]initWithDropDownMenuFrame:(CGRect){CGRectGetMinX(self.categoryTextField.frame),CGRectGetMaxY(self.categoryTextField.frame),self.view.frame.size.width- CGRectGetMinX(self.categoryTextField.frame)*2,200} withTreeNodeArr:nil];
         _treeView.delegate = self;
         [self.view addSubview:_treeView];
         [_treeView setBackgroundColor:[UIColor lightGrayColor]];

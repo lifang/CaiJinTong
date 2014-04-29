@@ -14,6 +14,7 @@
 @property (nonatomic,strong) QuestionModel *questionModel;
 @property (nonatomic,strong) AnswerModel *answerModel;
 @property (nonatomic,assign) ReaskType reaskType;
+
 @end
 @implementation DRActionSheet
 
@@ -22,6 +23,9 @@
 @end
 
 @interface QuestionV2ViewController ()
+
+@property (nonatomic,strong) UIViewController *modelController; //点击图片显示的VC
+
 @property (nonatomic,strong) DRActionSheet *actionSheet;
 ///提交文本控件
 @property (nonatomic,strong) DRTypeQuestionContentViewController *typeContentController;
@@ -52,12 +56,12 @@
 
 ///重新加载问答数据，所需的分类id，分类类型在CaiJinTongManager单利中
 -(void)reloadQuestionData{
-    UserModel *user = [[UserModel alloc] init];
-    user.userId = @"17082";
-    [CaiJinTongManager shared].user = user;
-    [CaiJinTongManager shared].userId = @"17082";
-    [CaiJinTongManager shared].selectedQuestionCategoryType = CategoryType_MyAnswer;
-    ///////////////////////test
+//    UserModel *user = [[UserModel alloc] init];
+//    user.userId = @"17082";
+//    [CaiJinTongManager shared].user = user;
+//    [CaiJinTongManager shared].userId = @"17082";
+//    [CaiJinTongManager shared].selectedQuestionCategoryType = CategoryType_MyAnswer;
+//    ///////////////////////test
     switch ([CaiJinTongManager shared].selectedQuestionCategoryType) {
         case CategoryType_AllQuestion://所有问答
         {
@@ -171,7 +175,8 @@
 
 //TODO::提问
 -(void)askQuestionBtnClicked:(id)sender{
-    LHLAskQuestionViewController * askQuestionController  = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLAskQuestionViewController"];
+    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+    LHLAskQuestionViewController * askQuestionController  = [story instantiateViewControllerWithIdentifier:@"LHLAskQuestionViewController"];
     askQuestionController.delegate = self;
     
     [self.navigationController pushViewController:askQuestionController animated:YES];
@@ -302,7 +307,6 @@
         [self.askQuestionBtn addTarget:self action:@selector(askQuestionBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         [self.lhlNavigationBar addSubview:self.askQuestionBtn];
     }
-    
     //搜索
      [self.view addSubview:self.searchBar];
     
@@ -378,56 +382,76 @@
 
 ///选择多动能按钮时调用
 -(void)answerForQuestionCellV2:(AnswerForQuestionCellV2*)answerCell selectedMoreButtonAtIndexPath:(NSIndexPath*)path withAnswerType:(ReaskType)answerType{
+    self.actionSheet = nil;
     AnswerModel *answer = answerCell.answerModel;
     QuestionModel *question = (QuestionModel*)answer.questionModel;
-
     if ([question.askerId isEqualToString:[CaiJinTongManager shared].user.userId]) {
-        //自己提问的问题
-        if (answer.answerContentType == ReaskType_Answer) {
-            //追问别人的回答
-//            [self.actionSheet addButtonWithTitle:@"追问"];
-            self.actionSheet = [[DRActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"追问",nil];
-            if (![answer.answerIsCorrect isEqualToString:@"1"]) {
-//                [self.actionSheet addButtonWithTitle:@"采纳答案"];
-                self.actionSheet = [[DRActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"追问",@"采纳答案",nil];
+    //自己提问的问题
+        AnswerModel *lastAnswer = nil;
+        int lastIndex = [question.answerList indexOfObject:answer];
+        int findIndex = lastIndex;
+        for (int index = lastIndex+1; index < question.answerList.count; index++) {
+            AnswerModel *model = [question.answerList objectAtIndex:index];
+            if (model.answerContentType == ReaskType_Answer) {
+                lastIndex = index-1;
+                break;
             }
-        }else
-            if (answer.answerContentType == ReaskType_Reask) {
-                //修改追问
-//                [self.actionSheet addButtonWithTitle:@"修改追问"];
-                self.actionSheet = [[DRActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"修改追问",nil];
-            }else{
-                //对回复进行追问
-//                [self.actionSheet addButtonWithTitle:@"继续追问"];
-                self.actionSheet = [[DRActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"继续追问",nil];
-            }
-    }else{
-        //别人提问的问题
-        if ([answer.answerUserId isEqualToString:[CaiJinTongManager shared].user.userId]) {
-            if (answer.answerContentType == ReaskType_Answer) {
-//                [self.actionSheet addButtonWithTitle:@"修改回答"];
-                self.actionSheet = [[DRActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"修改回答",nil];
+            lastIndex = index;
+        }
+        if (lastIndex == findIndex) {
+            //追问,采纳答案，赞一下,取消
+             self.actionSheet = [[DRActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"追问",@"采纳答案",@"赞一下",nil];
+        }else{
+            lastAnswer = [question.answerList objectAtIndex:lastIndex];
+            if (lastAnswer.answerContentType == ReaskType_Reask) {
+                //修改追问,采纳答案，赞一下，取消
+                self.actionSheet = [[DRActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"修改追问",@"采纳答案",@"赞一下",nil];
             }else
-                if (answer.answerContentType == ReaskType_Reask){
-                    //回复
-//                    [self.actionSheet addButtonWithTitle:@"回复"];
-                    self.actionSheet = [[DRActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"回复",nil];
-                }else{
-                    //修改回复
-//                     [self.actionSheet addButtonWithTitle:@"修改回复"];
-                    self.actionSheet = [[DRActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"修改回复",nil];
+                if (lastAnswer.answerContentType == ReaskType_AnswerForReasking) {
+                    //继续追问,采纳答案，赞一下，取消
+                    self.actionSheet = [[DRActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"继续追问",@"采纳答案",@"赞一下",nil];
                 }
+        }
+        
+    }else{
+    //别人提问的问题
+        if ([answer.answerUserId isEqualToString:[CaiJinTongManager shared].user.userId]) {
+            AnswerModel *lastAnswer = nil;
+            int lastIndex = [question.answerList indexOfObject:answer];
+            int findIndex = lastIndex;
+            for (int index = lastIndex+1; index < question.answerList.count; index++) {
+                AnswerModel *model = [question.answerList objectAtIndex:index];
+                if (model.answerContentType == ReaskType_Answer) {
+                    lastIndex = index-1;
+                    break;
+                }
+                lastIndex = index;
+            }
+            if (lastIndex == findIndex){
+                //修改回答，取消
+                self.actionSheet = [[DRActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"修改回答",nil];
+            }else{
+                lastAnswer = [question.answerList objectAtIndex:lastIndex];
+                if (lastAnswer.answerContentType == ReaskType_Reask) {
+                    //回复，取消
+                    self.actionSheet = [[DRActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"回复",nil];
+                }else
+                    if (lastAnswer.answerContentType == ReaskType_AnswerForReasking) {
+                        //修改回复，取消
+                         self.actionSheet = [[DRActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"修改回复",nil];
+                    }
+            }
+        }else{
+        //赞一下，取消
+            self.actionSheet = [[DRActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"赞一下",nil];
         }
     }
     
-    if (answer.answerIsPraised && [answer.answerIsPraised isEqualToString:@"1"]) {
-        
-    }else{
-        //赞
-        if (![answer.answerUserId isEqualToString:[CaiJinTongManager shared].user.userId] && answer.answerContentType == ReaskType_Answer) {
-            [self.actionSheet addButtonWithTitle:@"赞一下"];
-        }
+    if (!self.actionSheet) {
+        NSLog(@"judge bug #################");
+        return;
     }
+
     self.actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
     self.actionSheet.questionModel = answerCell.answerModel.questionModel;
     self.actionSheet.answerModel = answerCell.answerModel;
@@ -471,14 +495,62 @@
 
 ///点击回答或者问题内容时调用,展开回答相关内容
 -(void)questionCellV2:(QuestionCellV2*)questionCell extendAnswerContentButtonAtIndexPath:(NSIndexPath*)path{
-
+    QuestionModel *question = questionCell.questionModel;
+    if (question.questionIsExtend) {
+        [self.questionDataArray removeObjectsInArray:question.answerList];
+    }else{
+        if (question.answerList.count <= 0) {
+            return;
+        }
+        int insertIndex = path.row+1;
+        NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSetWithIndex:insertIndex];
+        for (int count = 1; count < question.answerList.count; count++) {
+            [indexSet addIndex:insertIndex + count];
+        }
+        [self.questionDataArray insertObjects:question.answerList atIndexes:indexSet];
+    }
+    question.questionIsExtend = !question.questionIsExtend;
+    [self.tableView reloadData];
 }
 
 ///点击查看附件时调用
 -(void)questionCellV2:(QuestionCellV2*)questionCell viewAttachmentButtonAtIndexPath:(NSIndexPath*)path{
-
+    QuestionModel *question = questionCell.questionModel;
+    NSString *extension = [[question.attachmentFileUrl pathExtension] lowercaseString];
+    if ([extension isEqualToString:@"png"]
+        || [extension isEqualToString:@"jpg"]
+        || [extension isEqualToString:@"jpeg"]
+        || [extension isEqualToString:@"pdf"]
+        || [extension isEqualToString:@"doc"]
+        || [extension isEqualToString:@"docx"]
+        || [extension isEqualToString:@"txt"]
+        || [extension isEqualToString:@"ppt"]
+        || [extension isEqualToString:@"gif"]) {
+        [self scanImageFromImageUrl:[NSURL URLWithString:question.attachmentFileUrl]];
+    }else{
+        [Utility errorAlert:@"无法打开，请到电脑上打开使用"];
+    }
 }
 #pragma mark --
+
+//TODO::查看附件
+-(void)scanImageFromImageUrl:(NSURL*)imageURL{
+    if (!self.modelController) {
+        self.modelController = [[UIViewController alloc] init];
+    }
+    for (UIView *subView in self.modelController.view.subviews) {
+        [subView removeFromSuperview];
+    }
+    UIWebView *webView = [[UIWebView alloc] init];
+    [self.modelController.view addSubview:webView];
+    self.modelController.view.frame = (CGRect){0,0,300,225};
+    webView.frame = (CGRect){0,0,300,225};
+    webView.scalesPageToFit = YES;
+    [webView loadRequest:[NSURLRequest requestWithURL:imageURL]];
+    [self presentPopupViewController:self.modelController animationType:MJPopupViewAnimationSlideTopTop isAlignmentCenter:YES dismissed:^{
+        
+    }];
+}
 
 #pragma mark uiactionSheet弹出菜单代理
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -526,10 +598,60 @@
         editTip = @"采纳答案";
         [CaiJinTongManager shared].reaskType = ReaskType_AcceptAnswer;
     }
+    if ([title isEqualToString:@"赞一下"]) {
+        editTip = @"赞一下";
+        [CaiJinTongManager shared].reaskType = ReaskType_Praise;
+    }
+    
     if ([title isEqualToString:@"取消"]) {
         return;
     }
     /////////////////////end/////////////////////
+    
+    if ([CaiJinTongManager shared].reaskType == ReaskType_AcceptAnswer) {//采纳回答
+        __weak QuestionV2ViewController *weakSelf = self;
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [QuestionRequestDataInterface acceptAnswerWithUserId:[CaiJinTongManager shared].user.userId andQuestionId:[CaiJinTongManager shared].questionModel.questionId andAnswerID:[CaiJinTongManager shared].answerModel.answerUserId andCorrectAnswerID:[CaiJinTongManager shared].answerModel.answerId withSuccess:^(NSString *msg) {
+            QuestionV2ViewController *tempSelf = weakSelf;
+            if (tempSelf) {
+                [MBProgressHUD hideHUDForView:tempSelf.view animated:YES];
+                [CaiJinTongManager shared].answerModel.answerIsCorrect = @"1";
+                [CaiJinTongManager shared].questionModel.isAcceptAnswer = @"1";
+                [tempSelf.tableView reloadData];
+                [Utility errorAlert:msg];
+            }
+        } withError:^(NSError *error) {
+            QuestionV2ViewController *tempSelf = weakSelf;
+            if (tempSelf) {
+                [MBProgressHUD hideHUDForView:tempSelf.view animated:YES];
+                [Utility errorAlert:[error.userInfo objectForKey:@"msg"]];
+            }
+        }];
+        return;
+    }
+    
+    if ([CaiJinTongManager shared].reaskType == ReaskType_Praise) {//赞
+        __weak QuestionV2ViewController *weakSelf = self;
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [QuestionRequestDataInterface pariseAnswerWithUserId:[CaiJinTongManager shared].user.userId andQuestionId:[CaiJinTongManager shared].questionModel.questionId andAnswerId:[CaiJinTongManager shared].answerModel.answerUserId withSuccess:^(NSString *msg) {
+            QuestionV2ViewController *tempSelf = weakSelf;
+            if (tempSelf) {
+                [MBProgressHUD hideHUDForView:tempSelf.view animated:YES];
+                NSString *prasieCount = [CaiJinTongManager shared].answerModel.answerPraiseCount;
+                [CaiJinTongManager shared].answerModel.answerPraiseCount = [NSString stringWithFormat:@"%d",prasieCount.intValue+1];
+                [CaiJinTongManager shared].answerModel.answerIsPraised = @"1";
+                [tempSelf.tableView reloadData];
+                [Utility errorAlert:msg];
+            }
+        } withError:^(NSError *error) {
+            QuestionV2ViewController *tempSelf = weakSelf;
+            if (tempSelf) {
+                [Utility errorAlert:[error.userInfo objectForKey:@"msg"]];
+                [MBProgressHUD hideHUDForView:tempSelf.view animated:YES];
+            }
+        }];
+        return;
+    }
     __weak QuestionV2ViewController *weakSelf = self;
     self.typeContentController.submitFinishedBlock = ^(NSArray *dataArray ,NSString *errorMsg){
         //刷新数据

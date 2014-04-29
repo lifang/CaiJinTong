@@ -30,6 +30,8 @@
 
 ///点击可以进行回答，赞，回复，追问
 @property (weak, nonatomic) IBOutlet UIButton *questionBt;
+///附件背景view
+@property (weak, nonatomic) IBOutlet UIView *attachmentBackView;
 
 ///显示问答内容，文本和图片
 @property (weak, nonatomic) IBOutlet RichQuestionContentView *questionRichContentview;
