@@ -62,6 +62,13 @@
             if ([answer.answerIsPraised isEqualToString:@"1"] && ![[CaiJinTongManager shared].user.userId isEqualToString:answer.answerUserId]) {
                 [self.moreBt setHidden:YES];
             }
+            if ([[CaiJinTongManager shared].user.userId isEqualToString:answer.answerUserId] && [answer.answerIsCorrect isEqualToString:@"1"]) {
+                int index = [question.answerList indexOfObject:answer];
+                if (index == question.answerList.count-1 || [(AnswerModel*)[question.answerList objectAtIndex:index+1] answerContentType] == ReaskType_Answer) {
+                    //我的回答是正确答案，如果没有回复和追问隐藏
+                    [self.moreBt setHidden:YES];
+                }
+            }
         }
         
     }else{

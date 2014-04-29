@@ -33,17 +33,6 @@
     [request setPostValue:[NSString stringWithFormat:@"%@",answerID] forKey:@"answerId"];
     [request setPostValue:[NSString stringWithFormat:@"%@",correctAnswerID] forKey:@"resultId"];
     [Utility requestDataWithASIRequest:request withSuccess:^(NSDictionary *dicData) {
-        
-        NSDictionary *dic = [dicData objectForKey:@"ReturnObject"];
-        if (!dic || dic.count <= 0) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (failure) {
-                    failure([NSError errorWithDomain:@"" code:2002 userInfo:@{@"msg": @"采纳答案提交失败"}]);
-                }
-            });
-            return ;
-        }
-
         dispatch_async(dispatch_get_main_queue(), ^{
             if (success) {
                 success(@"采纳答案提交成功");
@@ -206,7 +195,9 @@
     
     ASIFormDataRequest *request = nil;
     
-    
+    if (reaskType == ReaskType_ModifyReaskAnswer){
+        reaskType = ReaskType_AnswerForReasking;
+    }
     
     if (reaskType == ReaskType_ModifyReaskAnswer) {//修改回复
         //            lms.finance365.com/api/ios.ashx?active=replyquestion&userId=17082&questionid=&content=
@@ -578,6 +569,9 @@
             answer.answerIsPraised = [NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"isParise"]];
             answer.answerPraiseCount =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"answerPraiseCount"]];
             answer.answerIsCorrect =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"IsAnswerAccept"]];
+            if (![question.isAcceptAnswer isEqualToString:@"1"]) {
+                question.isAcceptAnswer = answer.answerIsCorrect;
+            }
 //            answer.answerContent =[NSString stringWithFormat:@"%@",[answer_dic objectForKey:@"answerContent"]];
             answer.pageIndex =[[answer_dic objectForKey:@"pageIndex"]intValue];
             answer.pageCount =[[answer_dic objectForKey:@"pageCount"]intValue];

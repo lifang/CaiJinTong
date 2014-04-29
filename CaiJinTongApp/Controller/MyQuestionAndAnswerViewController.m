@@ -154,6 +154,10 @@
     [self.drnavigationBar hiddleBackButton:YES];
     self.drnavigationBar.searchBar.searchTextLabel.placeholder = @"搜索问题";
     [self.noticeBarImageView.layer setCornerRadius:4];
+    self.noticeBarImageView.layer.borderColor = [UIColor colorWithRed:0.993 green:0.917 blue:0.854 alpha:1.000].CGColor;
+    self.noticeBarImageView.layer.borderWidth = 1.;
+    
+    [self modifyAskQuestionButton];
 }
 
 #pragma mark DRSearchBarDelegate搜索
@@ -408,6 +412,11 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
 }
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    [self noticeHideBtnClick:nil];
+}
+
 #pragma mark --
 
 #pragma mark UITableViewDataSource
@@ -558,6 +567,16 @@
     }
 }
 
+- (void)modifyAskQuestionButton{
+    if (self.askQuestionButton) {
+        [self.askQuestionButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        self.askQuestionButton.backgroundColor = [UIColor colorWithRed:154./255. green:196./255. blue:240./255. alpha:1.0];
+        self.askQuestionButton.layer.cornerRadius = 5.;
+        self.askQuestionButton.layer.borderWidth = .8;
+        self.askQuestionButton.layer.borderColor = [UIColor colorWithRed:0.406 green:0.640 blue:0.916 alpha:1.000].CGColor;
+    }
+}
+
 #pragma mark --
 
 #pragma mark property
@@ -663,7 +682,10 @@
 
 
 - (IBAction)noticeHideBtnClick:(id)sender {
-    [self.noticeBarView setHidden:YES];
+    if (self.noticeBarView.hidden == NO) {
+        [self.noticeBarView setHidden:YES];
+        self.tableView.frame = (CGRect){self.tableView.frame.origin.x,self.tableView.frame.origin.y - 40,self.tableView.frame.size.width,self.tableView.frame.size.height + 40};
+    }
 }
 
 #pragma mark DRAskQuestionViewControllerDelegate 提问问题成功时回调

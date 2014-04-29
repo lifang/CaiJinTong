@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UIView *questionBackgroundView;
 @property (weak, nonatomic) IBOutlet DRAttributeStringView *answerAttributeTextView;
 
+@property (weak, nonatomic) IBOutlet UIImageView *qTitleNameImageView;
 @property (weak, nonatomic) IBOutlet UILabel *qTitleNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *qDateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *qflowerLabel;

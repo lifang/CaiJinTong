@@ -46,7 +46,7 @@ self.interfaceUrl = [NSString stringWithFormat:@"%@?active=chapterQuestion",kHos
         if (jsonObject !=nil) {
             if ([jsonObject isKindOfClass:[NSDictionary class]]) {
                 NSDictionary *jsonData=(NSDictionary *)jsonObject;
-                DLog(@"data = %@",jsonData);
+                DLog(@"data = %@",[[NSString alloc] initWithData:[request responseData] encoding:NSUTF8StringEncoding]);
                 if (jsonData) {
                     if ([[jsonData objectForKey:@"Status"]intValue] == 1) {
                         @try {

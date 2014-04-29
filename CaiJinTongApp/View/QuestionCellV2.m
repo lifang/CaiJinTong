@@ -69,7 +69,12 @@
     if ([[CaiJinTongManager shared].user.userId isEqualToString:question.askerId]) {
         [self.questionBt setHidden:YES];
     }else{
-        [self.questionBt setHidden:NO];
+        if (question.answerList.count > 0) {
+            [self.questionBt setHidden:YES];
+        }else{
+            [self.questionBt setHidden:NO];
+        }
+        
     }
     //设置时间
     self.questionTimeLabel.text = @"";

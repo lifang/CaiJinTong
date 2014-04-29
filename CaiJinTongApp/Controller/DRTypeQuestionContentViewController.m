@@ -83,6 +83,16 @@
             __weak DRTypeQuestionContentViewController *weakSelf = self;
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             [QuestionRequestDataInterface submitAnswerWithUserId:[CaiJinTongManager shared].user.userId andReaskTyep:[CaiJinTongManager shared].reaskType andAnswerContent:self.inputTextView.text andQuestionModel:question andAnswerID:[CaiJinTongManager shared].answerModel?[CaiJinTongManager shared].answerModel.answerId:nil withSuccess:^(NSArray *answerModelArray) {
+                for (AnswerModel *answer in answerModelArray) {
+                    QuestionModel *questionM = answer.questionModel;
+                    if ([questionM.isAcceptAnswer isEqualToString:@"1"]) {
+                        break;
+                    }else{
+                        if ([answer.answerIsCorrect isEqualToString:@"1"]) {
+                            questionM.isAcceptAnswer = answer.answerIsCorrect;
+                        }
+                    }
+                }
                 DRTypeQuestionContentViewController *tempSelf = weakSelf;
                 if (tempSelf) {
                     [MBProgressHUD hideHUDForView:tempSelf.view animated:YES];

@@ -259,6 +259,7 @@
 		18C9313B18363B2A00FBE1A8 /* play-table@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18C9312A18363B2A00FBE1A8 /* play-table@2x.png */; };
 		18C9314018363B9C00FBE1A8 /* DRCommitQuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C9313D18363B9C00FBE1A8 /* DRCommitQuestionViewController.m */; };
 		18C9314118363B9C00FBE1A8 /* DRTakingMovieNoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C9313F18363B9C00FBE1A8 /* DRTakingMovieNoteViewController.m */; };
+		18D6C7D0190A6976008F6909 /* delete_icon&48@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D6C7CF190A6976008F6909 /* delete_icon&48@2x.png */; };
 		18E0D75F1850296D001A6667 /* MenuTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E0D75E1850296D001A6667 /* MenuTableCell.m */; };
 		18E0D762185040BA001A6667 /* LessonListHeaderView_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E0D761185040BA001A6667 /* LessonListHeaderView_iPhone.m */; };
 		18E32E081831FDF900041B8A /* btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E32E021831FDF900041B8A /* btn@2x.png */; };
@@ -903,6 +904,7 @@
 		18C9313D18363B9C00FBE1A8 /* DRCommitQuestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRCommitQuestionViewController.m; sourceTree = "<group>"; };
 		18C9313E18363B9C00FBE1A8 /* DRTakingMovieNoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRTakingMovieNoteViewController.h; sourceTree = "<group>"; };
 		18C9313F18363B9C00FBE1A8 /* DRTakingMovieNoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRTakingMovieNoteViewController.m; sourceTree = "<group>"; };
+		18D6C7CF190A6976008F6909 /* delete_icon&48@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delete_icon&48@2x.png"; sourceTree = "<group>"; };
 		18E0D75D1850296D001A6667 /* MenuTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableCell.h; sourceTree = "<group>"; };
 		18E0D75E1850296D001A6667 /* MenuTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuTableCell.m; sourceTree = "<group>"; };
 		18E0D760185040BA001A6667 /* LessonListHeaderView_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LessonListHeaderView_iPhone.h; sourceTree = "<group>"; };
@@ -2455,6 +2457,7 @@
 				63E0307C190E2EA4008F8A23 /* treeCircle_n@2x.png */,
 				63E0307D190E2EA5008F8A23 /* treeClose_n@2x.png */,
 				63E0307E190E2EA5008F8A23 /* treeExtend_n@2x.png */,
+				18D6C7CF190A6976008F6909 /* delete_icon&48@2x.png */,
 				63F3E07D1908DE6B004E6CB5 /* correct_n@2x.png */,
 				63BBE3D8190611E400A57C5A /* answer_n@2x.png */,
 				63BBE3DA190611E400A57C5A /* mail_n@2x.png */,
@@ -2838,6 +2841,7 @@
 				63D284101883D690005D8721 /* login_userName@2x.png in Resources */,
 				63F0594318E3CBF6006925A6 /* icon-120.png in Resources */,
 				63A77AC51887D31F00E86C73 /* image@2x.png in Resources */,
+				18D6C7D0190A6976008F6909 /* delete_icon&48@2x.png in Resources */,
 				18C9313618363B2A00FBE1A8 /* play_volume@2x.png in Resources */,
 				18112DF5188627450025C66B /* _play_16@2x.png in Resources */,
 				63F0594218E3CBF6006925A6 /* icon-114.png in Resources */,
