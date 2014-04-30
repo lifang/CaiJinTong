@@ -19,6 +19,11 @@
 + (NSString *) hexFromUIColor: (UIColor*) color;
 
 #pragma mark --
+///查找播放记录
++(float)getStartPlayerTimeWithUserId:(NSString*)userId withSectionId:(NSString*)sectionId;
+
+///保存播放记录
++(void)setStartPlayerTimeWithUserId:(NSString*)userId withSectionId:(NSString*)sectionId withPlayerTime:(float)time;
 ///返回文件类型
 +(DRURLFileType)getFileTypeWithFileExtension:(NSString*)extension;
 

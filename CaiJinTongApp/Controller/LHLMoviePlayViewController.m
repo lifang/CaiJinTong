@@ -600,7 +600,8 @@
     if (self.moviePlayer.isPreparedToPlay) {
         [self.moviePlayer stop];
     }
-    self.moviePlayer.initialPlaybackTime = [self.sectionModel.sectionLastPlayTime floatValue];
+//    self.moviePlayer.initialPlaybackTime = [self.sectionModel.sectionLastPlayTime floatValue];
+    self.moviePlayer.initialPlaybackTime = [Utility getStartPlayerTimeWithUserId:[CaiJinTongManager shared].user.userId withSectionId:self.sectionModel.sectionId];
     self.moviePlayer.movieSourceType = self.drMovieSourceType;
     if (self.drMovieSourceType == MPMovieSourceTypeFile) {
         [self.moviePlayer setContentURL:self.movieUrl];
@@ -625,6 +626,7 @@
     __block NSString *timespan = [NSString stringWithFormat:@"%.2f",self.moviePlayer.currentPlaybackTime];
     self.sectionModel.sectionFinishedDate = [Utility getNowDateFromatAnDate];
     self.sectionModel.sectionLastPlayTime = timespan;
+    [Utility setStartPlayerTimeWithUserId:[CaiJinTongManager shared].user.userId withSectionId:self.sectionModel.sectionId withPlayerTime:self.moviePlayer.currentPlaybackTime];
     [DRFMDBDatabaseTool updateSectionPlayDateWithUserId:[CaiJinTongManager shared].user.userId withSectionId:self.sectionModel.sectionId withPlayTime:self.sectionModel.sectionLastPlayTime withLastFinishedDate:self.sectionModel.sectionFinishedDate withFinished:^(BOOL flag) {
         
     }];
@@ -889,7 +891,8 @@
         self.loadMovieDataProgressView =  [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];;
         self.moviePlayer.movieSourceType = self.drMovieSourceType;
         [self.moviePlayer setContentURL:self.movieUrl];
-        self.moviePlayer.initialPlaybackTime = [self.sectionModel.sectionLastPlayTime floatValue];
+//        self.moviePlayer.initialPlaybackTime = [self.sectionModel.sectionLastPlayTime floatValue];
+        self.moviePlayer.initialPlaybackTime = [Utility getStartPlayerTimeWithUserId:[CaiJinTongManager shared].user.userId withSectionId:self.sectionModel.sectionId];
         if (self.moviePlayer.playbackState != MPMoviePlaybackStatePlaying) {
             [self.moviePlayer play];
         }
@@ -1021,7 +1024,11 @@
 
 #pragma mark --
 - (BOOL)shouldAutorotate {
-    return YES;
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    if (orientation != UIInterfaceOrientationLandscapeLeft) {
+        return YES;
+    }
+    return NO;
 }
 
 - (NSUInteger)supportedInterfaceOrientations {

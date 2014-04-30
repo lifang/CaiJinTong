@@ -237,7 +237,7 @@
     self.answerQuestionBt.frame = (CGRect){self.frame.size.width - 100 - 25,5,100,HEADER_TEXT_HEIGHT - 2};
     
     self.attachmentButton.frame = (CGRect){CGRectGetMinX(self.answerQuestionBt.frame) - 100 - TEXT_PADDING,5,100,HEADER_TEXT_HEIGHT};
-    self.questionImg.frame = (CGRect){TEXT_PADDING*2+2,HEADER_TEXT_HEIGHT+8,20,20};
+    self.questionImg.frame = (CGRect){TEXT_PADDING,HEADER_TEXT_HEIGHT,25,25};
 //    float contentWidth = CGRectGetWidth(self.frame)-CGRectGetMaxX(self.questionImg.frame)-TEXT_PADDING*2;
     float height = [self.delegate questionAndAnswerCellHeaderView:self headerHeightAtIndexPath:self.path];
 //    if (height > ContentMinHeight) {

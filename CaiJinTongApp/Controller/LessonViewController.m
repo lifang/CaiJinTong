@@ -279,6 +279,7 @@ typedef enum {
         [self.learningMatarilasListInterface downloadlearningMaterilasListForCategoryId:nil withUserId:user.userId withPageIndex:0 withSortType:LearningMaterialsSortType_Default];
     }
 
+    self.learningMaterialsController.drnavigationBar.titleLabel.text = @"";
 }
 
 -(void)removeFromRootController:(UIViewController*)controller{
@@ -328,6 +329,7 @@ typedef enum {
     self.didAppearController = self.lessonNavigationController;
     [self addToRootController:self.lessonNavigationController];
     [self downloadLessonCategoryInfo];
+    self.chapterView.drnavigationBar.titleLabel.text = @"";
 }
 
 /**
@@ -368,6 +370,7 @@ typedef enum {
         }
     }];
     
+    self.myQAVC.drnavigationBar.titleLabel.text = @"";
 }
 
 - (IBAction)SearchBrClicked:(id)sender {

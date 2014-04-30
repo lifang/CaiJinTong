@@ -49,6 +49,7 @@
         self.tipLabel.backgroundColor = [UIColor clearColor];
         [self.tipLabel setFont:[UIFont systemFontOfSize:20]];
         self.tipLabel.text = @"暂无分类数据";
+        [self.tipLabel setTextAlignment:NSTextAlignmentCenter];
         [self.tipLabel setTextColor:[UIColor lightGrayColor]];
         [self.tableView addSubview:self.tipLabel];
         if (self.noteArr.count > 0) {
@@ -95,11 +96,12 @@
     [self.tableView setSeparatorColor:[UIColor clearColor]];
     [self addSubview:self.tableView];
     self.isExtendChildNode = YES;
-    self.tipLabel = [[UILabel alloc] initWithFrame:self.tableView.frame];
+    self.tipLabel = [[UILabel alloc] initWithFrame:(CGRect){0,0,frame.size}];
     self.tipLabel.backgroundColor = [UIColor clearColor];
     [self.tipLabel setFont:[UIFont systemFontOfSize:20]];
     self.tipLabel.text = @"暂无分类数据";
-    [self.tipLabel setTextColor:[UIColor lightGrayColor]];
+    [self.tipLabel setTextAlignment:NSTextAlignmentCenter];
+    [self.tipLabel setTextColor:[UIColor blackColor]];
     [self.tableView addSubview:self.tipLabel];
     if (self.noteArr.count > 0) {
         [self.tipLabel setHidden:YES];

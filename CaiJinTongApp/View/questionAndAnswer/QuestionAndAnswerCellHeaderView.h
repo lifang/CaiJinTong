@@ -15,7 +15,7 @@
 #define TEXT_PADDING 10
 #define BUTTON_TITLE_FONT [UIFont systemFontOfSize:18.]
 #define HEADER_TEXT_HEIGHT 40
-#define QUESTIONHEARD_VIEW_WIDTH  650
+#define QUESTIONHEARD_VIEW_WIDTH  620
 #define QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT 141
 #define ContentMinHeight 210
 @protocol QuestionAndAnswerCellHeaderViewDelegate;

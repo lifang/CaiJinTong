@@ -14,13 +14,13 @@
 #define IMAGE_HEIGHT PAD(200,150)
 #define FLAG_HEIGHT PAD(44,44)
 
-#define Question_Title_Font [UIFont systemFontOfSize:PAD(22,14)]
-#define Question_Content_Font [UIFont systemFontOfSize:PAD(21,13)]
-#define Answer_Content_Font [UIFont systemFontOfSize:PAD(19,12)]
-#define Reask_Content_Font [UIFont systemFontOfSize:PAD(19,12)]
-#define Reask_Title_Font [UIFont systemFontOfSize:13]
-#define ReAnswer_Content_Font [UIFont systemFontOfSize:PAD(22,14)]
-#define ReAnswer_Title_Font [UIFont systemFontOfSize:13]
+#define Question_Title_Font [UIFont systemFontOfSize:PAD(19,14)]
+#define Question_Content_Font [UIFont systemFontOfSize:PAD(18,13)]
+#define Answer_Content_Font [UIFont systemFontOfSize:PAD(18,12)]
+#define Reask_Content_Font [UIFont systemFontOfSize:PAD(18,12)]
+#define Reask_Title_Font [UIFont systemFontOfSize:19]
+#define ReAnswer_Content_Font [UIFont systemFontOfSize:PAD(18,14)]
+#define ReAnswer_Title_Font [UIFont systemFontOfSize:19]
 
 #define Question_Title_Color [UIColor colorWithRed:0.082 green:0.416 blue:0.737 alpha:1.000]
 #define Question_Content_Color [UIColor colorWithWhite:0.435 alpha:1.000]

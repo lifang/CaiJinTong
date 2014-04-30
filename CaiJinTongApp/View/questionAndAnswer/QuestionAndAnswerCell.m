@@ -211,16 +211,16 @@
     self.qflowerLabel.frame = (CGRect){CGRectGetMaxX(self.qflowerImageView.frame)+TEXT_PADDING,0,[Utility getTextSizeWithString:self.qflowerLabel.text withFont:self.qflowerLabel.font].width,CGRectGetHeight(self.qflowerLabel.frame)};
     
     //点击追问 / 修改追问 /修改回答
-    self.answerBt.frame = (CGRect){self.answerAttributeTextView.frame.origin.x + QUESTIONANDANSWER_CELL_WIDTH - self.acceptAnswerBt.frame.size.width - TEXT_PADDING ,0,self.acceptAnswerBt.frame.size};
+//    self.answerBt.frame = (CGRect){CGRectGetMaxX(self.frame) - self.acceptAnswerBt.frame.size.width-30,0,self.acceptAnswerBt.frame.size};
     self.answerBt.layer.cornerRadius = 4.;
-    self.answerBt.backgroundColor = [UIColor colorWithRed:0.839 green:0.541 blue:0.118 alpha:1.000];
-    [self.answerBt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.answerBt.titleLabel setFont:self.acceptAnswerBt.titleLabel.font];
+//    self.answerBt.backgroundColor = [UIColor colorWithRed:0.839 green:0.541 blue:0.118 alpha:1.000];
+//    [self.answerBt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    [self.answerBt.titleLabel setFont:self.acceptAnswerBt.titleLabel.font];
     
     //采纳答案 / 正确回答
-    self.acceptAnswerBt.frame = (CGRect){self.answerAttributeTextView.frame.origin.x +QUESTIONANDANSWER_CELL_WIDTH - (self.answerBt.frame.size.width + TEXT_PADDING * 2),0,self.acceptAnswerBt.frame.size};
+//    self.acceptAnswerBt.frame = (CGRect){CGRectGetMinX( self.answerBt.frame)-self.acceptAnswerBt.frame.size.width - 10,0,self.acceptAnswerBt.frame.size};
     self.acceptAnswerBt.layer.cornerRadius = 4.;
-    self.acceptAnswerBt.backgroundColor = [UIColor colorWithRed:0.450 green:0.780 blue:0.427 alpha:1.000];
+//    self.acceptAnswerBt.backgroundColor = [UIColor colorWithRed:0.450 green:0.780 blue:0.427 alpha:1.000];
     
     float cellHeight = [self.delegate questionAndAnswerCell:self getCellheightAtIndexPath:self.path];
     self.answerAttributeTextView.frame = (CGRect){self.answerAttributeTextView.frame.origin,QUESTIONANDANSWER_CELL_WIDTH,cellHeight};
