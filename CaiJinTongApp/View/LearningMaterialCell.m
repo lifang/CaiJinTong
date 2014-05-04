@@ -23,6 +23,8 @@
 @property (nonatomic,strong)  LearningMaterials  *materialModel;
 
 - (IBAction)scanBtClicked:(id)sender;
+- (IBAction)deleteBtClicked:(id)sender;
+
 
 @end
 @implementation LearningMaterialCell
@@ -46,6 +48,12 @@
 - (IBAction)scanBtClicked:(id)sender {
     if (self.delegate && [self.delegate respondsToSelector:@selector(learningMaterialCell:scanLearningMaterialFileAtIndexPath:)]) {
         [self.delegate learningMaterialCell:self scanLearningMaterialFileAtIndexPath:self.path];
+    }
+}
+
+- (IBAction)deleteBtClicked:(id)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(learningMaterialCell:deleteLearningMaterialFileAtIndexPath:)]) {
+        [self.delegate learningMaterialCell:self deleteLearningMaterialFileAtIndexPath:self.path];
     }
 }
 

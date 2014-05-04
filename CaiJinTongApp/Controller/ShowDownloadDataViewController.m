@@ -257,6 +257,27 @@
         }];
     }
 }
+
+- (void)learningMaterialCell:(LearningMaterialCell *)cell deleteLearningMaterialFileAtIndexPath:(NSIndexPath *)path{
+    LearningMaterials *material = self.isSearch?[self.searchLearningMaterialArray objectAtIndex:path.row]:[self.learningMaterialDataArray objectAtIndex:path.row];
+    [DRFMDBDatabaseTool deleteMaterialWithUserId:[CaiJinTongManager shared].user.userId
+                         withLearningMaterialsId:material.materialId
+                                    withFinished:^(BOOL flag) {
+                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                            NSIndexPath *newPath;
+                                            if (self.isSearch) {
+                                                newPath = [NSIndexPath indexPathForRow:[self.searchLearningMaterialArray indexOfObject:material] inSection:path.section];
+                                                [self.searchLearningMaterialArray removeObject:material];
+                                            }else{
+                                                newPath = [NSIndexPath indexPathForRow:[self.learningMaterialDataArray indexOfObject:material] inSection:path.section];
+                                                [self.learningMaterialDataArray removeObject:material];
+                                            }
+                                            [self.tableView deleteRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
+                                            [self.tableView reloadData];
+                                        });
+                                    }];
+}
+
 #pragma mark --
 
 #pragma mark property

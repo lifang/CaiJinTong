@@ -20,5 +20,5 @@
 @protocol LearningMaterialCellDelegate <NSObject>
 
 -(void)learningMaterialCell:(LearningMaterialCell*)cell scanLearningMaterialFileAtIndexPath:(NSIndexPath*)path;
-
+-(void)learningMaterialCell:(LearningMaterialCell*)cell deleteLearningMaterialFileAtIndexPath:(NSIndexPath*)path;
 @end
