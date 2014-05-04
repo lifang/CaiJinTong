@@ -88,11 +88,16 @@
     section.lessonId = self.lessonId;
     cell.nameLab.text = [NSString stringWithFormat:@"【%@】",section.sectionName];
     cell.sid = section.sectionId;
-
+    
     cell.sectionModel = section;
     cell.isMoviePlayView = self.isMovieView;
     cell.btn.isMovieView = self.isMovieView;
     [cell beginReceiveNotification];
+    if ([CaiJinTongManager shared].isShowLocalData) {
+        [cell.playBt setTitle:@"删 除" forState:UIControlStateNormal];
+        cell.playBt.hidden = NO;
+        cell.playBt.userInteractionEnabled = YES;
+    }
     return cell;
 } 
 
