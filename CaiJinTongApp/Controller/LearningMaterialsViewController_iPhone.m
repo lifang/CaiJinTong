@@ -65,7 +65,7 @@
         }else{
             self.tableView.frame = CGRectMake(10,63, 300,IP5(440, 370) ) ;
         }
-        
+        self.tipLabel.frame = self.tableView.frame;
         [DRFMDBDatabaseTool selectDownloadedLearningMaterialsListWithUserId:[CaiJinTongManager shared].user.userId withFinished:^(NSArray *learningMaterialsArray, NSString *errorMsg) {
             self.dataArray = [NSMutableArray arrayWithArray:learningMaterialsArray];
             [self.tableView reloadData];
@@ -89,6 +89,7 @@
             self.tableView.frame = CGRectMake(10,IP5(150, 144), 300,IP5(360, 280) ) ;
         }
         
+        self.tipLabel.frame = self.tableView.frame;
         if (self.dataArray.count <= 0) {
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             UserModel *user = [[CaiJinTongManager shared] user];
@@ -171,6 +172,7 @@
     }else{
         self.tableView.frame = CGRectMake(10,IP5(150, 144), 320,IP5(400, 330) ) ;
     }
+    self.tipLabel.frame = self.tableView.frame;
     [self.headerRefreshView endRefreshing];
     [self.footerRefreshView endRefreshing];
     self.headerRefreshView.isForbidden = NO;

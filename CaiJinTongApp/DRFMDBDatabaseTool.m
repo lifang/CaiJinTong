@@ -891,7 +891,7 @@
                                                 ,materials.materialFileLocalPath?:@""
                                                 ,materials.materialFileDownloadURL?:@""
                                                 ,[DRFMDBDatabaseTool convertDownloadStatusFromStatus:materials.materialFileDownloadStaus]
-                                                ,materials.materialCreateDate?:@""
+                                                ,[Utility getNowDateFromatAnDate]
                                                 ,materials.materialLessonCategoryName?:@""
                                                 ,[DRFMDBDatabaseTool convertMaterialFileTypeFromFileType:materials.materialFileType]
                                                 ,materials.materialSearchCount?:@""

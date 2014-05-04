@@ -92,6 +92,7 @@
     }else{
         self.collectionView.frame = CGRectMake(0,IP5(150, 144), 320,IP5(400, 330) ) ;
     }
+    self.tipLabel.frame = self.collectionView.frame;
     [self.collectionView setPagingEnabled:NO];
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
@@ -144,35 +145,12 @@
         }else{
             self.collectionView.frame = CGRectMake(0,63, 320, IP5(433, 365)) ;
         }
-        
+        self.tipLabel.frame = self.collectionView.frame;
         [self.searchBar setHidden:YES];
-        if (self.sectionList.count <= 0) {
-            [self initData];
-        }
-        [self.drTreeTableView setHiddleTreeTableView:YES withAnimation:NO];
+        [self initData];
+//        [self.drTreeTableView setHiddleTreeTableView:YES withAnimation:NO];
     }else{
-        if (self.sectionList.count <= 0) {
-            [self initData];
-            self.lhlNavigationBar.title.text = @"我的课程";
-        }
-        [self.tipLabel setHidden:YES];
-        [self.lhlNavigationBar.rightItem setHidden:NO];
-        
-        [self.mainToolBar setHidden:NO];
-        if (platform >= 7.0) {
-            self.collectionView.frame = CGRectMake(0,IP5(150, 144), 320,IP5(350, 286)) ;
-        }else{
-            self.collectionView.frame = CGRectMake(0,IP5(150, 144), 320,IP5(350, 286) ) ;
-        }
-        
-        [self.searchBar setHidden:NO];
-
-        if(self.isBackFromSectionVC){
-            [self refreshViewBeginRefreshing:self.headerRefreshView];
-            self.isBackFromSectionVC = NO;
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            return;
-        }
+        [self refreshViewBeginRefreshing:self.headerRefreshView];
     }
     
     self.tipLabel.frame = self.collectionView.frame;
