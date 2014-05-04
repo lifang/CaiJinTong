@@ -171,7 +171,7 @@
         }
     }
     
-
+    self.tipLabel.frame = self.collectionView.frame;
     self.menuVisible = NO;
     [self.drTreeTableView setHiddleTreeTableView:!self.menuVisible withAnimation:NO];
     

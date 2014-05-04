@@ -130,10 +130,16 @@
 }
 
 -(void)cancelDownloadData{
+    self.downloadFileStatus = DownloadStatus_UnDownload;
     ASIHTTPRequest *request = [self getRequestFromQueueWithInfo:self.downloadFileURL.absoluteString];
     if (request) {
         [request setDelegate:nil];
         [request clearDelegatesAndCancel];
+    }
+    self.progressView.progress = 0.0;
+    [self.progressView removeFromSuperview];
+    if (self.isPostNotification) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:DownloadDataButton_Notification_Cancel object:nil userInfo:@{URLKey: self.downloadFileURL.absoluteString?:@"",URLLocalPath:self.localPath?:@""}];
     }
 }
 
@@ -161,7 +167,7 @@
         }
         case DownloadStatus_Downloading:
         {
-            self.alert = [[UIAlertView alloc] initWithTitle:@"" message:@"正在下载中..." delegate:self cancelButtonTitle:nil otherButtonTitles:@"取消下载",@"取消", nil];
+            self.alert = [[UIAlertView alloc] initWithTitle:@"" message:@"正在下载中..." delegate:self cancelButtonTitle:nil otherButtonTitles:@"暂停下载",@"取消下载",@"取消", nil];
             self.alert.tag = DownloadStatus_Downloading;
             [self.alert show];
             break;
@@ -194,6 +200,9 @@
         {
             if (buttonIndex == 0) {
                 [self pauseDownloadData];
+            }
+            if (buttonIndex == 1) {
+                [self cancelDownloadData];
             }
             break;
         }

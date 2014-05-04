@@ -84,4 +84,14 @@
  */
 +(void)pariseAnswerWithUserId:(NSString *)userId andQuestionId:(NSString *)questionId andAnswerId:(NSString*)answerId withSuccess:(void(^)(NSString *msg))success withError:(void (^)(NSError *error))failure;
 
+
+/**
+ * @brief 获取用户问答的分类
+ *
+ * @param  userId
+ *
+ * @return answerModelArray 存放DRTreeNode对象
+ */
++(void)downloadUserQuestionCategoryWithUserId:(NSString*)userId withSuccess:(void(^)(NSArray *userQuestionCategoryArray))success withError:(void (^)(NSError *error))failure;
+
 @end

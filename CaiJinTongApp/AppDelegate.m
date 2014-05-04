@@ -13,6 +13,7 @@
 #import "Section.h"
 #import "DRFMDBDatabaseToolTEST.h"
 #import "ASINetworkQueue.h"
+#import "QuestionRequestDataInterface.h"
 #define APPNEWVERSION_Notification @"APPNEWVERSION_Notification"
 @implementation AppDelegate
 

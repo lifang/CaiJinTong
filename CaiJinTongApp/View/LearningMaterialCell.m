@@ -55,6 +55,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFailureDownloadFile:) name:DownloadDataButton_Notification_Failure object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFinishedDownloadFile:) name:DownloadDataButton_Notification_DidFinished object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didPauseDownloadFile:) name:DownloadDataButton_Notification_Pause object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCancelDownloadFile:) name:DownloadDataButton_Notification_Cancel object:nil];
     self.materialModel = learningMaterial;
     //ipad和iPhone不同
     if(isPAD){
@@ -72,12 +74,13 @@
         self.fileCreateDateLabel.text = [NSString stringWithFormat:@"上传日期:%@", learningMaterial.materialCreateDate];
     }
     
-    UserModel *user = [[CaiJinTongManager shared] user];
-    [DRFMDBDatabaseTool selectLearningMaterialsDownloadStatusWithUserId:user.userId withLearningMaterialsId:learningMaterial.materialId withFinished:^(DownloadStatus status) {
-        self.fileDownloadStatus = status;
-        [self.downloadBt setDownloadLearningMaterial:learningMaterial withDownloadStatus:status withIsPostNotification:YES];
-    }];
-    
+//    UserModel *user = [[CaiJinTongManager shared] user];
+//    [DRFMDBDatabaseTool selectLearningMaterialsDownloadStatusWithUserId:user.userId withLearningMaterialsId:learningMaterial.materialId withFinished:^(DownloadStatus status) {
+//        self.fileDownloadStatus = status;
+//        [self.downloadBt setDownloadLearningMaterial:learningMaterial withDownloadStatus:status withIsPostNotification:YES];
+//    }];
+    self.fileDownloadStatus = learningMaterial.materialFileDownloadStaus;
+    [self.downloadBt setDownloadLearningMaterial:learningMaterial withDownloadStatus:learningMaterial.materialFileDownloadStaus withIsPostNotification:YES];
     
     switch (learningMaterial.materialFileType) {
         case LearningMaterialsFileType_pdf:
@@ -138,6 +141,17 @@
         }];
     }
 }
+
+-(void)didCancelDownloadFile:(NSNotification*)notification{
+    if ([[notification.userInfo objectForKey:URLKey] isEqualToString:self.materialModel.materialFileDownloadURL]) {
+        self.fileDownloadStatus = DownloadStatus_UnDownload;
+        self.materialModel.materialFileDownloadStaus = DownloadStatus_UnDownload;
+        [DRFMDBDatabaseTool deleteMaterialWithUserId:[CaiJinTongManager shared].user.userId withLearningMaterialsId:self.materialModel.materialId withFinished:^(BOOL flag) {
+            [self setLearningMaterialData:self.materialModel];
+        }];
+    }
+}
+
 -(void)didFailureDownloadFile:(NSNotification*)notification{
     if ([[notification.userInfo objectForKey:URLKey] isEqualToString:self.materialModel.materialFileDownloadURL]) {
         UserModel *user = [[CaiJinTongManager shared] user];

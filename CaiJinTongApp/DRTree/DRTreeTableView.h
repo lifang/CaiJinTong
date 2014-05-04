@@ -22,7 +22,11 @@
 ///iphone有效，点击空白区域隐藏tree
 -(void)setHiddleTreeTableView:(BOOL)isHiddle withAnimation:(BOOL)animation;
 
+///加载左右滑动菜单，默认加载
 -(DRTreeTableView*)initWithFrame:(CGRect)frame withTreeNodeArr:(NSArray*)treeNodeArr;
+
+///加载下拉菜单
+-(DRTreeTableView*)initWithDropDownMenuFrame:(CGRect)frame withTreeNodeArr:(NSArray*)treeNodeArr;
 @end
 
 @protocol DRTreeTableViewDelegate <NSObject>

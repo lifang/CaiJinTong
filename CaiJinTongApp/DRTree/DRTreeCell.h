@@ -10,4 +10,6 @@
 #import "DRTreeNode.h"
 @interface DRTreeCell : UITableViewCell
 @property (strong,nonatomic)  DRTreeNode *note;
+@property (nonatomic,strong) UILabel *cellNameLabel;
+@property (nonatomic,strong) UIView *selectedView;
 @end

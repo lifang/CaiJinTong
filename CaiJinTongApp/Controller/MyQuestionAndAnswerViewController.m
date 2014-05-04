@@ -509,46 +509,11 @@
     CGRect rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:QUESTIONHEARD_VIEW_WIDTH];
     float height = rect.size.height;
     if (question.isEditing) {
-        return height + TEXT_HEIGHT + TEXT_PADDING + QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT+ 10+40+10;
+        return height + TEXT_HEIGHT + TEXT_PADDING + QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT+ 10+10;
     }else{
-        return height + TEXT_HEIGHT + TEXT_PADDING + 10+40+10;
+        return height + TEXT_HEIGHT + TEXT_PADDING + 10+10;
     }
-
-//    if (question.isExtend) {
-//        if (question.isEditing) {
-//            return rect.size.height + TEXT_HEIGHT + TEXT_PADDING + QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT+ 10+40+10;
-//        }else{
-//            return rect.size.height + TEXT_HEIGHT + TEXT_PADDING + 10+40+10;
-//        }
-//    }else{
-//        float height = rect.size.height;
-//        if (height > ContentMinHeight) {
-//            height = ContentMinHeight;
-//        }
-//        if (question.isEditing) {
-//            return height + TEXT_HEIGHT + TEXT_PADDING + QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT+ 10+40+10;
-//        }else{
-//            return height + TEXT_HEIGHT + TEXT_PADDING + 10+40+10;
-//        }
-//    }
 }
-
-//-(float)getTableViewRowHeightWithIndexPath:(NSIndexPath*)path{
-//    NSLog(@"%d,%d",path.section,path.row);
-//    QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
-//    if (question.answerList == nil || [question.answerList count] <= 0) {
-//        return 0;
-//    }
-//    AnswerModel *answer = [question.answerList objectAtIndex:path.row];
-//    float questionTextFieldHeight = answer.isEditing?141:0;
-//
-//    if (platform >= 7.0) {
-//        return [Utility getTextSizeWithString:answer.answerContent withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:QUESTIONANDANSWER_CELL_WIDTH].height+ TEXT_HEIGHT + TEXT_PADDING*3+ questionTextFieldHeight;
-//    }else{
-//        float height = [Utility getTextSizeWithString:answer.answerContent withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:QUESTIONANDANSWER_CELL_WIDTH].height+ TEXT_HEIGHT + TEXT_PADDING+ questionTextFieldHeight;
-//        return height;
-//    }
-//}
 
 -(float)getTableViewRowHeightWithIndexPath:(IndexPathModel*)path{
     NSLog(@"%d,%d",path.section,path.row);

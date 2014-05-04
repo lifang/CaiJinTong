@@ -10,8 +10,9 @@
 #define CELL_PADDING 3
 @interface DRTreeCell()
 @property (nonatomic,strong) UIImageView *cellImageView;
-@property (nonatomic,strong) UILabel *cellNameLabel;
+
 @property (nonatomic,strong) UILabel *cellFlagLabel;
+
 @end
 
 @implementation DRTreeCell
@@ -22,11 +23,19 @@
     if (self) {
         // Initialization code
         self.backgroundColor = [UIColor clearColor];
-        UIView *selectedView = [[UIView alloc] init];
-        selectedView.backgroundColor = [UIColor lightGrayColor];
-        [self setSelectedBackgroundView:selectedView];
+        
+        self.selectedView = [[UIView alloc] init];
+        self.selectedView.backgroundColor = [Utility colorWithHex:0xf2f9ff];
+        self.selectedView.layer.cornerRadius = 5;
+        [self.selectedView setHidden:YES];
+        [self addSubview:self.selectedView];
+
+//        UIView *selectedView = [[UIView alloc] init];
+//        selectedView.backgroundColor = [UIColor lightGrayColor];
+//        [self setSelectedBackgroundView:selectedView];
+        
         self.cellImageView = [[UIImageView alloc] initWithFrame:(CGRect){CELL_PADDING,CGRectGetHeight(self.frame)/2-10,20,20}];
-        self.cellImageView.image = [UIImage imageNamed:@"close@2x.png"];
+        self.cellImageView.image = [UIImage imageNamed:@"treeCircle_n.png"];
         self.cellImageView.backgroundColor = [UIColor clearColor];
 //        self.cellImageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleBottomMargin;
         [self addSubview:self.cellImageView];
@@ -37,7 +46,7 @@
         if (isPAD) {
             [self.cellNameLabel setFont:[UIFont systemFontOfSize:12]];
         }else{
-            [self.cellNameLabel setFont:[UIFont systemFontOfSize:10]];
+            [self.cellNameLabel setFont:[UIFont systemFontOfSize:13]];
         }
         
 //        self.cellNameLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleWidth;
@@ -47,6 +56,7 @@
         self.cellFlagLabel.backgroundColor = [UIColor clearColor];
         self.cellFlagLabel.textColor = [UIColor whiteColor];
         self.cellFlagLabel.textAlignment = NSTextAlignmentRight;
+        
 //        self.cellFlagLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleBottomMargin;
 //        [self addSubview:self.cellFlagLabel];
         
@@ -63,8 +73,12 @@
 //    self.cellNameLabel.frame = (CGRect){CGRectGetMaxX(self.cellImageView.frame)+CELL_PADDING,0,CGRectGetWidth(self.frame) - CGRectGetMaxX(self.cellImageView.frame)- CELL_PADDING*2-30,self.frame.size.height};
 //    self.cellFlagLabel.frame = (CGRect){CGRectGetMaxX(self.cellNameLabel.frame)+CELL_PADDING,0,30,self.frame.size.height};
     
-    self.cellNameLabel.frame = (CGRect){CELL_PADDING+self.note.noteLevel*10,0,CGRectGetWidth(self.frame)- CELL_PADDING*2-40,self.frame.size.height};
-    self.cellImageView.frame = (CGRect){CGRectGetWidth(self.frame)-CELL_PADDING-20,CGRectGetHeight(self.frame)/2-5,10,10};
+//    self.cellNameLabel.frame = (CGRect){CELL_PADDING+self.note.noteLevel*10,0,CGRectGetWidth(self.frame)- CELL_PADDING*2-40,self.frame.size.height};
+//    self.cellImageView.frame = (CGRect){CGRectGetWidth(self.frame)-CELL_PADDING-20,CGRectGetHeight(self.frame)/2-5,10,10};
+    
+    self.cellImageView.frame =(CGRect){CELL_PADDING*3+self.note.noteLevel*10,CGRectGetHeight(self.frame)/2-5,10,10};
+    self.cellNameLabel.frame = (CGRect){CELL_PADDING+CGRectGetMaxX(self.cellImageView.frame),0,CGRectGetWidth(self.frame)- CELL_PADDING*8,self.frame.size.height};
+    self.selectedView.frame = (CGRect){CELL_PADDING,0,CGRectGetWidth(self.frame)- CELL_PADDING*2,self.frame.size.height};
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
@@ -79,14 +93,14 @@
         self.cellNameLabel.text = note.noteContentName;
         if (note.childnotes && note.childnotes.count > 0) {
             if (note.noteIsExtend) {
-                self.cellImageView.image = [UIImage imageNamed:@"open@2x.png"];
+                self.cellImageView.image = [UIImage imageNamed:@"treeExtend_n.png"];
             }else{
-                self.cellImageView.image = [UIImage imageNamed:@"close@2x.png"];
+                self.cellImageView.image = [UIImage imageNamed:@"treeClose_n.png"];
             }
             self.cellFlagLabel.text = [NSString stringWithFormat:@"%d",note.childnotes.count];
         }else{
             self.cellFlagLabel.text = @"";
-            self.cellImageView.image = nil;
+            self.cellImageView.image = [UIImage imageNamed:@"treeCircle_n.png"];
         }
     }else{
         self.cellNameLabel.text = @"";

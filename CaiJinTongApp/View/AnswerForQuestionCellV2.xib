@@ -14,7 +14,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="586" height="248"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <userGuides>
-                    <userLayoutGuide location="23" affinity="minY"/>
+                    <userLayoutGuide location="22" affinity="minY"/>
                     <userLayoutGuide location="42" affinity="minX"/>
                 </userGuides>
                 <subviews>
@@ -39,7 +39,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <rect key="contentStretch" x="1" y="1" width="1" height="1"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <inset key="contentEdgeInsets" minX="0.0" minY="5" maxX="0.0" maxY="5"/>
+                        <inset key="contentEdgeInsets" minX="0.0" minY="13" maxX="0.0" maxY="12"/>
                         <state key="normal" image="more_n.png">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>

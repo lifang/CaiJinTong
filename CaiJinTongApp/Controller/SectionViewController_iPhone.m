@@ -182,9 +182,7 @@
     chapterModel *chapter = [self.lessonModel.chapterList firstObject];
     SectionModel *section = [chapter.sectionList firstObject];
     [DRFMDBDatabaseTool selectSectionLastPlayWithUserId:[CaiJinTongManager shared].user.userId withLessonId:[CaiJinTongManager shared].lesson.lessonId withFinished:^(SectionModel *lastplaySection) {
-        if (lastplaySection) {
-            [self.playercontroller playMovieWithSectionModel:lastplaySection?:section withFileType:MPMovieSourceTypeStreaming];
-        }
+         [self.playercontroller playMovieWithSectionModel:lastplaySection?:section withFileType:MPMovieSourceTypeStreaming];
         [self.navigationController presentViewController:self.playercontroller animated:YES completion:^{
             
         }];

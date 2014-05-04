@@ -82,6 +82,7 @@
 }
 
 -(BOOL)textFieldShouldClear:(UITextField *)textField{
+    [textField resignFirstResponder];
     if (self.delegate && [self.delegate respondsToSelector:@selector(chapterSeachBar_iPhone:clearSearchString:)]) {
         [self.delegate chapterSeachBar_iPhone:self clearSearchString:self.searchTextField.text];
     }

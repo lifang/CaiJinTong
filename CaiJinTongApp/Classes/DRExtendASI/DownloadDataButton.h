@@ -21,6 +21,8 @@
 
 #define DownloadDataButton_Notification_Pause @"DownloadDataButton_Notification_Pause"
 
+#define DownloadDataButton_Notification_Cancel @"DownloadDataButton_Notification_Cancel"
+
 #define DownloadDataButton_Notification_DownloadButtonClicked @"DownloadDataButton_Notification_DownloadButtonClicked"
 /*
  实现文件下载功能

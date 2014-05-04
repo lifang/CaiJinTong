@@ -1080,6 +1080,19 @@
     }];
 }
 
+///删除指定的资料
++(void)deleteMaterialWithUserId:(NSString*)userId withLearningMaterialsId:(NSString*)materialId withFinished:(void (^)(BOOL flag))finished{
+    DRFMDBDatabaseTool *tool = [DRFMDBDatabaseTool shareDRFMDBDatabaseTool];
+    [tool.dbQueue inDatabase:^(FMDatabase *db) {
+        __block BOOL res = [db executeUpdate:@"delete from LearningMaterials where userId = ? and materialId = ?",userId,materialId];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (finished) {
+                finished(res);
+            }
+        });
+    }];
+}
+
 ///查询数据库中资料信息,返回LearningMaterials数组对象
 +(void)selectLearningMaterialsListWithUserId:(NSString*)userId withLearningMaterialsCategoryId:(NSString*)categoryId withFinished:(void (^)(NSArray *learningMaterialsArray,NSString *errorMsg))finished{
     DRFMDBDatabaseTool *tool = [DRFMDBDatabaseTool shareDRFMDBDatabaseTool];
@@ -1456,6 +1469,22 @@
             }
         });
         
+    }];
+}
+
+
+//TODO::删除小节信息
++(void)deleteSectionWithUserId:(NSString*)userId withSectionId:(NSString*)sectionId withFinished:(void (^)(BOOL flag))finished{
+    //    sectionMovieFileTotalSize 小节视频文件大小
+    //    sectionMovieFileDownloadSize 小节视频已经下载大小
+    DRFMDBDatabaseTool *tool = [DRFMDBDatabaseTool shareDRFMDBDatabaseTool];
+    [tool.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        __block BOOL res = [db executeUpdate:@"delete from Section where userId = ? and sectionId=?",userId,sectionId];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (finished) {
+                finished(res);
+            }
+        });
     }];
 }
 

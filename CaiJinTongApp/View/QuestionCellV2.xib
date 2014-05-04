@@ -19,20 +19,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <userGuides>
                             <userLayoutGuide location="40" affinity="minX"/>
+                            <userLayoutGuide location="217" affinity="minY"/>
                         </userGuides>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="QNv-eD-iea" userLabel="coverButton - Button">
-                                <rect key="frame" x="40" y="40" width="465" height="128"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <state key="normal">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="extendAnswerListBtClicked:" destination="IA5-Lp-DlD" eventType="touchUpInside" id="Lzk-0o-efN"/>
-                                </connections>
-                            </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="question_n.png" id="PYq-11-vnc" userLabel="flagImage">
                                 <rect key="frame" x="9" y="10" width="23" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -61,6 +50,18 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="QNv-eD-iea" userLabel="coverButton - Button">
+                                <rect key="frame" x="40" y="40" width="465" height="128"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="extendAnswerListBtClicked:" destination="IA5-Lp-DlD" eventType="touchUpInside" id="Lzk-0o-efN"/>
+                                </connections>
+                            </button>
                             <view contentMode="scaleToFill" id="oq7-m8-f2z" userLabel="buttomView">
                                 <rect key="frame" x="41" y="176" width="454" height="56"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -71,19 +72,6 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="sr9-yk-2lW" userLabel="attachmentButton - Button">
-                                        <rect key="frame" x="79" y="29" width="81" height="22"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <inset key="imageEdgeInsets" minX="9" minY="2" maxX="10" maxY="4"/>
-                                        <state key="normal" title="附件" image="fj_n.png">
-                                            <color key="titleColor" red="0.63137254899999995" green="0.63137254899999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="attachmentBtClicked:" destination="IA5-Lp-DlD" eventType="touchUpInside" id="ni4-5E-B0p"/>
-                                        </connections>
-                                    </button>
                                     <view contentMode="scaleToFill" id="RVm-aM-bd6" userLabel="answerCountBackView">
                                         <rect key="frame" x="0.0" y="29" width="99" height="27"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -93,7 +81,7 @@
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             </imageView>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="回复:2" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Qdg-ih-lFD" userLabel="answerCountLabel - 回答:2">
-                                                <rect key="frame" x="30" y="0.0" width="69" height="21"/>
+                                                <rect key="frame" x="24" y="0.0" width="73" height="21"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" red="0.63137254899999995" green="0.63137254899999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
@@ -114,6 +102,37 @@
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
+                                    <view contentMode="scaleToFill" id="feA-8L-erc" userLabel="attachmentBackView">
+                                        <rect key="frame" x="80" y="23" width="121" height="39"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fj_n.png" id="hz2-aK-45e">
+                                                <rect key="frame" x="0.0" y="10" width="17" height="15"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
+                                            </imageView>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="附件" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hc6-TK-FdI">
+                                                <rect key="frame" x="20" y="7" width="81" height="21"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" red="0.63137254899999995" green="0.63137254899999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="sr9-yk-2lW" userLabel="attachmentButton - Button">
+                                                <rect key="frame" x="0.0" y="0.0" width="121" height="39"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <inset key="imageEdgeInsets" minX="9" minY="2" maxX="10" maxY="4"/>
+                                                <state key="normal">
+                                                    <color key="titleColor" red="0.63137254899999995" green="0.63137254899999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="attachmentBtClicked:" destination="IA5-Lp-DlD" eventType="touchUpInside" id="ni4-5E-B0p"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
@@ -125,6 +144,7 @@
             <connections>
                 <outlet property="answerCountBackView" destination="RVm-aM-bd6" id="IdW-30-bM0"/>
                 <outlet property="answerCountBt" destination="FAU-FE-2bd" id="3pl-ak-4A3"/>
+                <outlet property="attachmentBackView" destination="feA-8L-erc" id="e1a-jQ-fQX"/>
                 <outlet property="attachmentBt" destination="sr9-yk-2lW" id="tEx-Vt-YCV"/>
                 <outlet property="quesstionAnswerCountLabel" destination="Qdg-ih-lFD" id="NkK-DR-Lhp"/>
                 <outlet property="questionBt" destination="66P-25-KxY" id="Oyt-NJ-FgZ"/>
@@ -136,7 +156,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="fj_n.png" width="17" height="18"/>
+        <image name="fj_n.png" width="10" height="11"/>
         <image name="mail_n.png" width="14" height="11"/>
         <image name="more_n.png" width="35" height="25"/>
         <image name="question_n.png" width="23" height="22"/>

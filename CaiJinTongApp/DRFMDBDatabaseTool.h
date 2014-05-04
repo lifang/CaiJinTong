@@ -101,6 +101,9 @@
 ///删除保存的资料信息
 +(void)deleteALLMaterialWithUserId:(NSString*)userId withFinished:(void (^)(BOOL flag))finished;
 
+///删除指定的资料
++(void)deleteMaterialWithUserId:(NSString*)userId withLearningMaterialsId:(NSString*)materialId withFinished:(void (^)(BOOL flag))finished;
+
 ///查询数据库中资料信息,返回LearningMaterials数组对象
 +(void)selectLearningMaterialsListWithUserId:(NSString*)userId withLearningMaterialsCategoryId:(NSString*)categoryId withFinished:(void (^)(NSArray *learningMaterialsArray,NSString *errorMsg))finished;
 
@@ -145,6 +148,9 @@
 
 ///更新小节需要下载文件总共大小
 +(void)updateSectionDownloadStatusWithUserId:(NSString*)userId withSectionId:(NSString*)sectionId withFileTotalSize:(NSString*)totalSize  withFinished:(void (^)(BOOL flag))finished;
+
+///删除小节信息
++(void)deleteSectionWithUserId:(NSString*)userId withSectionId:(NSString*)sectionId withFinished:(void (^)(BOOL flag))finished;
 
 ///更新小节视频播放的结束时间和最后播放时间
 +(void)updateSectionPlayDateWithUserId:(NSString*)userId withSectionId:(NSString*)sectionId withPlayTime:(NSString*)playTime withLastFinishedDate:(NSString*)lastFinishedDate  withFinished:(void (^)(BOOL flag))finished;

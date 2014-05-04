@@ -115,7 +115,7 @@ static BOOL tableVisible;
 }
 -(DRTreeTableView *)categoryTreeTableView{
     if (!_categoryTreeTableView) {
-        _categoryTreeTableView = [[DRTreeTableView alloc] initWithFrame:(CGRect){CGRectGetMinX(self.dropDownBt.frame),CGRectGetMaxY(self.dropDownBt.frame),550,600} withTreeNodeArr:nil];
+        _categoryTreeTableView = [[DRTreeTableView alloc] initWithDropDownMenuFrame:(CGRect){CGRectGetMinX(self.dropDownBt.frame),CGRectGetMaxY(self.dropDownBt.frame),550,600} withTreeNodeArr:nil];
         _categoryTreeTableView.delegate = self;
         _categoryTreeTableView.backgroundColor = [UIColor lightGrayColor];
     }

@@ -73,18 +73,18 @@
  
     UserModel *user = [[UserModel alloc] init];
     [user unarchiverUser];
-//    if (user.userId && ![user.userId isEqualToString:@""]) {
-//        [CaiJinTongManager shared].user = user;
-//        [CaiJinTongManager shared].userId = user.userId;
-//        StudySummaryViewController_iphone *studySummaryController = [self.storyboard instantiateViewControllerWithIdentifier:@"StudySummaryViewController_iphone"];
-//        self.loginNaviController = nil;
-//        self.loginNaviController = [[UINavigationController alloc] initWithRootViewController:studySummaryController];
-//        [self.loginNaviController setNavigationBarHidden:YES];
-//        [self.loginNaviController setHidesBottomBarWhenPushed:YES];
-//        [self presentViewController:self.loginNaviController animated:NO completion:^{
-//            
-//        }];
-//    }
+    if (user.userId && ![user.userId isEqualToString:@""]) {
+        [CaiJinTongManager shared].user = user;
+        [CaiJinTongManager shared].userId = user.userId;
+        StudySummaryViewController_iphone *studySummaryController = [self.storyboard instantiateViewControllerWithIdentifier:@"StudySummaryViewController_iphone"];
+        self.loginNaviController = nil;
+        self.loginNaviController = [[UINavigationController alloc] initWithRootViewController:studySummaryController];
+        [self.loginNaviController setNavigationBarHidden:YES];
+        [self.loginNaviController setHidesBottomBarWhenPushed:YES];
+        [self presentViewController:self.loginNaviController animated:NO completion:^{
+            
+        }];
+    }
 }
 
 - (void)didReceiveMemoryWarning

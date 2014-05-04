@@ -49,7 +49,7 @@ static BOOL tableVisible;
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.selectTableBtn.frame = frame;//按钮坐标
-    self.treeView.frame = tableFrame;//table坐标;
+//    self.treeView.frame = tableFrame;//table坐标;
 }
 
 - (void)viewDidLoad
@@ -89,7 +89,9 @@ static BOOL tableVisible;
     
     [self.selectTableBtn addTarget:self action:@selector(showSelectTable) forControlEvents:UIControlEventTouchUpInside];
     
-    self.treeView.frame = tableFrame;
+//    [self.treeView setFrame:CGRectMake(tableFrame.origin.x, CGRectGetMaxY(frame), tableFrame.size.width, 400)];
+    [self.treeView setHidden:YES];
+//    self.treeView.frame = tableFrame;
     self.treeView.hidden = YES;
     self.treeView.backgroundColor = [UIColor lightGrayColor];
     [self.treeView.layer setCornerRadius:8];
@@ -223,7 +225,7 @@ static BOOL tableVisible;
 
 -(DRTreeTableView *)treeView{
     if(!_treeView){
-        _treeView = [[DRTreeTableView alloc] initWithFrame:(CGRect){2,2,2,2} withTreeNodeArr:nil];
+        _treeView = [[DRTreeTableView alloc] initWithDropDownMenuFrame:(CGRect){self.selectedQuestionName.frame.origin.x, CGRectGetMaxY(self.selectedQuestionName.frame), self.selectedQuestionName.frame.size.width, 350} withTreeNodeArr:nil];
         _treeView.delegate = self;
         [self.view addSubview:_treeView];
         [_treeView setBackgroundColor:[UIColor lightGrayColor]];
@@ -234,25 +236,31 @@ static BOOL tableVisible;
 #pragma mark button methods
 //显示/隐藏提问类型table
 -(void)showSelectTable{
+    [self.view setUserInteractionEnabled:NO];
     if(!tableVisible){
         [self keyboardFuckOff:nil];//便于触发点击事件
-        self.treeView.hidden = NO;
         [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationOptionBeginFromCurrentState animations:^{
-            [self.treeView setFrame:CGRectMake(tableFrame.origin.x, tableFrame.origin.y, tableFrame.size.width, tableFrame.size.height + 250)];
-            tableVisible = YES;
+            [self.treeView setHidden:NO];
+            
         }
-                         completion:nil];
+                         completion:^(BOOL finished) {
+                             if(finished){
+                                tableVisible = YES;
+                             }
+                             [self.view setUserInteractionEnabled:YES];
+                         }];
     }else{
         [UIView animateWithDuration:0.3 delay:0.0
                             options: UIViewAnimationOptionBeginFromCurrentState
                          animations:^{
-            [self.treeView setFrame:CGRectMake(tableFrame.origin.x, tableFrame.origin.y, tableFrame.size.width, tableFrame.size.height)];
-            tableVisible = NO;
+            [self.treeView setHidden:YES];
+            
         }
                          completion:^(BOOL finished) {
                              if(finished){
-                                 self.treeView.hidden = YES;
+                                 tableVisible = NO;
                              }
+                             [self.view setUserInteractionEnabled:YES];
                          }];
     }
 }

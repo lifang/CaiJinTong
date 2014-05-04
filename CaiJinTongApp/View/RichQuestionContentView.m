@@ -131,7 +131,7 @@
         return (CGRect){startPoint,width,0};
     }
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-    style.alignment = NSTextAlignmentJustified;
+    style.alignment = NSTextAlignmentJustified|NSTextAlignmentNatural;
     style.headIndent = 0;
     style.tailIndent = 0;
     style.lineSpacing = 5;

@@ -64,6 +64,10 @@ typedef enum {
     ReaskType_Answer,//回答
     ///修改回答
     ReaskType_ModifyAnswer,
+    ///赞
+    ReaskType_Praise,
+    ///采纳回答
+    ReaskType_AcceptAnswer,
     ///其他情况
     ReaskType_None,
 }ReaskType;

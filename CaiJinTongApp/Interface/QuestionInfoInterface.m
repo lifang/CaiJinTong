@@ -81,12 +81,6 @@
 
 +(NSMutableArray*)getTreeNodeArrayFromArray:(NSArray*)arr{
     NSMutableArray *array = [QuestionInfoInterface getTreeNodeArrayFromArray:arr withLevel:1 withRootContentID:[NSString stringWithFormat:@"%d",CategoryType_AllQuestion]];
-//    DRTreeNode *note = [[DRTreeNode alloc] init];
-//    note.noteContentID = [NSString stringWithFormat:@"%d",CategoryType_AllQuestion_ALL];
-//    note.noteContentName = @"全部";
-//    note.noteLevel = 1;
-//    note.noteRootContentID = [NSString stringWithFormat:@"%d",CategoryType_AllQuestion];
-//    [array insertObject:note atIndex:0];
     return array;
 }
 

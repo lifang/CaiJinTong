@@ -52,7 +52,21 @@
             (int)((CGColorGetComponents(color.CGColor))[2]*255.0)];
 }
 
+///查找播放记录
++(float)getStartPlayerTimeWithUserId:(NSString*)userId withSectionId:(NSString*)sectionId{
+    if (!userId && !sectionId) {
+        return 0;
+    }
+    return  [[NSUserDefaults standardUserDefaults] floatForKey:[NSString stringWithFormat:@"%@_%@",userId,sectionId]];
+}
 
+///查找播放记录
++(void)setStartPlayerTimeWithUserId:(NSString*)userId withSectionId:(NSString*)sectionId withPlayerTime:(float)time{
+    if (!userId && !sectionId) {
+        return;
+    }
+    [[NSUserDefaults standardUserDefaults] setFloat:time forKey:[NSString stringWithFormat:@"%@_%@",userId,sectionId]];
+}
 ///返回文件类型
 +(DRURLFileType)getFileTypeWithFileExtension:(NSString*)extension{
     if (!extension || [extension isEqualToString:@""]) {
