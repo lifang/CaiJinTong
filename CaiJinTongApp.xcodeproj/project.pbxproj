@@ -209,6 +209,7 @@
 		1821465D188F73C8009B0DF8 /* _magnifying_glass@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1821465B188F73C8009B0DF8 /* _magnifying_glass@2x.png */; };
 		1821465E188F73C8009B0DF8 /* _question_mark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1821465C188F73C8009B0DF8 /* _question_mark@2x.png */; };
 		182314411840A35D00DE9422 /* delete_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 182314401840A35D00DE9422 /* delete_2.png */; };
+		182CA43A1915E5D00000306A /* line.png in Resources */ = {isa = PBXBuildFile; fileRef = 182CA4391915E5D00000306A /* line.png */; };
 		18335B67183C982600DB8B7E /* DRAskQuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18335B66183C982600DB8B7E /* DRAskQuestionViewController.m */; };
 		1836AFE2183AF875009E65B5 /* settings_delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 1836AFDF183AF875009E65B5 /* settings_delete.png */; };
 		1836AFE3183AF875009E65B5 /* settings_未选中.png in Resources */ = {isa = PBXBuildFile; fileRef = 1836AFE0183AF875009E65B5 /* settings_未选中.png */; };
@@ -830,6 +831,7 @@
 		1821465B188F73C8009B0DF8 /* _magnifying_glass@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "_magnifying_glass@2x.png"; sourceTree = "<group>"; };
 		1821465C188F73C8009B0DF8 /* _question_mark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "_question_mark@2x.png"; sourceTree = "<group>"; };
 		182314401840A35D00DE9422 /* delete_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_2.png; sourceTree = "<group>"; };
+		182CA4391915E5D00000306A /* line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = line.png; sourceTree = "<group>"; };
 		18335B65183C982600DB8B7E /* DRAskQuestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRAskQuestionViewController.h; sourceTree = "<group>"; };
 		18335B66183C982600DB8B7E /* DRAskQuestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRAskQuestionViewController.m; sourceTree = "<group>"; };
 		1836AFDF183AF875009E65B5 /* settings_delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings_delete.png; sourceTree = "<group>"; };
@@ -2458,6 +2460,7 @@
 		63BBE3D719060D6000A57C5A /* imagenewV2 */ = {
 			isa = PBXGroup;
 			children = (
+				182CA4391915E5D00000306A /* line.png */,
 				63E03082190E5AF3008F8A23 /* fj_n@2x.png */,
 				63E0307C190E2EA4008F8A23 /* treeCircle_n@2x.png */,
 				63E0307D190E2EA5008F8A23 /* treeClose_n@2x.png */,
@@ -2907,6 +2910,7 @@
 				0E9C9EF5184321E600D48781 /* down.png in Resources */,
 				18C9313B18363B2A00FBE1A8 /* play-table@2x.png in Resources */,
 				1815325618360DF40078A410 /* Q&A-myq_15@2x.png in Resources */,
+				182CA43A1915E5D00000306A /* line.png in Resources */,
 				0E8166E718485BA30064DE98 /* backgroundStar@2x.png in Resources */,
 				63F0594018E3CBF6006925A6 /* Icon-72@2x.png in Resources */,
 				182314411840A35D00DE9422 /* delete_2.png in Resources */,
