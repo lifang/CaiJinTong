@@ -139,6 +139,12 @@
     cell.isMoviePlayView = self.isMovieView;
     cell.btn.isMovieView = self.isMovieView;
     [cell beginReceiveNotification];
+    
+    if ([CaiJinTongManager shared].isShowLocalData) {
+        cell.playBt.hidden = NO;
+        cell.playBt.userInteractionEnabled = YES;
+        [cell.playBt setTitle:@"删 除" forState:UIControlStateNormal];
+    }
     return cell;
 }
 

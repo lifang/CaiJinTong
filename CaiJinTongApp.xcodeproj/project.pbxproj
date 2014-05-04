@@ -243,6 +243,8 @@
 		18A19C85183CA60500C11310 /* iRate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A19C83183CA60500C11310 /* iRate.m */; };
 		18A77073187FCC6000DAE6A6 /* InfoViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A77072187FCC6000DAE6A6 /* InfoViewController_iPhone.m */; };
 		18A77076187FEF7B00DAE6A6 /* SuggestionFeedbackViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A77075187FEF7B00DAE6A6 /* SuggestionFeedbackViewController_iPhone.m */; };
+		18BAA7FB191615E800C98F6C /* delete_local_iphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18BAA7F9191615E800C98F6C /* delete_local_iphone@2x.png */; };
+		18BAA7FC191615E800C98F6C /* delete_local@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18BAA7FA191615E800C98F6C /* delete_local@2x.png */; };
 		18C9312C18363B2A00FBE1A8 /* btn1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18C9311B18363B2A00FBE1A8 /* btn1@2x.png */; };
 		18C9312D18363B2A00FBE1A8 /* play_barBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18C9311C18363B2A00FBE1A8 /* play_barBG@2x.png */; };
 		18C9312E18363B2A00FBE1A8 /* play_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18C9311D18363B2A00FBE1A8 /* play_black@2x.png */; };
@@ -888,6 +890,8 @@
 		18A77072187FCC6000DAE6A6 /* InfoViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoViewController_iPhone.m; sourceTree = "<group>"; };
 		18A77074187FEF7B00DAE6A6 /* SuggestionFeedbackViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuggestionFeedbackViewController_iPhone.h; sourceTree = "<group>"; };
 		18A77075187FEF7B00DAE6A6 /* SuggestionFeedbackViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuggestionFeedbackViewController_iPhone.m; sourceTree = "<group>"; };
+		18BAA7F9191615E800C98F6C /* delete_local_iphone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delete_local_iphone@2x.png"; sourceTree = "<group>"; };
+		18BAA7FA191615E800C98F6C /* delete_local@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delete_local@2x.png"; sourceTree = "<group>"; };
 		18C9311B18363B2A00FBE1A8 /* btn1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn1@2x.png"; sourceTree = "<group>"; };
 		18C9311C18363B2A00FBE1A8 /* play_barBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play_barBG@2x.png"; sourceTree = "<group>"; };
 		18C9311D18363B2A00FBE1A8 /* play_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play_black@2x.png"; sourceTree = "<group>"; };
@@ -2460,6 +2464,8 @@
 		63BBE3D719060D6000A57C5A /* imagenewV2 */ = {
 			isa = PBXGroup;
 			children = (
+				18BAA7F9191615E800C98F6C /* delete_local_iphone@2x.png */,
+				18BAA7FA191615E800C98F6C /* delete_local@2x.png */,
 				182CA4391915E5D00000306A /* line.png */,
 				63E03082190E5AF3008F8A23 /* fj_n@2x.png */,
 				63E0307C190E2EA4008F8A23 /* treeCircle_n@2x.png */,
@@ -2809,6 +2815,7 @@
 				18EBD11D1842FA0900F9BDA9 /* lhl2@2x.png in Resources */,
 				0EAFA0F31822167800D01D3E /* lessonInfo.json in Resources */,
 				63FB29E418DAC8C700D9FAF3 /* lessonSummary@2x.png in Resources */,
+				18BAA7FB191615E800C98F6C /* delete_local_iphone@2x.png in Resources */,
 				63FB29E818DAC8C700D9FAF3 /* settingSummary@2x.png in Resources */,
 				18C9313518363B2A00FBE1A8 /* play_shuxian@2x.png in Resources */,
 				6330033B1845F81200F7838D /* radio_unchecked.png in Resources */,
@@ -2855,6 +2862,7 @@
 				63F0594218E3CBF6006925A6 /* icon-114.png in Resources */,
 				6334F29618C6D1E900515A3F /* logo@2x.png in Resources */,
 				18112DF2188627450025C66B /* _play_09@2x.png in Resources */,
+				18BAA7FC191615E800C98F6C /* delete_local@2x.png in Resources */,
 				0EAFA0FD1822167800D01D3E /* submitNote.json in Resources */,
 				630B95FD182A4A7F000ED31E /* speed.png in Resources */,
 				63D284171883D9AD005D8721 /* navi_search_gray.png in Resources */,
