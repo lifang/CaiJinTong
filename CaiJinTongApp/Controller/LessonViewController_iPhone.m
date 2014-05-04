@@ -153,10 +153,11 @@
     }else{
         if (self.sectionList.count <= 0) {
             [self initData];
+            self.lhlNavigationBar.title.text = @"我的课程";
         }
         [self.tipLabel setHidden:YES];
         [self.lhlNavigationBar.rightItem setHidden:NO];
-        self.lhlNavigationBar.title.text = @"我的课程";
+        
         [self.mainToolBar setHidden:NO];
         if (platform >= 7.0) {
             self.collectionView.frame = CGRectMake(0,IP5(150, 144), 320,IP5(350, 286)) ;

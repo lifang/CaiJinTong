@@ -98,11 +98,9 @@
 -(void)refeshScore:(NSNotification *)notification {
     NSDictionary *dic = notification.object;
     NSString *score = [dic objectForKey:@"sectionScore"];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.lessonModel.lessonScore = score;
-        self.lessonModel.lessonIsScored = @"1";
-        [self reloadLessonData:self.lessonModel];
-    });
+    self.lessonModel.lessonScore = score;
+    self.lessonModel.lessonIsScored = @"1";
+    [self reloadLessonData:self.lessonModel];
 
 }
 
