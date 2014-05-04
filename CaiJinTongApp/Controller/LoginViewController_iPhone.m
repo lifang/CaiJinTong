@@ -8,6 +8,7 @@
 
 #import "LoginViewController_iPhone.h"
 #import "StudySummaryViewController_iphone.h"
+
 @implementation LoginViewController_iPhone
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -78,7 +79,7 @@
         [CaiJinTongManager shared].userId = user.userId;
         StudySummaryViewController_iphone *studySummaryController = [self.storyboard instantiateViewControllerWithIdentifier:@"StudySummaryViewController_iphone"];
         self.loginNaviController = nil;
-        self.loginNaviController = [[UINavigationController alloc] initWithRootViewController:studySummaryController];
+        self.loginNaviController = [[MSNavigationViewController alloc] initWithRootViewController:studySummaryController];
         [self.loginNaviController setNavigationBarHidden:YES];
         [self.loginNaviController setHidesBottomBarWhenPushed:YES];
         [self presentViewController:self.loginNaviController animated:NO completion:^{
@@ -154,7 +155,7 @@
 
             StudySummaryViewController_iphone *studySummaryController = [self.storyboard instantiateViewControllerWithIdentifier:@"StudySummaryViewController_iphone"];
             self.loginNaviController = nil;
-            self.loginNaviController = [[UINavigationController alloc] initWithRootViewController:studySummaryController];
+            self.loginNaviController = [[MSNavigationViewController alloc] initWithRootViewController:studySummaryController];
             [self.loginNaviController setNavigationBarHidden:YES];
             [self.loginNaviController setHidesBottomBarWhenPushed:YES];
             [self presentViewController:self.loginNaviController animated:YES completion:^{

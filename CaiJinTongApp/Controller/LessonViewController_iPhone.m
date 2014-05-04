@@ -146,11 +146,14 @@
         }
         
         [self.searchBar setHidden:YES];
-        [self initData];
+        if (self.sectionList.count <= 0) {
+            [self initData];
+        }
         [self.drTreeTableView setHiddleTreeTableView:YES withAnimation:NO];
     }else{
-        [self initData];
-        
+        if (self.sectionList.count <= 0) {
+            [self initData];
+        }
         [self.tipLabel setHidden:YES];
         [self.lhlNavigationBar.rightItem setHidden:NO];
         self.lhlNavigationBar.title.text = @"我的课程";

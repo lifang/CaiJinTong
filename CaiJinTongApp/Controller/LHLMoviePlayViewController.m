@@ -179,6 +179,7 @@
     // Dispose of any resources that can be recreated.
 }
 #pragma mark MovieControllerItemDelegate
+//TODO::选项菜单
 -(void)moviePlayBarSelected:(MovieControllerItem *)item{
     if (item == self.chapterListItem) {
         [self changePlayButtonStatus:NO];
@@ -224,6 +225,7 @@
             [self presentPopupViewController:commitQuestionVC animationType:MJPopupViewAnimationFade isAlignmentCenter:YES dismissed:^{
                 self.myQuestionItem.isSelected = NO;
             }];
+        
             [self changePlayButtonStatus:NO];
         }else
             if (item == self.myNotesItem) {
@@ -561,10 +563,10 @@
     [self.section_chapterController removeFromParentViewController];
     [self.section_chapterController.view removeFromSuperview];
     [self.section_chapterController.view setHidden:YES];
-
+    [self.moviePlayer stop];
+    self.moviePlayer = nil;
     [self dismissViewControllerAnimated:YES completion:^{
-        [self.moviePlayer stop];
-        self.moviePlayer = nil;
+       
     }];
 }
 -(void)drMoviePlayerTopBarbackItemClicked:(DRMoviePlayerTopBar *)topBar{

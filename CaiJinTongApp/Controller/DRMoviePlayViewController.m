@@ -262,13 +262,17 @@
  */
 -(void)changePlayButtonStatus:(BOOL)isPlay{
     if (isPlay) {
-        [self.moviePlayer play];
-        [self.playBt setBackgroundImage:[UIImage imageNamed:@"play_paused.png"] forState:UIControlStateNormal];
-        [self startStudyTime];
+        if (self.moviePlayer && self.moviePlayer.isPreparedToPlay) {
+            [self.moviePlayer play];
+            [self.playBt setBackgroundImage:[UIImage imageNamed:@"play_paused.png"] forState:UIControlStateNormal];
+            [self startStudyTime];
+        }
     }else{
-        [self.moviePlayer pause];
-        [self.playBt setBackgroundImage:[UIImage imageNamed:@"play_play.png"] forState:UIControlStateNormal];
-        [self pauseStudyTime];
+        if (self.moviePlayer && self.moviePlayer.playbackState== MPMoviePlaybackStatePlaying) {
+            [self.moviePlayer pause];
+            [self.playBt setBackgroundImage:[UIImage imageNamed:@"play_play.png"] forState:UIControlStateNormal];
+            [self pauseStudyTime];
+        }
     }
 }
 
@@ -455,7 +459,7 @@
     DLog(@"didFinishedMoviePlayerNotification:%@",[notification.userInfo  objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey]);
     if ([[notification.userInfo  objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey] integerValue] == MPMovieFinishReasonPlaybackEnded) {
         self.seekSlider.value = 1;
-        if ( self.sectionModel.sectionLastPlayTime && [self.sectionModel.sectionLastPlayTime floatValue] >= self.moviePlayer.duration) {
+        if ( self.sectionModel.sectionLastPlayTime && [self.sectionModel.sectionLastPlayTime floatValue] >= self.moviePlayer.duration && self.moviePlayer.duration > 0) {
             self.sectionModel.sectionLastPlayTime = @"0";
             self.moviePlayer.currentPlaybackTime = 0;
             [self.moviePlayer play];
@@ -614,9 +618,10 @@
     [self.section_chapterController willMoveToParentViewController:nil];
     [self.section_chapterController removeFromParentViewController];
     [self.section_chapterController.view removeFromSuperview];
+    [self.moviePlayer stop];
+    self.moviePlayer = nil;
     [self dismissViewControllerAnimated:YES completion:^{
-        [self.moviePlayer stop];
-        self.moviePlayer = nil;
+        
     }];
 }
 
@@ -626,6 +631,7 @@
     
      [self saveCurrentStatus];
     [self.moviePlayer stop];
+    self.moviePlayer = nil;
 }
 #pragma mark --
 
@@ -658,6 +664,7 @@
     }
     if (self.moviePlayer.isPreparedToPlay) {
         [self.moviePlayer stop];
+        self.moviePlayer = nil;
     }
 //    self.moviePlayer.initialPlaybackTime = [self.sectionModel.sectionLastPlayTime floatValue];
     self.moviePlayer.initialPlaybackTime = [Utility getStartPlayerTimeWithUserId:[CaiJinTongManager shared].user.userId withSectionId:self.sectionModel.sectionId];
@@ -759,6 +766,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
         return;
     }
     [self.moviePlayer stop];
+//    self.moviePlayer = nil;
     self.sectionModel = sectionModel;
     [self removeMoviePlayBackNotification];
     [self addMoviePlayBackNotification];
@@ -1002,6 +1010,9 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
         _moviePlayer = [[MPMoviePlayerController alloc] init];
         [_moviePlayer setShouldAutoplay:YES];
         _moviePlayer.controlStyle = MPMovieControlStyleNone;
+        for (UIView *subView in self.moviePlayerView.subviews) {
+            [subView removeFromSuperview];
+        }
         [self.moviePlayerView addSubview:_moviePlayer.view];
         [self.moviePlayerView sendSubviewToBack:_moviePlayer.view];
         
@@ -1019,6 +1030,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
 - (NSUInteger)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskLandscape;
 }
+
 // pre-iOS 6 support
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
     return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);

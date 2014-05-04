@@ -250,6 +250,13 @@ static NSString *timespan = nil;
 
 }
 
+-(NSMutableArray *)dataArray{
+    if (!_dataArray) {
+        _dataArray = [NSMutableArray array];
+    }
+    return _dataArray;
+}
+
 -(UILabel *)tipLabel{
     if (!_tipLabel) {
         _tipLabel = [[UILabel alloc] initWithFrame:(CGRect){0,0,COMMENT_CELL_WIDTH,self.tableViewList.frame.size.height}];
