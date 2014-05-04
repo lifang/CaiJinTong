@@ -147,7 +147,12 @@ static NSString *timespan = nil;
     model.commentContent = self.textView.text;
     self.textView.text = @"";
     [self.textView resignFirstResponder];
-    [self.dataArray insertObject:model atIndex:0];
+    if (self.dataArray.count > 0) {
+        [self.dataArray insertObject:model atIndex:0];
+    }else{
+        [self.dataArray addObject:model];
+    }
+    
     [self.tableViewList reloadData];
     [Utility errorAlert:@"提交评论成功"];
 }
@@ -212,15 +217,20 @@ static NSString *timespan = nil;
 
 #pragma  mark --GradeInterfaceDelegate
 -(void)getGradeInfoDidFinished:(NSDictionary *)result {
+    __weak Section_GradeViewController *weakSelf = self;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            NSMutableDictionary *resultDic = [NSMutableDictionary dictionaryWithDictionary:result];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"refeshScore" object:resultDic userInfo:nil];
-            //隐藏打分栏，只出现评论框
-            self.isGrade = 1;
-            [self displayView];
-            [self insertCommitDataInToCommentTable];
+            Section_GradeViewController *tempSelf = weakSelf;
+            if (tempSelf) {
+                [MBProgressHUD hideHUDForView:tempSelf.view animated:YES];
+                NSMutableDictionary *resultDic = [NSMutableDictionary dictionaryWithDictionary:result];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"refeshScore" object:resultDic userInfo:nil];
+                //隐藏打分栏，只出现评论框
+                tempSelf.isGrade = 1;
+                [tempSelf displayView];
+                [tempSelf insertCommitDataInToCommentTable];
+            }
+            
         });
     });
 }
@@ -248,6 +258,13 @@ static NSString *timespan = nil;
         return nil;
     }
 
+}
+
+-(NSMutableArray *)dataArray{
+    if (!_dataArray) {
+        _dataArray = [NSMutableArray array];
+    }
+    return _dataArray;
 }
 
 -(UILabel *)tipLabel{

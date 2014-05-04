@@ -56,23 +56,11 @@
     }
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    self.versionnumberLabel.layer.cornerRadius = 5;
-    [self appNewVersionNotification];
-    self.view.backgroundColor = [UIColor whiteColor];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appNewVersionNotification) name:APPNEWVERSION_Notification object:nil];
-    
-    self.view.backgroundColor = [UIColor underPageBackgroundColor];
-    [self addReflectionView:self.noteImageView];
-    [self addReflectionView:self.lessonImageView];
-    [self addReflectionView:self.materialImageView];
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     CaiJinTongManager *app = [CaiJinTongManager shared];
     
     self.userNicknameLabel.text = app.user.nickName;
-    
     __weak StudySummaryViewController_iphone *weakSelf = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [UserStudySummaryInfo downloadStudySummaryInfoWithUserId:app.user.userId withSuccess:^(StudySummaryModel *studySummaryModel) {
@@ -88,7 +76,22 @@
             [MBProgressHUD hideHUDForView:self.view animated:YES];
         }
     }];
+}
+
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.versionnumberLabel.layer.cornerRadius = 5;
+    [self appNewVersionNotification];
+    self.view.backgroundColor = [UIColor whiteColor];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appNewVersionNotification) name:APPNEWVERSION_Notification object:nil];
+    
+    self.view.backgroundColor = [UIColor underPageBackgroundColor];
+    [self addReflectionView:self.noteImageView];
+    [self addReflectionView:self.lessonImageView];
+    [self addReflectionView:self.materialImageView];
     self.lhltabBarController = [[LHLTabBarController alloc] init];
 	// Do any additional setup after loading the view.
 }
@@ -210,4 +213,6 @@
     [self.lhltabBarController selectedAtIndexItem:0];
     [self.navigationController pushViewController:self.lhltabBarController animated:YES];
 }
+
+
 @end

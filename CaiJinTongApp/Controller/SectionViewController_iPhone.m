@@ -445,7 +445,7 @@
 //        [app.lessonViewCtrol presentViewController:playercontroller animated:YES completion:^{
 //            
 //        }];
-        [self.navigationController presentViewController:playercontroller animated:YES completion:^{
+        [self presentViewController:playercontroller animated:YES completion:^{
             
         }];
         [playercontroller playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];

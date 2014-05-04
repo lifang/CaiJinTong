@@ -79,9 +79,9 @@
     //设置时间
     self.questionTimeLabel.text = @"";
     NSMutableString *timeString = [NSMutableString stringWithFormat:@"%@ %@",question.askerNick?:@"",question.askTime?:@""];
-    if (question.praiseCount && question.praiseCount.intValue > 0) {
-        [timeString appendFormat:@" 赞 : %@",question.praiseCount];
-    }
+//    if (question.praiseCount && question.praiseCount.intValue > 0) {
+//        [timeString appendFormat:@" 赞 : %@",question.praiseCount];
+//    }
     
     NSMutableAttributedString *timeAttriString = [[NSMutableAttributedString alloc] initWithString:timeString];
     [timeAttriString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(0, timeAttriString.length)];
