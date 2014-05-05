@@ -63,6 +63,10 @@
 }
 
 -(IBAction)playBtClicked:(id)sender{
+    if ([CaiJinTongManager shared].isShowLocalData) {
+        //查看下载资料时,此按钮被绑定其他方法
+        return;
+    }
     [[NSNotificationCenter defaultCenter] postNotificationName:self.isMoviePlayView?@"changePlaySectionMovieOnLine": @"startPlaySectionMovieOnLine" object:nil userInfo:@{@"sectionModel": self.sectionModel}];
 }
 

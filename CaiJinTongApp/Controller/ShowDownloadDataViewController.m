@@ -273,7 +273,12 @@
                                                 [self.learningMaterialDataArray removeObject:material];
                                             }
                                             [self.tableView deleteRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
-                                            [self.tableView reloadData];
+                                            dispatch_time_t delayInNanoSeconds = dispatch_time(DISPATCH_TIME_NOW, .4 * NSEC_PER_SEC);
+                                            dispatch_queue_t concurrentQueue = dispatch_get_main_queue();
+                                            dispatch_after(delayInNanoSeconds, concurrentQueue, ^{
+                                                [self.tableView reloadData];
+                                            });
+                                            
                                         });
                                     }];
 }

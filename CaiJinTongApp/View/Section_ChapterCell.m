@@ -68,7 +68,11 @@
 
 
 -(IBAction)playBtClicked:(id)sender{
- [[NSNotificationCenter defaultCenter] postNotificationName:self.isMoviePlayView?@"changePlaySectionMovieOnLine": @"startPlaySectionMovieOnLine" object:nil userInfo:@{@"sectionModel": self.sectionModel}];
+    if ([CaiJinTongManager shared].isShowLocalData) {
+        //浏览下载资料时,此按钮已被绑定其他方法
+        return;
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:self.isMoviePlayView?@"changePlaySectionMovieOnLine": @"startPlaySectionMovieOnLine" object:nil userInfo:@{@"sectionModel": self.sectionModel}];
 }
 
 -(void)setSectionModel:(SectionModel *)sectionModel{

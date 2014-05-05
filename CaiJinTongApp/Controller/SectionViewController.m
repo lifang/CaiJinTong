@@ -292,8 +292,8 @@
 }
 
 - (void)gotoMoviePlayMovieOnLineWithSectionSavemodel:(NSNotification *)info {
-    self.isPlaying = YES;
     SectionModel *section = [info.userInfo objectForKey:@"sectionModel"];
+    self.isPlaying = YES;
     if (section.sectionMoviePlayURL) {
         //播放接口
         section.lessonId = self.lessonModel.lessonId;
