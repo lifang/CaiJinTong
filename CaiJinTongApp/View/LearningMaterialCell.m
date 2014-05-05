@@ -187,8 +187,14 @@
 -(void)setFileDownloadStatus:(DownloadStatus)fileDownloadStatus{
     _fileDownloadStatus = fileDownloadStatus;
     switch (fileDownloadStatus) {
-        case DownloadStatus_UnDownload:
         case DownloadStatus_Pause:
+        {
+            self.fileScanImageView.image = [UIImage imageNamed:@"download.png"];
+            self.fileScanLabel.text = @"继续下载";
+            [self.downloadBt setHidden:NO];
+        }
+            break;
+        case DownloadStatus_UnDownload:
         case DownloadStatus_Downloading:
         {
             self.fileScanImageView.image = [UIImage imageNamed:@"download.png"];
