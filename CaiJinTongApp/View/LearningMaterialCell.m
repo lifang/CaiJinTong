@@ -213,6 +213,7 @@
 }
 
 - (void)layoutSubviews{
+    [super layoutSubviews];
     if (![CaiJinTongManager shared].isShowLocalData && !isPAD) {
         self.downloadBt.center = (CGPoint){265,self.downloadBt.center.y};
         self.scanView.center = self.downloadBt.center;
@@ -220,7 +221,7 @@
         self.fileNameLabel.frame = (CGRect){3,16,215,21};
         self.fileSizeLabel.center = (CGPoint){210,self.fileSizeLabel.center.y};
         self.deleteView.hidden = YES;
-    }else{
+    }else if(!isPAD){
         self.downloadBt.center = (CGPoint){250,self.downloadBt.center.y};
         self.scanView.center = self.downloadBt.center;
         self.fileCategoryImageView.center = (CGPoint){214,self.fileCategoryImageView.center.y};
