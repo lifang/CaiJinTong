@@ -140,6 +140,9 @@
         if (![CaiJinTongManager shared].isShowLocalData) {
             self.section_GradeView.dataArray = self.lessonModel.lessonCommentList;
             self.section_GradeView.isGrade = [self.lessonModel.lessonIsScored intValue];
+            if ([CaiJinTongManager shared].isShowLocalData) {
+                self.section_GradeView.isGrade = 1;
+            }
             self.section_GradeView.lessonId = self.lessonModel.lessonId;
             if (self.section_GradeView.dataArray.count > 0) {
                 //            CommentModel *comment = (CommentModel *)[self.section_GradeView.dataArray objectAtIndex:self.section_GradeView.dataArray.count-1];

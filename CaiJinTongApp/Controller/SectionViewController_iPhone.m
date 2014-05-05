@@ -659,6 +659,9 @@
             self.section_GradeView.title = @"打分";
             self.section_GradeView.dataArray = [NSMutableArray arrayWithArray:self.lessonModel.lessonCommentList];
             self.section_GradeView.isGrade = [self.lessonModel.lessonIsScored intValue];
+            if ([CaiJinTongManager shared].isShowLocalData) {
+                self.section_GradeView.isGrade = 1;
+            }
             self.section_GradeView.lessonId = self.lessonModel.lessonId;
             self.section_GradeView.tableViewList.tag = LessonViewTagType_commentTableViewTag;
             if(self.section_GradeView.dataArray.count > 0){
