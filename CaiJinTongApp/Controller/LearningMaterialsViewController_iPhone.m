@@ -61,9 +61,9 @@
         [self.searchBar setHidden:YES];
         
         if (platform >= 7.0) {
-            self.tableView.frame = CGRectMake(10,63, 300,IP5(440, 365) ) ;
+            self.tableView.frame = CGRectMake(0,63, 320,IP5(440, 365) ) ;
         }else{
-            self.tableView.frame = CGRectMake(10,63, 300,IP5(440, 370) ) ;
+            self.tableView.frame = CGRectMake(0,63, 320,IP5(440, 370) ) ;
         }
         self.tipLabel.frame = self.tableView.frame;
         [DRFMDBDatabaseTool selectDownloadedLearningMaterialsListWithUserId:[CaiJinTongManager shared].user.userId withFinished:^(NSArray *learningMaterialsArray, NSString *errorMsg) {

@@ -25,7 +25,6 @@
 - (IBAction)scanBtClicked:(id)sender;
 - (IBAction)deleteBtClicked:(id)sender;
 
-
 @end
 @implementation LearningMaterialCell
 
@@ -111,21 +110,8 @@
             break;
     }
     
-    if (![CaiJinTongManager shared].isShowLocalData && !isPAD) {
-        [self moveIphoneUI];
-    }
+    
 }
-
-///在资料页面把布局调整一下
-- (void)moveIphoneUI{
-    self.downloadBt.center = (CGPoint){265,self.downloadBt.center.y};
-    self.scanView.center = self.downloadBt.center;
-    self.fileCategoryImageView.center = (CGPoint){225,self.fileCategoryImageView.center.y};
-    self.fileNameLabel.frame = (CGRect){3,16,215,21};
-    self.fileSizeLabel.center = (CGPoint){210,self.fileSizeLabel.center.y};
-    self.deleteView.hidden = YES;
-}
-
 
 #pragma mark downloadNotification
 -(void)didStartDownloadFile:(NSNotification*)notification{
@@ -225,5 +211,24 @@
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
+- (void)layoutSubviews{
+    if (![CaiJinTongManager shared].isShowLocalData && !isPAD) {
+        self.downloadBt.center = (CGPoint){265,self.downloadBt.center.y};
+        self.scanView.center = self.downloadBt.center;
+        self.fileCategoryImageView.center = (CGPoint){225,self.fileCategoryImageView.center.y};
+        self.fileNameLabel.frame = (CGRect){3,16,215,21};
+        self.fileSizeLabel.center = (CGPoint){210,self.fileSizeLabel.center.y};
+        self.deleteView.hidden = YES;
+    }else{
+        self.downloadBt.center = (CGPoint){250,self.downloadBt.center.y};
+        self.scanView.center = self.downloadBt.center;
+        self.fileCategoryImageView.center = (CGPoint){214,self.fileCategoryImageView.center.y};
+        self.fileNameLabel.frame = (CGRect){3,16,202,21};
+        self.fileSizeLabel.center = (CGPoint){187,self.fileSizeLabel.center.y};
+        self.deleteView.hidden = NO;
+    }
+}
+
 #pragma mark --
 @end
