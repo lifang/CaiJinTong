@@ -23,6 +23,8 @@
 @property (nonatomic,strong)  LearningMaterials  *materialModel;
 
 - (IBAction)scanBtClicked:(id)sender;
+- (IBAction)deleteBtClicked:(id)sender;
+
 
 @end
 @implementation LearningMaterialCell
@@ -46,6 +48,12 @@
 - (IBAction)scanBtClicked:(id)sender {
     if (self.delegate && [self.delegate respondsToSelector:@selector(learningMaterialCell:scanLearningMaterialFileAtIndexPath:)]) {
         [self.delegate learningMaterialCell:self scanLearningMaterialFileAtIndexPath:self.path];
+    }
+}
+
+- (IBAction)deleteBtClicked:(id)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(learningMaterialCell:deleteLearningMaterialFileAtIndexPath:)]) {
+        [self.delegate learningMaterialCell:self deleteLearningMaterialFileAtIndexPath:self.path];
     }
 }
 
@@ -73,12 +81,7 @@
         self.fileSearchTimeLabel.text = [NSString stringWithFormat:@"次数:%@", learningMaterial.materialSearchCount];
         self.fileCreateDateLabel.text = [NSString stringWithFormat:@"上传日期:%@", learningMaterial.materialCreateDate];
     }
-    
-//    UserModel *user = [[CaiJinTongManager shared] user];
-//    [DRFMDBDatabaseTool selectLearningMaterialsDownloadStatusWithUserId:user.userId withLearningMaterialsId:learningMaterial.materialId withFinished:^(DownloadStatus status) {
-//        self.fileDownloadStatus = status;
-//        [self.downloadBt setDownloadLearningMaterial:learningMaterial withDownloadStatus:status withIsPostNotification:YES];
-//    }];
+
     self.fileDownloadStatus = learningMaterial.materialFileDownloadStaus;
     [self.downloadBt setDownloadLearningMaterial:learningMaterial withDownloadStatus:learningMaterial.materialFileDownloadStaus withIsPostNotification:YES];
     
@@ -108,6 +111,19 @@
             break;
     }
     
+    if (![CaiJinTongManager shared].isShowLocalData && !isPAD) {
+        [self moveIphoneUI];
+    }
+}
+
+///在资料页面把布局调整一下
+- (void)moveIphoneUI{
+    self.downloadBt.center = (CGPoint){265,self.downloadBt.center.y};
+    self.scanView.center = self.downloadBt.center;
+    self.fileCategoryImageView.center = (CGPoint){225,self.fileCategoryImageView.center.y};
+    self.fileNameLabel.frame = (CGRect){3,16,215,21};
+    self.fileSizeLabel.center = (CGPoint){210,self.fileSizeLabel.center.y};
+    self.deleteView.hidden = YES;
 }
 
 
