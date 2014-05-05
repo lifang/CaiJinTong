@@ -38,18 +38,17 @@
     }
 
     //判断当前下载任务是否已经在下载队列中
-    if ([self.networkQueue requestsCount] > 0) {
-        NSArray *requestArray = self.networkQueue.operations;
-        for (NSOperation *oper in requestArray) {
-            ASIHTTPRequest *request = (ASIHTTPRequest *)oper;
-            if ([section.sectionId isEqualToString:[[request.userInfo objectForKey:@"SectionSaveModel"] sectionId]]) {
-                //当前任务正在执行，取消本次操作
-                // 考虑是否需要发送nofification通知
-                
-                return;
-            }
+    NSArray *requestArray = self.networkQueue.operations;
+    for (NSOperation *oper in requestArray) {
+        ASIHTTPRequest *request = (ASIHTTPRequest *)oper;
+        if ([section.sectionId isEqualToString:[request.userInfo objectForKey:@"sectionId"]]) {
+            //当前任务正在执行，取消本次操作
+            // 考虑是否需要发送nofification通知
+            
+            return;
         }
     }
+
     
     NSString *urlString = [NSString stringWithFormat:@"%@",section.sectionMovieDownloadURL];
     urlString = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
@@ -60,7 +59,7 @@
     
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:urlString]];
     request.delegate = self;
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:section , @"SectionSaveModel", nil];
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:section , @"SectionSaveModel",section.sectionId,@"sectionId", nil];
     request.userInfo = userInfo;
     NSString *downloadPath = [CaiJinTongManager getMovieLocalPathWithSectionID:section.sectionId];
     NSString *tempPath = [CaiJinTongManager getMovieLocalTempPathWithSectionID:[NSString stringWithFormat:@"temp_%@",section.sectionId]];
