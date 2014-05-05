@@ -121,6 +121,8 @@ typedef enum {AlertType_DeleteCell = 12,AlertType_ModifyCell}AlertType;
     self.contentViewBackView.layer.borderWidth = 1.0;
     self.contentViewBackView.layer.borderColor = [[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:0.4]CGColor];
     self.flagBackView.layer.cornerRadius = 5;
+    [self.flagNumberLabel setMinimumScaleFactor:0.2];
+    self.flagNumberLabel.adjustsFontSizeToFitWidth = YES;
     self.flagNumberLabel.attributedText = [self getFlagAttributedString:self.path.row+1];
     [self.commitBt setEnabled:NO];
     if (isEditing) {

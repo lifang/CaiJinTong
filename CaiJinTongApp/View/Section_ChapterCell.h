@@ -28,5 +28,7 @@
 @property (nonatomic, strong)  SectionModel *sectionModel;
 -(IBAction)playBtClicked:(id)sender;
 
+///重新加载cell时调用
+-(void)continueDownloadFileWithDownloadStatus:(DownloadStatus)status;
 -(void)beginReceiveNotification;
 @end

@@ -57,6 +57,14 @@
     }
 }
 
+-(void)continueDownloadFileWithDownloadStatus:(DownloadStatus)status{
+    if (status == DownloadStatus_Downloading) {
+        AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+        DownloadService *mDownloadService = appDelegate.mDownloadService;
+        [mDownloadService addDownloadTask:_sectionModel];
+    }
+}
+
 #pragma mark --
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
@@ -111,9 +119,6 @@
         case DownloadStatus_Downloading:
         {
             self.statusLab.text = @"下载中...";
-            AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
-            DownloadService *mDownloadService = appDelegate.mDownloadService;
-            [mDownloadService addDownloadTask:_sectionModel];
         }
             
             break;
