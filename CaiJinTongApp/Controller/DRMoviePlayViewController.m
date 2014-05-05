@@ -692,7 +692,7 @@
     __block NSString *timespan = [NSString stringWithFormat:@"%.2f",self.moviePlayer.currentPlaybackTime];
     self.sectionModel.sectionFinishedDate = [Utility getNowDateFromatAnDate];
     self.sectionModel.sectionLastPlayTime = timespan;
-    [Utility setStartPlayerTimeWithUserId:[CaiJinTongManager shared].user.userId withSectionId:self.sectionModel.sectionId withPlayerTime:self.moviePlayer.currentPlaybackTime];
+    [Utility setStartPlayerTimeWithUserId:[CaiJinTongManager shared].user.userId withSectionId:self.sectionModel.sectionId withPlayerTime:self.moviePlayer.currentPlaybackTime withLastPlayDate:self.sectionModel.sectionFinishedDate];
     [DRFMDBDatabaseTool updateSectionPlayDateWithUserId:[CaiJinTongManager shared].user.userId withSectionId:self.sectionModel.sectionId withPlayTime:self.sectionModel.sectionLastPlayTime withLastFinishedDate:self.sectionModel.sectionFinishedDate withFinished:^(BOOL flag) {
         
     }];

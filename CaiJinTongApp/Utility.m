@@ -52,20 +52,29 @@
             (int)((CGColorGetComponents(color.CGColor))[2]*255.0)];
 }
 
-///查找播放记录
+///查找播放记录_时间
 +(float)getStartPlayerTimeWithUserId:(NSString*)userId withSectionId:(NSString*)sectionId{
     if (!userId && !sectionId) {
         return 0;
     }
-    return  [[NSUserDefaults standardUserDefaults] floatForKey:[NSString stringWithFormat:@"%@_%@",userId,sectionId]];
+    return  [[NSUserDefaults standardUserDefaults] floatForKey:[NSString stringWithFormat:@"playerTime_%@_%@",userId,sectionId]];
 }
 
-///查找播放记录
-+(void)setStartPlayerTimeWithUserId:(NSString*)userId withSectionId:(NSString*)sectionId withPlayerTime:(float)time{
+///查找播放记录_日期
++ (NSString *)getLastPlayDateWithUserId:(NSString *)userId withSectionId:(NSString *)sectionId{
+    if (!userId && !sectionId) {
+        return nil;
+    }
+    return [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"lastPlayDate_%@_%@",userId,sectionId]];
+}
+
+///保存播放记录
++(void)setStartPlayerTimeWithUserId:(NSString*)userId withSectionId:(NSString*)sectionId withPlayerTime:(float)time withLastPlayDate:(NSString *)lastPlayDate{
     if (!userId && !sectionId) {
         return;
     }
-    [[NSUserDefaults standardUserDefaults] setFloat:time forKey:[NSString stringWithFormat:@"%@_%@",userId,sectionId]];
+    [[NSUserDefaults standardUserDefaults] setFloat:time forKey:[NSString stringWithFormat:@"playerTime_%@_%@",userId,sectionId]];
+    [[NSUserDefaults standardUserDefaults] setObject:lastPlayDate forKey:[NSString stringWithFormat:@"lastPlayDate_%@_%@",userId,sectionId]];
 }
 ///返回文件类型
 +(DRURLFileType)getFileTypeWithFileExtension:(NSString*)extension{

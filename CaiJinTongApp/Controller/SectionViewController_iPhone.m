@@ -181,11 +181,46 @@
     self.playercontroller.delegate = self;
     chapterModel *chapter = [self.lessonModel.chapterList firstObject];
     SectionModel *section = [chapter.sectionList firstObject];
-    [DRFMDBDatabaseTool selectSectionLastPlayWithUserId:[CaiJinTongManager shared].user.userId withLessonId:[CaiJinTongManager shared].lesson.lessonId withFinished:^(SectionModel *lastplaySection) {
-         [self.playercontroller playMovieWithSectionModel:lastplaySection?:section withFileType:MPMovieSourceTypeStreaming];
-        [self.navigationController presentViewController:self.playercontroller animated:YES completion:^{
-            
-        }];
+//    [DRFMDBDatabaseTool selectSectionLastPlayWithUserId:[CaiJinTongManager shared].user.userId withLessonId:[CaiJinTongManager shared].lesson.lessonId withFinished:^(SectionModel *lastplaySection) {
+//         [self.playercontroller playMovieWithSectionModel:lastplaySection?:section withFileType:MPMovieSourceTypeStreaming];
+//        [self.navigationController presentViewController:self.playercontroller animated:YES completion:^{
+//            
+//        }];
+//    }];
+    SectionModel *latestSection;
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSDate *latestDate;
+    NSDate *tempDate;
+    //遍历求最近播放的section
+    for (chapterModel *chapter in self.lessonModel.chapterList){
+        for (SectionModel *section in chapter.sectionList){
+            NSString *dateString = [Utility getLastPlayDateWithUserId:[CaiJinTongManager shared].user.userId withSectionId:section.sectionId];
+            if (!dateString) {
+                continue;
+            }else{
+                if (!latestDate) {
+                    latestDate = [formatter dateFromString:dateString] ? : nil;
+                    if (latestDate) {
+                        latestSection = section;
+                    }
+                }else{
+                    tempDate = [formatter dateFromString:dateString];
+                    if (tempDate) {
+                        NSComparisonResult comparisonResult = [tempDate compare:latestDate];
+                        if (comparisonResult == NSOrderedDescending) {
+                            latestDate = tempDate;
+                            latestSection = section;
+                        }
+                    }
+                    
+                }
+            }
+        }
+    }
+    [self.playercontroller playMovieWithSectionModel:latestSection?:section withFileType:MPMovieSourceTypeStreaming];
+    [self.navigationController presentViewController:self.playercontroller animated:YES completion:^{
+        
     }];
 }
 
