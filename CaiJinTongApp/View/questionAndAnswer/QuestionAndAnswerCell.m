@@ -88,7 +88,7 @@
             [self.acceptAnswerBt setHidden:NO];
             [self.acceptAnswerBt setUserInteractionEnabled:NO];
             [self.acceptAnswerBt setTitle:@"正确回答" forState:UIControlStateNormal];
-            [self.acceptAnswerBt setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+            [self.acceptAnswerBt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         }else{
             [self.acceptAnswerBt setHidden:YES];
         }
