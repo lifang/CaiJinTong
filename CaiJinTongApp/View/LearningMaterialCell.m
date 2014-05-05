@@ -182,7 +182,7 @@
     }
 }
 
-#pragma mark --
+#pragma mark -- 属性
 #pragma mark property
 -(void)setFileDownloadStatus:(DownloadStatus)fileDownloadStatus{
     _fileDownloadStatus = fileDownloadStatus;
