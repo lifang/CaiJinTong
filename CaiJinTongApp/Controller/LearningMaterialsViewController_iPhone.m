@@ -77,6 +77,8 @@
             }
         }];
         
+        self.menuVisible = NO;
+        [_treeView setHiddleTreeTableView:!self.menuVisible withAnimation:NO];
     }else{
         [self.lhlNavigationBar.rightItem setHidden:NO];
         self.lhlNavigationBar.title.text = @"我的课程";
@@ -90,17 +92,11 @@
         }
         
         self.tipLabel.frame = self.tableView.frame;
-        if (self.dataArray.count <= 0) {
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            UserModel *user = [[CaiJinTongManager shared] user];
-            //此处_lessonCategoryId改为要初始显示的分类Id
-            [self.learningMaterialListInterface downloadlearningMaterilasListForCategoryId:_lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
-        }
+        [self refreshViewBeginRefreshing:self.headerRefreshView];
+        self.menuVisible = NO;
+        [self.treeView setHiddleTreeTableView:!self.menuVisible withAnimation:NO];
     }
-    
-    self.menuVisible = NO;
-    [self.treeView setHiddleTreeTableView:!self.menuVisible withAnimation:NO];
-    
+
     [self.headerRefreshView endRefreshing];
     self.headerRefreshView.isForbidden = NO;
     [self.footerRefreshView endRefreshing];

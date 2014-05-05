@@ -3493,31 +3493,23 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <image name="Q&amp;A-myq_19.png" width="15" height="15"/>
         <image name="answer_n.png" width="11" height="11"/>
         <image name="btn0.png" width="118" height="33"/>
-        <image name="btn0.png" width="118" height="33"/>
         <image name="delete.png" width="21" height="21"/>
         <image name="delete_icon&amp;48.png" width="24" height="24"/>
         <image name="delete_local.png" width="18" height="19"/>
         <image name="down.png" width="66" height="37"/>
         <image name="downloadprogressBar.png" width="760" height="30"/>
-        <image name="downloadprogressBar.png" width="760" height="30"/>
         <image name="email.png" width="26" height="17"/>
         <image name="forgotPwd.png" width="175" height="38"/>
-        <image name="forgotPwd.png" width="175" height="38"/>
-        <image name="inputBackView.png" width="1024" height="635"/>
         <image name="inputBackView.png" width="1024" height="635"/>
         <image name="lessonIcon.png" width="27" height="27"/>
         <image name="loginOk.png" width="353" height="47"/>
         <image name="login_03.png" width="150" height="50"/>
         <image name="login_background.png" width="1024" height="768"/>
-        <image name="login_background.png" width="1024" height="768"/>
         <image name="login_pwdinput.png" width="39" height="48"/>
         <image name="login_userName.png" width="18" height="32"/>
         <image name="logo.png" width="400" height="183"/>
-        <image name="logo.png" width="400" height="183"/>
-        <image name="material.png" width="26" height="27"/>
         <image name="material.png" width="26" height="27"/>
         <image name="navi_back.png" width="17" height="13"/>
-        <image name="navi_search_blue.png" width="17" height="17"/>
         <image name="navi_search_blue.png" width="17" height="17"/>
         <image name="noteicon.png" width="27" height="27"/>
         <image name="pdlay-courselistd_07.png" width="633" height="33"/>
@@ -3530,25 +3522,11 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <image name="play_paused.png" width="69" height="69"/>
         <image name="play_play.png" width="69" height="69"/>
         <image name="play_shuxian.png" width="1" height="69"/>
-        <image name="play_shuxian.png" width="1" height="69"/>
-        <image name="play_shuxian.png" width="1" height="69"/>
-        <image name="play_shuxian.png" width="1" height="69"/>
         <image name="play_volume.png" width="28" height="19"/>
         <image name="questIcon.png" width="27" height="27"/>
         <image name="setting.png" width="21" height="21"/>
         <image name="settings_delete.png" width="36" height="36"/>
         <image name="settings_选中.png" width="55" height="55"/>
-        <image name="sort.png" width="11" height="11"/>
-        <image name="sort.png" width="11" height="11"/>
-        <image name="sort.png" width="11" height="11"/>
-        <image name="sort.png" width="11" height="11"/>
-        <image name="sort.png" width="11" height="11"/>
-        <image name="sort.png" width="11" height="11"/>
-        <image name="sort.png" width="11" height="11"/>
-        <image name="sort.png" width="11" height="11"/>
-        <image name="sort.png" width="11" height="11"/>
-        <image name="sort.png" width="11" height="11"/>
-        <image name="sort.png" width="11" height="11"/>
         <image name="sort.png" width="11" height="11"/>
         <image name="system_table_cell_up.png" width="26" height="26"/>
     </resources>

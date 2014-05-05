@@ -123,14 +123,6 @@
         }];
     }else{
         [self.tipLabel setHidden:YES];
-        [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
-            if ([networkStatus isEqualToString:@"NotReachable"]) {
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
-                [Utility errorAlert:@"暂无网络"];
-            }else{
-                [self.lessonListForCategory downloadLessonListForCategoryId:nil withUserId:[CaiJinTongManager shared].userId withPageIndex:0 withSortType:self.sortType];
-            }
-        }];
     }
 
 }
@@ -148,15 +140,25 @@
         self.tipLabel.frame = self.collectionView.frame;
         [self.searchBar setHidden:YES];
         [self initData];
-//        [self.drTreeTableView setHiddleTreeTableView:YES withAnimation:NO];
+        self.menuVisible = NO;
+        [_drTreeTableView setHiddleTreeTableView:YES withAnimation:NO];
     }else{
+        self.lhlNavigationBar.title.text = @"我的课程";
+        [self.mainToolBar setHidden:NO];
+        [self.searchBar setHidden:NO];
+        [self.lhlNavigationBar.rightItem setHidden:NO];
+        if (platform >= 7.0) {
+            self.collectionView.frame = CGRectMake(0,IP5(150, 144), 320,IP5(350, 286) ) ;
+        }else{
+            self.collectionView.frame = CGRectMake(0,IP5(150, 144), 320,IP5(400, 330) ) ;
+        }
+        self.menuVisible = NO;
+        [self.drTreeTableView setHiddleTreeTableView:YES withAnimation:NO];
         [self refreshViewBeginRefreshing:self.headerRefreshView];
+        [self initData];
     }
     
     self.tipLabel.frame = self.collectionView.frame;
-    self.menuVisible = NO;
-    [self.drTreeTableView setHiddleTreeTableView:!self.menuVisible withAnimation:NO];
-    
     [self.headerRefreshView endRefreshing];
     self.headerRefreshView.isForbidden = NO;
     [self.footerRefreshView endRefreshing];

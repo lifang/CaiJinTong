@@ -176,7 +176,7 @@
             case 0:
             {
                 if (sender.selected) {
-                    [self.lhlTabBar layoutItems];
+//                    [self.lhlTabBar layoutItems];
                     //            LHLTabBarItem *item1 = [self.lhlTabBar.items objectAtIndex:3];
                     //            item1.alpha = 1.0;
                 }else{
