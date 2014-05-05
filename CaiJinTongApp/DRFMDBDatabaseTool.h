@@ -113,6 +113,8 @@
 ///查询当前资料的下载状态
 +(void)selectLearningMaterialsDownloadStatusWithUserId:(NSString*)userId withLearningMaterialsId:(NSString*)materialId withFinished:(void (^)(DownloadStatus status))finished;
 
+///查询当前资料的下载状态
++(void)selectLearningMaterialsDownloadStatusWithUserId:(NSString*)userId withLearningMaterialArray:(NSArray*)materialArray withFinished:(void (^)(NSArray *materialList))finished;
 
 ///查询数据库中资料信息,返回LearningMaterials数组对象
 +(void)selectLearningMaterialsListWithUserId:(NSString*)userId  withFinished:(void (^)(NSArray *learningMaterialsArray,NSString *errorMsg))finished;

@@ -25,7 +25,7 @@
     //设置缓存策略,永久保存
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     
-    [request setCachePolicy:ASIAskServerIfModifiedWhenStaleCachePolicy];
+    [request setCachePolicy:ASIDoNotReadFromCacheCachePolicy];
     [request setShouldContinueWhenAppEntersBackground:YES];
     [request setShouldAttemptPersistentConnection:YES];
     [request setShouldResetDownloadProgress:YES];
