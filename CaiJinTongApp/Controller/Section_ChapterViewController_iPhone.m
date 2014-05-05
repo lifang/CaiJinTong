@@ -147,6 +147,7 @@
         cell.playBt.tag = indexPath.section * 100000 + indexPath.row;
         [cell.playBt addTarget:self action:@selector(deleteSection:) forControlEvents:UIControlEventTouchUpInside];
     }
+    [cell continueDownloadFileWithDownloadStatus:cell.sectionModel.sectionMovieFileDownloadStatus];
     return cell;
 }
 
