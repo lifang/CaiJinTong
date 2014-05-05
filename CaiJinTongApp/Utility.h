@@ -22,8 +22,11 @@
 ///查找播放记录
 +(float)getStartPlayerTimeWithUserId:(NSString*)userId withSectionId:(NSString*)sectionId;
 
+///查找播放记录_日期
++ (NSString *)getLastPlayDateWithUserId:(NSString *)userId withSectionId:(NSString *)sectionId;
+
 ///保存播放记录
-+(void)setStartPlayerTimeWithUserId:(NSString*)userId withSectionId:(NSString*)sectionId withPlayerTime:(float)time;
++(void)setStartPlayerTimeWithUserId:(NSString*)userId withSectionId:(NSString*)sectionId withPlayerTime:(float)time withLastPlayDate:(NSString *)lastPlayDate;
 ///返回文件类型
 +(DRURLFileType)getFileTypeWithFileExtension:(NSString*)extension;
 
