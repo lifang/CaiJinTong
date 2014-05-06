@@ -36,6 +36,8 @@
 ///加载课程详细信息界面
 @property (nonatomic,strong) SectionViewController *sectionViewController;
 
+@property (nonatomic,strong) NSIndexPath *indexPathOfDeletingCell;  //正在被删除的indexPath
+
 - (IBAction)segmentControlValueChanged:(id)sender;
 
 @end
@@ -259,6 +261,39 @@
 }
 
 - (void)learningMaterialCell:(LearningMaterialCell *)cell deleteLearningMaterialFileAtIndexPath:(NSIndexPath *)path{
+    self.indexPathOfDeletingCell = path;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提醒" message:@"确定删除?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [alert show];
+    });
+}
+
+#pragma mark --
+
+#pragma mark property
+-(void)setIsShowLesson:(BOOL)isShowLesson{
+    _isShowLesson = isShowLesson;
+    if (isShowLesson) {
+        self.segmentView.selectedSegmentIndex = 0;
+        [self.lessonBackView setHidden:NO];
+        [self.learningMaterialBackView setHidden:YES];
+    }else{
+        self.segmentView.selectedSegmentIndex = 1;
+        [self.lessonBackView setHidden:YES];
+        [self.learningMaterialBackView setHidden:NO];
+    }
+}
+#pragma mark --
+
+#pragma  mark -- UIAlertView Delegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex > 0) {
+        [self deleteLearningMateralAtIndexPath:self.indexPathOfDeletingCell];
+    }
+    self.indexPathOfDeletingCell = nil;
+}
+
+- (void)deleteLearningMateralAtIndexPath:(NSIndexPath *) path{
     LearningMaterials *material = self.isSearch?[self.searchLearningMaterialArray objectAtIndex:path.row]:[self.learningMaterialDataArray objectAtIndex:path.row];
     [DRFMDBDatabaseTool deleteMaterialWithUserId:[CaiJinTongManager shared].user.userId
                          withLearningMaterialsId:material.materialId
@@ -283,20 +318,5 @@
                                     }];
 }
 
-#pragma mark --
 
-#pragma mark property
--(void)setIsShowLesson:(BOOL)isShowLesson{
-    _isShowLesson = isShowLesson;
-    if (isShowLesson) {
-        self.segmentView.selectedSegmentIndex = 0;
-        [self.lessonBackView setHidden:NO];
-        [self.learningMaterialBackView setHidden:YES];
-    }else{
-        self.segmentView.selectedSegmentIndex = 1;
-        [self.lessonBackView setHidden:YES];
-        [self.learningMaterialBackView setHidden:NO];
-    }
-}
-#pragma mark --
 @end

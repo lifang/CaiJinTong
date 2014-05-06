@@ -16,7 +16,7 @@
  *
  * 显示下载记录，包括已经下载的课程和资料
  */
-@interface ShowDownloadDataViewController : UIViewController<LearningMaterialCellDelegate,UITableViewDelegate,UITableViewDataSource,UICollectionViewDataSource,UICollectionViewDelegate>
+@interface ShowDownloadDataViewController : UIViewController<LearningMaterialCellDelegate,UITableViewDelegate,UITableViewDataSource,UICollectionViewDataSource,UICollectionViewDelegate,UIAlertViewDelegate>
 @property (assign,nonatomic) BOOL isShowLesson;
 ///从数据库加载课程信息
 -(void)reloadLessonDataFromDatabase;

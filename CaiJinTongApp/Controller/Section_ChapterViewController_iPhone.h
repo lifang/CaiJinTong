@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface Section_ChapterViewController_iPhone : UIViewController<UITableViewDataSource, UITableViewDelegate,UIScrollViewDelegate>
+@interface Section_ChapterViewController_iPhone : UIViewController<UITableViewDataSource, UITableViewDelegate,UIScrollViewDelegate,UIAlertViewDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *tableViewList;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 - (void)viewDidCurrentView;

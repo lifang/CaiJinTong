@@ -35,6 +35,7 @@
 @property (nonatomic,assign) BOOL menuVisible;//显示/隐藏选择列表
 @property (nonatomic,strong) DRTreeTableView *treeView; //选择分类的列表
 @property (nonatomic,strong) ChapterSearchBar_iPhone *searchBar; //搜罗栏
+@property (nonatomic,strong) NSIndexPath *indexPathOfDeletingCell;  //正在被删除的indexPath
 ///无缓存数据时提示
 @property (weak, nonatomic) IBOutlet UILabel *tipLabel;
 @property (nonatomic,strong) CJTMainToolbar_iPhone *mainToolBar;
@@ -359,28 +360,11 @@
 }
 
 - (void)learningMaterialCell:(LearningMaterialCell *)cell deleteLearningMaterialFileAtIndexPath:(NSIndexPath *)path{
-    LearningMaterials *material = self.isSearch?[self.searchArray objectAtIndex:path.row]:[self.dataArray objectAtIndex:path.row];
-    [DRFMDBDatabaseTool deleteMaterialWithUserId:[CaiJinTongManager shared].user.userId
-                         withLearningMaterialsId:material.materialId
-                                    withFinished:^(BOOL flag) {
-                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                            NSIndexPath *newPath;
-                                            if (self.isSearch) {
-                                                newPath = [NSIndexPath indexPathForRow:[self.searchArray indexOfObject:material] inSection:path.section];
-                                                [self.searchArray removeObject:material];
-                                            }else{
-                                                newPath = [NSIndexPath indexPathForRow:[self.dataArray indexOfObject:material] inSection:path.section];
-                                                [self.dataArray removeObject:material];
-                                            }
-                                            [self.tableView deleteRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
-                                            dispatch_time_t delayInNanoSeconds = dispatch_time(DISPATCH_TIME_NOW, .4 * NSEC_PER_SEC);
-                                            dispatch_queue_t concurrentQueue = dispatch_get_main_queue();
-                                            dispatch_after(delayInNanoSeconds, concurrentQueue, ^{
-                                                [self.tableView reloadData];
-                                            });
-                                            
-                                        });
-                                    }];
+    self.indexPathOfDeletingCell = path;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提醒" message:@"确定删除?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [alert show];
+    });
 }
 
 #pragma mark --
@@ -675,4 +659,37 @@
 
 }
 #pragma mark --
+
+#pragma  mark -- UIAlertView Delegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex > 0) {
+        [self deleteLearningMateralAtIndexPath:self.indexPathOfDeletingCell];
+    }
+    self.indexPathOfDeletingCell = nil;
+}
+
+- (void)deleteLearningMateralAtIndexPath:(NSIndexPath *) path{
+    LearningMaterials *material = self.isSearch?[self.searchArray objectAtIndex:path.row]:[self.dataArray objectAtIndex:path.row];
+    [DRFMDBDatabaseTool deleteMaterialWithUserId:[CaiJinTongManager shared].user.userId
+                         withLearningMaterialsId:material.materialId
+                                    withFinished:^(BOOL flag) {
+                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                            NSIndexPath *newPath;
+                                            if (self.isSearch) {
+                                                newPath = [NSIndexPath indexPathForRow:[self.searchArray indexOfObject:material] inSection:path.section];
+                                                [self.searchArray removeObject:material];
+                                            }else{
+                                                newPath = [NSIndexPath indexPathForRow:[self.dataArray indexOfObject:material] inSection:path.section];
+                                                [self.dataArray removeObject:material];
+                                            }
+                                            [self.tableView deleteRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
+                                            dispatch_time_t delayInNanoSeconds = dispatch_time(DISPATCH_TIME_NOW, .4 * NSEC_PER_SEC);
+                                            dispatch_queue_t concurrentQueue = dispatch_get_main_queue();
+                                            dispatch_after(delayInNanoSeconds, concurrentQueue, ^{
+                                                [self.tableView reloadData];
+                                            });
+                                            
+                                        });
+                                    }];
+}
 @end

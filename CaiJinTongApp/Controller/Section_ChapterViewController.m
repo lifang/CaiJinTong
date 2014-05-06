@@ -15,6 +15,7 @@
 #define CAPTER_CELL_WIDTH 650
 @interface Section_ChapterViewController ()
 @property (nonatomic,strong) UILabel *tipLabel;
+@property (nonatomic,strong) NSIndexPath *indexPathOfDeletingCell;  //正在被删除的indexPath
 @end
 @implementation Section_ChapterViewController
 
@@ -98,7 +99,7 @@
         cell.playBt.hidden = NO;
         cell.playBt.userInteractionEnabled = YES;
         cell.playBt.tag = indexPath.section * 100000 + indexPath.row;
-        [cell.playBt addTarget:self action:@selector(deleteSection:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.playBt addTarget:self action:@selector(deleteButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     }
     [cell continueDownloadFileWithDownloadStatus:cell.sectionModel.sectionMovieFileDownloadStatus];
     return cell;
@@ -152,10 +153,18 @@
 
 #pragma mark --
 
-- (void)deleteSection:(id)sender{
+- (void)deleteButtonClicked:(id)sender{
+    NSInteger tag = ((UIButton *)sender).tag;
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:tag % 100000 inSection:tag / 100000];
+    self.indexPathOfDeletingCell = indexPath;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提醒" message:@"确定删除?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [alert show];
+    });
+}
+
+- (void)deleteSection:(NSIndexPath *)indexPath{
     if ([CaiJinTongManager shared].isShowLocalData) {
-        NSInteger tag = ((UIButton *)sender).tag;
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:tag % 100000 inSection:tag / 100000];
         chapterModel *chapter = (chapterModel *)[self.dataArray objectAtIndex:indexPath.section];
         SectionModel *section = [chapter.sectionList objectAtIndex:indexPath.row];
         //被"下载资料管理"界面的"删除"按钮调用
@@ -186,4 +195,13 @@
         return;
     }
 }
+
+#pragma  mark -- UIAlertView Delegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex > 0) {
+        [self deleteSection:self.indexPathOfDeletingCell];
+    }
+    self.indexPathOfDeletingCell = nil;
+}
+
 @end
