@@ -361,16 +361,15 @@
 -(void)changePlayVideoOnLine:(NSNotification*)notification{
     self.isBack = NO;
     [self changePlayButtonStatus:YES];
-//    [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];
     if (self.loadMovieDataProgressView) {
         [self.loadMovieDataProgressView removeFromSuperview];
         [self.loadMovieDataProgressView hide:NO];
         self.loadMovieDataProgressView = nil;
     }
     self.loadMovieDataProgressView =  [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];
+    
     [self saveCurrentStatus];
     SectionModel *section = [notification.userInfo objectForKey:@"sectionModel"];
-//    self.sectionModel = section;
     self.drMovieSourceType = MPMovieSourceTypeStreaming;
     NSURL *url = [NSURL URLWithString:section.sectionMoviePlayURL];
     if (![self.movieUrl.absoluteString  isEqualToString:url.absoluteString]) {
@@ -378,7 +377,6 @@
         if(self.isPopupChapter){
             self.isPopupChapter = NO;
         }
-//        [self playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
         [self changeMovieContentURLWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
     }else{
         [Utility errorAlert:@"当前文件正在播放"];
@@ -869,7 +867,6 @@
     [self addMoviePlayBackNotification];
     self.drMovieSourceType = fileType;
     self.drMovieTopBar.titleLabel.text = sectionModel.sectionName;
-    //////////////
     [DRFMDBDatabaseTool selectSectionListWithUserId:[CaiJinTongManager shared].user.userId withSectionId:sectionModel.sectionId withLessonId:sectionModel.lessonId withFinished:^(SectionModel *section) {
         if (section && section.sectionLastPlayTime) {
             self.sectionModel.sectionLastPlayTime = section.sectionLastPlayTime;
