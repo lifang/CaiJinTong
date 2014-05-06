@@ -81,6 +81,7 @@
         self.fileCreateDateLabel.text = [NSString stringWithFormat:@"上传日期:%@", learningMaterial.materialCreateDate];
     }
 
+    
     self.fileDownloadStatus = learningMaterial.materialFileDownloadStaus;
     [self.downloadBt setDownloadLearningMaterial:learningMaterial withDownloadStatus:learningMaterial.materialFileDownloadStaus withIsPostNotification:YES];
     
@@ -187,8 +188,14 @@
 -(void)setFileDownloadStatus:(DownloadStatus)fileDownloadStatus{
     _fileDownloadStatus = fileDownloadStatus;
     switch (fileDownloadStatus) {
-        case DownloadStatus_UnDownload:
         case DownloadStatus_Pause:
+        {
+            self.fileScanImageView.image = [UIImage imageNamed:@"download.png"];
+            self.fileScanLabel.text = @"暂停";
+            [self.downloadBt setHidden:NO];
+        }
+            break;
+        case DownloadStatus_UnDownload:
         case DownloadStatus_Downloading:
         {
             self.fileScanImageView.image = [UIImage imageNamed:@"download.png"];

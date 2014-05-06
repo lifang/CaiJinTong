@@ -697,6 +697,32 @@
     }];
 }
 
+///查询当前资料的下载状态
++(void)selectLearningMaterialsDownloadStatusWithUserId:(NSString*)userId withLearningMaterialArray:(NSArray*)materialArray withFinished:(void (^)(NSArray *materialList))finished{
+    DRFMDBDatabaseTool *tool = [DRFMDBDatabaseTool shareDRFMDBDatabaseTool];
+    [tool.dbQueue inDatabase:^(FMDatabase *db) {
+        for (LearningMaterials *marterial in materialArray) {
+            FMResultSet * rs = [db executeQuery:@"select fileDownloadStatus from LearningMaterials where userId = ? and materialId = ?",userId,marterial.materialId];
+            NSString *path = nil;
+            if ([rs next]) {
+                
+                path = [rs stringForColumn:@"fileDownloadStatus"];
+            }
+            
+            [rs close];
+            if (path) {
+                marterial.materialFileDownloadStaus = [DRFMDBDatabaseTool convertDownloadStatusFromString:path];
+            }
+        }
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (finished) {
+                finished(materialArray);
+            }
+        });
+    }];
+}
+
 ///查询数据库中资料分类信息,返回DRTreeNode数组对象
 +(void)selectMaterialCategoryListWithUserId:(NSString*)userId withFinished:(void (^)(NSArray *treeNoteArray,NSString *errorMsg))finished{
     DRFMDBDatabaseTool *tool = [DRFMDBDatabaseTool shareDRFMDBDatabaseTool];

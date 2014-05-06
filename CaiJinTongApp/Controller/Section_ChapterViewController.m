@@ -168,6 +168,7 @@
         chapterModel *chapter = (chapterModel *)[self.dataArray objectAtIndex:indexPath.section];
         SectionModel *section = [chapter.sectionList objectAtIndex:indexPath.row];
         //被"下载资料管理"界面的"删除"按钮调用
+        [[NSFileManager defaultManager] removeItemAtPath:section.sectionMovieLocalURL error:nil];
         [DRFMDBDatabaseTool deleteSectionWithUserId:[CaiJinTongManager shared].user.userId
                                       withSectionId:section.sectionId
                                        withFinished:^(BOOL flag) {
