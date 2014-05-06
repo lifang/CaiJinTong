@@ -200,7 +200,8 @@
                  [self.view addSubview:self.section_chapterController.view];
             }
             self.section_chapterController.lessonId = self.sectionModel.lessonId;
-            LessonModel *lessonModel = [self.delegate lessonModelForDrMoviePlayerViewController];
+//            LessonModel *lessonModel = [self.delegate lessonModelForDrMoviePlayerViewController];
+            LessonModel *lessonModel = [CaiJinTongManager shared].lesson;
             if (lessonModel) {
                 self.section_chapterController.dataArray = lessonModel.chapterList;
             }

@@ -145,7 +145,43 @@
     return cell;
 }
 
+
+
 #pragma mark property
+-(SectionModel*)searchSectionModel:(LessonModel*)lesson withSectionId:(NSString*)sectionId{
+    if (!lesson || !sectionId) {
+        return nil;
+    }
+    for (chapterModel *chapter in lesson.chapterList) {
+        for (SectionModel *section in chapter.sectionList) {
+            if ([section.sectionId isEqualToString:sectionId]) {
+                return section;
+            }
+            
+        }
+    }
+    return nil;
+}
+
+-(void)setDataArray:(NSMutableArray *)dataArray{
+    _dataArray = dataArray;
+    if (dataArray && dataArray.count > 0) {
+        [DRFMDBDatabaseTool selectLessonTreeDatasWithUserId:[CaiJinTongManager shared].userId withLessonId:[CaiJinTongManager shared].lesson.lessonId withFinished:^(LessonModel *lesson, NSString *errorMsg) {
+            if (lesson && lesson.chapterList.count > 0) {
+                for (chapterModel *chapter in lesson.chapterList) {
+                    for (SectionModel *section in chapter.sectionList) {
+                        SectionModel *tempSection = [self searchSectionModel:[CaiJinTongManager shared].lesson withSectionId:section.sectionId];
+                        if (tempSection) {
+                            [tempSection copySection:section];//存入单例
+                        }
+                    }
+                }
+                [self.tableViewList reloadData];
+            }
+        }];
+    }
+}
+
 -(UILabel *)tipLabel{
     if (!_tipLabel) {
         _tipLabel = [[UILabel alloc] initWithFrame:(CGRect){0,0,CAPTER_CELL_WIDTH,self.tableViewList.frame.size.height}];

@@ -92,6 +92,9 @@
     
     cell.sectionModel = section;
     cell.isMoviePlayView = self.isMovieView;
+    if (self.isMovieView && indexPath.row == 0) {
+        DLog(@"章节列表bug : self.dataArray.count = %d ,\n chapter.sectionList.count = %d ,\n shared.lesson.chapterList.count = %d ,\n",self.dataArray.count,chapter.sectionList.count,[CaiJinTongManager shared].lesson.chapterList.count);
+    }
     cell.btn.isMovieView = self.isMovieView;
     [cell beginReceiveNotification];
     if ([CaiJinTongManager shared].isShowLocalData) {
