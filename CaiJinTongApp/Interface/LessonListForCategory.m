@@ -28,7 +28,6 @@
         default:
             break;
     }
-//    http://lms.finance365.com/api/ios.ashx?active=lessonList&userId=17082&lessonCategoryId=80&pageIndex=3&sortType=1
     //后台所有的分页第一页都是从1开始
     if (categoryId && ![categoryId isEqualToString:[NSString stringWithFormat:@"%d",CategoryType_ALL]]) {
            self.interfaceUrl = [NSString stringWithFormat:@"%@?active=lessonList&userId=%@&lessonCategoryId=%@&pageIndex=%d&sortType=%@",kHost,userId,categoryId,pageIndex+1,sort];

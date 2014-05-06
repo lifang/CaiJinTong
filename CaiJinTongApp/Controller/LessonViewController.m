@@ -200,19 +200,6 @@ typedef enum {
         self.drTreeTableView.noteArr = [NSMutableArray arrayWithArray:treeNoteArray];
     }];
 }
-/////从数据库中加载课程分类
-//-(void)reloadLessonCategoryFromDataBase{
-//    [DRFMDBDatabaseTool selectLessonCategoryListWithUserId:[CaiJinTongManager shared].user.userId withFinished:^(NSArray *treeNoteArray, NSString *errorMsg) {
-//        self.drTreeTableView.noteArr = [NSMutableArray arrayWithArray:treeNoteArray];
-//    }];
-//}
-//
-/////从数据库中加载资料分类
-//-(void)reloadLearningMaterialCategoryFromDataBase{
-//    [DRFMDBDatabaseTool selectMaterialCategoryListWithUserId:[CaiJinTongManager shared].user.userId withFinished:^(NSArray *treeNoteArray, NSString *errorMsg) {
-//        self.drTreeTableView.noteArr = [NSMutableArray arrayWithArray:treeNoteArray];
-//    }];
-//}
 #pragma mark --
 
 

@@ -31,19 +31,6 @@
     return self;
 }
 
-//-(void)makeKVO{
-//    [self.section_ChapterView.tableViewList addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
-//}
-//
-//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
-//    if([keyPath isEqualToString:@"contentOffset"]){
-//        NSValue *newOne = [change objectForKey:@"new"];
-//        void * point = NULL;
-//        [newOne getValue:point];
-//        NSLog(@"%@",point);
-//    }
-//}
-
 //调用本View时要先指定要显示的self.lessonModel
 - (void)viewDidLoad
 {
@@ -51,7 +38,6 @@
     [self.lhlNavigationBar.rightItem setHidden:YES];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
     self.tableView.tag = LessonViewTagType_lessonRootScrollViewTag;
-//    [self.switchButtonView setBackgroundColor:[UIColor colorWithRed:14.0/255.0 green:50.0/255.0 blue:84.0/255.0 alpha:1.0]];
     if(IS_4_INCH){
         [self.tableView setFrame:(CGRect){0,65,320,440}];
     }else{
@@ -61,9 +47,6 @@
     UIView *bottomBarView = self.slideSwitchView.topScrollView;
     bottomBarView.frame = (CGRect){0,IP5(505, 430),320,IP5(63, 50)};
     [self.view addSubview:bottomBarView];
-    
-    //监控滑动行为
-//    [self makeKVO];
     
     //打分之后提交
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -553,7 +536,6 @@
         case 0:
         {
             [self initAppearForView:cell.contentView];
-//            [cell.contentView setBackgroundColor:[UIColor redColor]];
         }
             break;
         case 1:
@@ -632,7 +614,7 @@
 }
 
 -(LessonModel *)lessonModelForDrMoviePlayerViewController{
-    return self.lessonModel;
+    return [CaiJinTongManager shared].lesson;
 }
 
 #pragma mark Section_NoteViewControllerDelegate选中一条笔记
@@ -684,7 +666,7 @@
         [self.section_ChapterView.tableViewList setFrame:CGRectMake(22, 0, 276, _slideSwitchView.frame.size.height - IP5(63, 53))];
         self.section_ChapterView.title = @"章节目录";
         self.section_ChapterView.lessonId = self.lessonModel.lessonId;
-        self.section_ChapterView.dataArray = self.lessonModel.chapterList;
+        self.section_ChapterView.dataArray = self.lessonModel.chapterList; //此处赋予的数据只有接口返回的内容
         self.section_ChapterView.tableViewList.tag = LessonViewTagType_chapterTableViewTag;
         self.section_ChapterView.isMovieView = NO;
         

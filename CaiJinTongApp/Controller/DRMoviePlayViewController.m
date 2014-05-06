@@ -201,16 +201,11 @@
             }
             self.section_chapterController.lessonId = self.sectionModel.lessonId;
             LessonModel *lessonModel = [self.delegate lessonModelForDrMoviePlayerViewController];
+//            LessonModel *lessonModel = [CaiJinTongManager shared].lesson;
             if (lessonModel) {
                 self.section_chapterController.dataArray = lessonModel.chapterList;
             }
             
-//            if (self.drMovieSourceType == MPMovieSourceTypeStreaming) {
-//                self.section_chapterController.dataArray =  [NSMutableArray arrayWithArray:self.sectionModel.sectionList];
-//            } else if (self.drMovieSourceType == MPMovieSourceTypeFile) {
-//                Section *sectionDB = [[Section alloc] init];
-//                self.section_chapterController.dataArray = [NSMutableArray arrayWithArray:[sectionDB getChapterInfoWithSid:self.sectionSaveModel.sid]];
-//            }
             self.isPopupChapter = YES;
             self.isForgoundForPlayerView = NO;
             if (self.isPlaying) {

@@ -112,7 +112,7 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     if ([CaiJinTongManager shared].isShowLocalData) {
         [DRFMDBDatabaseTool selectDownloadedMovieFileLessonListWithUserId:[CaiJinTongManager shared].user.userId withFinished:^(NSArray *lessonArray, NSString *errorMsg) {
-            self.sectionList = [NSMutableArray arrayWithArray:lessonArray];
+            self.lessonList = [NSMutableArray arrayWithArray:lessonArray];
             [self.collectionView reloadData];
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             if (lessonArray.count <= 0) {
@@ -182,29 +182,14 @@
 }
 
 - (NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return self.sectionList.count;
+    return self.lessonList.count;
 }
 
 - (LessonViewControllerCell_iPhone *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     LessonViewControllerCell_iPhone *cell = (LessonViewControllerCell_iPhone *)[collectionView dequeueReusableCellWithReuseIdentifier:CELL_REUSE_IDENTIFIER forIndexPath:indexPath];
-//    //如何实现subView的复用 (因为没有重写cell类)
-//    BOOL flag = YES;//是否init新sectioncustomview
-//    for(id son in cell.contentView.subviews){
-//        if([son isKindOfClass:[SectionCustomView_iPhone class]]){
-//            flag = NO;
-//            self.sectionCustomView = (SectionCustomView_iPhone *)son;
-//            break;
-//        }
-//    }
-//    if(flag){
-//    cell.sectionCustomView = [[SectionCustomView_iPhone alloc] initWithFrame:CGRectMake(18, 10, 125, 145) andLesson:self.sectionList[indexPath.row] andItemLabel:20];
-    [cell.sectionCustomView refreshDataWithLesson:self.sectionList[indexPath.row]];
+    [cell.sectionCustomView refreshDataWithLesson:self.lessonList[indexPath.row]];
     [cell.sectionCustomView addTarget:self action:@selector(cellClicked:) forControlEvents:UIControlEventTouchUpInside];
     cell.clipsToBounds = NO;
-//    [cell.contentView addSubview:cell.sectionCustomView];
-//    }else{
-//        [self.sectionCustomView refreshDataWithLesson:self.sectionList[indexPath.row]];
-//    }
     return cell;
 }
 //绘制cell  (注:  160*153)
@@ -311,7 +296,7 @@
 
 #pragma mark arctions
 -(void)reloadDataWithDataArray:(NSArray*)data withCategoryId:(NSString*)lessonCategoryId{
-    self.sectionList = [NSMutableArray arrayWithArray:data];
+    self.lessonList = [NSMutableArray arrayWithArray:data];
     dispatch_async(dispatch_get_main_queue(),  ^{
         [self.collectionView reloadData];
     });
@@ -319,7 +304,7 @@
 
 //加载下一页数据
 -(void)loadNextPageDataWithDataArray:(NSArray*)data withCategoryId:(NSString*)lessonCategoryId{
-    [self.sectionList addObjectsFromArray:data];
+    [self.lessonList addObjectsFromArray:data];
     dispatch_async(dispatch_get_main_queue(),  ^{
         [self.collectionView reloadData];
     });
@@ -345,8 +330,8 @@
 ////按字母排序
 //-(void)letterSort:(NSMutableArray *)array {
 //    NSMutableArray *tempArray = array;
-//    self.sectionList = nil;
-//    self.sectionList = [[NSMutableArray alloc]init];
+//    self.lessonList = nil;
+//    self.lessonList = [[NSMutableArray alloc]init];
 //    NSMutableArray *chineseStringsArray=[NSMutableArray array];
 //    for(int i=0;i<[array count];i++){
 //        ChineseString *chineseString=[[ChineseString alloc]init];
@@ -391,7 +376,7 @@
 //        for (int k=0; k<tempArray.count; k++) {
 //            SectionModel *section = (SectionModel *)[array objectAtIndex:k];
 //            if ([string isEqualToString:section.sectionName]) {
-//                [self.sectionList addObject:section];
+//                [self.lessonList addObject:section];
 //            }
 //        }
 //    }
@@ -407,7 +392,7 @@
 //            SectionViewController_iPhone *sectionViewController = [story instantiateViewControllerWithIdentifier:@"SectionViewController_iPhone"];
 //            
 //            sectionViewController.section = section;
-//            sectionViewController.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:sectionViewController.section.sectionList];
+//            sectionViewController.section_ChapterView.dataArray = [NSMutableArray arrayWithArray:sectionViewController.section.lessonList];
 //            [sectionViewController.section_ChapterView.tableViewList reloadData];
 //            [sectionViewController initAppear];          //界面上半部分
 //            [sectionViewController initAppear_slide];    //界面下半部分(滑动视图)
