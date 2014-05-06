@@ -614,7 +614,7 @@
 }
 
 -(LessonModel *)lessonModelForDrMoviePlayerViewController{
-    return self.lessonModel;
+    return [CaiJinTongManager shared].lesson;
 }
 
 #pragma mark Section_NoteViewControllerDelegate选中一条笔记

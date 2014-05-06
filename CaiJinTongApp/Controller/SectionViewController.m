@@ -228,7 +228,7 @@
 }
 
 -(LessonModel *)lessonModelForDrMoviePlayerViewController{
-    return self.lessonModel;
+    return [CaiJinTongManager shared].lesson;
 }
 
 #pragma mark - 滑动tab视图代理方法
