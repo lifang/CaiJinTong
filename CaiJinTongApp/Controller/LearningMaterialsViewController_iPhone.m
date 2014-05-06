@@ -9,6 +9,7 @@
 #import "LearningMaterialsViewController_iPhone.h"
 #import "DRImageButton.h"
 #import "CJTMainToolbar_iPhone.h"
+#import "ASIDownloadCache.h"
 /*
  显示资料列表
  */
@@ -676,6 +677,8 @@
     [DRFMDBDatabaseTool deleteMaterialWithUserId:[CaiJinTongManager shared].user.userId
                          withLearningMaterialsId:material.materialId
                                     withFinished:^(BOOL flag) {
+                                        [[ASIDownloadCache sharedCache] removeCachedDataForURL:[NSURL URLWithString:material.materialFileDownloadURL]];
+                                        [[NSFileManager defaultManager] removeItemAtPath:material.materialFileLocalPath error:nil];
                                         dispatch_async(dispatch_get_main_queue(), ^{
                                             NSIndexPath *newPath;
                                             if (self.isSearch) {

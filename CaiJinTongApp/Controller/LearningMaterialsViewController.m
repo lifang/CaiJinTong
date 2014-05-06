@@ -8,6 +8,7 @@
 
 #import "LearningMaterialsViewController.h"
 #import "DRImageButton.h"
+#import "ASIDownloadCache.h"
 /*
  显示资料列表
  */
@@ -205,6 +206,8 @@
                          withLearningMaterialsId:material.materialId
                                     withFinished:^(BOOL flag) {
                                         dispatch_async(dispatch_get_main_queue(), ^{
+                                            [[ASIDownloadCache sharedCache] removeCachedDataForURL:[NSURL URLWithString:material.materialFileDownloadURL]];
+                                            [[NSFileManager defaultManager] removeItemAtPath:material.materialFileLocalPath error:nil];
                                             NSIndexPath *newPath;
                                             if (self.isSearch) {
                                                 newPath = [NSIndexPath indexPathForRow:[self.searchArray indexOfObject:material] inSection:path.section];
