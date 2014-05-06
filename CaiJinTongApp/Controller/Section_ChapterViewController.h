@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Section_chapterModel.h"
 #import "CommentModel.h"
-@interface Section_ChapterViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@interface Section_ChapterViewController : UIViewController<UITableViewDataSource, UITableViewDelegate,UIAlertViewDelegate>
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) IBOutlet UITableView *tableViewList;
 @property (nonatomic, assign) BOOL isMovieView;//是否在播放界面显示
