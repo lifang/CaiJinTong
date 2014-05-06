@@ -97,7 +97,7 @@
     }
     cell.btn.isMovieView = self.isMovieView;
     [cell beginReceiveNotification];
-    if ([CaiJinTongManager shared].isShowLocalData) {
+    if ([CaiJinTongManager shared].isShowLocalData && !self.isMovieView) {
         [cell.playBt setTitle:@"删除" forState:UIControlStateNormal];
         cell.playBt.hidden = NO;
         cell.playBt.userInteractionEnabled = YES;
