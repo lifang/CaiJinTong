@@ -251,20 +251,20 @@
 
 #pragma mark SearchLearningMatarilasListInterfaceDelegate
 -(void)searchLearningMaterilasListDataForCategoryDidFinished:(NSArray *)learningMaterialsList withCurrentPageIndex:(int)pageIndex withTotalCount:(int)allDataCount{
-    dispatch_async(dispatch_get_main_queue(), ^{
+    [DRFMDBDatabaseTool selectLearningMaterialsDownloadStatusWithUserId:[CaiJinTongManager shared].user.userId withLearningMaterialArray:learningMaterialsList withFinished:^(NSArray *materialList) {
         if (pageIndex > 0) {
-            [self.searchArray addObjectsFromArray:learningMaterialsList];
+            [self.searchArray addObjectsFromArray:materialList];
         }else{
-            self.searchArray = [NSMutableArray arrayWithArray:learningMaterialsList];
+            self.searchArray = [NSMutableArray arrayWithArray:materialList];
         }
         [self.tableView reloadData];
-         [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
+        [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
         [self.headerRefreshView endRefreshing];
         [self.footerRefreshView endRefreshing];
         self.headerRefreshView.isForbidden = NO;
         self.footerRefreshView.isForbidden = NO;
         self.isReloading = NO;
-    });
+    }];
     self.drnavigationBar.titleLabel.text = @"搜索";
 }
 
@@ -284,11 +284,11 @@
 
 #pragma mark LearningMatarilasListInterfaceDelegate
 -(void)getlearningMaterilasListDataForCategoryDidFinished:(NSArray *)learningMaterialsList withCurrentPageIndex:(int)pageIndex withTotalCount:(int)allDataCount{
-    dispatch_async(dispatch_get_main_queue(), ^{
+    [DRFMDBDatabaseTool selectLearningMaterialsDownloadStatusWithUserId:[CaiJinTongManager shared].user.userId withLearningMaterialArray:learningMaterialsList withFinished:^(NSArray *materialList) {
         if (pageIndex > 0) {
-            [self.dataArray addObjectsFromArray:learningMaterialsList];
+            [self.dataArray addObjectsFromArray:materialList];
         }else{
-            self.dataArray = [NSMutableArray arrayWithArray:learningMaterialsList];
+            self.dataArray = [NSMutableArray arrayWithArray:materialList];
         }
         [self.tableView reloadData];
         self.totalCountLabel.text = [NSString stringWithFormat:@"目前有(%d)份资料",allDataCount];
@@ -297,8 +297,8 @@
         self.headerRefreshView.isForbidden = NO;
         self.footerRefreshView.isForbidden = NO;
         self.isReloading = NO;
-         [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
-    });
+        [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
+    }];
 }
 
 -(void)getlearningMaterilasListDataForCategoryFailure:(NSString *)errorMsg{

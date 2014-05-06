@@ -90,7 +90,13 @@
     self.questionTimeLabel.attributedText = timeAttriString;
     
     //设置回复个数
-    self.quesstionAnswerCountLabel.text = [NSString stringWithFormat:@"回复:%d",question.answerList?question.answerList.count:0];
+    int reaskCount = 0;
+    for (AnswerModel *answer in question.answerList) {
+        if (answer.answerContentType == ReaskType_Answer) {
+            reaskCount++;
+        }
+    }
+    self.quesstionAnswerCountLabel.text = [NSString stringWithFormat:@"回复:%d",reaskCount];
     CGRect rect = [self.quesstionAnswerCountLabel.text boundingRectWithSize:(CGSize){MAXFLOAT,CGRectGetHeight(self.quesstionAnswerCountLabel.frame)} options:NSStringDrawingUsesDeviceMetrics attributes:@{NSFontAttributeName: self.quesstionAnswerCountLabel.font} context:nil];
     self.answerCountBackView.frame = (CGRect){self.answerCountBackView.frame.origin,CGRectGetMinX(self.quesstionAnswerCountLabel.frame) + rect.size.width+10,self.answerCountBackView.frame.size.height};
     //是否有附件
