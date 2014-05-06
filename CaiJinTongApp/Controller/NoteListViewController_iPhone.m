@@ -362,6 +362,19 @@
 -(void)getLessonInfoDidFinished:(LessonModel*)lesson{
     dispatch_async(dispatch_get_main_queue(), ^{
         self.lessonModel = lesson;
+        [DRFMDBDatabaseTool selectLessonTreeDatasWithUserId:[CaiJinTongManager shared].userId withLessonId:self.lessonModel.lessonId withFinished:^(LessonModel *lesson, NSString *errorMsg) {
+            if (lesson && lesson.chapterList.count > 0) {
+                for (chapterModel *chapter in lesson.chapterList) {
+                    for (SectionModel *section in chapter.sectionList) {
+                        SectionModel *tempSection = [self searchSectionModel:self.lessonModel withSectionId:section.sectionId];
+                        if (tempSection) {
+                            [tempSection copySection:section];//存入单例
+                        }
+                    }
+                }
+            }
+        }];
+        
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         LHLMoviePlayViewController *movieController =  [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
         movieController.delegate = self;
@@ -390,6 +403,22 @@
         }];
     });
 }
+
+-(SectionModel*)searchSectionModel:(LessonModel*)lesson withSectionId:(NSString*)sectionId{
+    if (!lesson || !sectionId) {
+        return nil;
+    }
+    for (chapterModel *chapter in lesson.chapterList) {
+        for (SectionModel *section in chapter.sectionList) {
+            if ([section.sectionId isEqualToString:sectionId]) {
+                return section;
+            }
+            
+        }
+    }
+    return nil;
+}
+
 -(void)getLessonInfoDidFailed:(NSString *)errorMsg{
     dispatch_async(dispatch_get_main_queue(), ^{
         [MBProgressHUD hideHUDForView:self.view animated:YES];
