@@ -1,4 +1,4 @@
-//
+ //
 //  DRFMDBDatabaseTool.m
 //  CaiJinTongApp
 //
@@ -1775,6 +1775,7 @@
                             BOOL whoopsSomethingWrongHappened = YES;
                             for (chapterModel *chapter in lesson.chapterList) {
                                 for (SectionModel *section in chapter.sectionList) {
+                                    section.lessonId = lesson.lessonId;
                                     BOOL isExist = [DRFMDBDatabaseTool sectionIsExistForSectionId:section.sectionId withUserId:userId withLessonId:section.lessonId withDatabase:db];
                                     if (isExist) {
                                         whoopsSomethingWrongHappened = [DRFMDBDatabaseTool updateSectionObjListWithUserId:userId withChapterId:chapter.chapterId withSectionObj:section withDatabase:db];
@@ -1977,7 +1978,7 @@
     //清除本地文件
     [DRFMDBDatabaseTool selectSectionListWithUserId:[CaiJinTongManager shared].user.userId withFinished:^(NSArray *sectionArray, NSString *errorMsg) {
         for (SectionModel *sectionModel in sectionArray) {
-            NSString *path = [CaiJinTongManager getMovieLocalPathWithSectionID:sectionModel.sectionId];
+            NSString *path = [CaiJinTongManager getMovieLocalPathWithSectionID:sectionModel.sectionId withSuffix:[sectionModel.sectionMovieDownloadURL  pathExtension]];
             if ([fileManager fileExistsAtPath:path]) {
                  [fileManager removeItemAtPath:path error:nil];
             }

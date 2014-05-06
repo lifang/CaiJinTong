@@ -717,7 +717,7 @@
         self.sectionModel.sectionMovieFileDownloadStatus = section.sectionMovieFileDownloadStatus;
         self.sectionModel.sectionFinishedDate = section.sectionFinishedDate;
         if (fileType == MPMovieSourceTypeFile) {
-            self.movieUrl = [NSURL fileURLWithPath:[CaiJinTongManager getMovieLocalPathWithSectionID:sectionModel.sectionId]];
+            self.movieUrl = [NSURL fileURLWithPath:[CaiJinTongManager getMovieLocalPathWithSectionID:sectionModel.sectionId withSuffix:[sectionModel.sectionMovieDownloadURL pathExtension]]];
 //            self.movieUrl = [NSURL fileURLWithPath:section.sectionMovieLocalURL];
         }else
             if (fileType == MPMovieSourceTypeStreaming) {

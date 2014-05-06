@@ -399,8 +399,9 @@
     self.drMovieSourceType = MPMovieSourceTypeFile;
     [DRFMDBDatabaseTool selectSectionListWithUserId:[CaiJinTongManager shared].user.userId withSectionId:ssm.sectionId withLessonId:nil withFinished:^(SectionModel *section) {
         ssm.sectionMovieLocalURL = section.sectionMovieLocalURL;
-        NSURL *url = [NSURL fileURLWithPath:[CaiJinTongManager getMovieLocalPathWithSectionID:ssm.sectionId]];
+        NSURL *url = [NSURL fileURLWithPath:[CaiJinTongManager getMovieLocalPathWithSectionID:ssm.sectionId withSuffix:[ssm.sectionMovieDownloadURL pathExtension]]];
         if (![self.movieUrl.absoluteString  isEqualToString:url.absoluteString]) {
+            self.isPopupChapter = NO;
             [self changeMovieContentURLWithSectionModel:ssm withFileType:MPMovieSourceTypeFile];
         }else{
             [Utility errorAlert:@"当前文件正在播放"];
@@ -454,13 +455,13 @@
     DLog(@"didFinishedMoviePlayerNotification:%@",[notification.userInfo  objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey]);
     if ([[notification.userInfo  objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey] integerValue] == MPMovieFinishReasonPlaybackEnded) {
         self.seekSlider.value = 1;
-        if ( self.sectionModel.sectionLastPlayTime && [self.sectionModel.sectionLastPlayTime floatValue] >= self.moviePlayer.duration && self.moviePlayer.duration > 0) {
-            self.sectionModel.sectionLastPlayTime = @"0";
-            self.moviePlayer.currentPlaybackTime = 0;
-            [self.moviePlayer play];
-            self.isPlaying = YES;
-            [self startStudyTime];
-        }
+//        if ( self.sectionModel.sectionLastPlayTime && [self.sectionModel.sectionLastPlayTime floatValue] >= self.moviePlayer.duration && self.moviePlayer.duration > 0) {
+//            self.sectionModel.sectionLastPlayTime = @"0";
+//            self.moviePlayer.currentPlaybackTime = 0;
+//            [self.moviePlayer play];
+//            self.isPlaying = YES;
+//            [self startStudyTime];
+//        }
     }else
     if ([[notification.userInfo  objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey] integerValue] == MPMovieFinishReasonPlaybackError) {
         self.seekSlider.value = 0;
@@ -763,8 +764,8 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
     [self.moviePlayer stop];
 //    self.moviePlayer = nil;
     self.sectionModel = sectionModel;
-    [self removeMoviePlayBackNotification];
-    [self addMoviePlayBackNotification];
+//    [self removeMoviePlayBackNotification];
+//    [self addMoviePlayBackNotification];
     self.drMovieSourceType = fileType;
     self.drMovieTopBar.titleLabel.text = sectionModel.sectionName;
     //////////////
@@ -776,7 +777,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
         self.sectionModel.sectionMovieFileDownloadStatus = section.sectionMovieFileDownloadStatus;
         self.sectionModel.sectionFinishedDate = section.sectionFinishedDate;
         if (fileType == MPMovieSourceTypeFile) {
-        self.movieUrl = [NSURL fileURLWithPath:[CaiJinTongManager getMovieLocalPathWithSectionID:sectionModel.sectionId]];
+        self.movieUrl = [NSURL fileURLWithPath:[CaiJinTongManager getMovieLocalPathWithSectionID:sectionModel.sectionId withSuffix:[sectionModel.sectionMovieDownloadURL pathExtension]]];
 //            self.movieUrl = [NSURL fileURLWithPath:section.sectionMovieLocalURL];
         }else
             if (fileType == MPMovieSourceTypeStreaming) {
@@ -791,7 +792,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
             }
             self.loadMovieDataProgressView =  [MBProgressHUD showHUDAddedTo:self.moviePlayerView animated:YES];;
         }
-        self.moviePlayer.movieSourceType = self.drMovieSourceType;
+        self.moviePlayer.movieSourceType =fileType;
         [self.moviePlayer setContentURL:self.movieUrl];
 //        self.moviePlayer.initialPlaybackTime = [self.sectionModel.sectionLastPlayTime floatValue];
         self.moviePlayer.initialPlaybackTime = [Utility getStartPlayerTimeWithUserId:[CaiJinTongManager shared].user.userId withSectionId:self.sectionModel.sectionId];
@@ -829,7 +830,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
         self.sectionModel.sectionMovieFileDownloadStatus = section.sectionMovieFileDownloadStatus;
         self.sectionModel.sectionFinishedDate = section.sectionFinishedDate;
         if (fileType == MPMovieSourceTypeFile) {
-            self.movieUrl = [NSURL fileURLWithPath:[CaiJinTongManager getMovieLocalPathWithSectionID:sectionModel.sectionId]];
+            self.movieUrl = [NSURL fileURLWithPath:[CaiJinTongManager getMovieLocalPathWithSectionID:sectionModel.sectionId withSuffix:[sectionModel.sectionMovieDownloadURL pathExtension]]];
 //            self.movieUrl = [NSURL fileURLWithPath:section.sectionMovieLocalURL];
         }else
             if (fileType == MPMovieSourceTypeStreaming) {

@@ -61,7 +61,7 @@
     request.delegate = self;
     NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:section , @"SectionSaveModel",section.sectionId,@"sectionId", nil];
     request.userInfo = userInfo;
-    NSString *downloadPath = [CaiJinTongManager getMovieLocalPathWithSectionID:section.sectionId];
+    NSString *downloadPath = [CaiJinTongManager getMovieLocalPathWithSectionID:section.sectionId withSuffix:[section.sectionMovieDownloadURL pathExtension]];
     NSString *tempPath = [CaiJinTongManager getMovieLocalTempPathWithSectionID:[NSString stringWithFormat:@"temp_%@",section.sectionId]];
     [request setDownloadDestinationPath:downloadPath];//下载路径
     [request setTemporaryFileDownloadPath:tempPath];//缓存路径
@@ -167,7 +167,7 @@
                 documentDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
             }
             
-            NSString *downloadPath = [CaiJinTongManager getMovieLocalPathWithSectionID:section.sectionId];
+            NSString *downloadPath = [CaiJinTongManager getMovieLocalPathWithSectionID:section.sectionId withSuffix:[section.sectionMovieDownloadURL pathExtension]];
             NSString *tempPath = [CaiJinTongManager getMovieLocalTempPathWithSectionID:[NSString stringWithFormat:@"temp_%@",section.sectionId]];
             
             [fileManager removeItemAtPath:downloadPath error:nil];

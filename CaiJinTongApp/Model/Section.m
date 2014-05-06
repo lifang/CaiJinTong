@@ -377,7 +377,7 @@ static Section *defaultSection = nil;
     ASINetworkQueue *queue = mDownloadService.networkQueue;
     [(NSOperationQueue*)queue cancelAllOperations];
     for (SectionModel *sectionModel in [[Section defaultSection] getAllSection]) {
-        NSString *path = [CaiJinTongManager getMovieLocalPathWithSectionID:sectionModel.sectionId];
+        NSString *path = [CaiJinTongManager getMovieLocalPathWithSectionID:sectionModel.sectionId withSuffix:[sectionModel.sectionMovieDownloadURL pathExtension]];
         if ([fileManager fileExistsAtPath:path]) {
             if (error) {
                 [fileManager removeItemAtPath:path error:nil];

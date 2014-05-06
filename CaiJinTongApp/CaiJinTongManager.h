@@ -63,6 +63,6 @@
 /** running in background, call this funciton when application become background */
 - (void)run;
 
-+(NSString*)getMovieLocalPathWithSectionID:(NSString*)sectionID;
++(NSString*)getMovieLocalPathWithSectionID:(NSString*)sectionID withSuffix:(NSString*)suffix;
 +(NSString*)getMovieLocalTempPathWithSectionID:(NSString*)sectionID;
 @end
