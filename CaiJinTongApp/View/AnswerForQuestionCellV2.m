@@ -88,9 +88,9 @@
     
     //设置标题
     if (answer.answerContentType == ReaskType_Answer || answer.answerContentType == ReaskType_ModifyAnswer) {
-         NSMutableString *titleContent = [NSMutableString stringWithFormat:@"%@ 发表于 %@",answer.answerUserNick,answer.answerTime];
+         NSMutableString *titleContent = [NSMutableString stringWithFormat:@"%@ %@",answer.answerUserNick,answer.answerTime];
         if (answer.answerPraiseCount && answer.answerPraiseCount.intValue > 0) {
-            [titleContent appendFormat:@" 赞 : %@",answer.answerPraiseCount];
+            [titleContent appendFormat:@" 赞:%@",answer.answerPraiseCount];
         }
         NSMutableAttributedString *attriText = [[NSMutableAttributedString alloc] initWithString:titleContent];
         [attriText addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(0, attriText.length)];

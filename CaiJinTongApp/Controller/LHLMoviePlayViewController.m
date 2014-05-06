@@ -576,6 +576,8 @@
     [self changePlayButtonStatus:NO];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [self saveCurrentStatus];
+    [self.moviePlayer stop];
+    self.moviePlayer = nil;
 }
 #pragma mark --
 
