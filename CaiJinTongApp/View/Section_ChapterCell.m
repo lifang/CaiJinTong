@@ -93,7 +93,7 @@
         [self.playBt setHidden:NO];
     }
     
-    if (_sectionModel.sectionFileTotalSize && ![_sectionModel.sectionFileTotalSize isEqualToString:@""]) {
+    if (_sectionModel.sectionFileTotalSize && ![_sectionModel.sectionFileTotalSize isEqualToString:@""] && _sectionModel.sectionMovieFileDownloadStatus != DownloadStatus_UnDownload) {
         self.lengthLab.text = [NSString stringWithFormat:@"%@/%@",[Utility convertFileSizeUnitWithBytes:_sectionModel.sectionFileDownloadSize],[Utility convertFileSizeUnitWithBytes:_sectionModel.sectionFileTotalSize]];
         long long totalSize =_sectionModel.sectionFileTotalSize.longLongValue;
         long long downloadSize =_sectionModel.sectionFileDownloadSize.longLongValue;

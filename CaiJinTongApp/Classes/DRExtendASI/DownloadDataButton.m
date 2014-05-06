@@ -82,13 +82,16 @@
     self.downloadFileStatus = DownloadStatus_Downloading;
     NSString *fileName = [self.downloadFileURL lastPathComponent];
     NSString *path = [[ASIHTTPRequest getLargeFileSavePath] stringByAppendingPathComponent:fileName];
-    [[NSFileManager defaultManager]  removeItemAtPath:path error:nil];
-    [[NSFileManager defaultManager]  removeItemAtPath:[[ASIHTTPRequest getLargeFileTempPath] stringByAppendingPathComponent:fileName] error:nil];
+//    [[NSFileManager defaultManager]  removeItemAtPath:path error:nil];
+//    [[NSFileManager defaultManager]  removeItemAtPath:[[ASIHTTPRequest getLargeFileTempPath] stringByAppendingPathComponent:fileName] error:nil];
+//    [[NSFileManager defaultManager] createFileAtPath:[[ASIHTTPRequest getLargeFileTempPath] stringByAppendingPathComponent:fileName] contents:nil attributes:nil];
     _localPath = path;
     if (self.isPostNotification) {
         [[NSNotificationCenter defaultCenter] postNotificationName:DownloadDataButton_Notification_DidStartDownload object:nil userInfo:@{URLKey: self.downloadFileURL.absoluteString?:@"",URLLocalPath:path?:@""}];
     }
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithLargeDataURL:self.downloadFileURL];
+//    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:self.downloadFileURL];
+    [request setAllowResumeForFileDownloads:YES];
     [request setDownloadDestinationPath:path];
     [request setTemporaryFileDownloadPath:[[ASIHTTPRequest getLargeFileTempPath] stringByAppendingPathComponent:fileName]];
     [request setDownloadProgressDelegate:self.progressView];

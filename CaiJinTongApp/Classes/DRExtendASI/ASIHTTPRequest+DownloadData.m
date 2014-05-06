@@ -18,14 +18,13 @@
     
     //设置断点续传
     [request setAllowResumeForFileDownloads:YES];
-    
     //设置区别标记
     request.userInfo = @{URLKey: newURL.absoluteString};
     
     //设置缓存策略,永久保存
-    [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
+    [request setCacheStoragePolicy:ASICacheForSessionDurationCacheStoragePolicy];
     
-    [request setCachePolicy:ASIDoNotReadFromCacheCachePolicy];
+    [request setCachePolicy:ASIOnlyLoadIfNotCachedCachePolicy];
     [request setShouldContinueWhenAppEntersBackground:YES];
     [request setShouldAttemptPersistentConnection:YES];
     [request setShouldResetDownloadProgress:YES];

@@ -142,6 +142,7 @@
     cell.isMoviePlayView = self.isMovieView;
     cell.btn.isMovieView = self.isMovieView;
     [cell beginReceiveNotification];
+    [cell continueDownloadFileWithDownloadStatus:cell.sectionModel.sectionMovieFileDownloadStatus];
     return cell;
 }
 

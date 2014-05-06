@@ -702,11 +702,12 @@
     DRFMDBDatabaseTool *tool = [DRFMDBDatabaseTool shareDRFMDBDatabaseTool];
     [tool.dbQueue inDatabase:^(FMDatabase *db) {
         for (LearningMaterials *marterial in materialArray) {
-            FMResultSet * rs = [db executeQuery:@"select fileDownloadStatus from LearningMaterials where userId = ? and materialId = ?",userId,marterial.materialId];
+            FMResultSet * rs = [db executeQuery:@"select fileDownloadStatus,fileLocalPath from LearningMaterials where userId = ? and materialId = ?",userId,marterial.materialId];
             NSString *path = nil;
             if ([rs next]) {
                 
                 path = [rs stringForColumn:@"fileDownloadStatus"];
+                marterial.materialFileLocalPath = [rs stringForColumn:@"fileLocalPath"];
             }
             
             [rs close];
