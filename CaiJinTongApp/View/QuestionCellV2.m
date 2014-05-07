@@ -97,7 +97,14 @@
         }
     }
     self.quesstionAnswerCountLabel.text = [NSString stringWithFormat:@"回复:%d",reaskCount];
-    CGRect rect = [self.quesstionAnswerCountLabel.text boundingRectWithSize:(CGSize){MAXFLOAT,CGRectGetHeight(self.quesstionAnswerCountLabel.frame)} options:NSStringDrawingUsesDeviceMetrics attributes:@{NSFontAttributeName: self.quesstionAnswerCountLabel.font} context:nil];
+    CGRect rect;
+    if (platform >= 7.0) {
+         rect = [self.quesstionAnswerCountLabel.text boundingRectWithSize:(CGSize){MAXFLOAT,CGRectGetHeight(self.quesstionAnswerCountLabel.frame)} options:NSStringDrawingUsesDeviceMetrics attributes:@{NSFontAttributeName: self.quesstionAnswerCountLabel.font} context:nil];
+    }else{
+        NSAttributedString *string = [[NSAttributedString alloc] initWithString:self.quesstionAnswerCountLabel.text attributes:@{NSFontAttributeName: self.quesstionAnswerCountLabel.font}];
+        rect = [string boundingRectWithSize:(CGSize){MAXFLOAT,CGRectGetHeight(self.quesstionAnswerCountLabel.frame)} options:NSStringDrawingUsesDeviceMetrics context:nil];
+    }
+    
     self.answerCountBackView.frame = (CGRect){self.answerCountBackView.frame.origin,CGRectGetMinX(self.quesstionAnswerCountLabel.frame) + rect.size.width+10,self.answerCountBackView.frame.size.height};
     //是否有附件
     if (question.attachmentFileUrl && ![question.attachmentFileUrl isEqualToString:@""]) {

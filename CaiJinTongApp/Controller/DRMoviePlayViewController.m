@@ -358,6 +358,10 @@
 
 #pragma mark notification//切换视频通知
 -(void)changePlayVideoOnLine:(NSNotification*)notification{
+    if (self.moviePlayer.loadState == MPMovieLoadStateStalled || self.moviePlayer.loadState == MPMovieLoadStateUnknown) {
+        self.isPopupChapter = NO;
+        return;
+    }
     self.isBack = NO;
     self.isPopupChapter = NO;
      [self changePlayButtonStatus:YES];
@@ -383,6 +387,10 @@
 }
 
 -(void)playVideo:(NSNotification*)notification{
+    if (self.moviePlayer.loadState == MPMovieLoadStateStalled || self.moviePlayer.loadState == MPMovieLoadStateUnknown) {
+        self.isPopupChapter = NO;
+        return;
+    }
      self.isPopupChapter = NO;
     [self changePlayButtonStatus:YES];
     if (self.moviePlayerView) {
@@ -616,6 +624,7 @@
     [self.section_chapterController.view removeFromSuperview];
     [self.moviePlayer stop];
     self.moviePlayer = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self dismissViewControllerAnimated:YES completion:^{
         
     }];
@@ -761,6 +770,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
         [Utility errorAlert:@"没有发现要播放的文件"];
         return;
     }
+
     [self.moviePlayer stop];
 //    self.moviePlayer = nil;
     self.sectionModel = sectionModel;
