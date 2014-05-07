@@ -105,7 +105,7 @@
             self.fileCategoryImageView.image = [UIImage imageNamed:@"text.png"];
             break;
         case LearningMaterialsFileType_other:
-            self.fileCategoryImageView.image = [UIImage imageNamed:@"Q&A-myq_15.png"];
+            self.fileCategoryImageView.image = [UIImage imageNamed:@"Q&A_ukown_attach.png"];
             break;
         default:
             break;

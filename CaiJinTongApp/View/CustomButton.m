@@ -148,6 +148,18 @@
 {
     AppDelegate* appDelegate = [AppDelegate sharedInstance];
     DownloadService *mDownloadService = appDelegate.mDownloadService;
+    mDownloadService.isFaild = NO;
+    BOOL isExist = NO;
+    for (SectionModel *section in appDelegate.appButtonModelArray) {
+        if ([section.sectionId isEqualToString:self.buttonModel.sectionId]) {
+            isExist = YES;
+            break;
+        }
+    }
+    if (!isExist) {
+        [appDelegate.appButtonModelArray addObject:self.buttonModel];
+    }
+    
     //下载
     [mDownloadService addDownloadTask:self.buttonModel];
 }
@@ -180,6 +192,7 @@
     AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
     DownloadService *mDownloadService = appDelegate.mDownloadService;
     [mDownloadService stopTask:self.buttonModel];
+    [appDelegate.appButtonModelArray removeObject:self.buttonModel];
 }
 
 //继续下载
@@ -187,8 +200,19 @@
     
     AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
     DownloadService *mDownloadService = appDelegate.mDownloadService;
+    mDownloadService.isFaild = NO;
+    BOOL isExist = NO;
+    for (SectionModel *section in appDelegate.appButtonModelArray) {
+        if ([section.sectionId isEqualToString:self.buttonModel.sectionId]) {
+            isExist = YES;
+            break;
+        }
+    }
+    if (!isExist) {
+        [appDelegate.appButtonModelArray addObject:self.buttonModel];
+    }
+
     [mDownloadService addDownloadTask:self.buttonModel];
-    
 }
 //取消下载
 -(void)canceDownloadAction {
@@ -196,6 +220,7 @@
     AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
     DownloadService *mDownloadService = appDelegate.mDownloadService;
     [mDownloadService removeTask:self.buttonModel];
+    [appDelegate.appButtonModelArray removeObject:self.buttonModel];
 }
 
 @end

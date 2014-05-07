@@ -46,6 +46,10 @@
 }
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    //开启网络状况的监听
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+    self.hostReach = [Reachability reachabilityWithHostName:@"www.baidu.com"] ;
+    [self.hostReach startNotifier];  //开始监听，会启动一个run loop
     
 //    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
 //    self.window.backgroundColor = [UIColor whiteColor];
@@ -70,12 +74,7 @@
     if (!isPAD) {
         [CaiJinTongManager shared].isShowLocalData = YES;
     }
-    
-    //开启网络状况的监听
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
-    
-    [[Reachability reachabilityWithHostName:@"lms.finance365.com"] startNotifier];  //开始监听，会启动一个run loop
-    
+
     self.mDownloadService = [[DownloadService alloc]init];
 //    UserModel *user = [[UserModel alloc] init];
 //    user.userId = @"17082";
@@ -96,6 +95,10 @@
     if(status == NotReachable)
     {
         self.isReachable = NO;
+    }else {
+        for (SectionModel *section in self.appButtonModelArray) {
+            [self.mDownloadService addDownloadTask:section];
+        }
     }
 }
 
@@ -165,6 +168,13 @@
 
 
 #pragma mark property
+
+-(NSMutableArray *)appButtonModelArray{
+    if (!_appButtonModelArray) {
+        _appButtonModelArray = [NSMutableArray array];
+    }
+    return _appButtonModelArray;
+}
 -(NSMutableArray *)alertViewArray{
     if (!_alertViewArray) {
         _alertViewArray = [NSMutableArray array];

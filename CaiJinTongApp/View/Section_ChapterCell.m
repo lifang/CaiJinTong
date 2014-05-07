@@ -97,6 +97,10 @@
         self.lengthLab.text = [NSString stringWithFormat:@"%@/%@",[Utility convertFileSizeUnitWithBytes:_sectionModel.sectionFileDownloadSize],[Utility convertFileSizeUnitWithBytes:_sectionModel.sectionFileTotalSize]];
         long long totalSize =_sectionModel.sectionFileTotalSize.longLongValue;
         long long downloadSize =_sectionModel.sectionFileDownloadSize.longLongValue;
+        if (totalSize <= 0) {
+            totalSize = 1;
+            downloadSize = 0;
+        }
         self.sliderFrontView.frame = CGRectMake(0, 0, CGRectGetWidth(self.sliderBackView.frame) *((double)downloadSize/totalSize), CGRectGetHeight(self.sliderBackView.frame));
     }else{
         self.sliderFrontView.frame = CGRectMake(0, 0, 0, CGRectGetHeight(self.sliderBackView.frame));
