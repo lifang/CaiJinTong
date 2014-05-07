@@ -69,12 +69,14 @@
     if ([[CaiJinTongManager shared].user.userId isEqualToString:question.askerId]) {
         [self.questionBt setHidden:YES];
     }else{
-        if (question.answerList.count > 0) {
-            [self.questionBt setHidden:YES];
-        }else{
-            [self.questionBt setHidden:NO];
+        BOOL isHiddle = NO;
+        for (AnswerModel *answer in question.answerList) {
+            if ([[CaiJinTongManager shared].user.userId isEqualToString:answer.answerUserId]) {
+                isHiddle = YES;
+                break;
+            }
         }
-        
+        [self.questionBt setHidden:isHiddle];
     }
     //设置时间
     self.questionTimeLabel.text = @"";
