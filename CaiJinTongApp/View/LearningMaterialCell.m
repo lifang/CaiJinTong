@@ -96,7 +96,7 @@
             self.fileCategoryImageView.image = [UIImage imageNamed:@"ppt.png"];
             break;
         case LearningMaterialsFileType_zip:
-            self.fileCategoryImageView.image = [UIImage imageNamed:@"Q&A-myq_15.png"];
+            self.fileCategoryImageView.image = [UIImage imageNamed:@"Q&A_ukown_attach.png"];
             break;
         case LearningMaterialsFileType_word:
             self.fileCategoryImageView.image = [UIImage imageNamed:@"word.png"];
