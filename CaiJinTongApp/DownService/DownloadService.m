@@ -22,7 +22,7 @@
         [self.networkQueue setDelegate:self];
         [self.networkQueue setRequestDidFailSelector:@selector(requestFailed:)];
         [self.networkQueue setRequestDidFinishSelector:@selector(requestFinished:)];
-        [self.networkQueue setQueueDidFinishSelector:@selector(queueFinished:)];
+//        [self.networkQueue setQueueDidFinishSelector:@selector(queueFinished:)];
         [self.networkQueue setShowAccurateProgress:YES];
 //        [self.networkQueue setDownloadProgressDelegate:self];
         [self.networkQueue setMaxConcurrentOperationCount:1];
@@ -133,6 +133,7 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadFinished" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:section,@"SectionSaveModel",nil]];
         }
     }];
+    [[AppDelegate sharedInstance].appButtonModelArray removeObject:section];
 }
 //根据VideoSaveModel删除下载任务
 -(void)removeTask:(SectionModel *)section{
@@ -206,6 +207,7 @@
 
 
 - (void)requestFailed:(ASIHTTPRequest *)request {
+    self.isFaild = YES;
     //更新数据库 下载失败
     SectionModel *section= (SectionModel *)[[request userInfo]objectForKey:@"SectionSaveModel"];
     UserModel *user = [CaiJinTongManager shared].user;
@@ -216,7 +218,5 @@
     }];
    
 }
-- (void)queueFinished:(ASINetworkQueue *)queue {
-    
-}
+
 @end

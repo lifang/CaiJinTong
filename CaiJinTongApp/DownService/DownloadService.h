@@ -10,7 +10,7 @@
 #import "SectionModel.h"
 @class ASINetworkQueue;
 @interface DownloadService : NSObject
-
+@property (nonatomic) BOOL isFaild;
 @property (nonatomic,retain) ASINetworkQueue *networkQueue;
 
 -(void)addDownloadTask:(SectionModel *)section;//添加下载任务
