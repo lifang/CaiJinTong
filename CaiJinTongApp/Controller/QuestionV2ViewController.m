@@ -173,6 +173,27 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+///随问答分类的改变,改变本界面的标题
+-(void)setQuestionScope:(CategoryType)questionScope{
+    switch (questionScope) {
+        case CategoryType_AllQuestion:
+            self.lhlNavigationBar.title.text = @"所有问答";
+            break;
+        case CategoryType_MyQuestion:
+            self.lhlNavigationBar.title.text = @"我的提问";
+            break;
+        case CategoryType_Search:
+            self.lhlNavigationBar.title.text = @"搜索";
+            break;
+        case CategoryType_MyAnswer:
+            self.lhlNavigationBar.title.text = @"我的回答";
+            break;
+        default:
+            self.lhlNavigationBar.title.text = @"问答";
+            break;
+    }
+}
+
 //TODO::提问
 -(void)askQuestionBtnClicked:(id)sender{
     UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
@@ -191,6 +212,7 @@
     [QuestionRequestDataInterface searchQuestionListWithUserId:[CaiJinTongManager shared].user.userId andText:self.searchBar.searchTextField.text withLastQuestionId:lastQuestionId withSuccess:^(NSArray *questionModelArray) {
         QuestionV2ViewController *tempSelf = weakSelf;
         if (tempSelf) {
+            [tempSelf setQuestionScope:CategoryType_Search];
             tempSelf.isSearching = YES;
             if (lastQuestionId) {
                 [tempSelf.questionSearchDataArray addObjectsFromArray:questionModelArray];
@@ -294,6 +316,7 @@
     
     [self.tableView registerNib:[UINib nibWithNibName:@"QuestionCellV2" bundle:nil] forCellReuseIdentifier:@"questionCell"];
     [self.tableView registerNib:[UINib nibWithNibName:@"AnswerForQuestionCellV2" bundle:nil] forCellReuseIdentifier:@"answerCell"];
+    [self.tableView setFrame:(CGRect){self.tableView.frame.origin,self.tableView.frame.size.width,IP5(568, 480) - IP5(63, 50) - self.tableView.frame.origin.y}];
     // Do any additional setup after loading the view from its nib.
     
     //提问按钮
@@ -314,6 +337,8 @@
     [self.headerRefreshView endRefreshing];
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [CaiJinTongManager shared].selectedQuestionCategoryType = CategoryType_MyQuestion;
+    [self setQuestionScope:CategoryType_MyQuestion];
     [self downloadMyQuestionContentWithLastQuestionId:nil];
 }
 
@@ -358,11 +383,12 @@
     if ([model isKindOfClass:[QuestionModel class]]) {
         QuestionModel *question = (QuestionModel*)model;
         CGRect richContentRect = [RichQuestionContentView richQuestionContentStringWithRichContentObjs:question.questionRichContentArray withWidth:260];
-        return CGRectGetHeight(richContentRect) + 116;
+        return CGRectGetHeight(richContentRect) + richContentRect.origin.y + 116;
     }else{
         AnswerModel *answer = (AnswerModel*)model;
-        CGRect richContentRect = [RichQuestionContentView richQuestionContentStringWithRichContentObjs:answer.answerRichContentArray withWidth:260];
-        return CGRectGetHeight(richContentRect) + 50;
+        CGRect richContentRect = [RichQuestionContentView richQuestionContentStringWithRichContentObjs:answer.answerRichContentArray withWidth:264];
+        NSLog(@"%@ -----== %f",answer.answerRichContentArray,CGRectGetHeight(richContentRect) + 60);
+        return CGRectGetHeight(richContentRect) + richContentRect.origin.y + 60;
     }
 }
 
@@ -729,6 +755,7 @@
         {
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             [CaiJinTongManager shared].selectedQuestionCategoryType = CategoryType_AllQuestion;
+            [self setQuestionScope:CategoryType_AllQuestion];
             [self downloadAllQuestionContentWithLastQuestionId:nil];
         }
             break;
@@ -736,6 +763,7 @@
         {
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             [CaiJinTongManager shared].selectedQuestionCategoryType = CategoryType_MyQuestion;
+            [self setQuestionScope:CategoryType_MyQuestion];
             [self downloadMyQuestionContentWithLastQuestionId:nil];
         }
             break;
@@ -743,6 +771,7 @@
         {
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             [CaiJinTongManager shared].selectedQuestionCategoryType = CategoryType_MyAnswer;
+            [self setQuestionScope:CategoryType_MyAnswer];
             [self downloadMyQuestionContentWithLastQuestionId:nil];
         }
             break;
@@ -773,6 +802,7 @@
         {
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             [CaiJinTongManager shared].selectedQuestionCategoryType = CategoryType_AllQuestion;
+            [self setQuestionScope:CategoryType_AllQuestion];
             [self downloadAllQuestionContentWithLastQuestionId:nil];
         }
             break;
@@ -780,6 +810,7 @@
         {
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             [CaiJinTongManager shared].selectedQuestionCategoryType = CategoryType_MyQuestion;
+            [self setQuestionScope:CategoryType_MyQuestion];
             [self downloadMyQuestionContentWithLastQuestionId:nil];
         }
             break;
@@ -787,6 +818,7 @@
         {
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             [CaiJinTongManager shared].selectedQuestionCategoryType = CategoryType_MyAnswer;
+            [self setQuestionScope:CategoryType_MyAnswer];
             [self downloadMyQuestionContentWithLastQuestionId:nil];
         }
             break;

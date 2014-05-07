@@ -38,7 +38,9 @@ typedef enum:NSInteger{
     ///我的回答全部
     CategoryType_MyAnswer_ALL=-5237,
     ///我的问答
-    CategoryType_MyAnswerAndQuestion=-5238
+    CategoryType_MyAnswerAndQuestion=-5238,
+    ///搜索
+    CategoryType_Search=-5239
 }CategoryType;
 
 ///问答类型

@@ -84,7 +84,9 @@
 //    }
     
     NSMutableAttributedString *timeAttriString = [[NSMutableAttributedString alloc] initWithString:timeString];
-    [timeAttriString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(0, timeAttriString.length)];
+    NSString *name = question.askerNick?:@"";
+    [timeAttriString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(0, name.length)];
+    [timeAttriString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:11] range:NSMakeRange(name.length, timeAttriString.length - name.length)];
     [timeAttriString addAttribute:NSForegroundColorAttributeName value:[Utility colorWithHex:0xa1a1a1] range:NSMakeRange(0, timeAttriString.length)];
     [timeAttriString addAttribute:NSForegroundColorAttributeName value:[Utility colorWithHex:0x59a5ee] range:NSMakeRange(0, question.askerNick.length)];
     self.questionTimeLabel.attributedText = timeAttriString;

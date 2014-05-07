@@ -558,6 +558,7 @@
 
 #pragma mark DRMoviePlayerTopBarDelegate播放完成退出界面
 -(void)exitPlayMovie{
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
     [self.section_chapterController willMoveToParentViewController:nil];
     [self.section_chapterController removeFromParentViewController];
     [self.section_chapterController.view removeFromSuperview];
@@ -665,7 +666,6 @@
                 }
             }else {
                 //判断是否播放完毕
-                //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
                 PlayBackInterface *playBackInter = [[PlayBackInterface alloc]init];
                 self.playBackInterface = playBackInter;
                 self.playBackInterface.delegate = self;

@@ -134,7 +134,7 @@
 -(void)keyBoardDOWN:(NSNotification*)notification{
     NSTimeInterval animationDuration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     [UIView animateWithDuration:animationDuration animations:^{
-        self.inputBackView.frame = (CGRect){0,150,self.inputBackView.frame.size};
+        self.inputBackView.frame = (CGRect){0,70,self.inputBackView.frame.size};
     } completion:^(BOOL finished) {
         
     }];

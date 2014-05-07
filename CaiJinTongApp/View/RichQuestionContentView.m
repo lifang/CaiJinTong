@@ -44,7 +44,7 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);
     CGContextTranslateCTM(context, 0,0);
-    CGContextSetFillColorWithColor(context, [UIColor whiteColor].CGColor);
+    CGContextSetFillColorWithColor(context, [UIColor clearColor].CGColor);
     CGContextFillRect(context, rect);
     CGContextRestoreGState(context);
     
@@ -76,7 +76,8 @@
                     case DRURLFileType_PPT:
                         imageView.image = [UIImage imageNamed:@"ppt.png"];
                         break;
-                    case DRURLFileType_GIF:
+                    case DRURLFileType_GIF: //表情
+                        [imageView setImageWithURL:richContent.richFileUrl placeholderImage:[UIImage imageNamed:@"Q&A-myq_15.png"]];
                     case DRURLFileType_OTHER:
                     default:
                         imageView.image = [UIImage imageNamed:@"Q&A-myq_15.png"];

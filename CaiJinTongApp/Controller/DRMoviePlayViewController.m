@@ -382,6 +382,7 @@
     }
 }
 
+///点击章节列表已下载完成的"播放"按钮时触发
 -(void)playVideo:(NSNotification*)notification{
      self.isPopupChapter = NO;
     [self changePlayButtonStatus:YES];
@@ -611,6 +612,7 @@
 #pragma mark DRMoviePlayerTopBarDelegate播放完成退出界面
 
 -(void)exitPlayMovie{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self.section_chapterController willMoveToParentViewController:nil];
     [self.section_chapterController removeFromParentViewController];
     [self.section_chapterController.view removeFromSuperview];
@@ -722,7 +724,11 @@
                         timespan = [NSString stringWithFormat:@"%llu",self.studyTime];
                     }
                     NSString *status = self.seekSlider.value >= 1?@"completed": @"incomplete";
-                    [self.playBackInterface getPlayBackInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.sectionModel.sectionId andTimeEnd:timespan andStatus:status andStartPlayDate:self.startPlayDate];
+                    [self.playBackInterface getPlayBackInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId
+                                                                      andSectionId:self.sectionModel.sectionId
+                                                                        andTimeEnd:timespan
+                                                                         andStatus:status
+                                                                  andStartPlayDate:self.startPlayDate];
                 }];
             }
         }];
@@ -776,6 +782,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
         self.sectionModel.sectionMovieLocalURL = section.sectionMovieLocalURL;
         self.sectionModel.sectionMovieFileDownloadStatus = section.sectionMovieFileDownloadStatus;
         self.sectionModel.sectionFinishedDate = section.sectionFinishedDate;
+        
         if (fileType == MPMovieSourceTypeFile) {
         self.movieUrl = [NSURL fileURLWithPath:[CaiJinTongManager getMovieLocalPathWithSectionID:sectionModel.sectionId withSuffix:[sectionModel.sectionMovieDownloadURL pathExtension]]];
 //            self.movieUrl = [NSURL fileURLWithPath:section.sectionMovieLocalURL];

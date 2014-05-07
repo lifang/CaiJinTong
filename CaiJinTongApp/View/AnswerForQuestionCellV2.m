@@ -93,7 +93,8 @@
             [titleContent appendFormat:@" 赞:%@",answer.answerPraiseCount];
         }
         NSMutableAttributedString *attriText = [[NSMutableAttributedString alloc] initWithString:titleContent];
-        [attriText addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(0, attriText.length)];
+        [attriText addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(0, answer.answerUserNick.length)];
+        [attriText addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:11] range:NSMakeRange(answer.answerUserNick.length, attriText.length - answer.answerUserNick.length)];
         [attriText addAttribute:NSForegroundColorAttributeName value:[Utility colorWithHex:0xa1a1a1] range:NSMakeRange(0, attriText.length)];
         [attriText addAttribute:NSForegroundColorAttributeName value:[Utility colorWithHex:0x59a5ee] range:NSMakeRange(0, answer.answerUserNick.length)];
         self.titleTimeLabel.attributedText = attriText;
@@ -132,7 +133,8 @@
         }
         [titleContent insertString:tipTitle atIndex:0];
         NSMutableAttributedString *attriText = [[NSMutableAttributedString alloc] initWithString:titleContent];
-        [attriText addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(0, attriText.length)];
+        [attriText addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(0, answer.answerUserNick.length)];
+        [attriText addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:11] range:NSMakeRange(answer.answerUserNick.length, attriText.length - answer.answerUserNick.length)];
         [attriText addAttribute:NSForegroundColorAttributeName value:[Utility colorWithHex:0xa1a1a1] range:NSMakeRange(0, attriText.length)];
         [attriText addAttribute:NSForegroundColorAttributeName value:[Utility colorWithHex:0xd68a1e] range:NSMakeRange(0, tipTitle.length)];
         self.titleTimeLabel.attributedText = attriText;
@@ -140,7 +142,7 @@
     
     //设置回答内容
     __weak AnswerForQuestionCellV2 *weakSelf = self;
-    [self.richContentView addContentArray:answer.answerRichContentArray withWidth:260 finished:^(RichContextObj *richContent) {
+    [self.richContentView addContentArray:answer.answerRichContentArray withWidth:264 finished:^(RichContextObj *richContent) {
         AnswerForQuestionCellV2 *tempSelf = weakSelf;
         if (tempSelf) {
             if (tempSelf.delegate && [tempSelf.delegate respondsToSelector:@selector(answerForQuestionCellV2:selectedImageType:AtIndexPath:)]) {

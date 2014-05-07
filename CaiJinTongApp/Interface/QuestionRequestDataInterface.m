@@ -652,13 +652,14 @@
 
 ///遍历html分支
 +(void)parseHTMLNode:(HTMLNode*)node withRichContentArray:(NSMutableArray*)richContentArray{
-    if ([node.tagName isEqualToString:@"img"]) {
+    if ([node.tagName isEqualToString:@"img"] || [node.tagName isEqualToString:@"i"]) {
         NSString *imageUrl = [node getAttributeNamed:@"src"];
         if (imageUrl) {
             NSString *extension = [[imageUrl pathExtension] lowercaseString];
             RichContextObj *richObj = [[RichContextObj alloc] init];
             richObj.richContentType = [Utility getFileTypeWithFileExtension:extension];
             richObj.richContext = nil;
+            richObj.richFileUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kImageHost,[node getAttributeNamed:@"src"]]];
             [richContentArray addObject:richObj];
         }
     }

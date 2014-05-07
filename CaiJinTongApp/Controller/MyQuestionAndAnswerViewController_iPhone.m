@@ -68,7 +68,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//    self.lhlNavigationBar.leftItem.hidden = YES;
     //临时,搜索按钮
     CGPoint center = self.lhlNavigationBar.leftItem.center;
     self.showSearchBarBtn = [UIButton buttonWithType:UIButtonTypeCustom ];
