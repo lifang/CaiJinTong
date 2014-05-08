@@ -78,6 +78,7 @@
                         break;
                     case DRURLFileType_GIF: //表情
                         [imageView setImageWithURL:richContent.richFileUrl placeholderImage:[UIImage imageNamed:@"Q&A-myq_15.png"]];
+                        break;
                     case DRURLFileType_OTHER:
                     default:
                         imageView.image = [UIImage imageNamed:@"Q&A-myq_15.png"];
@@ -101,7 +102,6 @@
 -(void)addContentArray:(NSArray*)contentArray withWidth:(float)width finished:(void (^)(RichContextObj *richContent))finished {
     self.tapedimageTypeBlock = finished;
     self.contentObjsArray = contentArray;
-//    [RichQuestionContentView richQuestionContentStringWithRichContentObjs:contentArray withWidth:260];
     [self setNeedsDisplay];
 }
 ///组合所有的RichContextObj 内容得到高度，richContentArray存放RichContextObj对象数组
