@@ -101,7 +101,6 @@
 -(void)addContentArray:(NSArray*)contentArray withWidth:(float)width finished:(void (^)(RichContextObj *richContent))finished {
     self.tapedimageTypeBlock = finished;
     self.contentObjsArray = contentArray;
-//    [RichQuestionContentView richQuestionContentStringWithRichContentObjs:contentArray withWidth:260];
     [self setNeedsDisplay];
 }
 ///组合所有的RichContextObj 内容得到高度，richContentArray存放RichContextObj对象数组
