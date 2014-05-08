@@ -8,6 +8,7 @@
 
 #import "MyQuestionAndAnswerViewController.h"
 #import "IndexPathModel.h"
+#import "LessonViewController.h"
 @interface MyQuestionAndAnswerViewController ()
 
 @property (nonatomic,strong) MJRefreshHeaderView *headerRefreshView;
@@ -160,8 +161,9 @@
     [self modifyAskQuestionButton];
 }
 
-- (void)viewDidAppear:(BOOL)animated{
-    self.drnavigationBar.titleLabel.text = @"问答中心";
+- (void)viewWillDisappear:(BOOL)animated{
+    LessonViewController *lessonVC = (LessonViewController *)self.lessonViewController;
+    lessonVC.myQAVCTitle = self.drnavigationBar.titleLabel.text;
 }
 
 #pragma mark DRSearchBarDelegate搜索

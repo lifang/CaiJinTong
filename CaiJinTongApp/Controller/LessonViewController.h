@@ -48,6 +48,7 @@
 - (IBAction)SearchBrClicked:(id)sender;
 @property (weak, nonatomic) IBOutlet UIImageView *LogoImageView;
 @property (weak, nonatomic) IBOutlet UILabel *rightNameLabel;
+@property (strong, nonatomic) NSString *myQAVCTitle; //问答界面的当前标题
 @property (nonatomic, strong) NSMutableArray *lessonList;  //课程数据
 
 @property (nonatomic, strong) NSDictionary *questionDictionary;
