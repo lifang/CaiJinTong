@@ -23,6 +23,10 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    NSString *userName = [[NSUserDefaults standardUserDefaults] objectForKey:kUserName];
+    NSString *pwd = [[NSUserDefaults standardUserDefaults] objectForKey:kPassword];
+    self.accountLabel.text = userName?:@"";
+    self.passwordTextField.text = pwd?:@"";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardUP:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardDOWN:) name: UIKeyboardWillHideNotification object:nil];
 }
@@ -84,7 +88,7 @@
         [self.loginNaviController setHidesBottomBarWhenPushed:YES];
         [self presentViewController:self.loginNaviController animated:NO completion:^{
             
-        }];
+        }]; 
     }
 }
 
@@ -109,6 +113,11 @@
         self.logInterface = log;
         self.logInterface.delegate = self;
         [self.logInterface getLogInterfaceDelegateWithName:self.accountLabel.text andPassWord:self.passwordTextField.text];
+        
+        if (![[self.accountLabel.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
+            [[NSUserDefaults standardUserDefaults] setObject:self.accountLabel.text forKey:kUserName];
+            [[NSUserDefaults standardUserDefaults] setObject:self.passwordTextField.text forKey:kPassword];
+        }
     }else {
         [Utility errorAlert:@"请输入正确的手机号码或邮箱!"];
     }
@@ -150,9 +159,6 @@
         [[CaiJinTongManager shared] setUserId:user.userId];
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [[NSUserDefaults standardUserDefaults] setValue:self.accountLabel.text forKey:kUserName];
-            [[NSUserDefaults standardUserDefaults] setValue:self.passwordTextField.text forKey:kPassword];
-
             StudySummaryViewController_iphone *studySummaryController = [self.storyboard instantiateViewControllerWithIdentifier:@"StudySummaryViewController_iphone"];
             self.loginNaviController = nil;
             self.loginNaviController = [[MSNavigationViewController alloc] initWithRootViewController:studySummaryController];

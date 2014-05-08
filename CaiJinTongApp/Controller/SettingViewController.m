@@ -254,6 +254,7 @@ NSString *appleID = @"6224939";
             [queue cancelAllOperations];
         }
     }
+    app.appButtonModelArray = nil;
     [app.lessonViewCtrol.navigationController popToRootViewControllerAnimated:YES];
 }
 

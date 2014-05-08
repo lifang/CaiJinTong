@@ -260,6 +260,7 @@ NSString *appleID_ = @"6224939";
                 [queue cancelAllOperations];
             }
         }
+        app.appButtonModelArray = nil;
         [self.navigationController dismissViewControllerAnimated:YES completion:^{
             
         }];

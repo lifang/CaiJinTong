@@ -38,6 +38,10 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    NSString *userName = [[NSUserDefaults standardUserDefaults] stringForKey:kUserName];
+    NSString *pwd = [[NSUserDefaults standardUserDefaults] stringForKey:kPassword];
+    self.userNameTextField.text = userName?:@"";
+    self.pwdTextField.text = pwd?:@"";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardUP:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardDOWN:) name: UIKeyboardWillHideNotification object:nil];
 }
@@ -49,6 +53,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSString *userName = [[NSUserDefaults standardUserDefaults] stringForKey:kUserName];
+    NSString *pwd = [[NSUserDefaults standardUserDefaults] stringForKey:kPassword];
+    self.userNameTextField.text = userName?:@"";
+    self.pwdTextField.text = pwd?:@"";
+    
     UserModel *user = [[UserModel alloc] init];
     [user unarchiverUser];
     if (user.userId && ![user.userId isEqualToString:@""]) {
@@ -61,10 +70,6 @@
         appDelegate.lessonViewCtrol = lessonView;
         return;
     }
-    NSString *userName = [[NSUserDefaults standardUserDefaults] stringForKey:kUserName];
-    NSString *pwd = [[NSUserDefaults standardUserDefaults] stringForKey:kPassword];
-    self.userNameTextField.text = userName?:@"";
-    self.pwdTextField.text = pwd?:@"";
     self.inputView.layer.borderWidth = 2;
     self.inputView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     NSString *text = @"找回密码";
@@ -129,6 +134,10 @@
         if (self.pwdTextField.text && ![[self.pwdTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
             [self.userNameTextField resignFirstResponder];
             [self.pwdTextField resignFirstResponder];
+            if (![[self.userNameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
+                [[NSUserDefaults standardUserDefaults] setValue:self.userNameTextField.text forKey:kUserName];
+                [[NSUserDefaults standardUserDefaults] setValue:self.pwdTextField.text forKey:kPassword];
+            }
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 LogInterface *log = [[LogInterface alloc]init];
@@ -176,9 +185,6 @@
         [[CaiJinTongManager shared] setUserId:user.userId];
         [user archiverUser];
         dispatch_async(dispatch_get_main_queue(), ^{
-            
-            [[NSUserDefaults standardUserDefaults] setValue:self.userNameTextField.text forKey:kUserName];
-            [[NSUserDefaults standardUserDefaults] setValue:self.pwdTextField.text forKey:kPassword];
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
             LessonViewController *lessonView = [story instantiateViewControllerWithIdentifier:@"LessonViewController"];
