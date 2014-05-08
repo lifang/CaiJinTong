@@ -85,7 +85,7 @@
     }else{//向上
         if (parentTableView && parentTableView.contentOffset.y <= 0) {
             [scrollView setScrollEnabled:NO];
-            [parentTableView setContentOffset:(CGPoint){0,160} animated:YES];
+            [parentTableView setContentOffset:(CGPoint){0,parentTableView.contentSize.height - parentTableView.frame.size.height} animated:YES];
             [scrollView setScrollEnabled:YES];
         }
     }

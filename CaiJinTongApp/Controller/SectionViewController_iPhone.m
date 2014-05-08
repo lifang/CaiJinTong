@@ -39,7 +39,7 @@
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
     self.tableView.tag = LessonViewTagType_lessonRootScrollViewTag;
     if(IS_4_INCH){
-        [self.tableView setFrame:(CGRect){0,65,320,440}];
+        [self.tableView setFrame:(CGRect){0,55,320,450}];
     }else{
         [self.tableView setFrame:(CGRect){0,55,320,375}];
     }
@@ -649,6 +649,7 @@
 #pragma mark property
 -(SUNSlideSwitchView_iPhone *)slideSwitchView{
     if(!_slideSwitchView){
+//        _slideSwitchView = [[SUNSlideSwitchView_iPhone alloc] initWithFrame:CGRectMake(0, 0 ,320,IP5(335, 285))];
         _slideSwitchView = [[SUNSlideSwitchView_iPhone alloc] initWithFrame:CGRectMake(0, 0 ,320,IP5(400, 335))];
         _slideSwitchView.slideSwitchViewDelegate = self;
         
