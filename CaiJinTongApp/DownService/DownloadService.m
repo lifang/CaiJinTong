@@ -25,7 +25,7 @@
 //        [self.networkQueue setQueueDidFinishSelector:@selector(queueFinished:)];
         [self.networkQueue setShowAccurateProgress:YES];
 //        [self.networkQueue setDownloadProgressDelegate:self];
-        [self.networkQueue setMaxConcurrentOperationCount:1];
+        [self.networkQueue setMaxConcurrentOperationCount:5];
         [self.networkQueue go];
     }
     return self;

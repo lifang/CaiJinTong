@@ -29,7 +29,7 @@ static   ASINetworkQueue *requestJsonDataQueue = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         dowloadLargeDataQueue = [[ASINetworkQueue alloc] init];
-        [dowloadLargeDataQueue setMaxConcurrentOperationCount:2];
+        [dowloadLargeDataQueue setMaxConcurrentOperationCount:5];
         [dowloadLargeDataQueue setShouldCancelAllRequestsOnFailure:NO];
         [dowloadLargeDataQueue setShowAccurateProgress:YES];
         [dowloadLargeDataQueue reset];
