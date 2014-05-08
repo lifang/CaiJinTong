@@ -356,8 +356,7 @@ typedef enum {
             
         }
     }];
-    
-    self.myQAVC.drnavigationBar.titleLabel.text = @"";
+    self.myQAVC.drnavigationBar.titleLabel.text = self.myQAVCTitle ? : @"我的提问";
 }
 
 - (IBAction)SearchBrClicked:(id)sender {
@@ -624,6 +623,7 @@ typedef enum {
     if (!_myQAVC) {
         _myQAVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MyQuestionAndAnswerViewController"];
         _myQAVC.delegate = self;
+        _myQAVC.lessonViewController = self;
     }
     return _myQAVC;
 }
