@@ -83,6 +83,9 @@
     [self initCollectionView];
     self.drnavigationBar.searchBar.searchTextLabel.placeholder = @"搜索课程";
     [self.drnavigationBar hiddleBackButton:YES];
+}
+
+- (void)viewDidAppear:(BOOL)animated{
     self.drnavigationBar.titleLabel.text = @"课程";
 }
 

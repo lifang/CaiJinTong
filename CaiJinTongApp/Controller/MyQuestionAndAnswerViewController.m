@@ -160,6 +160,10 @@
     [self modifyAskQuestionButton];
 }
 
+- (void)viewDidAppear:(BOOL)animated{
+    self.drnavigationBar.titleLabel.text = @"问答中心";
+}
+
 #pragma mark DRSearchBarDelegate搜索
 -(void)drSearchBar:(DRSearchBar *)searchBar didBeginSearchText:(NSString *)searchText{
     self.isSearch = YES;

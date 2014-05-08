@@ -78,6 +78,7 @@
                         break;
                     case DRURLFileType_GIF: //表情
                         [imageView setImageWithURL:richContent.richFileUrl placeholderImage:[UIImage imageNamed:@"Q&A-myq_15.png"]];
+                        break;
                     case DRURLFileType_OTHER:
                     default:
                         imageView.image = [UIImage imageNamed:@"Q&A-myq_15.png"];
