@@ -350,7 +350,7 @@ typedef enum {
             
             if (self.myQAVC.myQuestionArr.count <= 0) {
                 [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
-                self.questionScope = QuestionAndAnswerDefault;
+                self.questionScope = QuestionAndAnswerMYQUESTION;
                 [self.getUserQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andIsMyselfQuestion:@"0" andLastQuestionID:nil withCategoryId:@"0"];
             }
             
