@@ -226,6 +226,32 @@
             commitController.view.frame = (CGRect){0,0,804,426};
             commitController.delegate = self;
             self.commitQuestionController = commitController;
+            
+            if ([self.sectionModel.sectionMoviePlayURL rangeOfString:@"v.ku6vms.com"].length > 0) {
+                [self.commitQuestionController.scanScreenButton setTitle:@"无法截屏" forState:UIControlStateNormal];
+                [self.commitQuestionController.scanScreenButton setUserInteractionEnabled:NO];
+////                //截图
+////                UIWindow *screenWindow = [[UIApplication sharedApplication] keyWindow];
+////                
+////                UIGraphicsBeginImageContext(screenWindow.layer.frame.size);
+////                
+////                [screenWindow.layer renderInContext:UIGraphicsGetCurrentContext()];
+////                
+////                UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
+////                
+////                UIGraphicsEndImageContext();
+////                self.commitQuestionController.screenShotImage = img;
+//                UIGraphicsBeginImageContextWithOptions(CGSizeMake(1024, 768), YES, 0);
+//                [[[AppDelegate sharedInstance].window layer] renderInContext:UIGraphicsGetCurrentContext()];
+//                UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
+//                UIGraphicsEndImageContext();
+//                CGImageRef imageRef = viewImage.CGImage;
+//                CGRect rect =CGRectMake(166, 211, 426, 320);//这里可以设置想要截图的区域
+//                CGImageRef imageRefRect =CGImageCreateWithImageInRect(imageRef, rect);
+//                UIImage *sendImage = [[UIImage alloc] initWithCGImage:imageRefRect];
+//                self.commitQuestionController.screenShotImage = sendImage;
+            }
+            
             [self presentPopupViewController:commitController animationType:MJPopupViewAnimationSlideTopBottom isAlignmentCenter:YES dismissed:^{
                 self.myQuestionItem.isSelected = NO;
             }];
@@ -547,8 +573,10 @@
 
 #pragma mark -- 提交问题
 -(UIImage *)commitQuestionControllerDidStartCutScreenButtonClicked:(DRCommitQuestionViewController *)controller{
-    UIImage *cutImage = [self.moviePlayer thumbnailImageAtTime:self.moviePlayer.currentPlaybackTime timeOption:MPMovieTimeOptionNearestKeyFrame];
-    return cutImage;
+//    UIImage *cutImage = [self.moviePlayer thumbnailImageAtTime:self.moviePlayer.currentPlaybackTime timeOption:MPMovieTimeOptionNearestKeyFrame];
+    [self.moviePlayer requestThumbnailImagesAtTimes:@[[NSNumber numberWithDouble:self.moviePlayer.currentPlaybackTime]] timeOption:MPMovieTimeOptionNearestKeyFrame];
+    
+    return nil;
 }
 
 -(void)commitQuestionController:(DRCommitQuestionViewController *)controller didCommitQuestionWithTitle:(NSString *)title andText:(NSString *)text andQuestionId:(NSString *)questionId{

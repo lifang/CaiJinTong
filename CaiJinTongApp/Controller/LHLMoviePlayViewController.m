@@ -219,6 +219,10 @@
             commitQuestionVC.delegate = self;
             self.commitQuestionVC = commitQuestionVC;
             self.commitQuestionVC.modalPresentationStyle = UIModalPresentationFormSheet;
+            if ([self.sectionModel.sectionMoviePlayURL rangeOfString:@"v.ku6vms.com"].length > 0) {
+                [self.commitQuestionVC.screenShotBtn setTitle:@"无 法 截 屏" forState:UIControlStateNormal];
+                [self.commitQuestionVC.screenShotBtn setUserInteractionEnabled:NO];
+            }
 //            [self presentViewController:self.commitQuestionVC animated:YES completion:^{
 //                self.myQuestionItem.isSelected = NO;
 //            }];
