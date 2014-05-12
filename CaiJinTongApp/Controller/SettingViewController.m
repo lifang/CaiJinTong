@@ -65,8 +65,8 @@ NSString *appleID = @"6224939";
     [self.versionnumberLabel setBackgroundColor:[UIColor redColor]];
     self.versionnumberLabel.layer.cornerRadius = 5;
     [self appNewVersionNotification];
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appNewVersionNotification) name:APPNEWVERSION_Notification object:nil];
-    [self.tableView registerClass:[InfoCell class] forHeaderFooterViewReuseIdentifier:Info_HEADER_IDENTIFIER]; 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appNewVersionNotification) name:APPNEWVERSION_Notification object:nil];
+    [self.tableView registerClass:[InfoCell class] forHeaderFooterViewReuseIdentifier:Info_HEADER_IDENTIFIER];
 }
 
 - (void)didReceiveMemoryWarning
@@ -115,7 +115,7 @@ NSString *appleID = @"6224939";
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-//    cell.backgroundColor = [UIColor clearColor];
+    //    cell.backgroundColor = [UIColor clearColor];
     switch (indexPath.section) {
         case 0:
             cell.textLabel.text = @"我的资料";
@@ -131,9 +131,9 @@ NSString *appleID = @"6224939";
                     }else{
                         cell.accessoryType = UITableViewCellAccessoryCheckmark;
                     }
-                     cell.textLabel.text = @"2G/3G网络为无图模式";
+                    cell.textLabel.text = @"2G/3G网络为无图模式";
                 }
-                   
+                    
                     break;
                 case 1:
                     cell.textLabel.text = @"清理缓存";
@@ -247,6 +247,14 @@ NSString *appleID = @"6224939";
 #pragma mark -- cellDelegate
 -(void)infoCellView:(InfoCell*)header {
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
+    
+    NSFileManager *fileManage = [NSFileManager defaultManager];
+    NSString *Path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *filename = [Path stringByAppendingPathComponent:@"user.archive"];
+    if ([fileManage fileExistsAtPath:filename]) {
+        [fileManage removeItemAtPath:filename error:nil];
+    }
+    
     AppDelegate *app = [AppDelegate sharedInstance];
     if (app.mDownloadService && app.mDownloadService.networkQueue) {
         ASINetworkQueue *queue = app.mDownloadService.networkQueue;

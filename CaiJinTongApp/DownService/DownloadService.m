@@ -22,9 +22,9 @@
         [self.networkQueue setDelegate:self];
         [self.networkQueue setRequestDidFailSelector:@selector(requestFailed:)];
         [self.networkQueue setRequestDidFinishSelector:@selector(requestFinished:)];
-//        [self.networkQueue setQueueDidFinishSelector:@selector(queueFinished:)];
+        //        [self.networkQueue setQueueDidFinishSelector:@selector(queueFinished:)];
         [self.networkQueue setShowAccurateProgress:YES];
-//        [self.networkQueue setDownloadProgressDelegate:self];
+        //        [self.networkQueue setDownloadProgressDelegate:self];
         [self.networkQueue setMaxConcurrentOperationCount:5];
         [self.networkQueue go];
     }
@@ -36,7 +36,7 @@
     if (!section) {
         return;
     }
-
+    
     //判断当前下载任务是否已经在下载队列中
     NSArray *requestArray = self.networkQueue.operations;
     for (NSOperation *oper in requestArray) {
@@ -48,9 +48,7 @@
             return;
         }
     }
-
-    
-    NSString *urlString = [NSString stringWithFormat:@"%@",section.sectionMovieDownloadURL];
+    NSString * urlString = [NSString stringWithFormat:@"%@",section.sectionMovieDownloadURL];
     urlString = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
                                                                                       (CFStringRef)urlString,
                                                                                       NULL,
@@ -61,11 +59,11 @@
     request.delegate = self;
     NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:section , @"SectionSaveModel",section.sectionId,@"sectionId", nil];
     request.userInfo = userInfo;
-    NSString *downloadPath = [CaiJinTongManager getMovieLocalPathWithSectionID:section.sectionId withSuffix:[section.sectionMovieDownloadURL pathExtension]];
+    NSString *downloadPath = [CaiJinTongManager getMovieLocalPathWithSectionID:section.sectionId withSuffix:[urlString pathExtension]];
     NSString *tempPath = [CaiJinTongManager getMovieLocalTempPathWithSectionID:[NSString stringWithFormat:@"temp_%@",section.sectionId]];
     [request setDownloadDestinationPath:downloadPath];//下载路径
     [request setTemporaryFileDownloadPath:tempPath];//缓存路径
-//    [request setDownloadProgressDelegate:self];
+    //    [request setDownloadProgressDelegate:self];
     request.allowResumeForFileDownloads = YES;//打开断点，是否要断点续传
     [request setShowAccurateProgress:YES];
     
@@ -96,19 +94,6 @@
         }];
     }];
 }
-
-
-//- (void)request:(ASIHTTPRequest *)request didReceiveBytes:(long long)bytes{
-//    SectionModel *section= (SectionModel *)[[request userInfo]objectForKey:@"SectionSaveModel"];
-//    UserModel *user = [CaiJinTongManager shared].user;
-//    section.sectionFileDownloadSize = [NSString stringWithFormat:@"%llu",request.totalBytesRead];
-//    [DRFMDBDatabaseTool updateSectionDownloadStatusWithUserId:user.userId withSectionId:section.sectionId withFileDownloadSize:[NSString stringWithFormat:@"%llu",request.totalBytesRead] withFinished:^(BOOL flag) {
-//        if (flag) {
-//            //发送通知
-//            [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadFinished" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:section,@"SectionSaveModel",nil]];
-//        }
-//    }];
-//}
 
 - (void)request:(ASIHTTPRequest *)request didReceiveResponseHeaders:(NSDictionary *)responseHeaders {
     SectionModel *section= (SectionModel *)[[request userInfo]objectForKey:@"SectionSaveModel"];
@@ -216,7 +201,7 @@
         //发送通知
         [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadFailed" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:section,@"SectionSaveModel",nil]];
     }];
-   
+    
 }
 
 @end

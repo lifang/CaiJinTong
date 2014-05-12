@@ -93,15 +93,7 @@
                                                 section.sectionName = [NSString stringWithFormat:@"%@",[sectionDic objectForKey:@"sectionName"]];
                                                 section.sectionMoviePlayURL = [NSString stringWithFormat:@"%@",[sectionDic objectForKey:@"sectionMoviePlayURL"]];
                                                 section.sectionMovieDownloadURL = [NSString stringWithFormat:@"%@",[sectionDic objectForKey:@"sectionMovieDownloadURL"]];
-//                                                //设置小节笔记
-//                                                NSArray *noteList = [sectionDic objectForKey:@"sectionNoteList"];
-//                                                NSMutableArray *noteArr = [NSMutableArray array];
-//                                                for (NSDictionary *noteDic in noteList) {
-//                                                    NoteModel *note = [[NoteModel alloc] init];
-//                                                    
-//                                                    [noteArr addObject:note];
-//                                                }
-//                                                section.sectionNoteList = noteArr;
+                                                
                                                 [sectionArr addObject:section];
                                             }
                                             chapter.sectionList = sectionArr;
@@ -162,4 +154,46 @@
         [self.delegate getLessonInfoDidFailed:tipMsg];
     }];
 }
+
+//地址转换
+//+ (NSString *)convertURLString:(NSString *)urlString{
+//    NSRange range = [urlString rangeOfString:@"http://v.ku6vms.com/phpvms/player/js/vid/"];
+//    if (range.location!=NSNotFound && range.length!=NSNotFound) {
+//        NSRange range2 = [urlString rangeOfString:@"/style"];
+//        NSString *keyWord = [urlString substringWithRange:NSMakeRange(range.location+range.length, range2.location-range.location-range.length)];
+//        NSURL *listUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://v.ku6vms.com/phpvms/player/getM3U8/vid/%@/v.m3u8",keyWord]];
+//        NSError *error;
+//        NSString *urlList = [NSString stringWithContentsOfURL:listUrl encoding:NSUTF8StringEncoding error:&error];
+//        if (!error) {
+//            DLog(@"%@",urlList);
+//            NSArray *array = [urlList componentsSeparatedByString:@"#EXTINF:"];
+//            
+//            NSString *lastObj = [array lastObject];
+//            
+//            NSMutableString *mutableStr = [NSMutableString stringWithFormat:@"%@",lastObj];
+//            
+//            NSRange range1 = [mutableStr rangeOfString:@"http://"];
+//            [mutableStr deleteCharactersInRange:NSMakeRange(0, range1.location)];
+//            
+//            NSRange range2 = [mutableStr rangeOfString:@"&ios=1"];
+//            [mutableStr deleteCharactersInRange:NSMakeRange(range2.location+range2.length, mutableStr.length-range2.location-range2.length)];
+//            
+//            NSRange range3 = [mutableStr rangeOfString:@"&start="];
+//            NSRange range4 = [mutableStr rangeOfString:@"&end="];
+//            [mutableStr replaceCharactersInRange:NSMakeRange(range3.location+range3.length, range4.location-range3.location-range3.length) withString:@"0"];
+//            
+//            NSRange range5 = [mutableStr rangeOfString:@"&end="];
+//            NSRange range6 = [mutableStr rangeOfString:@"&ts="];
+//            
+//            NSString *timeTotal = [mutableStr substringWithRange:NSMakeRange(range5.location+range5.length, range6.location-range5.location-range5.length)];
+//            
+//            NSRange range7 = [mutableStr rangeOfString:@"&ios=1"];
+//            [mutableStr replaceCharactersInRange:NSMakeRange(range6.location+range6.length, range7.location-range6.location-range6.length) withString:timeTotal];
+//            return [NSString stringWithFormat:@"%@",mutableStr];
+//        }
+//    }else {
+//        return urlString;
+//    }
+//    return  nil;
+//}
 @end

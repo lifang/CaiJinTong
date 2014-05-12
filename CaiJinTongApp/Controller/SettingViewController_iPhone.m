@@ -72,7 +72,7 @@ NSString *appleID_ = @"6224939";
     self.lhlNavigationBar.title.text = @"设置";
     
     [self.tableView setFrame:CGRectMake(0, IP5(65, 55), 320,IP5(440, 375))];
-//    if(IS_4_INCH && platform < 7.0)
+    //    if(IS_4_INCH && platform < 7.0)
     [self.tableView registerClass:[InfoCell class] forHeaderFooterViewReuseIdentifier:Info_HEADER_IDENTIFIER];
     if (platform<7.0) {
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
@@ -253,6 +253,13 @@ NSString *appleID_ = @"6224939";
         } withFailure:nil];
     }
     if (alertView.tag == 101 && buttonIndex == 0) {
+        NSFileManager *fileManage = [NSFileManager defaultManager];
+        NSString *Path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        NSString *filename = [Path stringByAppendingPathComponent:@"user.archive"];
+        if ([fileManage fileExistsAtPath:filename]) {
+            [fileManage removeItemAtPath:filename error:nil];
+        }
+        
         AppDelegate *app = [AppDelegate sharedInstance];
         if (app.mDownloadService && app.mDownloadService.networkQueue) {
             ASINetworkQueue *queue = app.mDownloadService.networkQueue;

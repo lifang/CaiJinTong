@@ -164,12 +164,6 @@
     self.playercontroller.delegate = self;
     chapterModel *chapter = [self.lessonModel.chapterList firstObject];
     SectionModel *section = [chapter.sectionList firstObject];
-//    [DRFMDBDatabaseTool selectSectionLastPlayWithUserId:[CaiJinTongManager shared].user.userId withLessonId:[CaiJinTongManager shared].lesson.lessonId withFinished:^(SectionModel *lastplaySection) {
-//         [self.playercontroller playMovieWithSectionModel:lastplaySection?:section withFileType:MPMovieSourceTypeStreaming];
-//        [self.navigationController presentViewController:self.playercontroller animated:YES completion:^{
-//            
-//        }];
-//    }];
     SectionModel *latestSection;
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];

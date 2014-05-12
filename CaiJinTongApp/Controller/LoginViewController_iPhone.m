@@ -24,9 +24,9 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     NSString *userName = [[NSUserDefaults standardUserDefaults] objectForKey:kUserName];
-    NSString *pwd = [[NSUserDefaults standardUserDefaults] objectForKey:kPassword];
+    //    NSString *pwd = [[NSUserDefaults standardUserDefaults] objectForKey:kPassword];
     self.accountLabel.text = userName?:@"";
-    self.passwordTextField.text = pwd?:@"";
+    //    self.passwordTextField.text = pwd?:@"";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardUP:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardDOWN:) name: UIKeyboardWillHideNotification object:nil];
 }
@@ -60,9 +60,9 @@
 {
     [super viewDidLoad];
     NSString *userName = [[NSUserDefaults standardUserDefaults] stringForKey:kUserName];
-    NSString *pwd = [[NSUserDefaults standardUserDefaults] stringForKey:kPassword];
+    //    NSString *pwd = [[NSUserDefaults standardUserDefaults] stringForKey:kPassword];
     self.accountLabel.text = userName?:@"";
-    self.passwordTextField.text = pwd?:@"";
+    //    self.passwordTextField.text = pwd?:@"";
     //压缩图片
     UIImage *bgImage = [[UIImage imageNamed:@"_loginBG.png"] scaleToSize:CGSizeMake(320, SCREEN_HEIGHT)];
     self.view.backgroundColor = [UIColor colorWithPatternImage:bgImage];
@@ -75,7 +75,7 @@
     
     //注册账号btn暂时改为设置
     [self.registerAccBtn setTitle:@"设置" forState:UIControlStateNormal];
- 
+    
     UserModel *user = [[UserModel alloc] init];
     [user unarchiverUser];
     if (user.userId && ![user.userId isEqualToString:@""]) {
@@ -88,7 +88,7 @@
         [self.loginNaviController setHidesBottomBarWhenPushed:YES];
         [self presentViewController:self.loginNaviController animated:NO completion:^{
             
-        }]; 
+        }];
     }
 }
 
@@ -139,13 +139,6 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         UserModel *user = [[UserModel alloc] init];
         user.userId = [NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]];
-        //        if ([self.userNameTextField.text isEqualToString:@"18621607181"]) {
-        //            user.userId = @"17082";
-        //            [CaiJinTongManager shared].userId = @"17082";
-        //        }else{
-        //            user.userId = @"18676";
-        //            [CaiJinTongManager shared].userId = @"18676";
-        //        }
         user.userName = [NSString stringWithFormat:@"%@",[result objectForKey:@"name"]];
         user.email = [NSString stringWithFormat:@"%@",[result objectForKey:@"email"]];
         user.mobile = [NSString stringWithFormat:@"%@",[result objectForKey:@"mobile"]];
@@ -159,6 +152,8 @@
         [[CaiJinTongManager shared] setUserId:user.userId];
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
+            self.passwordTextField.text = @"";
+            
             StudySummaryViewController_iphone *studySummaryController = [self.storyboard instantiateViewControllerWithIdentifier:@"StudySummaryViewController_iphone"];
             self.loginNaviController = nil;
             self.loginNaviController = [[MSNavigationViewController alloc] initWithRootViewController:studySummaryController];

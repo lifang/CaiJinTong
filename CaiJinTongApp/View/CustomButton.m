@@ -146,6 +146,11 @@
 //下载按钮 点击弹出框
 -(void)downloadClicked
 {
+    //如果为ku6格式的地址，则提示不能下载
+    if ([self.buttonModel.sectionMovieDownloadURL rangeOfString:@"http://v.ku6vms.com/phpvms/player/js/vid/"].length > 0) {
+        [Utility errorAlert:@"对不起，本视频暂不能下载，请在线观看"];
+        return;
+    }
     AppDelegate* appDelegate = [AppDelegate sharedInstance];
     DownloadService *mDownloadService = appDelegate.mDownloadService;
     mDownloadService.isFaild = NO;
