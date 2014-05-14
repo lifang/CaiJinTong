@@ -35,7 +35,7 @@
         default:
             break;
     }
-    self.interfaceUrl =  [NSString stringWithFormat:@"%@?active=searchLesson&userId=%@&pageIndex=%d&text=%@&sortType=%@",kHost,userId,pageIndex+1,text?:@"",sort];
+    self.interfaceUrl =  [NSString stringWithFormat:@"%@?active=searchLesson&userId=%@&pageIndex=%d&text=%@&sortType=%@&pageCount=12",kHost,userId,pageIndex+1,text?:@"",sort];
     self.baseDelegate = self;
     self.headers = reqheaders;
     

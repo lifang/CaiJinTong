@@ -30,9 +30,9 @@
     }
     //后台所有的分页第一页都是从1开始
     if (categoryId && ![categoryId isEqualToString:[NSString stringWithFormat:@"%d",CategoryType_ALL]]) {
-           self.interfaceUrl = [NSString stringWithFormat:@"%@?active=lessonList&userId=%@&lessonCategoryId=%@&pageIndex=%d&sortType=%@",kHost,userId,categoryId,pageIndex+1,sort];
+           self.interfaceUrl = [NSString stringWithFormat:@"%@?active=lessonList&userId=%@&lessonCategoryId=%@&pageIndex=%d&sortType=%@&pageCount=12",kHost,userId,categoryId,pageIndex+1,sort];
     }else{
-       self.interfaceUrl = [NSString stringWithFormat:@"%@?active=lessonList&userId=%@&lessonCategoryId=0&pageIndex=%d&sortType=%@",kHost,userId,pageIndex+1,sort];
+       self.interfaceUrl = [NSString stringWithFormat:@"%@?active=lessonList&userId=%@&lessonCategoryId=0&pageIndex=%d&sortType=%@&pageCount=12",kHost,userId,pageIndex+1,sort];
     }
 
     self.baseDelegate = self;
