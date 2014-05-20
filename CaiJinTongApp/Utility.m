@@ -125,7 +125,7 @@
         [request startSynchronous];
         NSError *error = request.error;
         NSData *data = request.responseData;
-        DLog(@"%@,%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding],error);
+        DLog(@"%@,立刻舒服了看见,%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding],error);
         if (error) {
             [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
                 dispatch_async(dispatch_get_main_queue(), ^{

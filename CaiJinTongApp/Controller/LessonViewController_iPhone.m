@@ -143,7 +143,6 @@
         self.menuVisible = NO;
         [_drTreeTableView setHiddleTreeTableView:YES withAnimation:NO];
     }else{
-        self.lhlNavigationBar.title.text = @"我的课程";
         [self.mainToolBar setHidden:NO];
         [self.searchBar setHidden:NO];
         [self.lhlNavigationBar.rightItem setHidden:NO];
@@ -564,9 +563,8 @@
 
 -(void)getSearchLessonListDataForCategoryFailure:(NSString *)errorMsg{
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.isSearch = NO;
+//        self.isSearch = NO;
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-//        self.searchBar.searchTextField.text = self.oldSearchText;
         self.searchBar.searchTextField.text = nil;
         [self.headerRefreshView endRefreshing];
         self.headerRefreshView.isForbidden = NO;
@@ -625,14 +623,18 @@
 #pragma mark MJRefreshBaseViewDelegate 分页加载
 -(void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView{
     if (self.isSearch) {
-        [self.searchInterface getSearchLessonInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andText:self.oldSearchText withPageIndex:self.searchInterface.currentPageIndex+1 withSortType:self.sortType];
+        if (self.headerRefreshView == refreshView) {
+            [self.searchInterface getSearchLessonInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andText:self.oldSearchText withPageIndex:0 withSortType:self.sortType];
+        }else{
+            [self.searchInterface getSearchLessonInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andText:self.oldSearchText withPageIndex:self.searchInterface.currentPageIndex+1 withSortType:self.sortType];
+        }
     }else{
         self.isRefreshing = YES;
-        if (self.headerRefreshView == refreshView) {
+        if (self.headerRefreshView == refreshView) {  //刷新
             self.footerRefreshView.isForbidden = YES;
             UserModel *user = [[CaiJinTongManager shared] user];
             [self.lessonListForCategory downloadLessonListForCategoryId:self.lessonListForCategory.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];
-        }else{
+        }else{   //分页加载
             self.headerRefreshView.isForbidden = YES;
             UserModel *user = [[CaiJinTongManager shared] user];
             [self.lessonListForCategory downloadLessonListForCategoryId:self.lessonListForCategory.lessonCategoryId withUserId:user.userId withPageIndex:self.lessonListForCategory.currentPageIndex+1 withSortType:self.sortType];

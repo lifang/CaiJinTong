@@ -480,6 +480,7 @@
 		63FB2A1618DADA4C00D9FAF3 /* UIView+DSImages.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FB2A0F18DADA4C00D9FAF3 /* UIView+DSImages.m */; };
 		63FB2A1818DAE23E00D9FAF3 /* backgroundSummary@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63FB2A1718DAE23E00D9FAF3 /* backgroundSummary@2x.png */; };
 		63FD2E071869730B004218EF /* LessonCategoryInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FD2E061869730B004218EF /* LessonCategoryInterface.m */; };
+		93D0DE5A192B456100F77BCB /* arrow_top_icon48@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93D0DE59192B456100F77BCB /* arrow_top_icon48@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1220,6 +1221,7 @@
 		63FB2A1718DAE23E00D9FAF3 /* backgroundSummary@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backgroundSummary@2x.png"; sourceTree = "<group>"; };
 		63FD2E051869730B004218EF /* LessonCategoryInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LessonCategoryInterface.h; sourceTree = "<group>"; };
 		63FD2E061869730B004218EF /* LessonCategoryInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonCategoryInterface.m; sourceTree = "<group>"; };
+		93D0DE59192B456100F77BCB /* arrow_top_icon48@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow_top_icon48@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2466,6 +2468,7 @@
 		63BBE3D719060D6000A57C5A /* imagenewV2 */ = {
 			isa = PBXGroup;
 			children = (
+				93D0DE59192B456100F77BCB /* arrow_top_icon48@2x.png */,
 				183BAFED191A234A00A8927E /* Q&A_ukown_attach@2x.png */,
 				18BAA7F9191615E800C98F6C /* delete_local_iphone@2x.png */,
 				18BAA7FA191615E800C98F6C /* delete_local@2x.png */,
@@ -2963,6 +2966,7 @@
 				18153251183608330078A410 /* Q&A-myq_11@2x.png in Resources */,
 				0EAFA0F91822167800D01D3E /* searchLesson.json in Resources */,
 				632403F118989F0F00F31309 /* Default-Landscape.png in Resources */,
+				93D0DE5A192B456100F77BCB /* arrow_top_icon48@2x.png in Resources */,
 				632403EA189898C200F31309 /* Default-568h@2x.png in Resources */,
 				63A77AC41887D31F00E86C73 /* excel@2x.png in Resources */,
 			);
@@ -3402,10 +3406,11 @@
 				);
 				INFOPLIST_FILE = "CaiJinTongApp/CaiJinTongApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "657C3438-71E0-45B0-BFC8-B6B84A5A47CD";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "armv7 armv7s";
+				VALID_ARCHS = "armv7 armv7s i386";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -3433,7 +3438,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "657C3438-71E0-45B0-BFC8-B6B84A5A47CD";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "armv7 armv7s";
+				VALID_ARCHS = "armv7 armv7s i386";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

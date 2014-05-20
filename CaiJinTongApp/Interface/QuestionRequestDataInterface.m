@@ -103,8 +103,9 @@
     
     //    http://lms.finance365.com/api/ios.ashx?active=searchQuestion&userId=17082&content=ss&feedbackId=2021
     NSString *urlString = [NSString stringWithFormat:@"%@?active=searchQuestion&userId=%@&content=%@&feedbackId=%@",kHost,userId,text,lastQuestionId?:@"0"];
-    DLog(@"搜索问答列表url:%@",urlString);
-    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:urlString]];
+    NSString *urlStr = (__bridge_transfer NSMutableString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,(CFStringRef)urlString,NULL,NULL,kCFStringEncodingUTF8);
+    DLog(@"搜索问答列表url:%@",urlStr);
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:urlStr]];
     [request setTimeOutSeconds:30];
     [request setRequestMethod:@"GET"];
     [Utility requestDataWithASIRequest:request withSuccess:^(NSDictionary *dicData) {

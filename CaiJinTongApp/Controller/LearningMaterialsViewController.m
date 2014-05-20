@@ -53,7 +53,23 @@
     self.drnavigationBar.titleLabel.text = @"我的资料";
     self.drnavigationBar.searchBar.searchTextLabel.placeholder = @"搜索资料";
     [self.drnavigationBar hiddleBackButton:YES];
-	// Do any additional setup after loading the view.
+    
+    UIView *footerView = [[UIView alloc] init];
+    footerView.backgroundColor = [UIColor clearColor];
+    footerView.frame = (CGRect){0,0,700,60};
+    UILabel *label = [[UILabel alloc] initWithFrame:footerView.frame];
+    label.font = [UIFont systemFontOfSize:25.];
+    label.textColor = [UIColor lightGrayColor];
+    [label setTextAlignment:NSTextAlignmentCenter];
+    label.text = @"向上拉加载更多";
+    [footerView addSubview:label];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow_top_icon48.png"]];
+    imageView.backgroundColor = [UIColor clearColor];
+    imageView.alpha = .2;
+    imageView.frame = (CGRect){215,15,30,30};
+    [footerView addSubview:imageView];
+	self.tableView.tableFooterView = footerView;
+    
 }
 
 
@@ -147,6 +163,12 @@
 #pragma mark UITableViewDelegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.tableView.tableFooterView = nil;
+    });
 }
 #pragma mark --
 

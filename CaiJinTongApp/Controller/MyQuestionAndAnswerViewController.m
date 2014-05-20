@@ -503,8 +503,7 @@
             if (self.questionAndAnswerScope == QuestionAndAnswerMYQUESTION) {
                 [self.userQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:user.userId andIsMyselfQuestion:@"0" andLastQuestionID:lastQuestionID withCategoryId:self.chapterID];
             }else if (self.questionAndAnswerScope == QuestionAndAnswerSearchQuestion){
-                QuestionModel *question = [self.myQuestionArr lastObject];
-                [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:user.userId andText:self.searchContent withLastQuestionId:question.questionId];
+                [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:user.userId andText:self.searchContent withLastQuestionId:lastQuestionID];
             }else{
                 [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:user.userId andChapterQuestionId:@"0" andLastQuestionID:lastQuestionID];
             }

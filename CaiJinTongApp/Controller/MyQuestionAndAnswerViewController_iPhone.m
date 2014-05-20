@@ -676,8 +676,7 @@
             if (self.questionScope == QuestionAndAnswerMYQUESTION) {
                 [self.userQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:user.userId andIsMyselfQuestion:@"0" andLastQuestionID:lastQuestionID withCategoryId:self.chapterID];
             }else if (self.questionScope == QuestionAndAnswerSearchQuestion){
-                QuestionModel *question = [self.myQuestionArr lastObject];
-                [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchBar.searchTextField.text withLastQuestionId:question.questionId];
+                [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchBar.searchTextField.text withLastQuestionId:lastQuestionID];
             }
 }
 
@@ -692,11 +691,6 @@
             rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:kQUESTIONHEARD_VIEW_WIDTH-6] ;
             return rect.size.height + kHEADER_TEXT_HEIGHT + kTEXT_PADDING ;
         }
-//        if (question.isEditing) {
-//            return  [Utility getTextSizeWithString:question.questionName withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+4] withWidth:QUESTIONHEARD_VIEW_WIDTH + TEXT_PADDING * 2].height + TEXT_HEIGHT + QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT;
-//        }else{
-//            return  [Utility getTextSizeWithString:question.questionName withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+4] withWidth:QUESTIONHEARD_VIEW_WIDTH + TEXT_PADDING * 2].height + TEXT_HEIGHT;
-//        }
     }
     if (question.answerList == nil || [question.answerList count] <= 0) {
         return 0;

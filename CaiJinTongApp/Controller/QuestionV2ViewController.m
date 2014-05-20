@@ -208,7 +208,7 @@
 
 //TODO::分页加载搜索的内容
 -(void)downloadSearchContentWithLastQuestionId:(NSString*)lastQuestionId{
-     __weak QuestionV2ViewController *weakSelf = self;
+    __weak QuestionV2ViewController *weakSelf = self;
     [QuestionRequestDataInterface searchQuestionListWithUserId:[CaiJinTongManager shared].user.userId andText:self.searchBar.searchTextField.text withLastQuestionId:lastQuestionId withSuccess:^(NSArray *questionModelArray) {
         QuestionV2ViewController *tempSelf = weakSelf;
         if (tempSelf) {
@@ -217,8 +217,8 @@
             if (lastQuestionId) {
                 [tempSelf.questionSearchDataArray addObjectsFromArray:questionModelArray];
             }else{
-            tempSelf.tableView.contentOffset = (CGPoint){tempSelf.tableView.contentOffset.x,0};
-            tempSelf.questionSearchDataArray = [NSMutableArray arrayWithArray:questionModelArray];
+                tempSelf.tableView.contentOffset = (CGPoint){tempSelf.tableView.contentOffset.x,0};
+                tempSelf.questionSearchDataArray = [NSMutableArray arrayWithArray:questionModelArray];
             }
             [tempSelf.tableView reloadData];
             [tempSelf.headerRefreshView endRefreshing];

@@ -23,7 +23,6 @@
         dbTool = [[DRFMDBDatabaseTool alloc] init];
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentDirectory = [paths objectAtIndex:0];
-//        NSString *newDir = [documentDirectory stringByAppendingPathComponent:@"database"];
         NSString *dbPath = [documentDirectory stringByAppendingPathComponent:@"caijingtong.db"];
         dbTool.dbPath = dbPath;
         [dbTool setPath:dbPath];
