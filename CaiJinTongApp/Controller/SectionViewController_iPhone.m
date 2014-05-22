@@ -76,12 +76,12 @@
         [self.sectionView refreshDataWithLesson:lesson];
         
         //显示分数
-        int grade = self.lessonModel.lessonIsScored.intValue;
-        if(grade > 0){
-            self.scoreLab.text = [NSString stringWithFormat:@"%.1f",[lesson.lessonScore floatValue]];
-        }else{
-            self.scoreLab.text = [NSString stringWithFormat:@"%.1f",0.0];
-        }
+//        int grade = self.lessonModel.lessonIsScored.intValue;
+//        if(grade > 0){
+//            self.scoreLab.text = [NSString stringWithFormat:@"%.1f",[lesson.lessonScore floatValue]];
+//        }else{
+//            self.scoreLab.text = [NSString stringWithFormat:@"%.1f",0.0];
+//        }
         //标题
         self.nameLab.text =[NSString stringWithFormat:@"名称:%@",PLACEHOLD(lesson.lessonName)];
         //    self.nameLab.frame = (CGRect){275, labelTop, width, 30};

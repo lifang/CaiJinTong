@@ -409,6 +409,9 @@
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self.headerRefreshView endRefreshing];
         [self.footerRefreshView endRefreshing];
+        if(!self.headerRefreshView.isForbidden){
+            self.tableView.contentOffset = CGPointZero;
+        }
         self.headerRefreshView.isForbidden = NO;
         self.footerRefreshView.isForbidden = NO;
         self.isReloading = NO;
@@ -425,7 +428,7 @@
         self.headerRefreshView.isForbidden = NO;
         self.footerRefreshView.isForbidden = NO;
         self.isReloading = NO;
-        self.searchBar.searchTextField.text = nil;
+//        self.searchBar.searchTextField.text = nil;
         [Utility errorAlert:errorMsg];
     });
 }
@@ -652,7 +655,7 @@
                 [Utility errorAlert:@"暂无网络"];
             }else{
                 //            self.isSearching = YES;
-                [self searchButtonClicked:nil];
+//                [self searchButtonClicked:nil];
                 [self.searchMaterialInterface searchLearningMaterilasListWithUserId:[CaiJinTongManager shared].userId withSearchContent:self.searchBar.searchTextField.text withPageIndex:0 withSortType:self.sortType];
             }
         }];

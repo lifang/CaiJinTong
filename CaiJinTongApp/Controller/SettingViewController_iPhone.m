@@ -57,7 +57,6 @@ NSString *appleID_ = @"6224939";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.versionnumberLabel.layer.cornerRadius = 5;
     self.versionnumberLabel = [[UILabel alloc] initWithFrame:(CGRect){0,0,35,20}];
     [self.versionnumberLabel setTextColor:[UIColor whiteColor]];
     [self.versionnumberLabel setFont:[UIFont systemFontOfSize:12]];
@@ -151,7 +150,8 @@ NSString *appleID_ = @"6224939";
                 case 1:
                     cell.textLabel.text = @"清理缓存";
                     break;
-                case 2:{
+                case 2:
+                {
                     cell.textLabel.text = [NSString stringWithFormat:@"版本检测                   版本v%@",[CaiJinTongManager shared].appstoreNewVersion];
                     cell.accessoryView = self.versionnumberLabel;
                 }

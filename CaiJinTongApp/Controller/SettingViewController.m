@@ -140,7 +140,6 @@ NSString *appleID = @"6224939";
                     break;
                 case 2:
                 {
-                    
                     cell.textLabel.text = [NSString stringWithFormat:@"版本检测                                    版本v%@",[CaiJinTongManager shared].appstoreNewVersion];
                     cell.accessoryView = self.versionnumberLabel;
                 }

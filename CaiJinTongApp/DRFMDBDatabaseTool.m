@@ -1248,7 +1248,6 @@
     [tool.dbQueue inDatabase:^(FMDatabase *db) {
         FMResultSet * rs = [db executeQuery:@"select * from Chapter where userId = ? and chapterLessonId=?",userId,lessonId];
         NSMutableArray *chapterArr = [NSMutableArray array];
-//         (chapterId , chapterName ,chapterLessonId ,userId )
         while([rs next]) {
             chapterModel *chapter = [[chapterModel alloc] init];
             chapter.chapterId = [rs stringForColumn:@"chapterId"];
