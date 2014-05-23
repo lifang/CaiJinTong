@@ -981,6 +981,7 @@
                 break;
             case CategoryType_MyAnswerAndQuestion://我的问答
             {
+                
             }
                 break;
             default:{
@@ -1019,6 +1020,8 @@
             break;
         case CategoryType_MyAnswerAndQuestion://我的问答
         {
+            self.questionScope = QuestionAndAnswerMYQUESTION;
+            [self reLoadQuestionWithQuestionScope:self.questionScope withTreeNode:extendNote];
         }
             break;
         default:{

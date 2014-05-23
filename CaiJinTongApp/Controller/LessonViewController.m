@@ -570,6 +570,8 @@ typedef enum {
                         break;
                     case CategoryType_MyAnswerAndQuestion://我的问答
                     {
+                        self.questionScope = QuestionAndAnswerMYQUESTION;
+                        [self reLoadQuestionWithQuestionScope:self.questionScope withTreeNode:selectedNote];
                     }
                         break;
                     default:{

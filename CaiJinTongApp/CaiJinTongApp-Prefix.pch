@@ -25,6 +25,7 @@
 #import "DRFMDBDatabaseTool.h"
 
 #define APPNEWVERSION_Notification @"APPNEWVERSION_Notification"
+#define kChangeVideoPlayedStatusNotification @"ChangeVideoPlayedStatusNotification"
 
 #endif
 

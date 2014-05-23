@@ -824,6 +824,10 @@
             break;
         case CategoryType_MyAnswerAndQuestion://我的问答
         {
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            [CaiJinTongManager shared].selectedQuestionCategoryType = CategoryType_MyQuestion;
+            [self setQuestionScope:CategoryType_MyQuestion];
+            [self downloadMyQuestionContentWithLastQuestionId:nil];
         }
             break;
         default:{

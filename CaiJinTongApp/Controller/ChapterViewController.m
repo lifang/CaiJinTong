@@ -30,6 +30,7 @@
 @property (nonatomic,strong) NSString *searchContent;//搜索之前字符串
 @property (nonatomic,strong) SectionViewController *sectionViewController;
 @property (strong, nonatomic) IBOutletCollection(DRImageButton) NSArray *drImageButtons;
+@property (assign, nonatomic) BOOL videoPlayed; //标示是否播放过视频, 如为YES则apper时刷新列表
 @end
 
 @implementation ChapterViewController
@@ -74,6 +75,7 @@
 -(void)dealloc{
     [self.footerRefreshView free];
     [self.headerRefreshView free];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLoad
@@ -83,10 +85,17 @@
     [self initCollectionView];
     self.drnavigationBar.searchBar.searchTextLabel.placeholder = @"搜索课程";
     [self.drnavigationBar hiddleBackButton:YES];
+    
+    self.videoPlayed = NO;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeVideoPlayedStatus:) name:kChangeVideoPlayedStatusNotification object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
     self.drnavigationBar.titleLabel.text = @"课程";
+    if (self.videoPlayed) {
+        [self refreshViewBeginRefreshing:self.headerRefreshView];
+        self.videoPlayed = NO;
+    }
 }
 
 -(void)reloadDataWithDataArray:(NSArray*)data withCategoryId:(NSString*)lessonCategoryId isSearch:(BOOL)isSearch{
@@ -283,6 +292,11 @@
         _searchLessonInterface.delegate = self;
     }
     return _searchLessonInterface;
+}
+
+//播放视频时将得到通知
+- (void)changeVideoPlayedStatus:(NSNotification *)notification{
+    self.videoPlayed = YES;
 }
 
 #pragma mark MJRefreshBaseViewDelegate 分页加载
