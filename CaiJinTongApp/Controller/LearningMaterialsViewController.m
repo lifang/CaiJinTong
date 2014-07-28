@@ -8,6 +8,7 @@
 
 #import "LearningMaterialsViewController.h"
 #import "DRImageButton.h"
+#import "ASIDownloadCache.h"
 /*
  显示资料列表
  */
@@ -52,7 +53,23 @@
     self.drnavigationBar.titleLabel.text = @"我的资料";
     self.drnavigationBar.searchBar.searchTextLabel.placeholder = @"搜索资料";
     [self.drnavigationBar hiddleBackButton:YES];
-	// Do any additional setup after loading the view.
+    
+    UIView *footerView = [[UIView alloc] init];
+    footerView.backgroundColor = [UIColor clearColor];
+    footerView.frame = (CGRect){0,0,700,60};
+    UILabel *label = [[UILabel alloc] initWithFrame:footerView.frame];
+    label.font = [UIFont systemFontOfSize:25.];
+    label.textColor = [UIColor lightGrayColor];
+    [label setTextAlignment:NSTextAlignmentCenter];
+    label.text = @"向上拉加载更多";
+    [footerView addSubview:label];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow_top_icon48.png"]];
+    imageView.backgroundColor = [UIColor clearColor];
+    imageView.alpha = .2;
+    imageView.frame = (CGRect){215,15,30,30};
+    [footerView addSubview:imageView];
+	self.tableView.tableFooterView = footerView;
+    
 }
 
 
@@ -147,6 +164,12 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
 }
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.tableView.tableFooterView = nil;
+    });
+}
 #pragma mark --
 
 #pragma mark UITableViewDataSource
@@ -193,11 +216,38 @@
         [webController.view addSubview:webView];
         webController.view.frame = (CGRect){0,0,800,700};
         [webView loadRequest:[NSURLRequest requestWithURL:[[NSURL alloc] initFileURLWithPath:material.materialFileLocalPath]]];
-        webController.modalPresentationStyle = UIModalPresentationFormSheet;
-        [self presentViewController:webController animated:YES completion:^{
+        [self presentPopupViewController:webController animationType:MJPopupViewAnimationSlideTopTop isAlignmentCenter:YES dismissed:^{
             
         }];
     }
+}
+
+- (void)learningMaterialCell:(LearningMaterialCell *)cell deleteLearningMaterialFileAtIndexPath:(NSIndexPath *)path{
+    LearningMaterials *material = self.isSearch?[self.searchArray objectAtIndex:path.row]:[self.dataArray objectAtIndex:path.row];
+    [DRFMDBDatabaseTool deleteMaterialWithUserId:[CaiJinTongManager shared].user.userId
+                         withLearningMaterialsId:material.materialId
+                                    withFinished:^(BOOL flag) {
+                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                            [[ASIDownloadCache sharedCache] removeCachedDataForURL:[NSURL URLWithString:material.materialFileDownloadURL]];
+                                            [[NSFileManager defaultManager] removeItemAtPath:material.materialFileLocalPath error:nil];
+                                            NSIndexPath *newPath;
+                                            if (self.isSearch) {
+                                                newPath = [NSIndexPath indexPathForRow:[self.searchArray indexOfObject:material] inSection:path.section];
+                                                [self.searchArray removeObject:material];
+                                            }else{
+                                                newPath = [NSIndexPath indexPathForRow:[self.dataArray indexOfObject:material] inSection:path.section];
+                                                [self.dataArray removeObject:material];
+                                            }
+                                            [self.tableView deleteRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
+                                            [[NSFileManager defaultManager] removeItemAtPath:material.materialFileLocalPath error:nil];
+                                            dispatch_time_t delayInNanoSeconds = dispatch_time(DISPATCH_TIME_NOW, .4 * NSEC_PER_SEC);
+                                            dispatch_queue_t concurrentQueue = dispatch_get_main_queue();
+                                            dispatch_after(delayInNanoSeconds, concurrentQueue, ^{
+                                                [self.tableView reloadData];
+                                            });
+                                            
+                                        });
+                                    }];
 }
 #pragma mark --
 
@@ -226,21 +276,23 @@
 
 #pragma mark SearchLearningMatarilasListInterfaceDelegate
 -(void)searchLearningMaterilasListDataForCategoryDidFinished:(NSArray *)learningMaterialsList withCurrentPageIndex:(int)pageIndex withTotalCount:(int)allDataCount{
-    dispatch_async(dispatch_get_main_queue(), ^{
+    [DRFMDBDatabaseTool selectLearningMaterialsDownloadStatusWithUserId:[CaiJinTongManager shared].user.userId withLearningMaterialArray:learningMaterialsList withFinished:^(NSArray *materialList) {
         if (pageIndex > 0) {
-            [self.searchArray addObjectsFromArray:learningMaterialsList];
+            [self.searchArray addObjectsFromArray:materialList];
         }else{
-            self.searchArray = [NSMutableArray arrayWithArray:learningMaterialsList];
+            self.searchArray = [NSMutableArray arrayWithArray:materialList];
         }
         [self.tableView reloadData];
-         [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
+        [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
         [self.headerRefreshView endRefreshing];
         [self.footerRefreshView endRefreshing];
         self.headerRefreshView.isForbidden = NO;
         self.footerRefreshView.isForbidden = NO;
         self.isReloading = NO;
-    });
+    }];
     self.drnavigationBar.titleLabel.text = @"搜索";
+    
+    self.totalCountLabel.text = [NSString stringWithFormat:@"目前有(%d)份资料",allDataCount];
 }
 
 -(void)searchLearningMaterilasListDataForCategoryFailure:(NSString *)errorMsg{
@@ -259,11 +311,11 @@
 
 #pragma mark LearningMatarilasListInterfaceDelegate
 -(void)getlearningMaterilasListDataForCategoryDidFinished:(NSArray *)learningMaterialsList withCurrentPageIndex:(int)pageIndex withTotalCount:(int)allDataCount{
-    dispatch_async(dispatch_get_main_queue(), ^{
+    [DRFMDBDatabaseTool selectLearningMaterialsDownloadStatusWithUserId:[CaiJinTongManager shared].user.userId withLearningMaterialArray:learningMaterialsList withFinished:^(NSArray *materialList) {
         if (pageIndex > 0) {
-            [self.dataArray addObjectsFromArray:learningMaterialsList];
+            [self.dataArray addObjectsFromArray:materialList];
         }else{
-            self.dataArray = [NSMutableArray arrayWithArray:learningMaterialsList];
+            self.dataArray = [NSMutableArray arrayWithArray:materialList];
         }
         [self.tableView reloadData];
         self.totalCountLabel.text = [NSString stringWithFormat:@"目前有(%d)份资料",allDataCount];
@@ -272,8 +324,8 @@
         self.headerRefreshView.isForbidden = NO;
         self.footerRefreshView.isForbidden = NO;
         self.isReloading = NO;
-         [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
-    });
+        [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
+    }];
 }
 
 -(void)getlearningMaterilasListDataForCategoryFailure:(NSString *)errorMsg{
@@ -352,6 +404,23 @@ dispatch_async(dispatch_get_main_queue(), ^{
     _lessonCategoryId = lessonCategoryId?:@"";
     if (lessonCategoryId) {
         self.isReloading = YES;
+        
+        UIView *footerView = [[UIView alloc] init];
+        footerView.backgroundColor = [UIColor clearColor];
+        footerView.frame = (CGRect){0,0,700,60};
+        UILabel *label = [[UILabel alloc] initWithFrame:footerView.frame];
+        label.font = [UIFont systemFontOfSize:25.];
+        label.textColor = [UIColor lightGrayColor];
+        [label setTextAlignment:NSTextAlignmentCenter];
+        label.text = @"向上拉加载更多";
+        [footerView addSubview:label];
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow_top_icon48.png"]];
+        imageView.backgroundColor = [UIColor clearColor];
+        imageView.alpha = .2;
+        imageView.frame = (CGRect){215,15,30,30};
+        [footerView addSubview:imageView];
+        self.tableView.tableFooterView = footerView;
+        
          [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
         UserModel *user = [[CaiJinTongManager shared] user];
         [self.learningMaterialListInterface downloadlearningMaterilasListForCategoryId:self.lessonCategoryId withUserId:user.userId withPageIndex:0 withSortType:self.sortType];

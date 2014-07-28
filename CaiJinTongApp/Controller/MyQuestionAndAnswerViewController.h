@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *noticeBarView;
 @property (weak, nonatomic) IBOutlet UIImageView *noticeBarImageView;
+@property (weak, nonatomic) IBOutlet UIButton *askQuestionButton;
 @property (nonatomic,strong) NSMutableArray *myQuestionArr;
 @property (nonatomic, strong) AcceptAnswerInterface *acceptAnswerInterface;
 @property (assign,nonatomic) QuestionAndAnswerScope questionAndAnswerScope;
@@ -27,6 +28,7 @@
 //@property (strong,nonatomic) NSString *searchQuestionText;
 @property (nonatomic,assign) BOOL isSearch;//判断是否是搜索
 @property (weak,nonatomic) id<MyQuestionAndAnswerViewControllerDelegate> delegate;
+@property (weak, nonatomic) id lessonViewController;
 - (IBAction)noticeHideBtnClick:(id)sender;
 //scope :设置问题的范围，我的回答，我的提问，所有回答
 -(void)reloadDataWithDataArray:(NSArray*)data  withQuestionChapterID:(NSString*)chapterID withScope:(QuestionAndAnswerScope)scope isSearch:(BOOL)isSearch;

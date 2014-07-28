@@ -133,9 +133,7 @@
 }
 
 - (IBAction)cancelBtnClicked:(UIButton *)sender {
-    [self dismissViewControllerAnimated:YES completion:^{
-        
-    }];
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationFade];
     if (self.delegate && [self.delegate respondsToSelector:@selector(commitQuestionControllerCancel)]) {
         [self.delegate commitQuestionControllerCancel];
     }
@@ -155,9 +153,7 @@
         [Utility errorAlert:@"请先选择一个提问分类!"];
         return;
     }
-    [self dismissViewControllerAnimated:YES completion:^{
-        
-    }];
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationFade];
     if (self.delegate && [self.delegate respondsToSelector:@selector(commitQuestionController:didCommitQuestionWithTitle:andText:andQuestionId:)]) {
         [self.delegate commitQuestionController:self didCommitQuestionWithTitle:self.titleField.text andText:self.contentField.text andQuestionId:self.selectedQuestionId];//42为"综合问题"的分类编号
     }
@@ -261,7 +257,8 @@
 #pragma mark TreeView
 -(DRTreeTableView *)treeView{
     if(!_treeView){
-        _treeView = [[DRTreeTableView alloc] initWithFrame:(CGRect){2,2,2,2} withTreeNodeArr:nil];
+//        _treeView = [[DRTreeTableView alloc] initWithFrame:(CGRect){2,2,2,2} withTreeNodeArr:nil];
+        _treeView = [[DRTreeTableView alloc]initWithDropDownMenuFrame:(CGRect){CGRectGetMinX(self.categoryTextField.frame),CGRectGetMaxY(self.categoryTextField.frame),self.view.frame.size.width- CGRectGetMinX(self.categoryTextField.frame)*2,200} withTreeNodeArr:nil];
         _treeView.delegate = self;
         [self.view addSubview:_treeView];
         [_treeView setBackgroundColor:[UIColor lightGrayColor]];
@@ -358,11 +355,19 @@
 
 #pragma mark autorotate
 - (BOOL)shouldAutorotate {
-    return YES;
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    if (orientation != UIInterfaceOrientationLandscapeLeft) {
+        return YES;
+    }
+    return NO;
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskLandscape;
+    return UIInterfaceOrientationMaskAll;
+}
+
+-(UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
+    return UIInterfaceOrientationLandscapeLeft;
 }
 // pre-iOS 6 support
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {

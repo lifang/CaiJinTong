@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+    <dependencies>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="249" id="8n2-lx-aol" customClass="AnswerForQuestionCellV2">
+            <rect key="frame" x="0.0" y="0.0" width="524" height="249"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8n2-lx-aol" id="ZWm-AB-47Y">
+                <rect key="frame" x="0.0" y="0.0" width="524" height="248"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <userGuides>
+                    <userLayoutGuide location="42" affinity="minX"/>
+                </userGuides>
+                <subviews>
+                    <view contentMode="scaleToFill" id="B7W-m8-YqS">
+                        <rect key="frame" x="10" y="0.0" width="504" height="249"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="correct_n.png" id="c7f-Od-sf4" userLabel="correctFlagImageView">
+                                <rect key="frame" x="4" y="12" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="answer_n.png" id="O5s-So-Eku" userLabel="flagImage View - answer_n.png">
+                                <rect key="frame" x="32" y="14" width="13" height="13"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vT9-BP-CmW" userLabel="titleTimeLabel">
+                                <rect key="frame" x="47" y="11" width="392" height="21"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Rxf-pf-2P2" userLabel="moreButton">
+                                <rect key="frame" x="447" y="-1" width="57" height="45"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <rect key="contentStretch" x="1" y="1" width="1" height="1"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <inset key="contentEdgeInsets" minX="0.0" minY="13" maxX="0.0" maxY="12"/>
+                                <state key="normal" image="more_n.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="moreBtClicked:" destination="8n2-lx-aol" eventType="touchUpInside" id="uOp-Bo-ESF"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" id="Wtj-Du-fTi" userLabel="answerContentTextView" customClass="RichQuestionContentView">
+                                <rect key="frame" x="31" y="40" width="468" height="195"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                            </view>
+                            <imageView userInteractionEnabled="NO" alpha="0.29999999999999999" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="line.png" id="thk-qQ-Akl">
+                                <rect key="frame" x="0.0" y="1" width="504" height="1"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.97254908084869385" green="0.97254908084869385" blue="0.97254908084869385" alpha="1" colorSpace="deviceRGB"/>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="correctFlagImageView" destination="c7f-Od-sf4" id="AGJ-Ji-lFI"/>
+                <outlet property="flagImageView" destination="O5s-So-Eku" id="mp0-vz-2f7"/>
+                <outlet property="moreBt" destination="Rxf-pf-2P2" id="fah-Ua-m6d"/>
+                <outlet property="richContentView" destination="Wtj-Du-fTi" id="zoK-WO-nwb"/>
+                <outlet property="titleTimeLabel" destination="vT9-BP-CmW" id="FJf-ZX-MTx"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="answer_n.png" width="11" height="11"/>
+        <image name="correct_n.png" width="23" height="23"/>
+        <image name="line.png" width="505" height="1"/>
+        <image name="more_n.png" width="35" height="25"/>
+    </resources>
+</document>

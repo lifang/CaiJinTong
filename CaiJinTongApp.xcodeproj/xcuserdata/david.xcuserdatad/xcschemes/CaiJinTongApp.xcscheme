@@ -38,6 +38,16 @@
                ReferencedContainer = "container:CaiJinTongApp.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "63F3E09E1908E5B2004E6CB5"
+               BuildableName = "HTMLParseTestTests.xctest"
+               BlueprintName = "HTMLParseTestTests"
+               ReferencedContainer = "container:CaiJinTongApp.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

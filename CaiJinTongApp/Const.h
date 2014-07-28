@@ -7,8 +7,44 @@
 //
 //
 
+typedef enum {MOVIE_FILE,MOVIE_INTERNET}MovieLocateType;
 
-typedef  enum  {//问答类型
+///文件类型
+typedef enum {
+    DRURLFileType_IMAGR,
+    DRURLFileType_WORD,
+    DRURLFileType_PDF,
+    DRURLFileType_OTHER,
+    DRURLFileType_GIF,//动画图
+    DRURLFileType_TEXT,
+    DRURLFileType_PPT,
+    DRURLFileType_STRING
+}DRURLFileType;
+
+///问答分类类别
+typedef enum:NSInteger{
+    ///全部
+    CategoryType_ALL=-5234,
+    ///所有问答
+    CategoryType_AllQuestion=-5235,
+    ///所有问答全部
+    CategoryType_AllQuestion_ALL=-5239,
+    ///我的提问
+    CategoryType_MyQuestion=-5250,
+    ///我的回答
+    CategoryType_MyAnswer=-5251,
+    ///我的提问全部
+    CategoryType_MyQuestion_ALL=-5236,
+    ///我的回答全部
+    CategoryType_MyAnswer_ALL=-5237,
+    ///我的问答
+    CategoryType_MyAnswerAndQuestion=-5238,
+    ///搜索
+    CategoryType_Search=-5239
+}CategoryType;
+
+///问答类型
+typedef  enum  {
     QuestionAndAnswerALL = 1,
     QuestionAndAnswerMYQUESTION,
     QuestionAndAnswerMYANSWER,
@@ -16,11 +52,25 @@ typedef  enum  {//问答类型
     QuestionAndAnswerDefault
 } QuestionAndAnswerScope;
 
-typedef enum {//追问类型
+///回答类型
+typedef enum {
+    ///追问
     ReaskType_Reask=100,//追问
+    ///对追问进行回复
     ReaskType_AnswerForReasking,//对追问进行回复
+    ///修改追问
     ReaskType_ModifyReask,//修改追问
-    ReaskType_ModifyAnswer,//对回复进行修改,
+    ///对回复进行修改,
+    ReaskType_ModifyReaskAnswer,//对回复进行修改,
+    ///回答
+    ReaskType_Answer,//回答
+    ///修改回答
+    ReaskType_ModifyAnswer,
+    ///赞
+    ReaskType_Praise,
+    ///采纳回答
+    ReaskType_AcceptAnswer,
+    ///其他情况
     ReaskType_None,
 }ReaskType;
 
@@ -72,12 +122,9 @@ typedef enum {LESSONSORTTYPE_CurrentStudy,
 #define MAX_CONTENT_LENGTH  5000
 
 #import "DRTreeTableView.h"
-#import "TestModelData.h"
 #import "LogInterface.h"//登录
 #import "FindPassWordInterface.h"//找回密码
 #import "LessonInfoInterface.h"//课程信息
-#import "ChapterInfoInterface.h"//章节下视频信息
-#import "SectionInfoInterface.h"//视频详细信息
 #import "PlayVideoInterface.h"//播放视频
 #import "PlayBackInterface.h"//播放返回
 #import "GradeInterface.h"//打分或者评论

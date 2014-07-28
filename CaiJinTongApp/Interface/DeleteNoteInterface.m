@@ -11,7 +11,7 @@
 
 #if kUsingTestData
 -(void)deleteNoteWithUserId:(NSString*)userId withNoteId:(NSString*)noteId{
-    NSString *path = [NSBundle pathForResource:@"DeleteNote" ofType:@"geojson" inDirectory:[[NSBundle mainBundle] bundlePath]];
+    NSString *path = [NSBundle pathForResource:@"DeleteNote" ofType:@"json" inDirectory:[[NSBundle mainBundle] bundlePath]];
     NSData *data = [NSData dataWithContentsOfFile:path];
     id jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
     double delayInSeconds = 2.0;

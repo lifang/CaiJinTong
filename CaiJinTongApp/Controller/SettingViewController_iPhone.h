@@ -11,7 +11,7 @@
 #import "InfoCell.h"
 #import "SuggestionFeedbackViewController_iPhone.h"
 
-@interface SettingViewController_iPhone : LHLNavigationBarViewController<UITableViewDataSource,UITableViewDelegate,InfoCellDelegate,iVersionDelegate,UIAlertViewDelegate>
+@interface SettingViewController_iPhone : LHLNavigationBarViewController<UITableViewDataSource,UITableViewDelegate,InfoCellDelegate,UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end

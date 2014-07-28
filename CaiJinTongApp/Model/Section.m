@@ -241,95 +241,16 @@ static Section *defaultSection = nil;
 
 #pragma mark --
 
--(SectionSaveModel *)getDataWithSid:(NSString *) sid {
-    FMResultSet * rs = [self.db executeQuery:@"select id , sid , name , fileUrl , downloadState ,contentLength,percentDown,sectionStudy,sectionLastTime,sectionImg,lessonInfo,sectionTeacher from Section where sid = ?",sid];
-    
-    SectionSaveModel *nm = nil;
-    
-    if ([rs next]) {
-        nm = [[SectionSaveModel alloc] init];
-        nm.sid = [rs stringForColumn:@"sid"];
-        nm.name = [rs stringForColumn:@"name"];
-        nm.fileUrl = [rs stringForColumn:@"fileUrl"];
-        nm.downloadState = [rs intForColumn:@"downloadState"];
-        nm.downloadPercent = [rs doubleForColumn:@"percentDown"];//获取下载进度
-        nm.sectionStudy = [rs stringForColumn:@"sectionStudy"];
-        nm.sectionLastTime = [rs stringForColumn:@"sectionLastTime"];
-        
-        nm.sectionImg = [rs stringForColumn:@"sectionImg"];
-        nm.lessonInfo = [rs stringForColumn:@"lessonInfo"];
-        nm.sectionTeacher = [rs stringForColumn:@"sectionTeacher"];
-    }
-    
-    [rs close];
-    return nm;
-}
 
--(SectionModel *)getSectionModelWithSid:(NSString *) sid {
-    FMResultSet * rs = [self.db executeQuery:@"select * from Section where sid = ?",sid];
-    
-    SectionModel *nm = nil;
-    
-    if ([rs next]) {
-        nm = [Section convertToSectionModelFromResult:rs];
-    }
-    
-    [rs close];
-    return nm;
-}
--(void)deleteDataWithSid:(NSString *)sid {
-    BOOL res = [self.db executeUpdate:@"delete from Section where sid = ?",sid];
-    
-    if (!res) {
-        DLog(@"删除失败!");
-    } else {
-        DLog(@"删除成功");
-    }
-}
 
--(BOOL)addDataWithSectionSaveModel:(SectionSaveModel *)model{
-    BOOL res = [self.db executeUpdate:@"insert into Section ( sid , lessonId,name , fileUrl ,playUrl, localFileUrl,downloadState ,contentLength,percentDown,sectionStudy,sectionLastTime,sectionImg,lessonInfo,sectionTeacher,sectionFinishedDate,firstPlayOfflineDate,totalPlayOfflineTime) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
-                , model.sid
-                ,model.lessonId
-                ,model.name
-                ,model.fileUrl
-                ,model.playUrl
-                ,model.localFileUrl
-                ,@"4"
-                ,[NSString stringWithFormat:@"%f", model.downloadPercent]
-                ,@"0"
-                ,@"0"
-                ,model.sectionLastTime
-                ,model.sectionImg
-                ,model.lessonInfo
-                ,model.sectionTeacher
-                ,@""
-                ,@"0"
-                ,@"0"];
-    return res;
-}
 
--(BOOL)updateSectionModelLocalPath:(NSString*)localPath withSectionId:(NSString*)sectionId{
-    if (!localPath || sectionId) {
-        return NO;
-    }
-    return [self.db executeUpdate:@"update Section set localFileUrl = ? where sid= ?",localPath, sectionId];
-}
+
+
 
 -(BOOL)updateTheStateWithSid:(NSString *) sid andDownloadState:(NSUInteger)downloadState {
     return [self.db executeUpdate:@"update Section set downloadState = ? where sid= ?",[NSString stringWithFormat:@"%d", downloadState], sid];
 }
--(int)HasTheDataDownloadWithSid:(NSString *)sid {
-    FMResultSet * rs = [self.db executeQuery:@"select downloadState from Section where sid = ?",sid];
-    
-    NSUInteger down = 4;//未下载状态
-    if ([rs next]) {
-        down = [rs intForColumn:@"downloadState"];
-    }
-    [rs close];
-    
-    return down;//4 未下载 1 下载完成 2 下载暂停
-}
+
 -(BOOL)updatePercentDown:(double)length BySid:(NSString *)sid {
     return [self.db executeUpdate:@"update Section set percentDown = ? where sid= ?",[NSString stringWithFormat:@"%lf", length], sid];
 }
@@ -352,7 +273,6 @@ static Section *defaultSection = nil;
     [self.db executeUpdate:@"update Section set totalPlayOfflineTime = ?,firstPlayOfflineDate = ? where sid= ?",@"0", [Utility getNowDateFromatAnDate],sectionId];
 }
 -(NSString*)selectTotalPlayDateOffLineWithSectionId:(NSString*)sectionId{//计算第一次离线播放时间点＋离线播放时长
-//     firstPlayOfflineDate VARCHAR,totalPlayOfflineTime VARCHAR
     if (!sectionId) {
         return nil;
     }
@@ -372,7 +292,6 @@ static Section *defaultSection = nil;
 }
 
 -(NSString*)selectTotalPlayTimeOffLineWithSectionId:(NSString*)sectionId{//计算第一次离线播放时间点＋离线播放时长
-    //     firstPlayOfflineDate VARCHAR,totalPlayOfflineTime VARCHAR
     if (!sectionId) {
         return nil;
     }
@@ -449,7 +368,7 @@ static Section *defaultSection = nil;
 }
 
 //清理所有缓存
-+(void)clearAllDownloadedSectionWithSuccess:(void(^)())success withFailure:(void(^)(NSString*errorString))failure{
++(void)clearAllDownloadedDatasWithSuccess:(void(^)())success withFailure:(void(^)(NSString*errorString))failure{
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSError *error = nil;
     //清除下载的视频
@@ -458,7 +377,7 @@ static Section *defaultSection = nil;
     ASINetworkQueue *queue = mDownloadService.networkQueue;
     [(NSOperationQueue*)queue cancelAllOperations];
     for (SectionModel *sectionModel in [[Section defaultSection] getAllSection]) {
-        NSString *path = [CaiJinTongManager getMovieLocalPathWithSectionID:sectionModel.sectionId];
+        NSString *path = [CaiJinTongManager getMovieLocalPathWithSectionID:sectionModel.sectionId withSuffix:[sectionModel.sectionMovieDownloadURL pathExtension]];
         if ([fileManager fileExistsAtPath:path]) {
             if (error) {
                 [fileManager removeItemAtPath:path error:nil];
@@ -466,7 +385,6 @@ static Section *defaultSection = nil;
                 [fileManager removeItemAtPath:path error:&error];
             }
         }
-        [[Section defaultSection] deleteDataWithSid:sectionModel.sectionId];
     }
     
     //清除下载的资料
@@ -541,10 +459,6 @@ static Section *defaultSection = nil;
     nm.sectionMoviePlayURL = [rs stringForColumn:@"playUrl"];//在线播放地址
     nm.sectionMovieLocalURL = [rs stringForColumn:@"localFileUrl"];//本地地址
     nm.sectionLastPlayTime = [rs stringForColumn:@"sectionStudy"];//已经学习时间
-    nm.sectionLastTime = [rs stringForColumn:@"sectionLastTime"];//视频总长度
-    nm.sectionImg = [rs stringForColumn:@"sectionImg"];
-    nm.lessonInfo = [rs stringForColumn:@"lessonInfo"];
-    nm.sectionTeacher = [rs stringForColumn:@"sectionTeacher"];
     nm.sectionFinishedDate = [rs stringForColumn:@"sectionFinishedDate"];
     return nm;
 }
@@ -559,20 +473,7 @@ static Section *defaultSection = nil;
     [rs close];
     return array;
 }
--(NSArray *)getDowningInfo {
-    FMResultSet * rs = [self.db executeQuery:@"select id , sid , name , fileUrl , downloadState ,contentLength,percentDown,sectionStudy,sectionLastTime,sectionImg,lessonInfo,sectionTeacher from Section where downloadState = 0"];
-    
-    NSMutableArray *array = [NSMutableArray array];
-    while ([rs next]) {
-        SectionSaveModel *nm = [[SectionSaveModel alloc] init];
-        nm.sid = [rs stringForColumn:@"sid"];
-        nm.name = [rs stringForColumn:@"name"];
-        nm.downloadState = [rs doubleForColumn:@"downloadState"];
-        [array addObject:nm];
-    }
-    [rs close];
-    return array;
-}
+
 //笔记
 -(BOOL)addDataWithNoteModel:(NoteModel *)model andSid:(NSString *)sid{
     BOOL res = [self.db executeUpdate:@"insert into Note ( sid , noteId , noteTime , noteText) values (?,?,?,?)"

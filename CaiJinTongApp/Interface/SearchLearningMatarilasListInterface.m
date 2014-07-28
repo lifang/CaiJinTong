@@ -12,7 +12,7 @@
 
 #if kUsingTestData
 -(void)searchLearningMaterilasListWithUserId:(NSString*)userId withSearchContent:(NSString*)searchContent withPageIndex:(int)pageIndex withSortType:(NSString*)sortType{
-    NSString *path = [NSBundle pathForResource:@"LearningMaterials" ofType:@"geojson" inDirectory:[[NSBundle mainBundle] bundlePath]];
+    NSString *path = [NSBundle pathForResource:@"LearningMaterials" ofType:@"json" inDirectory:[[NSBundle mainBundle] bundlePath]];
     NSData *data = [NSData dataWithContentsOfFile:path];
     id jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
     double delayInSeconds = 2.0;
@@ -25,7 +25,6 @@
 -(void)searchLearningMaterilasListWithUserId:(NSString*)userId withSearchContent:(NSString*)searchContent withPageIndex:(int)pageIndex withSortType:(LearningMaterialsSortType)sortType{
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
-//http://lms.finance365.com/api/ios.ashx?active=searchLearningMaterials&userId=17082&searchContent=181&pageIndex=0&sortType=1
     NSString *sort = @"1";
     switch (sortType) {
         case LearningMaterialsSortType_Default:
@@ -95,9 +94,6 @@
                                 material.materialCreateDate = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialCreateDate"]];
                                 material.materialFileDownloadURL = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialFileDownloadURL"]];
                                 material.materialFileSize = [NSString stringWithFormat:@"%@",[dic objectForKey:@"materialFileSize"]];
-                                if (material.materialFileSize) {
-                                    material.materialFileSize = [Utility convertFileSizeUnitWithBytes:material.materialFileSize];
-                                }
                                 [materialsList addObject:material];
                             }
                             if (materialsList.count > 0) {

@@ -22,7 +22,90 @@
     return defaultUti;
 }
 
++ (UIColor*) colorWithHex:(NSInteger)hexValue alpha:(CGFloat)alphaValue
+{
+    return [UIColor colorWithRed:((float)((hexValue & 0xFF0000) >> 16))/255.0
+                           green:((float)((hexValue & 0xFF00) >> 8))/255.0
+                            blue:((float)(hexValue & 0xFF))/255.0 alpha:alphaValue];
+}
+
++ (UIColor*) colorWithHex:(NSInteger)hexValue
+{
+    return [Utility colorWithHex:hexValue alpha:1.0];
+}
+
++ (NSString *) hexFromUIColor: (UIColor*) color {
+    if (CGColorGetNumberOfComponents(color.CGColor) < 4) {
+        const CGFloat *components = CGColorGetComponents(color.CGColor);
+        color = [UIColor colorWithRed:components[0]
+                                green:components[0]
+                                 blue:components[0]
+                                alpha:components[1]];
+    }
+    
+    if (CGColorSpaceGetModel(CGColorGetColorSpace(color.CGColor)) != kCGColorSpaceModelRGB) {
+        return [NSString stringWithFormat:@"#FFFFFF"];
+    }
+    
+    return [NSString stringWithFormat:@"#XXX", (int)((CGColorGetComponents(color.CGColor))[0]*255.0),
+            (int)((CGColorGetComponents(color.CGColor))[1]*255.0),
+            (int)((CGColorGetComponents(color.CGColor))[2]*255.0)];
+}
+
+///查找播放记录_时间
++(float)getStartPlayerTimeWithUserId:(NSString*)userId withSectionId:(NSString*)sectionId{
+    if (!userId && !sectionId) {
+        return 0;
+    }
+    return  [[NSUserDefaults standardUserDefaults] floatForKey:[NSString stringWithFormat:@"playerTime_%@_%@",userId,sectionId]];
+}
+
+///查找播放记录_日期
++ (NSString *)getLastPlayDateWithUserId:(NSString *)userId withSectionId:(NSString *)sectionId{
+    if (!userId && !sectionId) {
+        return nil;
+    }
+    return [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"lastPlayDate_%@_%@",userId,sectionId]];
+}
+
+///保存播放记录
++(void)setStartPlayerTimeWithUserId:(NSString*)userId withSectionId:(NSString*)sectionId withPlayerTime:(float)time withLastPlayDate:(NSString *)lastPlayDate{
+    if (!userId && !sectionId) {
+        return;
+    }
+    [[NSUserDefaults standardUserDefaults] setFloat:time forKey:[NSString stringWithFormat:@"playerTime_%@_%@",userId,sectionId]];
+    [[NSUserDefaults standardUserDefaults] setObject:lastPlayDate forKey:[NSString stringWithFormat:@"lastPlayDate_%@_%@",userId,sectionId]];
+}
+///返回文件类型
++(DRURLFileType)getFileTypeWithFileExtension:(NSString*)extension{
+    if (!extension || [extension isEqualToString:@""]) {
+        return DRURLFileType_OTHER;
+    }
+    if ([extension isEqualToString:@"png"] || [extension isEqualToString:@"jpg"] || [extension isEqualToString:@"jpeg"]){
+        return DRURLFileType_IMAGR;
+    }
+    if ([extension isEqualToString:@"pdf"]) {
+        return  DRURLFileType_PDF;
+    }
+    if ([extension isEqualToString:@"doc"] || [extension isEqualToString:@"docx"]) {
+       return DRURLFileType_WORD;
+    }
+    if ([extension isEqualToString:@"txt"]) {
+        return DRURLFileType_TEXT;
+    }
+    if ([extension isEqualToString:@"ppt"]) {
+       return DRURLFileType_PPT;
+    }
+    if ([extension isEqualToString:@"gif"]) {
+        return DRURLFileType_GIF;
+    }
+    return DRURLFileType_OTHER;
+}
+
 +(NSString *)filterValue:(NSString*)filterValue{
+    if (!filterValue) {
+        return nil;
+    }
     NSString *value = [NSString stringWithFormat:@"%@",filterValue];
     if ([value isEqualToString:@""] || [value isEqualToString:@"<NULL>"] || [value isEqualToString:@"null"] || [value isEqualToString:@"<null>"]) {
         return nil;
@@ -42,7 +125,7 @@
         [request startSynchronous];
         NSError *error = request.error;
         NSData *data = request.responseData;
-        DLog(@"%@,%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding],error);
+        DLog(@"%@,立刻舒服了看见,%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding],error);
         if (error) {
             [Utility requestFailure:error tipMessageBlock:^(NSString *tipMsg) {
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -182,10 +265,8 @@
 //}
 
 +(void)judgeNetWorkStatus:(void (^)(NSString*networkStatus))networkStatus{
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     NSString *str = @"NotReachable";
-	Reachability *r = [Reachability reachabilityWithHostName:@"lms.finance365.com"];
-    switch ([r currentReachabilityStatus]) {
+    switch ([[Reachability reachabilityForInternetConnection] currentReachabilityStatus]) {
         case NotReachable:
 			str = @"NotReachable";
             break;
@@ -196,10 +277,9 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 			str = @"ReachableViaWiFi";
             break;
     }
-    dispatch_async(dispatch_get_main_queue(), ^{
+    if (networkStatus) {
         networkStatus(str);
-    });
-});
+    }
 }
 +(NSAttributedString*)getTextSizeWithAnswerModel:(AnswerModel*)answer withFont:(UIFont*)font withWidth:(float)width{
     if (answer.answerContent && font) {
@@ -294,18 +374,19 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     
     switch (level) {
         case 0:
-            convertSize = [NSString stringWithFormat:@"%0.2fKB",lenght];
+            convertSize = [NSString stringWithFormat:@"%0.2fB",lenght];
             break;
         case 1:
-            convertSize = [NSString stringWithFormat:@"%0.2fM",lenght];
+            convertSize = [NSString stringWithFormat:@"%0.2fKB",lenght];
             break;
         case 2:
-            convertSize = [NSString stringWithFormat:@"%0.2fG",lenght];
+            convertSize = [NSString stringWithFormat:@"%0.2fM",lenght];
             break;
         case 3:
-            convertSize = [NSString stringWithFormat:@"%0.2fTB",lenght];
+            convertSize = [NSString stringWithFormat:@"%0.2fG",lenght];
             break;
         default:
+            convertSize = [NSString stringWithFormat:@"%0.2fTB",lenght];
             break;
     }
     return convertSize;
@@ -451,7 +532,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         return YES;
     }
     
-    msg(@"无法连接服务器");
+    msg(@"发生未知错误!");
     return NO;
 }
 

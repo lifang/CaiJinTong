@@ -23,4 +23,7 @@
 
 -(void)selectedAtIndexItem:(int)index;
 
+///是否显示本地菜单
+-(void)loadLocalItem:(BOOL)isLocalItem;
+
 @end

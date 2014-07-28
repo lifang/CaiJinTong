@@ -23,6 +23,10 @@
 
 @implementation LoginViewController
 
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -32,27 +36,48 @@
     return self;
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    NSString *userName = [[NSUserDefaults standardUserDefaults] stringForKey:kUserName];
+    self.userNameTextField.text = userName?:@"";
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardUP:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardDOWN:) name: UIKeyboardWillHideNotification object:nil];
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     NSString *userName = [[NSUserDefaults standardUserDefaults] stringForKey:kUserName];
-    NSString *pwd = [[NSUserDefaults standardUserDefaults] stringForKey:kPassword];
     self.userNameTextField.text = userName?:@"";
-    self.pwdTextField.text = pwd?:@"";
     self.inputView.layer.borderWidth = 2;
     self.inputView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     NSString *text = @"找回密码";
-     [self.forgotPwdBt setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [self.forgotPwdBt setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [self.forgotPwdBt setTitle:text forState:UIControlStateNormal];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardUP:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardDOWN:) name: UIKeyboardWillHideNotification object:nil];
-//    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:text];
-//    [attri addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0, text.length)];
-//    [attri addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:NSMakeRange(0, text.length)];
-//    self.forgotPwdBt.titleLabel.attributedText = attri;
-
 }
-
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        UserModel *user = [[UserModel alloc] init];
+        [user unarchiverUser];
+        if (user.userId && ![user.userId isEqualToString:@""]) {
+            [CaiJinTongManager shared].user = user;
+            [CaiJinTongManager shared].userId = user.userId;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+                LessonViewController *lessonView = [story instantiateViewControllerWithIdentifier:@"LessonViewController"];
+                [self.navigationController pushViewController:lessonView animated:YES];
+                AppDelegate* appDelegate = [AppDelegate sharedInstance];
+                appDelegate.lessonViewCtrol = lessonView;
+            });
+        }
+    });
+}
 -(void)keyBoardUP:(NSNotification*)notification{
     NSTimeInterval animationDuration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     [UIView animateWithDuration:animationDuration animations:^{
@@ -80,20 +105,11 @@
 }
 
 - (IBAction)loginBtClicked:(id)sender {
-//    [self getLogInfoDidFinished:nil];
-//    return;
+    
     NSString *regexCall = @"(\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*)|(1[0-9]{10})";
     NSPredicate *predicateCall = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",regexCall];
     if ([predicateCall evaluateWithObject:self.userNameTextField.text]) {
-//        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-//            [Utility errorAlert:@"暂无网络!"];
-//        }else {
-//            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//            LogInterface *log = [[LogInterface alloc]init];
-//            self.logInterface = log;
-//            self.logInterface.delegate = self;
-//            [self.logInterface getLogInterfaceDelegateWithName:self.userNameTextField.text andPassWord:self.pwdTextField.text];
-//        }
+        
     }else {
         [Utility errorAlert:@"请输入正确的手机号码或邮箱!"];
         return;
@@ -104,6 +120,10 @@
         if (self.pwdTextField.text && ![[self.pwdTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
             [self.userNameTextField resignFirstResponder];
             [self.pwdTextField resignFirstResponder];
+            if (![[self.userNameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
+                [[NSUserDefaults standardUserDefaults] setValue:self.userNameTextField.text forKey:kUserName];
+                [[NSUserDefaults standardUserDefaults] setValue:self.pwdTextField.text forKey:kPassword];
+            }
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 LogInterface *log = [[LogInterface alloc]init];
@@ -132,13 +152,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         UserModel *user = [[UserModel alloc] init];
         user.userId = [NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]];
-//        if ([self.userNameTextField.text isEqualToString:@"18621607181"]) {
-//            user.userId = @"17082";
-//            [CaiJinTongManager shared].userId = @"17082";
-//        }else{
-//            user.userId = @"18676";
-//            [CaiJinTongManager shared].userId = @"18676";
-//        }
+        
         user.userName = [NSString stringWithFormat:@"%@",[result objectForKey:@"name"]];
         user.email = [NSString stringWithFormat:@"%@",[result objectForKey:@"email"]];
         user.mobile = [NSString stringWithFormat:@"%@",[result objectForKey:@"mobile"]];
@@ -149,17 +163,18 @@
         user.nickName = [NSString stringWithFormat:@"%@",[result objectForKey:@"nickname"]];
         [CaiJinTongManager shared].user = user;
         [[CaiJinTongManager shared] setUserId:user.userId];
+        [user archiverUser];
         dispatch_async(dispatch_get_main_queue(), ^{
-            
-            [[NSUserDefaults standardUserDefaults] setValue:self.userNameTextField.text forKey:kUserName];
-            [[NSUserDefaults standardUserDefaults] setValue:self.pwdTextField.text forKey:kPassword];
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
             LessonViewController *lessonView = [story instantiateViewControllerWithIdentifier:@"LessonViewController"];
             [self.navigationController pushViewController:lessonView animated:YES];
             AppDelegate* appDelegate = [AppDelegate sharedInstance];
             appDelegate.lessonViewCtrol = lessonView;
-
+            
+            
+            self.pwdTextField.text = @"";
+            
         });
     });
 }

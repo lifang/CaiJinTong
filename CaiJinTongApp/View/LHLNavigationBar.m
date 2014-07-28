@@ -14,14 +14,13 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
-        self.title = [[UILabel alloc] initWithFrame:CGRectMake(52, 15 + Y, 216, 35)];
-        self.title.textColor = [UIColor whiteColor];
-        self.title.text = @"我是标题";
-        self.title.font = [UIFont systemFontOfSize:20];
+        self.title = [[UILabel alloc] initWithFrame:CGRectMake(52, 0, 216, frame.size.height)];
+        self.title.numberOfLines = 0;
+        self.title.font = [UIFont systemFontOfSize:19];
         [self.title setTextAlignment:NSTextAlignmentCenter];
         self.title.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
         self.title.backgroundColor = [UIColor clearColor];
+        self.title.textColor = [UIColor whiteColor];
         [self addSubview:self.title];
         
         self.rightItem = [[UIButton alloc]initWithFrame:CGRectMake(270, 5 + Y, 50, 50)];

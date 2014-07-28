@@ -9,7 +9,6 @@
 #import "CustomButton.h"
 #import "AppDelegate.h"
 #import "DownloadService.h"
-#import "DownLoadInformView.h"
 #import "Section.h"
 #import "NoteModel.h"
 #import "Section_chapterModel.h"
@@ -26,113 +25,97 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
+        
     }
     return self;
 }
-//-(void)setButtonModel:(SectionSaveModel *)buttonModel {
-//    _buttonModel = buttonModel;
-//    [self setBackgroundImage:[UIImage imageNamed:@"course-mycourse_03"] forState:UIControlStateNormal];
-//    [self setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-//    switch (buttonModel.downloadState) {
-//        case 0:
-//        {
-//            //下载中按钮
-//            [self setTitle:NSLocalizedString(@"下载中...", @"button") forState:UIControlStateNormal];
-//            [self removeTarget:self action:NULL forControlEvents:UIControlEventTouchUpInside];
-//            [self addTarget:self action:@selector(downloadShowView)
-//           forControlEvents:UIControlEventTouchUpInside];
-//        }
-//            break;
-//            
-//        case 1:
-//        {//播放按钮
-//            [self setTitle:NSLocalizedString(@"播放", @"button") forState:UIControlStateNormal];
-//            [self removeTarget:self action:NULL forControlEvents:UIControlEventTouchUpInside];
-//            [self addTarget:self action:@selector(playVideo)
-//           forControlEvents:UIControlEventTouchUpInside];
-//            
-//        }
-//            break;
-//        case 2:
-//        {//继续下载按钮
-//            [self setTitle:NSLocalizedString(@"继续下载", @"button") forState:UIControlStateNormal];
-//            [self removeTarget:self action:NULL forControlEvents:UIControlEventTouchUpInside];
-//            [self addTarget:self action:@selector(reDownloadClicked)
-//           forControlEvents:UIControlEventTouchUpInside];
-//        }
-//            break;
-//        case 3:
-//        {//重新下载按钮
-//            [self setTitle:NSLocalizedString(@"重新下载", @"button") forState:UIControlStateNormal];
-//            [self removeTarget:self action:NULL forControlEvents:UIControlEventTouchUpInside];
-//            [self addTarget:self action:@selector(reDownloadClicked)
-//           forControlEvents:UIControlEventTouchUpInside];
-//        }
-//            break;
-//        case 4:
-//        {//下载按钮
-//            [self setTitle:NSLocalizedString(@"下载", @"button") forState:UIControlStateNormal];
-//            [self removeTarget:self action:NULL forControlEvents:UIControlEventTouchUpInside];
-//            [self addTarget:self action:@selector(downloadClicked)
-//           forControlEvents:UIControlEventTouchUpInside];
-//            
-//        }
-//            break;
-//        default:
-//            break;
-//    }
-//}
 
--(void)setButtonModel:(SectionSaveModel *)buttonModel {
-    /*
-     临时添加,1月22日. 如按钮状态发生改变时,即下载完成/失败时,去除alertView
-     */
-    if(_buttonModel.downloadState != buttonModel.downloadState && self.alert.visible){
-        [self.alert dismissWithClickedButtonIndex:0 animated:YES];
-    }
-    
-    
-    _buttonModel = buttonModel;
-    [self setBackgroundImage:[UIImage imageNamed:@"course-mycourse_03.png"] forState:UIControlStateNormal];
-    [self setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    switch (buttonModel.downloadState) {
-        case 0:
+
+-(void)downloadButtonClicked{
+    //点击后即停止
+    switch (self.buttonModel.sectionMovieFileDownloadStatus) {
+        case DownloadStatus_Downloading:
         {
             //下载中按钮
             [self setTitle:NSLocalizedString(@"下载中...", @"button") forState:UIControlStateNormal];
-            [self removeTarget:self action:NULL forControlEvents:UIControlEventTouchUpInside];
-            [self addTarget:self action:@selector(downloadShowView)
-           forControlEvents:UIControlEventTouchUpInside];
+            [self downloadShowView];
         }
             break;
             
-        case 1:
+        case DownloadStatus_Downloaded:
         {//播放按钮
             [self setTitle:NSLocalizedString(@"播放", @"button") forState:UIControlStateNormal];
-            [self removeTarget:self action:NULL forControlEvents:UIControlEventTouchUpInside];
-            [self addTarget:self action:@selector(playVideo)
-           forControlEvents:UIControlEventTouchUpInside];
+            [self playVideo];
+        }
+            break;
+        case DownloadStatus_Pause:
+        {//继续下载按钮
+            [self setTitle:NSLocalizedString(@"继续下载", @"button") forState:UIControlStateNormal];
+            [self reDownloadClicked];
+        }
+            break;
+            
+        case DownloadStatus_UnDownload:
+        {//下载按钮
+            [self setTitle:NSLocalizedString(@"下载", @"button") forState:UIControlStateNormal];
+            [self downloadClicked];
             
         }
             break;
-        case 2:
-        case 3:
+        default:
+            break;
+    }
+}
+
+
+-(void)setButtonModel:(SectionModel *)buttonModel {
+    
+    /*
+     临时添加,1月22日. 如按钮状态发生改变时,即下载完成/失败时,去除alertView
+     */
+    if(_buttonModel.sectionMovieFileDownloadStatus != buttonModel.sectionMovieFileDownloadStatus && self.alert.visible){
+        [self.alert dismissWithClickedButtonIndex:0 animated:YES];
+    }
+    
+    //收到通知时, 改变按钮状态为可用
+    self.enabled = YES;
+    
+    _buttonModel = buttonModel;
+    [self setBackgroundImage:[UIImage imageNamed:@"course-mycourse_03.png"] forState:UIControlStateNormal];
+    [self setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self addTarget:self action:@selector(downloadButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+    switch (buttonModel.sectionMovieFileDownloadStatus) {
+        case DownloadStatus_Downloading:
+        {
+            //下载中按钮
+            [self setTitle:NSLocalizedString(@"下载中...", @"button") forState:UIControlStateNormal];
+        }
+            break;
+            
+        case DownloadStatus_Downloaded:
+        {//播放按钮
+            [self setTitle:NSLocalizedString(@"播放", @"button") forState:UIControlStateNormal];
+            
+        }
+            break;
+        case DownloadStatus_Pause:
         {//继续下载按钮
             [self setTitle:NSLocalizedString(@"继续下载", @"button") forState:UIControlStateNormal];
-            [self removeTarget:self action:NULL forControlEvents:UIControlEventTouchUpInside];
-            [self addTarget:self action:@selector(reDownloadClicked)
-           forControlEvents:UIControlEventTouchUpInside];
         }
             break;
         
-        case 4:
+        case DownloadStatus_UnDownload:
         {//下载按钮
             [self setTitle:NSLocalizedString(@"下载", @"button") forState:UIControlStateNormal];
-            [self removeTarget:self action:NULL forControlEvents:UIControlEventTouchUpInside];
-            [self addTarget:self action:@selector(downloadClicked)
-           forControlEvents:UIControlEventTouchUpInside];
             
+            for (SectionModel *modelInArray in [AppDelegate sharedInstance].appButtonModelArray){
+                if (modelInArray.sectionId && buttonModel.sectionId && [modelInArray.sectionId isEqualToString:buttonModel.sectionId]) {
+                    //按钮变灰
+                    self.enabled = NO;
+                    [self setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+                    [self setTitle:@"等待下载" forState:UIControlStateNormal];
+                }
+            }
         }
             break;
         default:
@@ -142,29 +125,21 @@
 
 //播放
 -(void)playVideo {
+    [DRFMDBDatabaseTool selectSectionListWithUserId:[CaiJinTongManager shared].user.userId withSectionId:self.buttonModel.sectionId withLessonId:self.buttonModel.lessonId withFinished:^(SectionModel *section) {
+        self.buttonModel.sectionMovieLocalURL = section.sectionMovieLocalURL;
+        [[NSNotificationCenter defaultCenter] postNotificationName:self.isMovieView?@"gotoMoviePlayMovie": @"gotoMoviePlay" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.buttonModel, @"sectionSaveModel",nil]];
+    }];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:self.isMovieView?@"gotoMoviePlayMovie": @"gotoMoviePlay" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.buttonModel.sid, @"sectionID", self.buttonModel.name,@"sectionName",nil]];
 }
 
 //下载中
 -(void)downloadShowView
 {
     //下载中的点击弹窗
-    self.alert = [[UIAlertView alloc] initWithTitle:@"" message:@"正在下载中，请稍后...." delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"暂停下载",@"取消下载", nil];
+    self.alert = [[UIAlertView alloc] initWithTitle:@"" message:@"正在下载中，请稍候...." delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"暂停下载",@"取消下载", nil];
     self.alert.tag = 0;
     [self.alert show];
 }
-////下载中
-//-(void)downloadShowView
-//{
-//    //下载中的点击弹窗`
-//    DownLoadInformView *mDownLoadInformView = [[[NSBundle mainBundle]loadNibNamed:@"DownLoadInformView" owner:self options:nil]objectAtIndex:0];
-//    mDownLoadInformView.nm1 = self.buttonModel;
-//    mDownLoadInformView.frame = CGRectMake(0, 0, 1024, 768);
-//    UIView *parentView = [self findSuperViewWithSupView:self];
-//    [parentView addSubview:mDownLoadInformView];
-//    mDownLoadInformView.center = (CGPoint){parentView.frame.size.width/2,parentView.frame.size.height/2};
-//}
 
 -(UIView*)findSuperViewWithSupView:(UIView*)supView{
     if (supView && supView.superview) {
@@ -179,87 +154,44 @@
 {
     [self continueAction];
 }
-////下载按钮 点击弹出框
-//-(void)downloadClicked
-//{
-//    //先判断是否存在然后添加到数据库
-//    Section *sectionDb = [[Section alloc]init];
-//    if ([sectionDb getDataWithSid:self.buttonModel.sid]) {
-//        
-//    }else {
-//        //请求视频详细信息
-//        if ([[Utility isExistenceNetwork]isEqualToString:@"NotReachable"]) {
-//            [Utility errorAlert:@"暂无网络!"];
-//        }else {
-//            AppDelegate* appDelegate = [AppDelegate sharedInstance];
-//            [MBProgressHUD showHUDAddedTo:appDelegate.window animated:YES];
-//            
-//            SectionInfoInterface *sectionInter = [[SectionInfoInterface alloc]init];
-//            self.sectionInterface = sectionInter;
-//            self.sectionInterface.delegate = self;
-//            [self.sectionInterface getSectionInfoInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.buttonModel.sid];
-//        }
-//    }
-//}
 
 //下载按钮 点击弹出框
 -(void)downloadClicked
 {
-    //添加数据库
-    Section *sectionDb = [[Section alloc]init];
-     [sectionDb addDataWithSectionSaveModel:self.buttonModel];//基本信息
+    //如果为ku6格式的地址，则提示不能下载
+    if ([self.buttonModel.sectionMovieDownloadURL rangeOfString:@"http://v.ku6vms.com/phpvms/player/js/vid/"].length > 0) {
+        [Utility errorAlert:@"对不起，本视频暂不能下载，请在线观看"];
+        return;
+    }
+    
+    NSString *downloadURL = self.buttonModel.sectionMovieDownloadURL;
+    if ([downloadURL.pathExtension isEqualToString:@"flv"]) {
+        self.buttonModel.sectionMovieDownloadURL = [downloadURL stringByReplacingCharactersInRange:NSMakeRange(downloadURL.length - 3, 3) withString:@"mp4"];
+    }
+    
     AppDelegate* appDelegate = [AppDelegate sharedInstance];
     DownloadService *mDownloadService = appDelegate.mDownloadService;
-    self.buttonModel.downloadState = 0;
+    mDownloadService.isFaild = NO;
+    BOOL isExist = NO;
+    for (SectionModel *section in appDelegate.appButtonModelArray) {
+        if ([section.sectionId isEqualToString:self.buttonModel.sectionId]) {
+            isExist = YES;
+            break;
+        }
+    }
+    if (!isExist) {
+        [appDelegate.appButtonModelArray addObject:self.buttonModel];
+    }
+    
+    //按钮变灰
+    self.enabled = NO;
+    [self setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [self setTitle:@"等待下载" forState:UIControlStateNormal];
+    
     //下载
     [mDownloadService addDownloadTask:self.buttonModel];
 }
 
-#pragma -- SectionInfoInterface
--(void)getSectionInfoDidFinished:(SectionModel *)result {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        self.buttonModel.sectionImg = result.sectionImg;
-        self.buttonModel.lessonInfo = result.lessonInfo;
-        self.buttonModel.sectionTeacher = result.sectionTeacher;
-        self.buttonModel.noteList = result.noteList;
-        self.buttonModel.sectionList = result.sectionList;
-        self.buttonModel.name = result.sectionName;
-        self.buttonModel.fileUrl = result.sectionDownload;
-        self.buttonModel.sectionLastTime = result.sectionLastTime;
-        //添加数据库
-        Section *sectionDb = [[Section alloc]init];
-        if (self.buttonModel.noteList.count>0) {//笔记
-            for (int i=0; i<self.buttonModel.noteList.count; i++) {
-                NoteModel *note = (NoteModel *)[self.buttonModel.noteList objectAtIndex:i];
-                [sectionDb addDataWithNoteModel:note andSid:self.buttonModel.sid];
-            }
-        }
-        if (self.buttonModel.sectionList.count>0) {//章节目录
-            for (int i=0; i<self.buttonModel.sectionList.count; i++) {
-                Section_chapterModel *section = (Section_chapterModel *)[self.buttonModel.sectionList objectAtIndex:i];
-                [sectionDb addDataWithSectionModel:section andSid:self.buttonModel.sid];                
-            }
-        }
-        [sectionDb addDataWithSectionSaveModel:self.buttonModel];//基本信息
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            AppDelegate* appDelegate = [AppDelegate sharedInstance];
-            [MBProgressHUD hideHUDForView:appDelegate.window animated:YES];
-            DownloadService *mDownloadService = appDelegate.mDownloadService;
-            self.buttonModel.downloadState = 0;
-            //下载
-            [mDownloadService addDownloadTask:self.buttonModel];
-        });
-    });
-    
-}
--(void)getSectionInfoDidFailed:(NSString *)errorMsg {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        AppDelegate* appDelegate = [AppDelegate sharedInstance];
-        [MBProgressHUD hideHUDForView:appDelegate.window animated:YES];
-        [Utility errorAlert:errorMsg];
-    });
-}
 
 #pragma mark UIAlertViewDelegate
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -288,6 +220,7 @@
     AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
     DownloadService *mDownloadService = appDelegate.mDownloadService;
     [mDownloadService stopTask:self.buttonModel];
+    [appDelegate.appButtonModelArray removeObject:self.buttonModel];
 }
 
 //继续下载
@@ -295,8 +228,24 @@
     
     AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
     DownloadService *mDownloadService = appDelegate.mDownloadService;
-    [mDownloadService addDownloadTask:self.buttonModel];
+    mDownloadService.isFaild = NO;
+    BOOL isExist = NO;
+    for (SectionModel *section in appDelegate.appButtonModelArray) {
+        if ([section.sectionId isEqualToString:self.buttonModel.sectionId]) {
+            isExist = YES;
+            break;
+        }
+    }
+    if (!isExist) {
+        [appDelegate.appButtonModelArray addObject:self.buttonModel];
+    }
     
+    //按钮变灰
+    self.enabled = NO;
+    [self setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [self setTitle:@"等待下载" forState:UIControlStateNormal];
+
+    [mDownloadService addDownloadTask:self.buttonModel];
 }
 //取消下载
 -(void)canceDownloadAction {
@@ -304,6 +253,7 @@
     AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
     DownloadService *mDownloadService = appDelegate.mDownloadService;
     [mDownloadService removeTask:self.buttonModel];
+    [appDelegate.appButtonModelArray removeObject:self.buttonModel];
 }
 
 @end

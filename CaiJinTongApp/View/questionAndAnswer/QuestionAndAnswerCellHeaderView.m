@@ -37,9 +37,8 @@
         self.questionNameLabel = [[UILabel alloc] init];
         self.questionNameLabel.backgroundColor = [UIColor clearColor];
         self.questionNameLabel.font = TEXT_FONT;
-        self.questionNameLabel.textColor = [UIColor blackColor];
         self.questionNameLabel.textAlignment = NSTextAlignmentLeft;
-        self.questionNameLabel.textColor = [UIColor darkGrayColor];
+        self.questionNameLabel.textColor = [UIColor colorWithRed:0.349 green:0.647 blue:0.933 alpha:1.000];
         [self.backgroundView addSubview:self.questionNameLabel];
         
         self.questionDateLabel = [[UILabel alloc] init];
@@ -47,11 +46,11 @@
         self.questionDateLabel.font = TEXT_FONT;
         self.questionDateLabel.textColor = [UIColor blackColor];
         self.questionDateLabel.textAlignment = NSTextAlignmentLeft;
-        self.questionDateLabel.textColor = [UIColor darkGrayColor];
+        self.questionDateLabel.textColor = [UIColor colorWithWhite:0.631 alpha:1.000];
         [self.backgroundView addSubview:self.questionDateLabel];
         
         self.questionFlowerImageView = [[UIImageView alloc] init];
-        self.questionFlowerImageView.image = [UIImage imageNamed:@"Q&A-myq_11.png"];
+        self.questionFlowerImageView.image = [UIImage imageNamed:@"mail_n.png"];
         self.questionFlowerImageView.backgroundColor = [UIColor clearColor];
         [self.backgroundView addSubview:self.questionFlowerImageView];
         
@@ -60,33 +59,32 @@
         self.questionFlowerLabel.font = TEXT_FONT;
         self.questionFlowerLabel.textColor = [UIColor blackColor];
         self.questionFlowerLabel.textAlignment = NSTextAlignmentLeft;
-        self.questionFlowerLabel.textColor = [UIColor darkGrayColor];
+        self.questionFlowerLabel.textColor = [UIColor colorWithWhite:0.631 alpha:1.000];
         [self.backgroundView addSubview:self.questionFlowerLabel];
         
-        self.attachmentButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        self.attachmentButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.attachmentButton setTitle:@"点击查看附件" forState:UIControlStateNormal];
-        //        [self.scanMoreBt setBackgroundColor:[UIColor clearColor]];
         [self.attachmentButton addTarget:self action:@selector(scanQuestionAttachmentBtClicked) forControlEvents:UIControlEventTouchUpInside];
         [self.backgroundView addSubview:self.attachmentButton];
         
         self.questionContentAttributeView = [[DRAttributeStringView alloc] init];
         [self.backgroundView addSubview:self.questionContentAttributeView];
-        //        self.questionFlowerBt = [[UIButton alloc] init];
-        //        self.questionFlowerBt.backgroundColor = [UIColor clearColor];
-        //        [self.questionFlowerBt addTarget:self action:@selector(flowerBtClicked) forControlEvents:UIControlEventTouchUpInside];
-        //        [self.backgroundView addSubview:self.questionFlowerBt];
+
         
         self.questionImg = [[UIImageView alloc] init];
-        self.questionImg.image = [UIImage imageNamed:@"Q&A-myq_15.png"];
+        self.questionImg.image = [UIImage imageNamed:@"question_n.png"];
         self.questionImg.backgroundColor = [UIColor clearColor];
         [self.backgroundView addSubview:self.questionImg];
         
         
         self.answerQuestionBt = [[UIButton alloc] init];
-        self.answerQuestionBt.backgroundColor = [UIColor clearColor];
-        [self.answerQuestionBt setTitle:@"回答" forState:UIControlStateNormal];
-        [self.answerQuestionBt setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-        [self.answerQuestionBt.titleLabel setFont:TEXT_FONT];
+        self.answerQuestionBt.backgroundColor = [UIColor colorWithRed:154./255. green:196./255. blue:240./255. alpha:1.0];
+        self.answerQuestionBt.layer.borderColor = [UIColor colorWithRed:0.406 green:0.640 blue:0.916 alpha:1.000].CGColor;
+        self.answerQuestionBt.layer.borderWidth = 0.8;
+        self.answerQuestionBt.layer.cornerRadius = 5.;
+        [self.answerQuestionBt setTitle:@"回 答" forState:UIControlStateNormal];
+        [self.answerQuestionBt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [self.answerQuestionBt.titleLabel setFont:BUTTON_TITLE_FONT];
         [self.answerQuestionBt addTarget:self action:@selector(willAnswerQuestionBtClicked) forControlEvents:UIControlEventTouchUpInside];
         [self.backgroundView addSubview:self.answerQuestionBt];
         
@@ -200,12 +198,12 @@
     }
     self.questionNameLabel.text = question.askerNick;
     self.questionDateLabel.text = [NSString stringWithFormat:@"发表于%@",question.askTime];
-//    self.questionFlowerLabel.text = question.praiseCount;
-    self.questionFlowerLabel.text = question.answerList?[NSString stringWithFormat:@"%d",question.answerList.count]:@"0";
-//    self.questionContentAttributeView.truncateHeight = ContentMinHeight;
+
+    self.questionFlowerLabel.text = question.answerList?[NSString stringWithFormat:@"回复: %d",question.answerList.count]:@"回复: 0";
+
     self.questionContentAttributeView.isTruncate = NO;
     self.questionContentAttributeView.questionModel = question;
-//    [self.questionFlowerBt setUserInteractionEnabled:NO];
+
     [self.summitQuestionAnswerBackView setHidden:!question.isEditing];
     
     if (!question.attachmentFileUrl || [question.attachmentFileUrl isEqualToString:@""] || ![question.attachmentFileUrl pathExtension] || [[question.attachmentFileUrl pathExtension] isEqualToString:@""]) {
@@ -225,30 +223,17 @@
     self.questionNameLabel.frame = (CGRect){TEXT_PADDING*2,topY,[Utility getTextSizeWithString:self.questionNameLabel.text withFont:self.questionNameLabel.font].width,textHeight};
     self.questionDateLabel.frame = (CGRect){CGRectGetMaxX(self.questionNameLabel.frame)+TEXT_PADDING,topY,[Utility getTextSizeWithString:self.questionDateLabel.text withFont:self.questionNameLabel.font].width,textHeight};
     
-    self.questionFlowerImageView.frame = (CGRect){CGRectGetMaxX(self.questionDateLabel.frame)+TEXT_PADDING,topY,HEADER_TEXT_HEIGHT/2,HEADER_TEXT_HEIGHT/2};
+    self.questionFlowerImageView.frame = (CGRect){CGRectGetMaxX(self.questionDateLabel.frame)+TEXT_PADDING,topY + 8,HEADER_TEXT_HEIGHT/2,HEADER_TEXT_HEIGHT/3};
     
     self.questionFlowerLabel.frame = (CGRect){CGRectGetMaxX(self.questionFlowerImageView.frame)+TEXT_PADDING,topY,[Utility getTextSizeWithString:self.questionFlowerLabel.text withFont:self.questionFlowerLabel.font].width,textHeight};
-    
-//    self.questionFlowerBt.frame = (CGRect){CGRectGetMinX(self.questionFlowerImageView.frame)-TEXT_PADDING*5,topY,CGRectGetMaxX(self.questionFlowerLabel.frame) -CGRectGetMinX(self.questionFlowerImageView.frame) +50,textHeight};
 
-    self.answerQuestionBt.frame = (CGRect){CGRectGetMaxX(self.questionFlowerLabel.frame),5,100,HEADER_TEXT_HEIGHT};
-    self.attachmentButton.frame = (CGRect){CGRectGetMaxX(self.frame)-150,5,100,HEADER_TEXT_HEIGHT};
-    self.questionImg.frame = (CGRect){TEXT_PADDING*2+2,HEADER_TEXT_HEIGHT+2,20,20};
-//    float contentWidth = CGRectGetWidth(self.frame)-CGRectGetMaxX(self.questionImg.frame)-TEXT_PADDING*2;
+    self.answerQuestionBt.frame = (CGRect){self.frame.size.width - 100 - 25,5,100,HEADER_TEXT_HEIGHT - 2};
+    
+    self.attachmentButton.frame = (CGRect){CGRectGetMinX(self.answerQuestionBt.frame) - 100 - TEXT_PADDING,5,100,HEADER_TEXT_HEIGHT};
+    self.questionImg.frame = (CGRect){TEXT_PADDING,HEADER_TEXT_HEIGHT,25,25};
     float height = [self.delegate questionAndAnswerCellHeaderView:self headerHeightAtIndexPath:self.path];
-//    if (height > ContentMinHeight) {
-//        [self.scanMoreBt setHidden:NO];
-//        BOOL isExtend  = [self.delegate questionAndAnswerCellHeaderView:self isExtendAtIndexPath:self.path];
-//        if (!isExtend) {
-//            height = ContentMinHeight;
-//            [self.scanMoreBt setTitle:@"点击显示更多..." forState:UIControlStateNormal];
-//        }else{
-//            [self.scanMoreBt setTitle:@"点击收起" forState:UIControlStateNormal];
-//        }
-//    }else{
-//        [self.scanMoreBt setHidden:YES];
-//    }
-    self.questionContentAttributeView.frame = (CGRect){CGRectGetMaxX(self.questionImg.frame),HEADER_TEXT_HEIGHT,QUESTIONHEARD_VIEW_WIDTH,height};
+
+    self.questionContentAttributeView.frame = (CGRect){CGRectGetMaxX(self.questionImg.frame) + 2,HEADER_TEXT_HEIGHT,QUESTIONHEARD_VIEW_WIDTH,height};
     if (!self.summitQuestionAnswerBackView.isHidden) {
         self.summitQuestionAnswerBackView.frame = (CGRect){TEXT_PADDING*2,CGRectGetMaxY(self.questionContentAttributeView.frame)+TEXT_PADDING,QUESTIONHEARD_VIEW_WIDTH,QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT-TEXT_PADDING};
         self.answerQuestionTextField.frame = (CGRect){0,0,QUESTIONHEARD_VIEW_WIDTH,80};

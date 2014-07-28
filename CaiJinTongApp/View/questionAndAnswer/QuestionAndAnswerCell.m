@@ -33,17 +33,30 @@
     }
 }
 
+-(NSString *)returnAnsweContentWith:(NSString *)htmlString {
+    NSString *content;
+    
+    if (htmlString && ![htmlString isEqualToString:@""]){
+        HTMLParser *parser = [[HTMLParser alloc] initWithString:htmlString error:nil];
+        
+        for (HTMLNode *node in parser.body.children){
+            if (node.contents){
+            content = node.contents;
+            }
+        }
+    }
+    return content;
+}
+
 - (IBAction)answerBtClicked:(id)sender {
-    self.questionTextField.text = @"";
     if (self.delegate && [self.delegate respondsToSelector:@selector(questionAndAnswerCell:isHiddleQuestionView:atIndexPath:)]) {
         [self.delegate questionAndAnswerCell:self isHiddleQuestionView:self.questionBackgroundView.isHidden atIndexPath:self.path];
     }
-    self.questionTextField.text = @"";
 }
 
 - (IBAction)questionOKBtClicked:(id)sender {
     if (!self.questionTextField.text || [[self.questionTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
-        [Utility errorAlert:@"追问内容不能为空"];
+        [Utility errorAlert:@"内容不能为空"];
         return;
     }
     [self.questionTextField resignFirstResponder];
@@ -88,7 +101,7 @@
             [self.acceptAnswerBt setHidden:NO];
             [self.acceptAnswerBt setUserInteractionEnabled:NO];
             [self.acceptAnswerBt setTitle:@"正确回答" forState:UIControlStateNormal];
-            [self.acceptAnswerBt setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+            [self.acceptAnswerBt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         }else{
             [self.acceptAnswerBt setHidden:YES];
         }
@@ -108,23 +121,26 @@
 -(void)modifyReaskAnswerBtStatusWithAnswerModel:(AnswerModel*)answer withQuestion:(QuestionModel*)question{
     UserModel *user = [[CaiJinTongManager shared] user];
     [self.answerBt setUserInteractionEnabled:YES];
+    [self.answerBt setHidden:NO];
     if (user.userId &&[[user userId] isEqualToString:question.askerId]) {
         //自己提的问题
         if (answer.reaskModelArray.count > 0) {
             Reaskmodel *reask = [answer.reaskModelArray lastObject];
-            //            if (reask.reAnswerID && ![reask.reAnswerID isEqualToString:@""] && ![reask.reAnswerID isEqualToString:@"<null>"] ) {
             if (reask.reAnswerContent && ![reask.reAnswerContent isEqualToString:@""]) {
                 //追问
                 [self.reaskBt setTitle:@"追问" forState:UIControlStateNormal];
+                [self.answerBt setTitle:@"追问" forState:UIControlStateNormal];
                 self.reaskType = ReaskType_Reask;
             }else{
                 //修改追问
                 [self.reaskBt setTitle:@"修改追问" forState:UIControlStateNormal];
+                [self.answerBt setTitle:@"修改追问" forState:UIControlStateNormal];
                 self.reaskType = ReaskType_ModifyReask;
             }
         }else{
             //只能追问
             [self.reaskBt setTitle:@"追问" forState:UIControlStateNormal];
+            [self.answerBt setTitle:@"追问" forState:UIControlStateNormal];
             self.reaskType = ReaskType_Reask;
         }
         
@@ -138,32 +154,35 @@
                 if (reask.reAnswerContent && ![reask.reAnswerContent isEqualToString:@""]) {
                     //修改回复
                     [self.reaskBt setTitle:@"修改回复" forState:UIControlStateNormal];
+                    [self.answerBt setTitle:@"修改回复" forState:UIControlStateNormal];
                     self.reaskType = ReaskType_AnswerForReasking;
                 }else{
                     //对追问进行回复
                     [self.reaskBt setTitle:@"回复" forState:UIControlStateNormal];
+                    [self.answerBt setTitle:@"回复" forState:UIControlStateNormal];
                     self.reaskType = ReaskType_AnswerForReasking;
                 }
             }else{
                 //没有追问,修改回答
                 [self.reaskBt setTitle:@"修改回答" forState:UIControlStateNormal];
+                [self.answerBt setTitle:@"修改回答" forState:UIControlStateNormal];
                 self.reaskType = ReaskType_ModifyAnswer;
             }
             
         }else{
             //别人的答案无权操作
             [self.answerBt setUserInteractionEnabled:NO];
+            [self.answerBt setHidden:YES];
         }
     }
 }
 -(void)setAnswerModel:(AnswerModel*)answer withQuestion:(QuestionModel*)question{
-//    self.answerTextField.delegate = self;
+    
     self.qTitleNameLabel.text = answer.answerNick;
     self.qDateLabel.text = [NSString stringWithFormat:@"发表于%@",answer.answerTime];
     self.qflowerLabel.text = answer.answerPraiseCount;
-//    self.answerTextField.text = answer.answerContent;
     [self.questionBackgroundView setHidden:!answer.isEditing];
-    
+
     //赞
     [self modifyPraiseBtStatusWithAnswerModel:answer withQuestion:question];
     self.questionTextField.backgroundColor = [UIColor colorWithRed:241/255.0 green:241/255.0 blue:241/255.0 alpha:1];
@@ -175,43 +194,38 @@
     [self modifyReaskAnswerBtStatusWithAnswerModel:answer withQuestion:question];
     
     self.answerAttributeTextView.answerModel = answer;
-    [self setNeedsLayout];
     
-//    self.qTitleNameLabel.backgroundColor = [UIColor clearColor];
-//    self.qDateLabel.backgroundColor = [UIColor clearColor];
-//    self.qflowerImageView.image = [UIImage imageNamed:@"Q&A-myq_19.png"];
-//    self.qflowerLabel.backgroundColor = [UIColor clearColor];
-//    self.answerTextField.backgroundColor = [UIColor clearColor];
-//    self.acceptAnswerBt.backgroundColor = [UIColor clearColor];
-//    [self.qflowerBt setTitle:@"" forState:UIControlStateNormal];
-//    self.questionTextField.backgroundColor = [UIColor colorWithRed:238.0/255.0 green:238.0/255.0 blue:238.0/255.0 alpha:1.0];
-//    self.questionBackgroundView.backgroundColor = [UIColor clearColor];
-//    self.answerBackgroundView.backgroundColor = [UIColor clearColor];
-//    self.answerTextField.backgroundColor = [UIColor redColor];
-//    self.answerBackgroundView.backgroundColor = [UIColor greenColor];
+    self.questionTextField.text = @"";
+    if (answer.isEditing) {
+        NSString *text = self.answerBt.titleLabel.text;
+        
+        if ([text isEqualToString:@"修改回答"]){
+            NSString *content = [self returnAnsweContentWith:answer.answerContent];
+            if (content) {
+                self.questionTextField.text = content;
+            }
+        }else if([text isEqualToString:@"修改追问"]){
+            Reaskmodel *reaskObj = (Reaskmodel *)[answer.reaskModelArray lastObject];
+            NSString *content = [self returnAnsweContentWith:reaskObj.reaskContent];
+            if (content) {
+                self.questionTextField.text = content;
+            }
+        }else if([text isEqualToString:@"修改回复"]){
+            Reaskmodel *reaskObj = (Reaskmodel *)[answer.reaskModelArray lastObject];
+            NSString *content = [self returnAnsweContentWith:reaskObj.reAnswerContent];
+            if (content) {
+                self.questionTextField.text = content;
+            }
+        }
+    }
+    
+    [self setNeedsLayout];
 }
 
-//-(void)layoutSubviews{
-//    
-//    self.qTitleNameLabel.frame = (CGRect){0,0,[Utility getTextSizeWithString:self.qTitleNameLabel.text withFont:self.qTitleNameLabel.font].width,CGRectGetHeight(self.qTitleNameLabel.frame)};
-//    
-//    self.qDateLabel.frame = (CGRect){CGRectGetMaxX(self.qTitleNameLabel.frame)+TEXT_PADDING,0,[Utility getTextSizeWithString:self.qDateLabel.text withFont:self.qDateLabel.font].width,CGRectGetHeight(self.qDateLabel.frame)};
-//    
-//    self.qflowerImageView.frame = (CGRect){CGRectGetMaxX(self.qDateLabel.frame)+TEXT_PADDING,0,CGRectGetHeight(self.qflowerImageView.frame),CGRectGetHeight(self.qflowerImageView.frame)};
-//    
-//    self.qflowerLabel.frame = (CGRect){CGRectGetMaxX(self.qflowerImageView.frame)+TEXT_PADDING,0,[Utility getTextSizeWithString:self.qflowerLabel.text withFont:self.qflowerLabel.font].width,CGRectGetHeight(self.qflowerLabel.frame)};
-//    
-//    self.acceptAnswerBt.frame = (CGRect){CGRectGetMaxX(self.qflowerLabel.frame)+TEXT_PADDING,0,self.acceptAnswerBt.frame.size};
-//
-//    CGSize contentSize = [Utility getTextSizeWithString:self.answerTextField.text withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:QUESTIONANDANSWER_CELL_WIDTH];
-//    self.answerBackgroundView.frame = (CGRect){self.answerBackgroundView.frame.origin,QUESTIONANDANSWER_CELL_WIDTH,contentSize.height};
-//    
-//    self.qflowerBt.frame = (CGRect){CGRectGetMinX(self.qflowerImageView.frame)-TEXT_PADDING,0,CGRectGetMaxX(self.qflowerLabel.frame) - CGRectGetMinX(self.qflowerImageView.frame)+TEXT_PADDING*2,CGRectGetHeight(self.qTitleNameLabel.frame)};
-//}
-
 -(void)layoutSubviews{
+    self.qTitleNameImageView.frame = (CGRect){0,8,16,16};
     
-    self.qTitleNameLabel.frame = (CGRect){0,0,[Utility getTextSizeWithString:self.qTitleNameLabel.text withFont:self.qTitleNameLabel.font].width,CGRectGetHeight(self.qTitleNameLabel.frame)};
+    self.qTitleNameLabel.frame = (CGRect){CGRectGetMaxX(self.qTitleNameImageView.frame) + 2,0,[Utility getTextSizeWithString:self.qTitleNameLabel.text withFont:self.qTitleNameLabel.font].width,CGRectGetHeight(self.qTitleNameLabel.frame)};
     
     self.qDateLabel.frame = (CGRect){CGRectGetMaxX(self.qTitleNameLabel.frame)+TEXT_PADDING,0,[Utility getTextSizeWithString:self.qDateLabel.text withFont:self.qDateLabel.font].width,CGRectGetHeight(self.qDateLabel.frame)};
     
@@ -219,11 +233,15 @@
     
     self.qflowerLabel.frame = (CGRect){CGRectGetMaxX(self.qflowerImageView.frame)+TEXT_PADDING,0,[Utility getTextSizeWithString:self.qflowerLabel.text withFont:self.qflowerLabel.font].width,CGRectGetHeight(self.qflowerLabel.frame)};
     
-    self.acceptAnswerBt.frame = (CGRect){CGRectGetMaxX(self.qflowerLabel.frame)+TEXT_PADDING,0,self.acceptAnswerBt.frame.size};
+    //点击追问 / 修改追问 /修改回答
+    self.answerBt.layer.cornerRadius = 4.;
     
+    //采纳答案 / 正确回答
+    self.acceptAnswerBt.layer.cornerRadius = 4.;
+
     float cellHeight = [self.delegate questionAndAnswerCell:self getCellheightAtIndexPath:self.path];
     self.answerAttributeTextView.frame = (CGRect){self.answerAttributeTextView.frame.origin,QUESTIONANDANSWER_CELL_WIDTH,cellHeight};
-    self.answerBt.frame = self.answerAttributeTextView.frame;
+    
     self.qflowerBt.frame = (CGRect){CGRectGetMinX(self.qflowerImageView.frame)-TEXT_PADDING,0,CGRectGetMaxX(self.qflowerLabel.frame) - CGRectGetMinX(self.qflowerImageView.frame)+TEXT_PADDING*2,CGRectGetHeight(self.qTitleNameLabel.frame)};
     self.questionBackgroundView.frame = (CGRect){self.questionBackgroundView.frame.origin,QUESTIONANDANSWER_CELL_WIDTH,self.questionBackgroundView.frame.size.height};
 }

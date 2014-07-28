@@ -10,15 +10,10 @@
 #import "UIImage+Scale.h"
 #define PLACEHOLD(string) (string.length < 1 || !string) ? @"(资料暂缺)" : string
 
+
 @interface SectionViewController_iPhone()
 @property (weak, nonatomic) IBOutlet SplitLessonTableView *tableView;
-//@property (weak, nonatomic) IBOutlet UIView *switchButtonView;
-//- (IBAction)sectionChapterBtnClicked:(id)sender;
-//- (IBAction)sectionCommentButtonClicked:(id)sender;
-//- (IBAction)sectionNoteButtonClicked:(id)sender;
-//@property (weak, nonatomic) IBOutlet UIButton *chapterBtn;
-//@property (weak, nonatomic) IBOutlet UIButton *commentBtn;
-//@property (weak, nonatomic) IBOutlet UIButton *noteBtn;
+@property (nonatomic,strong) LHLMoviePlayViewController* playercontroller;
 @property (nonatomic,assign) BOOL isPlaying;
 @property (nonatomic,strong) LessonInfoInterface *lessonInterface;
 @property (nonatomic,strong) NoteModel *playNoteModel;
@@ -37,19 +32,6 @@
     return self;
 }
 
-//-(void)makeKVO{
-//    [self.section_ChapterView.tableViewList addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
-//}
-//
-//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
-//    if([keyPath isEqualToString:@"contentOffset"]){
-//        NSValue *newOne = [change objectForKey:@"new"];
-//        void * point = NULL;
-//        [newOne getValue:point];
-//        NSLog(@"%@",point);
-//    }
-//}
-
 //调用本View时要先指定要显示的self.lessonModel
 - (void)viewDidLoad
 {
@@ -57,9 +39,8 @@
     [self.lhlNavigationBar.rightItem setHidden:YES];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
     self.tableView.tag = LessonViewTagType_lessonRootScrollViewTag;
-//    [self.switchButtonView setBackgroundColor:[UIColor colorWithRed:14.0/255.0 green:50.0/255.0 blue:84.0/255.0 alpha:1.0]];
     if(IS_4_INCH){
-        [self.tableView setFrame:(CGRect){0,65,320,440}];
+        [self.tableView setFrame:(CGRect){0,55,320,450}];
     }else{
         [self.tableView setFrame:(CGRect){0,55,320,375}];
     }
@@ -67,9 +48,6 @@
     UIView *bottomBarView = self.slideSwitchView.topScrollView;
     bottomBarView.frame = (CGRect){0,IP5(505, 430),320,IP5(63, 50)};
     [self.view addSubview:bottomBarView];
-    
-    //监控滑动行为
-//    [self makeKVO];
     
     //打分之后提交
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -97,18 +75,8 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         //封面
         [self.sectionView refreshDataWithLesson:lesson];
-        
-        //显示分数
-        int grade = self.lessonModel.lessonIsScored.intValue;
-        if(grade > 0){
-            self.scoreLab.text = [NSString stringWithFormat:@"%.1f",[lesson.lessonScore floatValue]];
-        }else{
-            self.scoreLab.text = [NSString stringWithFormat:@"%.1f",0.0];
-        }
         //标题
         self.nameLab.text =[NSString stringWithFormat:@"名称:%@",PLACEHOLD(lesson.lessonName)];
-        //    self.nameLab.frame = (CGRect){275, labelTop, width, 30};
-        
         //讲师
         self.teacherlab.text =[NSString stringWithFormat:@"讲师:%@",PLACEHOLD(lesson.lessonTeacherName)];
         
@@ -123,71 +91,86 @@
         studyProgress = [studyProgress stringByReplacingOccurrencesOfString:@"秒" withString:@"〞"];
         studyProgress = [studyProgress stringByReplacingOccurrencesOfString:@"小时" withString:@"h"];
         self.studyLab.text =[NSString stringWithFormat:@"已学习:%@",PLACEHOLD(studyProgress)];
-        
-        //播放按钮
-        if (!lesson.lessonStudyTime || [lesson.lessonStudyTime isEqualToString:@"0"]) {
-            [self.playBtn setTitle:NSLocalizedString(@"开始学习", @"button") forState:UIControlStateNormal];
+        if (![CaiJinTongManager shared].isShowLocalData) {
+            //播放按钮
+            if (!lesson.lessonStudyTime || [lesson.lessonStudyTime isEqualToString:@"0"]) {
+                [self.playBtn setTitle:NSLocalizedString(@"开始学习", @"button") forState:UIControlStateNormal];
+            }else{
+                [self.playBtn setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
+            }
+            [self.playBtn setHidden:NO];
         }else{
-            [self.playBtn setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
+            [self.playBtn setHidden:YES];
         }
+
         
         self.section_NoteView.dataArray = [NSMutableArray arrayWithArray:self.lessonModel.chapterList];
         [self.section_NoteView.tableViewList reloadData];
-        
-//        self.section_GradeView.dataArray = [NSMutableArray arrayWithArray:self.lessonModel.lessonCommentList];
-//        [self.section_GradeView.tableViewList reloadData];
     });
-    
-    //简介
-//    self.detailInfoTextView.text = [NSString stringWithFormat:@"简介:%@",lesson.lessonDetailInfo?:@""];
-//    self.detailInfoTextView.frame = (CGRect){270, labelTop - 10, width, 100};
-//    CGSize size = [Utility getTextSizeWithString:self.lessonModel.lessonDetailInfo withFont:[UIFont boldSystemFontOfSize:16] withWidth:width];
-//    if (size.height > 100) {
-//        labelTop += 100 +labelSpace;
-//    }else{
-//        labelTop += size.height +labelSpace;
-//    }
-    
-    
 }
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    if (self.isPlaying) {
-        //根据sectionID获取单个视频的详细信息
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
-            if ([networkStatus isEqualToString:@"NotReachable"]) {
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
-                [Utility errorAlert:@"暂无网络"];
-            }else{
-                UserModel *user = [[CaiJinTongManager shared] user];
-                [self.lessonInterface downloadLessonInfoWithLessonId:self.lessonModel.lessonId withUserId:user.userId];
-            }
-        }];
+    if (![CaiJinTongManager shared].isShowLocalData) {
+        if (self.isPlaying) {
+            //根据sectionID获取单个视频的详细信息
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+                if ([networkStatus isEqualToString:@"NotReachable"]) {
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    [Utility errorAlert:@"暂无网络"];
+                }else{
+                    UserModel *user = [[CaiJinTongManager shared] user];
+                    [self.lessonInterface downloadLessonInfoWithLessonId:self.lessonModel.lessonId withUserId:user.userId];
+                }
+            }];
+        }
+        self.isPlaying = NO;
     }
-    self.isPlaying = NO;
+    [CaiJinTongManager shared].isLoadComment=NO;
 }
 
 /////////////
 //播放接口
 
 -(void)playVideo:(id)sender{
-    NSLog(@"%@",NSStringFromCGRect(self.slideSwitchView.frame));
-    
     self.isPlaying = YES;
-    LHLMoviePlayViewController* playercontroller = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
-    playercontroller.delegate = self;
+    self.playercontroller = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
+    self.playercontroller.delegate = self;
     chapterModel *chapter = [self.lessonModel.chapterList firstObject];
     SectionModel *section = [chapter.sectionList firstObject];
-    SectionModel *lastplaySection = [[Section defaultSection] searchLastPlaySectionModelWithLessonId:self.lessonModel.lessonId];
-    if (lastplaySection) {
-        lastplaySection.lessonId = self.lessonModel.lessonId;
+    SectionModel *latestSection;
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSDate *latestDate;
+    NSDate *tempDate;
+    //遍历求最近播放的section
+    for (chapterModel *chapter in self.lessonModel.chapterList){
+        for (SectionModel *section in chapter.sectionList){
+            NSString *dateString = [Utility getLastPlayDateWithUserId:[CaiJinTongManager shared].user.userId withSectionId:section.sectionId];
+            if (!dateString) {
+                continue;
+            }else{
+                if (!latestDate) {
+                    latestDate = [formatter dateFromString:dateString] ? : nil;
+                    if (latestDate) {
+                        latestSection = section;
+                    }
+                }else{
+                    tempDate = [formatter dateFromString:dateString];
+                    if (tempDate) {
+                        NSComparisonResult comparisonResult = [tempDate compare:latestDate];
+                        if (comparisonResult == NSOrderedDescending) {
+                            latestDate = tempDate;
+                            latestSection = section;
+                        }
+                    }
+                    
+                }
+            }
+        }
     }
-    section.lessonId = self.lessonModel.lessonId;
-    [playercontroller playMovieWithSectionModel:lastplaySection?:section withFileType:MPMovieSourceTypeStreaming];
-    
-    
-    [self.navigationController presentViewController:playercontroller animated:YES completion:^{
+    [self.playercontroller playMovieWithSectionModel:latestSection?:section withFileType:MPMovieSourceTypeStreaming];
+    [self.navigationController presentViewController:self.playercontroller animated:YES completion:^{
         
     }];
 }
@@ -380,75 +363,38 @@
         studyLabel = nil;
         labelTop += self.studyLab.frame.size.height + labelSpace;
         
-        //播放按钮
-        DLog(@"labtop = %f",labelTop);
-        if (labelTop <150) {
-            labelTop = 200;
-        }
-        UIButton *palyButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        palyButton.frame = CGRectMake(18, labelTop + IP5(8, -2), 283, IP5(33, 30));
-//        [palyButton setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
-        if (!self.lessonModel.lessonStudyTime || [self.lessonModel.lessonStudyTime isEqualToString:@"0"] || [self.lessonModel.lessonStudyTime isEqualToString:@"-"]) {
-            [palyButton setTitle:NSLocalizedString(@"开始学习", @"button") forState:UIControlStateNormal];
+        if (![CaiJinTongManager shared].isShowLocalData) {
+            //播放按钮
+            DLog(@"labtop = %f",labelTop);
+            if (labelTop <150) {
+                labelTop = 200;
+            }
+            UIButton *palyButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            palyButton.frame = CGRectMake(18, labelTop + IP5(8, -2), 283, IP5(33, 30));
+            //        [palyButton setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
+            if (!self.lessonModel.lessonStudyTime || [self.lessonModel.lessonStudyTime isEqualToString:@"0"] || [self.lessonModel.lessonStudyTime isEqualToString:@"-"]) {
+                [palyButton setTitle:NSLocalizedString(@"开始学习", @"button") forState:UIControlStateNormal];
+            }else{
+                [palyButton setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
+            }
+            [palyButton setBackgroundColor:[UIColor clearColor]];
+            [palyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [palyButton.titleLabel setFont:[UIFont systemFontOfSize:16]];
+            [palyButton addTarget:self action:@selector(playVideo:) forControlEvents:UIControlEventTouchUpInside];
+            [palyButton setBackgroundImage:[[UIImage imageNamed:@"btn0.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 6)] forState:UIControlStateNormal];
+            self.playBtn = palyButton;
+            [view addSubview:self.playBtn];
+            palyButton = nil;
+            [self.playBtn setHidden:NO];
         }else{
-            [palyButton setTitle:NSLocalizedString(@"继续学习", @"button") forState:UIControlStateNormal];
+            [self.playBtn setHidden:YES];
         }
-        [palyButton setBackgroundColor:[UIColor clearColor]];
-		[palyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [palyButton.titleLabel setFont:[UIFont systemFontOfSize:16]];
-        [palyButton addTarget:self action:@selector(playVideo:) forControlEvents:UIControlEventTouchUpInside];
-        [palyButton setBackgroundImage:[[UIImage imageNamed:@"btn0.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 6)] forState:UIControlStateNormal];
-        self.playBtn = palyButton;
-        [view addSubview:self.playBtn];
-        palyButton = nil;
+        
+
     }
 }
 
-//界面下半部分
-//- (void)initAppear_slide{
-//    if(!(IS_4_INCH)){
-//        //43为上半部分减少的高度 , 88 - 43 = 5 + 40
-//        self.slideSwitchView.frame = CGRectMake(0, 357 - 43 , 320, 211 - 40);
-//    }
-//    self.slideSwitchView.backgroundColor = [UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:232.0/255.0 alpha:1.0];
-//    //3个选项卡
-//    self.slideSwitchView.tabItemNormalColor = [SUNSlideSwitchView_iPhone colorFromHexRGB:@"868686"];
-//    self.slideSwitchView.tabItemSelectedColor = [UIColor darkGrayColor];
-//    self.slideSwitchView.shadowImage = [[UIImage imageNamed:@"play-courselist_0df3"]
-//                                        stretchableImageWithLeftCapWidth:59.0f topCapHeight:0.0f];
-//    
-////    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
-//    
-//    //章节页面
-////    self.section_ChapterView = [story instantiateViewControllerWithIdentifier:@"Section_ChapterViewController_iPhone"];
-//    [self.section_ChapterView.view frame];
-//    [self.section_ChapterView.tableViewList setFrame:CGRectMake(22, 0, 276, self.slideSwitchView.frame.size.height - IP5(63, 53))];
-//    self.section_ChapterView.title = @"章节目录";
-//    self.section_ChapterView.lessonId = self.lessonModel.lessonId;
-//    self.section_ChapterView.dataArray = self.lessonModel.chapterList;
-//    self.section_ChapterView.isMovieView = NO;
-//    
-//    //评价页面
-//    AppDelegate *app = [AppDelegate sharedInstance];
-//    if (app.isLocal == NO) {
-//        self.section_GradeView.title = @"打分";
-//        self.section_GradeView.dataArray = [NSMutableArray arrayWithArray:self.lessonModel.lessonCommentList];
-//        self.section_GradeView.isGrade = [self.lessonModel.lessonIsScored intValue];
-//        self.section_GradeView.lessonId = self.lessonModel.lessonId;
-//        if(self.section_GradeView.dataArray.count > 0){
-//            self.section_GradeView.nowPage = 1;
-//        }
-//    }
-//    
-//    //笔记页面
-//    [self.section_NoteView.view setFrame:CGRectMake(0, 0, 320, IP5(568, 480))];
-//    self.section_NoteView.title = @"笔记";
-//    self.section_NoteView.delegate = self;
-//    [self.section_NoteView.tableViewList setFrame:CGRectMake(22, 0, 276, self.slideSwitchView.frame.size.height - IP5(63, 53))];
-//    self.section_NoteView.dataArray = [NSMutableArray arrayWithArray:self.lessonModel.chapterList];
-//    
-//    [self.slideSwitchView buildUI];
-//}
+
 
 #pragma mark -- PlayVideoInterfaceDelegate
 -(void)getPlayVideoInfoDidFinished {
@@ -461,14 +407,7 @@
             chapterModel *chapter = [self.lessonModel.chapterList firstObject];
             SectionModel *section = [chapter.sectionList firstObject];
             [playercontroller playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
-//            playercontroller.sectionId = self.lessonModel.lessonId;
-//            playercontroller.sectionModel = self.section;
-            
             playercontroller.delegate = self;
-//            AppDelegate *app = [AppDelegate sharedInstance];
-//            [app.lessonViewCtrol presentViewController:playercontroller animated:YES completion:^{
-//                
-//            }];
             [self.navigationController presentViewController:playercontroller animated:YES completion:^{
                 
             }];
@@ -492,7 +431,7 @@
 //        [app.lessonViewCtrol presentViewController:playercontroller animated:YES completion:^{
 //            
 //        }];
-        [self.navigationController presentViewController:playercontroller animated:YES completion:^{
+        [self presentViewController:playercontroller animated:YES completion:^{
             
         }];
         [playercontroller playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
@@ -503,12 +442,10 @@
 
 - (void)gotoMoviePlayWithSid:(NSNotification *)info {
     self.isPlaying = YES;
-    NSString *sectionID = [info.userInfo objectForKey:@"sectionID"];
-    NSString *path = [CaiJinTongManager getMovieLocalPathWithSectionID:sectionID];
-    if (path) {
+    SectionModel *section = [info.userInfo objectForKey:@"sectionSaveModel"];
+    if (section.sectionMovieLocalURL) {
         //播放接口
-        Section *s = [[Section alloc] init];
-        SectionModel *ssm = [s getSectionModelWithSid:sectionID];
+        SectionModel *ssm = [info.userInfo objectForKey:@"sectionSaveModel"];
         ssm.lessonId = self.lessonModel.lessonId;
         LHLMoviePlayViewController* playercontroller = [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
         playercontroller.delegate = self;
@@ -567,7 +504,6 @@
         case 0:
         {
             [self initAppearForView:cell.contentView];
-//            [cell.contentView setBackgroundColor:[UIColor redColor]];
         }
             break;
         case 1:
@@ -646,7 +582,7 @@
 }
 
 -(LessonModel *)lessonModelForDrMoviePlayerViewController{
-    return self.lessonModel;
+    return [CaiJinTongManager shared].lesson;
 }
 
 #pragma mark Section_NoteViewControllerDelegate选中一条笔记
@@ -681,6 +617,7 @@
 #pragma mark property
 -(SUNSlideSwitchView_iPhone *)slideSwitchView{
     if(!_slideSwitchView){
+//        _slideSwitchView = [[SUNSlideSwitchView_iPhone alloc] initWithFrame:CGRectMake(0, 0 ,320,IP5(335, 285))];
         _slideSwitchView = [[SUNSlideSwitchView_iPhone alloc] initWithFrame:CGRectMake(0, 0 ,320,IP5(400, 335))];
         _slideSwitchView.slideSwitchViewDelegate = self;
         
@@ -698,7 +635,7 @@
         [self.section_ChapterView.tableViewList setFrame:CGRectMake(22, 0, 276, _slideSwitchView.frame.size.height - IP5(63, 53))];
         self.section_ChapterView.title = @"章节目录";
         self.section_ChapterView.lessonId = self.lessonModel.lessonId;
-        self.section_ChapterView.dataArray = self.lessonModel.chapterList;
+        self.section_ChapterView.dataArray = self.lessonModel.chapterList; //此处赋予的数据只有接口返回的内容
         self.section_ChapterView.tableViewList.tag = LessonViewTagType_chapterTableViewTag;
         self.section_ChapterView.isMovieView = NO;
         
@@ -706,13 +643,16 @@
         AppDelegate *app = [AppDelegate sharedInstance];
         if (app.isLocal == NO) {
             self.section_GradeView.title = @"打分";
-            self.section_GradeView.dataArray = [NSMutableArray arrayWithArray:self.lessonModel.lessonCommentList];
             self.section_GradeView.isGrade = [self.lessonModel.lessonIsScored intValue];
+            if ([CaiJinTongManager shared].isShowLocalData) {
+                self.section_GradeView.isGrade = 1;
+            }
             self.section_GradeView.lessonId = self.lessonModel.lessonId;
             self.section_GradeView.tableViewList.tag = LessonViewTagType_commentTableViewTag;
-            if(self.section_GradeView.dataArray.count > 0){
-                self.section_GradeView.nowPage = 1;
-            }
+
+            chapterModel *chapter = [self.lessonModel.chapterList firstObject];
+            SectionModel *section = [chapter.sectionList firstObject];
+            self.section_GradeView.sectionId = section.sectionId;
         }
         
         //笔记页面
@@ -729,14 +669,6 @@
     return _slideSwitchView;
 }
 
-//setter自动转换LessonModel参数为Section
--(void)setSection:(SectionModel *)section{
-    if([section isKindOfClass:[LessonModel class]]){
-        _section = ((LessonModel *)section).toSection;
-    }else{
-        _section = section;
-    }
-}
 
 -(Section_NoteViewController_iPhone *)section_NoteView{
     if (!_section_NoteView) {
@@ -776,5 +708,21 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+//- (BOOL)shouldAutorotate {
+//    //    UIInterfaceOrientation interface = [[UIApplication sharedApplication] statusBarOrientation];
+//    //    if (!UIInterfaceOrientationIsLandscape(interface)) {
+//    //        return YES;
+//    //    }
+//    return YES;
+//}
+//
+//- (NSUInteger)supportedInterfaceOrientations {
+//    return UIInterfaceOrientationMaskPortrait;
+//}
+//// pre-iOS 6 support
+//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+//    return !UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
+//}
 
 @end

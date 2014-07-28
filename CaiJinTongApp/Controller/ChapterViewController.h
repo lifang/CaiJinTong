@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "SectionCustomView.h"
 #import "CJTMainToolbar.h"
-#import "SectionInfoInterface.h"
 
 #import "CollectionCell.h"
 #import "CollectionHeader.h"
@@ -18,7 +17,7 @@
 /*
  课程列表
  */
-@interface ChapterViewController : DRNaviGationBarController <UIScrollViewDelegate,CJTMainToolbarDelegate, SectionInfoInterfaceDelegate,SearchLessonInterfaceDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,CollectionHeaderDelegate,LessonListForCategoryDelegate,MJRefreshBaseViewDelegate,LessonInfoInterfaceDelegate>
+@interface ChapterViewController : DRNaviGationBarController <UIScrollViewDelegate,CJTMainToolbarDelegate,SearchLessonInterfaceDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,CollectionHeaderDelegate,LessonListForCategoryDelegate,MJRefreshBaseViewDelegate,LessonInfoInterfaceDelegate>
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UILabel *titleBarLabel;
 @property (nonatomic, strong) CJTMainToolbar *mainToolBar;
@@ -27,7 +26,6 @@
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) SectionCustomView *sectionView;
 @property (nonatomic,strong) NSString *lessonCategoryId;
-@property (nonatomic,strong) ChapterInfoInterface *chapterInfoInterface;
 @property (nonatomic, strong) LessonInfoInterface *lessonInterface;//获取课程详细信息
 @property (assign,nonatomic) BOOL isSearch;//是否是搜索
 

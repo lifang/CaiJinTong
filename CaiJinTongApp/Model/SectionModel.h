@@ -19,23 +19,12 @@
 @property (strong,nonatomic) NSString *sectionMovieDownloadURL;//视频下载url
 @property (strong,nonatomic) NSString *sectionMovieLocalURL;//视频本地播放地址
 @property (strong,nonatomic) NSString *sectionFinishedDate;//最后播放结束日期
+@property (strong,nonatomic) NSString *sectionFileDownloadSize;//已经下载大小
+@property (strong,nonatomic) NSString *sectionFileTotalSize;//总共大小
 @property (strong,nonatomic) NSMutableArray *sectionNoteList;//小节对应的笔记
 @property (assign,nonatomic) DownloadStatus sectionMovieFileDownloadStatus;
-//以下过时
-@property (nonatomic, strong) NSString *sectionImg;//过时
-@property (nonatomic, strong) NSString *sectionProgress;//过时
-@property (nonatomic, strong) NSString *sectionSD;//过时
-@property (nonatomic, strong) NSString *sectionHD;//过时
-@property (nonatomic, strong) NSString *sectionScore;//过时
-@property (nonatomic, strong) NSString *isGrade;//过时
-@property (nonatomic, strong) NSString *lessonInfo;//过时
-@property (nonatomic, strong) NSString *sectionTeacher;//过时
-@property (nonatomic, strong) NSString *sectionDownload;//过时
-@property (nonatomic, strong) NSString *sectionStudy;//过时
-@property (nonatomic, strong) NSString *sectionLastTime;//过时
+@property (strong,nonatomic) NSString *sectionChapterId;//章节信息
 
-@property (nonatomic, strong) NSMutableArray *noteList;//过时
-@property (nonatomic, strong) NSMutableArray *commentList;//过时
-@property (nonatomic, strong) NSMutableArray *sectionList;//过时
-
+///复制对象，主要存储在本地的对象
+-(void)copySection:(SectionModel*)section;
 @end

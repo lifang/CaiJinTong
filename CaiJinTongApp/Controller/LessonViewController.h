@@ -19,6 +19,7 @@
 #import "LearningMatarilasCategoryInterface.h"
 #import "LearningMatarilasListInterface.h"
 #import "MyQuestionAndAnswerViewController.h"
+#import "ShowDownloadDataViewController.h"
 @interface LessonViewController : UIViewController<UISearchBarDelegate,UITextFieldDelegate,SearchLessonInterfaceDelegate,QuestionInfoInterfaceDelegate,ChapterQuestionInterfaceDelegate,UIScrollViewDelegate,GetUserQuestionInterfaceDelegate,SearchQuestionInterfaceDelegate,UITextFieldDelegate,DRTreeTableViewDelegate,LessonCategoryInterfaceDelegate,LessonListForCategoryDelegate,MyQuestionCategatoryInterfaceDelegate,LearningMatarilasCategoryInterfaceDelegate,LearningMatarilasListInterfaceDelegate,MyQuestionAndAnswerViewControllerDelegate>
 
 @property (nonatomic, strong) SearchLessonInterface *searchLessonInterface;
@@ -31,7 +32,6 @@
 @property (nonatomic, strong) QuestionInfoInterface *questionInfoInterface;//获取所有问答分类
 @property (nonatomic, strong) MyQuestionCategatoryInterface *myQuestionCategatoryInterface;//获取我的提问分类
 @property (nonatomic, strong) MyQuestionCategatoryInterface *myAnswerCategatoryInterface;//获取我的回答分类
-@property (nonatomic, strong) ChapterInfoInterface *chapterInterface;
 @property (strong,nonatomic) LessonCategoryInterface *lessonCategoryInterface;//获取课程分类
 @property (strong,nonatomic) LessonListForCategory *lessonListForCategory;//根据分类获取课程列表
 @property (weak, nonatomic) IBOutlet UIView *leftBackGroundview;
@@ -40,12 +40,15 @@
 @property (weak, nonatomic) IBOutlet UIButton *questionListBt;
 @property (weak, nonatomic) IBOutlet UIButton *noteListBt;
 @property (weak, nonatomic) IBOutlet UIButton *learningMaterailBt;
+///显示已经下载
+@property (weak, nonatomic) IBOutlet UIButton *scanDownloadBt;
 @property (weak, nonatomic) IBOutlet UILabel *lessonListTitleLabel;
 - (IBAction)lessonListBtClicked:(id)sender;
 - (IBAction)questionListBtClicked:(id)sender;
 - (IBAction)SearchBrClicked:(id)sender;
 @property (weak, nonatomic) IBOutlet UIImageView *LogoImageView;
 @property (weak, nonatomic) IBOutlet UILabel *rightNameLabel;
+@property (strong, nonatomic) NSString *myQAVCTitle; //问答界面的当前标题
 @property (nonatomic, strong) NSMutableArray *lessonList;  //课程数据
 
 @property (nonatomic, strong) NSDictionary *questionDictionary;

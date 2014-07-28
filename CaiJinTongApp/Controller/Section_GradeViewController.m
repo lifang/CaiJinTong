@@ -25,7 +25,13 @@
     }
     return self;
 }
-
+-(CommentListInterface *)commentInterface {
+    if (!_commentInterface) {
+        _commentInterface = [[CommentListInterface alloc]init];
+        _commentInterface.delegate = self;
+    }
+    return _commentInterface;
+}
 -(void)dealloc{
     [self.footerRefreshView free];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -33,6 +39,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.nowPage = 0;
+    
     [self.footerRefreshView endRefreshing];
     if (!self.starRatingView) {
         self.starRatingView = [[TQStarRatingView alloc] initWithFrame:(CGRect){29,6,COMMENT_CELL_WIDTH+5,51} numberOfStar:5];
@@ -50,6 +58,13 @@
 {
     DLog(@"加载为当前视图 = %@",self.title);
     [self displayView];
+    
+    if ([CaiJinTongManager shared].isLoadComment==NO) {
+        //加载评论信息
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self.nowPage +=1;
+        [self.commentInterface getCommentListWithUserId:[CaiJinTongManager shared].userId sectionId:self.sectionId pageIndex:self.nowPage];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -147,7 +162,12 @@ static NSString *timespan = nil;
     model.commentContent = self.textView.text;
     self.textView.text = @"";
     [self.textView resignFirstResponder];
-    [self.dataArray insertObject:model atIndex:0];
+    if (self.dataArray.count > 0) {
+        [self.dataArray insertObject:model atIndex:0];
+    }else{
+        [self.dataArray addObject:model];
+    }
+    
     [self.tableViewList reloadData];
     [Utility errorAlert:@"提交评论成功"];
 }
@@ -174,10 +194,7 @@ static NSString *timespan = nil;
             [Utility errorAlert:@"暂无网络"];
         }else{
             self.nowPage +=1;
-            CommentListInterface *commentList = [[CommentListInterface alloc]init];
-            self.commentInterface = commentList;
-            self.commentInterface.delegate = self;
-            [self.commentInterface getGradeInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.lessonId andPageIndex:self.nowPage];
+            [self.commentInterface getCommentListWithUserId:[CaiJinTongManager shared].userId sectionId:self.sectionId pageIndex:self.nowPage];
         }
     }];
 }
@@ -189,15 +206,14 @@ static NSString *timespan = nil;
 #pragma mark --
 
 #pragma  mark --CommentListInterfaceDelegate
--(void)getCommentListInfoDidFinished:(SectionModel *)result {
+-(void)getCommentListInfoDidFinished:(NSArray *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        if (result.commentList.count>0) {
-            [self.dataArray addObjectsFromArray:result.commentList];
-        }
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [self.dataArray addObjectsFromArray:result];
             [self.tableViewList reloadData];
             [self.footerRefreshView endRefreshing];
+            [CaiJinTongManager shared].isLoadComment = YES;
         });
     });
 }
@@ -212,15 +228,20 @@ static NSString *timespan = nil;
 
 #pragma  mark --GradeInterfaceDelegate
 -(void)getGradeInfoDidFinished:(NSDictionary *)result {
+    __weak Section_GradeViewController *weakSelf = self;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            NSMutableDictionary *resultDic = [NSMutableDictionary dictionaryWithDictionary:result];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"refeshScore" object:resultDic userInfo:nil];
-            //隐藏打分栏，只出现评论框
-            self.isGrade = 1;
-            [self displayView];
-            [self insertCommitDataInToCommentTable];
+            Section_GradeViewController *tempSelf = weakSelf;
+            if (tempSelf) {
+                [MBProgressHUD hideHUDForView:tempSelf.view animated:YES];
+                NSMutableDictionary *resultDic = [NSMutableDictionary dictionaryWithDictionary:result];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"refeshScore" object:resultDic userInfo:nil];
+                //隐藏打分栏，只出现评论框
+                tempSelf.isGrade = 1;
+                [tempSelf displayView];
+                [tempSelf insertCommitDataInToCommentTable];
+            }
+            
         });
     });
 }
@@ -236,13 +257,25 @@ static NSString *timespan = nil;
 #pragma mark property
 
 -(MJRefreshFooterView *)footerRefreshView{
-    if (!_footerRefreshView) {
-        _footerRefreshView = [[MJRefreshFooterView alloc] init];
-        _footerRefreshView.delegate = self;
-        _footerRefreshView.scrollView = self.tableViewList;
-        
+    if (![CaiJinTongManager shared].isShowLocalData) {
+        if (!_footerRefreshView) {
+            _footerRefreshView = [[MJRefreshFooterView alloc] init];
+            _footerRefreshView.delegate = self;
+            _footerRefreshView.scrollView = self.tableViewList;
+            
+        }
+        return _footerRefreshView;
+    }else{
+        return nil;
     }
-    return _footerRefreshView;
+
+}
+
+-(NSMutableArray *)dataArray{
+    if (!_dataArray) {
+        _dataArray = [NSMutableArray array];
+    }
+    return _dataArray;
 }
 
 -(UILabel *)tipLabel{

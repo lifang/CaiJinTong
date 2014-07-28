@@ -7,7 +7,7 @@
 //
 
 #import "BaseInterface.h"
-#import "SectionModel.h"
+#import "CommentModel.h"
 
 @protocol CommentListInterfaceDelegate;
 
@@ -15,12 +15,12 @@
 
 @property (nonatomic, assign) id<CommentListInterfaceDelegate>delegate;
 
--(void)getGradeInterfaceDelegateWithUserId:(NSString *)userId andSectionId:(NSString *)sectionId andPageIndex:(NSInteger)pageIndex;
+-(void)getCommentListWithUserId:(NSString*)userId sectionId:(NSString *)sectionId pageIndex:(int)pageIndex;
 @end
 
 @protocol CommentListInterfaceDelegate <NSObject>
 
--(void)getCommentListInfoDidFinished:(SectionModel *)result;
+-(void)getCommentListInfoDidFinished:(NSArray *)result;
 -(void)getCommentListInfoDidFailed:(NSString *)errorMsg;
 
 @end

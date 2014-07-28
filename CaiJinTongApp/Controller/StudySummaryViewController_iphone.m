@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *lessonImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *noteImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *materialImageView;
+@property (weak, nonatomic) IBOutlet UILabel *versionnumberLabel;
 
 @property (nonatomic,strong) LHLTabBarController *lhltabBarController;
 - (IBAction)lessonBtClicked:(UIButton *)sender;
@@ -29,6 +30,8 @@
 - (IBAction)questionBtClicked:(id)sender;
 - (IBAction)settingBtClicked:(id)sender;
 - (IBAction)learningMaterialBtClicked:(id)sender;
+///显示已经下载
+- (IBAction)loadDownloadedDataBtClicked:(id)sender;
 
 @end
 
@@ -43,17 +46,21 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    self.view.backgroundColor = [UIColor underPageBackgroundColor];
-    [self addReflectionView:self.noteImageView];
-    [self addReflectionView:self.lessonImageView];
-    [self addReflectionView:self.materialImageView];
+//TODO:新版本通知
+-(void)appNewVersionNotification{
+    NSString *appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+    if (![appVersion isEqualToString:[CaiJinTongManager shared].appstoreNewVersion]) {
+        [self.versionnumberLabel setHidden:NO];
+    }else{
+        [self.versionnumberLabel setHidden:YES];
+    }
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     CaiJinTongManager *app = [CaiJinTongManager shared];
     
     self.userNicknameLabel.text = app.user.nickName;
-    
     __weak StudySummaryViewController_iphone *weakSelf = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [UserStudySummaryInfo downloadStudySummaryInfoWithUserId:app.user.userId withSuccess:^(StudySummaryModel *studySummaryModel) {
@@ -69,7 +76,22 @@
             [MBProgressHUD hideHUDForView:self.view animated:YES];
         }
     }];
+}
+
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.versionnumberLabel.layer.cornerRadius = 5;
+    [self appNewVersionNotification];
+    self.view.backgroundColor = [UIColor whiteColor];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appNewVersionNotification) name:APPNEWVERSION_Notification object:nil];
+    
+    self.view.backgroundColor = [UIColor underPageBackgroundColor];
+    [self addReflectionView:self.noteImageView];
+    [self addReflectionView:self.lessonImageView];
+    [self addReflectionView:self.materialImageView];
     self.lhltabBarController = [[LHLTabBarController alloc] init];
 	// Do any additional setup after loading the view.
 }
@@ -79,7 +101,7 @@
         self.allLessonCountLabel.text = [NSString stringWithFormat:@"课程(%d)",model.studyAllCourseCount];
         self.beginningLessonCountLabel.text = [NSString stringWithFormat:@"已学课程(%d)",model.studyBeginningCourseCount];
         self.beginningNotesLabel.text = [NSString stringWithFormat:@"我的笔记(%d)",model.studyAllNotesCount];
-        self.beginningQuestionLabel.text = [NSString stringWithFormat:@"我的问答(%d)",model.studyBeginningQuestionCount];
+        self.beginningQuestionLabel.text = [NSString stringWithFormat:@"我的问答(%d)",model.studyAllQuestionCount];
         self.beginningLearningMatarilLabel.text = [NSString stringWithFormat:@"授权资料(%d)",model.studyAllLearningMatarilCount];
     }else{
         self.allLessonCountLabel.text = @"课程(0)";
@@ -103,32 +125,94 @@
 }
 
 - (IBAction)lessonBtClicked:(UIButton *)sender {
-     [self.lhltabBarController selectedAtIndexItem:0];
-    [self.navigationController pushViewController:self.lhltabBarController animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([[NSString stringWithFormat:@"NotReachable"] isEqualToString:networkStatus]) {
+            [Utility errorAlert:@"处于离线状态，请检查网络"];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            return ;
+        }
+        [CaiJinTongManager shared].isShowLocalData = NO;
+        [self.lhltabBarController loadLocalItem:NO];
+        [self.lhltabBarController selectedAtIndexItem:0];
+        
+        [self.navigationController pushViewController:self.lhltabBarController animated:YES];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }];
 }
 
+///笔记
 - (IBAction)noteBtClicked:(id)sender {
-     [self.lhltabBarController selectedAtIndexItem:1];
-    [self.navigationController pushViewController:self.lhltabBarController animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([[NSString stringWithFormat:@"NotReachable"] isEqualToString:networkStatus]) {
+            [Utility errorAlert:@"处于离线状态，请检查网络"];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            return ;
+        }
+        [CaiJinTongManager shared].isShowLocalData = NO;
+        [self.lhltabBarController loadLocalItem:NO];
+        [self.lhltabBarController selectedAtIndexItem:1];
+        [self.navigationController pushViewController:self.lhltabBarController animated:YES];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }];
 }
 
 - (IBAction)userHeaderBtClicked:(id)sender {
+    [CaiJinTongManager shared].isShowLocalData = NO;
+    [self.lhltabBarController loadLocalItem:NO];
     InfoViewController_iPhone *userInfoController = [self.storyboard instantiateViewControllerWithIdentifier:@"InfoViewController_iPhone"];
     [self.navigationController pushViewController:userInfoController animated:YES];
 }
 
 - (IBAction)questionBtClicked:(id)sender {
-     [self.lhltabBarController selectedAtIndexItem:3];
-    [self.navigationController pushViewController:self.lhltabBarController animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([[NSString stringWithFormat:@"NotReachable"] isEqualToString:networkStatus]) {
+            [Utility errorAlert:@"处于离线状态，请检查网络"];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            return ;
+        }
+        [CaiJinTongManager shared].isShowLocalData = NO;
+        [self.lhltabBarController loadLocalItem:NO];
+        [self.lhltabBarController selectedAtIndexItem:3];
+        [self.navigationController pushViewController:self.lhltabBarController animated:YES];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }];
+
+
 }
 
 - (IBAction)settingBtClicked:(id)sender {
+    [CaiJinTongManager shared].isShowLocalData = NO;
+    [self.lhltabBarController loadLocalItem:NO];
     [self.lhltabBarController selectedAtIndexItem:4];
     [self.navigationController pushViewController:self.lhltabBarController animated:YES];
 }
 
 - (IBAction)learningMaterialBtClicked:(id)sender {
-     [self.lhltabBarController selectedAtIndexItem:2];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [Utility judgeNetWorkStatus:^(NSString *networkStatus) {
+        if ([[NSString stringWithFormat:@"NotReachable"] isEqualToString:networkStatus]) {
+            [Utility errorAlert:@"处于离线状态，请检查网络"];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            return ;
+        }
+        [CaiJinTongManager shared].isShowLocalData = NO;
+        [self.lhltabBarController loadLocalItem:NO];
+        [self.lhltabBarController selectedAtIndexItem:2];
+        [self.navigationController pushViewController:self.lhltabBarController animated:YES];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }];
+}
+
+- (IBAction)loadDownloadedDataBtClicked:(id)sender {
+    [CaiJinTongManager shared].isShowLocalData = YES;
+    [self.lhltabBarController loadLocalItem:YES];
+    [CaiJinTongManager shared].isShowLocalLessonData = YES;
+    [self.lhltabBarController selectedAtIndexItem:0];
     [self.navigationController pushViewController:self.lhltabBarController animated:YES];
 }
+
+
 @end

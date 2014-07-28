@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "EditInfoInterface.h"
-@interface InfoViewController : UIViewController <UITextFieldDelegate,UITextViewDelegate,UIPickerViewDelegate,EditInfoInterfaceDelegate>
+@interface InfoViewController : DRNaviGationBarController <UITextFieldDelegate,UITextViewDelegate,UIPickerViewDelegate,EditInfoInterfaceDelegate>
 
 
 @property (nonatomic, strong) EditInfoInterface *editInfoInterface;

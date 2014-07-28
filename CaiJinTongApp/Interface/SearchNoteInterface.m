@@ -12,7 +12,7 @@
 
 #if kUsingTestData
 -(void)searchNoteListWithUserId:(NSString*)userId withSearchContent:(NSString*)searchContent withPageIndex:(int)pageIndex{
-    NSString *path = [NSBundle pathForResource:@"SearchNote" ofType:@"geojson" inDirectory:[[NSBundle mainBundle] bundlePath]];
+    NSString *path = [NSBundle pathForResource:@"SearchNote" ofType:@"json" inDirectory:[[NSBundle mainBundle] bundlePath]];
     NSData *data = [NSData dataWithContentsOfFile:path];
     id jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
     double delayInSeconds = 2.0;
@@ -25,7 +25,6 @@
 -(void)searchNoteListWithUserId:(NSString*)userId withSearchContent:(NSString*)searchContent withPageIndex:(int)pageIndex{
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
-    //http://lms.finance365.com/api/ios.ashx?active=searchNoteList&userId=17082&searchContent=hjhhhj&pageIndex==0
     self.interfaceUrl = [NSString stringWithFormat:@"%@?active=searchNoteList&userId=%@&searchContent=%@&pageIndex=%d",kHost,userId,searchContent,pageIndex+1];
     self.baseDelegate = self;
     self.headers = reqheaders;

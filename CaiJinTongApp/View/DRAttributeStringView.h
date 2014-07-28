@@ -10,15 +10,7 @@
 #import "HTMLParser.h"
 #import "AnswerModel.h"
 #import "QuestionModel.h"
-typedef enum {
-    DRURLFileType_IMAGR,
-    DRURLFileType_WORD,
-    DRURLFileType_PDF,
-    DRURLFileType_OTHER,
-    DRURLFileType_GIF,//动画图
-    DRURLFileType_TEXT,
-    DRURLFileType_PPT
-}DRURLFileType;
+
 @protocol DRAttributeStringViewDelegate;
 @interface DRAttributeStringView : UIView
 @property (strong,nonatomic) AnswerModel *answerModel;
@@ -27,6 +19,8 @@ typedef enum {
 @property (weak,nonatomic) id<DRAttributeStringViewDelegate> delegate;
 @property (assign,nonatomic) BOOL isTruncate;
 @property (assign,nonatomic) float truncateHeight;//指定的高内画内容
+
+
 +(CGRect)boundsRectWithAnswer:(AnswerModel*)answer withWidth:(float)width;
 +(CGRect)boundsRectWithQuestion:(QuestionModel*)question withWidth:(float)width;
 @end

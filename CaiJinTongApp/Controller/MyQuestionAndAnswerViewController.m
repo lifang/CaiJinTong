@@ -8,6 +8,7 @@
 
 #import "MyQuestionAndAnswerViewController.h"
 #import "IndexPathModel.h"
+#import "LessonViewController.h"
 @interface MyQuestionAndAnswerViewController ()
 
 @property (nonatomic,strong) MJRefreshHeaderView *headerRefreshView;
@@ -38,11 +39,6 @@
 
 #pragma mark ask Question提问
 - (IBAction)askQuestionBtClicked:(id)sender {
-//    if (!self.askQuestionController) {
-//        UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-//        self.askQuestionController  = [story instantiateViewControllerWithIdentifier:@"DRAskQuestionViewController"];
-//        self.askQuestionController.delegate = self;
-//    }
     UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
     self.askQuestionController  = [story instantiateViewControllerWithIdentifier:@"DRAskQuestionViewController"];
     self.askQuestionController.delegate = self;
@@ -64,14 +60,7 @@
     NSInteger row = 0;
     NSInteger index = 0;
     NSMutableDictionary *indexPathDic = [NSMutableDictionary dictionary];
-//    for (QuestionModel *question  in questionArr) {
-//        row = -1;
-//        [indexPathDic setValue:[NSIndexPath indexPathForRow:row++ inSection:section] forKey:[NSString stringWithFormat:@"%d",index++]];
-//        for (AnswerModel *answer in question.answerList) {
-//            [indexPathDic setValue:[NSIndexPath indexPathForRow:row++ inSection:section] forKey:[NSString stringWithFormat:@"%d",index++]];
-//        }
-//        section++;
-//    }
+
     for (QuestionModel *question  in questionArr) {
         row = -1;
         [indexPathDic setValue:[IndexPathModel initWithRow:row++ withSection:section] forKey:[NSString stringWithFormat:@"%d",index++]];
@@ -85,46 +74,10 @@
 }
 
 -(void)addQuestionIndexPathToAnswerIndexPath:(NSArray*)questionArr{
-//    int section = 0;
-//    int row = 0;
-//    int index = 0;
-//    if (self.indexRowPathDic.count > 0) {
-//        index = self.indexRowPathDic.count;
-//        NSIndexPath *path = [self.indexRowPathDic objectForKey:[NSString stringWithFormat:@"%d",index-1]];
-//        section = path.section +1;
-//    }
-//    NSMutableDictionary *indexPathDic = [NSMutableDictionary dictionary];
-//    for (QuestionModel *question  in questionArr) {
-//        row = -1;
-//        [indexPathDic setValue:[NSIndexPath indexPathForRow:row++ inSection:section] forKey:[NSString stringWithFormat:@"%d",index++]];
-//        for (AnswerModel *answer in question.answerList) {
-//            [indexPathDic setValue:[NSIndexPath indexPathForRow:row++ inSection:section] forKey:[NSString stringWithFormat:@"%d",index++]];
-//        }
-//        section++;
-//    }
-//    [self.indexRowPathDic addEntriesFromDictionary:indexPathDic];
-//    [self.myQuestionArr addObjectsFromArray:questionArr];
     NSMutableArray *data = [NSMutableArray arrayWithArray:self.myQuestionArr];
     [data addObjectsFromArray:questionArr];
     [self changeQuestionIndexPathToAnswerIndexPath:data];
 }
-
-
-//-(int)convertIndexpathToRow:(NSIndexPath*)path{//bug
-//    NSArray *allkeys = [self.indexRowPathDic allKeysForObject:path];
-//    int row = -1;
-//    for (NSString *key in allkeys) {
-//        if ([self.indexRowPathDic objectForKey:key] == path) {
-//            row = key.intValue;
-//            break;  
-//        }
-//    }
-//    if (row < 0) {
-//        NSLog(@"@#############$@@@@@@@@@@row is less 0");
-//        return 0;
-//    }
-//    return row;
-//}
 
 -(int)convertIndexpathToRow:(IndexPathModel*)path{//bug
     int row = -1;
@@ -137,7 +90,6 @@
         }
     }
     if (row < 0) {
-        NSLog(@"@#############$@@@@@@@@@@row is less 0");
         return 0;
     }
     return row;
@@ -154,6 +106,15 @@
     [self.drnavigationBar hiddleBackButton:YES];
     self.drnavigationBar.searchBar.searchTextLabel.placeholder = @"搜索问题";
     [self.noticeBarImageView.layer setCornerRadius:4];
+    self.noticeBarImageView.layer.borderColor = [UIColor colorWithRed:0.993 green:0.917 blue:0.854 alpha:1.000].CGColor;
+    self.noticeBarImageView.layer.borderWidth = 1.;
+    
+    [self modifyAskQuestionButton];
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    LessonViewController *lessonVC = (LessonViewController *)self.lessonViewController;
+    lessonVC.myQAVCTitle = self.drnavigationBar.titleLabel.text;
 }
 
 #pragma mark DRSearchBarDelegate搜索
@@ -236,11 +197,9 @@
     webView.frame = (CGRect){0,0,800,700};
     webView.scalesPageToFit = YES;
     [webView loadRequest:[NSURLRequest requestWithURL:imageURL]];
-    self.modelController.modalPresentationStyle = UIModalPresentationFormSheet;
-    [self presentViewController:self.modelController animated:YES completion:^{
+    [self presentPopupViewController:self.modelController animationType:MJPopupViewAnimationSlideTopTop isAlignmentCenter:YES dismissed:^{
         
     }];
-
 }
 #pragma mark --
 
@@ -374,15 +333,6 @@
     answer.isEditing = isHiddle;
     int row = [self convertIndexpathToRow:path];
     [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-//    if (answer.isEditing) {
-//        CGRect cellRect = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
-//        float cellMinHeight = self.tableView.frame.size.height - (CGRectGetMaxY(cellRect) - self.tableView.contentOffset.y);
-//        if (400 > cellMinHeight) {
-//            [self.tableView setContentOffset:(CGPoint){self.tableView.contentOffset.x,self.tableView.contentOffset.y+ (400 - cellMinHeight)} animated:YES];
-//        }
-//        [self.footerRefreshView adjustFrameWhenKeyboardUP];
-//    }
-    
 }
 #pragma mark -- 采纳答案
 -(void)questionAndAnswerCell:(QuestionAndAnswerCell *)cell acceptAnswerAtIndexPath:(IndexPathModel *)path{
@@ -410,6 +360,12 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
 }
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    [self.drnavigationBar.searchBar.searchTextLabel resignFirstResponder];
+    [self noticeHideBtnClick:nil];
+}
+
 #pragma mark --
 
 #pragma mark UITableViewDataSource
@@ -432,11 +388,7 @@
         QuestionAndAnswerCell *cell = (QuestionAndAnswerCell*)[tableView dequeueReusableCellWithIdentifier:@"questionAndAnswerCell"];
         QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
         AnswerModel *answer = [question.answerList objectAtIndex:path.row];
-        //    if ([[CaiJinTongManager shared] userId] && [[[CaiJinTongManager shared] userId] isEqualToString:question.askerId]) {
-        //        answer.isEditing = YES;
-        //    }else{
-        //     answer.isEditing = NO;
-        //    }
+
         [cell setAnswerModel:answer withQuestion:question];
         cell.delegate = self;
         cell.path = path;
@@ -490,8 +442,7 @@
             if (self.questionAndAnswerScope == QuestionAndAnswerMYQUESTION) {
                 [self.userQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:user.userId andIsMyselfQuestion:@"0" andLastQuestionID:lastQuestionID withCategoryId:self.chapterID];
             }else if (self.questionAndAnswerScope == QuestionAndAnswerSearchQuestion){
-                QuestionModel *question = [self.myQuestionArr lastObject];
-                [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:user.userId andText:self.searchContent withLastQuestionId:question.questionId];
+                [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:user.userId andText:self.searchContent withLastQuestionId:lastQuestionID];
             }else{
                 [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:user.userId andChapterQuestionId:@"0" andLastQuestionID:lastQuestionID];
             }
@@ -502,49 +453,13 @@
     CGRect rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:QUESTIONHEARD_VIEW_WIDTH];
     float height = rect.size.height;
     if (question.isEditing) {
-        return height + TEXT_HEIGHT + TEXT_PADDING + QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT+ 10+40+10;
+        return height + TEXT_HEIGHT + TEXT_PADDING + QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT+ 10+10;
     }else{
-        return height + TEXT_HEIGHT + TEXT_PADDING + 10+40+10;
+        return height + TEXT_HEIGHT + TEXT_PADDING + 10+10;
     }
-
-//    if (question.isExtend) {
-//        if (question.isEditing) {
-//            return rect.size.height + TEXT_HEIGHT + TEXT_PADDING + QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT+ 10+40+10;
-//        }else{
-//            return rect.size.height + TEXT_HEIGHT + TEXT_PADDING + 10+40+10;
-//        }
-//    }else{
-//        float height = rect.size.height;
-//        if (height > ContentMinHeight) {
-//            height = ContentMinHeight;
-//        }
-//        if (question.isEditing) {
-//            return height + TEXT_HEIGHT + TEXT_PADDING + QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT+ 10+40+10;
-//        }else{
-//            return height + TEXT_HEIGHT + TEXT_PADDING + 10+40+10;
-//        }
-//    }
 }
 
-//-(float)getTableViewRowHeightWithIndexPath:(NSIndexPath*)path{
-//    NSLog(@"%d,%d",path.section,path.row);
-//    QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
-//    if (question.answerList == nil || [question.answerList count] <= 0) {
-//        return 0;
-//    }
-//    AnswerModel *answer = [question.answerList objectAtIndex:path.row];
-//    float questionTextFieldHeight = answer.isEditing?141:0;
-//
-//    if (platform >= 7.0) {
-//        return [Utility getTextSizeWithString:answer.answerContent withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:QUESTIONANDANSWER_CELL_WIDTH].height+ TEXT_HEIGHT + TEXT_PADDING*3+ questionTextFieldHeight;
-//    }else{
-//        float height = [Utility getTextSizeWithString:answer.answerContent withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+6] withWidth:QUESTIONANDANSWER_CELL_WIDTH].height+ TEXT_HEIGHT + TEXT_PADDING+ questionTextFieldHeight;
-//        return height;
-//    }
-//}
-
 -(float)getTableViewRowHeightWithIndexPath:(IndexPathModel*)path{
-    NSLog(@"%d,%d",path.section,path.row);
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
     if (question.answerList == nil || [question.answerList count] <= 0) {
         return 0;
@@ -557,6 +472,16 @@
     }else{
         float height = rect.size.height+ TEXT_HEIGHT + TEXT_PADDING+ questionTextFieldHeight;
         return height;
+    }
+}
+
+- (void)modifyAskQuestionButton{
+    if (self.askQuestionButton) {
+        [self.askQuestionButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        self.askQuestionButton.backgroundColor = [UIColor colorWithRed:154./255. green:196./255. blue:240./255. alpha:1.0];
+        self.askQuestionButton.layer.cornerRadius = 5.;
+        self.askQuestionButton.layer.borderWidth = .8;
+        self.askQuestionButton.layer.borderColor = [UIColor colorWithRed:0.406 green:0.640 blue:0.916 alpha:1.000].CGColor;
     }
 }
 
@@ -584,24 +509,6 @@
     }
     return _searchQuestionInterface;
 }
-
-//-(void)setQuestionAndAnswerScope:(QuestionAndAnswerScope)questionAndAnswerScope{
-//    _questionAndAnswerScope = questionAndAnswerScope;
-//    switch (questionAndAnswerScope) {
-//        case QuestionAndAnswerALL:
-//            self.drnavigationBar.titleLabel.text = @"所有问答";
-//            break;
-//        case QuestionAndAnswerMYQUESTION:
-//            self.drnavigationBar.titleLabel.text = @"我的提问";
-//            break;
-//        case QuestionAndAnswerSearchQuestion:
-//            self.drnavigationBar.titleLabel.text = @"搜索提问";
-//            break;
-//        default:
-//            self.drnavigationBar.titleLabel.text = @"我的回答";
-//            break;
-//    }
-//}
 
 -(AnswerPraiseInterface *)answerPraiseinterface{
     if (!_answerPraiseinterface) {
@@ -665,7 +572,10 @@
 
 
 - (IBAction)noticeHideBtnClick:(id)sender {
-    [self.noticeBarView setHidden:YES];
+    if (self.noticeBarView.hidden == NO) {
+        [self.noticeBarView setHidden:YES];
+        self.tableView.frame = (CGRect){self.tableView.frame.origin.x,self.tableView.frame.origin.y - 40,self.tableView.frame.size.width,self.tableView.frame.size.height + 40};
+    }
 }
 
 #pragma mark DRAskQuestionViewControllerDelegate 提问问题成功时回调
@@ -734,9 +644,7 @@
 
 #pragma mark SubmitAnswerInterfaceDelegate 提交回答或者提交追问的代理
 -(void)getSubmitAnswerInfoDidFinished:(NSMutableArray *)result withReaskType:(ReaskType)reask andIndexPath:(IndexPathModel *)path{
-//    self.isReaskRefreshing = YES;
-//    self.tableView.contentOffset = (CGPoint){self.tableView.contentOffset.x,0};
-//     [self.questionListInterface getQuestionListInterfaceDelegateWithUserId:[[CaiJinTongManager shared] userId] andChapterQuestionId:self.chapterID andLastQuestionID:nil];
+
     [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
     [Utility errorAlert:@"提交成功"];
     QuestionModel *question = [self.myQuestionArr  objectAtIndex:path.section];
@@ -758,15 +666,12 @@
         NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
         dispatch_async(dispatch_get_main_queue(), ^{
             if (self.isReaskRefreshing) {
-//                self.myQuestionArr = [NSMutableArray arrayWithArray:chapterQuestionList];
                 [self changeQuestionIndexPathToAnswerIndexPath:chapterQuestionList];
                  [self.tableView reloadData];
             }else{
                 if (self.headerRefreshView.isForbidden) {//加载下一页
-//                    [self.myQuestionArr addObjectsFromArray:chapterQuestionList];
                     [self addQuestionIndexPathToAnswerIndexPath:chapterQuestionList];
                 }else{//重新加载
-//                    self.myQuestionArr = [NSMutableArray arrayWithArray:chapterQuestionList];
                     [self changeQuestionIndexPathToAnswerIndexPath:chapterQuestionList];
                 }
                  [self.tableView reloadData];
@@ -801,10 +706,8 @@
                 NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
                 if (chapterQuestionList && [chapterQuestionList count] > 0) {
                     if (self.headerRefreshView.isForbidden) {//加载下一页
-//                        [self.myQuestionArr addObjectsFromArray:chapterQuestionList];
                         [self addQuestionIndexPathToAnswerIndexPath:chapterQuestionList];
                     }else{//重新加载
-//                        self.myQuestionArr = [NSMutableArray arrayWithArray:chapterQuestionList];
                         [self changeQuestionIndexPathToAnswerIndexPath:chapterQuestionList];
                     }
                     [self.tableView reloadData];
@@ -818,7 +721,6 @@
             if (result) {
                 NSArray *chapterQuestionList = [result objectForKey:@"chapterQuestionList"];
                 if (chapterQuestionList && [chapterQuestionList count] > 0) {
-//                    self.myQuestionArr = [NSMutableArray arrayWithArray:chapterQuestionList];
                     [self changeQuestionIndexPathToAnswerIndexPath:chapterQuestionList];
                     [self.tableView reloadData];
                 }else{
@@ -829,7 +731,6 @@
             }
             [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
         }
-        
         [self.headerRefreshView endRefreshing];
         self.headerRefreshView.isForbidden = NO;
         [self.footerRefreshView endRefreshing];

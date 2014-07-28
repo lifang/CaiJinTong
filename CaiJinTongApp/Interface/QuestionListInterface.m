@@ -19,7 +19,9 @@
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
     
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
-    if (chapterQuestionId) {
+    if ([[NSString stringWithFormat:@"%d",CategoryType_AllQuestion] isEqualToString:chapterQuestionId]) {
+        
+    }else{
         [reqheaders setValue:[NSString stringWithFormat:@"%@",chapterQuestionId] forKey:@"categoryId"];
     }
     if (lastQuestionID) {
@@ -44,7 +46,7 @@ self.interfaceUrl = [NSString stringWithFormat:@"%@?active=chapterQuestion",kHos
         if (jsonObject !=nil) {
             if ([jsonObject isKindOfClass:[NSDictionary class]]) {
                 NSDictionary *jsonData=(NSDictionary *)jsonObject;
-                DLog(@"data = %@",jsonData);
+                DLog(@"data = %@",[[NSString alloc] initWithData:[request responseData] encoding:NSUTF8StringEncoding]);
                 if (jsonData) {
                     if ([[jsonData objectForKey:@"Status"]intValue] == 1) {
                         @try {
@@ -61,6 +63,7 @@ self.interfaceUrl = [NSString stringWithFormat:@"%@?active=chapterQuestion",kHos
                                         question.questionId = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"questionId"]];
                                         question.attachmentFileUrl = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"extUrl"]];
                                         question.questionName = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"questionName"]];
+                                        question.questiontitle = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"questiontitle"]];
                                         question.askerId = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"askerId"]];
                                         question.askImg = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"askImg"]];
                                         question.askerNick = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"askerNick"]];

@@ -19,13 +19,16 @@
 @property (nonatomic, strong) IBOutlet UILabel *lengthLab;//视频大小：80/M
 @property (nonatomic, strong) IBOutlet UILabel *timeLab;//视频时长
 @property ( nonatomic) double pv;//视频下载进度
-@property (strong, nonatomic) IBOutlet UIView *sliderFrontView;
+@property (strong, nonatomic) IBOutlet UIImageView *sliderFrontView;
 @property (weak, nonatomic) IBOutlet UIView *sliderBackView;
 
 @property (nonatomic, strong) IBOutlet CustomButton *btn;//下载按钮
 @property (assign,nonatomic) BOOL isMoviePlayView;
 @property (nonatomic, strong) IBOutlet UIButton *playBt;
-@property (nonatomic, strong) SectionSaveModel *sectionS;
 @property (nonatomic, strong)  SectionModel *sectionModel;
 -(IBAction)playBtClicked:(id)sender;
+
+///重新加载cell时调用
+-(void)continueDownloadFileWithDownloadStatus:(DownloadStatus)status;
+-(void)beginReceiveNotification;
 @end

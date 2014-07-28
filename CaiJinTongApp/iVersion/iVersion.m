@@ -250,29 +250,6 @@ static NSString *const iVersionMacAppStoreURLFormat = @"macappstore://itunes.app
     return _remindButtonLabel ?: [self localizedStringForKey:iVersionRemindButtonKey withDefault:@"Remind Me Later"];
 }
 
-- (NSURL *)updateURL
-{
-    if (_updateURL)
-    {
-        return _updateURL;
-    }
-    
-    if (!self.appStoreID)
-    {
-        NSLog(@"Error: No App Store ID was found for this application. If the application is not intended for App Store release then you must specify a custom updateURL.");
-    }
-    
-#if TARGET_OS_IPHONE
-    
-    return [NSURL URLWithString:[NSString stringWithFormat:iVersioniOSAppStoreURLFormat,  @(self.appStoreID)]];
-    
-#else
-    
-    return [NSURL URLWithString:[NSString stringWithFormat:iVersionMacAppStoreURLFormat, @(self.appStoreID)]];
-    
-#endif
-    
-}
 
 - (NSUInteger)appStoreID
 {
@@ -769,7 +746,7 @@ static NSString *const iVersionMacAppStoreURLFormat = @"macappstore://itunes.app
             {
                 NSLog(@"iVersion is checking %@ for a new app version...", iTunesServiceURL);
             }
-            
+
             NSError *error = nil;
             NSURLResponse *response = nil;
             NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:iTunesServiceURL]
@@ -786,6 +763,8 @@ static NSString *const iVersionMacAppStoreURLFormat = @"macappstore://itunes.app
                 if ([NSJSONSerialization class])
                 {
                     json = [[NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)0 error:&error][@"results"] lastObject];
+                    NSString *urlString = [self valueForKey:@"trackViewUrl" inJSON:json];
+                    self.updateURL = [NSURL URLWithString:urlString];
                 }
                 else
                 {

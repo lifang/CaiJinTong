@@ -9,13 +9,13 @@
 #import "Section_ChapterViewController.h"
 #import "Section_ChapterCell.h"
 #import "SectionModel.h"
-#import "SectionSaveModel.h"
 #import "AMProgressView.h"
 #import "Section.h"
 
 #define CAPTER_CELL_WIDTH 650
 @interface Section_ChapterViewController ()
 @property (nonatomic,strong) UILabel *tipLabel;
+@property (nonatomic,strong) NSIndexPath *indexPathOfDeletingCell;  //正在被删除的indexPath
 @end
 @implementation Section_ChapterViewController
 
@@ -40,43 +40,8 @@
     [super viewDidLoad];
     
     [self.tableViewList registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"header"];
-	[[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(initBtn:)
-                                                 name: @"downloadStart"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(initBtn:)
-                                                 name: @"downloadFinished"
-                                               object: nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(initBtn:)
-                                                 name: @"downloadFailed"
-                                               object: nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(initBtn:)
-                                                 name:@"removeDownLoad"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(initBtn:)
-                                                 name:@"stopDownLoad"
-                                               object:nil];
-    
-
-    
 }
 
--(void)dealloc{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
--(void)initBtn:(NSNotification *)notification {
-    dispatch_async ( dispatch_get_main_queue (), ^{
-        [self.tableViewList reloadData];
-    });
-}
 - (void)viewDidCurrentView
 {
     DLog(@"加载为当前视图 = %@",self.title);
@@ -115,69 +80,33 @@
     return header;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *CellIdentifier = @"Section_ChapterCell";
     Section_ChapterCell *cell = (Section_ChapterCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[Section_ChapterCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
     
-    chapterModel *chapter = [self.dataArray objectAtIndex:indexPath.section];
+    chapterModel *chapter = (chapterModel *)[self.dataArray objectAtIndex:indexPath.section];
     SectionModel *section = [chapter.sectionList objectAtIndex:indexPath.row];
     section.lessonId = self.lessonId;
-    cell.nameLab.text = section.sectionName;
+    cell.nameLab.text = [NSString stringWithFormat:@"【%@】",section.sectionName];
     cell.sid = section.sectionId;
-        
-    //查询数据库
-    Section *sectionDb = [[Section alloc]init];
-    SectionSaveModel *sectionSave = [sectionDb getDataWithSid:section.sectionId];
-    float contentlength = [sectionDb getContentLengthBySid:section.sectionId];
-    //进度条
-    if (sectionSave) {
-        if (sectionSave.downloadState== 0) {
-            cell.statusLab.text = @"下载中...";
-        }else if (sectionSave.downloadState== 1) {
-            cell.statusLab.text = @"已下载";
-        }else if (sectionSave.downloadState == 2) {
-            cell.statusLab.text = @"继续下载";
-        }else if (sectionSave.downloadState == 4) {
-            cell.statusLab.text = @"未下载";
-        }else {
-            cell.statusLab.text = @"下载";
-        }
-        cell.sliderFrontView.frame = CGRectMake(47, 73, CAPTER_CELL_WIDTH * sectionSave.downloadPercent, 33);
-        cell.lengthLab.text = @"";
-        if (contentlength>0) {
-            cell.lengthLab.text = [NSString stringWithFormat:@"%.2fM/%.2fM",contentlength*sectionSave.downloadPercent,contentlength];
-        }
-        sectionSave.fileUrl = section.sectionMovieDownloadURL;
-        sectionSave.playUrl = section.sectionMoviePlayURL;
-        sectionSave.name = section.sectionName;
-        sectionSave.lessonId = self.lessonId;
-        cell.btn.buttonModel = sectionSave;
-    }else {
-        sectionSave = [[SectionSaveModel alloc]init];
-        sectionSave.sid = section.sectionId;
-        sectionSave.downloadState = 4;
-        sectionSave.name = section.sectionName;
-        sectionSave.downloadPercent = 0;
-        sectionSave.fileUrl = section.sectionMovieDownloadURL;
-        sectionSave.playUrl = section.sectionMoviePlayURL;
-        sectionSave.name = section.sectionName;
-        sectionSave.lessonId = self.lessonId;
-        cell.btn.buttonModel = sectionSave;
-        cell.sliderFrontView.frame = CGRectMake(47, 73, CAPTER_CELL_WIDTH * 0, 33);
-        cell.statusLab.text = @"未下载";
-        cell.lengthLab.text = @"";
-    }
+    
     cell.sectionModel = section;
     cell.isMoviePlayView = self.isMovieView;
+    if (self.isMovieView && indexPath.row == 0) {
+        DLog(@"章节列表bug : self.dataArray.count = %d ,\n chapter.sectionList.count = %d ,\n shared.lesson.chapterList.count = %d ,\n",self.dataArray.count,chapter.sectionList.count,[CaiJinTongManager shared].lesson.chapterList.count);
+    }
     cell.btn.isMovieView = self.isMovieView;
-    cell.sectionS = sectionSave;
-    cell.timeLab.text = section.sectionLastTime;
+    [cell beginReceiveNotification];
+    if ([CaiJinTongManager shared].isShowLocalData && !self.isMovieView) {
+        [cell.playBt setTitle:@"删除" forState:UIControlStateNormal];
+        cell.playBt.hidden = NO;
+        cell.playBt.userInteractionEnabled = YES;
+        cell.playBt.tag = indexPath.section * 100000 + indexPath.row;
+        [cell.playBt addTarget:self action:@selector(deleteButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    [cell continueDownloadFileWithDownloadStatus:cell.sectionModel.sectionMovieFileDownloadStatus];
     return cell;
-}
+} 
 
 #pragma mark property
 -(UILabel *)tipLabel{
@@ -190,5 +119,93 @@
     }
     return _tipLabel;
 }
+
+-(SectionModel*)searchSectionModel:(LessonModel*)lesson withSectionId:(NSString*)sectionId{
+    if (!lesson || !sectionId) {
+        return nil;
+    }
+    for (chapterModel *chapter in lesson.chapterList) {
+        for (SectionModel *section in chapter.sectionList) {
+            if ([section.sectionId isEqualToString:sectionId]) {
+                return section;
+            }
+            
+        }
+    }
+    return nil;
+}
+
+-(void)setDataArray:(NSMutableArray *)dataArray{
+    _dataArray = dataArray;
+    if (dataArray && dataArray.count > 0) {
+        [DRFMDBDatabaseTool selectLessonTreeDatasWithUserId:[CaiJinTongManager shared].userId withLessonId:[CaiJinTongManager shared].lesson.lessonId withFinished:^(LessonModel *lesson, NSString *errorMsg) {
+            if (lesson && lesson.chapterList.count > 0) {
+                for (chapterModel *chapter in lesson.chapterList) {
+                    for (SectionModel *section in chapter.sectionList) {
+                        SectionModel *tempSection = [self searchSectionModel:[CaiJinTongManager shared].lesson withSectionId:section.sectionId];
+                        if (tempSection) {
+                            [tempSection copySection:section];
+                        }
+                    }
+                }
+                [self.tableViewList reloadData];
+            }
+        }];
+    }
+}
+
 #pragma mark --
+
+- (void)deleteButtonClicked:(id)sender{
+    NSInteger tag = ((UIButton *)sender).tag;
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:tag % 100000 inSection:tag / 100000];
+    self.indexPathOfDeletingCell = indexPath;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提醒" message:@"确定删除?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [alert show];
+    });
+}
+
+- (void)deleteSection:(NSIndexPath *)indexPath{
+    if ([CaiJinTongManager shared].isShowLocalData) {
+        chapterModel *chapter = (chapterModel *)[self.dataArray objectAtIndex:indexPath.section];
+        SectionModel *section = [chapter.sectionList objectAtIndex:indexPath.row];
+        //被"下载资料管理"界面的"删除"按钮调用
+        [[NSFileManager defaultManager] removeItemAtPath:section.sectionMovieLocalURL error:nil];
+        [DRFMDBDatabaseTool deleteSectionWithUserId:[CaiJinTongManager shared].user.userId
+                                      withSectionId:section.sectionId
+                                       withFinished:^(BOOL flag) {
+                                           dispatch_async(dispatch_get_main_queue(), ^{
+                                               [chapter.sectionList removeObject:section]; //删除section
+                                               [self.tableViewList deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                                               dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, .4 * NSEC_PER_SEC);
+                                               dispatch_after(delay, dispatch_get_main_queue(), ^{
+                                                   if (chapter.sectionList.count == 0) {
+                                                       [self.dataArray removeObject:chapter];   //删除chapter
+                                                       if (self.dataArray.count == 0) {
+                                                           //删除lesson
+                                                           [DRFMDBDatabaseTool deleteLessonObjWithUserId:[CaiJinTongManager shared].user.userId withLessonObjId:self.lessonId withFinished:^(BOOL flag) {
+                                                               
+                                                           }];
+                                                       }
+                                                   }
+                                                   //删除后必须刷新,以保证每个按钮的tag对应正确的indexPath
+                                                   [self.tableViewList reloadData];
+                                               });
+                                           });
+                                           
+                                           
+                                       }];
+        return;
+    }
+}
+
+#pragma  mark -- UIAlertView Delegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex > 0) {
+        [self deleteSection:self.indexPathOfDeletingCell];
+    }
+    self.indexPathOfDeletingCell = nil;
+}
+
 @end

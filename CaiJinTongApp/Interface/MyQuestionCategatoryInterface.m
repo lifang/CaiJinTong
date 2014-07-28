@@ -38,10 +38,10 @@
                             NSArray *questionCategory =nil;
                             if (dictionary) {
                                 //课程分类
-                                questionCategory = [MyQuestionCategatoryInterface getTreeNodeArrayFromArray:[dictionary objectForKey:@"mycategoryList"] withRootContentID:@"-1"];
+                                questionCategory = [MyQuestionCategatoryInterface getTreeNodeArrayFromArray:[dictionary objectForKey:@"mycategoryList"] withRootContentID:[NSString stringWithFormat:@"%d",CategoryType_MyQuestion]];
                             }
                             
-                            NSArray *myAnswerCategoryArr = [MyQuestionCategatoryInterface getTreeNodeArrayFromArray:[dictionary objectForKey:@"myanswercategoryList"] withRootContentID:@"-3"];
+                            NSArray *myAnswerCategoryArr = [MyQuestionCategatoryInterface getTreeNodeArrayFromArray:[dictionary objectForKey:@"myanswercategoryList"] withRootContentID:[NSString stringWithFormat:@"%d",CategoryType_MyAnswer]];
                             if (self.delegate && [self.delegate respondsToSelector:@selector(getMyQuestionCategoryDataDidFinishedWithMyAnswerCategorynodes:withMyQuestionCategorynodes:)]) {
                                 [self.delegate getMyQuestionCategoryDataDidFinishedWithMyAnswerCategorynodes:myAnswerCategoryArr withMyQuestionCategorynodes:questionCategory];
                             }

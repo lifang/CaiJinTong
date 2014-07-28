@@ -10,7 +10,6 @@
 #import "LessonModel.h"
 #import "chapterModel.h"
 #import "SectionCustomView_iPhone.h"
-#import "ChapterInfoInterface.h"
 #import "ChapterSearchBar_iPhone.h"
 #import "CJTMainToolbar_iPhone.h"
 #import "ChineseString.h"
@@ -40,8 +39,6 @@ typedef enum{
 @property (strong,nonatomic) SectionCustomView_iPhone *sectionCustomView;
 @property (nonatomic) BOOL menuVisible;
 
-@property (strong,nonatomic) ChapterInfoInterface *chapterInterface;
-@property (strong,nonatomic) SectionInfoInterface *sectionInfoInterface;
 @property (strong,nonatomic) SearchLessonInterface *searchInterface;
 @property (nonatomic, strong) ChapterSearchBar_iPhone *searchBar;
 @property (nonatomic,strong) NSString *oldSearchText;//搜索之前字符串

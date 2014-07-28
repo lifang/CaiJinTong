@@ -12,7 +12,7 @@
 
 #if kUsingTestData
 -(void)modifyNoteWithUserId:(NSString*)userId withNoteId:(NSString*)noteId withNoteContent:(NSString*)noteContent{
-    NSString *path = [NSBundle pathForResource:@"ModifyNote" ofType:@"geojson" inDirectory:[[NSBundle mainBundle] bundlePath]];
+    NSString *path = [NSBundle pathForResource:@"ModifyNote" ofType:@"json" inDirectory:[[NSBundle mainBundle] bundlePath]];
     self.modifyContent = noteContent;
     NSData *data = [NSData dataWithContentsOfFile:path];
     id jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];

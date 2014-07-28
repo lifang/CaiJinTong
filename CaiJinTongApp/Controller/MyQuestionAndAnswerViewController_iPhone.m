@@ -28,7 +28,7 @@
 @property (nonatomic, strong) NSArray *myQuestionCategoryArr;//我的提问分类信息
 @property (nonatomic, strong) NSArray *myAnswerCategoryArr;//我的回答分类信息
 @property (nonatomic,strong) NSString *questionAndSwerRequestID;//请求问题列表ID
-//@property (nonatomic, strong) ChapterQuestionInterface *chapterQuestionInterface;//点击列表之后请求问答信息的接口
+
 @property (nonatomic,strong) SearchQuestionInterface *searchQuestionInterface;//搜索问答接口
 @property (nonatomic,strong) UIViewController *modelController; //点击图片显示的VC
 @property (nonatomic,strong) ChapterSearchBar_iPhone *searchBar;//搜索栏+按钮
@@ -48,42 +48,44 @@
     return self;
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    if(!self.isRequesting){
-        [self makeNewData];
-    }
-}
 
 -(void)willDismissPopoupController{
     CGPoint offset = self.tableView.contentOffset;
     [self.tableView setContentOffset:offset animated:NO];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.menuVisible = NO;
+    [self.drTreeTableView setHiddleTreeTableView:!self.menuVisible withAnimation:NO];
+    
+    //输入框添加观察者
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(textFieldChanged:)
+                                                 name:UITextFieldTextDidChangeNotification
+                                               object:self.searchBar.searchTextField];
+}
+-(void)textFieldChanged:(NSNotification *)sender {
+    UITextField *txtField = (UITextField *)sender.object;
+    if (txtField.text.length == 0){
+        self.isClickOrSearching = NO;
+        self.lhlNavigationBar.title.text = @"我的课程";
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//    self.lhlNavigationBar.leftItem.hidden = YES;
     //临时,搜索按钮
     CGPoint center = self.lhlNavigationBar.leftItem.center;
     self.showSearchBarBtn = [UIButton buttonWithType:UIButtonTypeCustom ];
     self.showSearchBarBtn.frame = (CGRect){0,0,40,40};
-//    self.showSearchBarBtn.center = (CGPoint){center.x + 205,center.y};
     self.showSearchBarBtn.center = (CGPoint){center.x + 45,center.y};
     [self.showSearchBarBtn setImage:[UIImage imageNamed:@"_magnifying_glass.png"] forState:UIControlStateNormal];
-//    [self.showSearchBarBtn setTitle:@"搜" forState:UIControlStateNormal];
-//    [self.showSearchBarBtn.titleLabel setFont:[UIFont systemFontOfSize:19.0]];
-//    [self.showSearchBarBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.showSearchBarBtn addTarget:self action:@selector(showSearchBar) forControlEvents:UIControlEventTouchUpInside];
-//    [self.showSearchBarBtn.layer setBorderColor:[UIColor whiteColor].CGColor];
-//    [self.showSearchBarBtn.layer setBorderWidth:1.5];
-//    [self.showSearchBarBtn.layer setCornerRadius:4.0];
-//    [self.lhlNavigationBar addSubview:self.showSearchBarBtn];
-    
     [self.headerRefreshView endRefreshing];//instance refresh view
     [self.footerRefreshView endRefreshing];
     [self.tableView registerClass:[QuestionAndAnswerCell_iPhoneHeaderView class] forCellReuseIdentifier:@"header"];
-//    [self.tableView setFrame: CGRectMake(20,CGRectGetMaxY(self.noticeBarView.frame) + 5,281,IP5(568, 480) - CGRectGetMaxY(self.noticeBarView.frame) - 5 - self.tabBarController.tabBar.frame.size.height)];
-    
     //提问按钮
     if(!self.askQuestionBtn){
         self.askQuestionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -102,6 +104,13 @@
     [self makeNewData];
     
     [self.view addSubview:self.searchBar];
+    
+    if (platform >= 7.0) {
+        self.tableView.frame = CGRectMake(10,100, 320,IP5(400, 330) ) ;
+    }else{
+        self.tableView.frame = CGRectMake(10,100, 320,IP5(400, 330) ) ;
+    }
+    
 }
 
 //获取问题tableView所需的数据
@@ -196,11 +205,9 @@
     self.modelController.view.frame = (CGRect){0,0,300,IP5(548, 460)};
     webView.frame = (CGRect){0,0,300,IP5(548, 460)};
     [webView loadRequest:[NSURLRequest requestWithURL:url]];
-    self.modelController.modalPresentationStyle = UIModalPresentationFormSheet;
-    [self presentViewController:self.modelController animated:YES completion:^{
+    [self presentPopupViewController:self.modelController animationType:MJPopupViewAnimationSlideTopTop isAlignmentCenter:YES dismissed:^{
         
     }];
-
 }
 
 -(void)scanImageFromImageUrl:(NSURL*)imageURL{
@@ -216,12 +223,9 @@
     webView.frame = (CGRect){0,0,300,225};
     webView.scalesPageToFit = YES;
     [webView loadRequest:[NSURLRequest requestWithURL:imageURL]];
-    
-    self.modelController.modalPresentationStyle = UIModalPresentationFormSheet;
-    [self presentViewController:self.modelController animated:YES completion:^{
+    [self presentPopupViewController:self.modelController animationType:MJPopupViewAnimationSlideTopTop isAlignmentCenter:YES dismissed:^{
         
     }];
-
 }
 
 #pragma mark QuestionAndAnswerCell_iPhoneHeaderViewDelegate
@@ -432,9 +436,7 @@
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
     [self keyboardDismiss];
     self.menuVisible = NO;
-//    if(self.searchBar.alpha > 0.999){
-//        [self showSearchBar];
-//    }
+    [self.drTreeTableView setHiddleTreeTableView:!self.menuVisible withAnimation:NO];
 }
 
 #pragma mark --
@@ -513,11 +515,11 @@
     if(self.searchBar.hidden){
         if(self.menuVisible){
             self.menuVisible = NO;
+            [self.drTreeTableView setHiddleTreeTableView:!self.menuVisible withAnimation:NO];
         }
         [self.searchBar setHidden:NO];
         [UIView animateWithDuration:0.5
                          animations:^{
-//                             [self.searchBar setFrame:CGRectMake(19, IP5(65, 55), 282, 34)];
                              [self.searchBar setAlpha:1.0];
                          }
                          completion:nil];
@@ -525,7 +527,6 @@
         [UIView animateWithDuration:0.5
                          animations:^{
                              [self.searchBar setAlpha:0.0];
-//                             [self.searchBar setFrame:CGRectMake(19, IP5(65, 55), 1, 1)];
                          }
                          completion:^ void (BOOL completed){
                              if(completed){
@@ -539,14 +540,24 @@
     [self.searchBar.searchTextField resignFirstResponder];
     
     if((!self.drTreeTableView || self.drTreeTableView.noteArr.count < 1) && self.menuVisible != YES){
-        _drTreeTableView = [[DRTreeTableView alloc] initWithFrame:CGRectMake(120,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55)) withTreeNodeArr:nil];
+        _drTreeTableView = [[DRTreeTableView alloc] initWithFrame:CGRectMake(0,55, 320, SCREEN_HEIGHT - IP5(63, 50) - 55) withTreeNodeArr:nil];
         _drTreeTableView.delegate = self;
+        __weak MyQuestionAndAnswerViewController_iPhone *weakSelf = self;
+        _drTreeTableView.hiddleBlock = ^(BOOL ishiddle){
+            MyQuestionAndAnswerViewController_iPhone *tempSelf = weakSelf;
+            if (tempSelf) {
+                tempSelf.menuVisible = !ishiddle;
+            }
+            
+        };
         [self.view addSubview:_drTreeTableView];
-        [self.drTreeTableView setBackgroundColor:[UIColor colorWithRed:6.0/255.0 green:18.0/255.0 blue:27.0/255.0 alpha:1.0]];
+//        [self.drTreeTableView setBackgroundColor:[UIColor colorWithRed:6.0/255.0 green:18.0/255.0 blue:27.0/255.0 alpha:1.0]];
         [self getQuestionCategoryNodes];  //获取tree所需数据
         self.menuVisible = YES;
+        [self.drTreeTableView setHiddleTreeTableView:!self.menuVisible withAnimation:YES];
     }else{
         self.menuVisible = !self.menuVisible;
+        [self.drTreeTableView setHiddleTreeTableView:!self.menuVisible withAnimation:YES];
     }
 }
 
@@ -564,17 +575,17 @@
 
 -(void)setMenuVisible:(BOOL)menuVisible{
     _menuVisible = menuVisible;
-    [UIView animateWithDuration:0.3 animations:^{
-        if(menuVisible){
-//            if(self.searchBar.hidden == NO){
-//                [self showSearchBar];
-//            }
-            [self keyboardDismiss];
-            self.drTreeTableView.frame = CGRectMake(120,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55));
-        }else{
-            self.drTreeTableView.frame = CGRectMake(320,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55));
-        }
-    }];
+//    [UIView animateWithDuration:0.3 animations:^{
+//        if(menuVisible){
+////            if(self.searchBar.hidden == NO){
+////                [self showSearchBar];
+////            }
+//            [self keyboardDismiss];
+//            self.drTreeTableView.frame = CGRectMake(120,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55));
+//        }else{
+//            self.drTreeTableView.frame = CGRectMake(320,IP5(65, 55), 200, SCREEN_HEIGHT - IP5(63, 50) - IP5(65, 55));
+//        }
+//    }];
 }
 
 -(void)keyboardDismiss{
@@ -668,8 +679,7 @@
             if (self.questionScope == QuestionAndAnswerMYQUESTION) {
                 [self.userQuestionInterface getGetUserQuestionInterfaceDelegateWithUserId:user.userId andIsMyselfQuestion:@"0" andLastQuestionID:lastQuestionID withCategoryId:self.chapterID];
             }else if (self.questionScope == QuestionAndAnswerSearchQuestion){
-                QuestionModel *question = [self.myQuestionArr lastObject];
-                [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchBar.searchTextField.text withLastQuestionId:question.questionId];
+                [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchBar.searchTextField.text withLastQuestionId:lastQuestionID];
             }
 }
 
@@ -684,11 +694,6 @@
             rect = [DRAttributeStringView boundsRectWithQuestion:question withWidth:kQUESTIONHEARD_VIEW_WIDTH-6] ;
             return rect.size.height + kHEADER_TEXT_HEIGHT + kTEXT_PADDING ;
         }
-//        if (question.isEditing) {
-//            return  [Utility getTextSizeWithString:question.questionName withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+4] withWidth:QUESTIONHEARD_VIEW_WIDTH + TEXT_PADDING * 2].height + TEXT_HEIGHT + QUESTIONHEARD_VIEW_ANSWER_BACK_VIEW_HEIGHT;
-//        }else{
-//            return  [Utility getTextSizeWithString:question.questionName withFont:[UIFont systemFontOfSize:TEXT_FONT_SIZE+4] withWidth:QUESTIONHEARD_VIEW_WIDTH + TEXT_PADDING * 2].height + TEXT_HEIGHT;
-//        }
     }
     if (question.answerList == nil || [question.answerList count] <= 0) {
         return 0;
@@ -754,10 +759,7 @@
     if(!_searchBar){
         _searchBar = [[ChapterSearchBar_iPhone alloc] initWithFrame:CGRectMake(19, IP5(63, 63), 282, 34)];
         _searchBar.delegate = self;
-//        [_searchBar setHidden:YES];
-//        [_searchBar setAlpha:0.0];
         [_searchBar.searchTextField setPlaceholder:@"搜索问题"];
-//        [self.view addSubview:_searchBar];
     }
     return _searchBar;
 }
@@ -927,54 +929,59 @@
 -(NSMutableArray*)togetherAllQuestionCategorys{
     //我的提问列表
     DRTreeNode *myQuestion = [[DRTreeNode alloc] init];
-    myQuestion.noteContentID = @"-1";
+    myQuestion.noteContentID =[NSString stringWithFormat:@"%d",CategoryType_MyQuestion];
+    myQuestion.noteRootContentID = [NSString stringWithFormat:@"%d",CategoryType_MyQuestion];
     myQuestion.noteContentName = @"我的提问";
     myQuestion.childnotes = self.myQuestionCategoryArr;
     myQuestion.noteLevel = 1;
     //所有问答列表
     DRTreeNode *question = [[DRTreeNode alloc] init];
-    question.noteContentID = @"-2";
+    question.noteContentID = [NSString stringWithFormat:@"%d",CategoryType_AllQuestion];
+    question.noteRootContentID = [NSString stringWithFormat:@"%d",CategoryType_AllQuestion];
     question.noteContentName = @"所有问答";
     question.childnotes = self.allQuestionCategoryArr;
     question.noteLevel = 0;
     //我的回答列表
     DRTreeNode *myAnswer = [[DRTreeNode alloc] init];
-    myAnswer.noteContentID = @"-3";
+    myAnswer.noteContentID = [NSString stringWithFormat:@"%d",CategoryType_MyAnswer];
+    myAnswer.noteRootContentID = [NSString stringWithFormat:@"%d",CategoryType_MyAnswer];
     myAnswer.noteContentName = @"我的回答";
     myAnswer.childnotes = self.myAnswerCategoryArr;
     myAnswer.noteLevel = 1;
     //我的问答
     DRTreeNode *my = [[DRTreeNode alloc] init];
-    my.noteContentID = @"-4";
+    my.noteContentID = [NSString stringWithFormat:@"%d",CategoryType_MyAnswerAndQuestion];
+    my.noteRootContentID = [NSString stringWithFormat:@"%d",CategoryType_MyAnswerAndQuestion];
     my.noteContentName = @"我的问答";
     my.childnotes = @[myQuestion,myAnswer];
     my.noteLevel = 0;
-    return [NSMutableArray arrayWithArray:@[question,my]];
+    return [NSMutableArray arrayWithArray:@[my,question]];
 }
 
 #pragma mark DRTreeTableViewDelegate //选择一个分类
 -(void)drTreeTableView:(DRTreeTableView *)treeView didSelectedTreeNode:(DRTreeNode *)selectedNote{
         switch ([selectedNote.noteRootContentID integerValue]) {
-            case -2://所有问答
+            case CategoryType_AllQuestion://所有问答
             {
                 self.questionScope = QuestionAndAnswerALL;
                 [self reLoadQuestionWithQuestionScope:self.questionScope withTreeNode:selectedNote];
             }
                 break;
-            case -1://我的提问
+            case CategoryType_MyQuestion://我的提问
             {
                 self.questionScope = QuestionAndAnswerMYQUESTION;
                 [self reLoadQuestionWithQuestionScope:self.questionScope withTreeNode:selectedNote];
             }
                 break;
-            case -3://我的回答
+            case CategoryType_MyAnswer://我的回答
             {
                 self.questionScope = QuestionAndAnswerMYANSWER;
                 [self reLoadQuestionWithQuestionScope:self.questionScope withTreeNode:selectedNote];
             }
                 break;
-            case -4://我的问答
+            case CategoryType_MyAnswerAndQuestion://我的问答
             {
+                
             }
                 break;
             default:{
@@ -983,6 +990,7 @@
                 break;
         }
     self.menuVisible = NO;
+    [self.drTreeTableView setHiddleTreeTableView:!self.menuVisible withAnimation:YES];
     self.searchBar.searchTextField.text = nil;
 }
 
@@ -992,26 +1000,28 @@
 
 -(void)drTreeTableView:(DRTreeTableView*)treeView didExtendChildTreeNode:(DRTreeNode*)extendNote{
     switch ([extendNote.noteRootContentID integerValue]) {
-        case -2://所有问答
+        case CategoryType_AllQuestion://所有问答
         {
             self.questionScope = QuestionAndAnswerALL;
             [self reLoadQuestionWithQuestionScope:self.questionScope withTreeNode:extendNote];
         }
             break;
-        case -1://我的提问
+        case CategoryType_MyQuestion://我的提问
         {
             self.questionScope = QuestionAndAnswerMYQUESTION;
             [self reLoadQuestionWithQuestionScope:self.questionScope withTreeNode:extendNote];
         }
             break;
-        case -3://我的回答
+        case CategoryType_MyAnswer://我的回答
         {
             self.questionScope = QuestionAndAnswerMYANSWER;
             [self reLoadQuestionWithQuestionScope:self.questionScope withTreeNode:extendNote];
         }
             break;
-        case -4://我的问答
+        case CategoryType_MyAnswerAndQuestion://我的问答
         {
+            self.questionScope = QuestionAndAnswerMYQUESTION;
+            [self reLoadQuestionWithQuestionScope:self.questionScope withTreeNode:extendNote];
         }
             break;
         default:{
@@ -1251,7 +1261,6 @@
             if(!chapterQuestionList || chapterQuestionList.count < 1){
                 [Utility errorAlert:@"已经到最后一页了!"];
             }
-//            self.lhlNavigationBar.title.text = [NSString stringWithFormat:@"搜索:%@",self.searchBar.searchTextField.text];
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             self.question_pageIndex = self.question_pageIndex+1;
             if (self.headerRefreshView.isForbidden) {//加载下一页
@@ -1303,7 +1312,6 @@
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                 [Utility errorAlert:@"暂无网络"];
             }else{
-                //            self.isSearching = YES;
                 [self showSearchBar];
                 [self.searchQuestionInterface getSearchQuestionInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andText:self.searchBar.searchTextField.text withLastQuestionId:nil];//@"0"
             }
@@ -1312,7 +1320,7 @@
 }
 
 -(void)chapterSeachBar_iPhone:(ChapterSearchBar_iPhone *)searchBar clearSearchString:(NSString *)searchText{
-    //留空
+    [Utility errorAlert:@"请输入搜索内容!"];
 }
 
 -(void)dealloc{

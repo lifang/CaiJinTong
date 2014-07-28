@@ -17,7 +17,13 @@
 @end
 
 @implementation Section_GradeViewController_iPhone
-
+-(CommentListInterface *)commentInterface {
+    if (!_commentInterface) {
+        _commentInterface = [[CommentListInterface alloc]init];
+        _commentInterface.delegate = self;
+    }
+    return _commentInterface;
+}
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -33,6 +39,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.nowPage = 0;
     self.tableViewList.tag = LessonViewTagType_commentTableViewTag;
     self.tableViewList.delegate = self;
     [self.footerRefreshView endRefreshing];
@@ -43,6 +50,12 @@
 {
     DLog(@"加载为当前视图 = %@",self.title);
     [self displayView];
+    if ([CaiJinTongManager shared].isLoadComment==NO) {
+        //加载评论信息
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self.nowPage +=1;
+        [self.commentInterface getCommentListWithUserId:[CaiJinTongManager shared].userId sectionId:self.sectionId pageIndex:self.nowPage];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -140,9 +153,6 @@ static NSString *timespan = nil;
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     [scrollView setScrollEnabled:YES];
-    if (scrollView == self.tableViewList) {
-        [self.textView resignFirstResponder];
-    }
 }
 
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
@@ -156,7 +166,7 @@ static NSString *timespan = nil;
     }else{//向上
         if (parentTableView && parentTableView.contentOffset.y <= 0) {
             [scrollView setScrollEnabled:NO];
-            [parentTableView setContentOffset:(CGPoint){0,160} animated:YES];
+            [parentTableView setContentOffset:(CGPoint){0,parentTableView.contentSize.height - parentTableView.frame.size.height} animated:YES];
         }
     }
     
@@ -229,10 +239,7 @@ static NSString *timespan = nil;
             [Utility errorAlert:@"暂无网络"];
         }else{
             self.nowPage +=1;
-            CommentListInterface *commentList = [[CommentListInterface alloc]init];
-            self.commentInterface = commentList;
-            self.commentInterface.delegate = self;
-            [self.commentInterface getGradeInterfaceDelegateWithUserId:[CaiJinTongManager shared].userId andSectionId:self.lessonId andPageIndex:self.nowPage];
+            [self.commentInterface getCommentListWithUserId:[CaiJinTongManager shared].userId sectionId:self.sectionId pageIndex:self.nowPage];
         }
     }];
 }
@@ -242,17 +249,22 @@ static NSString *timespan = nil;
     [self.textView resignFirstResponder];
 }
 #pragma mark --
-
+-(NSMutableArray *)dataArray {
+    if (!_dataArray) {
+        _dataArray = [NSMutableArray array];
+    }
+    return _dataArray;
+}
 #pragma  mark --CommentListInterfaceDelegate
--(void)getCommentListInfoDidFinished:(SectionModel *)result {
+-(void)getCommentListInfoDidFinished:(NSArray *)result {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        if (result.commentList.count>0) {
-            [self.dataArray addObjectsFromArray:result.commentList];
-        }
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [self.dataArray addObjectsFromArray:result];
             [self.tableViewList reloadData];
             [self.footerRefreshView endRefreshing];
+            [CaiJinTongManager shared].isLoadComment = YES;
+        
         });
         
     });
@@ -319,13 +331,19 @@ static NSString *timespan = nil;
 #pragma mark property
 
 -(MJRefreshFooterView *)footerRefreshView{
-    if (!_footerRefreshView) {
-        _footerRefreshView = [[MJRefreshFooterView alloc] init];
-        _footerRefreshView.delegate = self;
-        _footerRefreshView.scrollView = self.tableViewList;
-        
+    if ([CaiJinTongManager shared].isShowLocalData) {
+        _footerRefreshView = nil;
+        return nil;
+    }else{
+        if (!_footerRefreshView) {
+            _footerRefreshView = [[MJRefreshFooterView alloc] init];
+            _footerRefreshView.delegate = self;
+            _footerRefreshView.scrollView = self.tableViewList;
+            
+        }
+        return _footerRefreshView;
     }
-    return _footerRefreshView;
+
 }
 
 -(UILabel *)tipLabel{

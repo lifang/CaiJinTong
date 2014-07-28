@@ -11,7 +11,10 @@
 #import "CaiJinTongManager.h"
 #import "iRate.h"
 #import "Section.h"
-#import "SectionSaveModel.h"
+#import "DRFMDBDatabaseToolTEST.h"
+#import "ASINetworkQueue.h"
+#import "QuestionRequestDataInterface.h"
+#define APPNEWVERSION_Notification @"APPNEWVERSION_Notification"
 @implementation AppDelegate
 
 + (void)initialize
@@ -25,7 +28,7 @@
     [iRate sharedInstance].rateButtonLabel = @"去评分";
     //检测版本
     [iVersion sharedInstance].inThisVersionTitle = NSLocalizedString(@"新版本", @"iVersion local version alert title");
-    [iVersion sharedInstance].updateAvailableTitle = NSLocalizedString(@"A new version of MyApp is available to download", @"iVersion new version alert title");
+    [iVersion sharedInstance].updateAvailableTitle = NSLocalizedString(@"财金通有新版本可以下载", @"iVersion new version alert title");
     [iVersion sharedInstance].versionLabelFormat = NSLocalizedString(@"Version %@", @"iVersion version label format");
     [iVersion sharedInstance].okButtonLabel = NSLocalizedString(@"确定", @"iVersion OK button");
     [iVersion sharedInstance].ignoreButtonLabel = NSLocalizedString(@"取消", @"iVersion ignore button");
@@ -38,26 +41,35 @@
 +(AppDelegate *)sharedInstance {
     return (AppDelegate *)[[UIApplication sharedApplication] delegate];
 }
+
 - (void)showRootView { 
     
 }
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    NSString* appver=[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+    [CaiJinTongManager shared].appstoreNewVersion = appver;
+
+    ///设置版本检测
+    [iVersion sharedInstance].delegate = self;
+    [[iVersion sharedInstance] checkForNewVersion];
+    //开启网络状况的监听
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+    self.hostReach = [Reachability reachabilityWithHostName:@"www.baidu.com"] ;
+    [self.hostReach startNotifier];  //开始监听，会启动一个run loop
+    
     //设置是否加载图片
     BOOL isloadLargeImage = [[NSUserDefaults standardUserDefaults] boolForKey:ISLOADLARGEIMAGE_KEY];
     [[CaiJinTongManager shared] setIsLoadLargeImage:isloadLargeImage];
     
-    
-    //开启网络状况的监听
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
-    
-    [[Reachability reachabilityWithHostName:@"www.baidu.com"] startNotifier];  //开始监听，会启动一个run loop
-    
+    if (!isPAD) {
+        [CaiJinTongManager shared].isShowLocalData = YES;
+    }
+
     self.mDownloadService = [[DownloadService alloc]init];
-//    UserModel *user = [[UserModel alloc] init];
-//    user.userId = @"17082";
-//    [[CaiJinTongManager shared] setUser:user];
     self.window.backgroundColor = [UIColor colorWithRed:233.0/255.0 green:233.0/255.0 blue:233.0/255.0 alpha:1.0];
+    
     return YES;
 }
 //连接改变
@@ -73,6 +85,10 @@
     if(status == NotReachable)
     {
         self.isReachable = NO;
+    }else {
+        for (SectionModel *section in self.appButtonModelArray) {
+            [self.mDownloadService addDownloadTask:section];
+        }
     }
 }
 
@@ -100,23 +116,48 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     //停止下载任务
-    Section *sectionDb = [[Section alloc]init];
-    NSArray *local_array = [sectionDb getDowningInfo];
-    if (local_array.count>0) {
-        for (int i=0; i<local_array.count; i++) {
-            SectionSaveModel *nm = (SectionSaveModel *)[local_array objectAtIndex:i];
-            [self.mDownloadService stopTask:nm];
+    //判断当前下载任务是否已经在下载队列中
+    ASINetworkQueue *networkQueue = self.mDownloadService.networkQueue;
+    if ([networkQueue requestsCount] > 0) {
+        NSArray *requestArray = networkQueue.operations;
+        for (NSOperation *oper in requestArray) {
+            ASIHTTPRequest *request = (ASIHTTPRequest *)oper;
+            SectionModel *section = [request.userInfo objectForKey:@"SectionSaveModel"];
+            [self.mDownloadService stopTask:section];
+            [request clearDelegatesAndCancel];
+            request = nil;
         }
     }
 }
 
+#pragma mark iVersionDelegate
+- (void)iVersionDidNotDetectNewVersion{
+    
+    NSString *appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+    [CaiJinTongManager shared].appstoreNewVersion = appVersion;
+    [[NSNotificationCenter defaultCenter] postNotificationName:APPNEWVERSION_Notification object:nil];
+}
+-(void)iVersionDidDetectNewVersion:(NSString *)version details:(NSString *)versionDetails{
+    
+    [CaiJinTongManager shared].appstoreNewVersion = version;
+    [[NSNotificationCenter defaultCenter] postNotificationName:APPNEWVERSION_Notification object:nil];
+}
 
-//-(NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window{
-//    NSUInteger orientations = UIInterfaceOrientationMaskAll;
-//    return orientations;
-//}
+-(void)iVersionVersionCheckDidFailWithError:(NSError *)error{
+    
+    NSString *appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+    [CaiJinTongManager shared].appstoreNewVersion = appVersion;
+    [[NSNotificationCenter defaultCenter] postNotificationName:APPNEWVERSION_Notification object:nil];
+}
 
 #pragma mark property
+
+-(NSMutableArray *)appButtonModelArray{
+    if (!_appButtonModelArray) {
+        _appButtonModelArray = [NSMutableArray array];
+    }
+    return _appButtonModelArray;
+}
 -(NSMutableArray *)alertViewArray{
     if (!_alertViewArray) {
         _alertViewArray = [NSMutableArray array];
@@ -131,4 +172,5 @@
     return _popupedControllerArr;
 }
 #pragma mark --
+
 @end

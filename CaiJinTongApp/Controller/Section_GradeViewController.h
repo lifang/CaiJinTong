@@ -13,6 +13,7 @@
 #import "CommentListInterface.h"
 #import "GradeInterface.h"
 #import "MJRefresh.h"
+
 @interface Section_GradeViewController : UIViewController<StarRatingViewDelegate,UITableViewDataSource, UITableViewDelegate,UITextViewDelegate,CommentListInterfaceDelegate,GradeInterfaceDelegate,MJRefreshBaseViewDelegate>
 
 
@@ -22,7 +23,8 @@
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) IBOutlet UITableView *tableViewList;
 @property (nonatomic, assign) NSInteger isGrade;//0可以打分，1已经打过分
-//@property (nonatomic, assign) NSInteger pageCount;//评论的总页数用来判断分页加载
+@property (nonatomic, strong) NSString *sectionId;
+
 @property (nonatomic, assign) NSInteger nowPage;//当先评论列表的页码
 @property (nonatomic, strong) NSString *lessonId;//
 @property (strong, nonatomic) TQStarRatingView *starRatingView;

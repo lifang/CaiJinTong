@@ -21,8 +21,11 @@
 
 @property ( nonatomic) double pv;//视频下载进度
 @property (nonatomic, strong) NSString *sid;
-@property (nonatomic, strong) SectionSaveModel *sectionS;
 
 @property (nonatomic, strong)  SectionModel *sectionModel;
 @property (assign,nonatomic) BOOL isMoviePlayView;
+-(void)beginReceiveNotification;
+
+///重新加载cell时调用
+-(void)continueDownloadFileWithDownloadStatus:(DownloadStatus)status;
 @end

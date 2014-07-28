@@ -108,10 +108,14 @@
     for (UIView *view in self.subviews) {
         [view removeFromSuperview];
     }
+    int count = items.count;
+    if (count >= 3) {
+        count = 3;
+    }
     for (int i = 0; i < self.items.count; i++) {
         LHLTabBarItem *item = self.items[i];
         item.tag = i;
-        item.frame = (CGRect){i%3 * self.frame.size.width / 3,i <3?(0):-CGRectGetHeight(self.frame),self.frame.size.width / 3,self.frame.size.height};
+        item.frame = (CGRect){i%count * self.frame.size.width / count,i <count?(0):-CGRectGetHeight(self.frame),self.frame.size.width / count,self.frame.size.height};
          [self addSubview:item];
     }
 }

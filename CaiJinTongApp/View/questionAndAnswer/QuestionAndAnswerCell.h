@@ -15,6 +15,8 @@
 #define  QUESTIONANDANSWER_CELL_WIDTH 600
 #import "DRAttributeStringView.h"
 #import "IndexPathModel.h"
+#import "HTMLParser.h"
+
 @protocol QuestionAndAnswerCellDelegate;
 @interface QuestionAndAnswerCell : UITableViewCell<UITextViewDelegate>
 @property (weak,nonatomic) IBOutlet id<QuestionAndAnswerCellDelegate> delegate;
@@ -23,17 +25,21 @@
 @property (weak, nonatomic) IBOutlet UIView *questionBackgroundView;
 @property (weak, nonatomic) IBOutlet DRAttributeStringView *answerAttributeTextView;
 
+@property (weak, nonatomic) IBOutlet UIImageView *qTitleNameImageView;
 @property (weak, nonatomic) IBOutlet UILabel *qTitleNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *qDateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *qflowerLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *qflowerImageView;
 @property (weak, nonatomic) IBOutlet UIButton *qflowerBt;
-//@property (weak, nonatomic) IBOutlet UITextView *answerTextField;
+
+
 @property (weak, nonatomic) IBOutlet UITextView *questionTextField;
 @property (weak, nonatomic) IBOutlet UIButton *acceptAnswerBt;
 @property (weak, nonatomic) IBOutlet UIButton *answerBt;
 @property (weak, nonatomic) IBOutlet UIButton *reaskBt;//追问
 @property (assign,nonatomic) ReaskType reaskType;
+
+
 - (IBAction)qflowerBtClicked:(id)sender;
 - (IBAction)answerBtClicked:(id)sender;
 - (IBAction)questionOKBtClicked:(id)sender;

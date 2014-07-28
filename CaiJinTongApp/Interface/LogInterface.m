@@ -29,7 +29,6 @@
 #else
     self.interfaceUrl = @"http://i.finance365.com/_3G/LogIn";
 #endif
-//    self.interfaceUrl = [NSString stringWithFormat:@"http://i.finance365.com/_3G/LogIn?timespan=%@&token=%@&userName=%@&passWord=%@",timespan,md5Key,theName,thePassWord];
     self.baseDelegate = self;
     self.headers = reqheaders;
     
@@ -41,7 +40,6 @@
     NSDictionary *resultHeaders = [[request responseHeaders] allKeytoLowerCase];
     if (resultHeaders) {
         NSData *data = [[NSData alloc]initWithData:[request responseData]];
-//        NSLog(@"%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
         id jsonObject=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
         if (jsonObject !=nil) {
             if ([jsonObject isKindOfClass:[NSDictionary class]]) {

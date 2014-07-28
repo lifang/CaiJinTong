@@ -10,7 +10,7 @@
 #import "InfoCell.h"
 #import "SuggestionFeedbackViewController.h"
 
-@interface SettingViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,InfoCellDelegate,iVersionDelegate,UIAlertViewDelegate>
+@interface SettingViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,InfoCellDelegate,UIAlertViewDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @end

@@ -32,6 +32,8 @@
  是否开始剪切
  */
 @property (assign,nonatomic) BOOL isCut;
+@property (strong, nonatomic) UIImage *screenShotImage;
+@property (weak, nonatomic) IBOutlet UIButton *scanScreenButton;
 - (IBAction)spaceAreaClicked:(id)sender;
 - (IBAction)cancelBtnClicked:(UIButton *)sender;
 - (IBAction)commitBtnClicked:(UIButton *)sender;

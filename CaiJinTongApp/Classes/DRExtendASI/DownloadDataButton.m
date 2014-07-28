@@ -39,21 +39,21 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDateProgress:) name:DownloadDataButton_Notification_Progress object:nil];
 }
 
--(void)setDownloadUrl:(NSURL*)url withDownloadStatus:(DownloadDataButtonStatus)status withIsPostNotification:(BOOL)isPost{
+-(void)setDownloadUrl:(NSURL*)url withDownloadStatus:(DownloadStatus)status withIsPostNotification:(BOOL)isPost{
 //    NSArray *arr = [[ASINetworkQueue defaultDownloadLargeDataQueue] operations];
 //    NSLog(@"%d",[arr count]);
     [self addTargetMethod];
     self.downloadFileStatus = status;
     if (self.downloadFileURL &&  ![self.downloadFileURL.absoluteString isEqualToString:url.absoluteString]) {
         [self pauseDownloadData];
-        self.downloadFileStatus = DownloadDataButtonStatus_Pause;
+        self.downloadFileStatus = DownloadStatus_Pause;
     }
     self.downloadFileURL = url;
     self.isPostNotification = isPost;
 }
 
 
--(void)setDownloadLearningMaterial:(LearningMaterials*)learningMaterial withDownloadStatus:(DownloadDataButtonStatus)status withIsPostNotification:(BOOL)isPost{
+-(void)setDownloadLearningMaterial:(LearningMaterials*)learningMaterial withDownloadStatus:(DownloadStatus)status withIsPostNotification:(BOOL)isPost{
 //    NSArray *arr = [[ASINetworkQueue defaultDownloadLargeDataQueue] operations];
 //    NSLog(@"%d",[arr count]);
     self.materialModel = learningMaterial;
@@ -79,26 +79,21 @@
     if (que) {
         return;
     }
-    self.downloadFileStatus = DownloadDataButtonStatus_Downloading;
+    self.downloadFileStatus = DownloadStatus_Downloading;
     NSString *fileName = [self.downloadFileURL lastPathComponent];
     NSString *path = [[ASIHTTPRequest getLargeFileSavePath] stringByAppendingPathComponent:fileName];
+//    [[NSFileManager defaultManager]  removeItemAtPath:path error:nil];
+//    [[NSFileManager defaultManager]  removeItemAtPath:[[ASIHTTPRequest getLargeFileTempPath] stringByAppendingPathComponent:fileName] error:nil];
+//    [[NSFileManager defaultManager] createFileAtPath:[[ASIHTTPRequest getLargeFileTempPath] stringByAppendingPathComponent:fileName] contents:nil attributes:nil];
     _localPath = path;
     if (self.isPostNotification) {
         [[NSNotificationCenter defaultCenter] postNotificationName:DownloadDataButton_Notification_DidStartDownload object:nil userInfo:@{URLKey: self.downloadFileURL.absoluteString?:@"",URLLocalPath:path?:@""}];
     }
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithLargeDataURL:self.downloadFileURL];
+//    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:self.downloadFileURL];
+    [request setAllowResumeForFileDownloads:YES];
     [request setDownloadDestinationPath:path];
     [request setTemporaryFileDownloadPath:[[ASIHTTPRequest getLargeFileTempPath] stringByAppendingPathComponent:fileName]];
-//    __weak DownloadDataButton *weakSelf = self;
-//    __weak NSString *url = self.downloadFileURL.absoluteString;
-//    [request setBytesReceivedBlock:^(unsigned long long size, unsigned long long total) {
-//        DownloadDataButton *tempSelf = weakSelf;
-//        NSString *tempUrl = url;
-//        if (tempSelf && tempSelf.isPostNotification) {
-//            [[NSNotificationCenter defaultCenter] postNotificationName:DownloadDataButton_Notification_Progress object:nil userInfo:@{URLKey: tempUrl,URLReceiveDataSize:[NSNumber numberWithLongLong:size],URLTotalDataSize:[NSNumber numberWithLongLong:total]}];
-//        }
-//        NSLog(@"%@,%llu,%llu",tempUrl,size,total);
-//    }];
     [request setDownloadProgressDelegate:self.progressView];
     [request setDidFinishSelector:@selector(requestDidFinished:)];
     [request setDidFailSelector:@selector(requestDidFailure:)];
@@ -110,7 +105,7 @@
 -(void)continueDownloadData{
     ASIHTTPRequest *request = [self getRequestFromQueueWithInfo:self.downloadFileURL.absoluteString];
     if (request) {
-        self.downloadFileStatus = DownloadDataButtonStatus_Downloading;
+        self.downloadFileStatus = DownloadStatus_Downloading;
         return;
     }else{
         [self startDownloadData];
@@ -118,7 +113,7 @@
 }
 
 -(void)pauseDownloadData{
-    self.downloadFileStatus = DownloadDataButtonStatus_Pause;
+    self.downloadFileStatus = DownloadStatus_Pause;
     ASIHTTPRequest *request = [self getRequestFromQueueWithInfo:self.downloadFileURL.absoluteString];
     if (request) {
         [request setDelegate:nil];
@@ -130,10 +125,16 @@
 }
 
 -(void)cancelDownloadData{
+    self.downloadFileStatus = DownloadStatus_UnDownload;
     ASIHTTPRequest *request = [self getRequestFromQueueWithInfo:self.downloadFileURL.absoluteString];
     if (request) {
         [request setDelegate:nil];
         [request clearDelegatesAndCancel];
+    }
+    self.progressView.progress = 0.0;
+    [self.progressView removeFromSuperview];
+    if (self.isPostNotification) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:DownloadDataButton_Notification_Cancel object:nil userInfo:@{URLKey: self.downloadFileURL.absoluteString?:@"",URLLocalPath:self.localPath?:@""}];
     }
 }
 
@@ -154,26 +155,26 @@
         return;
     }
     switch (self.downloadFileStatus) {
-        case DownloadDataButtonStatus_UnDownload:
+        case DownloadStatus_UnDownload:
         {
             [self startDownloadData];
             break;
         }
-        case DownloadDataButtonStatus_Downloading:
+        case DownloadStatus_Downloading:
         {
-            self.alert = [[UIAlertView alloc] initWithTitle:@"" message:@"正在下载中..." delegate:self cancelButtonTitle:nil otherButtonTitles:@"取消下载",@"取消", nil];
-            self.alert.tag = DownloadDataButtonStatus_Downloading;
+            self.alert = [[UIAlertView alloc] initWithTitle:@"" message:@"正在下载中..." delegate:self cancelButtonTitle:nil otherButtonTitles:@"暂停下载",@"取消下载",@"取消", nil];
+            self.alert.tag = DownloadStatus_Downloading;
             [self.alert show];
             break;
         }
-        case DownloadDataButtonStatus_Pause:
+        case DownloadStatus_Pause:
         {
             self.alert = [[UIAlertView alloc] initWithTitle:@"" message:@"是否继续下载" delegate:self cancelButtonTitle:nil otherButtonTitles:@"继续下载",@"取消", nil];
-            self.alert.tag = DownloadDataButtonStatus_Pause;
+            self.alert.tag = DownloadStatus_Pause;
             [self.alert show];
             break;
         }
-        case DownloadDataButtonStatus_Downloaded:
+        case DownloadStatus_Downloaded:
         {
             break;
         }
@@ -186,25 +187,28 @@
 #pragma mark UIAlertViewDelegate
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     switch (alertView.tag) {
-        case DownloadDataButtonStatus_UnDownload:
+        case DownloadStatus_UnDownload:
         {
             break;
         }
-        case DownloadDataButtonStatus_Downloading:
+        case DownloadStatus_Downloading:
         {
             if (buttonIndex == 0) {
                 [self pauseDownloadData];
             }
+            if (buttonIndex == 1) {
+                [self cancelDownloadData];
+            }
             break;
         }
-        case DownloadDataButtonStatus_Pause:
+        case DownloadStatus_Pause:
         {
             if (buttonIndex == 0) {
                 [self continueDownloadData];
             }
             break;
         }
-        case DownloadDataButtonStatus_Downloaded:
+        case DownloadStatus_Downloaded:
         {
             break;
         }
@@ -226,7 +230,7 @@
 #pragma mark requestDelegate
 -(void)requestDidFinished:(ASIHTTPRequest*)request{
     if ([[request.userInfo objectForKey:URLKey] isEqualToString:self.downloadFileURL.absoluteString]) {
-        self.downloadFileStatus = DownloadDataButtonStatus_Downloaded;
+        self.downloadFileStatus = DownloadStatus_Downloaded;
         
         if (self.materialModel) {
             CaiJinTongManager *app = [CaiJinTongManager shared];
@@ -261,8 +265,8 @@
 
 -(void)requestDidFailure:(ASIHTTPRequest*)request{
     if ([[request.userInfo objectForKey:URLKey] isEqualToString:self.downloadFileURL.absoluteString]) {
-        if (self.downloadFileStatus != DownloadDataButtonStatus_Pause) {
-            self.downloadFileStatus = DownloadDataButtonStatus_UnDownload;
+        if (self.downloadFileStatus != DownloadStatus_Pause) {
+            self.downloadFileStatus = DownloadStatus_UnDownload;
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:DownloadDataButton_Notification_Failure object:nil userInfo:@{URLKey: self.downloadFileURL.absoluteString?:@"",URLLocalPath:self.localPath?:@""}];
     }
@@ -278,31 +282,33 @@
     return _progressView;
 }
 
--(void)setDownloadFileStatus:(DownloadDataButtonStatus)downloadFileStatus{
+-(void)setDownloadFileStatus:(DownloadStatus)downloadFileStatus{
     _downloadFileStatus = downloadFileStatus;
     [self.progressView removeFromSuperview];
+    self.backgroundColor = [UIColor clearColor];
+    [self setTitle:@"" forState:UIControlStateNormal];
     switch (downloadFileStatus) {
-        case DownloadDataButtonStatus_UnDownload:
+        case DownloadStatus_UnDownload:
         {
-            [self setTitle:@"点击下载" forState:UIControlStateNormal];
+//            [self setTitle:@"点击下载" forState:UIControlStateNormal];
             break;
         }
-        case DownloadDataButtonStatus_Downloading:
+        case DownloadStatus_Downloading:
         {
             
             [self addSubview:self.progressView];
-            [self setTitle:@"正在下载" forState:UIControlStateNormal];
+//            [self setTitle:@"正在下载" forState:UIControlStateNormal];
             break;
         }
-        case DownloadDataButtonStatus_Pause:
+        case DownloadStatus_Pause:
         {
              [self addSubview:self.progressView];
-            [self setTitle:@"继续下载" forState:UIControlStateNormal];
+//            [self setTitle:@"继续下载" forState:UIControlStateNormal];
             break;
         }
-        case DownloadDataButtonStatus_Downloaded:
+        case DownloadStatus_Downloaded:
         {
-            [self setTitle:@"下载完成" forState:UIControlStateNormal];
+//            [self setTitle:@"下载完成" forState:UIControlStateNormal];
             break;
         }
         default:

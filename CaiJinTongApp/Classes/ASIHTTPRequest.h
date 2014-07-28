@@ -1001,4 +1001,7 @@ typedef void (^ASIDataBlock)(NSData *data);
 @property (retain) ASIDataDecompressor *dataDecompressor;
 @property (assign) BOOL shouldWaitToInflateCompressedResponses;
 
+//自定义属性 :财金通  本次请求的待下载数据大小
+@property (assign) long long bytesToDownload;
+
 @end

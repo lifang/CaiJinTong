@@ -17,13 +17,17 @@
 #import "Const.h"
 #import "Utility.h"
 #import "CaiJinTongManager.h"
+#import "UIViewController+MJPopupViewController.h"
 #import "MBProgressHUD.h"
 #import "DRNavigationController.h"
-#import "iVersion.h"
 #import "Section.h"
+#import "DRFMDBDatabaseTool.h"
+#import "iVersion.h"
+#define APPNEWVERSION_Notification @"APPNEWVERSION_Notification"
+#define kChangeVideoPlayedStatusNotification @"ChangeVideoPlayedStatusNotification"
+
 #endif
 
-typedef enum {MOVIE_FILE,MOVIE_INTERNET}MovieLocateType;
 
 //系统版本
 #define platform [[[UIDevice currentDevice] systemVersion] floatValue]

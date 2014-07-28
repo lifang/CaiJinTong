@@ -72,9 +72,10 @@
                 if(lesson.lessonName)nameLabel.text = [NSString stringWithFormat:@"%@",lesson.lessonName];
                 nameLabel.textColor = [UIColor blackColor];
                 nameLabel.numberOfLines = 0;
+                nameLabel.lineBreakMode = NSLineBreakByWordWrapping;
                 nameLabel.textAlignment = NSTextAlignmentLeft;
                 nameLabel.backgroundColor = [UIColor clearColor];
-                nameLabel.font = [UIFont systemFontOfSize:14];
+                nameLabel.font = [UIFont systemFontOfSize:10];
                 self.nameLab = nameLabel;
                 [self addSubview:self.nameLab];
                 nameLabel = nil;
@@ -85,6 +86,7 @@
 
 //更新课程名,进度,及图片 ,及sectionId
 -(void)refreshDataWithLesson:(LessonModel *)lesson{
+    self.lesson = lesson;
     self.sectionId = lesson.lessonId;
     if(!self.pv){
         DLog(@"错误!应先初始化SectionCustomView!");

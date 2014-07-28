@@ -30,13 +30,13 @@
         self.searchTextField.textColor = [UIColor grayColor];
         self.searchTextField.clearButtonMode = UITextFieldViewModeAlways;
         self.searchTextField.placeholder = @"搜索课程";
-//        [self.searchTextField setBackgroundColor:[UIColor redColor]];
         [self.searchTextField setTextColor: [UIColor colorWithRed:85.0/255.0 green:113.0/255.0 blue:132.0/255.0 alpha:1.0f]];
         self.searchTextField.font = [UIFont boldSystemFontOfSize:15.0f];
         [self.searchTextField.window makeKeyAndVisible];
 
         [self addSubview:self.searchTextField];
         self.searchTextField.delegate = self;
+        
     }
     return self;
 }
@@ -82,6 +82,7 @@
 }
 
 -(BOOL)textFieldShouldClear:(UITextField *)textField{
+    [textField resignFirstResponder];
     if (self.delegate && [self.delegate respondsToSelector:@selector(chapterSeachBar_iPhone:clearSearchString:)]) {
         [self.delegate chapterSeachBar_iPhone:self clearSearchString:self.searchTextField.text];
     }

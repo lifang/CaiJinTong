@@ -14,6 +14,7 @@ static CGRect tableFrame;
 @property (nonatomic,assign) BOOL dropdownmenuSelected;
 @property (nonatomic,strong) DRTreeTableView *categoryTreeTableView;
 @property (weak, nonatomic) IBOutlet UIImageView *cutImageView;
+
 @property (nonatomic, strong) QuestionInfoInterface *questionInfoInterface;//获取所有问答分类
 @end
 
@@ -46,6 +47,10 @@ static CGRect tableFrame;
    
 }
 
+- (void)dealloc{
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -74,6 +79,8 @@ static CGRect tableFrame;
     
     [self.view.layer setCornerRadius:6];
     [self.view.layer setMasksToBounds:YES];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(recievedMPMoviePlayerThumbnailImageRequestDidFinishNotification:) name:@"MPMoviePlayerThumbnailImageRequestDidFinishNotification" object:nil];
 
     //问答分类
     //        self.questionCategoryList = [TestModelData getTreeNodeArrayFromArray:[TestModelData loadJSON]];
@@ -118,10 +125,7 @@ static CGRect tableFrame;
 }
 
 - (IBAction)cancelBtnClicked:(UIButton *)sender {
-    [self dismissViewControllerAnimated:YES completion:^{
-        
-    }];
-    
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopTop];
     if (self.delegate && [self.delegate respondsToSelector:@selector(commitQuestionControllerCancel)]) {
         [self.delegate commitQuestionControllerCancel];
     }
@@ -144,9 +148,7 @@ static CGRect tableFrame;
     }
     
     if (self.selectedQuestionCategoryId != nil && ![self.dropDownBt.titleLabel.text isEqualToString:DROPDOWNMENU_TITLE]){
-        [self dismissViewControllerAnimated:YES completion:^{
-            
-        }];
+        [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopTop];
         if (self.delegate && [self.delegate respondsToSelector:@selector(commitQuestionController:didCommitQuestionWithTitle:andText:andQuestionId:)]) {
             [self.delegate commitQuestionController:self didCommitQuestionWithTitle:self.titleField.text andText:self.contentField.text andQuestionId:self.selectedQuestionCategoryId];
         }
@@ -229,18 +231,9 @@ static CGRect tableFrame;
     self.isCut = YES;
     self.cutImage = nil;
     if (self.delegate && [self.delegate respondsToSelector:@selector(commitQuestionControllerDidStartCutScreenButtonClicked:)]) {
+        [self.delegate commitQuestionControllerDidStartCutScreenButtonClicked:self];
         
-        self.cutImage = [self.delegate commitQuestionControllerDidStartCutScreenButtonClicked:self];
-        self.cutImageView.image = self.cutImage;
-        if (self.cutImageView.image) {
-            [sender setHidden:YES];
-        }else{
-            MBProgressHUD *progress = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            progress.labelText = @"无法截取视频，请查看播放的视频是否正确";
-            progress.mode = MBProgressHUDModeText;
-            progress.removeFromSuperViewOnHide = YES;
-            [progress hide:YES afterDelay:2.0];
-        }
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     }
 }
 
@@ -252,7 +245,8 @@ static CGRect tableFrame;
 }
 -(DRTreeTableView *)categoryTreeTableView{
     if (!_categoryTreeTableView) {
-        _categoryTreeTableView = [[DRTreeTableView alloc] initWithFrame:(CGRect){CGRectGetMinX(self.dropDownBt.frame),CGRectGetMaxY(self.dropDownBt.frame),470,300} withTreeNodeArr:nil];
+//        _categoryTreeTableView = [[DRTreeTableView alloc] initWithFrame:(CGRect){CGRectGetMinX(self.dropDownBt.frame),CGRectGetMaxY(self.dropDownBt.frame),470,300} withTreeNodeArr:nil];
+        _categoryTreeTableView = [[DRTreeTableView alloc] initWithDropDownMenuFrame:(CGRect){CGRectGetMinX(self.dropDownBt.frame),CGRectGetMaxY(self.dropDownBt.frame),470,300} withTreeNodeArr:nil];
         _categoryTreeTableView.delegate = self;
         _categoryTreeTableView.backgroundColor = [UIColor lightGrayColor];
     }
@@ -270,4 +264,43 @@ static CGRect tableFrame;
     return YES;
 }
 
+#pragma mark --
+- (void)recievedMPMoviePlayerThumbnailImageRequestDidFinishNotification:(NSNotification *)notification{
+    NSLog(@"%@",notification);
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    NSDictionary *userInfoDictionary = notification.userInfo;
+    if (userInfoDictionary) {
+        UIImage *image = [userInfoDictionary objectForKey:@"MPMoviePlayerThumbnailImageKey"];
+        if (image) {
+            self.cutImage = image;
+            self.cutImageView.image = self.cutImage;
+            if (self.cutImageView.image) {
+                [self.scanScreenButton setHidden:YES];
+            }
+        }else{
+            MBProgressHUD *progress = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            progress.labelText = @"无法截取视频，请查看播放的视频是否正确";
+            progress.mode = MBProgressHUDModeText;
+            progress.removeFromSuperViewOnHide = YES;
+            [progress hide:YES afterDelay:2.0];
+        }
+    }else{
+        MBProgressHUD *progress = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        progress.labelText = @"无法截取视频，请查看播放的视频是否正确";
+        progress.mode = MBProgressHUDModeText;
+        progress.removeFromSuperViewOnHide = YES;
+        [progress hide:YES afterDelay:2.0];
+    }
+}
+
+- (void) setScreenShotImage:(UIImage *)screenShotImage{
+    if (screenShotImage) {
+        _cutImage = screenShotImage;
+        _screenShotImage = screenShotImage;
+        self.scanScreenButton.hidden = YES;
+        self.cutImageView.image = screenShotImage;
+    }else{
+        _screenShotImage = screenShotImage;
+    }
+}
 @end

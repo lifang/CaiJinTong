@@ -12,6 +12,24 @@
 @interface Utility : NSObject
 +(Utility*)defaultUtility;
 
+#pragma mark 16进制颜色转换
+
++ (UIColor*) colorWithHex:(NSInteger)hexValue;
++ (UIColor*) colorWithHex:(NSInteger)hexValue alpha:(CGFloat)alphaValue;
++ (NSString *) hexFromUIColor: (UIColor*) color;
+
+#pragma mark --
+///查找播放记录
++(float)getStartPlayerTimeWithUserId:(NSString*)userId withSectionId:(NSString*)sectionId;
+
+///查找播放记录_日期
++ (NSString *)getLastPlayDateWithUserId:(NSString *)userId withSectionId:(NSString *)sectionId;
+
+///保存播放记录
++(void)setStartPlayerTimeWithUserId:(NSString*)userId withSectionId:(NSString*)sectionId withPlayerTime:(float)time withLastPlayDate:(NSString *)lastPlayDate;
+///返回文件类型
++(DRURLFileType)getFileTypeWithFileExtension:(NSString*)extension;
+
 ///过滤json数据，可能出现<NULL>,null,等等情况
 +(NSString *)filterValue:(NSString*)value;
 

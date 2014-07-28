@@ -30,6 +30,7 @@
 @property (nonatomic,strong) NSString *searchContent;//搜索之前字符串
 @property (nonatomic,strong) SectionViewController *sectionViewController;
 @property (strong, nonatomic) IBOutletCollection(DRImageButton) NSArray *drImageButtons;
+@property (assign, nonatomic) BOOL videoPlayed; //标示是否播放过视频, 如为YES则apper时刷新列表
 @end
 
 @implementation ChapterViewController
@@ -43,16 +44,18 @@
     return self;
 }
 
--(void)drnavigationBarRightItemClicked:(id)sender{
+-(void)willDismissPopoupController{
     if (platform >= 7.0) {
         [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionBottom animated:NO];
     }else{
         CGPoint offset = self.collectionView.contentOffset;
         [self.collectionView setContentOffset:offset animated:NO];
     }
-    [self dismissViewControllerAnimated:YES completion:^{
-        
-    }];
+}
+
+
+-(void)drnavigationBarRightItemClicked:(id)sender{
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideLeftRight];
 }
 
 -(void)initCollectionView {
@@ -72,22 +75,34 @@
 -(void)dealloc{
     [self.footerRefreshView free];
     [self.headerRefreshView free];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//    self.dataArray = [NSMutableArray arrayWithArray:[TestModelData getLessonArr]];//测试数据
     [self initCollectionView];
     self.drnavigationBar.searchBar.searchTextLabel.placeholder = @"搜索课程";
     [self.drnavigationBar hiddleBackButton:YES];
+    
+    self.videoPlayed = NO;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeVideoPlayedStatus:) name:kChangeVideoPlayedStatusNotification object:nil];
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [CaiJinTongManager shared].isLoadComment = NO;
+    
     self.drnavigationBar.titleLabel.text = @"课程";
+    if (self.videoPlayed) {
+        [MBProgressHUD showHUDAddedToTopView:self.view animated:YES];
+        [self refreshViewBeginRefreshing:self.headerRefreshView];
+        self.videoPlayed = NO;
+    }
 }
 
 -(void)reloadDataWithDataArray:(NSArray*)data withCategoryId:(NSString*)lessonCategoryId isSearch:(BOOL)isSearch{
     self.isSearch = isSearch;
     self.lessonCategoryId = lessonCategoryId;
-//    DLog(@"count = %d,cell count:%d",data.count,self.collectionView.subviews.count);
     self.dataArray = [NSMutableArray arrayWithArray:data];
      [self.collectionView reloadData];
 }
@@ -280,6 +295,11 @@
     return _searchLessonInterface;
 }
 
+//播放视频时将得到通知
+- (void)changeVideoPlayedStatus:(NSNotification *)notification{
+    self.videoPlayed = YES;
+}
+
 #pragma mark MJRefreshBaseViewDelegate 分页加载
 -(void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView{
     if (self.headerRefreshView == refreshView) {
@@ -311,6 +331,7 @@
         UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
         self.sectionViewController = [story instantiateViewControllerWithIdentifier:@"SectionViewController"];
         self.sectionViewController.lessonModel = lesson;
+        [CaiJinTongManager shared].lesson = lesson;
         [MBProgressHUD hideHUDFromTopViewForView:self.view animated:YES];
         [self.navigationController pushViewController:self.sectionViewController animated:YES];
     });
@@ -450,10 +471,6 @@
     
 }
 
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
-//    CGSize size = CGSizeMake(568, 44);
-//    return size;
-//}
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     return TRUE;
@@ -462,5 +479,7 @@
     LessonModel *lesson = (LessonModel *)[self.dataArray objectAtIndex:indexPath.row];
     [self getLessonInfoWithLessonId:lesson.lessonId];
 }
-
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self.drnavigationBar.searchBar.searchTextLabel resignFirstResponder];
+}
 @end

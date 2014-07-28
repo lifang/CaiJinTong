@@ -10,5 +10,12 @@
 
 @implementation CommentModel
 
-
++(CommentModel *)commentFromDic:(NSDictionary *)aDic
+{
+    CommentModel *comment = [[CommentModel alloc]init];
+    
+    
+    
+    return comment;
+}
 @end

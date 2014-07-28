@@ -14,7 +14,7 @@
 #import "ASINetworkQueue.h"
 #define Info_HEADER_IDENTIFIER @"infoheader"
 @interface SettingViewController_iPhone ()
-
+@property (nonatomic,strong) UILabel *versionnumberLabel;
 @end
 
 NSString *appleID_ = @"6224939";
@@ -40,15 +40,40 @@ NSString *appleID_ = @"6224939";
     [[NSNotificationCenter defaultCenter] postNotificationName:@"SettingViewController_iPhoneDismiss" object:nil];
 }
 
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+//TODO:新版本通知
+-(void)appNewVersionNotification{
+    NSString *appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+    if (![appVersion isEqualToString:[CaiJinTongManager shared].appstoreNewVersion]) {
+        [self.versionnumberLabel setHidden:NO];
+    }else{
+        [self.versionnumberLabel setHidden:YES];
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.versionnumberLabel = [[UILabel alloc] initWithFrame:(CGRect){0,0,35,20}];
+    [self.versionnumberLabel setTextColor:[UIColor whiteColor]];
+    [self.versionnumberLabel setFont:[UIFont systemFontOfSize:12]];
+    self.versionnumberLabel.text = @"NEW";
+    [self.versionnumberLabel setTextAlignment:NSTextAlignmentCenter];
+    [self.versionnumberLabel setBackgroundColor:[UIColor redColor]];
+    self.versionnumberLabel.layer.cornerRadius = 5;
+    [self appNewVersionNotification];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appNewVersionNotification) name:APPNEWVERSION_Notification object:nil];
     [self.lhlNavigationBar.rightItem setHidden:YES];
     [self.lhlNavigationBar.leftItem setHidden:NO];
-    self.lhlNavigationBar.title.text = @"设置";
+    
+    NSString* appver=[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+    self.lhlNavigationBar.title.text = [NSString stringWithFormat:@"当前版本%@",appver];
     
     [self.tableView setFrame:CGRectMake(0, IP5(65, 55), 320,IP5(440, 375))];
-//    if(IS_4_INCH && platform < 7.0)
+    //    if(IS_4_INCH && platform < 7.0)
     [self.tableView registerClass:[InfoCell class] forHeaderFooterViewReuseIdentifier:Info_HEADER_IDENTIFIER];
     if (platform<7.0) {
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
@@ -103,6 +128,7 @@ NSString *appleID_ = @"6224939";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     //    cell.backgroundColor = [UIColor clearColor];
     switch (indexPath.section) {
@@ -127,9 +153,10 @@ NSString *appleID_ = @"6224939";
                 case 1:
                     cell.textLabel.text = @"清理缓存";
                     break;
-                case 2:{
-                    iVersion *version = [iVersion sharedInstance];
-                    cell.textLabel.text = [NSString stringWithFormat:@"版本检测           最新版本v%@",version.applicationVersion];
+                case 2:
+                {
+                    cell.textLabel.text = [NSString stringWithFormat:@"版本检测                 版本v%@",[CaiJinTongManager shared].appstoreNewVersion];
+                    cell.accessoryView = self.versionnumberLabel;
                 }
                     break;
                     
@@ -190,28 +217,21 @@ NSString *appleID_ = @"6224939";
                     break;
                 case 2:
                 {
-                    //                    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-                    //                    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://itunes.apple.com/lookup?id=%@",appleID_]]];
-                    //                    [request setHTTPMethod:@"GET"];
-                    //                    NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-                    //                    NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:returnData options:0 error:nil];
-                    //                    NSString *latestVersion = [jsonData objectForKey:@"version"];
-                    //                    NSString *trackName = [jsonData objectForKey:@"trackName"];
-                    //                    NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
-                    //                    NSString *currentVersion = [infoDic objectForKey:@"CFBundleVersion"];
-                    [iVersion sharedInstance].delegate = self;
-                    [[iVersion sharedInstance] checkForNewVersion];
                     
-                    //                    if (currentVersion < latestVersion) {
-                    //                        UIAlertView *alert;
-                    //                        alert = [[UIAlertView alloc] initWithTitle:trackName
-                    //                                                           message:@"有新版本，是否升级！"
-                    //                                                          delegate: self
-                    //                                                 cancelButtonTitle:@"取消"
-                    //                                                 otherButtonTitles: @"升级", nil];
-                    //                        alert.tag = 1001;
-                    //                        [alert show];
-                    //                    }
+                    DLog(@"## = %@",[iVersion sharedInstance].versionLabelFormat);
+                    DLog(@"!! = %@",[iVersion sharedInstance].versionDetails);                  
+                    
+                    AppDelegate *appdel = [AppDelegate sharedInstance];
+                    
+                    NSString* appver=[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+                    
+                    double clientVer = [appver doubleValue];
+                    double serverVer = [[CaiJinTongManager shared].appstoreNewVersion doubleValue];
+                    if (clientVer>=serverVer){
+                        
+                    }else {
+                        [[UIApplication sharedApplication] openURL:[iVersion sharedInstance].updateURL];
+                    }
                 }
                     break;
                     
@@ -240,34 +260,23 @@ NSString *appleID_ = @"6224939";
     }
 }
 
-#pragma mark iVersionDelegate
--(void)iVersionDidNotDetectNewVersion{
-    iVersion *version = [iVersion sharedInstance];
-    UITableViewCell *cell =  [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:1]];
-    cell.textLabel.text = [NSString stringWithFormat:@"版本检测           最新版本v%@",version.applicationVersion];
-}
-
--(void)iVersionDidDetectNewVersion:(NSString *)version details:(NSString *)versionDetails{
-    UITableViewCell *cell =  [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:1]];
-    cell.textLabel.text = [NSString stringWithFormat:@"版本检测           最新版本v%@",version];
-}
-
--(void)iVersionVersionCheckDidFailWithError:(NSError *)error{
-    
-}
-#pragma mark --
-
-
 #pragma mark UIAlertViewDelegate
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 0 && alertView.tag == 100) {
-        [Section clearAllDownloadedSectionWithSuccess:^{
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [DRFMDBDatabaseTool clearAllDownloadedDatasWithSuccess:^{
             [Utility errorAlert:@"清除缓存成功"];
-        } withFailure:^(NSString *errorString) {
-            [Utility errorAlert:@"清除缓存过程出现错误"];
-        }];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        } withFailure:nil];
     }
     if (alertView.tag == 101 && buttonIndex == 0) {
+        NSFileManager *fileManage = [NSFileManager defaultManager];
+        NSString *Path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        NSString *filename = [Path stringByAppendingPathComponent:@"user.archive"];
+        if ([fileManage fileExistsAtPath:filename]) {
+            [fileManage removeItemAtPath:filename error:nil];
+        }
+        
         AppDelegate *app = [AppDelegate sharedInstance];
         if (app.mDownloadService && app.mDownloadService.networkQueue) {
             ASINetworkQueue *queue = app.mDownloadService.networkQueue;
@@ -275,6 +284,7 @@ NSString *appleID_ = @"6224939";
                 [queue cancelAllOperations];
             }
         }
+        app.appButtonModelArray = nil;
         [self.navigationController dismissViewControllerAnimated:YES completion:^{
             
         }];

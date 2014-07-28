@@ -78,9 +78,7 @@
 }
 
 - (IBAction)cancelBtnClicked:(UIButton *)sender {
-    [self dismissViewControllerAnimated:YES completion:^{
-        
-    }];
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopTop];
     if (self.delegate && [self.delegate respondsToSelector:@selector(takingMovieNoteControllerCancel)]) {
         [self.delegate takingMovieNoteControllerCancel];
     }
@@ -94,9 +92,7 @@
     if (self.contentField.text == nil || [[self.contentField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
         [Utility errorAlert:@"内容不能为空"];
     }else {
-        [self dismissViewControllerAnimated:YES completion:^{
-            
-        }];
+        [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopTop];
         if (self.delegate && [self.delegate respondsToSelector:@selector(takingMovieNoteController:commitNote: andTime:)]) {
             [self.delegate takingMovieNoteController:self commitNote:self.contentField.text andTime:self.noteTimeLabel.text];
         }

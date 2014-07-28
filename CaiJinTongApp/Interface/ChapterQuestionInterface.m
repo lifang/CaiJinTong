@@ -19,7 +19,12 @@
     NSMutableDictionary *reqheaders = [[NSMutableDictionary alloc] init];
 
     [reqheaders setValue:[NSString stringWithFormat:@"%@",userId] forKey:@"userId"];
-    [reqheaders setValue:[NSString stringWithFormat:@"%@",chapterQuestionId] forKey:@"chapterQuestionId"];
+    if ([[NSString stringWithFormat:@"%d",CategoryType_AllQuestion] isEqualToString:chapterQuestionId]) {
+        
+    }else{
+        [reqheaders setValue:[NSString stringWithFormat:@"%@",chapterQuestionId] forKey:@"chapterQuestionId"];
+    }
+    
     
 //    self.interfaceUrl = @"http://lms.finance365.com/api/ios.ashx?active=chapterQuestion&userId=17079&categoryId=42";
     self.interfaceUrl = [NSString stringWithFormat:@"%@?active=chapterQuestion&userId=%@&categoryId=%@",kHost,userId,chapterQuestionId];
@@ -55,6 +60,7 @@
                                         question.questionId = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"questionId"]];
                                         question.attachmentFileUrl = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"extUrl"]];
                                         question.questionName = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"questionName"]];
+                                        question.questiontitle = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"questiontitle"]];
                                         question.askerId = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"askerId"]];
                                         question.askImg = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"askImg"]];
                                         question.askerNick = [NSString stringWithFormat:@"%@",[question_dic objectForKey:@"askerNick"]];

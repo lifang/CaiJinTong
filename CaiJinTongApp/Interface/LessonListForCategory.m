@@ -28,12 +28,11 @@
         default:
             break;
     }
-//    http://lms.finance365.com/api/ios.ashx?active=lessonList&userId=17082&lessonCategoryId=80&pageIndex=3&sortType=1
     //后台所有的分页第一页都是从1开始
-    if (categoryId) {
-           self.interfaceUrl = [NSString stringWithFormat:@"%@?active=lessonList&userId=%@&lessonCategoryId=%@&pageIndex=%d&sortType=%@",kHost,userId,categoryId,pageIndex+1,sort];
+    if (categoryId && ![categoryId isEqualToString:[NSString stringWithFormat:@"%d",CategoryType_ALL]]) {
+           self.interfaceUrl = [NSString stringWithFormat:@"%@?active=lessonList&userId=%@&lessonCategoryId=%@&pageIndex=%d&sortType=%@&pageCount=12",kHost,userId,categoryId,pageIndex+1,sort];
     }else{
-       self.interfaceUrl = [NSString stringWithFormat:@"%@?active=lessonList&userId=%@&lessonCategoryId=0&pageIndex=%d&sortType=%@",kHost,userId,pageIndex+1,sort];
+       self.interfaceUrl = [NSString stringWithFormat:@"%@?active=lessonList&userId=%@&lessonCategoryId=0&pageIndex=%d&sortType=%@&pageCount=12",kHost,userId,pageIndex+1,sort];
     }
 
     self.baseDelegate = self;
@@ -69,7 +68,9 @@
                                     model.lessonStudyProgress = [NSString stringWithFormat:@"%@",[dic objectForKey:@"studyProgress"]];
                                     [lessonList addObject:model];
                                 }
-                                [self.delegate getLessonListDataForCategoryDidFinished:lessonList withCurrentPageIndex:self.currentPageIndex withTotalCount:self.allDataCount];
+                                [DRFMDBDatabaseTool updateLessonObjListWithUserId:[CaiJinTongManager shared].user.userId withLessonObjArray:lessonList withFinished:^(BOOL flag) {
+                                    [self.delegate getLessonListDataForCategoryDidFinished:lessonList withCurrentPageIndex:self.currentPageIndex withTotalCount:self.allDataCount];
+                                }];
                             }else {
                                 [self.delegate getLessonListDataForCategoryFailure:@"获取课程列表失败!"];
                             }

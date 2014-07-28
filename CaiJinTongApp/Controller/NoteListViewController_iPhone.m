@@ -48,6 +48,9 @@
     
 }
 
+-(void)willDismissPopoupController{//当要退出当前界面时调用
+    
+}
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
@@ -71,6 +74,15 @@
 //    self.lhlNavigationBar.leftItem.hidden = YES;
 //    self.noteListTableView.frame = (CGRect){0,IP5(65, 55),320,IP5(440, 375)};
 //    [self.lhlNavigationBar.rightItem setHidden:YES];
+    
+
+    
+    if (platform >= 7.0) {
+        self.noteListTableView.frame = CGRectMake(0,100, 320,IP5(400, 330) ) ;
+    }else{
+        self.noteListTableView.frame = CGRectMake(0,100, 320,IP5(450, 380) ) ;
+    }
+    
     [self.lhlNavigationBar.rightItem setImage:[UIImage imageNamed:@"_magnifying_glass.png"]  forState:UIControlStateNormal];
     self.lhlNavigationBar.title.text = @"我的笔记";
     self.isEditing = NO;
@@ -350,33 +362,63 @@
 -(void)getLessonInfoDidFinished:(LessonModel*)lesson{
     dispatch_async(dispatch_get_main_queue(), ^{
         self.lessonModel = lesson;
+        [DRFMDBDatabaseTool selectLessonTreeDatasWithUserId:[CaiJinTongManager shared].userId withLessonId:self.lessonModel.lessonId withFinished:^(LessonModel *lesson, NSString *errorMsg) {
+            if (lesson && lesson.chapterList.count > 0) {
+                for (chapterModel *chapter in lesson.chapterList) {
+                    for (SectionModel *section in chapter.sectionList) {
+                        SectionModel *tempSection = [self searchSectionModel:self.lessonModel withSectionId:section.sectionId];
+                        if (tempSection) {
+                            [tempSection copySection:section];//存入单例
+                        }
+                    }
+                }
+            }
+        }];
+        
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         LHLMoviePlayViewController *movieController =  [self.storyboard instantiateViewControllerWithIdentifier:@"LHLMoviePlayViewController"];
         movieController.delegate = self;
-        SectionModel *section = [[Section defaultSection] getSectionModelWithSid:self.playNoteModel.noteSectionId];
-        [self presentViewController:movieController animated:YES completion:^{
-            
-        }];
-        if (section) {
-            [movieController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeStreaming];
-        }else{
-            SectionModel *tempSection = nil;
-            BOOL isReturn = NO;
-            for (chapterModel *chapter in self.lessonModel.chapterList) {
-                for (SectionModel *sec in chapter.sectionList) {
-                    if ([sec.sectionId isEqualToString:self.playNoteModel.noteSectionId]) {
-                        tempSection = sec;
-                        isReturn = YES;
+        [DRFMDBDatabaseTool selectSectionListWithUserId:[CaiJinTongManager shared].user.userId withSectionId:self.playNoteModel.noteSectionId withLessonId:self.lessonModel.lessonId withFinished:^(SectionModel *section) {
+            if (section && section.sectionMovieFileDownloadStatus == DownloadStatus_Downloaded) {
+                [movieController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeFile];
+            }else{
+                SectionModel *tempSection = nil;
+                BOOL isReturn = NO;
+                for (chapterModel *chapter in self.lessonModel.chapterList) {
+                    for (SectionModel *sec in chapter.sectionList) {
+                        if ([sec.sectionId isEqualToString:self.playNoteModel.noteSectionId]) {
+                            tempSection = sec;
+                            isReturn = YES;
+                        }
+                    }
+                    if (isReturn) {
+                        break;
                     }
                 }
-                if (isReturn) {
-                    break;
-                }
+                [movieController playMovieWithSectionModel:tempSection?:section withFileType:MPMovieSourceTypeStreaming];
             }
-            [movieController playMovieWithSectionModel:tempSection?:section withFileType:MPMovieSourceTypeStreaming];
-        }
+            [self presentViewController:movieController animated:YES completion:^{
+                
+            }];
+        }];
     });
 }
+
+-(SectionModel*)searchSectionModel:(LessonModel*)lesson withSectionId:(NSString*)sectionId{
+    if (!lesson || !sectionId) {
+        return nil;
+    }
+    for (chapterModel *chapter in lesson.chapterList) {
+        for (SectionModel *section in chapter.sectionList) {
+            if ([section.sectionId isEqualToString:sectionId]) {
+                return section;
+            }
+            
+        }
+    }
+    return nil;
+}
+
 -(void)getLessonInfoDidFailed:(NSString *)errorMsg{
     dispatch_async(dispatch_get_main_queue(), ^{
         [MBProgressHUD hideHUDForView:self.view animated:YES];

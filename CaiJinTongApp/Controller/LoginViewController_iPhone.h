@@ -11,6 +11,8 @@
 #import "ForgotPwdViewController_iPhone.h"
 #import "LHLTabBarController.h"
 
+#import "MSNavigationViewController.h"
+
 @interface LoginViewController_iPhone : UIViewController<LogInterfaceDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *loginBtn;
 @property (weak, nonatomic) IBOutlet UIButton *findPasswordBtn;
@@ -21,4 +23,6 @@
 
 @property (nonatomic,strong) LogInterface *logInterface;
 @property (nonatomic,strong) LessonViewController *lessonView;
+
+@property (nonatomic,strong) MSNavigationViewController *loginNaviController;
 @end

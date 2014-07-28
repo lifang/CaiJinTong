@@ -13,8 +13,6 @@
 @property (nonatomic,strong) UILabel *questionDateLabel;
 @property (nonatomic,strong) UIImageView *questionFlowerImageView;
 @property (nonatomic,strong) UILabel *questionFlowerLabel;
-//@property (nonatomic,strong) UITextView *questionContentTextField;
-//@property (nonatomic,strong) UIButton *questionFlowerBt;
 @property (nonatomic,strong) UIView *backgroundView;
 @property (nonatomic,strong) UIImageView *questionImg;
 @property (nonatomic,strong) UIView *lineView;
@@ -63,7 +61,7 @@
         [self.backgroundView addSubview:self.questionFlowerLabel];
         
         //附件按钮
-        self.attachmentBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        self.attachmentBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         self.attachmentBtn.backgroundColor = [UIColor clearColor];
         if(platform >= 7.0){
             [self.attachmentBtn.layer setBorderWidth:0.6];
@@ -87,7 +85,6 @@
         
         self.answerQuestionBt = [[UIButton alloc] init];
         self.answerQuestionBt.backgroundColor = [UIColor clearColor];
-//        [self.answerQuestionBt setTitle:@"回答" forState:UIControlStateNormal];
         [self.answerQuestionBt setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
         [self.answerQuestionBt.titleLabel setFont:kTEXT_FONT];
         [self.answerQuestionBt addTarget:self action:@selector(willAnswerQuestionBtClicked) forControlEvents:UIControlEventTouchUpInside];
@@ -99,7 +96,6 @@
         
         self.summitQuestionAnswerBackView = [[UIView alloc] init];
         self.summitQuestionAnswerBackView.backgroundColor = [UIColor clearColor];
-        //         [self.summitQuestionAnswerBackView setHidden:YES];
         [self.backgroundView addSubview:self.summitQuestionAnswerBackView];
         
         self.answerQuestionTextField = [[UITextView alloc] init];

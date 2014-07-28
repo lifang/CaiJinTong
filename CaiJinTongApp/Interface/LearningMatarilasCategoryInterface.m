@@ -73,7 +73,21 @@
 }
 
 +(NSMutableArray*)getTreeNodeArrayFromArray:(NSArray*)arr{
-    return [LearningMatarilasCategoryInterface getTreeNodeArrayFromArray:arr withLevel:0 withRootContentID:nil];
+    NSMutableArray *mutableArray = [LearningMatarilasCategoryInterface getTreeNodeArrayFromArray:arr withLevel:0 withRootContentID:nil];
+    DRTreeNode *note = [[DRTreeNode alloc] init];
+    note.noteContentID = [NSString stringWithFormat:@"%d",CategoryType_ALL];
+    note.noteContentName = @"全部";
+    note.noteLevel = 0;
+    [mutableArray insertObject:note atIndex:0];
+    [DRFMDBDatabaseTool deleteMaterialCategoryListWithUserId:[CaiJinTongManager shared].user.userId withFinished:^(BOOL flag) {
+        if (flag) {
+            [DRFMDBDatabaseTool insertMaterialCategoryListWithUserId:[CaiJinTongManager shared].user.userId withMaterialCategoryArray:mutableArray withFinished:^(BOOL flag) {
+                
+            }];
+        }
+    }];
+    
+    return mutableArray;
 }
 
 +(NSMutableArray*)getTreeNodeArrayFromArray:(NSArray*)arr withLevel:(int)level withRootContentID:(NSString*)rootContentID{

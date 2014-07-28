@@ -20,13 +20,49 @@
     return self;
 }
 
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    NSString *userName = [[NSUserDefaults standardUserDefaults] objectForKey:kUserName];
+    //    NSString *pwd = [[NSUserDefaults standardUserDefaults] objectForKey:kPassword];
+    self.accountLabel.text = userName?:@"";
+    //    self.passwordTextField.text = pwd?:@"";
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardUP:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardDOWN:) name: UIKeyboardWillHideNotification object:nil];
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void)keyBoardUP:(NSNotification*)notification{
+    NSTimeInterval animationDuration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    [UIView animateWithDuration:animationDuration animations:^{
+        self.view.center = (CGPoint){self.view.center.x,160};
+    } completion:^(BOOL finished) {
+        
+    }];
+    
+}
+
+-(void)keyBoardDOWN:(NSNotification*)notification{
+    NSTimeInterval animationDuration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    [UIView animateWithDuration:animationDuration animations:^{
+        self.view.center = (CGPoint){self.view.center.x,(CGRectGetHeight(self.view.frame))/2};
+    } completion:^(BOOL finished) {
+        
+    }];
+}
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     NSString *userName = [[NSUserDefaults standardUserDefaults] stringForKey:kUserName];
-    NSString *pwd = [[NSUserDefaults standardUserDefaults] stringForKey:kPassword];
+    //    NSString *pwd = [[NSUserDefaults standardUserDefaults] stringForKey:kPassword];
     self.accountLabel.text = userName?:@"";
-    self.passwordTextField.text = pwd?:@"";
+    //    self.passwordTextField.text = pwd?:@"";
     //压缩图片
     UIImage *bgImage = [[UIImage imageNamed:@"_loginBG.png"] scaleToSize:CGSizeMake(320, SCREEN_HEIGHT)];
     self.view.backgroundColor = [UIColor colorWithPatternImage:bgImage];
@@ -40,6 +76,20 @@
     //注册账号btn暂时改为设置
     [self.registerAccBtn setTitle:@"设置" forState:UIControlStateNormal];
     
+    UserModel *user = [[UserModel alloc] init];
+    [user unarchiverUser];
+    if (user.userId && ![user.userId isEqualToString:@""]) {
+        [CaiJinTongManager shared].user = user;
+        [CaiJinTongManager shared].userId = user.userId;
+        StudySummaryViewController_iphone *studySummaryController = [self.storyboard instantiateViewControllerWithIdentifier:@"StudySummaryViewController_iphone"];
+        self.loginNaviController = nil;
+        self.loginNaviController = [[MSNavigationViewController alloc] initWithRootViewController:studySummaryController];
+        [self.loginNaviController setNavigationBarHidden:YES];
+        [self.loginNaviController setHidesBottomBarWhenPushed:YES];
+        [self presentViewController:self.loginNaviController animated:NO completion:^{
+            
+        }];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -63,6 +113,11 @@
         self.logInterface = log;
         self.logInterface.delegate = self;
         [self.logInterface getLogInterfaceDelegateWithName:self.accountLabel.text andPassWord:self.passwordTextField.text];
+        
+        if (![[self.accountLabel.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
+            [[NSUserDefaults standardUserDefaults] setObject:self.accountLabel.text forKey:kUserName];
+            [[NSUserDefaults standardUserDefaults] setObject:self.passwordTextField.text forKey:kPassword];
+        }
     }else {
         [Utility errorAlert:@"请输入正确的手机号码或邮箱!"];
     }
@@ -84,13 +139,6 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         UserModel *user = [[UserModel alloc] init];
         user.userId = [NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]];
-        //        if ([self.userNameTextField.text isEqualToString:@"18621607181"]) {
-        //            user.userId = @"17082";
-        //            [CaiJinTongManager shared].userId = @"17082";
-        //        }else{
-        //            user.userId = @"18676";
-        //            [CaiJinTongManager shared].userId = @"18676";
-        //        }
         user.userName = [NSString stringWithFormat:@"%@",[result objectForKey:@"name"]];
         user.email = [NSString stringWithFormat:@"%@",[result objectForKey:@"email"]];
         user.mobile = [NSString stringWithFormat:@"%@",[result objectForKey:@"mobile"]];
@@ -99,22 +147,19 @@
         user.address = [NSString stringWithFormat:@"%@",[result objectForKey:@"address"]];
         user.userImg = [NSString stringWithFormat:@"%@",[result objectForKey:@"userImg"]];
         user.nickName = [NSString stringWithFormat:@"%@",[result objectForKey:@"nickname"]];
+        [user archiverUser];
         [CaiJinTongManager shared].user = user;
         [[CaiJinTongManager shared] setUserId:user.userId];
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [[NSUserDefaults standardUserDefaults] setValue:self.accountLabel.text forKey:kUserName];
-            [[NSUserDefaults standardUserDefaults] setValue:self.passwordTextField.text forKey:kPassword];
-//            LHLTabBarController *mainController = [[LHLTabBarController alloc] init];
-//            
-//            [self.navigationController pushViewController:mainController animated:YES];
-//            AppDelegate* appDelegate = [AppDelegate sharedInstance];
-//            appDelegate.lessonViewCtrol = self.lessonView;
+            self.passwordTextField.text = @"";
             
             StudySummaryViewController_iphone *studySummaryController = [self.storyboard instantiateViewControllerWithIdentifier:@"StudySummaryViewController_iphone"];
-            UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:studySummaryController];
-            [navi setNavigationBarHidden:YES];
-            [self presentViewController:navi animated:YES completion:^{
+            self.loginNaviController = nil;
+            self.loginNaviController = [[MSNavigationViewController alloc] initWithRootViewController:studySummaryController];
+            [self.loginNaviController setNavigationBarHidden:YES];
+            [self.loginNaviController setHidesBottomBarWhenPushed:YES];
+            [self presentViewController:self.loginNaviController animated:YES completion:^{
                 
             }];
         });

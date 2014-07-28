@@ -9,7 +9,6 @@
 #import "DRTreeTableView.h"
 
 @interface TreeTableView : UITableView
-
 @end
 @implementation TreeTableView
 
@@ -25,8 +24,43 @@
 @property (nonatomic,strong) TreeTableView *tableView;
 @property (nonatomic,strong) NSMutableArray *tableDataArr;//用于显示的note数据
 @property (nonatomic,strong) NSIndexPath *selectedPath;
+@property (nonatomic,strong) UILabel *tipLabel;
+///是否正在进行动画
+@property (nonatomic,assign,readonly) BOOL isBeginningAnimation;
 @end
 @implementation DRTreeTableView
+
+///加载下拉菜单
+-(DRTreeTableView*)initWithDropDownMenuFrame:(CGRect)frame withTreeNodeArr:(NSArray*)treeNodeArr{
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.noteArr = [NSMutableArray arrayWithArray:treeNodeArr];
+        self.originRect = frame;
+        self.tableView = [[TreeTableView alloc] initWithFrame:(CGRect){0,0,frame.size.width,frame.size.height}];
+        [self.tableView setBackgroundColor:[UIColor clearColor]];
+        self.tableView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleWidth;
+        self.tableView.delegate = self;
+        self.tableView.dataSource = self;
+        [self.tableView setSeparatorColor:[UIColor clearColor]];
+        self.tableView.layer.cornerRadius = 10;
+        [self addSubview:self.tableView];
+        self.isExtendChildNode = YES;
+        self.tipLabel = [[UILabel alloc] initWithFrame:(CGRect){0,0,self.tableView.frame.size}];
+        self.tipLabel.backgroundColor = [UIColor clearColor];
+        [self.tipLabel setFont:[UIFont systemFontOfSize:20]];
+        self.tipLabel.text = @"暂无分类数据";
+        [self.tipLabel setTextAlignment:NSTextAlignmentCenter];
+        [self.tipLabel setTextColor:[UIColor lightGrayColor]];
+        [self.tableView addSubview:self.tipLabel];
+        if (self.noteArr.count > 0) {
+            [self.tipLabel setHidden:YES];
+        }else{
+            [self.tipLabel setHidden:NO];
+        }
+    }
+    return self;
+}
+
 
 -(DRTreeTableView*)initWithFrame:(CGRect)frame withTreeNodeArr:(NSArray*)treeNodeArr{
     self = [super initWithFrame:frame];
@@ -47,16 +81,33 @@
 }
 
 -(void)initTreeViewWithFrame:(CGRect)frame{
-    self.tableView = [[TreeTableView alloc] initWithFrame:(CGRect){0,0,frame.size}];
+    
+    if (!isPAD) {
+        self.originRect = frame;
+        self.tableView = [[TreeTableView alloc] initWithFrame:(CGRect){CGRectGetWidth(self.frame),0,DRTReeWidth,frame.size.height}];
+        [self.tableView setBackgroundColor:[Utility colorWithHex:0x52abff]];
+    }else{
+        self.tableView = [[TreeTableView alloc] initWithFrame:(CGRect){0,0,frame.size}];
+        self.tableView.backgroundColor = [UIColor clearColor];
+    }
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleWidth;
-//    [self.tableView setSectionIndexBackgroundColor:[UIColor clearColor]];
-//    [self.tableView setSectionIndexTrackingBackgroundColor:[UIColor clearColor]];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    self.tableView.backgroundColor = [UIColor clearColor];
     [self.tableView setSeparatorColor:[UIColor clearColor]];
     [self addSubview:self.tableView];
     self.isExtendChildNode = YES;
+    self.tipLabel = [[UILabel alloc] initWithFrame:(CGRect){0,0,frame.size}];
+    self.tipLabel.backgroundColor = [UIColor clearColor];
+    [self.tipLabel setFont:[UIFont systemFontOfSize:20]];
+    self.tipLabel.text = @"暂无分类数据";
+    [self.tipLabel setTextAlignment:NSTextAlignmentCenter];
+    [self.tipLabel setTextColor:[UIColor blackColor]];
+    [self.tableView addSubview:self.tipLabel];
+    if (self.noteArr.count > 0) {
+        [self.tipLabel setHidden:YES];
+    }else{
+        [self.tipLabel setHidden:NO];
+    }
 }
 /*
 // Only override drawRect: if you perform custom drawing.
@@ -83,18 +134,24 @@
     if (note.childnotes && [note.childnotes count] > 0) {
         
         if (note.noteIsExtend) {
-            [cell setBackgroundColor:[UIColor lightGrayColor]];
+//            [cell setBackgroundColor:[UIColor lightGrayColor]];
+            [cell.selectedView setHidden:NO];
+            [cell.cellNameLabel setTextColor:[UIColor blackColor]];
             if (self.delegate && [self.delegate respondsToSelector:@selector(drTreeTableView:didExtendChildTreeNode:)]) {
                 [self.delegate drTreeTableView:self didExtendChildTreeNode:note];
             }
         }else{
-            [cell setBackgroundColor:[UIColor clearColor]];
+//            [cell setBackgroundColor:[UIColor clearColor]];
+            [cell.selectedView setHidden:YES];
+            [cell.cellNameLabel setTextColor:[UIColor whiteColor]];
             if (self.delegate && [self.delegate respondsToSelector:@selector(drTreeTableView:didCloseChildTreeNode:)]) {
                 [self.delegate drTreeTableView:self didCloseChildTreeNode:note];
             }
         }
     }else{
-        [cell setBackgroundColor:[UIColor lightGrayColor]];
+//        [cell setBackgroundColor:[UIColor lightGrayColor]];
+        [cell.selectedView setHidden:NO];
+        [cell.cellNameLabel setTextColor:[UIColor blackColor]];
         if (self.delegate && [self.delegate respondsToSelector:@selector(drTreeTableView:didSelectedTreeNode:)]) {
             [self.delegate drTreeTableView:self didSelectedTreeNode:note];
         }
@@ -117,11 +174,16 @@
     cell.note = note;
     [cell setNeedsDisplay];
     cell.backgroundColor = [UIColor clearColor];
+    [cell.selectedView setHidden:YES];
+    [cell.cellNameLabel setTextColor:[UIColor whiteColor]];
     return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 40;
+    if (isPAD) {
+        return 40;
+    }
+    return 20;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -216,7 +278,58 @@
     }
 }
 
+
+///iphone有效，点击空白区域隐藏tree
+-(void)setHiddleTreeTableView:(BOOL)isHiddle withAnimation:(BOOL)animation{
+    if (!isPAD) {
+        if (self.isBeginningAnimation) {
+            return;
+        }
+        if (isHiddle) {
+            if (animation) {
+                if (CGRectGetMinX(self.tableView.frame) < CGRectGetWidth(self.frame) || CGRectGetMinX(self.frame) <= CGRectGetMinX(self.originRect)) {
+                    [self setUserInteractionEnabled:NO];
+                    _isBeginningAnimation = YES;
+                    [UIView animateWithDuration:0.5 animations:^{
+                        self.tableView.frame = (CGRect){CGRectGetWidth(self.frame)+1,0 ,self.tableView.frame.size};
+                    } completion:^(BOOL finished) {
+                        self.frame = (CGRect){320,CGRectGetMinY(self.frame),self.frame.size};
+                        [self setUserInteractionEnabled:YES];
+                        _isBeginningAnimation = NO;
+                    }];
+                }
+            }else{
+                if (CGRectGetMinX(self.tableView.frame) < CGRectGetWidth(self.frame) || CGRectGetMinX(self.frame) <= CGRectGetMinX(self.originRect)) {
+                    self.tableView.frame = (CGRect){CGRectGetWidth(self.frame)+1,0 ,self.tableView.frame.size};
+                    self.frame = (CGRect){320,CGRectGetMinY(self.frame),self.frame.size};
+                }
+            }
+
+        }else{
+            if (animation) {
+                if (CGRectGetMinX(self.tableView.frame) >= CGRectGetWidth(self.frame) || CGRectGetMinX(self.frame) >= 320) {
+                    self.frame = self.originRect;
+                    [self setUserInteractionEnabled:NO];
+                    _isBeginningAnimation = YES;
+                    [UIView animateWithDuration:0.5 animations:^{
+                         self.tableView.frame = (CGRect){CGRectGetWidth(self.frame) - DRTReeWidth,0 ,self.tableView.frame.size};
+                    } completion:^(BOOL finished) {
+                        [self setUserInteractionEnabled:YES];
+                        _isBeginningAnimation = NO;
+                    }];
+                }
+            }else{
+                if (CGRectGetMinX(self.tableView.frame) >= CGRectGetWidth(self.frame) || CGRectGetMinX(self.frame) >= 320) {
+                    self.tableView.frame = (CGRect){CGRectGetWidth(self.frame) - DRTReeWidth,0 ,self.tableView.frame.size};
+                    self.frame = self.originRect;
+                }
+            }
+
+        }
+    }
+}
 #pragma mark property
+
 -(NSMutableArray *)tableDataArr{
     if (!_tableDataArr) {
         _tableDataArr = [NSMutableArray array];
@@ -225,12 +338,11 @@
 }
 -(void)setNoteArr:(NSMutableArray *)noteArr{
     _noteArr = noteArr;
-    //    if (noteArr) {
-    //        for (DRTreeNode *note in noteArr) {
-    //            [self closeAllNoteArr:note];
-    //        }
-    //
-    //    }
+    if (noteArr.count > 0) {
+        [self.tipLabel setHidden:YES];
+    }else{
+        [self.tipLabel setHidden:NO];
+    }
     if (noteArr) {
          self.tableDataArr = [NSMutableArray array];
         [self insertNodeDataArr:noteArr intoTableDataArr:self.tableDataArr];
@@ -240,4 +352,21 @@
     [self.tableView reloadData];
 }
 #pragma mark --
+
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    [super touchesBegan:touches withEvent:event];
+    if (CGRectGetMinX(self.tableView.frame) >= CGRectGetWidth(self.frame)) {
+        [self setHiddleTreeTableView:NO withAnimation:YES];
+        if (self.hiddleBlock) {
+            self.hiddleBlock(NO);
+        }
+    }else{
+        [self setHiddleTreeTableView:YES withAnimation:YES];
+        if (self.hiddleBlock) {
+            self.hiddleBlock(YES);
+        }
+    }
+    
+}
 @end

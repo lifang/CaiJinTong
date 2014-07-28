@@ -14,11 +14,13 @@
 @property (weak,nonatomic) IBOutlet id<LearningMaterialCellDelegate> delegate;
 @property (strong,nonatomic) NSIndexPath *path;
 @property (weak, nonatomic) IBOutlet UIView *cellBackView;
+@property (weak, nonatomic) IBOutlet UIView *deleteView;
+@property (weak, nonatomic) IBOutlet UIView *scanView;
 -(void)setLearningMaterialData:(LearningMaterials*)learningMaterial;
 @end
 
 @protocol LearningMaterialCellDelegate <NSObject>
 
 -(void)learningMaterialCell:(LearningMaterialCell*)cell scanLearningMaterialFileAtIndexPath:(NSIndexPath*)path;
-
+-(void)learningMaterialCell:(LearningMaterialCell*)cell deleteLearningMaterialFileAtIndexPath:(NSIndexPath*)path;
 @end

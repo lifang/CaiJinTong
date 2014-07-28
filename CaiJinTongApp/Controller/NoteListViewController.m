@@ -48,6 +48,10 @@
 
 }
 
+-(void)willDismissPopoupController{//当要退出当前界面时调用
+
+}
+
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     UserModel *user = [[CaiJinTongManager shared] user];
@@ -299,33 +303,64 @@
 -(void)getLessonInfoDidFinished:(LessonModel*)lesson{
     dispatch_async(dispatch_get_main_queue(), ^{
         self.lessonModel = lesson;
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        DRMoviePlayViewController *movieController =  [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
-        SectionModel *section = [[Section defaultSection] getSectionModelWithSid:self.playNoteModel.noteSectionId];
-        BOOL downloadStatus = [[Section defaultSection] HasTheDataDownloadWithSid:self.playNoteModel.noteSectionId];//1 下载完成
-        [self presentViewController:movieController animated:YES completion:^{
-            
-        }];
-        if (section && downloadStatus == 1) {
-            [movieController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeFile];
-        }else{
-            SectionModel *tempSection = nil;
-            BOOL isReturn = NO;
-            for (chapterModel *chapter in self.lessonModel.chapterList) {
-                for (SectionModel *sec in chapter.sectionList) {
-                    if ([sec.sectionId isEqualToString:self.playNoteModel.noteSectionId]) {
-                        tempSection = sec;
-                        isReturn = YES;
+        [DRFMDBDatabaseTool selectLessonTreeDatasWithUserId:[CaiJinTongManager shared].userId withLessonId:self.lessonModel.lessonId withFinished:^(LessonModel *lesson, NSString *errorMsg) {
+            if (lesson && lesson.chapterList.count > 0) {
+                for (chapterModel *chapter in lesson.chapterList) {
+                    for (SectionModel *section in chapter.sectionList) {
+                        SectionModel *tempSection = [self searchSectionModel:self.lessonModel withSectionId:section.sectionId];
+                        if (tempSection) {
+                            [tempSection copySection:section];//存入单例
+                        }
                     }
                 }
-                if (isReturn) {
-                    break;
-                }
             }
-            [movieController playMovieWithSectionModel:tempSection?:section withFileType:MPMovieSourceTypeStreaming];
-        }
+        }];
+        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        DRMoviePlayViewController *movieController =  [self.storyboard instantiateViewControllerWithIdentifier:@"DRMoviePlayViewController"];
+        movieController.delegate = self;
+        [DRFMDBDatabaseTool selectSectionListWithUserId:[CaiJinTongManager shared].user.userId withSectionId:self.playNoteModel.noteSectionId withLessonId:self.lessonModel.lessonId withFinished:^(SectionModel *section) {
+            [self presentViewController:movieController animated:YES completion:^{
+                
+            }];
+            if (section && section.sectionMovieFileDownloadStatus == DownloadStatus_Downloaded) {
+                [movieController playMovieWithSectionModel:section withFileType:MPMovieSourceTypeFile];
+            }else{
+                SectionModel *tempSection = nil;
+                BOOL isReturn = NO;
+                for (chapterModel *chapter in self.lessonModel.chapterList) {
+                    for (SectionModel *sec in chapter.sectionList) {
+                        if ([sec.sectionId isEqualToString:self.playNoteModel.noteSectionId]) {
+                            tempSection = sec;
+                            isReturn = YES;
+                        }
+                    }
+                    if (isReturn) {
+                        break;
+                    }
+                }
+                [movieController playMovieWithSectionModel:tempSection?:section withFileType:MPMovieSourceTypeStreaming];
+            }
+        }];
+
     });
 }
+
+-(SectionModel*)searchSectionModel:(LessonModel*)lesson withSectionId:(NSString*)sectionId{
+    if (!lesson || !sectionId) {
+        return nil;
+    }
+    for (chapterModel *chapter in lesson.chapterList) {
+        for (SectionModel *section in chapter.sectionList) {
+            if ([section.sectionId isEqualToString:sectionId]) {
+                return section;
+            }
+            
+        }
+    }
+    return nil;
+}
+
 -(void)getLessonInfoDidFailed:(NSString *)errorMsg{
     dispatch_async(dispatch_get_main_queue(), ^{
         [MBProgressHUD hideHUDForView:self.view animated:YES];

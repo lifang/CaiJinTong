@@ -11,7 +11,7 @@
 @implementation NoteListInterface
 #if kUsingTestData
 -(void)downloadNoteListWithUserId:(NSString*)userId withPageIndex:(int)pageIndex{
-    NSString *path = [NSBundle pathForResource:@"noteList" ofType:@"geojson" inDirectory:[[NSBundle mainBundle] bundlePath]];
+    NSString *path = [NSBundle pathForResource:@"noteList" ofType:@"json" inDirectory:[[NSBundle mainBundle] bundlePath]];
     NSData *data = [NSData dataWithContentsOfFile:path];
     __block id jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
     double delayInSeconds = 2.0;

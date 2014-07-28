@@ -35,6 +35,17 @@
 {
     [super viewDidLoad];
     
+    [self.drnavigationBar.navigationRightItem setTitle:@"返回" forState:UIControlStateNormal];
+    [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    self.drnavigationBar.titleLabel.text = @"我的资料";
+    [self.drnavigationBar setBackgroundColor:[UIColor clearColor]];
+    [self.drnavigationBar.searchBar setHidden:YES];
+    
+    if (platform>=7.0) {
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+        self.extendedLayoutIncludesOpaqueBars = YES;
+    }
+
     
 //    [self.drnavigationBar.navigationRightItem setTitle:@"返回" forState:UIControlStateNormal];
 //    [self.drnavigationBar.navigationRightItem setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];

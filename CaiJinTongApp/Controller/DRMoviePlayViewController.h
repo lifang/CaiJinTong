@@ -16,7 +16,6 @@
 #import "SumitNoteInterface.h"
 
 #import "SectionModel.h"
-#import "SectionSaveModel.h"
 
 #import "DRMoviePlayerTopBar.h"
 #import "AskQuestionInterface.h"
@@ -39,7 +38,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *playBt;
 @property (weak, nonatomic) IBOutlet MoviePlayerHolderView *moviePlayerHolderView;
 @property (weak, nonatomic) IBOutlet UISlider *seekSlider;
-//@property (weak, nonatomic) IBOutlet UIView *rightPopupView;
+
 @property (weak, nonatomic) IBOutlet UIView *movieplayerControlBackView;
 @property (weak, nonatomic) IBOutlet UISlider *volumeSlider;
 @property (weak, nonatomic) IBOutlet UIButton *volumeBt;

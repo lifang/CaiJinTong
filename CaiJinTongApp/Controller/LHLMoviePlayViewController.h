@@ -16,7 +16,6 @@
 #import "SumitNoteInterface.h"
 
 #import "SectionModel.h"
-#import "SectionSaveModel.h"
 
 #import "DRMoviePlayerTopBar.h"
 #import "AskQuestionInterface.h"
@@ -61,9 +60,7 @@
 
 @property (nonatomic, strong) SumitNoteInterface *sumitNoteInterface;
 @property (nonatomic, strong) AskQuestionInterface *askQuestionInterface;
-@property (nonatomic,strong) SectionInfoInterface *sectionInterface;  //测试数据
 @property (nonatomic, strong) SectionModel *sectionModel;
-@property (nonatomic, strong) SectionSaveModel *sectionSaveModel;
 
 @property (strong, nonatomic) NSString *commitNoteText;
 @property (strong, nonatomic) NSString *commitNoteTime;

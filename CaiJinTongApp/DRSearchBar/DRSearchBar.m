@@ -84,7 +84,6 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.searchBackView = [[UIImageView alloc] initWithFrame:(CGRect){0,0,frame.size}];
-//        self.searchBackView.image = [[UIImage imageNamed:@"searchBar_Backview.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(15, 20, 15, 20) resizingMode:UIImageResizingModeStretch];
         self.searchBackView.image = [UIImage imageNamed:@"searchBar_Backview.png"];
         self.searchBackView.autoresizingMask = UIViewAutoresizingNone;
         [self addSubview:self.searchBackView];
@@ -96,8 +95,14 @@
         self.searchBt.autoresizingMask = UIViewAutoresizingNone;
         [self addSubview:self.searchBt];
         
-        self.searchTextLabel = [[UITextField alloc] initWithFrame:(CGRect){CGRectGetMaxX(self.searchBt.frame),0,frame.size.width - CGRectGetMaxX(self.searchBt.frame) - kcancelButtonWidth,frame.size.height}];
+        if (platform>=7.0) {
+            self.searchTextLabel = [[UITextField alloc] initWithFrame:(CGRect){CGRectGetMaxX(self.searchBt.frame),0,frame.size.width - CGRectGetMaxX(self.searchBt.frame) - kcancelButtonWidth,frame.size.height}];
+        }else {
+            self.searchTextLabel = [[UITextField alloc] initWithFrame:(CGRect){CGRectGetMaxX(self.searchBt.frame),5,frame.size.width - CGRectGetMaxX(self.searchBt.frame) - kcancelButtonWidth,frame.size.height}];
+        }
+        
         self.searchTextLabel.delegate = self;
+        self.searchTextLabel.borderStyle = UITextBorderStyleNone;
         self.searchTextLabel.enablesReturnKeyAutomatically = YES;
         self.searchTextLabel.returnKeyType = UIReturnKeySearch;
         self.searchTextLabel.backgroundColor = [UIColor clearColor];
