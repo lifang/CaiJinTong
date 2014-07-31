@@ -113,18 +113,6 @@
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadFinished" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:section,@"SectionSaveModel",nil]];
             }
         }];
-        
-//        NSLog(@"任务数:%d,total = %llu , size = %llu",self.networkQueue.operations.count,total,size);
-        
-        //记录剩余空间大小
-//        long long totalContentLength = 0;
-//        for (NSOperation *operation in self.networkQueue.operations){
-//            if (((ASIHTTPRequest *)operation).contentLength > 0){
-//                totalContentLength += ((ASIHTTPRequest *)operation).contentLength;
-//            }
-//        }
-//        long long left = [DownloadService freeDiskSpaceInBytes] - totalContentLength;
-//        NSLog(@"total :%lld free : %lld left: %lld",totalContentLength ,[DownloadService freeDiskSpaceInBytes] ,left);
     }];
 }
 

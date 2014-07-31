@@ -1066,6 +1066,8 @@
             return @"2";
         case DownloadStatus_Pause:
             return @"3";
+        case DownloadStatus_InTeam:
+            return @"4";
         default:
             break;
     }
@@ -1086,6 +1088,8 @@
             return DownloadStatus_Downloaded;
         case 3:
             return DownloadStatus_Pause;
+        case 4:
+            return DownloadStatus_InTeam;
         default:
             break;
     }
@@ -1270,7 +1274,6 @@
 
 ///判断章节下的小节是否存在
 +(BOOL)sectionIsExistForSectionId:(NSString*)sectionId withUserId:(NSString*)userId withLessonId:(NSString*)lessonId  withDatabase:(FMDatabase*)db{
-//    (sectionId , sectionName ,lessonId ,sectionChapterId ,lessonCategoryId ,sectionLastPlayTime ,sectionMoviePlayURL ,sectionMovieDownloadURL ,sectionMovieLocalURL ,sectionFinishedDate ,sectionMovieFileDownloadStatus ,userId )
     FMResultSet * rs = [db executeQuery:@"select sectionId from Section where userId = ?  and sectionId=?",userId,sectionId];
     if ([rs next]) {
         [rs close];
@@ -1296,7 +1299,6 @@
             if (isExist) {
                 whoopsSomethingWrongHappened = [DRFMDBDatabaseTool updateSectionObjListWithUserId:userId withChapterId:chapterId withSectionObj:section withDatabase:db];
             }else{
-//                 (sectionId , sectionName ,lessonId ,sectionChapterId ,lessonCategoryId ,sectionLastPlayTime ,sectionMoviePlayURL ,sectionMovieDownloadURL ,sectionMovieLocalURL ,sectionFinishedDate ,sectionMovieFileDownloadStatus ,userId )
                 whoopsSomethingWrongHappened = [DRFMDBDatabaseTool insertSectionObjListWithUserId:userId withChapterId:chapterId withSectionObj:section withDatabase:db];
             }
             if (!whoopsSomethingWrongHappened) {

@@ -74,7 +74,13 @@ typedef enum {
     ReaskType_None,
 }ReaskType;
 
-typedef enum {DownloadStatus_UnDownload,DownloadStatus_Downloading,DownloadStatus_Downloaded,DownloadStatus_Pause}DownloadStatus;
+typedef enum {
+    DownloadStatus_UnDownload,
+    DownloadStatus_Downloading,
+    DownloadStatus_Downloaded,
+    DownloadStatus_Pause,
+    DownloadStatus_InTeam
+} DownloadStatus;
 
 typedef enum {LearningMaterialsSortType_Default,LearningMaterialsSortType_Date,LearningMaterialsSortType_Name}LearningMaterialsSortType;
 
