@@ -115,6 +115,11 @@
         return;
     }
     
+    if (self.pwdTextField.text.length < 6 || self.pwdTextField.text.length > 16) {
+        [Utility errorAlert:@"密码长度请在6到16位之间"];
+        return;
+    }
+    
     
     if (self.userNameTextField.text && ![[self.userNameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
         if (self.pwdTextField.text && ![[self.pwdTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
