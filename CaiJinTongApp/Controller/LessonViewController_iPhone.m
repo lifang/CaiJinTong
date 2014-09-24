@@ -139,6 +139,7 @@
         self.menuVisible = NO;
         [_drTreeTableView setHiddleTreeTableView:YES withAnimation:NO];
     }else{
+        self.lhlNavigationBar.title.text = @"我的课程";
         [self.mainToolBar setHidden:NO];
         [self.searchBar setHidden:NO];
         [self.lhlNavigationBar.rightItem setHidden:NO];
